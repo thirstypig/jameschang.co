@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>The Fantastic Leagues — AI Insights — James Chang</title>
+  <meta name="description" content="How The Fantastic Leagues uses AI: eight league-context-aware features built on Gemini 2.5 Flash (primary) and Claude Sonnet 4 (fallback), with a shared insights cache keyed on team + feature + data hash.">
+  <link rel="canonical" href="https://jameschang.co/work/fantastic-leagues/ai-insights/">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/work/work.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="site-header">
+    <nav aria-label="Primary">
+      <a href="/#about">About</a>
+      <a href="/#projects">Projects</a>
+      <a href="/#case-studies">Case studies</a>
+      <a href="/work/">Work</a>
+    </nav>
+  </header>
+
+  <main id="main" class="work-main">
+    <p class="crumbs">
+      <a href="/">James Chang</a>
+      <span class="sep">/</span>
+      <a href="/work/">Work</a>
+      <span class="sep">/</span>
+      <span>The Fantastic Leagues</span>
+      <span class="sep">/</span>
+      <span>AI Insights</span>
+    </p>
+
+    <div class="snapshot-banner">
+      <strong>Static snapshot</strong> of the AI architecture powering The Fantastic
+      Leagues as of April 2026. The features are live inside the app for authenticated
+      users; public marketing site at
+      <a href="https://thefantasticleagues.com">thefantasticleagues.com</a>.
+    </div>
+
+    <div class="work-hero">
+      <p class="eyebrow">The Fantastic Leagues &middot; AI Insights</p>
+      <h1>League-context AI, not generic advice.</h1>
+      <p class="subtitle">
+        Eight AI features generate analysis that reads your specific league &mdash;
+        your rules, your rosters, your free-agent pool, your trade history &mdash;
+        not a generic playbook. Built on Google Gemini as the primary model and
+        Anthropic Claude Sonnet as fallback, with a shared insights cache that
+        keeps costs &amp; latency tractable.
+      </p>
+    </div>
+
+    <section class="work-section">
+      <h2>The core bet</h2>
+      <p>
+        Most fantasy baseball tools surface the same projections to every league:
+        the same rankings, the same waiver-wire picks, the same trade values. But
+        real league decisions aren&rsquo;t made in a generic category system &mdash; they
+        happen inside a specific league&rsquo;s rules, inside a specific roster&rsquo;s gaps,
+        inside a specific owner&rsquo;s trade history. An elite closer is worth more in a
+        head-to-head categories league than in a points league. A keeper pick that looks
+        smart in isolation can be a trap once you know the commissioner&rsquo;s inflation rate.
+      </p>
+      <p>
+        The Fantastic Leagues ships AI that has read your league&rsquo;s config before it
+        answers &mdash; so a <em>Trade Analyzer</em> response isn&rsquo;t a generic 1&ndash;10 fairness
+        score, it&rsquo;s <em>&ldquo;this trade closes your SB hole at the cost of AVG depth you&rsquo;ll
+        need for the playoff push in this 12-team H2H league.&rdquo;</em>
+      </p>
+    </section>
+
+    <section class="work-section">
+      <h2>The eight AI features</h2>
+      <p class="lede">Each feature reads league rules + current state + historical data before generating.</p>
+
+      <div class="module">
+        <div class="module-head">
+          <h3 class="module-name">1. AI Insights (team page)</h3>
+          <span class="module-progress">live</span>
+        </div>
+        <p class="module-desc">
+          The flagship feature. On every team page, an AI-generated read of the team&rsquo;s
+          strengths, weaknesses, and next moves &mdash; updated as rosters change.
+        </p>
+        <div class="module-workflow">
+          <strong>What it reads</strong>
+          <ol>
+            <li>League rules (scoring format, keeper rules, roster size, bench depth)</li>
+            <li>Current roster with MLB Stats API projections attached</li>
+            <li>Current standings and category-by-category deltas vs. other teams</li>
+            <li>Recent transactions (trades, waiver claims, drops) from the last 30 days</li>
+            <li>Available free agents ranked against the team&rsquo;s gaps</li>
+          </ol>
+        </div>
+        <p>
+          Output: a paragraph of strategic read + three concrete recommendations
+          with rationale. Triggers on page load; cached per (team_id, data_hash)
+          so a refresh is near-instant.
+        </p>
+      </div>
+
+      <div class="module">
+        <div class="module-head">
+          <h3 class="module-name">2. Trade Analyzer</h3>
+          <span class="module-progress">live</span>
+        </div>
+        <p>
+          Given a proposed trade between two teams, evaluates for both sides.
+          Flags category gaps the trade opens or closes, surfaces the realistic
+          value read (not raw projection value), and gives each side a graded
+          recommendation with reasoning.
+        </p>
+      </div>
+
+      <div class="module">
+        <div class="module-head">
+          <h3 class="module-name">3. Draft Grades</h3>
+          <span class="module-progress">live</span>
+        </div>
+        <p>
+          Post-auction, grades each team&rsquo;s draft A&ndash;F across four dimensions:
+          category strength, risk, upside, and depth. Includes a narrative paragraph
+          per team explaining the grade.
+        </p>
+      </div>
+
+      <div class="module">
+        <div class="module-head">
+          <h3 class="module-name">4. Keeper Recommender</h3>
+          <span class="module-progress">live</span>
+        </div>
+        <p>
+          For leagues with keeper rules, ranks which roster players are worth keeping
+          given the league&rsquo;s salary inflation rate, position scarcity, age curves,
+          and the owner&rsquo;s keeper history. Not just projection &mdash; it accounts for
+          what keeping that player <em>costs</em> in next year&rsquo;s auction.
+        </p>
+      </div>
+
+      <div class="module">
+        <div class="module-head">
+          <h3 class="module-name">5. Waiver Advisor</h3>
+          <span class="module-progress">live</span>
+        </div>
+        <p>
+          Ranks available free agents not by absolute projection, but by
+          <em>your team&rsquo;s specific need</em>. A ranked SP is only valuable to you if
+          you&rsquo;re short pitching; otherwise it&rsquo;s the wrong claim. Every free agent
+          gets a per-team fit score, not a global ranking.
+        </p>
+      </div>
+
+      <div class="module">
+        <div class="module-head">
+          <h3 class="module-name">6. Bid Advisor</h3>
+          <span class="module-progress">live</span>
+        </div>
+        <p>
+          Real-time during live auction. Suggested max bid on the current nominee
+          based on remaining budget, positional needs, and what other teams have
+          spent so far. Updates as bids come in.
+        </p>
+      </div>
+
+      <div class="module">
+        <div class="module-head">
+          <h3 class="module-name">7. Weekly Insights</h3>
+          <span class="module-progress">live</span>
+        </div>
+        <p>
+          Per-team narrative of the week&rsquo;s moves, scoring-category deltas, and
+          standings movement. Pushed via email via Resend. Opt-out at the team
+          level.
+        </p>
+      </div>
+
+      <div class="module">
+        <div class="module-head">
+          <h3 class="module-name">8. League Digest</h3>
+          <span class="module-progress">live</span>
+        </div>
+        <p>
+          Weekly AI-generated recap for the whole league &mdash; all team grades, notable
+          trades, breakout performers, and a trade poll seeded with interesting
+          matchups. The recap goes in the league message board and nudges engagement.
+        </p>
+      </div>
+    </section>
+
+    <section class="work-section">
+      <h2>Architecture</h2>
+      <p class="lede">
+        Two models, one cache, deliberate constraints. Gemini is the primary
+        because latency on the 2.5 Flash tier is consistently good; Claude Sonnet
+        is the fallback because its reasoning quality wins on trade and keeper
+        analysis specifically.
+      </p>
+
+      <div class="arch-block">User request
+    │
+    ▼
+Express API (/api/teams/ai-insights)
+    │
+    ├──▶ Load league context from Prisma
+    │      ├─ League rules + scoring format
+    │      ├─ Roster + projections (MLB Stats API via MCP proxy)
+    │      ├─ Standings + recent transactions
+    │      └─ Free agents ranked by fit
+    │
+    ├──▶ Compute data_hash (SHA-256 of league_state)
+    │
+    ├──▶ Cache lookup: (team_id, feature_key, data_hash)
+    │      │
+    │      ├─ HIT  ──▶ Return cached response (< 50ms)
+    │      │
+    │      └─ MISS ──▶ Inference
+    │                    │
+    │                    ├─ Primary: Google Gemini 2.5 Flash
+    │                    │    (60s timeout, 8KB max output)
+    │                    │
+    │                    └─ Fallback: Anthropic Claude Sonnet 4
+    │                         (90s timeout, 8KB max output)
+    │
+    └──▶ Store in cache, return to user</div>
+    </section>
+
+    <section class="work-section">
+      <h2>The shared insights cache</h2>
+      <p class="lede">
+        The cache is the reason this is economically viable at all. Without it,
+        every page load would trigger a new ~8KB inference per feature; with it,
+        only genuine state changes trigger one.
+      </p>
+
+      <div class="module">
+        <h3 class="module-name">Cache key design</h3>
+        <p>Three-part key: <code>(team_id, feature_key, data_hash)</code> where <code>data_hash</code> is a deterministic SHA-256 of the entire league-state snapshot that feeds the prompt.</p>
+        <p>When anything that affects the feature&rsquo;s input changes &mdash; a new transaction, updated projections, a roster move &mdash; the hash changes, and the next call misses the cache and generates fresh analysis. When nothing changes, every subsequent page load reads the last response from cache in single-digit milliseconds.</p>
+      </div>
+
+      <div class="module">
+        <h3 class="module-name">Cross-league reuse</h3>
+        <p>A common league config (e.g., 12-team H2H categories with standard Yahoo rules) produces the same data_hash for identical inputs. Two different leagues asking for a Trade Analyzer read on the same two rosters under the same rules hit the cache even though they&rsquo;re distinct leagues.</p>
+        <p>Cache lives in SQLite behind the MCP proxy &mdash; same machine as the MLB data cache &mdash; so lookup is in-process.</p>
+      </div>
+
+      <div class="module">
+        <h3 class="module-name">Invalidation rules</h3>
+        <ul class="feature-list" style="column-count: 1;">
+          <li class="done">Any transaction (trade, waiver, drop) invalidates team-page AI Insights for both affected teams</li>
+          <li class="done">New stat period invalidates Weekly Insights + League Digest</li>
+          <li class="done">Roster set lock invalidates Waiver Advisor for that week</li>
+          <li class="done">Config changes (commissioner edits rules) invalidate everything for the league</li>
+          <li class="done">Manual "regenerate" button on each feature invalidates that feature&rsquo;s cache entry only</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="work-section">
+      <h2>Constraints that shaped the design</h2>
+      <div class="stack-grid">
+        <div class="stack-cat">
+          <h4>8 KB output cap</h4>
+          <div class="items">Forces each feature to be concise. Long, hedged paragraphs don&rsquo;t fit. The output schema in the prompt is explicit: 3&ndash;5 bullets, 1 narrative paragraph, 1 graded recommendation.</div>
+        </div>
+        <div class="stack-cat">
+          <h4>60&ndash;90s timeout</h4>
+          <div class="items">If primary stalls, we&rsquo;re already swapping to fallback. If fallback stalls, we return a graceful "try again in a minute" rather than blocking. Users get fast feedback on failure.</div>
+        </div>
+        <div class="stack-cat">
+          <h4>Prompt as versioned artifact</h4>
+          <div class="items">Each feature&rsquo;s prompt is a versioned TypeScript module. Changes trigger cache invalidation for that feature on every team.</div>
+        </div>
+        <div class="stack-cat">
+          <h4>Deterministic inputs</h4>
+          <div class="items">The league-state hash must be deterministic across reads. That means sorted keys, ISO timestamps, stable sort orders everywhere. Non-determinism = no cache.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="work-section">
+      <h2>Live</h2>
+      <img src="/assets/work/fantastic-leagues/team-page-ai.png" alt="Team page showing AI-generated insights for the current roster" class="screenshot" loading="lazy">
+      <p class="screenshot-caption">The team-page AI Insights feature in production &mdash; inline on every team&rsquo;s page, regenerated on state change, cached between.</p>
+    </section>
+
+    <div class="work-nav">
+      <a href="/work/fantastic-leagues/analytics/">&larr; Product &amp; AI (analytics)</a>
+      <a href="/work/fantastic-leagues/changelog/" class="next">Changelog &rarr;</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-meta">
+      <a href="/">&larr; Back to James Chang</a>
+      <span style="margin: 0 0.5rem;">&middot;</span>
+      <a href="https://thefantasticleagues.com">Visit the live site</a>
+    </p>
+  </footer>
+</body>
+</html>
