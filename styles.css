@@ -23,7 +23,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #151311;
     --text: #ece7df;
     --muted: #a29a8e;
@@ -32,6 +32,16 @@
     --accent-hover: #f29478;
     --card-bg: #1d1a16;
   }
+}
+
+:root[data-theme="dark"] {
+  --bg: #151311;
+  --text: #ece7df;
+  --muted: #a29a8e;
+  --rule: #2a2622;
+  --accent: #e47a5f;
+  --accent-hover: #f29478;
+  --card-bg: #1d1a16;
 }
 
 * { box-sizing: border-box; }
@@ -103,6 +113,37 @@ a:hover { color: var(--accent-hover); text-decoration-thickness: 2px; }
   padding: 0.25rem 0;
 }
 .site-header a:hover { color: var(--accent); }
+
+/* Theme toggle */
+.theme-toggle {
+  margin-left: auto;
+  background: none;
+  border: 1px solid var(--rule);
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0.3rem 0.65rem;
+  font-size: 0.95rem;
+  line-height: 1;
+  border-radius: 4px;
+  min-width: 36px;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+}
+.theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+
+/* Icon swap: moon shows when page is light, sun shows when page is dark.
+   Clicking the button goes toward the opposite state. */
+.theme-toggle .icon-sun { display: none; }
+.theme-toggle .icon-moon { display: inline; }
+:root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+:root[data-theme="dark"] .theme-toggle .icon-sun { display: inline; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
+  :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: inline; }
+}
 
 /* ---------- Main container ---------- */
 main {
@@ -366,7 +407,10 @@ h3 {
 .role { margin-bottom: 2rem; }
 .role:last-child { margin-bottom: 0; }
 .role h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
+.role h3 a { color: var(--text); text-decoration: none; border-bottom: 1px dotted var(--muted); }
+.role h3 a:hover { color: var(--accent); border-bottom-color: var(--accent); }
 .role-title { font-weight: 400; color: var(--muted); }
+.role-note { font-weight: 400; color: var(--muted); font-size: 0.8125rem; opacity: 0.7; }
 .role-meta {
   font-size: 0.875rem;
   color: var(--muted);
