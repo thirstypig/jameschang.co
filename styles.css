@@ -157,6 +157,12 @@ h3 {
   color: var(--text);
 }
 
+/* Print-only utility: hidden on web, visible in Cmd-P / PDF output */
+.print-only { display: none; }
+@media print {
+  .print-only { display: inline; }
+}
+
 /* Name + contact block at top of hero */
 .name {
   font-family: var(--sans);
