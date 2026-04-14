@@ -1,0 +1,563 @@
+/* ============================================================
+   jameschang.co — single stylesheet
+   Editorial / warm off-white / oxide red accent
+   System sans body + serif display H1 via Google-free fallback
+   Dark mode via prefers-color-scheme (no toggle)
+   ============================================================ */
+
+:root {
+  --bg: #faf8f5;
+  --text: #1a1a1a;
+  --muted: #55514d;
+  --rule: #e6e0d6;
+  --accent: #a03623;       /* warm oxide red */
+  --accent-hover: #7a2718;
+  --card-bg: #fff;
+
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+
+  --measure: 640px;
+  --measure-wide: 960px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #151311;
+    --text: #ece7df;
+    --muted: #a29a8e;
+    --rule: #2a2622;
+    --accent: #e47a5f;
+    --accent-hover: #f29478;
+    --card-bg: #1d1a16;
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- Skip link (a11y) ---------- */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: var(--accent);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  z-index: 100;
+}
+.skip-link:focus { top: 0; }
+
+/* ---------- Focus (WCAG 2.2) ---------- */
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ---------- Links ---------- */
+a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { color: var(--accent-hover); text-decoration-thickness: 2px; }
+
+/* ---------- Header / nav ---------- */
+.site-header {
+  border-bottom: 1px solid var(--rule);
+}
+.site-header nav {
+  max-width: var(--measure-wide);
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  gap: 1.75rem;
+  font-size: 0.9375rem;
+}
+.site-header a {
+  color: var(--muted);
+  text-decoration: none;
+  padding: 0.25rem 0;
+}
+.site-header a:hover { color: var(--accent); }
+
+/* ---------- Main container ---------- */
+main {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+section {
+  padding: 4rem 0 2.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+section:last-of-type { border-bottom: none; }
+
+h2 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 1.75rem;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0 0 1.25rem;
+}
+
+h3 {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 1.125rem;
+  margin: 0 0 0.25rem;
+}
+
+/* ---------- Hero ---------- */
+.hero { padding-top: 5rem; padding-bottom: 2rem; border-bottom: none; }
+
+.eyebrow {
+  font-family: var(--sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 1.5rem;
+}
+
+.display {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 1.5rem;
+  color: var(--text);
+}
+
+.lede {
+  font-size: 1.125rem;
+  line-height: 1.55;
+  color: var(--text);
+  max-width: 40rem;
+  margin: 0 0 2rem;
+}
+
+.hero-ctas {
+  font-size: 1rem;
+  color: var(--muted);
+}
+.hero-ctas .cta {
+  color: var(--accent);
+  font-weight: 500;
+  padding: 0.25rem 0;
+  /* WCAG 2.2 target size: padding + line-height gives >=24×24 */
+  display: inline-block;
+  min-height: 24px;
+}
+.cta-sep { color: var(--rule); margin: 0 0.5rem; }
+
+/* ---------- Proof strip ---------- */
+.proof {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  padding: 2.5rem 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.proof-item { text-align: center; }
+.proof-number {
+  display: block;
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+.proof-label {
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+@media (max-width: 600px) {
+  .proof { grid-template-columns: 1fr; gap: 1.5rem; }
+}
+
+/* ---------- About ---------- */
+.about-grid {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+.headshot {
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  background: var(--rule);
+}
+.about-copy p { margin: 0 0 1rem; }
+.about-copy p:last-child { margin-bottom: 0; }
+
+@media (max-width: 600px) {
+  .about-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .headshot { width: 120px; }
+}
+
+/* ---------- Current projects (7 cards) ---------- */
+.section-lede {
+  color: var(--muted);
+  font-size: 1rem;
+  margin: -0.75rem 0 2rem;
+  max-width: 36rem;
+}
+
+.project-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+.project-card {
+  background: var(--card-bg);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 1.25rem;
+  transition: border-color 0.15s ease;
+}
+.project-card:hover { border-color: var(--accent); }
+.project-card h3 { margin-bottom: 0.5rem; font-size: 1rem; }
+.project-card h3 a { color: var(--text); text-decoration: none; }
+.project-card h3 a:hover { color: var(--accent); }
+.project-card p { margin: 0; font-size: 0.9375rem; line-height: 1.5; color: var(--text); }
+.project-meta {
+  margin-top: 0.75rem !important;
+  font-size: 0.8125rem !important;
+  color: var(--muted) !important;
+}
+.tag {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.75rem;
+  background: var(--rule);
+  color: var(--muted);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 600px) {
+  .project-grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- Case studies ---------- */
+.case {
+  margin-bottom: 3.5rem;
+}
+.case:last-child { margin-bottom: 0; }
+.case-header { margin-bottom: 1.25rem; }
+.case-meta {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 0.5rem;
+}
+.case h3 {
+  font-family: var(--serif);
+  font-size: clamp(1.375rem, 3vw, 1.75rem);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--text);
+}
+.case p {
+  margin: 0 0 1rem;
+  max-width: 40rem;
+}
+.case-outcome {
+  padding: 1rem 1.25rem;
+  border-left: 3px solid var(--accent);
+  background: var(--card-bg);
+  margin-top: 1.5rem !important;
+  font-size: 1rem;
+}
+.case-reflect {
+  color: var(--muted);
+  font-style: italic;
+  border-top: 1px solid var(--rule);
+  padding-top: 1rem;
+  margin-top: 1.5rem !important;
+}
+.case-reflect strong { color: var(--text); font-style: normal; }
+.case code {
+  font-family: var(--mono);
+  font-size: 0.875em;
+  background: var(--rule);
+  padding: 0.05em 0.35em;
+  border-radius: 3px;
+}
+
+/* ---------- Experience ---------- */
+.role { margin-bottom: 2rem; }
+.role:last-child { margin-bottom: 0; }
+.role h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
+.role-title { font-weight: 400; color: var(--muted); }
+.role-meta {
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin: 0 0 0.5rem;
+}
+.role ul {
+  margin: 0.5rem 0 0 1.25rem;
+  padding: 0;
+}
+.role li {
+  margin-bottom: 0.35rem;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.earlier-experience {
+  margin-top: 2rem;
+  border-top: 1px solid var(--rule);
+  padding-top: 1.5rem;
+}
+.earlier-experience summary {
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--muted);
+  padding: 0.5rem 0;
+  min-height: 24px;
+}
+.earlier-experience summary:hover { color: var(--accent); }
+.earlier-experience[open] summary { margin-bottom: 1.5rem; }
+.earlier-experience .role { margin-bottom: 1rem; }
+.earlier-experience .role h3 { font-size: 0.9375rem; }
+
+/* ---------- Education ---------- */
+.degree { margin-bottom: 2rem; }
+.degree h3 { font-size: 1rem; }
+.degree p { margin: 0; font-size: 0.9375rem; }
+
+.certs-heading {
+  font-family: var(--sans);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin: 2rem 0 0.75rem;
+}
+.certs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--muted);
+  column-count: 2;
+  column-gap: 2rem;
+}
+.certs li {
+  margin-bottom: 0.35rem;
+  break-inside: avoid;
+}
+@media (max-width: 600px) {
+  .certs { column-count: 1; }
+}
+
+/* ---------- Skills ---------- */
+.skills-list { margin: 0; padding: 0; }
+.skills-list > div {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 1.5rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.9375rem;
+}
+.skills-list > div:last-child { border-bottom: none; }
+.skills-list dt { font-weight: 600; color: var(--text); }
+.skills-list dd { margin: 0; color: var(--text); }
+
+@media (max-width: 600px) {
+  .skills-list > div { grid-template-columns: 1fr; gap: 0.25rem; }
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+  border-top: 1px solid var(--rule);
+  color: var(--muted);
+}
+.footer-contact p {
+  margin: 0 0 0.5rem;
+  font-size: 0.9375rem;
+}
+.community { font-size: 0.875rem !important; color: var(--muted); }
+.footer-meta {
+  margin-top: 1.5rem;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+.footer-meta a { color: var(--muted); }
+
+/* ============================================================
+   Print stylesheet — the PDF that ships to recruiters
+   ============================================================ */
+
+@media print {
+  @page { size: letter; margin: 0.5in; }
+
+  :root {
+    --bg: #fff;
+    --text: #000;
+    --muted: #333;
+    --rule: #ccc;
+    --accent: #000;
+  }
+
+  body {
+    font-family: var(--serif);
+    font-size: 10pt;
+    line-height: 1.4;
+    background: #fff;
+    color: #000;
+  }
+
+  /* Hide chrome that doesn't belong in a résumé */
+  .site-header,
+  .hero-ctas,
+  .site-footer .footer-meta a[href*="github.com/thirstypig/jameschang.co"],
+  .skip-link { display: none !important; }
+
+  main { max-width: 100%; padding: 0; }
+
+  section {
+    padding: 0.5rem 0;
+    border-bottom: none;
+    break-inside: avoid;
+  }
+  section, article { page-break-inside: avoid; }
+  h2, h3 { page-break-after: avoid; }
+
+  .hero {
+    padding: 0 0 0.5rem;
+    border-bottom: 1px solid #000;
+    margin-bottom: 0.75rem;
+  }
+  .eyebrow { font-size: 9pt; }
+  .display {
+    font-size: 20pt;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+  .display br { display: none; }
+  .lede { font-size: 10.5pt; margin-bottom: 0.5rem; max-width: 100%; }
+
+  .proof {
+    padding: 0.5rem 0;
+    border: none;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  .proof-number { font-size: 12pt; }
+  .proof-label { font-size: 9pt; }
+
+  .about-grid { grid-template-columns: 1fr; gap: 0; }
+  .headshot { display: none; }
+
+  h2 {
+    font-size: 13pt;
+    margin-top: 0.5rem;
+    margin-bottom: 0.35rem;
+    border-bottom: 0.5pt solid #000;
+    padding-bottom: 2pt;
+  }
+
+  .project-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+  .project-card { background: none; border: none; padding: 0.25rem 0; }
+  .project-card h3 { font-size: 10pt; margin-bottom: 0.15rem; }
+  .project-card p { font-size: 9pt; line-height: 1.35; }
+  .project-meta { display: none; }
+
+  .case { margin-bottom: 0.75rem; }
+  .case h3 { font-size: 11pt; }
+  .case-meta { font-size: 8.5pt; }
+  .case p { font-size: 10pt; line-height: 1.4; margin-bottom: 0.35rem; }
+  .case-outcome, .case-reflect {
+    border: none;
+    background: none;
+    padding: 0;
+    font-size: 10pt;
+    font-style: normal;
+    margin-top: 0.35rem !important;
+  }
+
+  .role { margin-bottom: 0.5rem; }
+  .role h3 { font-size: 10.5pt; }
+  .role-meta { font-size: 9pt; }
+  .role ul { margin-top: 0.2rem; }
+  .role li { font-size: 9.5pt; margin-bottom: 0.15rem; line-height: 1.35; }
+
+  /* Force-expand collapsed earlier experience */
+  details[open], details { display: block; }
+  details > summary { display: none; }
+  details > *:not(summary) { display: revert; }
+  .earlier-experience { border-top: 0.5pt solid #000; padding-top: 0.25rem; margin-top: 0.35rem; }
+
+  .certs { column-count: 2; font-size: 9pt; }
+
+  .skills-list > div {
+    grid-template-columns: 140px 1fr;
+    gap: 0.75rem;
+    padding: 0.25rem 0;
+    font-size: 9.5pt;
+    border-bottom: 0.25pt solid #ccc;
+  }
+
+  .site-footer {
+    padding: 0.5rem 0 0;
+    border-top: 0.5pt solid #000;
+    color: #000;
+  }
+  .site-footer a { color: #000; }
+
+  /* Expand URLs after external links so a printed PDF retains contact info */
+  .site-footer a[href^="http"]::after,
+  .hero-ctas + * a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    color: #555;
+  }
+
+  a { color: #000; text-decoration: none; }
+}

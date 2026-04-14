@@ -1,0 +1,38 @@
+# James Chang
+
+Founder of Aleph Co. and senior product manager based in Los Angeles, CA.
+
+## Positioning
+
+PM by training, operator by practice. Currently running seven products from compliance SaaS to an AI trading experiment. Fifteen years of global supply-chain and sourcing experience preceded the PM career — that background is the foundation of Aleph Compliance.
+
+## Current work
+
+- **Aleph Compliance** (alephco.io) — SaaS platform for US importers covering FDA FSVP, CPSIA/CPC, California Prop 65, and multi-state PFAS regulations. Founder.
+- **Bahtzang Trader** (bahtzang.com) — AI trading-decision experiment using Claude Sonnet. Paper-trading sandbox, not a live trading service.
+- **TableDrop** — restaurant reservation marketplace. Next.js + Stripe + Playwright.
+- **The Fantastic Leagues** (thefantasticleagues.com) — fantasy baseball platform with league-context AI (Gemini + Claude).
+- **The Judge Tool** (thejudgetool.com) — digital KCBS BBQ competition judging platform.
+- **Tastemakers** — iOS restaurant-review app, cross-platform build. Currently paused.
+- **The Thirsty Pig** (thirstypig.com) — food & travel blog since 2007. 2026 rebuild archived 923 posts from the Wayback Machine + 1,649 Instagram posts.
+
+## Previous roles
+
+- Gannett / LocaliQ / USA Today Network — Senior Product Manager (2022–2024). Shipped Scheduling product 0→1 to 4,900 users in year one.
+- Sunrise Integration — Project Manager (2020)
+- Movley — Operations & Product Manager (2019)
+- MEDL Mobile — Product / Project Manager (2018)
+- Earlier supply-chain / sourcing roles at YETI Coolers, AT&T Wireless, Cheng Loong Corporation (Shanghai), Cobalt Skys, Spray Technologies, Breeze Digital Technology (Taipei/Shenzhen).
+
+## Education & credentials
+
+- MBA, USC Marshall School of Business, 2012. Class President.
+- Certified Scrum Product Owner (CSPO), Scrum Alliance, 2019.
+- Product Management Certificate, Product School, 2018.
+
+## Contact
+
+- Site: https://jameschang.co/
+- LinkedIn: https://www.linkedin.com/in/jimmychang316
+- GitHub: https://github.com/thirstypig
+- Email: see https://jameschang.co/#contact
