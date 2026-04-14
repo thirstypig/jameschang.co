@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Aleph Compliance — Changelog — James Chang</title>
+  <meta name="description" content="Aleph Compliance release history: 12 releases in 14 days documenting the FSVP Pro → Aleph rebrand and the build-out from single-module to multi-cohort platform.">
+  <link rel="canonical" href="https://jameschang.co/work/aleph/changelog/">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/work/work.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="site-header">
+    <nav aria-label="Primary">
+      <a href="/#about">About</a>
+      <a href="/#projects">Projects</a>
+      <a href="/#case-studies">Case studies</a>
+      <a href="/work/">Work</a>
+    </nav>
+  </header>
+
+  <main id="main" class="work-main">
+    <p class="crumbs">
+      <a href="/">James Chang</a>
+      <span class="sep">/</span>
+      <a href="/work/">Work</a>
+      <span class="sep">/</span>
+      <span>Aleph Compliance</span>
+      <span class="sep">/</span>
+      <span>Changelog</span>
+    </p>
+
+    <div class="snapshot-banner">
+      <strong>Static snapshot</strong> of the Aleph Compliance admin changelog as of
+      April 2026. Live version inside the app at
+      <a href="https://app.alephco.io">app.alephco.io/admin/changelog</a>.
+    </div>
+
+    <div class="work-hero">
+      <p class="eyebrow">Aleph Compliance &middot; Admin / Changelog</p>
+      <h1>Release history.</h1>
+      <p class="subtitle">
+        12 releases in the first two weeks after the FSVP Pro &rarr; Aleph rebrand.
+        Every feature, every security fix, every quality improvement tracked by version
+        and cross-linked to the roadmap and todo list.
+      </p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat"><span class="stat-value">12</span><span class="stat-label">releases</span></div>
+      <div class="stat"><span class="stat-value">14 days</span><span class="stat-label">from v0.0.1 to v0.12.0</span></div>
+      <div class="stat"><span class="stat-value">68+</span><span class="stat-label">individual changes</span></div>
+      <div class="stat"><span class="stat-value">47 → 0</span><span class="stat-label">inline auth checks replaced with router middleware</span></div>
+    </div>
+
+    <section class="work-section">
+      <h2>Recent releases</h2>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.12.0</span>
+          <span class="release-date">2026-04-14</span>
+          <span class="release-tag security">security</span>
+        </div>
+        <h3 class="release-title">Code review batch &mdash; security, quality &amp; cleanup</h3>
+        <div class="release-body">
+          <ul>
+            <li><strong>Security:</strong> Fixed SoQL injection vulnerability in ENERGY STAR search</li>
+            <li><strong>Security:</strong> Fixed supply chain IDOR &mdash; added ownership verification</li>
+            <li><strong>Quality:</strong> Converted all 47 inline auth checks to router-level middleware</li>
+            <li><strong>Quality:</strong> Added <code>AppError</code> class hierarchy and <code>asyncHandler</code> for centralized error handling</li>
+            <li><strong>Quality:</strong> Added server-side product search (<code>GET /api/products/my?q=&amp;category=&amp;status=</code>)</li>
+            <li><strong>Quality:</strong> Added 5 missing CRUD endpoints</li>
+            <li><strong>Cleanup:</strong> Extracted role group constants, renamed service files to PascalCase, moved 7 components to correct feature module directories, fixed 22 <code>catch(error: any)</code> blocks to <code>catch(error: unknown)</code></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.11.0</span>
+          <span class="release-date">2026-04-13</span>
+          <span class="release-tag improvement">improvement</span>
+        </div>
+        <h3 class="release-title">Admin consolidation &mdash; 11 pages to 6</h3>
+        <div class="release-body">
+          <ul>
+            <li>Admin sidebar consolidated: 11 items &rarr; 6 (Operations, Planning groups)</li>
+            <li>Admin dashboard rebuilt as operations hub: stat cards (users, products, paid), product status overrides</li>
+            <li>SEO tasks merged into Todo as a "SEO" category (33 tasks migrated)</li>
+            <li>Removed: Analytics (empty), Tech (redundant), SEO page (merged) &mdash; ~3,700 lines of static JSX eliminated</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.10.0</span>
+          <span class="release-date">2026-04-13</span>
+          <span class="release-tag feature">feature</span>
+        </div>
+        <h3 class="release-title">Admin users page + login tracking</h3>
+        <div class="release-body">
+          <ul>
+            <li>New <code>/admin/users</code> page &mdash; accounts, activity, engagement analytics</li>
+            <li>Login tracking: <code>lastLoginAt</code>, <code>loginCount</code>, <code>lastLoginIp</code> columns; session-based (&gt; 30min since last)</li>
+            <li>User detail sheet: profile, engagement stats (logins/week, account age), usage metrics, subscription toggle</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.9.0</span>
+          <span class="release-date">2026-04-12</span>
+          <span class="release-tag feature">feature</span>
+        </div>
+        <h3 class="release-title">Certificate Vault + ENERGY STAR integration</h3>
+        <div class="release-body">
+          <ul>
+            <li>New <strong>Certificate Vault</strong> page &mdash; 27 certification types across 6 categories (organic, GFSI, UL, FCC, REACH, Fair Trade, etc.)</li>
+            <li><strong>ENERGY STAR API</strong> integration &mdash; verify products against <strong>1.8M certified models</strong> across 47 categories</li>
+            <li>Certificates integrated into Compliance Alerts &mdash; expiring certs alongside CPC, Prop 65, PFAS, documents</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.8.0</span>
+          <span class="release-date">2026-04-11</span>
+          <span class="release-tag feature">feature</span>
+        </div>
+        <h3 class="release-title">Admin system overhaul &mdash; Todo, Concepts, cross-linking</h3>
+        <div class="release-body">
+          <ul>
+            <li>New Todo page (<code>/todo</code>) &mdash; micro-level task tracker with step-by-step guides, priority levels</li>
+            <li>Rebuilt Concepts page &mdash; 4 tabs: Strategic, SEO Pages, Integrations, UX Mockups</li>
+            <li>Cross-linking: Todo &harr; Roadmap &harr; Concepts &harr; Changelog</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.7.0</span>
+          <span class="release-date">2026-04-11</span>
+          <span class="release-tag improvement">improvement</span>
+        </div>
+        <h3 class="release-title">Todo sweep &mdash; 61 items resolved</h3>
+        <div class="release-body">
+          <ul>
+            <li>Audited all 79 pending code review todos</li>
+            <li>Marked 61 complete (47 resolved + 4 obsolete + 10 partial)</li>
+            <li>18 genuine items remain pending</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.6.0</span>
+          <span class="release-date">2026-04-06</span>
+          <span class="release-tag security">security</span>
+        </div>
+        <h3 class="release-title">Security hardening, performance &amp; <code>.env</code> cleanup</h3>
+        <div class="release-body">
+          <ul>
+            <li>Fixed <code>STRIPE_SECRET_KEY</code> using publishable key; fixed empty <code>SESSION_SECRET</code></li>
+            <li>Fixed mass assignment vulnerability in <code>PUT /api/vendors</code> (field allowlist)</li>
+            <li>Auth middleware now fails closed; system routes require admin authentication</li>
+            <li>Startup env validation &mdash; hard fails if <code>STRIPE_SECRET_KEY</code> has <code>pk_</code> prefix</li>
+            <li>Code splitting with <code>React.lazy()</code> &mdash; 12 route components lazy-loaded</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.5.0</span>
+          <span class="release-date">2026-04-05</span>
+          <span class="release-tag feature">feature</span>
+        </div>
+        <h3 class="release-title">Industry-aware sidebar navigation</h3>
+        <div class="release-body">
+          <ul>
+            <li>Replaced module switcher with industry-driven sidebar (Food vs. Consumer Goods)</li>
+            <li>CPSIA, Prop 65, PFAS visible as nav items for consumer-goods users</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.4.0</span>
+          <span class="release-date">2026-04-03</span>
+          <span class="release-tag feature">feature</span>
+        </div>
+        <h3 class="release-title">PFAS disclosure module</h3>
+        <div class="release-body">
+          <ul>
+            <li>3-step PFAS questionnaire wizard (assessment &rarr; components &rarr; regulations)</li>
+            <li>Dynamic PFAS component entry (substance, concentration, function)</li>
+            <li>8-state regulation database (CA, ME, NY, WA, MN, VT, CO, MD)</li>
+            <li>PFAS disclosure report PDF generation</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.3.0</span>
+          <span class="release-date">2026-04-03</span>
+          <span class="release-tag feature">feature</span>
+        </div>
+        <h3 class="release-title">Prop 65 chemical disclosure module</h3>
+        <div class="release-body">
+          <ul>
+            <li>Yes / No / Not Sure chemical assessment flow</li>
+            <li>15 pre-populated chemicals with CAS numbers and hazard types</li>
+            <li>Short-form and long-form warning label generation</li>
+            <li>Label preview in packaging and shelf-tag sizes; PDF generation</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.2.0</span>
+          <span class="release-date">2026-04-03</span>
+          <span class="release-tag feature">feature</span>
+        </div>
+        <h3 class="release-title">CPSIA / CPC compliance module</h3>
+        <div class="release-body">
+          <ul>
+            <li>CPC 7-field data entry form (CPSIA Section 14(a))</li>
+            <li>Pre-populated CPSC safety standards (ASTM F963, etc.)</li>
+            <li>CPC PDF certificate generation via <code>pdf-lib</code></li>
+            <li>Lab test document linking; CPC status tracking (draft &rarr; issued &rarr; superseded)</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.1.0</span>
+          <span class="release-date">2026-04-03</span>
+          <span class="release-tag feature">feature</span>
+        </div>
+        <h3 class="release-title">Multi-module platform foundation</h3>
+        <div class="release-body">
+          <ul>
+            <li>Extended products table with <code>compliance_modules</code>, <code>product_type</code>, <code>intended_age_group</code></li>
+            <li>Added <code>cpc_certificates</code>, <code>prop65_disclosures</code>, <code>pfas_disclosures</code> tables</li>
+            <li>Dev-bypass login (no Supabase required for local work)</li>
+            <li>Marketing site: 5 pages at alephco.io</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.0.1</span>
+          <span class="release-date">2026-04-01</span>
+          <span class="release-tag feature">feature</span>
+        </div>
+        <h3 class="release-title">Initial commit &mdash; Aleph platform</h3>
+        <div class="release-body">
+          <p><strong>Rebranded from FSVP Pro to Aleph.</strong></p>
+          <ul>
+            <li>React 18 + TypeScript + Vite frontend</li>
+            <li>Express + PostgreSQL + Drizzle ORM backend</li>
+            <li>Supabase Auth + Stripe billing (3 tiers: monthly, semi-annual, annual)</li>
+            <li>FSVP compliance module: products, documents, FDA registration, connections</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <section class="work-section">
+      <h2>From the admin UI</h2>
+      <img src="/assets/work/aleph/changelog.png" alt="Aleph Compliance admin changelog page" class="screenshot" loading="lazy">
+      <p class="screenshot-caption">The live admin changelog page inside the app.</p>
+    </section>
+
+    <div class="work-nav">
+      <a href="/work/aleph/roadmap/">&larr; Roadmap</a>
+      <a href="/work/fantastic-leagues/tech/" class="next">Next project: The Fantastic Leagues &rarr;</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-meta">
+      <a href="/">&larr; Back to James Chang</a>
+      <span style="margin: 0 0.5rem;">&middot;</span>
+      <a href="https://alephco.io">Visit the live site</a>
+    </p>
+  </footer>
+</body>
+</html>

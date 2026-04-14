@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>The Judge Tool — Changelog — James Chang</title>
+  <meta name="description" content="14 releases of The Judge Tool in 20 days: full app built in one session, then security hardening, WCAG accessibility, E2E simulation, Vercel migration.">
+  <link rel="canonical" href="https://jameschang.co/work/judge-tool/changelog/">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/work/work.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="site-header">
+    <nav aria-label="Primary">
+      <a href="/#about">About</a>
+      <a href="/#projects">Projects</a>
+      <a href="/#case-studies">Case studies</a>
+      <a href="/work/">Work</a>
+    </nav>
+  </header>
+
+  <main id="main" class="work-main">
+    <p class="crumbs">
+      <a href="/">James Chang</a>
+      <span class="sep">/</span>
+      <a href="/work/">Work</a>
+      <span class="sep">/</span>
+      <span>The Judge Tool</span>
+      <span class="sep">/</span>
+      <span>Changelog</span>
+    </p>
+
+    <div class="snapshot-banner">
+      <strong>Static snapshot</strong> of the <code>/changelog</code> page as of
+      April 2026. Live at
+      <a href="https://thejudgetool.com/changelog">thejudgetool.com/changelog</a>.
+    </div>
+
+    <div class="work-hero">
+      <p class="eyebrow">The Judge Tool &middot; Changelog</p>
+      <h1>14 releases in 20 days.</h1>
+      <p class="subtitle">
+        v0.0.1 &rarr; v0.14.0 between Mar 6&ndash;26, 2026. Every release categorized:
+        feature, fix, perf, refactor, test, docs, or security. Full app scaffolded
+        in one session, then methodically hardened.
+      </p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat"><span class="stat-value">14</span><span class="stat-label">releases (v0.0.1 → v0.14.0)</span></div>
+      <div class="stat"><span class="stat-value">83</span><span class="stat-label">individual changes tracked</span></div>
+      <div class="stat"><span class="stat-value">13</span><span class="stat-label">development sessions</span></div>
+      <div class="stat"><span class="stat-value">+16,395 / −9,237</span><span class="stat-label">net lines changed</span></div>
+    </div>
+
+    <section class="work-section">
+      <h2>Change-type distribution</h2>
+      <div class="timeline">
+        <div class="t-label">Features</div><div class="t-body"><span class="t-bar" style="width: 155px;"></span>31 (37%)</div>
+        <div class="t-label">Fixes</div><div class="t-body"><span class="t-bar" style="width: 65px;"></span>13 (16%)</div>
+        <div class="t-label">Refactor</div><div class="t-body"><span class="t-bar" style="width: 60px;"></span>12 (14%)</div>
+        <div class="t-label">Docs</div><div class="t-body"><span class="t-bar" style="width: 60px;"></span>12 (14%)</div>
+        <div class="t-label">Security</div><div class="t-body"><span class="t-bar" style="width: 35px;"></span>7 (8%)</div>
+        <div class="t-label">Tests</div><div class="t-body"><span class="t-bar" style="width: 35px;"></span>7 (8%)</div>
+        <div class="t-label">Perf</div><div class="t-body"><span class="t-bar" style="width: 5px;"></span>1 (1%)</div>
+      </div>
+    </section>
+
+    <section class="work-section">
+      <h2>Releases</h2>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.14.0</span>
+          <span class="release-date">Mar 26, 2026 &middot; Session 13</span>
+          <span class="release-tag security">security</span>
+        </div>
+        <h3 class="release-title">Vercel migration &amp; security hardening</h3>
+        <div class="release-body">
+          <ul>
+            <li>Migrated app hosting from Render Pro to Vercel free tier &mdash; $49/mo savings</li>
+            <li>Hashed competition <code>judgePin</code> with bcrypt &mdash; eliminated plaintext PIN storage</li>
+            <li>Added TypeScript module augmentation for next-auth &mdash; removed unsafe type casts</li>
+            <li>Split auth into <code>auth.config.ts</code> (Edge-safe) and <code>auth.ts</code> (Node.js)</li>
+            <li>Marketing site moved to GitHub Pages, separate from app</li>
+          </ul>
+          <p><em>12 files changed &middot; +180 / −95</em></p>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.13.0</span>
+          <span class="release-date">Mar 19, 2026 &middot; Session 12</span>
+          <span class="release-tag feature">feature</span>
+        </div>
+        <h3 class="release-title">Static marketing site</h3>
+        <div class="release-body">
+          <ul>
+            <li>Separated static marketing site into its own <code>marketing/</code> directory</li>
+            <li>Independent deployment from the app</li>
+            <li>Added <code>package.json</code> for Render static site config</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.12.0</span>
+          <span class="release-date">Mar 18, 2026 &middot; Session 11</span>
+          <span class="release-tag feature">feature</span>
+        </div>
+        <h3 class="release-title">Marketing landing page</h3>
+        <div class="release-body">
+          <ul>
+            <li>Full marketing landing page: hero, pain points, judge section, feature comparison, CTA</li>
+            <li>Dark mode with system preference detection</li>
+            <li>Mobile responsive across all sections</li>
+            <li>Middleware updated to allow unauthenticated access to <code>/</code></li>
+          </ul>
+          <p><em>8 files changed &middot; +1,850 / −25</em></p>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.11.0</span>
+          <span class="release-date">Mar 17, 2026 &middot; Session 10</span>
+          <span class="release-tag feature">feature</span>
+        </div>
+        <h3 class="release-title">Meta pages &mdash; Roadmap, Changelog, Status, Analytics</h3>
+        <div class="release-body">
+          <ul>
+            <li>Added <code>/roadmap</code> with health scorecard, phased roadmap, risk register, velocity</li>
+            <li>Added <code>/changelog</code> with release cards, change-type distribution, expandable details</li>
+            <li>Added <code>/status</code> with live API health checks</li>
+            <li>Added <code>/analytics</code> with product metrics</li>
+            <li><code>MetaPageNav</code> shared component; <code>MermaidDiagram</code> for client-side rendering</li>
+          </ul>
+          <p><em>12 files changed &middot; +2,400 / −50</em></p>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.10.0</span>
+          <span class="release-date">Mar 16, 2026 &middot; Session 9</span>
+          <span class="release-tag improvement">improvement</span>
+        </div>
+        <h3 class="release-title">Tech page overhaul</h3>
+        <div class="release-body">
+          <ul>
+            <li>Rewrote <code>/tech</code> into 11-section build teardown</li>
+            <li>Cost comparison (US dev shop vs offshore vs AI-assisted)</li>
+            <li>AI development workflow section with delegation split documented</li>
+            <li>Mermaid architecture flowchart + 3 ERD diagrams</li>
+            <li><code>CollapsibleSection</code> component using native HTML <code>details</code>/<code>summary</code></li>
+          </ul>
+          <p><em>7 files changed &middot; +2,190 / −324</em></p>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.8.0</span>
+          <span class="release-date">Mar 11, 2026 &middot; Session 7b</span>
+          <span class="release-tag security">security</span>
+        </div>
+        <h3 class="release-title">Code review fixes &amp; architecture cleanup</h3>
+        <div class="release-body">
+          <ul>
+            <li>Split monolithic <code>competition/actions/index.ts</code> (1,200+ lines) into 6 focused files</li>
+            <li>Security hardening on server-action auth patterns</li>
+            <li>Performance improvements on Prisma queries with selective includes</li>
+            <li>Fixed edge cases discovered during code review</li>
+          </ul>
+          <p><em>37 files changed &middot; +1,785 / −1,728</em></p>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.7.0</span>
+          <span class="release-date">Mar 11, 2026 &middot; Session 7a</span>
+          <span class="release-tag improvement">improvement</span>
+        </div>
+        <h3 class="release-title">Diataxis docs, E2E simulation &amp; accessibility</h3>
+        <div class="release-body">
+          <ul>
+            <li>E2E competition simulation &mdash; 2,000+ assertions: seed &rarr; distribute &rarr; score 4 cats &rarr; tabulate &rarr; validate</li>
+            <li>Simulation generates markdown report at <code>reports/simulation-report.md</code></li>
+            <li>Restructured docs into Diataxis framework (15 docs): tutorials, how-to, reference, explanation</li>
+            <li>Fixed 3 DQ edge-case bugs that unit tests missed</li>
+          </ul>
+          <p><em>85 files changed &middot; +3,533 / −148</em></p>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.6.0</span>
+          <span class="release-date">Mar 10, 2026 &middot; Session 6</span>
+          <span class="release-tag security">security</span>
+        </div>
+        <h3 class="release-title">WCAG accessibility, OWASP security &amp; spec gaps</h3>
+        <div class="release-body">
+          <ul>
+            <li>WCAG pass &mdash; ARIA labels, keyboard navigation, focus management</li>
+            <li>OWASP security headers (<code>X-Frame-Options</code>, <code>X-Content-Type-Options</code>, <code>Referrer-Policy</code>)</li>
+            <li>Sliding-window rate limiter (5 attempts / 15 min) on both login providers</li>
+            <li>Failed login attempts logged with timestamp</li>
+            <li>Test count: ~40 &rarr; 113 across 25 suites (+3 new edge-case suites)</li>
+          </ul>
+          <p><em>47 files changed &middot; +1,657 / −258</em></p>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.4.0</span>
+          <span class="release-date">Mar 9, 2026 (mid) &middot; Session 4</span>
+          <span class="release-tag feature">feature</span>
+        </div>
+        <h3 class="release-title">Box distribution algorithm</h3>
+        <div class="release-body">
+          <ul>
+            <li>Latin square box distribution generator &mdash; no repeat competitor at same table across categories</li>
+            <li>Distribution approval workflow with cascading delete guard</li>
+            <li>Category submission dialog for table captains</li>
+            <li>Server-side gates for competition state transitions</li>
+            <li>188 unit tests for the distribution generator alone</li>
+          </ul>
+          <p><em>17 files changed &middot; +1,006 / −100</em></p>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.3.0</span>
+          <span class="release-date">Mar 9, 2026 (AM) &middot; Session 3b</span>
+          <span class="release-tag security">security</span>
+        </div>
+        <h3 class="release-title">Security hardening</h3>
+        <div class="release-body">
+          <ul>
+            <li>Created <code>auth-guards.ts</code>: <code>requireAuth()</code>, <code>requireOrganizer()</code>, <code>requireJudge()</code>, <code>requireCaptain()</code></li>
+            <li>Retrofitted all 62 server actions with auth guards</li>
+            <li>Derived all user IDs from session &mdash; eliminated IDOR</li>
+            <li>Captain actions verify <code>table.captainId === userId</code></li>
+            <li>Wrapped multi-step mutations in <code>prisma.$transaction</code></li>
+          </ul>
+          <p><em>15 files changed &middot; +172 / −173</em></p>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.1.0</span>
+          <span class="release-date">Mar 8, 2026 &middot; Session 2</span>
+          <span class="release-tag feature">feature</span>
+        </div>
+        <h3 class="release-title">Complete application build</h3>
+        <div class="release-body">
+          <p>The big one &mdash; full app in one session.</p>
+          <ul>
+            <li>Prisma schema (12 models)</li>
+            <li>5 feature modules with full structure (competition, judging, scoring, tabulation, users)</li>
+            <li>NextAuth.js v5 with JWT strategy and 3 Credentials providers</li>
+            <li>Dashboard shell with role-based sidebar navigation</li>
+            <li>KCBS scoring constants and engine</li>
+            <li>Judge flow (4-phase setup: not-registered &rarr; awaiting-table &rarr; pick-seat &rarr; ready)</li>
+            <li>Scoring components (<code>ScorePicker</code>, <code>ScoreCard</code>, <code>SubmissionQueue</code>)</li>
+            <li>Captain dashboard (<code>TableStatusBoard</code>, <code>ScoreReviewTable</code>, <code>CorrectionRequestPanel</code>)</li>
+            <li>Tabulation engine (weighted scoring, drop-lowest, KCBS tiebreaking)</li>
+            <li>Results page (4-tab layout with 15s polling)</li>
+            <li>Design system: 11 common components + 10 UI primitives</li>
+          </ul>
+          <p><em>130 files changed &middot; +14,396 / −1,605</em> &mdash; later flagged in retrospective as "don't build the whole app in one commit."</p>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.0.1</span>
+          <span class="release-date">Mar 6, 2026 &middot; Session 1</span>
+          <span class="release-tag feature">feature</span>
+        </div>
+        <h3 class="release-title">Project scaffolding</h3>
+        <div class="release-body">
+          <ul>
+            <li>Next.js 14.2 with TypeScript strict mode and App Router</li>
+            <li>Tailwind CSS v3 with custom deep red theme (<code>#C0392B</code>)</li>
+            <li>Path aliases: <code>@/*</code>, <code>@features/*</code>, <code>@shared/*</code></li>
+            <li>shadcn/ui configured for new-york style</li>
+            <li>Initial <code>CLAUDE.md</code> with project constraints</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <div class="work-nav">
+      <a href="/work/judge-tool/roadmap/">&larr; Roadmap &amp; health</a>
+      <a href="/work/" class="next">Back to all work &rarr;</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-meta">
+      <a href="/">&larr; Back to James Chang</a>
+      <span style="margin: 0 0.5rem;">&middot;</span>
+      <a href="https://thejudgetool.com">Visit the live site</a>
+    </p>
+  </footer>
+</body>
+</html>

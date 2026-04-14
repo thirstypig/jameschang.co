@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>The Judge Tool — Under the hood — James Chang</title>
+  <meta name="description" content="Full build teardown of The Judge Tool: 16,424 lines of code, 113 tests, 12 database models, 62 server actions. KCBS scoring engine. Shipped in 20 days with transparent AI-assisted workflow.">
+  <link rel="canonical" href="https://jameschang.co/work/judge-tool/tech/">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/work/work.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="site-header">
+    <nav aria-label="Primary">
+      <a href="/#about">About</a>
+      <a href="/#projects">Projects</a>
+      <a href="/#case-studies">Case studies</a>
+      <a href="/work/">Work</a>
+    </nav>
+  </header>
+
+  <main id="main" class="work-main">
+    <p class="crumbs">
+      <a href="/">James Chang</a>
+      <span class="sep">/</span>
+      <a href="/work/">Work</a>
+      <span class="sep">/</span>
+      <span>The Judge Tool</span>
+      <span class="sep">/</span>
+      <span>Under the hood</span>
+    </p>
+
+    <div class="snapshot-banner">
+      <strong>Static snapshot</strong> of the in-app <code>/tech</code> build
+      teardown as of April 2026. Live version at
+      <a href="https://thejudgetool.com/tech">thejudgetool.com/tech</a>.
+    </div>
+
+    <div class="work-hero">
+      <p class="eyebrow">The Judge Tool &middot; Tech / Under the hood</p>
+      <h1>A full-stack KCBS judging platform, shipped in 20 days.</h1>
+      <p class="subtitle">
+        16,424 lines of code, 113 passing tests, 12 Prisma models, 62 auth-guarded
+        server actions. Built methodically across 13 sessions with a transparent
+        AI-assisted workflow.
+      </p>
+    </div>
+
+    <section class="work-section">
+      <h2>By the numbers</h2>
+      <div class="stats-grid">
+        <div class="stat"><span class="stat-value">16,424</span><span class="stat-label">lines of code (8,280 client / 8,144 server)</span></div>
+        <div class="stat"><span class="stat-value">136</span><span class="stat-label">source files (.ts, .tsx)</span></div>
+        <div class="stat"><span class="stat-value">39</span><span class="stat-label">React components</span></div>
+        <div class="stat"><span class="stat-value">62</span><span class="stat-label">server actions, all auth-guarded</span></div>
+        <div class="stat"><span class="stat-value">12</span><span class="stat-label">Prisma models</span></div>
+        <div class="stat"><span class="stat-value">113</span><span class="stat-label">unit tests across 25 suites, all passing</span></div>
+        <div class="stat"><span class="stat-value">5</span><span class="stat-label">feature modules (domain-driven)</span></div>
+        <div class="stat"><span class="stat-value">1,561</span><span class="stat-label">lines of documentation (Diataxis framework)</span></div>
+      </div>
+    </section>
+
+    <section class="work-section">
+      <h2>Cost comparison</h2>
+      <p class="lede">
+        This project's published <code>/tech</code> page is transparent about cost
+        vs. two alternatives. It's unusual to see and worth quoting directly.
+      </p>
+      <div class="stack-grid">
+        <div class="stack-cat">
+          <h4>US Dev Shop</h4>
+          <div class="items"><strong>$150–250/hr @ 400–600 hrs</strong><br>$60K–150K total</div>
+        </div>
+        <div class="stack-cat">
+          <h4>Offshore</h4>
+          <div class="items"><strong>$25–60/hr @ 500–800 hrs</strong><br>$12.5K–48K total</div>
+        </div>
+        <div class="stack-cat">
+          <h4>AI-Assisted (this project)</h4>
+          <div class="items"><strong>$20/mo API @ 40–60 hours</strong><br>$800–1,200 total</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="work-section">
+      <h2>AI development workflow</h2>
+      <div class="module">
+        <h3 class="module-name">How it actually works</h3>
+        <ul style="padding-left: 1.25rem; font-size: 0.9375rem; line-height: 1.6;">
+          <li><strong>Terminal-only development.</strong> Every line goes through Claude Code (CLI). No IDE inline suggestions.</li>
+          <li><strong><code>CLAUDE.md</code> as context bridge.</strong> A 103-line file gives each new session the full project context &mdash; stack constraints, business rules, auth patterns, seed data. Eliminates "starting from zero every conversation."</li>
+          <li><strong>Session = 1 conversation = 1 PR.</strong> Each session produces exactly one PR, ranging from focused fixes (PR #3: 15 files) to large feature ships (PR #1: 130 files).</li>
+          <li><strong>Human directs, AI implements.</strong> Humans made the architecture decisions (feature modules, security model, UX flows). The AI generated implementation, tests, documentation. Code review happened before merge, not after.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="work-section">
+      <h2>Architecture</h2>
+      <div class="arch-block">Browser (Next.js 14 App Router)
+    │
+    ├──▶ Server components ──▶ Prisma ──▶ Supabase PostgreSQL
+    ├──▶ Server actions (62) ──▶ auth-guards.ts ──▶ requireRole(x)
+    │                            │
+    │                            └──▶ bcrypt (PIN), Zod (validation), transactions
+    │
+    ├──▶ NextAuth.js v5 (JWT)
+    │        ├── Credentials: organizer password
+    │        ├── Credentials: judge PIN
+    │        └── Credentials: captain
+    │
+    ├──▶ Client components (39)
+    │        ├── 11 shared common + 10 UI primitives (shadcn)
+    │        ├── next-themes dark/light
+    │        └── Mermaid.js for diagrams
+    │
+    └──▶ Rate limiter (in-memory sliding window, 5/15min)
+
+Tests
+    ├── Vitest (113 unit, 25 suites) ──▶ Pure-function tested
+    │                                     (scoring, distribution, validation)
+    └── E2E simulation script ──▶ 2,000+ assertions
+                                  seed → distribute → score 4 cats → tabulate → validate</div>
+    </section>
+
+    <section class="work-section">
+      <h2>Tech stack</h2>
+      <div class="stack-grid">
+        <div class="stack-cat">
+          <h4>Frontend</h4>
+          <div class="items">Next.js 14.2 (App Router), React 18, TypeScript 5 (strict), Tailwind v3, shadcn/ui, Zustand, React Hook Form, Zod, next-themes, Lucide, Mermaid.js</div>
+        </div>
+        <div class="stack-cat">
+          <h4>Backend</h4>
+          <div class="items">Prisma 5, Supabase PostgreSQL, NextAuth.js v5 (JWT + 3 Credentials providers), bcryptjs, custom sliding-window rate limiter</div>
+        </div>
+        <div class="stack-cat">
+          <h4>Testing</h4>
+          <div class="items">Vitest (113 tests across 25 suites), E2E simulation script (2,000+ assertions, found 3 bugs unit tests missed)</div>
+        </div>
+        <div class="stack-cat">
+          <h4>Infrastructure</h4>
+          <div class="items">Vercel (free tier, auto-deploy), GitHub Pages (static marketing), Supabase, tsx</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="work-section">
+      <h2>Feature modules</h2>
+      <p class="lede">5 domain modules following a consistent pattern: <code>actions/</code>, <code>components/</code>, <code>types/</code>, <code>schemas/</code>, <code>store/</code>, <code>index.ts</code> barrel.</p>
+      <div class="stack-grid">
+        <div class="stack-cat">
+          <h4>competition</h4>
+          <div class="items">Lifecycle, category advancement, box distribution, judge/table management. <strong>27 actions, 12 components.</strong></div>
+        </div>
+        <div class="stack-cat">
+          <h4>judging</h4>
+          <div class="items">Judge setup flow (4 phases), score submission, comment cards. <strong>16 actions, 13 components.</strong></div>
+        </div>
+        <div class="stack-cat">
+          <h4>scoring</h4>
+          <div class="items">Table captain dashboard, score review, correction requests. <strong>9 actions, 6 components.</strong></div>
+        </div>
+        <div class="stack-cat">
+          <h4>tabulation</h4>
+          <div class="items">KCBS scoring engine, tiebreaking, winner declaration, audit. <strong>7 actions, 7 components.</strong></div>
+        </div>
+        <div class="stack-cat">
+          <h4>users</h4>
+          <div class="items">Judge import (single + bulk), search. <strong>3 actions, 1 component.</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="work-section">
+      <h2>Lessons learned</h2>
+      <div class="stack-grid">
+        <div class="stack-cat">
+          <h4>What worked</h4>
+          <div class="items">
+            <p><strong>CLAUDE.md is critical.</strong> 103 lines of cross-session context eliminates re-briefing every session.</p>
+            <p><strong>Pure functions for business logic.</strong> KCBS scoring, box distribution, validation all extracted and tested (113 passing tests).</p>
+            <p><strong>Feature module pattern.</strong> 5 modules with identical structure keeps the code navigable as it scales.</p>
+            <p><strong>E2E simulation catches what unit tests miss.</strong> Found 3 scoring bugs that passed code review.</p>
+          </div>
+        </div>
+        <div class="stack-cat">
+          <h4>What was hard</h4>
+          <div class="items">
+            <p><strong>Security is easier to build in than bolt on.</strong> Auth guards should be in commit 1, not commit 3.</p>
+            <p><strong>AI generates code faster than you can review.</strong> Added automated verification (tests, simulation) instead of rushing reviews.</p>
+            <p><strong>Don't build the whole app in one commit.</strong> PR #1 (130 files) made debugging nearly impossible. Incremental PRs are better.</p>
+            <p><strong>Sketch navigation before coding.</strong> Avoided dead routes and rework.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="work-section">
+      <h2>Live screenshots</h2>
+      <img src="/assets/work/judge-tool/organizer-competition-control.png" alt="Organizer dashboard showing competition category control" class="screenshot" loading="lazy">
+      <p class="screenshot-caption">Organizer dashboard &mdash; category advancement and live competition control.</p>
+      <img src="/assets/work/judge-tool/judge-scoring.png" alt="Judge scoring interface showing the 4-phase flow" class="screenshot" loading="lazy">
+      <p class="screenshot-caption">Judge scoring interface &mdash; KCBS-compliant score entry (1, 2, 5–9).</p>
+      <img src="/assets/work/judge-tool/captain-dashboard.png" alt="Table captain dashboard with score review" class="screenshot" loading="lazy">
+      <p class="screenshot-caption">Table captain view &mdash; score review and correction-request approvals.</p>
+    </section>
+
+    <div class="work-nav">
+      <a href="/work/fantastic-leagues/changelog/">&larr; Fantastic Leagues changelog</a>
+      <a href="/work/judge-tool/roadmap/" class="next">Roadmap &amp; health &rarr;</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-meta">
+      <a href="/">&larr; Back to James Chang</a>
+      <span style="margin: 0 0.5rem;">&middot;</span>
+      <a href="https://thejudgetool.com">Visit the live site</a>
+    </p>
+  </footer>
+</body>
+</html>

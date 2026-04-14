@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>The Fantastic Leagues — Changelog — James Chang</title>
+  <meta name="description" content="Recent releases through v0.57 of The Fantastic Leagues — admin dashboard, session tracking, error correlation, parallel-agent build workflow.">
+  <link rel="canonical" href="https://jameschang.co/work/fantastic-leagues/changelog/">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/work/work.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="site-header">
+    <nav aria-label="Primary">
+      <a href="/#about">About</a>
+      <a href="/#projects">Projects</a>
+      <a href="/#case-studies">Case studies</a>
+      <a href="/work/">Work</a>
+    </nav>
+  </header>
+
+  <main id="main" class="work-main">
+    <p class="crumbs">
+      <a href="/">James Chang</a>
+      <span class="sep">/</span>
+      <a href="/work/">Work</a>
+      <span class="sep">/</span>
+      <span>The Fantastic Leagues</span>
+      <span class="sep">/</span>
+      <span>Changelog</span>
+    </p>
+
+    <div class="snapshot-banner">
+      <strong>Static snapshot</strong> showing the most recent five releases
+      (v0.53 &rarr; v0.57) as of April 2026. Live changelog at
+      <a href="https://thefantasticleagues.com/changelog">thefantasticleagues.com/changelog</a>.
+    </div>
+
+    <div class="work-hero">
+      <p class="eyebrow">The Fantastic Leagues &middot; Changelog</p>
+      <h1>Recent releases.</h1>
+      <p class="subtitle">
+        v0.57.0 is the latest as of this snapshot. Releases ship every 1–3 days
+        depending on scope; each one carries a thematic title, 4–6 user-facing
+        highlights, and 10–30 detailed changes categorized by type.
+      </p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat"><span class="stat-value">v0.57.0</span><span class="stat-label">most recent (Apr 13, 2026)</span></div>
+      <div class="stat"><span class="stat-value">63</span><span class="stat-label">total sessions since Nov 2025</span></div>
+      <div class="stat"><span class="stat-value">732</span><span class="stat-label">tests passing, 0 failing</span></div>
+      <div class="stat"><span class="stat-value">~2.5 h</span><span class="stat-label">parallel-agent build (vs ~10h sequential)</span></div>
+    </div>
+
+    <section class="work-section">
+      <h2>Recent releases</h2>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.57.0</span>
+          <span class="release-date">2026-04-13 &middot; Session 63</span>
+          <span class="release-tag feature">feature</span>
+        </div>
+        <h3 class="release-title">Launch readiness, admin IA, dashboard, error correlation, session tracking</h3>
+        <div class="release-body">
+          <p><strong>Highlights</strong></p>
+          <ul>
+            <li>Admin dashboard rebuilt as a 5-row card grid &mdash; stat cards, league health, AI summary, Todo progress, activity feed, recent errors</li>
+            <li>Side nav reorganized: dedicated Admin section with 3 sub-groups (Operations / Planning / Reference)</li>
+            <li>Error correlation: every 500 returns an <code>ERR-</code> code + admin-only <code>detail</code> field; click-to-copy toast; in-memory ring buffer feeds <code>/admin</code> dashboard</li>
+            <li>Session tracking: <code>UserSession</code> + <code>UserMetrics</code> + <code>UserDeletionLog</code> tables, heartbeat hook (30s, BroadcastChannel, one-session-per-browser), <code>/admin/users</code> page with real data</li>
+            <li>Cross-linking: Roadmap phases and Concept cards now have stable anchor IDs, hash-scroll + reverse links to related todos</li>
+            <li>Parallel-agent execution cut combined Phase A + Phase B build time from ~10 hours sequential to ~2.5 hours elapsed</li>
+          </ul>
+          <p><strong>Key changes</strong></p>
+          <ul>
+            <li><code>feat:</code> Admin dashboard: 5-row card grid at <code>/admin</code> with auto-refresh 60s, manual refresh button, graceful degradation</li>
+            <li><code>feat:</code> Session tracking &mdash; <code>UserSession</code>, <code>UserMetrics</code>, <code>UserDeletionLog</code> Prisma models with HOT-update optimization (no <code>lastSeenAt</code> index, fillfactor 80, aggressive autovacuum)</li>
+            <li><code>feat:</code> <code>POST /api/sessions/start | /heartbeat | /end</code> &mdash; ownership checks, 20/min heartbeat rate limit, concurrent-session cap 10, AuditLog LOGIN entries, credential-stuffing canary</li>
+            <li><code>feat:</code> <code>lib/ipHash.ts</code> &mdash; HMAC-SHA256 IP hasher with fail-fast if <code>IP_HASH_SECRET</code> missing; IPv4 /24 + IPv6 /48 truncation</li>
+            <li><code>test:</code> +30 tests (16 server session, 7 client hook, 7 admin users) &mdash; total suite 732 passing, 0 failing</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.56.0</span>
+          <span class="release-date">2026-04-12 &middot; Session 62 (cont.)</span>
+          <span class="release-tag feature">feature</span>
+        </div>
+        <h3 class="release-title">Admin system, draft report regen, waiver priority by period, YouTube fix</h3>
+        <div class="release-body">
+          <ul>
+            <li>New <code>/todo</code> page &mdash; category-based micro-task tracker with cross-links to Roadmap/Concepts</li>
+            <li>Concepts page rebuilt with 4 tabs: Strategic / SEO Pages / Integrations / UX Mockups</li>
+            <li>Waiver priority UI now uses period-based standings (matches server processing logic)</li>
+            <li>Draft Report regenerated with admin bypass &mdash; all 8 teams graded A- to F</li>
+            <li>YouTube embeds switched to <code>youtube-nocookie.com</code> (fixes prod playback)</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.55.0</span>
+          <span class="release-date">2026-04-10 &middot; Session 62</span>
+          <span class="release-tag improvement">improvement</span>
+        </div>
+        <h3 class="release-title">Auction player enrichment, add/drop error handling, position sort, standings verified</h3>
+        <div class="release-body">
+          <ul>
+            <li>Auction nomination and force-assign now populate <code>mlbTeam</code> on Player records &mdash; no more "—" for newly drafted players</li>
+            <li>Add/drop claim errors return proper 400 with descriptive messages instead of opaque 500</li>
+            <li>Team page roster sorted by shared <code>POS_SCORE</code> constant; pitchers now sorted by position (SP before RP)</li>
+            <li>Scoring and standings verified: 8 teams, 7 periods, roto points computed correctly</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.54.0</span>
+          <span class="release-date">2026-04-09 &middot; Session 61</span>
+          <span class="release-tag feature">feature</span>
+        </div>
+        <h3 class="release-title">AI trade analyzer, insights cache, keeper recommender</h3>
+        <div class="release-body">
+          <ul>
+            <li>Trade analyzer shipped &mdash; evaluates proposed trade for both sides with category-weighted analysis</li>
+            <li>Keeper recommender &mdash; surfaces value picks accounting for salary inflation + positional scarcity</li>
+            <li>Shared insights cache in SQLite (via MCP proxy) &mdash; duplicate prompts return in &lt; 50ms instead of new inference</li>
+            <li>Google Gemini 2.5 Flash remains primary; Anthropic Claude Sonnet 4 now fully wired as fallback</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v0.53.0</span>
+          <span class="release-date">2026-04-07 &middot; Session 60</span>
+          <span class="release-tag security">security</span>
+        </div>
+        <h3 class="release-title">CSP, HSTS, rate-limit tuning, retrospective</h3>
+        <div class="release-body">
+          <ul>
+            <li>Full CSP header deployed in Cloudflare Worker &mdash; blocks inline script unless nonce matches, blocks unapproved CDN</li>
+            <li>HSTS with <code>preload</code> directive, 2-year max-age</li>
+            <li>Rate limiter tuned per-endpoint &mdash; auth 5/min, auction nominations 2/s, heartbeat 20/min</li>
+            <li>Six-month retrospective published internally &mdash; 62 sessions, 26 modules, 730 tests, ~100M tokens estimated</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <section class="work-section">
+      <h2>Pattern across releases</h2>
+      <p>
+        Each version includes a <strong>thematic title</strong> connecting to product
+        goals, <strong>4&ndash;6 highlights</strong> (user-facing features), and
+        <strong>10&ndash;30 detailed changes</strong> categorized by type
+        (<code>feat</code> / <code>fix</code> / <code>perf</code> / <code>refactor</code> /
+        <code>test</code> / <code>docs</code> / <code>security</code>). Cross-links
+        to related docs and pages let someone jumping in mid-story find the context.
+      </p>
+    </section>
+
+    <div class="work-nav">
+      <a href="/work/fantastic-leagues/analytics/">&larr; Product &amp; AI</a>
+      <a href="/work/judge-tool/tech/" class="next">Next project: The Judge Tool &rarr;</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-meta">
+      <a href="/">&larr; Back to James Chang</a>
+      <span style="margin: 0 0.5rem;">&middot;</span>
+      <a href="https://thefantasticleagues.com">Visit the live site</a>
+    </p>
+  </footer>
+</body>
+</html>

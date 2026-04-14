@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>The Fantastic Leagues — Product & AI — James Chang</title>
+  <meta name="description" content="Product metrics, development velocity, and AI feature infrastructure for The Fantastic Leagues: 8 AI features (Gemini + Claude), PostHog tracking, 33-session velocity chart.">
+  <link rel="canonical" href="https://jameschang.co/work/fantastic-leagues/analytics/">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/work/work.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="site-header">
+    <nav aria-label="Primary">
+      <a href="/#about">About</a>
+      <a href="/#projects">Projects</a>
+      <a href="/#case-studies">Case studies</a>
+      <a href="/work/">Work</a>
+    </nav>
+  </header>
+
+  <main id="main" class="work-main">
+    <p class="crumbs">
+      <a href="/">James Chang</a>
+      <span class="sep">/</span>
+      <a href="/work/">Work</a>
+      <span class="sep">/</span>
+      <span>The Fantastic Leagues</span>
+      <span class="sep">/</span>
+      <span>Product &amp; AI</span>
+    </p>
+
+    <div class="snapshot-banner">
+      <strong>Static snapshot</strong> of the in-app <code>/analytics</code> page
+      as of April 2026. Live version at
+      <a href="https://thefantasticleagues.com/analytics">thefantasticleagues.com/analytics</a>.
+    </div>
+
+    <div class="work-hero">
+      <p class="eyebrow">The Fantastic Leagues &middot; Product &amp; AI</p>
+      <h1>How I measure what I ship, and how the AI actually works.</h1>
+      <p class="subtitle">
+        Product analytics powered by PostHog. Eight AI-powered features built on
+        Google Gemini (primary) and Anthropic Claude Sonnet (fallback). A velocity
+        chart of every session from scaffold to production.
+      </p>
+    </div>
+
+    <section class="work-section">
+      <h2>AI infrastructure</h2>
+      <p class="lede">
+        Two models, one purpose: produce league-context-aware fantasy baseball
+        analysis that reads the owner's league, not a generic playbook.
+      </p>
+
+      <div class="stats-grid">
+        <div class="stat"><span class="stat-value">8</span><span class="stat-label">AI-powered features</span></div>
+        <div class="stat"><span class="stat-value">2</span><span class="stat-label">models (Gemini primary + Claude fallback)</span></div>
+        <div class="stat"><span class="stat-value">60–90s</span><span class="stat-label">request timeout</span></div>
+        <div class="stat"><span class="stat-value">~8 KB</span><span class="stat-label">max output per call</span></div>
+      </div>
+
+      <div class="module">
+        <h3 class="module-name">The eight AI features</h3>
+        <ul class="feature-list" style="column-count: 1;">
+          <li class="done"><strong>Draft grades</strong> &mdash; Post-auction team grade (A–F) with rationale across category strength, risk, upside, depth</li>
+          <li class="done"><strong>Trade analyzer</strong> &mdash; Evaluates proposed trades for both sides, flags category gaps, surfaces fair-value read</li>
+          <li class="done"><strong>Keeper recommender</strong> &mdash; Given salary inflation, ages, position scarcity, which keepers hold value?</li>
+          <li class="done"><strong>Waiver advisor</strong> &mdash; Ranks available players against your roster holes, not against raw projection</li>
+          <li class="done"><strong>Weekly insights</strong> &mdash; Per-team narrative of the week's moves and standings movement</li>
+          <li class="done"><strong>Bid advisor</strong> &mdash; During live auction: suggested max bid based on remaining budget + positional needs</li>
+          <li class="done"><strong>League digest</strong> &mdash; Weekly AI-generated recap with team grades and trade polls</li>
+          <li class="done"><strong>Insights cache</strong> &mdash; Shared cross-league cache to avoid duplicate inference for identical prompts</li>
+        </ul>
+      </div>
+
+      <div class="module">
+        <h3 class="module-name">How the cache works</h3>
+        <p class="module-desc">
+          League-context prompts are large and regenerating them every page
+          view would be expensive and slow. Instead, the MCP MLB proxy caches
+          MLB data in SQLite (shared across all leagues); AI responses are
+          cached per <code>(team_id, feature_key, data_hash)</code> tuple so
+          owners see near-instant responses on repeat views.
+        </p>
+      </div>
+    </section>
+
+    <section class="work-section">
+      <h2>Development velocity</h2>
+      <p class="lede">
+        33 tracked sessions since January 2026, 292 items completed. Peak
+        efficiency was Sessions 21–23 at 30 items/session (the code-review +
+        auth push).
+      </p>
+      <div class="timeline">
+        <div class="t-label">S1–2</div><div class="t-body"><span class="t-bar" style="width: 15px;"></span>3 items &middot; Scaffolding</div>
+        <div class="t-label">S3–6</div><div class="t-body"><span class="t-bar" style="width: 40px;"></span>8 items &middot; Core features</div>
+        <div class="t-label">S7–10</div><div class="t-body"><span class="t-bar" style="width: 70px;"></span>14 items &middot; Auction, trades, security</div>
+        <div class="t-label">S11–14</div><div class="t-body"><span class="t-bar" style="width: 60px;"></span>12 items &middot; Archive, design</div>
+        <div class="t-label">S15–17</div><div class="t-body"><span class="t-bar" style="width: 80px;"></span>16 items &middot; Scripts, maintenance, franchise</div>
+        <div class="t-label">S18–20</div><div class="t-body"><span class="t-bar" style="width: 110px;"></span>22 items &middot; Season gating, testing</div>
+        <div class="t-label">S21–23</div><div class="t-body"><span class="t-bar" style="width: 150px;"></span><strong>30 items</strong> &middot; Code review, auth, MCP &mdash; peak</div>
+        <div class="t-label">S24–25</div><div class="t-body"><span class="t-bar" style="width: 130px;"></span>26 items &middot; Live data, auction prep</div>
+        <div class="t-label">S26–27</div><div class="t-body"><span class="t-bar" style="width: 120px;"></span>24 items &middot; Stats, bid tracking, roadmap</div>
+        <div class="t-label">S28–30</div><div class="t-body"><span class="t-bar" style="width: 140px;"></span>28 items &middot; Auction UX, proxy, chat, sounds</div>
+        <div class="t-label">S31</div><div class="t-body"><span class="t-bar" style="width: 155px;"></span>31 items &middot; My Val, guides, code review</div>
+        <div class="t-label">S32</div><div class="t-body"><span class="t-bar" style="width: 125px;"></span>25 items &middot; AI, reliability, mobile, PWA</div>
+        <div class="t-label">S33</div><div class="t-body"><span class="t-bar" style="width: 65px;"></span>13 items &middot; Deploy, CSP, HSTS, retrospective</div>
+      </div>
+      <p>
+        <strong>Average:</strong> 8.8 items per session &middot;
+        <strong>Peak:</strong> 31 items (S21–23) &middot;
+        <strong>Growth:</strong> +1,033% (Session 1–2 to Session 32)
+      </p>
+    </section>
+
+    <section class="work-section">
+      <h2>Product metrics</h2>
+      <p class="lede">
+        Five tracking metrics live, two planned. Event schema is deliberately
+        narrow so it stays useful instead of devolving into noise.
+      </p>
+
+      <div class="module">
+        <h3 class="module-name">Tracking now</h3>
+        <ul class="feature-list" style="column-count: 1;">
+          <li class="done"><strong>Pageviews</strong> &mdash; Page-level tracking with SPA-aware navigation events</li>
+          <li class="done"><strong>User identity</strong> &mdash; Authenticated users identified by email for session continuity</li>
+          <li class="done"><strong>Feature adoption</strong> &mdash; Auth flows, trade proposals, waiver claims, keeper saves, watchlist actions</li>
+          <li class="done"><strong>Auction engagement</strong> &mdash; Nominate, bid, proxy bid, chat, init, finish, force assign, watchlist toggle, WebSocket reconnects</li>
+          <li class="done"><strong>Error tracking</strong> &mdash; React error boundaries report crashes with component name and stack trace</li>
+        </ul>
+      </div>
+
+      <div class="module">
+        <h3 class="module-name">Planned</h3>
+        <ul class="feature-list" style="column-count: 1;">
+          <li class="planned"><strong>Page performance</strong> &mdash; Load times, slow API calls, rendering bottlenecks</li>
+          <li class="planned"><strong>Click tracking</strong> &mdash; Granular interaction events: tab switches, modal opens, sort changes</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="work-section">
+      <h2>Questions I'm trying to answer</h2>
+      <p class="lede">
+        The point of analytics is to answer specific product questions, not to
+        accumulate dashboards. These four are the active ones.
+      </p>
+
+      <article class="release">
+        <div class="release-head"><span class="release-version">Q1</span></div>
+        <h3 class="release-title">What pages do owners visit most?</h3>
+        <p class="release-body">
+          <strong>Hypothesis:</strong> Home (standings), Team roster, Auction, Activity feed.<br>
+          <strong>Source:</strong> PostHog pageviews &middot; <strong>Status:</strong> tracking live.
+        </p>
+      </article>
+
+      <article class="release">
+        <div class="release-head"><span class="release-version">Q2</span></div>
+        <h3 class="release-title">How engaged are owners during auction?</h3>
+        <p class="release-body">
+          <strong>Measurement:</strong> WebSocket bid events, nomination rate, session duration.
+          Draft Board log already tracks per-lot bid history.<br>
+          <strong>Source:</strong> auction bid history + PostHog &middot; <strong>Status:</strong> tracking live.
+        </p>
+      </article>
+
+      <article class="release">
+        <div class="release-head"><span class="release-version">Q3</span></div>
+        <h3 class="release-title">Are trades and waivers being used?</h3>
+        <p class="release-body">
+          <strong>Measurement:</strong> proposal rate, vote response time, waiver claim frequency.
+          Low adoption may indicate UX friction.<br>
+          <strong>Source:</strong> transaction events + PostHog &middot; <strong>Status:</strong> tracking live.
+        </p>
+      </article>
+
+      <article class="release">
+        <div class="release-head"><span class="release-version">Q4</span></div>
+        <h3 class="release-title">Which features need mobile optimization?</h3>
+        <p class="release-body">
+          <strong>Measurement:</strong> PostHog viewport data shows device breakdown.
+          Pages with high mobile traffic but poor engagement need responsive work.<br>
+          <strong>Source:</strong> PostHog device properties &middot; <strong>Status:</strong> collecting data.
+        </p>
+      </article>
+    </section>
+
+    <div class="work-nav">
+      <a href="/work/fantastic-leagues/tech/">&larr; Under the hood</a>
+      <a href="/work/fantastic-leagues/changelog/" class="next">Changelog &rarr;</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-meta">
+      <a href="/">&larr; Back to James Chang</a>
+      <span style="margin: 0 0.5rem;">&middot;</span>
+      <a href="https://thefantasticleagues.com">Visit the live site</a>
+    </p>
+  </footer>
+</body>
+</html>

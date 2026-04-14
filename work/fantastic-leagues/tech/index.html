@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>The Fantastic Leagues — Under the hood — James Chang</title>
+  <meta name="description" content="Under-the-hood page for The Fantastic Leagues: 84,400 lines of code, 26 feature modules, 730 passing tests, 62 build sessions across six months. Full stack and architecture.">
+  <link rel="canonical" href="https://jameschang.co/work/fantastic-leagues/tech/">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/work/work.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="site-header">
+    <nav aria-label="Primary">
+      <a href="/#about">About</a>
+      <a href="/#projects">Projects</a>
+      <a href="/#case-studies">Case studies</a>
+      <a href="/work/">Work</a>
+    </nav>
+  </header>
+
+  <main id="main" class="work-main">
+    <p class="crumbs">
+      <a href="/">James Chang</a>
+      <span class="sep">/</span>
+      <a href="/work/">Work</a>
+      <span class="sep">/</span>
+      <span>The Fantastic Leagues</span>
+      <span class="sep">/</span>
+      <span>Under the hood</span>
+    </p>
+
+    <div class="snapshot-banner">
+      <strong>Static snapshot</strong> of the in-app <code>/tech</code> page as of
+      April 2026. Live version at
+      <a href="https://thefantasticleagues.com/tech">thefantasticleagues.com/tech</a>.
+    </div>
+
+    <div class="work-hero">
+      <p class="eyebrow">The Fantastic Leagues &middot; Tech / Under the hood</p>
+      <h1>How the whole thing is built.</h1>
+      <p class="subtitle">
+        Six months, 62 development sessions, 730 passing tests. The Fantastic
+        Leagues is a fantasy baseball platform with live auction WebSockets, 8 AI
+        features, and 15 years of historical league data imported from Excel.
+      </p>
+    </div>
+
+    <section class="work-section">
+      <h2>By the numbers</h2>
+      <div class="stats-grid">
+        <div class="stat"><span class="stat-value">84,400+</span><span class="stat-label">total lines of code</span></div>
+        <div class="stat"><span class="stat-value">26</span><span class="stat-label">feature modules</span></div>
+        <div class="stat"><span class="stat-value">49</span><span class="stat-label">database models</span></div>
+        <div class="stat"><span class="stat-value">228</span><span class="stat-label">API route handlers</span></div>
+        <div class="stat"><span class="stat-value">730</span><span class="stat-label">tests passing</span></div>
+        <div class="stat"><span class="stat-value">470+</span><span class="stat-label">git commits</span></div>
+        <div class="stat"><span class="stat-value">62</span><span class="stat-label">build sessions</span></div>
+        <div class="stat"><span class="stat-value">8</span><span class="stat-label">AI-powered features</span></div>
+      </div>
+      <p>
+        Splits: <strong>44,500</strong> lines client-side (React + Vite),
+        <strong>39,900</strong> server-side (Express + Prisma),
+        <strong>1,370</strong> MCP server. Test coverage:
+        <strong>12,900+</strong> lines of tests (473 server + 187 client + 50 MCP = 730 passing).
+        Database schema: <strong>1,131</strong> lines across <strong>15</strong> migrations.
+      </p>
+    </section>
+
+    <section class="work-section">
+      <h2>Architecture</h2>
+      <div class="arch-block">Browser (React + Vite) ──REST /api/*──▶ Express API (:4010)
+                        ──ws://auction─▶ WebSocket
+                        ──Session tokens─▶ Supabase Auth
+
+API ──Prisma ORM──▶ PostgreSQL (Supabase)
+API ──JWT verify──▶ Supabase Auth
+API ──Player data──▶ MLB Stats API
+API ──Shared cache──▶ MCP MLB Proxy (SQLite)
+API ──AI analysis──▶ Google Gemini 2.5 Flash
+API ──AI fallback──▶ Anthropic Claude Sonnet 4
+API ──Invite emails──▶ Resend
+MCP ──Cached requests──▶ MLB Stats API
+WS ──Auction state──▶ API</div>
+    </section>
+
+    <section class="work-section">
+      <h2>Tech stack</h2>
+      <div class="stack-grid">
+        <div class="stack-cat">
+          <h4>Frontend</h4>
+          <div class="items">React 18, TypeScript, Vite, Tailwind CSS, React Router v6, Lucide React, Radix UI, Headless UI, dnd-kit, PostHog</div>
+        </div>
+        <div class="stack-cat">
+          <h4>Backend</h4>
+          <div class="items">Node.js + Express, TypeScript (ESM), Prisma ORM, Zod, Helmet, express-rate-limit, Multer, node-cron, WebSocket (ws), web-push</div>
+        </div>
+        <div class="stack-cat">
+          <h4>Database &amp; Auth</h4>
+          <div class="items">PostgreSQL (Supabase), Supabase Auth, Supabase JS Client, bcryptjs, jsonwebtoken</div>
+        </div>
+        <div class="stack-cat">
+          <h4>Data &amp; Integrations</h4>
+          <div class="items">MLB Stats API, MCP MLB Data Proxy, Google Gemini 2.5 Flash, Anthropic Claude Sonnet 4, Resend, xlsx, csv-parse, better-sqlite3</div>
+        </div>
+        <div class="stack-cat">
+          <h4>Testing &amp; Quality</h4>
+          <div class="items">Vitest, React Testing Library, Supertest, ESLint &mdash; 730 tests (473 server + 187 client + 50 MCP), 0 failures</div>
+        </div>
+        <div class="stack-cat">
+          <h4>Infrastructure</h4>
+          <div class="items">Railway (API + MCP), GitHub Pages (marketing), Cloudflare (DNS + CDN), Supabase (DB + auth), PostHog Cloud</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="work-section">
+      <h2>26 feature modules</h2>
+      <p class="lede">Each module follows an identical pattern: <code>actions/</code>, <code>components/</code>, <code>types/</code>, <code>schemas/</code>, <code>store/</code>, <code>index.ts</code> barrel. Both client and server mirror the same 26-module split.</p>
+      <div style="columns: 2; column-gap: 2rem; font-size: 0.9375rem; line-height: 1.6;">
+        <p><strong>auth</strong> &mdash; login, signup, password reset, Google OAuth</p>
+        <p><strong>leagues</strong> &mdash; league CRUD, rules configuration</p>
+        <p><strong>teams</strong> &mdash; management, roster views</p>
+        <p><strong>players</strong> &mdash; search, stats, 1,652 players synced daily</p>
+        <p><strong>roster</strong> &mdash; grid, controls, bulk import</p>
+        <p><strong>standings</strong> &mdash; live category tracking</p>
+        <p><strong>trades</strong> &mdash; proposal flow with voting</p>
+        <p><strong>waivers</strong> &mdash; FAAB bidding, priority order</p>
+        <p><strong>transactions</strong> &mdash; full history with audit</p>
+        <p><strong>auction</strong> &mdash; live WebSocket draft, 50+ concurrent</p>
+        <p><strong>keeper-prep</strong> &mdash; selection + AI recommendations</p>
+        <p><strong>commissioner</strong> &mdash; league admin tools</p>
+        <p><strong>seasons</strong> &mdash; lifecycle management</p>
+        <p><strong>admin</strong> &mdash; system-level operations</p>
+        <p><strong>archive</strong> &mdash; 17 years of historical data</p>
+        <p><strong>periods</strong> &mdash; stat periods, season views</p>
+        <p><strong>franchises</strong> &mdash; ownership history</p>
+        <p><strong>mlb-feed</strong> &mdash; live stats integration</p>
+        <p><strong>board</strong> &mdash; league message board</p>
+        <p><strong>community</strong> &mdash; cross-league feed</p>
+        <p><strong>chat</strong> &mdash; real-time auction chat</p>
+        <p><strong>notifications</strong> &mdash; push + email</p>
+        <p><strong>draft</strong> &mdash; full draft lifecycle</p>
+        <p><strong>matchups</strong> &mdash; H2H scoring engine</p>
+        <p><strong>profiles</strong> &mdash; user accounts</p>
+        <p><strong>+ mcp-proxy</strong> &mdash; shared cache server</p>
+      </div>
+    </section>
+
+    <section class="work-section">
+      <h2>Build journal</h2>
+      <p class="lede">Six months, 62 sessions. Grouped here into themes.</p>
+      <div class="timeline">
+        <div class="t-label">Nov 2025 &middot; S1–2</div>
+        <div class="t-body"><span class="t-bar" style="width: 30px;"></span>Scaffolding &mdash; Vite + Express + Prisma, Supabase auth, 10 initial models</div>
+        <div class="t-label">Dec 2025 &middot; S3–6</div>
+        <div class="t-body"><span class="t-bar" style="width: 80px;"></span>Core features &mdash; teams, rosters, player search, standings engine</div>
+        <div class="t-label">Jan 2026 &middot; S7–10</div>
+        <div class="t-body"><span class="t-bar" style="width: 140px;"></span>The hard stuff &mdash; live auction WebSocket, trade proposals, FAAB waivers, commissioner tools</div>
+        <div class="t-label">Feb 2026 &middot; S11–14</div>
+        <div class="t-body"><span class="t-bar" style="width: 120px;"></span>Archive &amp; design &mdash; 17 years of Excel parsing, design system overhaul, file-naming cleanup</div>
+        <div class="t-label">Mar 2026 &middot; S15–20</div>
+        <div class="t-body"><span class="t-bar" style="width: 160px;"></span>Hardening &mdash; season lifecycle, franchise refactor, +116 new tests, service extraction</div>
+        <div class="t-label">Mar 2026 &middot; S21–23</div>
+        <div class="t-body"><span class="t-bar" style="width: 200px;"></span>Polish &amp; auth &mdash; 6-agent code review, password reset, Google OAuth, Resend SMTP, MCP proxy (644 tests)</div>
+        <div class="t-label">Mar 2026 &middot; S24–25</div>
+        <div class="t-body"><span class="t-bar" style="width: 180px;"></span>Live data &amp; auction prep &mdash; live standings, all-team MLB sync, 4 test leagues prepped (670 tests)</div>
+        <div class="t-label">Mar 2026 &middot; S26–27</div>
+        <div class="t-body"><span class="t-bar" style="width: 170px;"></span>Stats &amp; code review &mdash; 2025 player stats, auction bid tracking, 6-agent review (660 tests)</div>
+        <div class="t-label">Mar 2026 &middot; S28–33</div>
+        <div class="t-body"><span class="t-bar" style="width: 220px;"></span>Meta pages, analytics, production &mdash; /changelog /status /analytics, tech-debt cleanup, production deployment (710 tests)</div>
+      </div>
+    </section>
+
+    <section class="work-section">
+      <h2>Live screenshots</h2>
+      <img src="/assets/work/fantastic-leagues/11-home-dashboard.png" alt="Home dashboard with live standings and team overview" class="screenshot" loading="lazy">
+      <p class="screenshot-caption">Home dashboard &mdash; live standings, team roster preview, recent activity feed.</p>
+      <img src="/assets/work/fantastic-leagues/05-auction-nominating-dark.png" alt="Live auction draft in dark mode showing nomination and bidding" class="screenshot" loading="lazy">
+      <p class="screenshot-caption">Live auction draft &mdash; WebSocket-driven, supports 50+ concurrent bidders.</p>
+      <img src="/assets/work/fantastic-leagues/10-players-stats.png" alt="Player stats table with search and filtering" class="screenshot" loading="lazy">
+      <p class="screenshot-caption">Player stats &mdash; MLB Stats API feed, MCP proxy with SQLite cache.</p>
+      <img src="/assets/work/fantastic-leagues/team-page-ai.png" alt="Team page with AI-generated insights" class="screenshot" loading="lazy">
+      <p class="screenshot-caption">Team page with AI insights &mdash; Google Gemini primary, Claude Sonnet fallback.</p>
+    </section>
+
+    <div class="work-nav">
+      <a href="/work/aleph/changelog/">&larr; Aleph changelog</a>
+      <a href="/work/fantastic-leagues/analytics/" class="next">Product &amp; AI &rarr;</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-meta">
+      <a href="/">&larr; Back to James Chang</a>
+      <span style="margin: 0 0.5rem;">&middot;</span>
+      <a href="https://thefantasticleagues.com">Visit the live site</a>
+    </p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,376 @@
+/* /work/ pages — extends main styles.css with snapshot-specific layout. */
+
+/* Wider max-width for data-dense pages */
+.work-main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+/* Breadcrumb */
+.crumbs {
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin: 0 0 2rem;
+}
+.crumbs a { color: var(--muted); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.crumbs a:hover { color: var(--accent); }
+.crumbs .sep { margin: 0 0.5rem; opacity: 0.5; }
+
+/* Snapshot banner at top of every work page */
+.snapshot-banner {
+  background: var(--card-bg);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  padding: 0.875rem 1.125rem;
+  margin: 0 0 2.5rem;
+  font-size: 0.9375rem;
+  color: var(--muted);
+  border-radius: 4px;
+}
+.snapshot-banner strong { color: var(--text); }
+
+/* Work-page hero */
+.work-hero h1 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  margin: 0 0 1rem;
+}
+.work-hero .eyebrow {
+  margin-bottom: 0.75rem;
+}
+.work-hero .subtitle {
+  font-size: 1.0625rem;
+  color: var(--muted);
+  max-width: 42rem;
+  margin: 0 0 2.5rem;
+  line-height: 1.5;
+}
+
+/* Stats grid (for Tech pages) */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1px;
+  margin: 2rem 0 3rem;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.stats-grid .stat {
+  padding: 1.25rem 1.25rem;
+  background: var(--card-bg);
+}
+.stats-grid .stat-value {
+  font-family: var(--serif);
+  font-size: 1.75rem;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  display: block;
+  margin-bottom: 0.25rem;
+}
+.stats-grid .stat-label {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+/* Release/version card (for Changelog pages) */
+.release {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.release:last-child { border-bottom: none; }
+.release-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.release-version {
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--accent);
+  padding: 0.1rem 0.5rem;
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+}
+.release-date {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+.release-tag {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+  background: var(--rule);
+  color: var(--muted);
+}
+.release-tag.security { background: #fde2d9; color: #8b2f1b; }
+.release-tag.feature { background: #e1ecdb; color: #3a5a2a; }
+.release-tag.improvement { background: #e7e0f0; color: #4a3a6a; }
+.release-tag.fix { background: #f5e8d4; color: #6b4a20; }
+@media (prefers-color-scheme: dark) {
+  .release-tag.security { background: #4a2820; color: #f0b8a3; }
+  .release-tag.feature { background: #2a3a20; color: #bdd0a5; }
+  .release-tag.improvement { background: #2f2a40; color: #c2b5e0; }
+  .release-tag.fix { background: #3f3220; color: #ddc79a; }
+}
+.release-title {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.25;
+  margin: 0.25rem 0 0.75rem;
+  width: 100%;
+}
+.release-body {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+.release-body ul { margin: 0.5rem 0 0 1.25rem; padding: 0; }
+.release-body li { margin-bottom: 0.25rem; }
+
+/* Module card (for Roadmap pages) */
+.module {
+  background: var(--card-bg);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1.5rem;
+}
+.module-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+.module-name {
+  font-family: var(--serif);
+  font-size: 1.375rem;
+  font-weight: 500;
+  margin: 0;
+}
+.module-progress {
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+.module-desc {
+  color: var(--muted);
+  margin: 0 0 1rem;
+  font-size: 0.9375rem;
+}
+.module-workflow {
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  background: var(--bg);
+  border-radius: 4px;
+  font-size: 0.9375rem;
+}
+.module-workflow strong { display: block; margin-bottom: 0.35rem; font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+.module-workflow ol { margin: 0; padding-left: 1.25rem; }
+.module-workflow li { margin-bottom: 0.15rem; }
+
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  font-size: 0.9375rem;
+  columns: 2;
+  column-gap: 1.5rem;
+}
+.feature-list li {
+  margin-bottom: 0.3rem;
+  break-inside: avoid;
+  line-height: 1.4;
+}
+.feature-list li::before {
+  display: inline-block;
+  width: 1.25rem;
+  font-weight: 600;
+}
+.feature-list li.done::before { content: "✓ "; color: #3a7a4a; }
+.feature-list li.planned::before { content: "○ "; color: var(--muted); }
+.feature-list li.deferred::before { content: "— "; color: var(--muted); opacity: 0.6; }
+.feature-list li.planned, .feature-list li.deferred { color: var(--muted); }
+
+@media (max-width: 600px) { .feature-list { columns: 1; } }
+
+/* Health scorecard radial (Judge Tool roadmap) */
+.scorecard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0 2.5rem;
+}
+.score-item {
+  text-align: center;
+  padding: 1rem;
+  background: var(--card-bg);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+}
+.score-value {
+  display: block;
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--accent);
+}
+.score-value .denom { font-size: 1rem; color: var(--muted); font-weight: 400; }
+.score-label { display: block; font-size: 0.8125rem; color: var(--muted); margin-top: 0.35rem; }
+
+/* Comparison table */
+.comp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  margin: 1.5rem 0;
+}
+.comp-table th, .comp-table td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--rule);
+  text-align: center;
+}
+.comp-table th:first-child, .comp-table td:first-child {
+  text-align: left;
+  font-weight: 500;
+}
+.comp-table th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+.comp-table .yes { color: #3a7a4a; font-weight: 600; }
+.comp-table .no { color: var(--muted); opacity: 0.5; }
+
+/* Tech architecture block (code-block looking) */
+.arch-block {
+  background: #1a1a1a;
+  color: #d0d0d0;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  padding: 1.5rem 1.75rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  white-space: pre;
+  margin: 1.5rem 0;
+}
+@media (prefers-color-scheme: dark) {
+  .arch-block { background: #0b0a09; border: 1px solid var(--rule); }
+}
+
+/* Stack categories */
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+.stack-cat {
+  padding: 1rem 1.25rem;
+  background: var(--card-bg);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+}
+.stack-cat h4 {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin: 0 0 0.5rem;
+}
+.stack-cat .items { font-size: 0.875rem; line-height: 1.5; }
+
+/* Screenshot */
+.screenshot {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  margin: 1.5rem 0;
+}
+.screenshot-caption {
+  font-size: 0.875rem;
+  color: var(--muted);
+  text-align: center;
+  margin: -1rem 0 1.5rem;
+}
+
+/* Section header inside a work page */
+.work-section {
+  margin: 3.5rem 0 1.5rem;
+}
+.work-section h2 {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.01em;
+}
+.work-section .lede {
+  color: var(--muted);
+  max-width: 40rem;
+  margin: 0 0 1.5rem;
+}
+
+/* Next/prev project nav at bottom */
+.work-nav {
+  display: flex;
+  justify-content: space-between;
+  margin: 4rem 0 0;
+  padding-top: 2rem;
+  border-top: 1px solid var(--rule);
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.work-nav a {
+  font-size: 0.9375rem;
+  color: var(--muted);
+  text-decoration: none;
+}
+.work-nav a:hover { color: var(--accent); }
+.work-nav a.next { text-align: right; }
+
+/* Session timeline (for velocity chart on analytics/roadmap pages) */
+.timeline {
+  display: grid;
+  grid-template-columns: minmax(130px, auto) 1fr;
+  gap: 0.75rem 1rem;
+  margin: 1.5rem 0;
+  font-size: 0.9375rem;
+}
+.timeline .t-label { color: var(--muted); font-variant-numeric: tabular-nums; }
+.timeline .t-body { }
+.timeline .t-bar {
+  display: inline-block;
+  height: 0.65rem;
+  background: var(--accent);
+  border-radius: 2px;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  opacity: 0.8;
+}
+
+/* Responsive tweaks */
+@media (max-width: 720px) {
+  .work-main { padding: 1.5rem 1rem 3rem; }
+  .module { padding: 1.25rem 1rem; }
+}

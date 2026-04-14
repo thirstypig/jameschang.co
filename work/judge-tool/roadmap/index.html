@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>The Judge Tool — Roadmap & health — James Chang</title>
+  <meta name="description" content="Judge Tool health scorecard (8.0/10), 6-item risk register with mitigations, and phase-by-phase roadmap for next 3–6 months.">
+  <link rel="canonical" href="https://jameschang.co/work/judge-tool/roadmap/">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/work/work.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="site-header">
+    <nav aria-label="Primary">
+      <a href="/#about">About</a>
+      <a href="/#projects">Projects</a>
+      <a href="/#case-studies">Case studies</a>
+      <a href="/work/">Work</a>
+    </nav>
+  </header>
+
+  <main id="main" class="work-main">
+    <p class="crumbs">
+      <a href="/">James Chang</a>
+      <span class="sep">/</span>
+      <a href="/work/">Work</a>
+      <span class="sep">/</span>
+      <span>The Judge Tool</span>
+      <span class="sep">/</span>
+      <span>Roadmap &amp; health</span>
+    </p>
+
+    <div class="snapshot-banner">
+      <strong>Static snapshot</strong> of the in-app <code>/roadmap</code> page as
+      of April 2026. Live version at
+      <a href="https://thejudgetool.com/roadmap">thejudgetool.com/roadmap</a>.
+    </div>
+
+    <div class="work-hero">
+      <p class="eyebrow">The Judge Tool &middot; Roadmap &amp; health</p>
+      <h1>Product health scorecard, risk register, roadmap.</h1>
+      <p class="subtitle">
+        8.0/10 overall health across six dimensions. Six tracked risks with
+        mitigations. Short-term / medium-term / long-term roadmap with priority
+        triage.
+      </p>
+    </div>
+
+    <section class="work-section">
+      <h2>Health scorecard</h2>
+      <p class="lede">Six dimensions, scored on intake and reviewed each session.</p>
+
+      <div class="scorecard">
+        <div class="score-item">
+          <span class="score-value">9<span class="denom">/10</span></span>
+          <span class="score-label">Architecture</span>
+        </div>
+        <div class="score-item">
+          <span class="score-value">8<span class="denom">/10</span></span>
+          <span class="score-label">Code quality</span>
+        </div>
+        <div class="score-item">
+          <span class="score-value">8<span class="denom">/10</span></span>
+          <span class="score-label">Security</span>
+        </div>
+        <div class="score-item">
+          <span class="score-value">7<span class="denom">/10</span></span>
+          <span class="score-label">Testing</span>
+        </div>
+        <div class="score-item">
+          <span class="score-value">9<span class="denom">/10</span></span>
+          <span class="score-label">Documentation</span>
+        </div>
+        <div class="score-item">
+          <span class="score-value">7<span class="denom">/10</span></span>
+          <span class="score-label">Tooling</span>
+        </div>
+      </div>
+
+      <div class="module">
+        <p><strong>Architecture 9/10:</strong> Feature modules, barrel exports, clean separation.</p>
+        <p><strong>Code quality 8/10:</strong> TypeScript strict, pure utils, tests for business logic.</p>
+        <p><strong>Security 8/10:</strong> Auth guards in place, password hashing, rate limiting. Gaps: per-user PINs, CSP.</p>
+        <p><strong>Testing 7/10:</strong> 113 unit tests, E2E simulation, zero browser tests.</p>
+        <p><strong>Documentation 9/10:</strong> 15 docs in Diataxis framework, <code>CLAUDE.md</code>, build journal.</p>
+        <p><strong>Tooling 7/10:</strong> Vitest, ESLint present. Missing: Playwright, Storybook, bundle analyzer.</p>
+      </div>
+    </section>
+
+    <section class="work-section">
+      <h2>Short-term roadmap</h2>
+      <p class="lede">Next two sprints. Done first, then planned with priority triage.</p>
+
+      <div class="module">
+        <h3 class="module-name">Done</h3>
+        <ul class="feature-list">
+          <li class="done">Migrate hosting to Vercel + GitHub Pages — $49/mo savings (M effort)</li>
+          <li class="done">Hash competition <code>judgePin</code> with bcrypt — was plaintext (S effort)</li>
+          <li class="done">TypeScript module augmentation for next-auth — eliminated unsafe casts (S effort)</li>
+        </ul>
+      </div>
+
+      <div class="module">
+        <h3 class="module-name">Planned</h3>
+        <ul class="feature-list">
+          <li class="planned"><strong>P1:</strong> Per-user PIN support (M) — currently all judges share one PIN</li>
+          <li class="planned"><strong>P1:</strong> JWT role re-validation (S) — stale role persists until 24h token expires</li>
+          <li class="planned"><strong>P2:</strong> Redis-backed rate limiting (S) — in-memory resets on Vercel cold starts</li>
+          <li class="planned"><strong>P2:</strong> CSP headers (S) — OWASP headers present but no CSP</li>
+          <li class="planned"><strong>P2:</strong> E2E browser tests (L) — Playwright tests for login, judge flow, captain submission</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="work-section">
+      <h2>Medium &amp; long term</h2>
+      <div class="stack-grid">
+        <div class="stack-cat">
+          <h4>Medium term &middot; 1–2 months</h4>
+          <div class="items">
+            <p>• Real-time score updates (L) — replace 15s polling with WebSocket/SSE [P2]</p>
+            <p>• Table Organizer role (L) — new role for logistics, boxes, distribution [P3]</p>
+            <p>• Competition templates (M) — save and reuse competition configurations [P3]</p>
+            <p>• PDF score reports (M) — downloadable standings + judge scorecards [P2]</p>
+            <p>• Offline judge mode (XL) — service worker + IndexedDB for offline scoring [P3]</p>
+          </div>
+        </div>
+        <div class="stack-cat">
+          <h4>Long term &middot; 3–6 months</h4>
+          <div class="items">
+            <p>• Multi-competition management (XL) — dashboard for concurrent events [P3]</p>
+            <p>• KCBS API integration (XL) — direct integration with KCBS systems [P3]</p>
+            <p>• Mobile native app (XL) — React Native with push, offline, scanning [P3]</p>
+            <p>• Analytics dashboard (L) — historical trends, judge consistency, outlier detection [P3]</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="work-section">
+      <h2>Risk register</h2>
+      <p class="lede">Six tracked risks with mitigations. Impact x Likelihood scoring, updated per session.</p>
+
+      <div class="module">
+        <h3 class="module-name">R-1 &middot; In-memory rate limiter ineffective on Vercel serverless</h3>
+        <p class="module-desc"><strong>Impact:</strong> Medium &middot; <strong>Likelihood:</strong> High</p>
+        <p><strong>Mitigation:</strong> Redis migration planned (ST-2).</p>
+      </div>
+
+      <div class="module">
+        <h3 class="module-name">R-2 &middot; Shared judge PIN allows impersonation</h3>
+        <p class="module-desc"><strong>Impact:</strong> High &middot; <strong>Likelihood:</strong> Medium</p>
+        <p><strong>Mitigation:</strong> PIN now bcrypt-hashed. Per-user PINs planned (ST-1). Seat selection is weak identity today.</p>
+      </div>
+
+      <div class="module">
+        <h3 class="module-name">R-3 &middot; JWT role not re-validated against DB</h3>
+        <p class="module-desc"><strong>Impact:</strong> Medium &middot; <strong>Likelihood:</strong> Low</p>
+        <p><strong>Mitigation:</strong> 24h token expiry limits the window. Critical actions should re-check DB (ST-4).</p>
+      </div>
+
+      <div class="module">
+        <h3 class="module-name">R-4 &middot; No CSP headers configured</h3>
+        <p class="module-desc"><strong>Impact:</strong> Medium &middot; <strong>Likelihood:</strong> Low</p>
+        <p><strong>Mitigation:</strong> OWASP headers present. CSP planned (ST-3). No user-generated content reduces XSS surface.</p>
+      </div>
+
+      <div class="module">
+        <h3 class="module-name">R-5 &middot; Prisma v5 pinned — no patches from v7</h3>
+        <p class="module-desc"><strong>Impact:</strong> Medium &middot; <strong>Likelihood:</strong> Low</p>
+        <p><strong>Mitigation:</strong> Next.js 14 incompatible with Prisma v7 <code>node:</code> imports. Will migrate when moving to Next.js 15.</p>
+      </div>
+
+      <div class="module">
+        <h3 class="module-name">R-6 &middot; Single Supabase instance — no read replicas</h3>
+        <p class="module-desc"><strong>Impact:</strong> Low &middot; <strong>Likelihood:</strong> Low</p>
+        <p><strong>Mitigation:</strong> Connection pooling enabled. Single competition doesn't need replicas yet.</p>
+      </div>
+    </section>
+
+    <section class="work-section">
+      <h2>Findings history</h2>
+      <p class="lede">Ten critical issues caught and fixed during the 20-day build. All closed.</p>
+      <ul style="font-size: 0.9375rem; line-height: 1.6; padding-left: 1.25rem;">
+        <li><strong>F-1 (P1):</strong> Auth guards missing from server actions — all 62 actions had no guards. <em>Fixed Mar 9</em> — created <code>auth-guards.ts</code> with <code>requireAuth/Organizer/Judge/Captain</code>.</li>
+        <li><strong>F-2 (P1):</strong> Client-supplied user IDs in actions (IDOR). <em>Fixed Mar 9</em> — derived user IDs from session context.</li>
+        <li><strong>F-3 (P1):</strong> DB writes not in transactions. <em>Fixed Mar 9</em> — wrapped all mutations in <code>prisma.$transaction</code>.</li>
+        <li><strong>F-4 (P1):</strong> DQ edge cases in tabulation. <em>Fixed Mar 11</em> — E2E simulation found 3 bugs unit tests missed.</li>
+        <li><strong>F-5 (P1):</strong> No rate limiting on login (4-digit PIN brute-force). <em>Fixed Mar 10</em> — added 5/15min sliding window.</li>
+        <li><strong>F-6 (P2):</strong> Missing ARIA labels. <em>Fixed Mar 10</em> — WCAG pass: ARIA, keyboard nav, focus management.</li>
+        <li><strong>F-7 (P1):</strong> Captain couldn't verify table ownership. <em>Fixed Mar 9</em> — added <code>table.captainId === userId</code> check.</li>
+        <li><strong>F-8 (P2):</strong> Monolithic 1,200-line action file. <em>Fixed Mar 11</em> — split into 6 focused files.</li>
+        <li><strong>F-9 (P2):</strong> shadcn v4 generates Tailwind v4 code. <em>Fixed Mar 6</em> — use <code>npx shadcn@1</code>.</li>
+        <li><strong>F-10 (P2):</strong> Prisma v7 incompatible with Next.js 14. <em>Fixed Mar 6</em> — pin to Prisma v5 (documented in <code>CLAUDE.md</code>).</li>
+      </ul>
+    </section>
+
+    <div class="work-nav">
+      <a href="/work/judge-tool/tech/">&larr; Under the hood</a>
+      <a href="/work/judge-tool/changelog/" class="next">Changelog &rarr;</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-meta">
+      <a href="/">&larr; Back to James Chang</a>
+      <span style="margin: 0 0.5rem;">&middot;</span>
+      <a href="https://thejudgetool.com">Visit the live site</a>
+    </p>
+  </footer>
+</body>
+</html>

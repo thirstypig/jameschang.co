@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Aleph Compliance — Roadmap — James Chang</title>
+  <meta name="description" content="Aleph Compliance product roadmap: four regulatory modules (FSVP, CPSIA, Prop 65, PFAS) with workflows and feature status, plus six expansion verticals.">
+  <link rel="canonical" href="https://jameschang.co/work/aleph/roadmap/">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/work/work.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="site-header">
+    <nav aria-label="Primary">
+      <a href="/#about">About</a>
+      <a href="/#projects">Projects</a>
+      <a href="/#case-studies">Case studies</a>
+      <a href="/work/">Work</a>
+    </nav>
+  </header>
+
+  <main id="main" class="work-main">
+    <p class="crumbs">
+      <a href="/">James Chang</a>
+      <span class="sep">/</span>
+      <a href="/work/">Work</a>
+      <span class="sep">/</span>
+      <span>Aleph Compliance</span>
+      <span class="sep">/</span>
+      <span>Roadmap</span>
+    </p>
+
+    <div class="snapshot-banner">
+      <strong>Static snapshot</strong> of the Aleph Compliance admin roadmap as of
+      April 2026. The live admin roadmap lives inside the app at
+      <a href="https://app.alephco.io">app.alephco.io/admin/roadmap</a>.
+    </div>
+
+    <div class="work-hero">
+      <p class="eyebrow">Aleph Compliance &middot; Admin / Roadmap</p>
+      <h1>Four compliance modules. Six expansion verticals.</h1>
+      <p class="subtitle">
+        Aleph covers four regulatory modules today &mdash; FSVP, CPSIA/CPC, Prop 65,
+        and PFAS &mdash; with six verticals identified for expansion ordered by the
+        enforcement gradient, not by engineering ease.
+      </p>
+    </div>
+
+    <section class="work-section">
+      <h2>Compliance modules</h2>
+
+      <div class="module">
+        <div class="module-head">
+          <h3 class="module-name">CPSIA / CPC</h3>
+          <span class="module-progress">Progress: 60%</span>
+        </div>
+        <p class="module-desc">
+          Generate Children's Product Certificates (CPC) for products intended for
+          children 12 and under. Covers the seven required CPC fields under CPSIA
+          Section 14(a).
+        </p>
+        <div class="module-workflow">
+          <strong>Workflow</strong>
+          <ol>
+            <li>Add children's product with SKU, manufacturer, country of origin, age group</li>
+            <li>Upload lab test report from a CPSC-accepted lab; link to product record</li>
+            <li>Complete CPC form &mdash; seven required fields (description, standards, lab info, test date/location, manufacture date/location, importer info, tracking label)</li>
+            <li>Preview and generate the formatted PDF ready for filing</li>
+          </ol>
+        </div>
+        <ul class="feature-list">
+          <li class="done">Product creation (children's product type)</li>
+          <li class="done">CPC 7-field data entry form</li>
+          <li class="done">CPC preview (read-only view)</li>
+          <li class="done">CPC PDF generation (pdf-lib)</li>
+          <li class="done">Lab test document upload + linking</li>
+          <li class="done">CPC status tracking (draft → issued → superseded)</li>
+          <li class="done">Product list with CPC status badges</li>
+          <li class="done">Pre-populated CPSC safety standards (ASTM F963, etc.)</li>
+          <li class="done">Importer info pre-fill from business profile</li>
+          <li class="planned">Cohort-aware product creation form</li>
+          <li class="planned">Server-side cohort enforcement middleware</li>
+          <li class="deferred">CPSC e-Filing integration</li>
+          <li class="deferred">CPC version history / supersession chain</li>
+        </ul>
+      </div>
+
+      <div class="module">
+        <div class="module-head">
+          <h3 class="module-name">Prop 65</h3>
+          <span class="module-progress">Progress: 55%</span>
+        </div>
+        <p class="module-desc">
+          California Proposition 65 toxic-substance disclosure.
+          Assess products for listed chemicals; generate short-form and long-form
+          warning labels at the packaging or shelf-tag size.
+        </p>
+        <div class="module-workflow">
+          <strong>Workflow</strong>
+          <ol>
+            <li>Add consumer product with materials, manufacturer, country of origin</li>
+            <li>Answer: does this product require a Prop 65 warning? Yes / No / Not Sure</li>
+            <li>Select chemicals (Lead, DEHP, Cadmium, etc.), exposure routes, warning type (cancer / reproductive / both)</li>
+            <li>Generate short-form or long-form label; preview in packaging and shelf-tag sizes; download PDF</li>
+          </ol>
+        </div>
+        <ul class="feature-list">
+          <li class="done">Yes / No / Not Sure assessment flow</li>
+          <li class="done">Chemical multi-select with CAS numbers</li>
+          <li class="done">Warning type selection (cancer / reproductive / both)</li>
+          <li class="done">Exposure route checkboxes</li>
+          <li class="done">Safe harbor compliance checkbox with explanation</li>
+          <li class="done">Short-form and long-form label text generation</li>
+          <li class="done">Label preview (packaging + shelf tag sizes)</li>
+          <li class="done">Label PDF generation</li>
+          <li class="done">Server-side chemicals endpoint (/api/prop65/chemicals)</li>
+          <li class="done">Product list with disclosure status badges</li>
+          <li class="planned">Ownership checks on disclosure endpoints</li>
+          <li class="deferred">OEHHA list auto-update (regulation change alerting)</li>
+          <li class="deferred">Tailored warning label format</li>
+        </ul>
+      </div>
+
+      <div class="module">
+        <div class="module-head">
+          <h3 class="module-name">PFAS</h3>
+          <span class="module-progress">Progress: 50%</span>
+        </div>
+        <p class="module-desc">
+          Per- and polyfluoroalkyl substance disclosure for multi-state regulation
+          (California, Maine, New York, Washington, Minnesota, Vermont, Colorado,
+          Maryland) via a structured material disclosure questionnaire.
+        </p>
+        <div class="module-workflow">
+          <strong>Workflow</strong>
+          <ol>
+            <li>Add product with category, materials, manufacturer details</li>
+            <li>Assessment: does this product contain PFAS? Yes / No / Unknown</li>
+            <li>For each PFAS component &mdash; name, substance (PTFE, PFOS, GenX), concentration (ppm), function</li>
+            <li>Select states where product is sold; auto-identify applicable regulations (CA SB 1249, ME LD 1503, NY A4978, WA HB 2658, etc.)</li>
+            <li>Generate disclosure PDF with component table, applicable regulations, company certification</li>
+          </ol>
+        </div>
+        <ul class="feature-list">
+          <li class="done">3-step questionnaire wizard (assessment → components → regulations)</li>
+          <li class="done">Yes / No / Unknown assessment with guidance</li>
+          <li class="done">Dynamic component entry (add/remove rows)</li>
+          <li class="done">8-state regulation database (CA, ME, NY, WA, MN, VT, CO, MD)</li>
+          <li class="done">Auto-populate regulatory basis from selected states</li>
+          <li class="done">Disclosure report preview (HTML)</li>
+          <li class="done">Disclosure report PDF generation</li>
+          <li class="done">Product list with status badges</li>
+          <li class="planned">Ownership checks on disclosure endpoints</li>
+          <li class="deferred">Expanded PFAS substance database (8,380 chemicals)</li>
+          <li class="deferred">Manufacturer PFAS declaration request flow</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="work-section">
+      <h2>Expansion verticals</h2>
+      <p class="lede">
+        Six verticals identified for next-round build, ordered by enforcement
+        activity and overlap with the existing module stack.
+      </p>
+
+      <div class="stack-grid">
+        <div class="stack-cat">
+          <h4>Apparel &amp; Textiles &middot; <em style="color: var(--accent);">High priority</em></h4>
+          <div class="items">
+            <strong>Market:</strong> Large &mdash; #1 PFAS enforcement target.<br>
+            <strong>Have:</strong> CPSIA (children's), Prop 65, PFAS.<br>
+            <strong>Need:</strong> Flammability (16 CFR 1610/1615), textile labeling (fiber content, care labels).
+          </div>
+        </div>
+        <div class="stack-cat">
+          <h4>Cosmetics &amp; Personal Care &middot; <em style="color: var(--accent);">High priority</em></h4>
+          <div class="items">
+            <strong>Market:</strong> Growing &mdash; MoCRA brand new (2023).<br>
+            <strong>Have:</strong> Prop 65, PFAS.<br>
+            <strong>Need:</strong> MoCRA (facility registration + product listing), FDA adverse event reporting.
+          </div>
+        </div>
+        <div class="stack-cat">
+          <h4>Furniture &amp; Home Goods &middot; <em style="color: var(--muted);">Medium priority</em></h4>
+          <div class="items">
+            <strong>Market:</strong> Medium &mdash; formaldehyde + flammability active enforcement.<br>
+            <strong>Have:</strong> CPSIA, Prop 65, PFAS.<br>
+            <strong>Need:</strong> TSCA Title VI (formaldehyde), CA TB 117 (flammability).
+          </div>
+        </div>
+        <div class="stack-cat">
+          <h4>Electronics &amp; Electrical &middot; <em style="color: var(--muted);">Medium priority</em></h4>
+          <div class="items">
+            <strong>Market:</strong> Large, technical audience.<br>
+            <strong>Have:</strong> Prop 65.<br>
+            <strong>Need:</strong> FCC Part 15 (EMC testing), UL/ETL listing, RoHS, conflict minerals.
+          </div>
+        </div>
+        <div class="stack-cat">
+          <h4>Dietary Supplements &middot; <em style="color: var(--muted);">Medium priority</em></h4>
+          <div class="items">
+            <strong>Market:</strong> Medium-high &mdash; FDA scrutiny increasing.<br>
+            <strong>Have:</strong> FSVP, Prop 65.<br>
+            <strong>Need:</strong> DSHEA (NDI notifications), cGMP (21 CFR 111).
+          </div>
+        </div>
+        <div class="stack-cat">
+          <h4>Automotive Aftermarket &middot; <em style="color: var(--muted); opacity: 0.7;">Low priority</em></h4>
+          <div class="items">
+            <strong>Market:</strong> Niche.<br>
+            <strong>Have:</strong> Prop 65.<br>
+            <strong>Need:</strong> FMVSS, CARB, EPA emissions.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="work-section">
+      <h2>From the admin UI</h2>
+      <img src="/assets/work/aleph/roadmap.png" alt="Aleph Compliance admin roadmap page with all modules" class="screenshot" loading="lazy">
+      <p class="screenshot-caption">The actual admin roadmap page inside the app.</p>
+    </section>
+
+    <div class="work-nav">
+      <a href="/work/aleph/how-it-works/">&larr; How it works</a>
+      <a href="/work/aleph/changelog/" class="next">Changelog &rarr;</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-meta">
+      <a href="/">&larr; Back to James Chang</a>
+      <span style="margin: 0 0.5rem;">&middot;</span>
+      <a href="https://alephco.io">Visit the live site</a>
+    </p>
+  </footer>
+</body>
+</html>
