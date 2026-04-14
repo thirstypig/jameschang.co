@@ -146,7 +146,8 @@ h3 {
   margin: 0 0 1.5rem;
 }
 
-.display {
+.display,
+.display-tagline {
   font-family: var(--serif);
   font-weight: 500;
   font-size: clamp(2.25rem, 6vw, 4rem);
@@ -154,6 +155,34 @@ h3 {
   letter-spacing: -0.02em;
   margin: 0 0 1.5rem;
   color: var(--text);
+}
+
+/* Name + contact block at top of hero */
+.name {
+  font-family: var(--sans);
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  margin: 0 0 0.5rem;
+  color: var(--text);
+}
+
+.contact-line {
+  font-size: 0.9375rem;
+  color: var(--muted);
+  margin: 0 0 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--rule);
+  line-height: 1.7;
+}
+.contact-line a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.contact-line a:hover { color: var(--accent); }
+.contact-line .dot { color: var(--rule); margin: 0 0.15rem; }
+
+@media (max-width: 600px) {
+  .contact-line .dot { display: inline; }
+  .name { font-size: 1.5rem; }
 }
 
 .lede {
@@ -412,6 +441,40 @@ h3 {
 @media (max-width: 600px) {
   .skills-list > div { grid-template-columns: 1fr; gap: 0.25rem; }
 }
+
+/* ---------- Memberships ---------- */
+.membership-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.membership-list li {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.membership-list li:last-child { border-bottom: none; }
+.membership-head {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+  flex-wrap: wrap;
+  margin-bottom: 0.25rem;
+}
+.membership-head strong { font-size: 1rem; font-weight: 600; }
+.membership-head strong a { color: var(--text); text-decoration: none; }
+.membership-head strong a:hover { color: var(--accent); }
+.membership-head .role-title {
+  font-size: 0.875rem;
+  color: var(--muted);
+  font-weight: 400;
+}
+.membership-meta {
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin: 0 0 0.5rem;
+}
+.membership-list li p { margin: 0 0 0.35rem; font-size: 0.9375rem; }
+.membership-list li p:last-child { margin-bottom: 0; }
 
 /* ---------- Footer ---------- */
 .site-footer {
