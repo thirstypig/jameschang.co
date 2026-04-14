@@ -4,3 +4,4 @@
 .env
 .env.local
 MASTER-PORTS.md
+.playwright-mcp/

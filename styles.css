@@ -382,11 +382,14 @@ h3 {
   font-size: 0.9375rem;
   color: var(--muted);
   column-count: 2;
-  column-gap: 2rem;
+  column-gap: 2.5rem;
 }
 .certs li {
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.85rem;
+  line-height: 1.45;
   break-inside: avoid;
+  padding-left: 0.75rem;
+  border-left: 2px solid var(--rule);
 }
 @media (max-width: 600px) {
   .certs { column-count: 1; }
