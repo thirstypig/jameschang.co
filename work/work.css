@@ -57,6 +57,16 @@
 }
 @media print { .project-nav { display: none; } }
 
+/* Sync-injected line inside snapshot banner */
+.synced-line {
+  display: block;
+  margin: 0 0 0.35rem;
+  font-size: 0.8125rem;
+  color: var(--accent);
+  letter-spacing: 0.01em;
+}
+.synced-line strong { font-weight: 600; }
+
 /* Snapshot banner at top of every work page */
 .snapshot-banner {
   background: var(--card-bg);
