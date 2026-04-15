@@ -103,6 +103,46 @@
           with rationale. Triggers on page load; cached per (team_id, data_hash)
           so a refresh is near-instant.
         </p>
+
+        <details class="prompt-excerpt">
+          <summary>Prompt excerpt</summary>
+<pre>You are a fantasy baseball analyst. Analyze this team's
+ACTUAL STATS below and provide performance insights.
+
+CRITICAL: ONLY reference stats shown in the data below. If a
+player shows "0 IP" or "HAS NOT PITCHED", do NOT say they
+pitched well. If a player shows "0 AB" or "NO STATS YET", do
+NOT comment on their hitting. Only discuss what the numbers
+actually show.
+
+[... team data, category rankings, standings, recent moves
+     injected here ...]
+
+Provide exactly 4 concise insights based ONLY on the stats above:
+  1. Hot/Cold Bats — Which hitters have good or bad stat lines?
+     Reference their actual numbers.
+  2. Pitching — Which pitchers have pitched and how did they do?
+     Who has NOT pitched yet (0 IP)?
+  3. Roster Alert — Any players with 0 AB or 0 IP who may be
+     injured or not yet in the lineup.
+  4. Hot Take — One bold, specific prediction about this team's
+     next week. Reference a player's trend.
+
+GRADING RULES — grade MUST correlate with standings position:
+  - 1st–2nd place: A- to A+
+  - 3rd–4th place: B  to A-
+  - 5th–6th place: C  to B
+  - 7th–8th place: D  to C
+  A 1st-place team CANNOT receive below B-.
+  A last-place team CANNOT receive above B+.
+
+Return ONLY valid JSON:
+{
+  "insights": [{ "category", "title", "detail",
+                 "priority": "high" | "medium" | "low" }],
+  "overallGrade": "A+ through F"
+}</pre>
+        </details>
       </div>
 
       <div class="module">
@@ -116,6 +156,37 @@
           value read (not raw projection value), and gives each side a graded
           recommendation with reasoning.
         </p>
+
+        <details class="prompt-excerpt">
+          <summary>Prompt excerpt</summary>
+<pre>You are a fantasy baseball trade analyst for a head-to-head
+category league. Analyze this PRE-TRADE proposal and advise
+the proposer whether to proceed.
+
+[... trade items + team summaries + keeper warning ...]
+
+Consider these factors:
+  1. FAIRNESS: Is the trade balanced in player value?
+  2. CATEGORY IMPACT: How does this trade shift each team's
+     category strengths/weaknesses
+     (HR, RBI, AVG, SB, R for hitters;
+      W, K, ERA, WHIP, SV for pitchers)?
+  3. POSITION SCARCITY: Does the receiving team need this
+     position? Does the sending team have depth?
+  4. KEEPER IMPLICATIONS: Are any keeper-eligible players
+     being traded? What's the long-term cost?
+
+Return ONLY a valid JSON object:
+{
+  "fairness": "fair" | "slightly_unfair" | "unfair",
+  "winner": team name (or "even" if fair),
+  "analysis": 2-3 sentences on trade impact on both teams,
+  "categoryImpact": 1-2 sentences on category shifts,
+  "keeperNote": 1 sentence or null if no keepers involved,
+  "positionNote": 1 sentence or null if not relevant,
+  "recommendation": approve | reject | suggest modifications
+}</pre>
+        </details>
       </div>
 
       <div class="module">
@@ -128,6 +199,36 @@
           category strength, risk, upside, and depth. Includes a narrative paragraph
           per team explaining the grade.
         </p>
+
+        <details class="prompt-excerpt">
+          <summary>Prompt excerpt</summary>
+<pre>You are a fantasy baseball auction draft analyst. Grade each
+team's draft performance A through F.
+
+League Config:
+  - Budget: $[budgetCap] per team
+  - Roster: [rosterSize] total ([batterCount] hitters,
+            [pitcherCount] pitchers)
+  - League Avg Spend: $[leagueAvgSpent]
+
+Team Summaries: [injected JSON]
+
+For each team, provide:
+  1. A letter grade (A+, A, A-, B+, B, B-, C+, C, C-, D, F)
+  2. A 1-2 sentence summary explaining the grade
+
+Consider these factors:
+  - Value efficiency: Did they get good value or overpay?
+  - Budget management: Did they use their budget wisely, or
+    leave too much on the table?
+  - Roster balance: Good mix of hitters vs pitchers?
+  - Star power vs depth: Did they invest in elite talent or
+    spread the budget thin?
+  - Bargain hunting: Did they find value at $1–$3?
+
+Return ONLY a valid JSON array:
+[{ "teamId", "teamName", "grade", "summary" }]</pre>
+        </details>
       </div>
 
       <div class="module">
@@ -141,6 +242,35 @@
           and the owner&rsquo;s keeper history. Not just projection &mdash; it accounts for
           what keeping that player <em>costs</em> in next year&rsquo;s auction.
         </p>
+
+        <details class="prompt-excerpt">
+          <summary>Prompt excerpt</summary>
+<pre>You are a fantasy baseball keeper selection advisor. Recommend
+which players to keep.
+
+Team Budget: $[teamBudget] / $[budgetCap]
+Max Keepers: [maxKeepers]
+
+Roster (with keeper costs = current price + $5):
+[injected roster JSON]
+
+Consider:
+  - Value relative to keeper cost (is the player worth more
+    than their keeper price in an auction?)
+  - Position scarcity (especially in NL-only leagues)
+  - Player quality, consistency, and INJURY HISTORY —
+    discount injury-prone players by 15–30% in value
+  - Budget impact of keeping vs drafting fresh
+  - Age and multi-year keeper trajectory (younger players
+    with surplus value are better long-term keepers)
+
+Return ONLY a valid JSON object:
+{
+  "recommendations": [{ "playerId", "playerName", "keeperCost",
+                         "reasoning", "rank" (1 = best value) }],
+  "strategy": "2-3 sentences about overall keeper strategy"
+}</pre>
+        </details>
       </div>
 
       <div class="module">
@@ -154,6 +284,35 @@
           you&rsquo;re short pitching; otherwise it&rsquo;s the wrong claim. Every free agent
           gets a per-team fit score, not a global ranking.
         </p>
+
+        <details class="prompt-excerpt">
+          <summary>Prompt excerpt</summary>
+<pre>You are a fantasy baseball Waiver Budget waiver bid advisor.
+
+Player to Claim: [name] ([position], [MLB team])
+Player Stats: [stats summary]
+
+Team Info:
+  - Remaining Waiver Budget: $[teamBudget]
+  - League Size: [teamCount] teams
+  - Season: [season]
+
+Current Roster at [position]: [players or "None"]
+Full Roster Size: [n] players
+
+Consider:
+  - Player's value and recent performance
+  - Position need (upgrade vs depth)
+  - Budget preservation for future claims
+  - League competitiveness
+
+Return ONLY a valid JSON object:
+{
+  "suggestedBid": integer, $0 to $[teamBudget] max,
+  "confidence": "high" | "medium" | "low",
+  "reasoning": "2-3 sentences explaining the bid recommendation"
+}</pre>
+        </details>
       </div>
 
       <div class="module">
@@ -166,6 +325,54 @@
           based on remaining budget, positional needs, and what other teams have
           spent so far. Updates as bids come in.
         </p>
+
+        <details class="prompt-excerpt">
+          <summary>Prompt excerpt</summary>
+<pre>You are a fantasy baseball auction draft advisor for a team in
+an [leagueTypeLabel] league. Analyze whether this team should
+bid on the nominated player and provide a maximum recommended
+bid based on MARGINAL VALUE TO THIS SPECIFIC TEAM.
+
+NOMINATED PLAYER:
+  - [name] ([position], [MLB team])
+  - Current Bid: $[currentBid]
+  - Projected Auction Value: $[projectedValue]
+  - Projected Stats: [statsLine]
+
+YOUR TEAM ([team name]):
+  - Budget Remaining: $[budget]
+  - Open Roster Slots: [openSlots]
+  - Position Need: [positionNeed]
+  - Current Roster: [roster with positions + prices]
+  - Category Strength Scores (summed from rostered players):
+    R, HR, RBI, SB, AVG | W, SV, K, ERA, WHIP
+
+ALTERNATIVES STILL AVAILABLE at [position]:
+  [list, or "None — this may be the last quality option"]
+
+LEAGUE CONTEXT:
+  - [teamsCount] teams, [rosterSize]-man rosters
+  - Average Budget Remaining across league: $[avg]
+
+IMPORTANT: The max bid should reflect the MARGINAL VALUE of
+this player TO THIS TEAM — not just the generic projected value.
+A team desperate for saves should pay more for a closer than
+a team that already has two. A team with surplus budget late
+in the draft can be more aggressive. Factor in:
+  1. Does the team NEED this position/category contribution?
+  2. How scarce are alternatives at this position?
+  3. Budget math: team needs $1 per remaining open slot minimum.
+  4. Is the current bid already above fair value, or room?
+
+Return ONLY a valid JSON object:
+{
+  "shouldBid": boolean,
+  "maxRecommendedBid": integer,
+  "reasoning": "2-3 sentences — reference category needs + alternatives",
+  "confidence": "high" | "medium" | "low",
+  "categoryImpact": "e.g. 'Fills SV gap (+30 SV), but doesn't help SB'"
+}</pre>
+        </details>
       </div>
 
       <div class="module">
@@ -178,6 +385,13 @@
           standings movement. Pushed via email via Resend. Opt-out at the team
           level.
         </p>
+
+        <details class="prompt-excerpt">
+          <summary>Prompt excerpt</summary>
+<pre>(Same base prompt as AI Insights above, plus weekly-cadence
+framing and category movement deltas since last Sunday. Pushed
+to each team's owner email via Resend every Monday morning.)</pre>
+        </details>
       </div>
 
       <div class="module">
@@ -190,6 +404,78 @@
           trades, breakout performers, and a trade poll seeded with interesting
           matchups. The recap goes in the league message board and nudges engagement.
         </p>
+
+        <details class="prompt-excerpt">
+          <summary>Prompt excerpt &mdash; this one has personality</summary>
+<pre>You are a stat-obsessed league member in "[league name]"
+writing the weekly digest after Week [n] of the [season]
+season ([n] teams, 10-cat roto: R, HR, RBI, SB, AVG |
+W, SV, K, ERA, WHIP).
+
+Write with personality — be opinionated, use trash talk, be
+specific. Use last names only ("Betts" not "Mookie Betts").
+Do NOT use position labels.
+
+IMPORTANT — DATA FORMAT:
+The stats below are SEASON CUMULATIVE TOTALS with category
+rank in parentheses (e.g., "HR:12(3rd)" means 12 HR total,
+ranked 3rd). You do NOT have per-week stat breakdowns.
+Do NOT invent or estimate weekly numbers. When discussing
+movement, reference rank changes (e.g., "climbed from 6th
+to 3rd in HR") — NOT invented weekly stat totals.
+
+[... team data: standings, season totals, rank changes,
+     key players, injured/IL, minors, recent moves ...]
+
+CRITICAL RULES (in priority order):
+
+=== ACCURACY (HIGHEST PRIORITY) ===
+ 1. NEVER invent stats. If you cannot find a specific number
+    in the data above, do NOT make one up.
+ 2. When discussing category performance, cite the CUMULATIVE
+    TOTAL and RANK from the data.
+ 3. When discussing movement, use rank changes — NOT invented
+    weekly deltas.
+
+=== INJURIES (HIGH PRIORITY) ===
+ 4. If a team has a KEY player on the IL, this is MAJOR NEWS.
+    It MUST be prominently discussed in that team's commentary.
+ 5. Players in the minors are dead roster spots. Flag teams
+    carrying multiple minors players as handicapped.
+
+=== POWER RANKINGS (STRICT RULES) ===
+ 6. Power rankings MUST closely mirror the actual standings
+    order. Maximum deviation: 2 spots. If a team is #7 in
+    standings, they CANNOT be ranked higher than #5.
+ 7. Commentary must cite 2+ specific numbers from the
+    season totals.
+
+=== CONTENT RULES ===
+ 9. EVERY statement must include specific numbers from the data.
+    Never say "crushing it" — say "leads the league with 12 HR,
+    ranked 1st."
+15. Bold prediction should be fun but grounded in a real trend.
+
+Return ONLY valid JSON:
+{
+  "weekInOneSentence": "15-25 word headline, must include a
+     number from the data",
+  "powerRankings": [{ "rank", "teamName",
+     "movement": "up|down|steady",
+     "commentary": "cite 2+ specific stats" }],
+  "hotTeam": { "name", "reason" (3+ specific numbers) },
+  "coldTeam": { "name", "reason" (3+ specific numbers) },
+  "statOfTheWeek": "2 sentences, exact cumulative numbers",
+  "categoryMovers": [{ "category", "team", "direction",
+     "detail" (cumulative total + rank change) }],
+  "boldPrediction": "1 fun sentence grounded in a real trend"
+}
+
+FINAL CHECK: Re-read every sentence in your response. If ANY
+sentence contains a number that does not appear in the team
+data above, DELETE that sentence and rewrite it using only
+real numbers. This is non-negotiable.</pre>
+        </details>
       </div>
     </section>
 

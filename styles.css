@@ -596,8 +596,49 @@ h3 {
     line-height: 1.1;
     margin-bottom: 0.5rem;
   }
-  .display br { display: none; }
+  .display br,
+  .display-tagline br { display: none; }
+  .display-tagline {
+    font-family: var(--sans);
+    font-size: 11pt;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #000;
+    max-width: 100%;
+    margin-bottom: 0.5rem;
+  }
   .lede { font-size: 10.5pt; margin-bottom: 0.5rem; max-width: 100%; }
+
+  /* ATS-friendly body font + contact stack */
+  body { font-family: var(--sans); }
+
+  .contact-line .dot { display: none; }
+  .contact-line span,
+  .contact-line a {
+    display: block;
+    margin-bottom: 0.05rem;
+  }
+
+  /* Utility classes */
+  .no-print { display: none !important; }
+  .print-only { display: inline; }
+
+  /* Reorder: Experience → Education → Skills → Certifications → Memberships.
+     Case studies are hidden entirely in print (60 lines of prose confuses ATS
+     parsers; the actual site at jameschang.co carries them for human readers). */
+  main { display: flex; flex-direction: column; }
+  .hero         { order: 0; }
+  #about        { order: 1; }
+  #experience   { order: 2; }
+  #education    { order: 3; }
+  #skills       { order: 4; }
+  #projects     { order: 5; }
+  #memberships  { order: 6; }
+  #case-studies { display: none; }
+
+  /* ATS dictionary aliases prepended to section headings in print only */
+  #about h2::before        { content: "Summary — "; }
+  .memberships h2::before  { content: "Volunteer Experience: "; }
 
   .proof {
     padding: 0.5rem 0;
@@ -619,7 +660,7 @@ h3 {
     padding-bottom: 2pt;
   }
 
-  .project-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+  .project-grid { grid-template-columns: 1fr; gap: 0.35rem; }
   .project-card { background: none; border: none; padding: 0.25rem 0; }
   .project-card h3 { font-size: 10pt; margin-bottom: 0.15rem; }
   .project-card p { font-size: 9pt; line-height: 1.35; }
@@ -650,15 +691,24 @@ h3 {
   details > *:not(summary) { display: revert; }
   .earlier-experience { border-top: 0.5pt solid #000; padding-top: 0.25rem; margin-top: 0.35rem; }
 
-  .certs { column-count: 2; font-size: 9pt; }
+  /* Single-column for ATS: multi-column layouts break top-to-bottom reading order */
+  .certs { column-count: 1; font-size: 9pt; }
+  .certs li {
+    padding-left: 0;
+    border-left: none;
+    margin-bottom: 0.25rem;
+  }
 
   .skills-list > div {
-    grid-template-columns: 140px 1fr;
-    gap: 0.75rem;
-    padding: 0.25rem 0;
+    display: block;
+    grid-template-columns: none;
+    padding: 0.2rem 0;
     font-size: 9.5pt;
     border-bottom: 0.25pt solid #ccc;
   }
+  .skills-list dt { display: inline; font-weight: 600; }
+  .skills-list dt::after { content: ": "; }
+  .skills-list dd { display: inline; margin: 0; }
 
   .site-footer {
     padding: 0.5rem 0 0;

@@ -259,6 +259,44 @@
 .comp-table .yes { color: #3a7a4a; font-weight: 600; }
 .comp-table .no { color: var(--muted); opacity: 0.5; }
 
+/* Prompt excerpt (collapsible code block inside a module) */
+.prompt-excerpt {
+  margin-top: 1rem;
+  border-top: 1px solid var(--rule);
+  padding-top: 0.75rem;
+}
+.prompt-excerpt summary {
+  cursor: pointer;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  font-weight: 500;
+  padding: 0.25rem 0;
+  min-height: 24px;
+  list-style: none;
+}
+.prompt-excerpt summary::before { content: "\25B8  "; display: inline-block; }
+.prompt-excerpt[open] summary::before { content: "\25BE  "; }
+.prompt-excerpt summary:hover { color: var(--accent); }
+.prompt-excerpt pre {
+  margin: 0.75rem 0 0;
+  padding: 1rem 1.25rem;
+  background: #1a1a1a;
+  color: #d0d0d0;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  border-radius: 4px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+@media (prefers-color-scheme: dark) {
+  .prompt-excerpt pre { background: #0b0a09; border: 1px solid var(--rule); }
+}
+:root[data-theme="dark"] .prompt-excerpt pre { background: #0b0a09; border: 1px solid var(--rule); }
+
 /* Tech architecture block (code-block looking) */
 .arch-block {
   background: #1a1a1a;
