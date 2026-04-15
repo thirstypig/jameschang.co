@@ -430,6 +430,12 @@
 /* Footer / inline separator utility (replaces repeated inline margin styles) */
 .footer-meta .sep, .footer-contact .sep { margin: 0 0.5rem; opacity: 0.5; }
 
+/* Primary nav aria-current highlight (Now page) */
+.site-header nav a[aria-current="page"] {
+  color: var(--accent);
+  font-weight: 600;
+}
+
 /* Session timeline (for velocity chart on analytics/roadmap pages) */
 .timeline {
   display: grid;
