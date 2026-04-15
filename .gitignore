@@ -5,3 +5,6 @@
 .env.local
 MASTER-PORTS.md
 .playwright-mcp/
+CONTENT_SOURCES.md
+PLAN.md
+resume-small.pdf

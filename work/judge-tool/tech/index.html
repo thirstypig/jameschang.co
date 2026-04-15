@@ -4,12 +4,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'none'; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
   <title>The Judge Tool — Under the hood — James Chang</title>
   <meta name="description" content="Full build teardown of The Judge Tool: 16,424 lines of code, 113 tests, 12 database models, 62 server actions. KCBS scoring engine. Shipped in 20 days with transparent AI-assisted workflow.">
   <link rel="canonical" href="https://jameschang.co/work/judge-tool/tech/">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/work/work.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "The Judge Tool",
+    "name": "The Judge Tool \u2014 Under the hood \u2014 James Chang",
+    "description": "Full build teardown of The Judge Tool: 16,424 lines of code, 113 tests, 12 database models, 62 server actions. KCBS scoring engine. Shipped in 20 days with transparent AI-assisted workflow.",
+    "url": "https://jameschang.co/work/judge-tool/tech/",
+    "author": {
+      "@type": "Person",
+      "name": "James Chang",
+      "url": "https://jameschang.co"
+    },
+    "dateModified": "2026-04-14",
+    "inLanguage": "en-US",
+    "isPartOf": {
+      "@type": "WebSite",
+      "url": "https://jameschang.co",
+      "name": "James Chang"
+    }
+  }
+  </script>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -183,13 +207,13 @@ Tests
 
     <section class="work-section">
       <h2>Live screenshots</h2>
-      <img src="/assets/work/judge-tool/live-home.png" alt="The Judge Tool marketing site home page" class="screenshot" loading="lazy">
+      <img src="/assets/work/judge-tool/live-home.webp" width="1425" height="6173" alt="The Judge Tool marketing site home page" class="screenshot" loading="lazy">
       <p class="screenshot-caption">The public marketing site at <a href="https://thejudgetool.com">thejudgetool.com</a>.</p>
-      <img src="/assets/work/judge-tool/organizer-competition-control.png" alt="Organizer dashboard showing competition category control" class="screenshot" loading="lazy">
+      <img src="/assets/work/judge-tool/organizer-competition-control.webp" width="1440" height="900" alt="Organizer dashboard showing competition category control" class="screenshot" loading="lazy">
       <p class="screenshot-caption">Organizer dashboard &mdash; category advancement and live competition control.</p>
-      <img src="/assets/work/judge-tool/judge-scoring.png" alt="Judge scoring interface showing the 4-phase flow" class="screenshot" loading="lazy">
+      <img src="/assets/work/judge-tool/judge-scoring.webp" width="1440" height="900" alt="Judge scoring interface showing the 4-phase flow" class="screenshot" loading="lazy">
       <p class="screenshot-caption">Judge scoring interface &mdash; KCBS-compliant score entry (1, 2, 5–9).</p>
-      <img src="/assets/work/judge-tool/captain-dashboard.png" alt="Table captain dashboard with score review" class="screenshot" loading="lazy">
+      <img src="/assets/work/judge-tool/captain-dashboard.webp" width="1425" height="3527" alt="Table captain dashboard with score review" class="screenshot" loading="lazy">
       <p class="screenshot-caption">Table captain view &mdash; score review and correction-request approvals.</p>
     </section>
 
@@ -202,7 +226,7 @@ Tests
   <footer class="site-footer">
     <p class="footer-meta">
       <a href="/">&larr; Back to James Chang</a>
-      <span style="margin: 0 0.5rem;">&middot;</span>
+      <span class="sep">&middot;</span>
       <a href="https://thejudgetool.com">Visit the live site</a>
     </p>
   </footer>

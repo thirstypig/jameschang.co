@@ -387,6 +387,9 @@
 .work-nav a:hover { color: var(--accent); }
 .work-nav a.next { text-align: right; }
 
+/* Footer / inline separator utility (replaces repeated inline margin styles) */
+.footer-meta .sep, .footer-contact .sep { margin: 0 0.5rem; opacity: 0.5; }
+
 /* Session timeline (for velocity chart on analytics/roadmap pages) */
 .timeline {
   display: grid;

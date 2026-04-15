@@ -4,12 +4,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'none'; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
   <title>The Fantastic Leagues — Under the hood — James Chang</title>
   <meta name="description" content="Under-the-hood page for The Fantastic Leagues: 84,400 lines of code, 26 feature modules, 730 passing tests, 62 build sessions across six months. Full stack and architecture.">
   <link rel="canonical" href="https://jameschang.co/work/fantastic-leagues/tech/">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/work/work.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "The Fantastic Leagues",
+    "name": "The Fantastic Leagues \u2014 Under the hood \u2014 James Chang",
+    "description": "Under-the-hood page for The Fantastic Leagues: 84,400 lines of code, 26 feature modules, 730 passing tests, 62 build sessions across six months. Full stack and architecture.",
+    "url": "https://jameschang.co/work/fantastic-leagues/tech/",
+    "author": {
+      "@type": "Person",
+      "name": "James Chang",
+      "url": "https://jameschang.co"
+    },
+    "dateModified": "2026-04-14",
+    "inLanguage": "en-US",
+    "isPartOf": {
+      "@type": "WebSite",
+      "url": "https://jameschang.co",
+      "name": "James Chang"
+    }
+  }
+  </script>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -181,15 +205,15 @@ WS ──Auction state──▶ API</div>
 
     <section class="work-section">
       <h2>Live screenshots</h2>
-      <img src="/assets/work/fantastic-leagues/live-home.png" alt="The Fantastic Leagues marketing site home page" class="screenshot" loading="lazy">
+      <img src="/assets/work/fantastic-leagues/live-home.webp" width="1425" height="3336" alt="The Fantastic Leagues marketing site home page" class="screenshot" loading="lazy">
       <p class="screenshot-caption">The public marketing site at <a href="https://thefantasticleagues.com">thefantasticleagues.com</a>.</p>
-      <img src="/assets/work/fantastic-leagues/11-home-dashboard.png" alt="Home dashboard with live standings and team overview" class="screenshot" loading="lazy">
+      <img src="/assets/work/fantastic-leagues/11-home-dashboard.webp" width="1512" height="862" alt="Home dashboard with live standings and team overview" class="screenshot" loading="lazy">
       <p class="screenshot-caption">Home dashboard &mdash; live standings, team roster preview, recent activity feed.</p>
-      <img src="/assets/work/fantastic-leagues/05-auction-nominating-dark.png" alt="Live auction draft in dark mode showing nomination and bidding" class="screenshot" loading="lazy">
+      <img src="/assets/work/fantastic-leagues/05-auction-nominating-dark.webp" width="1280" height="800" alt="Live auction draft in dark mode showing nomination and bidding" class="screenshot" loading="lazy">
       <p class="screenshot-caption">Live auction draft &mdash; WebSocket-driven, supports 50+ concurrent bidders.</p>
-      <img src="/assets/work/fantastic-leagues/10-players-stats.png" alt="Player stats table with search and filtering" class="screenshot" loading="lazy">
+      <img src="/assets/work/fantastic-leagues/10-players-stats.webp" width="1512" height="862" alt="Player stats table with search and filtering" class="screenshot" loading="lazy">
       <p class="screenshot-caption">Player stats &mdash; MLB Stats API feed, MCP proxy with SQLite cache.</p>
-      <img src="/assets/work/fantastic-leagues/team-page-ai.png" alt="Team page with AI-generated insights" class="screenshot" loading="lazy">
+      <img src="/assets/work/fantastic-leagues/team-page-ai.webp" width="1280" height="900" alt="Team page with AI-generated insights" class="screenshot" loading="lazy">
       <p class="screenshot-caption">Team page with AI insights &mdash; Google Gemini primary, Claude Sonnet fallback.</p>
     </section>
 
@@ -202,7 +226,7 @@ WS ──Auction state──▶ API</div>
   <footer class="site-footer">
     <p class="footer-meta">
       <a href="/">&larr; Back to James Chang</a>
-      <span style="margin: 0 0.5rem;">&middot;</span>
+      <span class="sep">&middot;</span>
       <a href="https://thefantasticleagues.com">Visit the live site</a>
     </p>
   </footer>
