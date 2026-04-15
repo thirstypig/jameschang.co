@@ -17,6 +17,46 @@
 .crumbs a:hover { color: var(--accent); }
 .crumbs .sep { margin: 0 0.5rem; opacity: 0.5; }
 
+/* Project sub-nav: quick jumps between sibling pages within a project */
+.project-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.5rem;
+  align-items: center;
+  margin: 0 0 1.75rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.875rem;
+}
+.project-nav .label {
+  color: var(--muted);
+  margin-right: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+.project-nav a {
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.1s, border-color 0.1s;
+}
+.project-nav a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.project-nav a[aria-current="page"] {
+  color: var(--text);
+  border-color: var(--text);
+  background: var(--card-bg);
+  font-weight: 500;
+}
+@media print { .project-nav { display: none; } }
+
 /* Snapshot banner at top of every work page */
 .snapshot-banner {
   background: var(--card-bg);
