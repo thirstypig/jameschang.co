@@ -297,18 +297,43 @@ h3 {
   border: 1px solid var(--rule);
   border-radius: 6px;
   padding: 1.25rem;
-  transition: border-color 0.15s ease;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+  position: relative; /* for stretched link */
 }
-.project-card:hover { border-color: var(--accent); }
+.project-card:has(h3 a):hover {
+  border-color: var(--accent);
+  cursor: pointer;
+}
 .project-card h3 { margin-bottom: 0.5rem; font-size: 1rem; }
-.project-card h3 a { color: var(--text); text-decoration: none; }
-.project-card h3 a:hover { color: var(--accent); }
+.project-card h3 a {
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--muted); /* subtle affordance that this is clickable */
+}
+.project-card h3 a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+/* Stretched-link: clicking anywhere on the card triggers the h3 link */
+.project-card h3 a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
 .project-card p { margin: 0; font-size: 0.9375rem; line-height: 1.5; color: var(--text); }
 .project-meta {
   margin-top: 0.75rem !important;
   font-size: 0.8125rem !important;
   color: var(--muted) !important;
 }
+/* Secondary links inside the card stay clickable above the stretched link */
+.project-card .project-meta a {
+  position: relative;
+  z-index: 2;
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.project-card .project-meta a:hover { color: var(--accent); }
 .tag {
   display: inline-block;
   padding: 0.1rem 0.5rem;
