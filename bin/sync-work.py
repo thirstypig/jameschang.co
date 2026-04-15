@@ -108,10 +108,36 @@ def sync_fbst_changelog() -> bool:
     return changed
 
 
+# --- Last-updated marker refresh -------------------------------------------
+
+def refresh_updated_markers() -> bool:
+    """
+    Replace the contents between <!-- updated-start --> and <!-- updated-end -->
+    on every /work/*/index.html with today's date. Idempotent: re-running on
+    the same day produces no diff.
+    """
+    from datetime import datetime
+    today_iso = date.today().isoformat()
+    today_human = datetime.strptime(today_iso, "%Y-%m-%d").strftime("%B %-d, %Y")
+    replacement_inner = f'Last updated <time datetime="{today_iso}">{today_human}</time>'
+    pattern = re.compile(r'(<!-- updated-start -->)(.*?)(<!-- updated-end -->)', re.DOTALL)
+    any_changed = False
+    for html_path in (ROOT / "work").rglob("index.html"):
+        if html_path == ROOT / "work" / "index.html":
+            continue
+        content = html_path.read_text()
+        new = pattern.sub(rf'\1{replacement_inner}\3', content, count=1)
+        if new != content:
+            html_path.write_text(new)
+            any_changed = True
+    print(f"[updated-markers] {'changed' if any_changed else 'no change'} — date set to {today_iso}")
+    return any_changed
+
+
 # --- Main ------------------------------------------------------------------
 
 def main() -> int:
-    jobs = [sync_fbst_changelog]
+    jobs = [sync_fbst_changelog, refresh_updated_markers]
     any_changed = False
     for job in jobs:
         if job():

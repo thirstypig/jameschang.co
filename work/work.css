@@ -57,6 +57,15 @@
 }
 @media print { .project-nav { display: none; } }
 
+/* Last-updated indicator (sync-script-refreshable) */
+.page-updated {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  margin: -1.25rem 0 1.5rem;
+  font-variant-numeric: tabular-nums;
+}
+.page-updated time { font-weight: 500; color: var(--text); }
+
 /* Sync-injected line inside snapshot banner */
 .synced-line {
   display: block;
