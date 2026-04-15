@@ -57,25 +57,6 @@
 }
 @media print { .project-nav { display: none; } }
 
-/* Last-updated indicator (sync-script-refreshable) */
-.page-updated {
-  font-size: 0.8125rem;
-  color: var(--muted);
-  margin: -1.25rem 0 1.5rem;
-  font-variant-numeric: tabular-nums;
-}
-.page-updated time { font-weight: 500; color: var(--text); }
-
-/* Sync-injected line inside snapshot banner */
-.synced-line {
-  display: block;
-  margin: 0 0 0.35rem;
-  font-size: 0.8125rem;
-  color: var(--accent);
-  letter-spacing: 0.01em;
-}
-.synced-line strong { font-weight: 600; }
-
 /* Snapshot banner at top of every work page */
 .snapshot-banner {
   background: var(--card-bg);
