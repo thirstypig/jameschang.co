@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'none'; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; form-action 'none'; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
   <title>The Fantastic Leagues — AI Insights — James Chang</title>
   <meta name="description" content="How The Fantastic Leagues uses AI: eight league-context-aware features built on Gemini 2.5 Flash (primary) and Claude Sonnet 4 (fallback), with a shared insights cache keyed on team + feature + data hash.">
   <link rel="canonical" href="https://jameschang.co/work/fantastic-leagues/ai-insights/">
@@ -33,6 +33,14 @@
       "name": "James Chang"
     }
   }
+  </script>
+  <!-- Google Analytics 4 — TODO: replace G-XXXXXXXXXX with real ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true });
   </script>
 </head>
 <body>

@@ -314,6 +314,41 @@ h3 {
   font-size: 1rem;
   color: var(--muted);
 }
+
+/* Hero CTA row — Calendly booking button */
+.hero-cta-row {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  margin: 0 0 2rem;
+  flex-wrap: wrap;
+}
+.cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.65rem 1.15rem;
+  background: var(--accent);
+  color: #fff !important;
+  text-decoration: none !important;
+  border-radius: 999px;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  letter-spacing: -0.01em;
+  box-shadow: 0 2px 12px rgba(180, 74, 62, 0.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+.cta-primary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 18px rgba(180, 74, 62, 0.35);
+}
+.cta-note {
+  font-size: 0.875rem;
+  color: var(--muted);
+  font-style: italic;
+}
+@media print { .hero-cta-row { display: none; } }
 .hero-ctas .cta {
   color: var(--accent);
   font-weight: 500;
