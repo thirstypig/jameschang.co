@@ -99,20 +99,38 @@ a:hover { color: var(--accent-hover); text-decoration-thickness: 2px; }
 .site-header {
   border-bottom: 1px solid var(--rule);
 }
-.site-header nav {
+.site-header-inner {
   max-width: var(--measure-wide);
   margin: 0 auto;
   padding: 1rem 1.5rem;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.site-brand {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+.site-brand:hover { color: var(--accent); }
+.site-header nav {
+  display: flex;
   gap: 1.75rem;
   font-size: 0.9375rem;
+  align-items: center;
+  flex-wrap: wrap;
 }
-.site-header a {
+.site-header nav a {
   color: var(--muted);
   text-decoration: none;
   padding: 0.25rem 0;
 }
-.site-header a:hover { color: var(--accent); }
+.site-header nav a:hover { color: var(--accent); }
 
 /* Theme toggle */
 .theme-toggle {
