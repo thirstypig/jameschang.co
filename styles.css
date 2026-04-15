@@ -1,18 +1,28 @@
 /* ============================================================
    jameschang.co — single stylesheet
-   Editorial / warm off-white / oxide red accent
-   System sans body + serif display H1 via Google-free fallback
-   Dark mode via prefers-color-scheme (no toggle)
+   Editorial / blue-tinted palette / oxide-red accent
+   Liquid-glass surfaces via backdrop-filter
+   Dark mode via prefers-color-scheme + manual [data-theme] override
    ============================================================ */
 
 :root {
-  --bg: #faf8f5;
-  --text: #1a1a1a;
-  --muted: #55514d;
-  --rule: #e6e0d6;
-  --accent: #a03623;       /* warm oxide red */
-  --accent-hover: #7a2718;
-  --card-bg: #fff;
+  /* Surface */
+  --bg:           #eef2f7;        /* soft cool off-white, deeper than pure white */
+  --bg-from:      #f4f7fb;        /* gradient top-left (lighter) */
+  --bg-to:        #e3e9f2;        /* gradient bottom-right (slightly darker) */
+  --text:         #0f1a2e;        /* deep navy ink */
+  --muted:        #576376;        /* blue-gray */
+  --rule:         rgba(15, 26, 46, 0.12);
+
+  /* Accent stays warm against the cool neutral */
+  --accent:       #b44a3e;        /* slightly softer oxide red */
+  --accent-hover: #8a3428;
+
+  /* Liquid-glass card surface */
+  --card-bg:        rgba(255, 255, 255, 0.55);
+  --card-border:    rgba(255, 255, 255, 0.75);
+  --card-shadow:    0 4px 24px rgba(15, 26, 46, 0.06);
+  --glass-blur:     blur(20px) saturate(1.3);
 
   --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
   --sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -22,26 +32,35 @@
   --measure-wide: 960px;
 }
 
+/* Dark — deep navy, not black. Warmer than pure dark blue to keep text legible. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #151311;
-    --text: #ece7df;
-    --muted: #a29a8e;
-    --rule: #2a2622;
-    --accent: #e47a5f;
-    --accent-hover: #f29478;
-    --card-bg: #1d1a16;
+    --bg:         #0f1a2e;        /* deep navy */
+    --bg-from:    #14233d;
+    --bg-to:      #0a1422;
+    --text:       #e4e9f2;
+    --muted:      #8a95a8;
+    --rule:       rgba(228, 233, 242, 0.12);
+    --accent:     #ff8b6d;        /* warm coral against cool navy */
+    --accent-hover: #ffa98f;
+    --card-bg:      rgba(255, 255, 255, 0.04);
+    --card-border:  rgba(255, 255, 255, 0.10);
+    --card-shadow:  0 4px 24px rgba(0, 0, 0, 0.25);
   }
 }
 
 :root[data-theme="dark"] {
-  --bg: #151311;
-  --text: #ece7df;
-  --muted: #a29a8e;
-  --rule: #2a2622;
-  --accent: #e47a5f;
-  --accent-hover: #f29478;
-  --card-bg: #1d1a16;
+  --bg:         #0f1a2e;
+  --bg-from:    #14233d;
+  --bg-to:      #0a1422;
+  --text:       #e4e9f2;
+  --muted:      #8a95a8;
+  --rule:       rgba(228, 233, 242, 0.12);
+  --accent:     #ff8b6d;
+  --accent-hover: #ffa98f;
+  --card-bg:      rgba(255, 255, 255, 0.04);
+  --card-border:  rgba(255, 255, 255, 0.10);
+  --card-shadow:  0 4px 24px rgba(0, 0, 0, 0.25);
 }
 
 * { box-sizing: border-box; }
@@ -67,6 +86,11 @@ body {
   line-height: 1.55;
   color: var(--text);
   background: var(--bg);
+  /* Subtle twin-radial gradient so liquid-glass surfaces have something to sample + blur */
+  background-image:
+    radial-gradient(at 15% 10%, var(--bg-from) 0%, transparent 45%),
+    radial-gradient(at 85% 85%, var(--bg-to) 0%, transparent 45%);
+  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -132,35 +156,64 @@ a:hover { color: var(--accent-hover); text-decoration-thickness: 2px; }
 }
 .site-header nav a:hover { color: var(--accent); }
 
-/* Theme toggle */
+/* Theme toggle — pill with both icons visible, highlight slides to active */
 .theme-toggle {
-  margin-left: auto;
-  background: none;
-  border: 1px solid var(--rule);
-  color: var(--muted);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   cursor: pointer;
-  padding: 0.3rem 0.65rem;
-  font-size: 0.95rem;
-  line-height: 1;
-  border-radius: 4px;
-  min-width: 36px;
-  min-height: 32px;
+  font-family: inherit;
+  margin-left: auto;
+  gap: 0;
+  height: 32px;
+  box-shadow: var(--card-shadow);
+}
+.theme-toggle:hover { border-color: var(--accent); }
+.theme-toggle span {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: inherit;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--muted);
+  transition: color 0.25s ease;
+  z-index: 2;
+  user-select: none;
 }
-.theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+/* Sliding highlight pill */
+.theme-toggle::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: var(--text);
+  transition: transform 0.25s cubic-bezier(.4,0,.2,1);
+  z-index: 1;
+}
+/* Light mode (default): highlight on sun (left, position 0) */
+.theme-toggle .icon-sun { color: var(--bg); font-weight: 600; }
+.theme-toggle .icon-moon { color: var(--muted); }
 
-/* Icon swap: moon shows when page is light, sun shows when page is dark.
-   Clicking the button goes toward the opposite state. */
-.theme-toggle .icon-sun { display: none; }
-.theme-toggle .icon-moon { display: inline; }
-:root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
-:root[data-theme="dark"] .theme-toggle .icon-sun { display: inline; }
+/* Dark mode: highlight translates to moon (right) */
+:root[data-theme="dark"] .theme-toggle::before { transform: translateX(26px); }
+:root[data-theme="dark"] .theme-toggle .icon-sun { color: var(--muted); font-weight: normal; }
+:root[data-theme="dark"] .theme-toggle .icon-moon { color: var(--bg); font-weight: 600; }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
-  :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: inline; }
+  :root:not([data-theme="light"]) .theme-toggle::before { transform: translateX(26px); }
+  :root:not([data-theme="light"]) .theme-toggle .icon-sun { color: var(--muted); font-weight: normal; }
+  :root:not([data-theme="light"]) .theme-toggle .icon-moon { color: var(--bg); font-weight: 600; }
 }
 
 /* ---------- Main container ---------- */
@@ -312,23 +365,27 @@ h3 {
 }
 .project-card {
   background: var(--card-bg);
-  border: 1px solid var(--rule);
-  border-radius: 6px;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
   padding: 1.25rem;
-  transition: border-color 0.15s ease, transform 0.15s ease;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   position: relative; /* for stretched link */
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--card-shadow);
 }
 .project-card:has(h3 a):hover {
   border-color: var(--accent);
   cursor: pointer;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 32px rgba(15, 26, 46, 0.08);
 }
 .project-card h3 { margin-bottom: 0.5rem; font-size: 1rem; }
 .project-card h3 a {
   color: var(--text);
   text-decoration: none;
-  border-bottom: 1px dotted var(--muted); /* subtle affordance that this is clickable */
 }
-.project-card h3 a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.project-card h3 a:hover { color: var(--accent); }
 /* Stretched-link: clicking anywhere on the card triggers the h3 link */
 .project-card h3 a::after {
   content: "";
@@ -397,6 +454,9 @@ h3 {
   padding: 1rem 1.25rem;
   border-left: 3px solid var(--accent);
   background: var(--card-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: 8px;
   margin-top: 1.5rem !important;
   font-size: 1rem;
 }
