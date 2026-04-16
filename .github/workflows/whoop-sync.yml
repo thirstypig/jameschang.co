@@ -27,13 +27,13 @@ jobs:
         run: python bin/update-whoop.py
 
       - name: Update refresh token secret if rotated
+        continue-on-error: true
         if: hashFiles('.whoop-refresh-token') != ''
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           NEW_TOKEN=$(cat .whoop-refresh-token)
-          gh secret set WHOOP_REFRESH_TOKEN --body "$NEW_TOKEN"
-          echo "Updated WHOOP_REFRESH_TOKEN secret with rotated token."
+          gh secret set WHOOP_REFRESH_TOKEN --body "$NEW_TOKEN" || echo "::warning::Could not auto-update refresh token. If sync fails tomorrow, re-run bin/whoop-auth.sh locally."
           rm -f .whoop-refresh-token
 
       - name: Commit and push if changed
