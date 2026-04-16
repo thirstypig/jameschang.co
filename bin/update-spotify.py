@@ -9,21 +9,30 @@ so the /now page can show it until superseded by a newer podcast, with a
 """
 
 import base64
+import hashlib
 import json
 import os
-import re
 import sys
 from datetime import datetime, timedelta, timezone
 from urllib.error import HTTPError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
+from _shared import (
+    escape_html,
+    relative_time,
+    replace_marker,
+    sanitize_error,
+    content_changed,
+    read_now_html,
+    write_now_html,
+    USER_AGENT,
+    REPO_ROOT,
+)
+
 API_BASE = "https://api.spotify.com/v1"
 TOKEN_URL = "https://accounts.spotify.com/api/token"
-REPO_ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
-NOW_HTML = os.path.join(REPO_ROOT, "now", "index.html")
 STATE_FILE = os.path.join(REPO_ROOT, ".spotify-state.json")
-USER_AGENT = "jameschang.co/1.0 (Spotify personal dashboard; +https://jameschang.co)"
 PODCAST_AGE_LIMIT = timedelta(days=7)
 TRACKS_LIMIT = 5
 
@@ -49,7 +58,7 @@ def get_access_token():
         with urlopen(req) as resp:
             body = json.loads(resp.read())
     except HTTPError as e:
-        print(f"Token refresh failed: {e} — {e.read().decode('utf-8', errors='replace')}")
+        print(f"Token refresh failed: {sanitize_error(e)}")
         sys.exit(1)
 
     return body["access_token"]
@@ -70,7 +79,7 @@ def api_get(token, path, params=None):
                 return None
             return json.loads(resp.read())
     except HTTPError as e:
-        print(f"API {path} failed: {e} — {e.read().decode('utf-8', errors='replace')}")
+        print(f"API {path} failed: {sanitize_error(e)}")
         return None
 
 
@@ -80,7 +89,7 @@ def load_state():
     try:
         with open(STATE_FILE) as f:
             return json.load(f)
-    except Exception:
+    except (OSError, json.JSONDecodeError):
         return {}
 
 
@@ -123,36 +132,6 @@ def fetch_current_podcast(token):
     }
 
 
-def relative_time(iso_str):
-    """Human-readable 'N hours ago' / 'N days ago' / 'yesterday'."""
-    if not iso_str:
-        return ""
-    try:
-        # Spotify returns ISO 8601 with 'Z' suffix or a time offset
-        if iso_str.endswith("Z"):
-            iso_str = iso_str[:-1] + "+00:00"
-        t = datetime.fromisoformat(iso_str)
-    except ValueError:
-        return ""
-    delta = datetime.now(timezone.utc) - t
-    minutes = int(delta.total_seconds() / 60)
-    if minutes < 60:
-        return f"{minutes}m ago" if minutes > 0 else "just now"
-    hours = minutes // 60
-    if hours < 24:
-        return f"{hours}h ago"
-    days = hours // 24
-    if days == 1:
-        return "yesterday"
-    if days < 7:
-        return f"{days}d ago"
-    weeks = days // 7
-    if weeks < 5:
-        return f"{weeks}w ago"
-    months = days // 30
-    return f"{months}mo ago"
-
-
 def build_html(tracks, podcast):
     """Return the HTML block between the WHOOP-style markers."""
     parts = []
@@ -163,9 +142,9 @@ def build_html(tracks, podcast):
         episode = podcast.get("episode") or ""
         url = podcast.get("url")
         captured = relative_time(podcast.get("captured_at"))
-        label_html = f'<em>{_escape(show)}</em> &mdash; &ldquo;{_escape(episode)}&rdquo;'
+        label_html = f'<em>{escape_html(show)}</em> &mdash; &ldquo;{escape_html(episode)}&rdquo;'
         if url:
-            label_html = f'<a href="{_escape(url)}" rel="noopener" target="_blank">{label_html}</a>'
+            label_html = f'<a href="{escape_html(url)}" rel="noopener" target="_blank">{label_html}</a>'
         parts.append(f'        <p class="spotify-podcast"><strong>Last podcast:</strong> {label_html} &middot; heard {captured}</p>')
 
     # Tracks list
@@ -173,12 +152,12 @@ def build_html(tracks, podcast):
         parts.append('        <p class="spotify-heading"><strong>Recently on Spotify</strong></p>')
         parts.append('        <ul class="spotify-list">')
         for t in tracks:
-            name = _escape(t["name"])
-            artists = _escape(t["artists"])
+            name = escape_html(t["name"])
+            artists = escape_html(t["artists"])
             played = relative_time(t.get("played_at"))
             title_html = f'&ldquo;{name}&rdquo; &mdash; {artists}'
             if t.get("url"):
-                title_html = f'<a href="{_escape(t["url"])}" rel="noopener" target="_blank">{title_html}</a>'
+                title_html = f'<a href="{escape_html(t["url"])}" rel="noopener" target="_blank">{title_html}</a>'
             parts.append(f'          <li>{title_html} <span class="spotify-when">&middot; {played}</span></li>')
         parts.append('        </ul>')
 
@@ -191,28 +170,6 @@ def build_html(tracks, podcast):
     return "\n".join(parts)
 
 
-def _escape(s):
-    """Minimal HTML escaping for text that goes into attributes or between tags."""
-    if s is None:
-        return ""
-    return (s.replace("&", "&amp;")
-             .replace("<", "&lt;")
-             .replace(">", "&gt;")
-             .replace('"', "&quot;"))
-
-
-def update_now_html(html_block):
-    with open(NOW_HTML, "r", encoding="utf-8") as f:
-        content = f.read()
-    pattern = r"(<!-- SPOTIFY-START -->).*?(<!-- SPOTIFY-END -->)"
-    replacement = f"<!-- SPOTIFY-START -->\n{html_block}\n        <!-- SPOTIFY-END -->"
-    new_content, count = re.subn(pattern, replacement, content, flags=re.DOTALL)
-    if count == 0:
-        print("ERROR: Could not find <!-- SPOTIFY-START --> / <!-- SPOTIFY-END --> markers in now/index.html")
-        sys.exit(1)
-    with open(NOW_HTML, "w", encoding="utf-8") as f:
-        f.write(new_content)
-    print(f"Updated {NOW_HTML}.")
 
 
 def main():
@@ -221,15 +178,14 @@ def main():
     tracks = fetch_recent_tracks(token)
     current = fetch_current_podcast(token)
 
-    # Podcast state: keep the most recent one seen, age it out after 7 days
     state = load_state()
     podcast = state.get("last_podcast")
+    state_dirty = False
 
     if current:
-        # Fresh podcast playing right now — overwrite state
         podcast = current
         state["last_podcast"] = podcast
-        save_state(state)
+        state_dirty = True
         print(f"Captured podcast: {current['show']} — {current['episode']}")
     elif podcast:
         try:
@@ -237,12 +193,35 @@ def main():
             if datetime.now(timezone.utc) - captured > PODCAST_AGE_LIMIT:
                 print(f"Stale podcast (>{PODCAST_AGE_LIMIT.days}d old), hiding.")
                 podcast = None
-        except Exception:
+        except (KeyError, ValueError, TypeError):
             podcast = None
 
-    html = build_html(tracks, podcast)
-    update_now_html(html)
+    html_block = build_html(tracks, podcast)
 
+    # Content-hash cache: skip HTML write if tracks + podcast haven't changed
+    import re as _re
+    date_stripped = _re.sub(r"Auto-updated [A-Z][a-z]+ \d+, \d{4}", "", html_block)
+    tracks_hash = hashlib.sha1(date_stripped.encode()).hexdigest()[:12]
+    old_hash = state.get("last_tracks_hash")
+
+    if tracks_hash == old_hash and not state_dirty:
+        print("Tracks + podcast unchanged, skipping write.")
+        return
+
+    state["last_tracks_hash"] = tracks_hash
+    save_state(state)
+
+    old_content = read_now_html()
+    new_content, replaced = replace_marker(old_content, "SPOTIFY", html_block)
+    if not replaced:
+        print("ERROR: SPOTIFY markers not found in now/index.html")
+        sys.exit(1)
+
+    if not content_changed(old_content, new_content):
+        print("No meaningful changes.")
+        return
+
+    write_now_html(new_content)
     print(f"  Tracks: {len(tracks)}")
     if podcast:
         print(f"  Podcast: {podcast.get('show')} — {podcast.get('episode')}")

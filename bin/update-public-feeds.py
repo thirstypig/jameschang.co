@@ -13,86 +13,32 @@ Feeds:
 
 import json
 import os
-import re
 import sys
 import xml.etree.ElementTree as ET
 from collections import Counter
 from datetime import datetime, timedelta, timezone
 from urllib.error import HTTPError, URLError
-from urllib.parse import urlencode
-from urllib.request import Request, urlopen
+from zoneinfo import ZoneInfo
 
-REPO_ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
-NOW_HTML = os.path.join(REPO_ROOT, "now", "index.html")
-USER_AGENT = "jameschang.co/1.0 (personal dashboard; +https://jameschang.co)"
+from _shared import (
+    escape_html,
+    relative_time,
+    replace_marker,
+    fetch_json,
+    fetch_text,
+    content_changed,
+    read_now_html,
+    write_now_html,
+)
 
 GITHUB_USER = "thirstypig"
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
 MLB_TEAM_ID = 119  # Los Angeles Dodgers
 LETTERBOXD_USER = "thirstypig"
 FBST_API_BASE = "https://app.thefantasticleagues.com/api/public"
 FBST_LEAGUE_SLUG = "ogba-2026"
 FBST_MY_TEAM = "Los Doyers"
-
-
-# ------------------------ helpers ------------------------
-
-def fetch_json(url, timeout=15):
-    req = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/json"})
-    with urlopen(req, timeout=timeout) as resp:
-        return json.loads(resp.read())
-
-
-def fetch_text(url, timeout=15):
-    req = Request(url, headers={"User-Agent": USER_AGENT})
-    with urlopen(req, timeout=timeout) as resp:
-        return resp.read().decode("utf-8", errors="replace")
-
-
-def relative_time(iso_str):
-    if not iso_str:
-        return ""
-    try:
-        if iso_str.endswith("Z"):
-            iso_str = iso_str[:-1] + "+00:00"
-        t = datetime.fromisoformat(iso_str)
-    except ValueError:
-        return ""
-    delta = datetime.now(timezone.utc) - t
-    minutes = int(delta.total_seconds() / 60)
-    if minutes < 60:
-        return f"{minutes}m ago" if minutes > 0 else "just now"
-    hours = minutes // 60
-    if hours < 24:
-        return f"{hours}h ago"
-    days = hours // 24
-    if days == 1:
-        return "yesterday"
-    if days < 7:
-        return f"{days}d ago"
-    weeks = days // 7
-    if weeks < 5:
-        return f"{weeks}w ago"
-    months = days // 30
-    return f"{months}mo ago"
-
-
-def escape_html(s):
-    if s is None:
-        return ""
-    return (s.replace("&", "&amp;")
-             .replace("<", "&lt;")
-             .replace(">", "&gt;")
-             .replace('"', "&quot;"))
-
-
-def replace_marker(content, marker_name, html):
-    pattern = rf"(<!-- {marker_name}-START -->).*?(<!-- {marker_name}-END -->)"
-    replacement = f"<!-- {marker_name}-START -->\n{html}\n        <!-- {marker_name}-END -->"
-    new_content, count = re.subn(pattern, replacement, content, flags=re.DOTALL)
-    if count == 0:
-        print(f"WARNING: {marker_name}-START / -END markers not found in now/index.html")
-        return content
-    return new_content
+PT = ZoneInfo("America/Los_Angeles")
 
 
 # ------------------------ GitHub ------------------------
@@ -104,7 +50,8 @@ def github_block():
     head commit separately for each push. Events older than 7 days ignored.
     """
     try:
-        events = fetch_json(f"https://api.github.com/users/{GITHUB_USER}/events/public?per_page=100")
+        gh_headers = {"Authorization": f"Bearer {GITHUB_TOKEN}"} if GITHUB_TOKEN else {}
+        events = fetch_json(f"https://api.github.com/users/{GITHUB_USER}/events/public?per_page=30", headers=gh_headers)
     except (HTTPError, URLError) as e:
         print(f"GitHub fetch failed: {e}")
         return None
@@ -131,22 +78,12 @@ def github_block():
             push_count += 1
             head_sha = payload.get("head")
             ref = payload.get("ref", "").replace("refs/heads/", "")
-            # Enrich with commit message (PushEvent payload is stripped)
-            summary = f"Pushed to {ref}" if ref else "Pushed"
-            if head_sha:
-                try:
-                    commit = fetch_json(f"https://api.github.com/repos/{repo}/commits/{head_sha}")
-                    msg = (commit.get("commit") or {}).get("message", "")
-                    first_line = msg.split("\n")[0].strip()
-                    if first_line:
-                        summary = first_line
-                except (HTTPError, URLError):
-                    pass
             recent.append({
                 "time": ev["created_at"],
                 "repo": repo,
-                "summary": summary,
+                "summary": f"Pushed to {ref}" if ref else "Pushed",
                 "url": f"https://github.com/{repo}/commit/{head_sha}" if head_sha else f"https://github.com/{repo}",
+                "_head_sha": head_sha,
             })
         elif etype == "PullRequestEvent":
             repo_counts[repo] += 1
@@ -178,8 +115,25 @@ def github_block():
         f'        <p class="gh-summary"><strong>Shipping:</strong> '
         f'{push_count} push{"es" if push_count != 1 else ""} across {num_repos} repo{"s" if num_repos != 1 else ""} this week.</p>'
     )
+    # Enrich only top-5 push events with commit messages (avoids N+1 rate-limit)
+    display = recent[:5]
+    for item in display:
+        sha = item.pop("_head_sha", None)
+        if sha and item["summary"].startswith("Pushed to"):
+            try:
+                commit = fetch_json(
+                    f"https://api.github.com/repos/{item['repo']}/commits/{sha}",
+                    headers=gh_headers,
+                )
+                msg = (commit.get("commit") or {}).get("message", "")
+                first_line = msg.split("\n")[0].strip()
+                if first_line:
+                    item["summary"] = first_line
+            except (HTTPError, URLError):
+                pass
+
     parts.append('        <ul class="gh-list">')
-    for item in recent[:5]:
+    for item in display:
         repo_short = item["repo"].split("/")[-1]
         summary = escape_html(item["summary"])[:90]
         rel = relative_time(item["time"])
@@ -253,7 +207,7 @@ def mlb_block():
                     }
                 elif status in ("Preview", "Live"):
                     if not next_game:
-                        local = gt.astimezone(timezone(timedelta(hours=-7)))  # PT
+                        local = gt.astimezone(PT)
                         next_game = {
                             "summary": f"{local.strftime('%a %-I:%M%p')} {'vs' if is_home else '@'} {them}",
                             "time": game_date,
@@ -264,7 +218,7 @@ def mlb_block():
         line = '<strong>Dodgers:</strong>'
         if record:
             line += f' {record}'
-            if games_back and games_back != "-" and games_back != "0.0":
+            if games_back and games_back not in ("-", "0.0", "+0.0", "0", "E"):
                 line += f' ({games_back} GB)'
         parts.append(f'        <p class="mlb-line">{line}.')
         extras = []
@@ -390,40 +344,30 @@ def fbst_block():
 # ------------------------ Main ------------------------
 
 def main():
-    with open(NOW_HTML, "r", encoding="utf-8") as f:
-        content = f.read()
+    old_content = read_now_html()
+    content = old_content
 
-    gh = github_block()
-    if gh:
-        content = replace_marker(content, "GITHUB", gh)
-        print(f"  GitHub: rendered")
-    else:
-        content = replace_marker(content, "GITHUB", '        <p class="feed-empty">No recent activity.</p>')
+    # Only fetch feeds whose markers are present in the HTML (todo 058)
+    feeds = [
+        ("GITHUB",     github_block,     '        <p class="feed-empty">No recent activity.</p>'),
+        ("MLB",        mlb_block,         '        <p class="feed-empty">MLB data unavailable.</p>'),
+        ("LETTERBOXD", letterboxd_block,  '        <p class="feed-empty">No films logged yet. <a href="https://letterboxd.com/thirstypig/">Letterboxd</a>.</p>'),
+        ("FBST",       fbst_block,        '        <p class="feed-empty">FBST standings unavailable.</p>'),
+    ]
+    for marker, builder, fallback in feeds:
+        if f"<!-- {marker}-START -->" not in content:
+            continue
+        result = builder()
+        html = result if result else fallback
+        content, _ = replace_marker(content, marker, html)
+        print(f"  {marker}: {'rendered' if result else 'fallback'}")
 
-    mlb = mlb_block()
-    if mlb:
-        content = replace_marker(content, "MLB", mlb)
-        print(f"  MLB: rendered")
-    else:
-        content = replace_marker(content, "MLB", '        <p class="feed-empty">MLB data unavailable.</p>')
+    if not content_changed(old_content, content):
+        print("No meaningful changes.")
+        return
 
-    lb = letterboxd_block()
-    if lb:
-        content = replace_marker(content, "LETTERBOXD", lb)
-        print(f"  Letterboxd: rendered")
-    else:
-        content = replace_marker(content, "LETTERBOXD", '        <p class="feed-empty">No films logged yet. <a href="https://letterboxd.com/thirstypig/">Letterboxd</a>.</p>')
-
-    fbst = fbst_block()
-    if fbst:
-        content = replace_marker(content, "FBST", fbst)
-        print(f"  FBST: rendered")
-    else:
-        content = replace_marker(content, "FBST", '        <p class="feed-empty">FBST standings unavailable.</p>')
-
-    with open(NOW_HTML, "w", encoding="utf-8") as f:
-        f.write(content)
-    print(f"Updated {NOW_HTML}.")
+    write_now_html(content)
+    print("Updated now/index.html.")
 
 
 if __name__ == "__main__":

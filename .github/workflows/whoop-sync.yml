@@ -2,9 +2,12 @@ name: Sync WHOOP data to /now
 
 on:
   schedule:
-    # Run daily at 10:00 UTC (3am PT / 6am ET)
     - cron: '0 10 * * *'
-  workflow_dispatch: # Allow manual trigger from Actions tab
+  workflow_dispatch:
+
+concurrency:
+  group: now-html-writer
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -15,16 +18,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
       - name: Fetch WHOOP data and update /now/
         env:
           WHOOP_CLIENT_ID: ${{ secrets.WHOOP_CLIENT_ID }}
           WHOOP_CLIENT_SECRET: ${{ secrets.WHOOP_CLIENT_SECRET }}
           WHOOP_TOKEN_KEY: ${{ secrets.WHOOP_TOKEN_KEY }}
-        run: python bin/update-whoop.py
+        run: python3 bin/update-whoop.py
 
       - name: Commit and push (updated /now + rotated token)
         run: |
@@ -35,5 +34,6 @@ jobs:
             echo "No changes to commit."
           else
             git commit -m "chore: update WHOOP data on /now page"
+            git pull --rebase origin main
             git push
           fi

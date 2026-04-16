@@ -2,9 +2,12 @@ name: Sync Spotify data to /now
 
 on:
   schedule:
-    # Every 4 hours — frequent enough to catch active podcast playback
     - cron: '0 */4 * * *'
   workflow_dispatch:
+
+concurrency:
+  group: now-html-writer
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -15,16 +18,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
       - name: Fetch Spotify data and update /now/
         env:
           SPOTIFY_CLIENT_ID:     ${{ secrets.SPOTIFY_CLIENT_ID }}
           SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
           SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
-        run: python bin/update-spotify.py
+        run: python3 bin/update-spotify.py
 
       - name: Commit and push if changed
         run: |
