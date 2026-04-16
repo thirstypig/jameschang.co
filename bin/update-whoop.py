@@ -21,19 +21,17 @@ USER_AGENT = "jameschang.co/1.0 (WHOOP personal dashboard; +https://jameschang.c
 
 def get_access_token():
     """Exchange refresh token for a fresh access token."""
-    import base64
-
     client_id = os.environ["WHOOP_CLIENT_ID"]
     client_secret = os.environ["WHOOP_CLIENT_SECRET"]
     refresh_token = os.environ["WHOOP_REFRESH_TOKEN"]
 
+    # WHOOP requires client_secret_post (credentials in body, not Basic Auth header)
     data = urlencode({
         "grant_type": "refresh_token",
         "refresh_token": refresh_token,
+        "client_id": client_id,
+        "client_secret": client_secret,
     }).encode()
-
-    # WHOOP expects HTTP Basic Auth (client_id:client_secret) for token requests
-    credentials = base64.b64encode(f"{client_id}:{client_secret}".encode()).decode()
 
     req = Request(
         "https://api.prod.whoop.com/oauth/oauth2/token",
@@ -41,7 +39,6 @@ def get_access_token():
         method="POST",
         headers={
             "Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": f"Basic {credentials}",
             "User-Agent": USER_AGENT,
             "Accept": "application/json",
         },
