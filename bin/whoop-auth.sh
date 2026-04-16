@@ -20,7 +20,7 @@ read -rp "WHOOP Client ID: " CLIENT_ID
 read -rp "WHOOP Client Secret: " CLIENT_SECRET
 
 REDIRECT_URI="https://jameschang.co/whoop/callback/"
-SCOPES="read:recovery read:sleep read:workout read:cycles read:profile"
+SCOPES="read:recovery read:sleep read:workout read:cycles read:profile read:body_measurement offline"
 
 # URL-encode spaces in scopes
 ENCODED_SCOPES="${SCOPES// /%20}"
@@ -57,16 +57,21 @@ RESPONSE=$(curl -s -X POST "https://api.prod.whoop.com/oauth/oauth2/token" \
   -d "client_secret=${CLIENT_SECRET}" \
   -d "redirect_uri=${REDIRECT_URI}")
 
+# Show full response for debugging
+echo ""
+echo "Token response:"
+echo "${RESPONSE}" | python3 -m json.tool 2>/dev/null || echo "${RESPONSE}"
+echo ""
+
 # Check for error
-if echo "${RESPONSE}" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('error',''))" 2>/dev/null | grep -q .; then
+if echo "${RESPONSE}" | python3 -c "import sys,json; d=json.load(sys.stdin); e=d.get('error',''); exit(0 if e else 1)" 2>/dev/null; then
   ERROR=$(echo "${RESPONSE}" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('error','unknown'))")
   echo "ERROR: ${ERROR}"
-  echo "Full response: ${RESPONSE}"
   exit 1
 fi
 
-REFRESH_TOKEN=$(echo "${RESPONSE}" | python3 -c "import sys,json; print(json.load(sys.stdin)['refresh_token'])")
 ACCESS_TOKEN=$(echo "${RESPONSE}" | python3 -c "import sys,json; print(json.load(sys.stdin)['access_token'])")
+REFRESH_TOKEN=$(echo "${RESPONSE}" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('refresh_token', 'NONE'))")
 
 echo ""
 echo "=== SUCCESS ==="
@@ -75,7 +80,16 @@ echo "Add these as GitHub Secrets (Settings → Secrets → Actions):"
 echo ""
 echo "  WHOOP_CLIENT_ID      = ${CLIENT_ID}"
 echo "  WHOOP_CLIENT_SECRET  = ${CLIENT_SECRET}"
-echo "  WHOOP_REFRESH_TOKEN  = ${REFRESH_TOKEN}"
+if [ "${REFRESH_TOKEN}" = "NONE" ]; then
+  echo ""
+  echo "  NOTE: WHOOP did not return a refresh_token."
+  echo "  The access_token below may be long-lived. Store it as:"
+  echo "  WHOOP_ACCESS_TOKEN   = ${ACCESS_TOKEN}"
+  echo ""
+  echo "  If it expires, re-run this script to get a new one."
+else
+  echo "  WHOOP_REFRESH_TOKEN  = ${REFRESH_TOKEN}"
+fi
 echo ""
 echo "Testing API access..."
 
