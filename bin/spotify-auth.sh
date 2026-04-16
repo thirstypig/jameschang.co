@@ -44,34 +44,51 @@ echo "Exchanging code for tokens..."
 # Spotify supports client_secret_basic — send creds as Basic auth header
 CREDS=$(printf "%s:%s" "${CLIENT_ID}" "${CLIENT_SECRET}" | base64)
 
-RESPONSE=$(curl -s -X POST "https://accounts.spotify.com/api/token" \
+BODY_FILE=$(mktemp)
+HTTP_CODE=$(curl -s -o "${BODY_FILE}" -w "%{http_code}" -X POST "https://accounts.spotify.com/api/token" \
   -H "Authorization: Basic ${CREDS}" \
   -H "Content-Type: application/x-www-form-urlencoded" \
   -d "grant_type=authorization_code" \
   -d "code=${AUTH_CODE}" \
   -d "redirect_uri=${REDIRECT_URI}")
 
-echo ""
-echo "Token response:"
-echo "${RESPONSE}" | python3 -m json.tool 2>/dev/null || echo "${RESPONSE}"
-echo ""
+RESPONSE=$(cat "${BODY_FILE}")
+rm -f "${BODY_FILE}"
+
+if [ "${HTTP_CODE}" != "200" ]; then
+  echo "Token exchange failed: ${HTTP_CODE}"
+  exit 1
+fi
+
+echo "Token exchange successful."
 
 # Extract refresh token
 REFRESH_TOKEN=$(echo "${RESPONSE}" | python3 -c "import sys,json; print(json.load(sys.stdin).get('refresh_token', 'NONE'))")
 ACCESS_TOKEN=$(echo "${RESPONSE}" | python3 -c "import sys,json; print(json.load(sys.stdin).get('access_token', 'NONE'))")
 
 if [ "${REFRESH_TOKEN}" = "NONE" ]; then
-  echo "ERROR: No refresh_token in response. Check that the app's redirect URI exactly matches ${REDIRECT_URI}."
+  echo "Token exchange failed: no refresh_token in response. Check that the app's redirect URI exactly matches ${REDIRECT_URI}."
   exit 1
 fi
 
+# Write secrets to a mode-600 tempfile instead of echoing them.
+umask 077
+SECRETS_FILE=$(mktemp)
+{
+  echo "SPOTIFY_CLIENT_SECRET  = ${CLIENT_SECRET}"
+  echo "SPOTIFY_REFRESH_TOKEN  = ${REFRESH_TOKEN}"
+} > "${SECRETS_FILE}"
+
+echo ""
 echo "=== SUCCESS ==="
 echo ""
 echo "Add these as GitHub Secrets (Settings → Secrets and variables → Actions):"
 echo ""
 echo "  SPOTIFY_CLIENT_ID      = ${CLIENT_ID}"
-echo "  SPOTIFY_CLIENT_SECRET  = ${CLIENT_SECRET}"
-echo "  SPOTIFY_REFRESH_TOKEN  = ${REFRESH_TOKEN}"
+echo ""
+echo "Secrets saved to: ${SECRETS_FILE}"
+echo "Copy them to GitHub Secrets, then run:"
+echo "    shred -u ${SECRETS_FILE}    # or rm"
 echo ""
 echo "Testing API access..."
 

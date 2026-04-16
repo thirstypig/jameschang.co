@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
   <title>Spotify OAuth Callback</title>
@@ -11,6 +12,7 @@
     .code-box { background: #f4f4f4; border: 1px solid #ccc; border-radius: 6px; padding: 1rem; font-family: monospace; font-size: 0.95rem; word-break: break-all; user-select: all; margin: 1rem 0; }
     .error { color: #b44a3e; }
     .success { color: #3a7a4a; }
+    .note { margin-top: 1.5rem; color: #666; font-size: 0.85rem; }
     button { padding: 0.5rem 1rem; border: 1px solid #ccc; border-radius: 4px; background: #fff; cursor: pointer; font-size: 0.9rem; }
     button:hover { background: #f0f0f0; }
   </style>
@@ -19,24 +21,53 @@
   <h1>Spotify Authorization</h1>
   <div id="result"></div>
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get('code');
-    const error = params.get('error');
-    const el = document.getElementById('result');
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var code = params.get('code');
+      var error = params.get('error');
+      var errorDescription = params.get('error_description');
+      var el = document.getElementById('result');
 
-    if (code) {
-      el.innerHTML = `
-        <p class="success"><strong>Authorization code received.</strong></p>
-        <p>Copy this code and paste it into the terminal script:</p>
-        <div class="code-box" id="code">${code}</div>
-        <button onclick="navigator.clipboard.writeText(document.getElementById('code').textContent).then(()=>this.textContent='Copied!')">Copy to clipboard</button>
-        <p style="margin-top:1.5rem;color:#666;font-size:0.85rem;">This page is not indexed and can be removed after setup is complete.</p>
-      `;
-    } else if (error) {
-      el.innerHTML = `<p class="error"><strong>Authorization failed:</strong> ${error}</p>`;
-    } else {
-      el.innerHTML = `<p class="error">No authorization code found in the URL. Make sure you arrived here via the Spotify OAuth flow.</p>`;
-    }
+      function makeEl(tag, className, text) {
+        var node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text != null) node.textContent = text;
+        return node;
+      }
+
+      if (code) {
+        var successP = makeEl('p', 'success');
+        successP.appendChild(makeEl('strong', null, 'Authorization code received.'));
+        el.appendChild(successP);
+
+        el.appendChild(makeEl('p', null, 'Copy this code and paste it into the terminal script:'));
+
+        var codeBox = makeEl('div', 'code-box', code);
+        codeBox.id = 'code';
+        el.appendChild(codeBox);
+
+        var button = makeEl('button', null, 'Copy to clipboard');
+        button.addEventListener('click', function () {
+          navigator.clipboard.writeText(code).then(function () {
+            button.textContent = 'Copied!';
+          });
+        });
+        el.appendChild(button);
+
+        el.appendChild(makeEl('p', 'note', 'This page is not indexed and can be removed after setup is complete.'));
+      } else if (error) {
+        var errP = makeEl('p', 'error');
+        errP.appendChild(makeEl('strong', null, 'Authorization failed:'));
+        errP.appendChild(document.createTextNode(' ' + error));
+        el.appendChild(errP);
+
+        if (errorDescription) {
+          el.appendChild(makeEl('p', null, errorDescription));
+        }
+      } else {
+        el.appendChild(makeEl('p', 'error', 'No authorization code found in the URL. Make sure you arrived here via the Spotify OAuth flow.'));
+      }
+    })();
   </script>
 </body>
 </html>

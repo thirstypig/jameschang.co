@@ -7,7 +7,6 @@ file (.whoop-token.enc) that gets re-encrypted after each token rotation.
 
 import json
 import os
-import re
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -15,11 +14,20 @@ from urllib.error import HTTPError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
+from _shared import (
+    escape_html,
+    replace_marker,
+    sanitize_error,
+    content_changed,
+    read_now_html,
+    write_now_html,
+    NOW_HTML,
+    USER_AGENT,
+    REPO_ROOT,
+)
+
 API_BASE = "https://api.prod.whoop.com/developer/v2"
-REPO_ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
-NOW_HTML = os.path.join(REPO_ROOT, "now", "index.html")
 TOKEN_ENC = os.path.join(REPO_ROOT, ".whoop-token.enc")
-USER_AGENT = "jameschang.co/1.0 (WHOOP personal dashboard; +https://jameschang.co)"
 
 
 def decrypt_refresh_token():
@@ -85,18 +93,11 @@ def get_access_token():
         with urlopen(req) as resp:
             body = json.loads(resp.read())
     except HTTPError as e:
-        error_body = e.read().decode("utf-8", errors="replace")
-        print(f"Token refresh failed: {e}")
-        print(f"Response body: {error_body}")
+        print(f"Token refresh failed: {sanitize_error(e)}")
         sys.exit(1)
 
     new_refresh = body.get("refresh_token")
-    if new_refresh:
-        encrypt_refresh_token(new_refresh)
-        if new_refresh != refresh_token:
-            print("Refresh token rotated and re-encrypted.")
-
-    return body["access_token"]
+    return body["access_token"], new_refresh
 
 
 def api_get(token, path, params=None):
@@ -113,8 +114,7 @@ def api_get(token, path, params=None):
         with urlopen(req) as resp:
             return json.loads(resp.read())
     except HTTPError as e:
-        error_body = e.read().decode("utf-8", errors="replace")
-        print(f"API {path} failed: {e} — {error_body}")
+        print(f"API {path} failed: {sanitize_error(e)}")
         return {"records": []}
 
 
@@ -173,55 +173,56 @@ def recovery_color(score):
 
 
 def build_html(recovery, sleep, cycle):
-    now = datetime.now(timezone.utc).strftime("%B %d, %Y")
+    now = escape_html(datetime.now(timezone.utc).strftime("%B %d, %Y"))
     parts = []
     parts.append(f'        <p class="whoop-updated">Auto-updated {now} via <a href="https://www.whoop.com">WHOOP</a> API</p>')
 
     if recovery:
         score = recovery["recovery_score"]
         color = recovery_color(score)
-        score_str = f"{score:.0f}%" if score is not None else "\u2014"
-        hrv_str = f'{recovery["hrv"]:.0f}ms' if recovery.get("hrv") else "\u2014"
-        rhr_str = f'{recovery["resting_hr"]:.0f}bpm' if recovery.get("resting_hr") else "\u2014"
-        parts.append(f'        <p><strong class="whoop-{color}">Recovery: {score_str}</strong> &middot; HRV: {hrv_str} &middot; Resting HR: {rhr_str}</p>')
+        score_str = escape_html(f"{score:.0f}%") if score is not None else "\u2014"
+        hrv_str = escape_html(f'{recovery["hrv"]:.0f}ms') if recovery.get("hrv") else "\u2014"
+        rhr_str = escape_html(f'{recovery["resting_hr"]:.0f}bpm') if recovery.get("resting_hr") else "\u2014"
+        parts.append(f'        <p><strong class="whoop-{escape_html(color)}">Recovery: {score_str}</strong> &middot; HRV: {hrv_str} &middot; Resting HR: {rhr_str}</p>')
 
     if sleep:
         h, m = sleep["hours"], sleep["minutes"]
-        eff = f'{sleep["efficiency"]:.0f}%' if sleep.get("efficiency") else "\u2014"
-        parts.append(f'        <p>Sleep: {h}h {m:02d}m &middot; Efficiency: {eff}</p>')
+        eff = escape_html(f'{sleep["efficiency"]:.0f}%') if sleep.get("efficiency") else "\u2014"
+        parts.append(f'        <p>Sleep: {escape_html(str(h))}h {escape_html(f"{m:02d}")}m &middot; Efficiency: {eff}</p>')
 
     if cycle and cycle.get("day_strain") is not None:
-        strain = f'{cycle["day_strain"]:.1f}'
+        strain = escape_html(f'{cycle["day_strain"]:.1f}')
         parts.append(f'        <p>Day Strain: {strain}</p>')
 
     return "\n".join(parts)
 
 
-def update_now_html(html_block):
-    with open(NOW_HTML, "r", encoding="utf-8") as f:
-        content = f.read()
+def main():
+    access_token, new_refresh = get_access_token()
 
-    pattern = r"(<!-- WHOOP-START -->).*?(<!-- WHOOP-END -->)"
-    replacement = f"<!-- WHOOP-START -->\n{html_block}\n        <!-- WHOOP-END -->"
+    recovery = fetch_latest_recovery(access_token)
+    sleep = fetch_latest_sleep(access_token)
+    cycle = fetch_latest_cycle(access_token)
 
-    new_content, count = re.subn(pattern, replacement, content, flags=re.DOTALL)
-    if count == 0:
-        print("ERROR: Could not find <!-- WHOOP-START --> / <!-- WHOOP-END --> markers in now/index.html")
+    html_block = build_html(recovery, sleep, cycle)
+
+    old_content = read_now_html()
+    new_content, replaced = replace_marker(old_content, "WHOOP", html_block)
+    if not replaced:
+        print("ERROR: WHOOP markers not found in now/index.html")
         sys.exit(1)
 
-    with open(NOW_HTML, "w", encoding="utf-8") as f:
-        f.write(new_content)
+    if not content_changed(old_content, new_content):
+        print("No meaningful changes")
+        sys.exit(0)
+
+    write_now_html(new_content)
     print(f"Updated {NOW_HTML} with latest WHOOP data.")
 
-
-def main():
-    token = get_access_token()
-    recovery = fetch_latest_recovery(token)
-    sleep = fetch_latest_sleep(token)
-    cycle = fetch_latest_cycle(token)
-
-    html = build_html(recovery, sleep, cycle)
-    update_now_html(html)
+    # Encrypt the rotated refresh token AFTER successful write (todo 045)
+    if new_refresh:
+        encrypt_refresh_token(new_refresh)
+        print("Refresh token rotated and re-encrypted.")
 
     if recovery and recovery["recovery_score"] is not None:
         print(f"  Recovery: {recovery['recovery_score']:.0f}%")
