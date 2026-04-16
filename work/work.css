@@ -456,6 +456,33 @@
   opacity: 0.8;
 }
 
+/* WHOOP recovery colors (matches WHOOP green/yellow/red system) */
+.whoop-green { color: #3a9a4a; }
+.whoop-yellow { color: #c9a020; }
+.whoop-red { color: #c0392b; }
+.whoop-muted { color: var(--muted); }
+@media (prefers-color-scheme: dark) {
+  .whoop-green { color: #5cc06a; }
+  .whoop-yellow { color: #e0c040; }
+  .whoop-red { color: #e74c3c; }
+}
+:root[data-theme="dark"] .whoop-green { color: #5cc06a; }
+:root[data-theme="dark"] .whoop-yellow { color: #e0c040; }
+:root[data-theme="dark"] .whoop-red { color: #e74c3c; }
+
+.whoop-updated {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+.whoop-note {
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--rule);
+}
+
 /* Responsive tweaks */
 @media (max-width: 720px) {
   .work-main { padding: 1.5rem 1rem 3rem; }
