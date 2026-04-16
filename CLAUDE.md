@@ -18,11 +18,12 @@ Operational notes for Claude Code (and any other agent) working on this repo. Fo
 /whoop/callback/        OAuth2 redirect target (static page that reads ?code= from URL)
 /assets/                Images (AVIF/WebP/PNG responsive triples), favicons, OG image
 /bin/                   Maintenance scripts (whoop-auth.sh, whoop-encrypt.sh, update-whoop.py, update-spotify.py, update-public-feeds.py, spotify-auth.sh)
-/.github/workflows/     GitHub Actions (daily WHOOP sync)
+/.github/workflows/     GitHub Actions (WHOOP, Spotify, public feeds sync + staleness check)
 /docs/solutions/        Internal knowledge base — past solved problems (see /ce:compound)
 /todos/                 Code-review findings (see /ce:review)
 /resume.pdf             Generated from the homepage print stylesheet
 .whoop-token.enc        AES-encrypted WHOOP refresh token (committed, decrypted at runtime)
+.feeds-heartbeat.json   Timestamped heartbeats per feed (committed by sync workflows)
 ```
 
 ## CSS token system
@@ -72,10 +73,11 @@ The `/now` page is assembled from several independent sync scripts that each wri
 3. Write a Python function that fetches + returns the HTML block; add to `bin/update-public-feeds.py` (for unauth) or a new `bin/update-{feed}.py` (for OAuth).
 4. Add the fetch to the `main()` of the sync script; use `replace_marker()` to insert.
 5. If OAuth: add a callback page at `/{service}/callback/`, auth script at `bin/{service}-auth.sh`, workflow at `.github/workflows/{service}-sync.yml`.
+6. Call `record_heartbeat("feed_name")` from `_shared.py` in the sync script's `main()` — both on success and on early-return (no-change) paths. The weekly staleness check (`.github/workflows/feeds-staleness-check.yml`) opens a GitHub issue if any feed goes >48h without a successful heartbeat.
 
 ## Third-party fetches on /now/
 
-The Places-I-want-to-try section fetches `https://thirstypig.com/places-wishlist.json` client-side. CORS is locked to `https://jameschang.co`, so the section won't render on `localhost` (expected). Graceful-fail pattern: on fetch error or empty list, the `<section id="wishlist-section">` is `.remove()`'d — no empty shell visible.
+The Places-I-want-to-try section fetches `https://thirstypig.com/places-hitlist.json` client-side. CORS is locked to `https://jameschang.co`, so the section won't render on `localhost` (expected). Graceful-fail pattern: on fetch error or empty list, the `<section id="wishlist-section">` is `.remove()`'d — no empty shell visible.
 
 ## Agent-native conventions
 
@@ -94,9 +96,13 @@ python3 -m http.server 8787
 
 For screenshotting with a forced theme, temporarily write `index.html` with `<html data-theme="light">` or `data-theme="dark">` baked in (OS preference otherwise leaks through to headless Chrome).
 
+## Analytics
+
+**No analytics are installed.** The GA4 placeholder (`G-XXXXXXXXXX`) was removed on 2026-04-16. CSP headers across all HTML files were tightened to remove Google domains. If adding real analytics later, re-add the GA4 snippet and update CSP `script-src`, `img-src`, and `connect-src` in all HTML files.
+
 ## Known outstanding items
 
-See `todos/*-pending-*.md` for the active code-review findings queue.
+All code-review findings from the initial review have been resolved. See `todos/*` for the full history (status: done).
 
 ## Commit/push workflow
 

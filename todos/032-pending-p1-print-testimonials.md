@@ -1,5 +1,5 @@
 ---
-status: pending
+status: done
 priority: p1
 issue_id: 032
 tags: [code-review, quality]

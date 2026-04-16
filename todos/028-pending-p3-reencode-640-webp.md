@@ -1,5 +1,5 @@
 ---
-status: pending
+status: done
 priority: p3
 issue_id: 028
 tags: [code-review, performance, images]

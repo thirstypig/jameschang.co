@@ -22,6 +22,7 @@ from _shared import (
     escape_html,
     relative_time,
     replace_marker,
+    record_heartbeat,
     sanitize_error,
     content_changed,
     read_now_html,
@@ -205,6 +206,7 @@ def main():
     old_hash = state.get("last_tracks_hash")
 
     if tracks_hash == old_hash and not state_dirty:
+        record_heartbeat("spotify")
         print("Tracks + podcast unchanged, skipping write.")
         return
 
@@ -222,6 +224,7 @@ def main():
         return
 
     write_now_html(new_content)
+    record_heartbeat("spotify")
     print(f"  Tracks: {len(tracks)}")
     if podcast:
         print(f"  Podcast: {podcast.get('show')} — {podcast.get('episode')}")

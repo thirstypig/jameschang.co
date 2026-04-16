@@ -17,6 +17,7 @@ from urllib.request import Request, urlopen
 from _shared import (
     escape_html,
     replace_marker,
+    record_heartbeat,
     sanitize_error,
     content_changed,
     read_now_html,
@@ -213,10 +214,12 @@ def main():
         sys.exit(1)
 
     if not content_changed(old_content, new_content):
+        record_heartbeat("whoop")
         print("No meaningful changes")
         sys.exit(0)
 
     write_now_html(new_content)
+    record_heartbeat("whoop")
     print(f"Updated {NOW_HTML} with latest WHOOP data.")
 
     # Encrypt the rotated refresh token AFTER successful write (todo 045)

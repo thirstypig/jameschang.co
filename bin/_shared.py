@@ -15,7 +15,31 @@ from urllib.request import Request, urlopen
 
 REPO_ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
 NOW_HTML = os.path.join(REPO_ROOT, "now", "index.html")
+HEARTBEAT_FILE = os.path.join(REPO_ROOT, ".feeds-heartbeat.json")
 USER_AGENT = "jameschang.co/1.0 (personal dashboard; +https://jameschang.co)"
+
+
+def record_heartbeat(feed_name, error=None):
+    """Record a timestamped heartbeat for a feed in .feeds-heartbeat.json."""
+    data = {}
+    if os.path.exists(HEARTBEAT_FILE):
+        try:
+            with open(HEARTBEAT_FILE, "r") as f:
+                data = json.load(f)
+        except (json.JSONDecodeError, OSError):
+            pass
+    now = datetime.now(timezone.utc).isoformat()
+    existing = data.get(feed_name, {})
+    entry = {"last_run_utc": now}
+    if error:
+        entry["last_error"] = str(error)[:200]
+        if "last_success_utc" in existing:
+            entry["last_success_utc"] = existing["last_success_utc"]
+    else:
+        entry["last_success_utc"] = now
+    data[feed_name] = entry
+    with open(HEARTBEAT_FILE, "w") as f:
+        json.dump(data, f, indent=2, sort_keys=True)
 
 
 def escape_html(s):
