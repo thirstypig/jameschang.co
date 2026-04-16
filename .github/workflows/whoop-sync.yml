@@ -26,6 +26,16 @@ jobs:
           WHOOP_REFRESH_TOKEN: ${{ secrets.WHOOP_REFRESH_TOKEN }}
         run: python bin/update-whoop.py
 
+      - name: Update refresh token secret if rotated
+        if: hashFiles('.whoop-refresh-token') != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          NEW_TOKEN=$(cat .whoop-refresh-token)
+          gh secret set WHOOP_REFRESH_TOKEN --body "$NEW_TOKEN"
+          echo "Updated WHOOP_REFRESH_TOKEN secret with rotated token."
+          rm -f .whoop-refresh-token
+
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"

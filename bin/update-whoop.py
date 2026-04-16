@@ -14,7 +14,7 @@ from datetime import datetime, timedelta, timezone
 from urllib.request import Request, urlopen
 from urllib.parse import urlencode
 
-API_BASE = "https://api.prod.whoop.com/developer/v1"
+API_BASE = "https://api.prod.whoop.com/developer/v2"
 NOW_HTML = os.path.join(os.path.dirname(__file__), "..", "now", "index.html")
 USER_AGENT = "jameschang.co/1.0 (WHOOP personal dashboard; +https://jameschang.co)"
 
@@ -57,10 +57,15 @@ def get_access_token():
             print(f"Token refresh failed: {e}")
         sys.exit(1)
 
-    # Update the refresh token secret if it rotated
+    # WHOOP rotates refresh tokens on every use. Write the new one to a file
+    # so the workflow can update the GitHub Secret automatically.
     new_refresh = body.get("refresh_token")
-    if new_refresh and new_refresh != refresh_token:
-        print(f"::warning::WHOOP refresh token rotated. Update WHOOP_REFRESH_TOKEN secret.")
+    if new_refresh:
+        refresh_path = os.path.join(os.path.dirname(__file__), "..", ".whoop-refresh-token")
+        with open(refresh_path, "w") as f:
+            f.write(new_refresh)
+        if new_refresh != refresh_token:
+            print("Refresh token rotated — saved to .whoop-refresh-token for secret update.")
 
     return body["access_token"]
 
@@ -81,7 +86,7 @@ def api_get(token, path, params=None):
 
 def fetch_latest_recovery(token):
     """Get the most recent recovery score."""
-    data = api_get(token, "/recovery", {"limit": "1", "order": "desc"})
+    data = api_get(token, "/recovery", {"limit": "1"})
     records = data.get("records", [])
     if not records:
         return None
@@ -96,7 +101,7 @@ def fetch_latest_recovery(token):
 
 def fetch_latest_sleep(token):
     """Get the most recent sleep record."""
-    data = api_get(token, "/activity/sleep", {"limit": "1", "order": "desc"})
+    data = api_get(token, "/activity/sleep", {"limit": "1"})
     records = data.get("records", [])
     if not records:
         return None
@@ -114,7 +119,7 @@ def fetch_latest_sleep(token):
 
 def fetch_latest_workout(token):
     """Get the most recent workout."""
-    data = api_get(token, "/activity/workout", {"limit": "1", "order": "desc"})
+    data = api_get(token, "/activity/workout", {"limit": "1"})
     records = data.get("records", [])
     if not records:
         return None
@@ -127,7 +132,7 @@ def fetch_latest_workout(token):
 
 def fetch_latest_cycle(token):
     """Get the most recent cycle for day strain."""
-    data = api_get(token, "/cycle", {"limit": "1", "order": "desc"})
+    data = api_get(token, "/cycle", {"limit": "1"})
     records = data.get("records", [])
     if not records:
         return None
