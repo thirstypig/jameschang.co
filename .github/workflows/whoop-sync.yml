@@ -23,24 +23,14 @@ jobs:
         env:
           WHOOP_CLIENT_ID: ${{ secrets.WHOOP_CLIENT_ID }}
           WHOOP_CLIENT_SECRET: ${{ secrets.WHOOP_CLIENT_SECRET }}
-          WHOOP_REFRESH_TOKEN: ${{ secrets.WHOOP_REFRESH_TOKEN }}
+          WHOOP_TOKEN_KEY: ${{ secrets.WHOOP_TOKEN_KEY }}
         run: python bin/update-whoop.py
 
-      - name: Update refresh token secret if rotated
-        continue-on-error: true
-        if: hashFiles('.whoop-refresh-token') != ''
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          NEW_TOKEN=$(cat .whoop-refresh-token)
-          gh secret set WHOOP_REFRESH_TOKEN --body "$NEW_TOKEN" || echo "::warning::Could not auto-update refresh token. If sync fails tomorrow, re-run bin/whoop-auth.sh locally."
-          rm -f .whoop-refresh-token
-
-      - name: Commit and push if changed
+      - name: Commit and push (updated /now + rotated token)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add now/index.html
+          git add now/index.html .whoop-token.enc
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
