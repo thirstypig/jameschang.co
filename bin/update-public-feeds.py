@@ -95,7 +95,11 @@ def replace_marker(content, marker_name, html):
 # ------------------------ GitHub ------------------------
 
 def github_block():
-    """Recent public push/release/PR activity across the user's repos."""
+    """Recent public push/release/PR activity across the user's repos.
+
+    GitHub strips commit details from PushEvent payloads, so we fetch the
+    head commit separately for each push. Events older than 7 days ignored.
+    """
     try:
         events = fetch_json(f"https://api.github.com/users/{GITHUB_USER}/events/public?per_page=100")
     except (HTTPError, URLError) as e:
@@ -105,7 +109,7 @@ def github_block():
     cutoff = datetime.now(timezone.utc) - timedelta(days=7)
     recent = []
     repo_counts = Counter()
-    commit_count = 0
+    push_count = 0
 
     for ev in events:
         try:
@@ -114,53 +118,67 @@ def github_block():
             continue
         if t < cutoff:
             break
+
         repo = ev.get("repo", {}).get("name", "")
-        repo_counts[repo] += 1
         etype = ev.get("type")
+        payload = ev.get("payload") or {}
+
         if etype == "PushEvent":
-            payload = ev.get("payload") or {}
-            commits = payload.get("commits") or []
-            commit_count += len(commits)
-            if commits:
-                last = commits[-1]
-                recent.append({
-                    "type": "push",
-                    "time": ev["created_at"],
-                    "repo": repo,
-                    "summary": last.get("message", "").split("\n")[0],
-                    "url": f"https://github.com/{repo}/commit/{last.get('sha', '')[:7]}",
-                })
-        elif etype == "PullRequestEvent":
-            payload = ev.get("payload") or {}
-            pr = payload.get("pull_request") or {}
+            repo_counts[repo] += 1
+            push_count += 1
+            head_sha = payload.get("head")
+            ref = payload.get("ref", "").replace("refs/heads/", "")
+            # Enrich with commit message (PushEvent payload is stripped)
+            summary = f"Pushed to {ref}" if ref else "Pushed"
+            if head_sha:
+                try:
+                    commit = fetch_json(f"https://api.github.com/repos/{repo}/commits/{head_sha}")
+                    msg = (commit.get("commit") or {}).get("message", "")
+                    first_line = msg.split("\n")[0].strip()
+                    if first_line:
+                        summary = first_line
+                except (HTTPError, URLError):
+                    pass
             recent.append({
-                "type": "pr",
                 "time": ev["created_at"],
                 "repo": repo,
-                "summary": f'PR {payload.get("action", "")}: {pr.get("title", "")}',
+                "summary": summary,
+                "url": f"https://github.com/{repo}/commit/{head_sha}" if head_sha else f"https://github.com/{repo}",
+            })
+        elif etype == "PullRequestEvent":
+            repo_counts[repo] += 1
+            pr = payload.get("pull_request") or {}
+            action = payload.get("action", "")
+            title = pr.get("title") or "(untitled)"
+            recent.append({
+                "time": ev["created_at"],
+                "repo": repo,
+                "summary": f"PR {action}: {title}",
                 "url": pr.get("html_url"),
             })
         elif etype == "ReleaseEvent":
-            payload = ev.get("payload") or {}
+            repo_counts[repo] += 1
             rel = payload.get("release") or {}
             recent.append({
-                "type": "release",
                 "time": ev["created_at"],
                 "repo": repo,
-                "summary": f'Released {rel.get("tag_name", "")}',
+                "summary": f"Released {rel.get('tag_name', '')} \u2014 {rel.get('name', '')}",
                 "url": rel.get("html_url"),
             })
 
-    if not recent and commit_count == 0:
+    if not recent:
         return None
 
     num_repos = len(repo_counts)
     parts = []
-    parts.append(f'        <p class="gh-summary"><strong>Shipping:</strong> {commit_count} commits across {num_repos} repo{"s" if num_repos != 1 else ""} this week.</p>')
+    parts.append(
+        f'        <p class="gh-summary"><strong>Shipping:</strong> '
+        f'{push_count} push{"es" if push_count != 1 else ""} across {num_repos} repo{"s" if num_repos != 1 else ""} this week.</p>'
+    )
     parts.append('        <ul class="gh-list">')
     for item in recent[:5]:
         repo_short = item["repo"].split("/")[-1]
-        summary = escape_html(item["summary"])[:80]
+        summary = escape_html(item["summary"])[:90]
         rel = relative_time(item["time"])
         url = escape_html(item.get("url") or f"https://github.com/{item['repo']}")
         parts.append(
@@ -204,7 +222,7 @@ def mlb_block():
         end = (today + timedelta(days=5)).isoformat()
         sched = fetch_json(
             f"https://statsapi.mlb.com/api/v1/schedule?sportId=1&teamId={MLB_TEAM_ID}"
-            f"&startDate={start}&endDate={end}&hydrate=linescore"
+            f"&startDate={start}&endDate={end}&hydrate=linescore,team"
         )
         last_game = None
         next_game = None
@@ -217,7 +235,8 @@ def mlb_block():
                 except Exception:
                     continue
                 is_home = g.get("teams", {}).get("home", {}).get("team", {}).get("id") == MLB_TEAM_ID
-                them = g.get("teams", {}).get("away" if is_home else "home", {}).get("team", {}).get("abbreviation") or "TBD"
+                opp_team = g.get("teams", {}).get("away" if is_home else "home", {}).get("team", {}) or {}
+                them = opp_team.get("abbreviation") or opp_team.get("teamName") or "TBD"
                 our_score = g.get("teams", {}).get("home" if is_home else "away", {}).get("score")
                 their_score = g.get("teams", {}).get("away" if is_home else "home", {}).get("score")
 
