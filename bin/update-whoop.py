@@ -66,6 +66,8 @@ def get_access_token():
         "refresh_token": refresh_token,
         "client_id": client_id,
         "client_secret": client_secret,
+        "redirect_uri": "https://jameschang.co/whoop/callback/",
+        "scope": "read:recovery read:sleep read:workout read:cycles read:profile read:body_measurement offline",
     }).encode()
 
     req = Request(
