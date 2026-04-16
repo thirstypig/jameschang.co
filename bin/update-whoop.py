@@ -20,27 +20,47 @@ NOW_HTML = os.path.join(os.path.dirname(__file__), "..", "now", "index.html")
 
 def get_access_token():
     """Exchange refresh token for a fresh access token."""
+    import base64
+
+    client_id = os.environ["WHOOP_CLIENT_ID"]
+    client_secret = os.environ["WHOOP_CLIENT_SECRET"]
+    refresh_token = os.environ["WHOOP_REFRESH_TOKEN"]
+
     data = urlencode({
         "grant_type": "refresh_token",
-        "refresh_token": os.environ["WHOOP_REFRESH_TOKEN"],
-        "client_id": os.environ["WHOOP_CLIENT_ID"],
-        "client_secret": os.environ["WHOOP_CLIENT_SECRET"],
+        "refresh_token": refresh_token,
     }).encode()
+
+    # WHOOP expects HTTP Basic Auth (client_id:client_secret) for token requests
+    credentials = base64.b64encode(f"{client_id}:{client_secret}".encode()).decode()
 
     req = Request(
         "https://api.prod.whoop.com/oauth/oauth2/token",
         data=data,
         method="POST",
-        headers={"Content-Type": "application/x-www-form-urlencoded"},
+        headers={
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": f"Basic {credentials}",
+        },
     )
-    with urlopen(req) as resp:
-        body = json.loads(resp.read())
+
+    try:
+        with urlopen(req) as resp:
+            body = json.loads(resp.read())
+    except Exception as e:
+        # Read the error response body for debugging
+        if hasattr(e, "read"):
+            error_body = e.read().decode("utf-8", errors="replace")
+            print(f"Token refresh failed: {e}")
+            print(f"Response body: {error_body}")
+        else:
+            print(f"Token refresh failed: {e}")
+        sys.exit(1)
 
     # Update the refresh token secret if it rotated
     new_refresh = body.get("refresh_token")
-    if new_refresh and new_refresh != os.environ["WHOOP_REFRESH_TOKEN"]:
+    if new_refresh and new_refresh != refresh_token:
         print(f"::warning::WHOOP refresh token rotated. Update WHOOP_REFRESH_TOKEN secret.")
-        # GitHub Actions can't auto-update secrets, but we warn.
 
     return body["access_token"]
 
