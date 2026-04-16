@@ -16,6 +16,7 @@ from urllib.parse import urlencode
 
 API_BASE = "https://api.prod.whoop.com/developer/v1"
 NOW_HTML = os.path.join(os.path.dirname(__file__), "..", "now", "index.html")
+USER_AGENT = "jameschang.co/1.0 (WHOOP personal dashboard; +https://jameschang.co)"
 
 
 def get_access_token():
@@ -41,6 +42,8 @@ def get_access_token():
         headers={
             "Content-Type": "application/x-www-form-urlencoded",
             "Authorization": f"Basic {credentials}",
+            "User-Agent": USER_AGENT,
+            "Accept": "application/json",
         },
     )
 
@@ -70,7 +73,11 @@ def api_get(token, path, params=None):
     url = f"{API_BASE}{path}"
     if params:
         url += "?" + urlencode(params)
-    req = Request(url, headers={"Authorization": f"Bearer {token}"})
+    req = Request(url, headers={
+        "Authorization": f"Bearer {token}",
+        "User-Agent": USER_AGENT,
+        "Accept": "application/json",
+    })
     with urlopen(req) as resp:
         return json.loads(resp.read())
 
