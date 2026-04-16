@@ -177,8 +177,6 @@ a:hover {
   border-radius: 999px;
   background: var(--card-bg);
   border: 1px solid var(--card-border);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
   cursor: pointer;
   font-family: inherit;
   margin-left: auto;
@@ -278,22 +276,7 @@ h3 {
   letter-spacing: -0.015em;
   margin: 0 0 1.5rem;
   max-width: 36rem;
-  color: var(--text);
 }
-.display-tagline a {
-  color: var(--text);
-  text-decoration-color: var(--accent);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 5px;
-}
-.display-tagline a:hover { color: var(--accent); }
-.tagline-metric {
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-  color: var(--accent);
-  font-weight: 600;
-}
-
 /* Print-only utility: hidden on web, visible in Cmd-P / PDF output */
 .print-only { display: none; }
 @media print {
@@ -324,7 +307,6 @@ h3 {
 .contact-line .dot { color: var(--rule); margin: 0 0.15rem; }
 
 @media (max-width: 600px) {
-  .contact-line .dot { display: inline; }
   .name { font-size: 1.5rem; }
 }
 
@@ -420,11 +402,11 @@ h3 {
   inset: 0;
   z-index: 1;
 }
-.project-card p { margin: 0; font-size: 0.9375rem; line-height: 1.5; color: var(--text); }
-.project-meta {
-  margin-top: 0.75rem !important;
-  font-size: 0.8125rem !important;
-  color: var(--muted) !important;
+.project-card p { margin: 0; font-size: 0.9375rem; line-height: 1.5; }
+.project-card .project-meta {
+  margin-top: 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--muted);
 }
 /* Secondary links inside the card stay clickable above the stretched link */
 .project-card .project-meta a {
@@ -484,7 +466,7 @@ h3 {
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border-radius: 8px;
-  margin-top: 1.5rem !important;
+  margin-top: 1.5rem;
   font-size: 1rem;
 }
 
@@ -573,14 +555,12 @@ h3 {
 }
 .testimonial blockquote::before { content: "\201C"; color: var(--accent); margin-right: 0.1rem; }
 .testimonial blockquote::after { content: "\201D"; color: var(--accent); margin-left: 0.1rem; }
-.testimonial cite {
-  display: block;
-  font-style: normal;
+.testimonial figcaption {
   font-size: 0.875rem;
   color: var(--muted);
   line-height: 1.35;
 }
-.testimonial cite strong { color: var(--text); font-weight: 600; }
+.testimonial figcaption strong { color: var(--text); font-weight: 600; }
 @media print { .testimonials { display: none; } }
 .case-reflect {
   color: var(--muted);
@@ -820,8 +800,9 @@ h3 {
   #experience   { order: 2; }
   #education    { order: 3; }
   #skills       { order: 4; }
-  #projects     { order: 5; }
+  #work         { order: 5; }
   #memberships  { order: 6; }
+  #testimonials { display: none; }
   #case-studies { display: none; }
 
   /* ATS dictionary aliases — swap visible heading text for ATS-friendly terms in print */

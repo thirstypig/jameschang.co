@@ -24,6 +24,7 @@ from _shared import (
     escape_html,
     relative_time,
     replace_marker,
+    record_heartbeat,
     fetch_json,
     fetch_text,
     content_changed,
@@ -162,25 +163,14 @@ def mlb_block():
                 'next season: March.</p>'
             )
 
-        standings = fetch_json("https://statsapi.mlb.com/api/v1/standings?leagueId=104&season=" + str(today.year))
-        record = None
-        games_back = None
-        for rec in standings.get("records", []):
-            for team in rec.get("teamRecords", []):
-                if team.get("team", {}).get("id") == MLB_TEAM_ID:
-                    record = f"{team.get('wins', 0)}-{team.get('losses', 0)}"
-                    games_back = team.get("gamesBack")
-                    break
-            if record:
-                break
-
-        # Recent + upcoming games
+        # Single API call: hydrate=team,linescore gives us record + scores
         start = (today - timedelta(days=3)).isoformat()
         end = (today + timedelta(days=5)).isoformat()
         sched = fetch_json(
             f"https://statsapi.mlb.com/api/v1/schedule?sportId=1&teamId={MLB_TEAM_ID}"
             f"&startDate={start}&endDate={end}&hydrate=linescore,team"
         )
+        record = None
         last_game = None
         next_game = None
         for date_entry in sched.get("dates", []):
@@ -192,10 +182,17 @@ def mlb_block():
                 except Exception:
                     continue
                 is_home = g.get("teams", {}).get("home", {}).get("team", {}).get("id") == MLB_TEAM_ID
-                opp_team = g.get("teams", {}).get("away" if is_home else "home", {}).get("team", {}) or {}
+                our_side = g.get("teams", {}).get("home" if is_home else "away", {})
+                opp_side = g.get("teams", {}).get("away" if is_home else "home", {})
+                opp_team = opp_side.get("team", {}) or {}
                 them = opp_team.get("abbreviation") or opp_team.get("teamName") or "TBD"
-                our_score = g.get("teams", {}).get("home" if is_home else "away", {}).get("score")
-                their_score = g.get("teams", {}).get("away" if is_home else "home", {}).get("score")
+                our_score = our_side.get("score")
+                their_score = opp_side.get("score")
+
+                if not record:
+                    lr = our_side.get("leagueRecord", {})
+                    if lr.get("wins") is not None:
+                        record = f"{lr['wins']}-{lr['losses']}"
 
                 if status == "Final":
                     our = our_score if our_score is not None else 0
@@ -218,8 +215,6 @@ def mlb_block():
         line = '<strong>Dodgers:</strong>'
         if record:
             line += f' {record}'
-            if games_back and games_back not in ("-", "0.0", "+0.0", "0", "E"):
-                line += f' ({games_back} GB)'
         parts.append(f'        <p class="mlb-line">{line}.')
         extras = []
         if last_game:
@@ -360,6 +355,7 @@ def main():
         result = builder()
         html = result if result else fallback
         content, _ = replace_marker(content, marker, html)
+        record_heartbeat(marker.lower(), error=None if result else f"{marker} returned no data")
         print(f"  {marker}: {'rendered' if result else 'fallback'}")
 
     if not content_changed(old_content, content):

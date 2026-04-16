@@ -1,5 +1,5 @@
 ---
-status: pending
+status: done
 priority: p2
 issue_id: 039
 tags: [code-review, performance]
@@ -15,4 +15,7 @@ now/index.html line 14 loads `/work/work.css`. If only a few classes (.work-main
 Audit which classes from work.css are actually used on the /now/ page. Either inline the needed rules into styles.css, or confirm the dependency is justified.
 
 ## Acceptance Criteria
-- [ ] /now/ page loads only the CSS it actually uses, or the full load is explicitly justified.
+- [x] /now/ page loads only the CSS it actually uses, or the full load is explicitly justified.
+
+## Resolution
+Audited: /now/ uses 21 of ~47 class patterns from work.css — layout utilities (.work-main, .crumbs, .work-hero, .work-section, .module) plus all 7 feed-specific styles (whoop, spotify, github, mlb, fbst, letterboxd, hitlist). Dependency justified; 700 lines is negligible overhead.

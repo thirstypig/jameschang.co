@@ -1,0 +1,71 @@
+name: Check feed staleness
+
+on:
+  schedule:
+    - cron: '0 16 * * 1'  # Monday 9am PT
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check-staleness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check heartbeat ages
+        run: |
+          python3 -c "
+          import json, sys
+          from datetime import datetime, timezone, timedelta
+
+          STALE_HOURS = 48
+
+          try:
+              with open('.feeds-heartbeat.json') as f:
+                  data = json.load(f)
+          except FileNotFoundError:
+              print('::error::No .feeds-heartbeat.json found — feeds may never have run.')
+              sys.exit(1)
+
+          now = datetime.now(timezone.utc)
+          stale = []
+          for feed, info in sorted(data.items()):
+              last = info.get('last_success_utc') or info.get('last_run_utc')
+              if not last:
+                  stale.append(f'{feed}: no timestamp recorded')
+                  continue
+              ts = datetime.fromisoformat(last)
+              age = now - ts
+              hours = age.total_seconds() / 3600
+              if hours > STALE_HOURS:
+                  stale.append(f'{feed}: last success {hours:.0f}h ago ({last})')
+              else:
+                  print(f'{feed}: OK ({hours:.0f}h ago)')
+
+          if stale:
+              body = 'The following feeds have not updated in >{} hours:\n'.format(STALE_HOURS)
+              for s in stale:
+                  body += f'- {s}\n'
+                  print(f'::warning::{s}')
+              # Write issue body for next step
+              with open('/tmp/stale-body.txt', 'w') as f:
+                  f.write(body)
+              sys.exit(1)
+          else:
+              print('All feeds healthy.')
+          "
+
+      - name: Open issue if stale
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -f /tmp/stale-body.txt ]; then
+            gh issue create \
+              --title "Feed staleness alert — $(date -u +%Y-%m-%d)" \
+              --body "$(cat /tmp/stale-body.txt)" \
+              --label "bug"
+          fi
