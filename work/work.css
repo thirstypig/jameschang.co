@@ -483,7 +483,19 @@
   border-top: 1px solid var(--rule);
 }
 
-/* Wishlist (populated by inline script on /now/ from thirstypig.com/places-wishlist.json) */
+/* Wishlist (populated by inline script on /now/ from thirstypig.com/places-hitlist.json) */
+.wishlist-subhead {
+  color: var(--muted);
+  font-size: 0.9375rem;
+  margin: 0 0 1rem;
+}
+.wishlist-subhead a {
+  color: var(--muted);
+  border-bottom: 1px dotted var(--rule);
+  text-decoration: none;
+}
+.wishlist-subhead a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
 .wishlist-list {
   list-style: none;
   padding: 0;

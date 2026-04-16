@@ -311,6 +311,15 @@
         h.textContent = 'Places I want to try';
         container.appendChild(h);
 
+        const sub = document.createElement('p');
+        sub.className = 'wishlist-subhead';
+        sub.appendChild(document.createTextNode('Hit list from '));
+        const subLink = document.createElement('a');
+        subLink.href = 'https://thirstypig.com/wishlist/';
+        subLink.textContent = 'thirstypig.com';
+        sub.appendChild(subLink);
+        container.appendChild(sub);
+
         const module = document.createElement('div');
         module.className = 'module';
 
