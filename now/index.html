@@ -282,7 +282,8 @@
     // Wishlist fetch from thirstypig.com. Safe-by-construction:
     // - All restaurant data rendered via textContent or createElement (no innerHTML)
     // - Silent fail: on fetch error or empty list, the whole section is removed
-    // - CORS required on thirstypig.com/places-wishlist.json for jameschang.co
+    // - CORS required on thirstypig.com/places-hitlist.json for jameschang.co
+    // - Also requires https://thirstypig.com in this page's CSP connect-src
     (async function () {
       const container = document.getElementById('wishlist-section');
       if (!container) return;
@@ -297,10 +298,10 @@
       };
 
       try {
-        const res = await fetch('https://thirstypig.com/places-wishlist.json');
+        const res = await fetch('https://thirstypig.com/places-hitlist.json');
         if (!res.ok) throw new Error(res.status);
         const data = await res.json();
-        const items = (data.toVisit || []).slice(0, 5);
+        const items = (data.items || []).slice(0, 5);
         if (!items.length) {
           container.remove();
           return;
