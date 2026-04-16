@@ -137,9 +137,13 @@ def fetch_latest_sleep(token):
     if not records:
         return None
     score = records[0].get("score", {})
-    total_ms = score.get("total_in_bed_time_milli", 0)
-    hours = total_ms // 3_600_000
-    minutes = (total_ms % 3_600_000) // 60_000
+    stages = score.get("stage_summary", {}) or {}
+    # Actual sleep time = in-bed minus awake (matches what the WHOOP app displays)
+    in_bed_ms = stages.get("total_in_bed_time_milli", 0)
+    awake_ms = stages.get("total_awake_time_milli", 0)
+    slept_ms = max(in_bed_ms - awake_ms, 0)
+    hours = slept_ms // 3_600_000
+    minutes = (slept_ms % 3_600_000) // 60_000
     return {
         "hours": hours,
         "minutes": minutes,
