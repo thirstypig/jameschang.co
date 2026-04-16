@@ -653,6 +653,19 @@
 .mlb-note a { color: var(--muted); text-decoration-color: var(--rule); }
 .mlb-note a:hover { color: var(--accent); text-decoration-color: var(--accent); }
 
+/* FBST (Fantastic Leagues) — rendered inside the Rooting module */
+.fbst-line {
+  margin: 0.75rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+.fbst-line strong { color: var(--text); font-weight: 600; }
+.fbst-line a { color: var(--text); text-decoration-color: var(--rule); }
+.fbst-line a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+.fbst-note { color: var(--muted); font-size: 0.8125rem; }
+
 /* Letterboxd */
 .lb-heading {
   margin: 0 0 0.5rem;

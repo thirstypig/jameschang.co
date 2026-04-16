@@ -29,6 +29,9 @@ USER_AGENT = "jameschang.co/1.0 (personal dashboard; +https://jameschang.co)"
 GITHUB_USER = "thirstypig"
 MLB_TEAM_ID = 119  # Los Angeles Dodgers
 LETTERBOXD_USER = "thirstypig"
+FBST_API_BASE = "https://app.thefantasticleagues.com/api/public"
+FBST_LEAGUE_SLUG = "ogba-2026"
+FBST_MY_TEAM = "Los Doyers"
 
 
 # ------------------------ helpers ------------------------
@@ -337,6 +340,53 @@ def letterboxd_block():
     return "\n".join(parts)
 
 
+# ------------------------ FBST (my fantasy team) ------------------------
+
+def ordinal(n):
+    """1 -> '1st', 2 -> '2nd', 3 -> '3rd', 4 -> '4th', ..."""
+    if 11 <= (n % 100) <= 13:
+        return f"{n}th"
+    return f"{n}{['th','st','nd','rd','th','th','th','th','th','th'][n % 10]}"
+
+
+def fbst_block():
+    """Return the FBST fantasy-team block for my team in the public league."""
+    try:
+        data = fetch_json(f"{FBST_API_BASE}/leagues/{FBST_LEAGUE_SLUG}/standings")
+    except (HTTPError, URLError) as e:
+        print(f"FBST fetch failed: {e}")
+        return None
+
+    standings = data.get("standings") or []
+    if not standings:
+        return None
+
+    total = len(standings)
+    league = data.get("league", {})
+    league_name = league.get("name", "")
+    season = league.get("season", "")
+    period_name = (data.get("period") or {}).get("name", "")
+
+    me = next((t for t in standings if t.get("teamName") == FBST_MY_TEAM), None)
+    if not me:
+        print(f"FBST: team '{FBST_MY_TEAM}' not found in standings")
+        return None
+
+    rank_str = ordinal(me["rank"])
+    points = me["points"]
+    # Format points: drop trailing .0 for whole numbers
+    points_str = f"{points:g}" if isinstance(points, (int, float)) else str(points)
+
+    html = (
+        f'        <p class="fbst-line"><strong>Los Doyers:</strong> {rank_str} of {total}'
+        f' &middot; {points_str} pts &middot; '
+        f'<a href="https://thefantasticleagues.com" rel="noopener" target="_blank">'
+        f'{escape_html(league_name)} {season}</a>'
+        f' <span class="fbst-note">(dogfooding the AI-assisted platform I built)</span></p>'
+    )
+    return html
+
+
 # ------------------------ Main ------------------------
 
 def main():
@@ -363,6 +413,13 @@ def main():
         print(f"  Letterboxd: rendered")
     else:
         content = replace_marker(content, "LETTERBOXD", '        <p class="feed-empty">No films logged yet. <a href="https://letterboxd.com/thirstypig/">Letterboxd</a>.</p>')
+
+    fbst = fbst_block()
+    if fbst:
+        content = replace_marker(content, "FBST", fbst)
+        print(f"  FBST: rendered")
+    else:
+        content = replace_marker(content, "FBST", '        <p class="feed-empty">FBST standings unavailable.</p>')
 
     with open(NOW_HTML, "w", encoding="utf-8") as f:
         f.write(content)
