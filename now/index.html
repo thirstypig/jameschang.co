@@ -236,6 +236,12 @@
       </div>
     </section>
 
+    <section class="work-section" id="wishlist-section">
+      <!-- Script populates this section from thirstypig.com/places-wishlist.json.
+           If the fetch fails or returns no items, the entire section is removed
+           so there's no empty shell visible to readers. -->
+    </section>
+
     <section class="work-section">
       <h2>Off the screen</h2>
       <div class="module">
@@ -243,9 +249,7 @@
           Serving on the board of the <a href="https://camla.org">Chinese American
           Museum</a> in downtown Los Angeles (since Feb 2026). Eating my way
           through the SGV again (see <a href="https://thirstypig.com">Thirsty Pig</a>
-          for the receipts &mdash; and the
-          <a href="https://thirstypig.com/wishlist/">running wishlist</a>
-          of places I still want to try).
+          for the receipts).
         </p>
         <p>
           Rooting for the Los Angeles Dodgers &mdash; and managing my fantasy team,
@@ -274,5 +278,92 @@
     </p>
   </footer>
   <script src="/script.js" defer></script>
+  <script>
+    // Wishlist fetch from thirstypig.com. Safe-by-construction:
+    // - All restaurant data rendered via textContent or createElement (no innerHTML)
+    // - Silent fail: on fetch error or empty list, the whole section is removed
+    // - CORS required on thirstypig.com/places-wishlist.json for jameschang.co
+    (async function () {
+      const container = document.getElementById('wishlist-section');
+      if (!container) return;
+
+      const LINK_LABELS = {
+        yelp: 'Yelp',
+        google: 'Map',
+        instagram: 'IG',
+        resy: 'Resy',
+        opentable: 'OpenTable',
+        website: 'Site',
+      };
+
+      try {
+        const res = await fetch('https://thirstypig.com/places-wishlist.json');
+        if (!res.ok) throw new Error(res.status);
+        const data = await res.json();
+        const items = (data.toVisit || []).slice(0, 5);
+        if (!items.length) {
+          container.remove();
+          return;
+        }
+
+        const h = document.createElement('h2');
+        h.textContent = 'Places I want to try';
+        container.appendChild(h);
+
+        const module = document.createElement('div');
+        module.className = 'module';
+
+        const ul = document.createElement('ul');
+        ul.className = 'wishlist-list';
+        items.forEach(item => {
+          const li = document.createElement('li');
+
+          const name = document.createElement('strong');
+          name.textContent = item.name;
+          li.appendChild(name);
+
+          const locText = (item.neighborhood ? item.neighborhood + ', ' : '') + (item.city || '');
+          if (locText.trim().replace(/,\s*$/, '').length) {
+            const loc = document.createElement('span');
+            loc.className = 'wishlist-location';
+            loc.textContent = ' \u2014 ' + locText.replace(/,\s*$/, '');
+            li.appendChild(loc);
+          }
+
+          const linkEntries = Object.entries(item.links || {}).filter(([, url]) => url);
+          if (linkEntries.length) {
+            const linksSpan = document.createElement('span');
+            linksSpan.className = 'wishlist-links';
+            linksSpan.appendChild(document.createTextNode(' \u00b7 '));
+            linkEntries.forEach(([key, url], i) => {
+              if (i > 0) linksSpan.appendChild(document.createTextNode(' \u00b7 '));
+              const a = document.createElement('a');
+              a.href = url;
+              a.textContent = LINK_LABELS[key] || key;
+              a.target = '_blank';
+              a.rel = 'noopener noreferrer';
+              linksSpan.appendChild(a);
+            });
+            li.appendChild(linksSpan);
+          }
+
+          ul.appendChild(li);
+        });
+        module.appendChild(ul);
+
+        const footer = document.createElement('p');
+        footer.className = 'wishlist-footer';
+        const footerLink = document.createElement('a');
+        footerLink.href = 'https://thirstypig.com/wishlist/';
+        footerLink.textContent = 'See the full list \u2192';
+        footer.appendChild(footerLink);
+        module.appendChild(footer);
+
+        container.appendChild(module);
+      } catch (e) {
+        container.remove();
+      }
+    })();
+  </script>
 </body>
 </html>

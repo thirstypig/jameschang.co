@@ -483,6 +483,49 @@
   border-top: 1px solid var(--rule);
 }
 
+/* Wishlist (populated by inline script on /now/ from thirstypig.com/places-wishlist.json) */
+.wishlist-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.wishlist-list li {
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+.wishlist-list li:last-child { border-bottom: none; }
+.wishlist-list strong { color: var(--text); font-weight: 600; }
+.wishlist-location {
+  color: var(--muted);
+}
+.wishlist-links {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+.wishlist-links a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--rule);
+}
+.wishlist-links a:hover {
+  color: var(--accent-hover);
+  border-bottom-color: var(--accent);
+}
+.wishlist-footer {
+  margin: 1rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.875rem;
+  text-align: right;
+}
+.wishlist-footer a {
+  color: var(--muted);
+  text-decoration: none;
+}
+.wishlist-footer a:hover { color: var(--accent); }
+
 /* Responsive tweaks */
 @media (max-width: 720px) {
   .work-main { padding: 1.5rem 1rem 3rem; }
