@@ -605,6 +605,80 @@
   margin: 0;
 }
 
+/* Public feeds (populated by GitHub Action — GitHub events, MLB, Letterboxd) */
+.feed-empty { color: var(--muted); font-style: italic; margin: 0; }
+.feed-updated {
+  margin: 0.5rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+/* GitHub */
+.gh-summary { margin: 0 0 0.5rem; font-size: 0.9375rem; color: var(--muted); }
+.gh-summary strong { color: var(--text); font-weight: 600; }
+.gh-list { list-style: none; padding: 0; margin: 0 0 1rem; }
+.gh-list li {
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+.gh-list li:last-child { border-bottom: none; }
+.gh-list a { color: var(--text); text-decoration-color: var(--rule); }
+.gh-list a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+.gh-list code {
+  background: var(--rule);
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  color: var(--text);
+}
+.gh-when {
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* MLB / Dodgers */
+.mlb-line { margin: 0 0 0.75rem; font-size: 1rem; }
+.mlb-line strong { color: var(--text); font-weight: 600; }
+.mlb-note {
+  margin: 0.75rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+.mlb-note a { color: var(--muted); text-decoration-color: var(--rule); }
+.mlb-note a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+/* Letterboxd */
+.lb-heading {
+  margin: 0 0 0.5rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.lb-heading strong { color: var(--muted); font-weight: 600; }
+.lb-list { list-style: none; padding: 0; margin: 0 0 1rem; }
+.lb-list li {
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+.lb-list li:last-child { border-bottom: none; }
+.lb-list a { color: var(--text); text-decoration-color: var(--rule); }
+.lb-list a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+.lb-rating { color: var(--accent); margin-left: 0.35rem; }
+.lb-when {
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+
 /* Responsive tweaks */
 @media (max-width: 720px) {
   .work-main { padding: 1.5rem 1rem 3rem; }
