@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Spotify OAuth Callback</title>
+  <style>
+    body { font-family: -apple-system, system-ui, sans-serif; max-width: 480px; margin: 4rem auto; padding: 1rem; color: #0f1a2e; }
+    h1 { font-size: 1.25rem; }
+    .code-box { background: #f4f4f4; border: 1px solid #ccc; border-radius: 6px; padding: 1rem; font-family: monospace; font-size: 0.95rem; word-break: break-all; user-select: all; margin: 1rem 0; }
+    .error { color: #b44a3e; }
+    .success { color: #3a7a4a; }
+    button { padding: 0.5rem 1rem; border: 1px solid #ccc; border-radius: 4px; background: #fff; cursor: pointer; font-size: 0.9rem; }
+    button:hover { background: #f0f0f0; }
+  </style>
+</head>
+<body>
+  <h1>Spotify Authorization</h1>
+  <div id="result"></div>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+    const error = params.get('error');
+    const el = document.getElementById('result');
+
+    if (code) {
+      el.innerHTML = `
+        <p class="success"><strong>Authorization code received.</strong></p>
+        <p>Copy this code and paste it into the terminal script:</p>
+        <div class="code-box" id="code">${code}</div>
+        <button onclick="navigator.clipboard.writeText(document.getElementById('code').textContent).then(()=>this.textContent='Copied!')">Copy to clipboard</button>
+        <p style="margin-top:1.5rem;color:#666;font-size:0.85rem;">This page is not indexed and can be removed after setup is complete.</p>
+      `;
+    } else if (error) {
+      el.innerHTML = `<p class="error"><strong>Authorization failed:</strong> ${error}</p>`;
+    } else {
+      el.innerHTML = `<p class="error">No authorization code found in the URL. Make sure you arrived here via the Spotify OAuth flow.</p>`;
+    }
+  </script>
+</body>
+</html>

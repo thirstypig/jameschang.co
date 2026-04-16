@@ -538,6 +538,73 @@
 }
 .hitlist-footer a:hover { color: var(--accent); }
 
+/* Listening (populated by GitHub Action from Spotify Web API) */
+.spotify-module .spotify-podcast {
+  padding: 0.65rem 0.85rem;
+  margin: 0 0 1rem;
+  background: var(--bg);
+  border-left: 3px solid var(--accent);
+  border-radius: 4px;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+.spotify-module .spotify-podcast strong {
+  color: var(--text);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.spotify-module .spotify-podcast a {
+  color: var(--text);
+  text-decoration-color: var(--rule);
+}
+.spotify-module .spotify-podcast a:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
+.spotify-heading {
+  margin: 0 0 0.5rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.spotify-heading strong { color: var(--muted); font-weight: 600; }
+.spotify-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+.spotify-list li {
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+.spotify-list li:last-child { border-bottom: none; }
+.spotify-list a {
+  color: var(--text);
+  text-decoration-color: var(--rule);
+}
+.spotify-list a:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
+.spotify-when {
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+.spotify-updated {
+  margin: 0.5rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+.spotify-empty {
+  color: var(--muted);
+  font-style: italic;
+  margin: 0;
+}
+
 /* Responsive tweaks */
 @media (max-width: 720px) {
   .work-main { padding: 1.5rem 1rem 3rem; }
