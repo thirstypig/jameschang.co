@@ -236,8 +236,8 @@
       </div>
     </section>
 
-    <section class="work-section" id="wishlist-section">
-      <!-- Script populates this section from thirstypig.com/places-wishlist.json.
+    <section class="work-section" id="hitlist-section">
+      <!-- Script populates this section from thirstypig.com/places-hitlist.json.
            If the fetch fails or returns no items, the entire section is removed
            so there's no empty shell visible to readers. -->
     </section>
@@ -279,13 +279,13 @@
   </footer>
   <script src="/script.js" defer></script>
   <script>
-    // Wishlist fetch from thirstypig.com. Safe-by-construction:
+    // Hit list fetch from thirstypig.com. Safe-by-construction:
     // - All restaurant data rendered via textContent or createElement (no innerHTML)
     // - Silent fail: on fetch error or empty list, the whole section is removed
     // - CORS required on thirstypig.com/places-hitlist.json for jameschang.co
     // - Also requires https://thirstypig.com in this page's CSP connect-src
     (async function () {
-      const container = document.getElementById('wishlist-section');
+      const container = document.getElementById('hitlist-section');
       if (!container) return;
 
       const LINK_LABELS = {
@@ -312,10 +312,10 @@
         container.appendChild(h);
 
         const sub = document.createElement('p');
-        sub.className = 'wishlist-subhead';
+        sub.className = 'hitlist-subhead';
         sub.appendChild(document.createTextNode('Hit list from '));
         const subLink = document.createElement('a');
-        subLink.href = 'https://thirstypig.com/wishlist/';
+        subLink.href = 'https://thirstypig.com/hitlist/';
         subLink.textContent = 'thirstypig.com';
         sub.appendChild(subLink);
         container.appendChild(sub);
@@ -324,7 +324,7 @@
         module.className = 'module';
 
         const ul = document.createElement('ul');
-        ul.className = 'wishlist-list';
+        ul.className = 'hitlist-list';
         items.forEach(item => {
           const li = document.createElement('li');
 
@@ -335,7 +335,7 @@
           const locText = (item.neighborhood ? item.neighborhood + ', ' : '') + (item.city || '');
           if (locText.trim().replace(/,\s*$/, '').length) {
             const loc = document.createElement('span');
-            loc.className = 'wishlist-location';
+            loc.className = 'hitlist-location';
             loc.textContent = ' \u2014 ' + locText.replace(/,\s*$/, '');
             li.appendChild(loc);
           }
@@ -343,7 +343,7 @@
           const linkEntries = Object.entries(item.links || {}).filter(([, url]) => url);
           if (linkEntries.length) {
             const linksSpan = document.createElement('span');
-            linksSpan.className = 'wishlist-links';
+            linksSpan.className = 'hitlist-links';
             linksSpan.appendChild(document.createTextNode(' \u00b7 '));
             linkEntries.forEach(([key, url], i) => {
               if (i > 0) linksSpan.appendChild(document.createTextNode(' \u00b7 '));
@@ -362,9 +362,9 @@
         module.appendChild(ul);
 
         const footer = document.createElement('p');
-        footer.className = 'wishlist-footer';
+        footer.className = 'hitlist-footer';
         const footerLink = document.createElement('a');
-        footerLink.href = 'https://thirstypig.com/wishlist/';
+        footerLink.href = 'https://thirstypig.com/hitlist/';
         footerLink.textContent = 'See the full list \u2192';
         footer.appendChild(footerLink);
         module.appendChild(footer);

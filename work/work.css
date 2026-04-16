@@ -483,60 +483,60 @@
   border-top: 1px solid var(--rule);
 }
 
-/* Wishlist (populated by inline script on /now/ from thirstypig.com/places-hitlist.json) */
-.wishlist-subhead {
+/* Hit list (populated by inline script on /now/ from thirstypig.com/places-hitlist.json) */
+.hitlist-subhead {
   color: var(--muted);
   font-size: 0.9375rem;
   margin: 0 0 1rem;
 }
-.wishlist-subhead a {
+.hitlist-subhead a {
   color: var(--muted);
   border-bottom: 1px dotted var(--rule);
   text-decoration: none;
 }
-.wishlist-subhead a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.hitlist-subhead a:hover { color: var(--accent); border-bottom-color: var(--accent); }
 
-.wishlist-list {
+.hitlist-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
-.wishlist-list li {
+.hitlist-list li {
   padding: 0.65rem 0;
   border-bottom: 1px solid var(--rule);
   font-size: 0.9375rem;
   line-height: 1.5;
 }
-.wishlist-list li:last-child { border-bottom: none; }
-.wishlist-list strong { color: var(--text); font-weight: 600; }
-.wishlist-location {
+.hitlist-list li:last-child { border-bottom: none; }
+.hitlist-list strong { color: var(--text); font-weight: 600; }
+.hitlist-location {
   color: var(--muted);
 }
-.wishlist-links {
+.hitlist-links {
   color: var(--muted);
   font-size: 0.875rem;
 }
-.wishlist-links a {
+.hitlist-links a {
   color: var(--accent);
   text-decoration: none;
   border-bottom: 1px dotted var(--rule);
 }
-.wishlist-links a:hover {
+.hitlist-links a:hover {
   color: var(--accent-hover);
   border-bottom-color: var(--accent);
 }
-.wishlist-footer {
+.hitlist-footer {
   margin: 1rem 0 0;
   padding-top: 0.75rem;
   border-top: 1px solid var(--rule);
   font-size: 0.875rem;
   text-align: right;
 }
-.wishlist-footer a {
+.hitlist-footer a {
   color: var(--muted);
   text-decoration: none;
 }
-.wishlist-footer a:hover { color: var(--accent); }
+.hitlist-footer a:hover { color: var(--accent); }
 
 /* Responsive tweaks */
 @media (max-width: 720px) {
