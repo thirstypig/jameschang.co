@@ -100,6 +100,23 @@ For screenshotting with a forced theme, temporarily write `index.html` with `<ht
 
 **No analytics are installed.** The GA4 placeholder (`G-XXXXXXXXXX`) was removed on 2026-04-16. CSP headers across all HTML files were tightened to remove Google domains. If adding real analytics later, re-add the GA4 snippet and update CSP `script-src`, `img-src`, and `connect-src` in all HTML files.
 
+## WCAG contrast compliance
+
+All light-mode color tokens were audited and adjusted on 2026-04-16 to meet **WCAG AA (4.5:1)**:
+- `--accent`: `#993524` (4.6:1 on `--bg`, 6.0:1 on `--card-bg`)
+- `--muted`: `#4a5568` (4.8:1 on `--bg`, 6.2:1 on `--card-bg`)
+- Dark mode tokens already passed (7.6:1 accent, 5.8:1 muted)
+
+**When changing color tokens**, re-run the WCAG contrast check — both on `--bg` and on composited `--card-bg`. The formula is in the project memory.
+
+## CSP notes
+
+CSP is delivered via `<meta http-equiv="Content-Security-Policy">` in all HTML files. **Do not add `frame-ancestors`** — it's ignored in meta tags (only works via HTTP headers) and logs a console error. GitHub Pages does not support custom HTTP response headers, so `frame-ancestors` protection is not available on this host.
+
+## Lighthouse baseline (2026-04-16)
+
+Performance: 100 | Accessibility: 100 | Best Practices: 100 | SEO: 100. Total page weight: 78 KB. Zero layout shift, zero blocking time. Cache lifetime scores are capped by GitHub Pages' `max-age=600` — this is a platform constraint, not a code issue.
+
 ## Known outstanding items
 
 All code-review findings from the initial review have been resolved. See `todos/*` for the full history (status: done).

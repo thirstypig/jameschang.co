@@ -11,11 +11,11 @@
   --bg-from:      #d2dae6;        /* gradient top-left */
   --bg-to:        #a5b1c8;        /* gradient bottom-right (substantial depth) */
   --text:         #0f1a2e;        /* deep navy ink */
-  --muted:        #576376;        /* blue-gray */
+  --muted:        #4a5568;        /* blue-gray, WCAG AA on #c6cfdd (4.8:1) */
   --rule:         rgba(15, 26, 46, 0.12);
 
   /* Accent stays warm against the cool neutral */
-  --accent:       #b44a3e;        /* slightly softer oxide red */
+  --accent:       #993524;        /* oxide red, WCAG AA on #c6cfdd (4.6:1) */
   --accent-hover: #8a3428;
 
   /* Liquid-glass card surface */
