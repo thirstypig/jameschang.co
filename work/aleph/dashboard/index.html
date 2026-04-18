@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'none'; base-uri 'self'; upgrade-insecure-requests">
+  <title>Aleph — Admin Dashboard — James Chang</title>
+  <meta name="description" content="How the Aleph Co. executive compliance dashboard was designed: the prompt, the process, and the decisions behind every metric, insight, and interaction.">
+  <link rel="canonical" href="https://jameschang.co/work/aleph/dashboard/">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css?v=20260417">
+  <link rel="stylesheet" href="/work/work.css?v=20260417">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Aleph Co. \u2014 Admin Dashboard",
+    "name": "Aleph Co. \u2014 Admin Dashboard \u2014 James Chang",
+    "description": "How the Aleph Co. executive compliance dashboard was designed: the prompt, the process, and the decisions behind every metric, insight, and interaction.",
+    "url": "https://jameschang.co/work/aleph/dashboard/",
+    "author": {
+      "@type": "Person",
+      "name": "James Chang",
+      "url": "https://jameschang.co"
+    },
+    "dateModified": "2026-04-17",
+    "inLanguage": "en-US",
+    "isPartOf": {
+      "@type": "WebSite",
+      "url": "https://jameschang.co",
+      "name": "James Chang"
+    }
+  }
+  </script>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="site-header">
+    <div class="site-header-inner">
+    <a href="/" class="site-brand">James Chang</a>
+      <nav aria-label="Primary">
+      <a href="/#about">About</a>
+      <a href="/#experience">Experience</a>
+      <a href="/#work" aria-current="page">Projects</a>
+      <a href="/now/">Now</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle light / dark theme">
+        <span class="icon-moon" aria-hidden="true">&#9790;</span>
+        <span class="icon-sun" aria-hidden="true">&#9728;</span>
+      </button>
+    </nav>
+    </div>
+  </header>
+
+  <main id="main" class="work-main">
+    <p class="crumbs">
+      <a href="/">James Chang</a>
+      <span class="sep">/</span>
+      <a href="/work/">Work</a>
+      <span class="sep">/</span>
+      <span>Aleph</span>
+      <span class="sep">/</span>
+      <span>Dashboard</span>
+    </p>
+    <nav class="project-nav" aria-label="Within Aleph">
+      <span class="label">Aleph:</span>
+      <a href="/work/aleph/how-it-works/">How it works</a>
+      <a href="/work/aleph/roadmap/">Roadmap</a>
+      <a href="/work/aleph/changelog/">Changelog</a>
+      <a href="/work/aleph/dashboard/" aria-current="page">Dashboard</a>
+    </nav>
+
+    <div class="work-hero">
+      <p class="eyebrow">Aleph &middot; Product &middot; Last Updated <time datetime="2026-04-17">April 17, 2026</time></p>
+      <h1>Admin Dashboard</h1>
+      <p class="subtitle">From a question to dozens of iterations to one final prompt. This is what AI-assisted product engineering looks like.</p>
+    </div>
+
+    <section class="work-section">
+      <p>
+        No wireframe. No Figma file. No PRD. This dashboard started with a question &mdash;
+        &ldquo;what does an importer need to see first?&rdquo; &mdash; and evolved through
+        dozens of iterations with Claude Code: researching patterns, prototyping layouts,
+        testing data shapes, refining the insight engine. The prompt below is the final
+        artifact &mdash; the distilled specification that produces this dashboard from scratch.
+        It&rsquo;s the same process I use across all my projects.
+      </p>
+
+      <div class="dashboard-showcase">
+        <figure class="screenshot screenshot-clickable" onclick="document.getElementById('dash-lightbox').showModal()">
+          <picture>
+            <source srcset="/assets/work/aleph/admin-dashboard.avif" type="image/avif">
+            <img src="/assets/work/aleph/admin-dashboard.webp" alt="Aleph admin dashboard — compliance coverage hero metric, 6 stat tiles with sparklines and AI insights, conversion funnels" loading="eager" decoding="async" width="1764" height="1400">
+          </picture>
+          <figcaption>aleph &mdash; admin dashboard &mdash; click to expand</figcaption>
+        </figure>
+
+        <dialog id="dash-lightbox" class="lightbox" onclick="if(event.target===this)this.close()">
+          <button class="lightbox-close" onclick="this.parentElement.close()" aria-label="Close">&times;</button>
+          <picture>
+            <source srcset="/assets/work/aleph/admin-dashboard-full.avif" type="image/avif">
+            <img src="/assets/work/aleph/admin-dashboard-full.webp" alt="Aleph admin dashboard — expanded view" loading="lazy" decoding="async" width="1764" height="1750">
+          </picture>
+        </dialog>
+
+        <div class="terminal">
+          <div class="terminal-bar">
+            <span class="terminal-dot"></span>
+            <span class="terminal-dot"></span>
+            <span class="terminal-dot"></span>
+            <span class="terminal-title">aleph-dashboard-prompt.md</span>
+          </div>
+          <div class="terminal-body">
+            <p class="prompt-line">claude "Build an executive compliance dashboard for Aleph"</p>
+
+            <h3>Design process</h3>
+            <ul>
+              <li>12 parallel research agents analyzed architecture, performance, security, TypeScript, data integrity, UX</li>
+              <li>Stripe/Linear <strong>"hero + tile grid"</strong> over tabbed explorers &mdash; <em>executives decide in 5 seconds; tabs bury the signal</em></li>
+              <li>Every metric has 3 layers: <strong>the number</strong>, the context (delta + sparkline), the AI insight</li>
+              <li>Okabe-Ito colorblind-safe palette</li>
+              <li>Rule-based insight engine (zero cost) + Claude API enrichment (weekly)</li>
+            </ul>
+
+            <h3>Layout</h3>
+            <ul>
+              <li><strong>Hero:</strong> "Compliance Coverage" &mdash; 81% big number, progress bar, inline AI insight</li>
+              <li><strong>6 Stat Tiles</strong> (3-col grid): big number + delta + sparkline + AI insight + drill-through</li>
+              <li><strong>Est. MRR:</strong> $290 &middot; <strong>Users:</strong> 48 &middot; <strong>Activation:</strong> 24%</li>
+              <li><strong>Products:</strong> 106 &middot; <strong>Alerts:</strong> 298 &middot; <strong>Doc Risk:</strong> 16</li>
+              <li><strong>3 Funnels:</strong> Onboarding (-76% drop) &middot; Compliance &middot; Retention</li>
+            </ul>
+
+            <h3>Key decisions</h3>
+            <ul>
+              <li><strong>"Hero + tiles" not tabs</strong> &mdash; executives decide in 5 seconds</li>
+              <li><strong>Inline insights</strong> &mdash; context right where you need it</li>
+              <li><strong>Rule-based + AI hybrid</strong> &mdash; 80% value at zero cost</li>
+              <li><strong>Coalescing cache</strong> &mdash; 871ms cold, &lt;10ms warm</li>
+              <li><strong>tabular-nums everywhere</strong> &mdash; no layout shift</li>
+              <li><strong>Gray-first, color for meaning</strong> &mdash; Okabe-Ito for colorblind safety</li>
+            </ul>
+
+            <h3>Stack</h3>
+            <ul>
+              <li>React 18 + TypeScript + Vite + shadcn/ui</li>
+              <li>Tailwind + Recharts (sparklines, <code>isAnimationActive=false</code>)</li>
+              <li>TanStack Query (<code>staleTime: 5min</code>)</li>
+              <li>Express + PostgreSQL + Drizzle ORM</li>
+              <li>InsightEngine (6 rules) + AIInsightService (Claude, weekly)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-contact">
+      <p>
+        <a href="mailto:jimmychang316@gmail.com">jimmychang316@gmail.com</a> &middot;
+        <a href="https://www.linkedin.com/in/jimmychang316" rel="me">LinkedIn</a> &middot;
+        <a href="https://github.com/thirstypig" rel="me">GitHub</a> &middot;
+        <a href="https://calendly.com/jimmychang316" rel="noopener" target="_blank">Let&rsquo;s find time to chat</a>
+      </p>
+    </div>
+    <p class="footer-meta">&copy; 2026 James Chang. Built by hand in plain HTML + CSS. <a href="https://github.com/thirstypig/jameschang.co">Source on GitHub</a>.</p>
+  </footer>
+
+  <script src="/script.js" defer></script>
+</body>
+</html>

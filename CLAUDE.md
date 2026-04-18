@@ -13,7 +13,7 @@ Operational notes for Claude Code (and any other agent) working on this repo. Fo
 ```
 /                       Homepage (index.html + styles.css + script.js)
 /now/                   Derek Sivers-style /now page (reads work/work.css)
-/work/                  Deep-dive case-study pages (Aleph, Fantastic Leagues, Judge Tool)
+/work/                  Deep-dive project pages (Aleph, Fantastic Leagues, Judge Tool) — each has sub-pages + dashboard prompt showcase
 /privacy/               Privacy policy (required by WHOOP app registration)
 /whoop/callback/        OAuth2 redirect target (static page that reads ?code= from URL)
 /assets/                Images (AVIF/WebP/PNG responsive triples), favicons, OG image
@@ -56,7 +56,11 @@ python3 -m http.server 8787 &
 
 ## /work/ deep-dive pages
 
-Each project-with-a-deep-dive has its own folder under `/work/[slug]/` with sub-pages (how-it-works, tech, roadmap, changelog). They share `/work/work.css`. Navigation within a project uses `.project-nav`; back to home uses `.crumbs`.
+Each project-with-a-deep-dive has its own folder under `/work/[slug]/` with sub-pages (how-it-works, tech, roadmap, changelog, dashboard). They share `/work/work.css`. Navigation within a project uses `.project-nav`; back to home uses `.crumbs`.
+
+**Dashboard prompt pages** (`/work/[slug]/dashboard/`) showcase the AI-assisted engineering process — the prompt(s) that built the admin dashboard, displayed in terminal-style UI (`.terminal` component in `work.css`). Screenshots use a clickable lightbox (`<dialog>` element). When adding a new dashboard page, ensure the Dashboard tab is added to `.project-nav` in **all** sibling pages.
+
+**Headshot rotation** — the About section cycles through 7 photos using JS-driven crossfade (5s interval, `script.js`). Images need `object-position` tuning per photo. Respects `prefers-reduced-motion` (freezes on first image). New photos need AVIF + WebP variants and a `.headshot-*` class for positioning.
 
 ## Data feeds on /now
 

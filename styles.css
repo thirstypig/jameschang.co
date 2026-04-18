@@ -340,20 +340,41 @@ h3 {
   gap: 2rem;
   align-items: start;
 }
+.headshot-rotate {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--rule);
+}
+.headshot-rotate picture {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+.headshot-rotate picture:first-child { opacity: 1; }
+
 .headshot {
   width: 100%;
-  height: auto;
+  height: 100%;
   border-radius: 50%;
-  aspect-ratio: 1 / 1;
   object-fit: cover;
   background: var(--rule);
 }
+.headshot-bw       { object-position: 60% 20%; }
+.headshot-pro      { object-position: center 35%; }
+.headshot-hat      { object-fit: contain; object-position: center 10%; background: #d0c9c1; }
+.headshot-eye      { object-fit: contain; background: #1a1a1a; }
+.headshot-bald     { object-fit: contain; background: #8a8577; }
+.headshot-thumbsup { object-fit: contain; background: #b5b0a0; }
 .about-copy p { margin: 0 0 1rem; }
 .about-copy p:last-child { margin-bottom: 0; }
 
 @media (max-width: 600px) {
   .about-grid { grid-template-columns: 1fr; gap: 1rem; }
-  .headshot { width: 120px; }
+  .headshot-rotate { width: 120px; }
 }
 
 /* ---------- Current projects (7 cards) ---------- */
@@ -812,7 +833,7 @@ h3 {
   #memberships h2 span.print-only { display: inline; }
 
   .about-grid { grid-template-columns: 1fr; gap: 0; }
-  .headshot { display: none; }
+  .headshot-rotate, .headshot { display: none; }
 
   h2 {
     font-size: 13pt;

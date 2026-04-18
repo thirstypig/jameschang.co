@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'none'; base-uri 'self'; upgrade-insecure-requests">
+  <title>The Fantastic Leagues — Admin Dashboard — James Chang</title>
+  <meta name="description" content="How the TFL admin dashboard evolved from two enterprise-scale prompts into one context-aware spec. The lesson: encode what you know about your system's constraints.">
+  <link rel="canonical" href="https://jameschang.co/work/fantastic-leagues/dashboard/">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css?v=20260417">
+  <link rel="stylesheet" href="/work/work.css?v=20260417">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "The Fantastic Leagues \u2014 Admin Dashboard",
+    "name": "The Fantastic Leagues \u2014 Admin Dashboard \u2014 James Chang",
+    "description": "How the TFL admin dashboard evolved from two enterprise-scale prompts into one context-aware spec.",
+    "url": "https://jameschang.co/work/fantastic-leagues/dashboard/",
+    "author": {
+      "@type": "Person",
+      "name": "James Chang",
+      "url": "https://jameschang.co"
+    },
+    "dateModified": "2026-04-17",
+    "inLanguage": "en-US",
+    "isPartOf": {
+      "@type": "WebSite",
+      "url": "https://jameschang.co",
+      "name": "James Chang"
+    }
+  }
+  </script>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="site-header">
+    <div class="site-header-inner">
+    <a href="/" class="site-brand">James Chang</a>
+      <nav aria-label="Primary">
+      <a href="/#about">About</a>
+      <a href="/#experience">Experience</a>
+      <a href="/#work" aria-current="page">Projects</a>
+      <a href="/now/">Now</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle light / dark theme">
+        <span class="icon-moon" aria-hidden="true">&#9790;</span>
+        <span class="icon-sun" aria-hidden="true">&#9728;</span>
+      </button>
+    </nav>
+    </div>
+  </header>
+
+  <main id="main" class="work-main">
+    <p class="crumbs">
+      <a href="/">James Chang</a>
+      <span class="sep">/</span>
+      <a href="/work/">Work</a>
+      <span class="sep">/</span>
+      <span>Fantastic Leagues</span>
+      <span class="sep">/</span>
+      <span>Dashboard</span>
+    </p>
+    <nav class="project-nav" aria-label="Within The Fantastic Leagues">
+      <span class="label">Fantastic Leagues:</span>
+      <a href="/work/fantastic-leagues/ai-insights/">AI Insights</a>
+      <a href="/work/fantastic-leagues/tech/">Under the hood</a>
+      <a href="/work/fantastic-leagues/analytics/">Product metrics</a>
+      <a href="/work/fantastic-leagues/changelog/">Changelog</a>
+      <a href="/work/fantastic-leagues/dashboard/" aria-current="page">Dashboard</a>
+    </nav>
+
+    <div class="work-hero">
+      <p class="eyebrow">The Fantastic Leagues &middot; Product &middot; Last Updated <time datetime="2026-04-17">April 17, 2026</time></p>
+      <h1>Admin Dashboard</h1>
+      <p class="subtitle">Two prompts became one. The lesson: the best prompts encode what you already know about your system&rsquo;s constraints.</p>
+    </div>
+
+    <section class="work-section">
+      <p>
+        The first version of this dashboard was built from two separate prompts &mdash; a 1,847-word
+        architectural spec and a 762-word AI insights integration. Together they described an enterprise-grade
+        system: Stripe-level dashboards, seed data generators, bucketed counts, cross-tenant flags.
+      </p>
+      <p>
+        The problem? This is a single-league fantasy app with 14 users. About 60% of the spec was irrelevant.
+        The refined prompt below is what I actually use now &mdash; it names the exact metrics, calls out the
+        real constraints (Supabase connection pool), and integrates the insight engine from the start instead
+        of as a follow-up.
+      </p>
+
+      <div class="dashboard-showcase">
+        <figure class="screenshot screenshot-clickable" onclick="document.getElementById('tfl-lightbox').showModal()">
+          <picture>
+            <source srcset="/assets/work/fantastic-leagues/admin-dashboard.avif" type="image/avif">
+            <img src="/assets/work/fantastic-leagues/admin-dashboard.webp" alt="TFL admin dashboard — 14 users, 5 active, stat tiles, quick links, todos, activity feed" loading="eager" decoding="async" width="1542" height="850">
+          </picture>
+          <figcaption>the fantastic leagues &mdash; admin dashboard &mdash; click to expand</figcaption>
+        </figure>
+
+        <dialog id="tfl-lightbox" class="lightbox" onclick="if(event.target===this)this.close()">
+          <button class="lightbox-close" onclick="this.parentElement.close()" aria-label="Close">&times;</button>
+          <picture>
+            <source srcset="/assets/work/fantastic-leagues/admin-dashboard-full.avif" type="image/avif">
+            <img src="/assets/work/fantastic-leagues/admin-dashboard-full.webp" alt="TFL admin dashboard — expanded view" loading="lazy" decoding="async" width="1542" height="1100">
+          </picture>
+        </dialog>
+
+        <div class="terminal">
+          <div class="terminal-bar">
+            <span class="terminal-dot"></span>
+            <span class="terminal-dot"></span>
+            <span class="terminal-dot"></span>
+            <span class="terminal-title">v1 &mdash; prompt-1-dashboard-build.md (1,847 words)</span>
+          </div>
+          <div class="terminal-body">
+            <p class="prompt-line">claude "Build an executive admin dashboard with Stripe/Linear pattern"</p>
+            <h3>What it specified</h3>
+            <ul>
+              <li>Hero metric + 6&ndash;8 stat tiles in 3-col grid + funnels + activity feed</li>
+              <li>Tooltips, skeleton loading, empty states, dashed borders</li>
+              <li>Coalescing cache with stampede prevention, SQL-level aggregation</li>
+              <li>Okabe-Ito colorblind palette, <code>tabular-nums</code>, <code>isAnimationActive={false}</code></li>
+              <li>Seed data: 5 hero accounts, deterministic PRNG, gated by env var</li>
+              <li>Security: admin-only middleware, rate limiting, <strong>bucketed count ranges</strong></li>
+            </ul>
+            <h3>What was overkill</h3>
+            <ul>
+              <li><em>Seed data generator</em> &mdash; 14 real users, no need for synthetic data</li>
+              <li><em>Bucketed counts</em> &mdash; privacy theatre for a single-league app</li>
+              <li><em>Cross-tenant flags</em> &mdash; there&rsquo;s one tenant</li>
+              <li><em>6&ndash;8 generic tile slots</em> &mdash; should name the exact metrics</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="terminal">
+          <div class="terminal-bar">
+            <span class="terminal-dot"></span>
+            <span class="terminal-dot"></span>
+            <span class="terminal-dot"></span>
+            <span class="terminal-title">v1 &mdash; prompt-2-ai-insights.md (762 words)</span>
+          </div>
+          <div class="terminal-body">
+            <p class="prompt-line">claude "Add contextual AI insights to the admin page"</p>
+            <h3>What it added</h3>
+            <ul>
+              <li>Rule-based insight engine: <code>(dashboardData) =&gt; { priority, analysis, action }</code></li>
+              <li>Priority-colored borders: high=<strong style="color:#D55E00">red</strong>, medium=<strong style="color:#E69F00">amber</strong>, low=<strong style="color:#0072B2">blue</strong></li>
+              <li>Claude API enrichment on weekly cron, stored as JSON</li>
+              <li>Sparkle icon for AI-generated, arrow icon before actions</li>
+            </ul>
+            <h3>The problem</h3>
+            <ul>
+              <li><em>Separate prompt</em> &mdash; insights should be designed alongside the tiles, not bolted on</li>
+              <li><em>No fallback rules</em> &mdash; tiles went empty when no rule matched</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="terminal">
+          <div class="terminal-bar">
+            <span class="terminal-dot"></span>
+            <span class="terminal-dot"></span>
+            <span class="terminal-dot"></span>
+            <span class="terminal-title">v2 &mdash; refined-prompt.md (the one I actually use)</span>
+          </div>
+          <div class="terminal-body">
+            <p class="prompt-line">claude "Build an executive admin dashboard at /admin/dashboard"</p>
+            <p><em>Reference: Stripe Dashboard, Linear Analytics.</em></p>
+
+            <h3>What to build</h3>
+            <ul>
+              <li><strong>Hero metric:</strong> Active Users, text-6xl, delta badge, sparkline &mdash; &ldquo;is the business healthy?&rdquo;</li>
+              <li><strong>6 stat tiles</strong> (3-col): Total Users, Sessions, Seasons, Trades, AI Insights, Roster Moves</li>
+              <li>Each tile: big number, delta %, subtitle, sparkline, tooltip, drill-through, <strong>inline AI insight</strong></li>
+              <li>Three states: skeleton, empty (dashed + &ldquo;Collecting data...&rdquo;), populated</li>
+              <li><strong>3 funnels:</strong> Onboarding (Signup &rarr; Profile &rarr; Team) &middot; Season Lifecycle &middot; Retention (30d/7d)</li>
+              <li><strong>Activity feed:</strong> last 10 audit log entries</li>
+            </ul>
+
+            <h3>Architecture constraints</h3>
+            <ul>
+              <li><strong>Server:</strong> single <code>GET /api/admin/dashboard?days=30</code>. All queries via <code>prisma.$transaction</code> (Supabase pool is small). Coalescing cache (5-min TTL). Sparklines computed <strong>sequentially</strong> to avoid pool exhaustion.</li>
+              <li><strong>Client:</strong> lazy-loaded route, <code>React.memo</code> on charts, <code>isAnimationActive={false}</code>, <code>debounce={150}</code></li>
+            </ul>
+
+            <h3>Insight engine</h3>
+            <ul>
+              <li>Every tile gets exactly 1 insight. Rule-based, zero API cost.</li>
+              <li>Every rule has a <strong>fallback branch</strong> &mdash; no tile is ever empty</li>
+              <li>Examples: Users delta &le; 0% &rarr; HIGH &ldquo;Acquisition stalled&rdquo; &rarr; &ldquo;Launch invite campaign&rdquo;</li>
+              <li>Trades == 0 &rarr; MEDIUM &ldquo;Quiet market&rdquo; &rarr; &ldquo;Post to trading block&rdquo;</li>
+            </ul>
+
+            <h3>Tech notes</h3>
+            <ul>
+              <li>Recharts (sparklines only), existing design tokens (<code>--lg-*</code>), lucide-react icons</li>
+              <li><code>tabular-nums</code> + <code>tracking-tight</code> on all numbers</li>
+              <li>Admin-only via <code>requireAuth</code> + <code>requireAdmin</code> middleware</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="work-section">
+      <h2>The takeaway</h2>
+      <p>
+        The original prompt was architecturally comprehensive &mdash; it described a system that would work
+        at Stripe scale. But for a single-league fantasy app with 14 users, ~60% of the spec was irrelevant:
+        seed data, bucketed counts, cross-tenant flags.
+      </p>
+      <p>
+        The refined prompt is <strong>context-aware</strong>. It names the exact metrics (Users, Sessions,
+        Trades &mdash; not &ldquo;6&ndash;8 tiles&rdquo;), calls out the real constraints (Supabase&rsquo;s
+        connection pool is small, so sparklines must be sequential), and integrates the insight engine from
+        the start instead of bolting it on as a follow-up.
+      </p>
+      <p>
+        <strong>The lesson:</strong> The best prompts encode what you already know about your system&rsquo;s
+        constraints, not what a generic enterprise system might need.
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-contact">
+      <p>
+        <a href="mailto:jimmychang316@gmail.com">jimmychang316@gmail.com</a> &middot;
+        <a href="https://www.linkedin.com/in/jimmychang316" rel="me">LinkedIn</a> &middot;
+        <a href="https://github.com/thirstypig" rel="me">GitHub</a> &middot;
+        <a href="https://calendly.com/jimmychang316" rel="noopener" target="_blank">Let&rsquo;s find time to chat</a>
+      </p>
+    </div>
+    <p class="footer-meta">&copy; 2026 James Chang. Built by hand in plain HTML + CSS. <a href="https://github.com/thirstypig/jameschang.co">Source on GitHub</a>.</p>
+  </footer>
+
+  <script src="/script.js" defer></script>
+</body>
+</html>
