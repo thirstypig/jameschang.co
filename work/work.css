@@ -882,6 +882,27 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* Goodreads — recently read books */
+.gr-heading {
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 0.75rem;
+}
+.gr-heading strong { color: var(--muted); font-weight: 600; }
+.gr-list { list-style: none; padding: 0; margin: 0 0 1rem; }
+.gr-list li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+.gr-list li:last-child { border-bottom: none; }
+.gr-list a { color: var(--text); text-decoration-color: var(--rule); }
+.gr-list a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+.gr-author { color: var(--muted); font-size: 0.875rem; }
+.gr-rating { color: var(--accent); margin-left: 0.35rem; }
+
 /* Responsive tweaks */
 @media (max-width: 720px) {
   .work-main { padding: 1.5rem 1rem 3rem; }
