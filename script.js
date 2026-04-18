@@ -24,4 +24,19 @@
     localStorage.setItem("theme", next);
     syncPressed();
   });
+
+  // Headshot rotation — crossfade through N images
+  const rotator = document.querySelector(".headshot-rotate");
+  if (rotator && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const pics = rotator.querySelectorAll("picture");
+    if (pics.length > 1) {
+      let current = 0;
+      pics.forEach((p, i) => { p.style.opacity = i === 0 ? "1" : "0"; });
+      setInterval(() => {
+        pics[current].style.opacity = "0";
+        current = (current + 1) % pics.length;
+        pics[current].style.opacity = "1";
+      }, 5000);
+    }
+  }
 })();

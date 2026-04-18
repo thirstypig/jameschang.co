@@ -13,7 +13,7 @@
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="author" content="James Chang">
-  <meta name="keywords" content="Director of Product, Head of Product, Senior Product Manager, Founding PM, Product Management, 0 to 1, B2B SaaS, Regulatory Compliance, FSVP, CPSIA, Prop 65, PFAS, GenAI, LLM, Claude, Roadmap, OKR, Agile, Scrum, CSPO, TypeScript, Python, Next.js, Los Angeles">
+  <meta name="keywords" content="Director of Product, Head of Product, Senior Product Manager, Founding PM, Product Management, 0 to 1, B2B SaaS, Regulatory Compliance, FSVP, CPSIA, Prop 65, PFAS, GenAI, LLM, Claude, AI-assisted engineering, Claude Code, Cursor, Gemini, Roadmap, OKR, Agile, Scrum, CSPO, TypeScript, Python, Next.js, React Native, Los Angeles">
 
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'none'; base-uri 'self'; upgrade-insecure-requests">
 
@@ -112,6 +112,7 @@
           "Regulatory Compliance",
           "Supply Chain",
           "AI-Native Product Design",
+          "AI-Assisted Engineering",
           "Mobile App Development"
         ],
         "workLocation": {
@@ -137,7 +138,7 @@
       <nav aria-label="Primary">
       <a href="#about">About</a>
       <a href="#experience">Experience</a>
-      <a href="#work">Work</a>
+      <a href="#work">Projects</a>
       <a href="/now/">Now</a>
       <button class="theme-toggle" type="button" aria-label="Toggle light / dark theme" aria-pressed="false">
         <span class="icon-moon" aria-hidden="true">☾</span>
@@ -184,24 +185,65 @@
     <section id="about" class="about">
       <h2><span class="no-print">About</span><span class="print-only">Summary</span></h2>
       <div class="about-grid">
-        <picture>
-          <source srcset="/assets/headshot-320.avif 1x, /assets/headshot-640.avif 2x" type="image/avif">
-          <source srcset="/assets/headshot-320.webp 1x, /assets/headshot-640.webp 2x" type="image/webp">
-          <img src="/assets/headshot-320.png" alt="James Chang" class="headshot" width="320" height="320" loading="eager" decoding="async">
-        </picture>
+        <div class="headshot-rotate">
+          <picture>
+            <source srcset="/assets/headshot-320.avif 1x, /assets/headshot-640.avif 2x" type="image/avif">
+            <source srcset="/assets/headshot-320.webp 1x, /assets/headshot-640.webp 2x" type="image/webp">
+            <img src="/assets/headshot-320.png" alt="James Chang" class="headshot" width="320" height="320" loading="eager" decoding="async">
+          </picture>
+          <picture>
+            <source srcset="/assets/headshot-pro.avif" type="image/avif">
+            <source srcset="/assets/headshot-pro.webp" type="image/webp">
+            <img src="/assets/JamesProProfile.png" alt="James Chang" class="headshot headshot-pro" width="535" height="579" loading="lazy" decoding="async">
+          </picture>
+          <picture>
+            <source srcset="/assets/headshot-bw.avif" type="image/avif">
+            <source srcset="/assets/headshot-bw.webp" type="image/webp">
+            <img src="/assets/headshot-bw.jpg" alt="James Chang" class="headshot headshot-bw" width="225" height="149" loading="lazy" decoding="async">
+          </picture>
+          <picture>
+            <source srcset="/assets/headshot-hat.avif" type="image/avif">
+            <source srcset="/assets/headshot-hat.webp" type="image/webp">
+            <img src="/assets/IMG_0416 copy_cleanup.jpg" alt="James Chang" class="headshot headshot-hat" width="540" height="720" loading="lazy" decoding="async">
+          </picture>
+          <picture>
+            <source srcset="/assets/headshot-eye.avif" type="image/avif">
+            <source srcset="/assets/headshot-eye.webp" type="image/webp">
+            <img src="/assets/James Chang.Eye.jpg" alt="James Chang" class="headshot headshot-eye" width="1244" height="803" loading="lazy" decoding="async">
+          </picture>
+          <picture>
+            <source srcset="/assets/headshot-bald.avif" type="image/avif">
+            <source srcset="/assets/headshot-bald.webp" type="image/webp">
+            <img src="/assets/James Chang.Bald.jpg" alt="James Chang" class="headshot headshot-bald" width="366" height="400" loading="lazy" decoding="async">
+          </picture>
+          <picture>
+            <source srcset="/assets/headshot-thumbsup.avif" type="image/avif">
+            <source srcset="/assets/headshot-thumbsup.webp" type="image/webp">
+            <img src="/assets/x_DSC3049.jpg" alt="James Chang" class="headshot headshot-thumbsup" width="500" height="752" loading="lazy" decoding="async">
+          </picture>
+        </div>
         <div class="about-copy">
           <p>
             Fifteen years sourcing products across Asia and the US &mdash; at YETI, at
             Cheng Loong in Shanghai, at AT&amp;T Wireless &mdash; taught me what real
             importers need. Then Senior PM at <a href="https://localiq.com">Gannett/LocaliQ</a>,
-            where I took Scheduling from 0 to 4,900 users in year one and picked up
-            SEO and GenAI ownership along the way.
+            where I took Scheduling from concept to shipped product inside a
+            media company and picked up SEO and GenAI ownership along the way.
           </p>
           <p>
-            Now I combine both &mdash; founding <a href="https://alephco.io">Aleph Co.</a> to
-            build compliance tooling for the sourcers I used to be, while shipping six
-            other products in parallel because the operator problems I know best aren&rsquo;t
-            confined to one market.
+            I started using AI for product work early &mdash; first for research and
+            competitive analysis, then prototyping, then building entire products.
+            Today I design, prototype, and ship full-stack applications using
+            Claude Code, Cursor, and Gemini. Not prompting for code snippets &mdash;
+            architecting systems, writing tests, deploying to production. AI didn&rsquo;t
+            replace the PM skillset; it gave me a way to go from insight to working
+            software without waiting for a sprint.
+          </p>
+          <p>
+            Now I combine both backgrounds &mdash; founding <a href="https://alephco.io">Aleph Co.</a> to
+            build compliance tooling for the sourcers I used to be, while shipping
+            <a href="#work">seven other products</a> in parallel because the operator
+            problems I know best aren&rsquo;t confined to one market.
           </p>
           <p>
             MBA from USC Marshall (2012), CSPO, and a lifetime food blog at
@@ -220,7 +262,7 @@
         <p class="role-meta"><time datetime="2025-09">Sept 2025</time> &ndash; Present &middot; Los Angeles, CA</p>
         <ul>
           <li>Founded and operate <a href="https://alephco.io">Aleph Compliance</a>, a B2B SaaS platform for US importers covering FDA FSVP, CPSIA/CPC, California Prop 65, and multi-state PFAS regulations.</li>
-          <li>Shipping six other products in parallel under Aleph Co. &mdash; see <a href="#work">Work</a> for the portfolio and <a href="/work/">/work/</a> for deep-dives.</li>
+          <li>Shipping six other products in parallel under Aleph Co. &mdash; see <a href="#work">Projects</a> for the portfolio and <a href="/work/">/work/</a> for deep-dives.</li>
         </ul>
       </article>
 
@@ -298,16 +340,16 @@
       </details>
     </section>
 
-    <!-- WORK — full project grid -->
+    <!-- PROJECTS — full project grid -->
     <section id="work" class="projects">
-      <h2>Work</h2>
-      <p class="section-lede">Eight products in production across compliance SaaS, AI experiments, marketplaces, native mobile, karaoke, and long-form publishing. Several have deep-dive pages &mdash; roadmaps, changelogs, architecture &mdash; mirrored at <a href="/work/">/work/</a>.</p>
+      <h2>Projects</h2>
+      <p class="section-lede">A mix of real businesses, side projects, and experiments &mdash; compliance SaaS, fantasy sports, karaoke, BBQ judging, food blogging, and more. All AI-assisted, all shipped by one person. Several have deep-dive pages at <a href="/work/">/work/</a>.</p>
       <ul class="project-grid">
 
         <li class="project-card">
-          <h3><a href="/work/aleph/how-it-works/">Aleph Compliance</a></h3>
+          <h3><a href="/work/aleph/how-it-works/">Aleph Co.</a></h3>
           <p>Product compliance for US importers. FDA FSVP, CPSIA/CPC, California Prop 65, multi-state PFAS &mdash; one platform.</p>
-          <p class="project-meta"><span class="tag">founder</span> &middot; <a href="https://alephco.io">alephco.io &#8599;</a></p>
+          <p class="project-meta"><span class="tag">founder</span> &middot; <a href="https://alephco.io">alephco.io &#8599;</a> &middot; <a href="/work/aleph/how-it-works/">View details &rarr;</a></p>
         </li>
 
         <li class="project-card">
@@ -325,13 +367,13 @@
         <li class="project-card">
           <h3><a href="/work/fantastic-leagues/ai-insights/">The Fantastic Leagues</a></h3>
           <p>Fantasy baseball with league-context AI. 26 feature modules, 730 tests, 8 AI features (Gemini + Claude), live auction WebSockets.</p>
-          <p class="project-meta"><a href="https://thefantasticleagues.com">thefantasticleagues.com &#8599;</a></p>
+          <p class="project-meta"><a href="https://thefantasticleagues.com">thefantasticleagues.com &#8599;</a> &middot; <a href="/work/fantastic-leagues/ai-insights/">View details &rarr;</a></p>
         </li>
 
         <li class="project-card">
           <h3><a href="/work/judge-tool/tech/">The Judge Tool</a></h3>
           <p>Digital KCBS BBQ competition judging. Real-time tabulation, audit trails, 16,424 LOC + 113 tests shipped in 20 days.</p>
-          <p class="project-meta"><a href="https://thejudgetool.com">thejudgetool.com &#8599;</a></p>
+          <p class="project-meta"><a href="https://thejudgetool.com">thejudgetool.com &#8599;</a> &middot; <a href="/work/judge-tool/tech/">View details &rarr;</a></p>
         </li>
 
         <li class="project-card">
@@ -364,16 +406,12 @@
           <p class="case-meta">Aleph Compliance &middot; 2025&ndash;present &middot; founder</p>
           <h3>Founding a SaaS for the sourcer I used to be.</h3>
         </header>
-        <div class="case-metric" aria-label="Scope">
-          <span class="metric-value">4 frameworks, 1 platform</span>
-          <span class="metric-label">FSVP + CPSIA + Prop 65 + PFAS &mdash; SKU-level audit trails in one importer workflow. $100K+ penalty exposure per documentation failure is the gap Aleph closes.</span>
-        </div>
         <figure class="case-figure">
           <picture>
-            <source srcset="/assets/work/aleph/live-how-it-works.avif" type="image/avif">
-            <img src="/assets/work/aleph/live-how-it-works.webp" alt="Aleph Compliance marketing site — four steps from import to compliant" loading="lazy" decoding="async" width="1440" height="3400">
+            <source srcset="/assets/work/aleph/supply-chain.avif" type="image/avif">
+            <img src="/assets/work/aleph/supply-chain.webp" alt="Aleph Compliance supply chain view — products flowing through manufacturer, exporter, importer, distributor, retailer" loading="lazy" decoding="async" width="1836" height="1082">
           </picture>
-          <figcaption>The four-step user flow on alephco.io &mdash; SKUs in, compliance output out. <a href="/work/aleph/how-it-works/">Full page snapshot &rarr;</a></figcaption>
+          <figcaption>The supply chain kanban &mdash; every SKU tracked from manufacturer to retailer, with compliance status at each node. <a href="/work/aleph/how-it-works/">Deep dive &rarr;</a></figcaption>
         </figure>
         <p>
           I spent fifteen years sourcing products across Asia and the US &mdash; at YETI, at
@@ -414,12 +452,15 @@
       <article class="case">
         <header class="case-header">
           <p class="case-meta">Gannett / USA Today Network (LocaliQ) &middot; 2022&ndash;2024 &middot; Senior PM</p>
-          <h3>Scheduling, 0 &#8594; 4,900 users in year one.</h3>
+          <h3>Taking a scheduling product from concept to shipped inside a media company.</h3>
         </header>
-        <div class="case-metric" aria-label="Outcome metric">
-          <span class="metric-value">0 &#8594; 4,900</span>
-          <span class="metric-label">free accounts + 400&nbsp;paid, year one &mdash; against an internal plan projecting meaningfully smaller numbers.</span>
-        </div>
+        <figure class="case-figure">
+          <picture>
+            <source srcset="/assets/work/localiq-appointment.avif" type="image/avif">
+            <img src="/assets/work/localiq-appointment.webp" alt="LocaliQ Scheduling — appointment detail view with customer info, rescheduling, and notes" loading="lazy" decoding="async" width="720" height="559">
+          </picture>
+          <figcaption>The scheduling dashboard I shipped at LocaliQ &mdash; appointment detail with customer context, rescheduling history, and notes. <a href="https://localiq.com/blog/introducing-our-free-scheduling-software/">Blog post &rarr;</a></figcaption>
+        </figure>
         <p>
           LocaliQ (Gannett&rsquo;s SMB marketing arm inside the USA Today Network) had a
           portfolio of point solutions for small businesses &mdash; websites, SEO, ads,
@@ -459,10 +500,6 @@
           <p class="case-meta">The Thirsty Pig &middot; 2026 rebuild &middot; solo</p>
           <h3>Rebuilding 17 years of blog from the Wayback Machine.</h3>
         </header>
-        <div class="case-metric" aria-label="Outcome metric">
-          <span class="metric-value">2,900+ pages rebuilt</span>
-          <span class="metric-label">17 years of writing restored &mdash; 923 posts recovered from the Wayback Machine, 1,649 Instagram posts archived, 7,500+ images self-hosted. Static Astro + Tina CMS.</span>
-        </div>
         <figure class="case-figure">
           <picture>
             <source srcset="/assets/work/thirstypig-home.avif" type="image/avif">
@@ -561,11 +598,15 @@
         </div>
         <div>
           <dt>Tools</dt>
-          <dd>Jira, Linear, Productboard, Figma, Notion, Confluence, Slack, Mixpanel, Google Analytics 4, Appcues, Shopify, Prisma, Supabase, Stripe, Claude API, Claude Code, Cursor, GitHub, Postman, Vercel, Railway</dd>
+          <dd>Jira, Linear, Productboard, Figma, Notion, Confluence, Slack, Mixpanel, PostHog, Sentry, Google Analytics 4, Appcues, Stripe, Shopify, GitHub, Postman</dd>
         </div>
         <div>
-          <dt>Engineering (hands-on)</dt>
-          <dd>TypeScript, Python, Next.js, Astro, Tailwind, FastAPI, Socket.IO, Prisma &middot; <strong>AI-assisted development</strong> (Claude Code, MCP, agent workflows)</dd>
+          <dt>AI-assisted engineering</dt>
+          <dd>Claude Code, Cursor, Gemini, ChatGPT Codex, VS Code, Xcode, Replit, MCP &middot; TypeScript, Python, Next.js, React Native/Expo, Astro, Tailwind, FastAPI, Express, Prisma, Drizzle, Socket.IO</dd>
+        </div>
+        <div>
+          <dt>Infrastructure</dt>
+          <dd>Vercel, Railway, Render, Supabase, Neon, TinaCMS, BullMQ/Redis, Playwright, Tesseract.js OCR</dd>
         </div>
         <div>
           <dt>Domains</dt>

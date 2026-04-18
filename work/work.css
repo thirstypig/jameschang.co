@@ -392,6 +392,196 @@
   margin: -1rem 0 1.5rem;
 }
 
+/* Terminal window — styled prompt block */
+.terminal {
+  background: #1e1e2e;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+.terminal-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  background: #181825;
+}
+.terminal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.terminal-dot:nth-child(1) { background: #f38ba8; }
+.terminal-dot:nth-child(2) { background: #f9e2af; }
+.terminal-dot:nth-child(3) { background: #a6e3a1; }
+.terminal-title {
+  margin-left: 8px;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: #6c7086;
+}
+.terminal-body {
+  padding: 1.25rem 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  line-height: 1.65;
+  color: #cdd6f4;
+  overflow-x: auto;
+}
+.terminal-body h3 {
+  color: #89b4fa;
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.5rem;
+  letter-spacing: 0;
+}
+.terminal-body h3:first-child { margin-top: 0; }
+.terminal-body ul, .terminal-body ol {
+  margin: 0.25rem 0 0.75rem 1.25rem;
+  padding: 0;
+}
+.terminal-body li {
+  margin-bottom: 0.35rem;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+}
+.terminal-body strong { color: #f9e2af; font-weight: 600; }
+.terminal-body em { color: #a6e3a1; font-style: normal; }
+.terminal-body code {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+  font-size: 0.8em;
+}
+.terminal-body .prompt-line {
+  color: #a6e3a1;
+  margin-bottom: 0.75rem;
+}
+.terminal-body .prompt-line::before {
+  content: "$ ";
+  color: #89b4fa;
+}
+
+/* Dashboard showcase — screenshot + terminal stacked */
+.dashboard-showcase {
+  margin: 2rem 0;
+}
+.dashboard-showcase .screenshot {
+  margin: 0 0 2.5rem;
+  background: #2a2a3a;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+.dashboard-showcase .screenshot img {
+  border-radius: 6px;
+  max-height: 420px;
+  width: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+.dashboard-showcase .screenshot figcaption {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: #8a95a8;
+  margin-top: 0.75rem;
+  text-align: center;
+}
+
+/* Light mode: lighter frame */
+:root[data-theme="light"] .dashboard-showcase .screenshot,
+:root:not([data-theme="dark"]) .dashboard-showcase .screenshot {
+  background: #f0f0f5;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .dashboard-showcase .screenshot {
+    background: #2a2a3a;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  }
+}
+:root[data-theme="dark"] .dashboard-showcase .screenshot {
+  background: #2a2a3a;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+/* Lightbox modal for expandable screenshots */
+.lightbox {
+  border: none;
+  background: none;
+  padding: 0;
+  max-width: min(95vw, 1200px);
+  max-height: 95vh;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.lightbox::backdrop {
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(4px);
+}
+.lightbox img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 12px;
+}
+.lightbox-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  z-index: 1;
+}
+.lightbox-close:hover { background: rgba(0, 0, 0, 0.8); }
+
+/* Clickable screenshot hint */
+.screenshot-clickable {
+  cursor: zoom-in;
+  position: relative;
+}
+.screenshot-clickable::after {
+  content: "Click to expand";
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.75rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.screenshot-clickable:hover::after { opacity: 1; }
+
+/* Terminal needs visible border in dark mode */
+:root[data-theme="dark"] .terminal,
+:root:not([data-theme="light"]) .terminal {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .terminal {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+}
+
 /* Section header inside a work page */
 .work-section {
   margin: 3.5rem 0 1.5rem;
