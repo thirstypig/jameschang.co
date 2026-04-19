@@ -60,9 +60,9 @@ python3 -m http.server 8787 &
   --print-to-pdf=resume.pdf http://127.0.0.1:8787/
 ```
 
-## /work/ deep-dive pages
+## /work/ deep-dive pages (labeled "Projects" in nav)
 
-Each project-with-a-deep-dive has its own folder under `/work/[slug]/` with sub-pages (how-it-works, tech, roadmap, changelog, dashboard). They share `/work/work.css`. Navigation within a project uses `.project-nav`; back to home uses `.crumbs`.
+Each project-with-a-deep-dive has its own folder under `/work/[slug]/` with sub-pages (how-it-works, tech, roadmap, changelog, dashboard). They share `/work/work.css`. Navigation within a project uses `.project-nav`; back to home uses `.crumbs`. The URL path is `/work/` but all user-facing text reads "Projects" (nav links, breadcrumbs, headings).
 
 **Dashboard prompt pages** (`/work/[slug]/dashboard/`) showcase the AI-assisted engineering process — the prompt(s) that built the admin dashboard, displayed in terminal-style UI (`.terminal` component in `work.css`). Screenshots use a clickable lightbox (`<dialog>` element). When adding a new dashboard page, ensure the Dashboard tab is added to `.project-nav` in **all** sibling pages.
 
