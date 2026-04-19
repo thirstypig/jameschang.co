@@ -161,11 +161,15 @@
 .release-tag.improvement { background: #e7e0f0; color: #4a3a6a; }
 .release-tag.fix { background: #f5e8d4; color: #6b4a20; }
 @media (prefers-color-scheme: dark) {
-  .release-tag.security { background: #4a2820; color: #f0b8a3; }
-  .release-tag.feature { background: #2a3a20; color: #bdd0a5; }
-  .release-tag.improvement { background: #2f2a40; color: #c2b5e0; }
-  .release-tag.fix { background: #3f3220; color: #ddc79a; }
+  :root:not([data-theme="light"]) .release-tag.security { background: #4a2820; color: #f0b8a3; }
+  :root:not([data-theme="light"]) .release-tag.feature { background: #2a3a20; color: #bdd0a5; }
+  :root:not([data-theme="light"]) .release-tag.improvement { background: #2f2a40; color: #c2b5e0; }
+  :root:not([data-theme="light"]) .release-tag.fix { background: #3f3220; color: #ddc79a; }
 }
+:root[data-theme="dark"] .release-tag.security { background: #4a2820; color: #f0b8a3; }
+:root[data-theme="dark"] .release-tag.feature { background: #2a3a20; color: #bdd0a5; }
+:root[data-theme="dark"] .release-tag.improvement { background: #2f2a40; color: #c2b5e0; }
+:root[data-theme="dark"] .release-tag.fix { background: #3f3220; color: #ddc79a; }
 .release-title {
   font-family: var(--serif);
   font-size: 1.25rem;
@@ -243,6 +247,10 @@
   font-weight: 600;
 }
 .feature-list li.done::before { content: "✓ "; color: #3a7a4a; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .feature-list li.done::before { color: #5cc06a; }
+}
+:root[data-theme="dark"] .feature-list li.done::before { color: #5cc06a; }
 .feature-list li.planned::before { content: "○ "; color: var(--muted); }
 .feature-list li.deferred::before { content: "— "; color: var(--muted); opacity: 0.6; }
 .feature-list li.planned, .feature-list li.deferred { color: var(--muted); }
@@ -297,6 +305,10 @@
   color: var(--muted);
 }
 .comp-table .yes { color: #3a7a4a; font-weight: 600; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .comp-table .yes { color: #5cc06a; }
+}
+:root[data-theme="dark"] .comp-table .yes { color: #5cc06a; }
 .comp-table .no { color: var(--muted); opacity: 0.5; }
 
 /* Prompt excerpt (collapsible code block inside a module) */
@@ -351,8 +363,9 @@
   margin: 1.5rem 0;
 }
 @media (prefers-color-scheme: dark) {
-  .arch-block { background: #0b0a09; border: 1px solid var(--rule); }
+  :root:not([data-theme="light"]) .arch-block { background: #0b0a09; border: 1px solid var(--rule); }
 }
+:root[data-theme="dark"] .arch-block { background: #0b0a09; border: 1px solid var(--rule); }
 
 /* Stack categories */
 .stack-grid {

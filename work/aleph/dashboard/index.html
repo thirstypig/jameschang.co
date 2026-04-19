@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'none'; base-uri 'self'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
   <title>Aleph — Admin Dashboard — James Chang</title>
   <meta name="description" content="How the Aleph Co. executive compliance dashboard was designed: the prompt, the process, and the decisions behind every metric, insight, and interaction.">
   <link rel="canonical" href="https://jameschang.co/work/aleph/dashboard/">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/styles.css?v=20260417">
-  <link rel="stylesheet" href="/work/work.css?v=20260417">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/work/work.css">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -45,7 +45,7 @@
       <a href="/#experience">Experience</a>
       <a href="/#work" aria-current="page">Projects</a>
       <a href="/now/">Now</a>
-      <button class="theme-toggle" type="button" aria-label="Toggle light / dark theme">
+      <button class="theme-toggle" type="button" aria-label="Toggle light / dark theme" aria-pressed="false">
         <span class="icon-moon" aria-hidden="true">&#9790;</span>
         <span class="icon-sun" aria-hidden="true">&#9728;</span>
       </button>
@@ -88,7 +88,7 @@
       </p>
 
       <div class="dashboard-showcase">
-        <figure class="screenshot screenshot-clickable" onclick="document.getElementById('dash-lightbox').showModal()">
+        <figure class="screenshot screenshot-clickable" tabindex="0" role="button" aria-label="Expand screenshot" onclick="document.getElementById('dash-lightbox').showModal()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();document.getElementById('dash-lightbox').showModal()}">
           <picture>
             <source srcset="/assets/work/aleph/admin-dashboard.avif" type="image/avif">
             <img src="/assets/work/aleph/admin-dashboard.webp" alt="Aleph admin dashboard — compliance coverage hero metric, 6 stat tiles with sparklines and AI insights, conversion funnels" loading="eager" decoding="async" width="1764" height="1400">

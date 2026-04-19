@@ -46,6 +46,12 @@ Dark mode is triggered via `@media (prefers-color-scheme: dark)` + an explicit `
 
 `styles.css` has a substantial `@media print` block that reorders + restyles the homepage into a résumé PDF. **When adding a new section**, also add an `order` value in the print flex layout, or add `display: none` if the section shouldn't print. Testimonials and `.booking-cta`-style call-to-actions are hidden in print.
 
+Current print order values (in `styles.css`):
+```
+.hero: 0, #about: 1, #experience: 2, #education: 3, #skills: 4, #work: 5, #memberships: 6
+#testimonials: hidden, #case-studies: hidden
+```
+
 Regenerate the PDF with:
 ```bash
 python3 -m http.server 8787 &
@@ -60,6 +66,15 @@ Each project-with-a-deep-dive has its own folder under `/work/[slug]/` with sub-
 
 **Dashboard prompt pages** (`/work/[slug]/dashboard/`) showcase the AI-assisted engineering process — the prompt(s) that built the admin dashboard, displayed in terminal-style UI (`.terminal` component in `work.css`). Screenshots use a clickable lightbox (`<dialog>` element). When adding a new dashboard page, ensure the Dashboard tab is added to `.project-nav` in **all** sibling pages.
 
+### Adding a new project deep-dive
+
+1. Create `/work/[slug]/` with sub-pages (e.g. `tech/index.html`, `roadmap/index.html`, `changelog/index.html`). Copy an existing project's page as the template — match the CSP meta tag, JSON-LD, breadcrumbs, `.project-nav`, `.snapshot-banner`, `.work-hero`, footer, and script tag.
+2. Set `aria-current="page"` on the active tab in `.project-nav` for each sub-page.
+3. Add the project to `/work/index.html` (the work landing page).
+4. Add a project card to the `#work` section grid in `index.html`.
+5. Add all new URLs to `sitemap.xml`.
+6. Add the Dashboard tab to `.project-nav` in **all** sibling sub-pages if adding a dashboard page.
+
 **Headshot rotation** — the About section cycles through 7 photos using JS-driven crossfade (5s interval, `script.js`). Images need `object-position` tuning per photo. Respects `prefers-reduced-motion` (freezes on first image). New photos need AVIF + WebP variants and a `.headshot-*` class for positioning.
 
 ## Data feeds on /now
@@ -73,11 +88,13 @@ The `/now` page is assembled from several independent sync scripts that each wri
 ### Adding a new data feed
 
 1. Add a new `<section class="work-section">` to `now/index.html` with `FEED-START` / `FEED-END` markers.
-2. Add CSS for the feed's presentation in `work/work.css` (use existing CSS tokens).
-3. Write a Python function that fetches + returns the HTML block; add to `bin/update-public-feeds.py` (for unauth) or a new `bin/update-{feed}.py` (for OAuth).
+2. Add CSS for the feed's presentation in `work/work.css` (use existing CSS tokens). Follow the naming convention: `.{feed}-module`, `.{feed}-heading`, `.{feed}-list`, `.{feed}-when`, `.{feed}-updated`.
+3. Write a Python function that fetches + returns the HTML block; add to `bin/update-public-feeds.py` (for unauth) or a new `bin/update-{feed}.py` (for OAuth). In `update-public-feeds.py`, add a tuple to the `feeds` list: `("MARKER_NAME", builder_function, 'fallback_html')`.
 4. Add the fetch to the `main()` of the sync script; use `replace_marker()` to insert.
 5. If OAuth: add a callback page at `/{service}/callback/`, auth script at `bin/{service}-auth.sh`, workflow at `.github/workflows/{service}-sync.yml`.
-6. Call `record_heartbeat("feed_name")` from `_shared.py` in the sync script's `main()` — both on success and on early-return (no-change) paths. The weekly staleness check (`.github/workflows/feeds-staleness-check.yml`) opens a GitHub issue if any feed goes >48h without a successful heartbeat.
+6. Call `record_heartbeat("feed_name")` from `_shared.py` in the sync script's `main()` — both on success and on early-return (no-change) paths. The weekly staleness check (`.github/workflows/feeds-staleness-check.yml`) opens a GitHub issue if any feed goes >48h without a successful heartbeat. Note: the 48h threshold may not suit feeds that update less frequently (e.g. weekly).
+7. If the new feed fetches from an external domain client-side, add the domain to the CSP `connect-src` directive in `now/index.html`.
+8. Sync scripts must be invoked as `python3 bin/update-{feed}.py` from the repo root (not imported as modules).
 
 ## Third-party fetches on /now/
 
@@ -87,7 +104,7 @@ The Places-I-want-to-try section fetches `https://thirstypig.com/places-hitlist.
 
 - **Never commit without the user's "go" / equivalent intent.** The user drives cadence.
 - **Never touch `.whoop-token.enc` manually** unless running `bin/whoop-encrypt.sh`. The GitHub Action is the sole writer.
-- **Never delete files in `docs/plans/`, `docs/solutions/`, or `todos/` during review** — those are institutional knowledge, protected artifacts.
+- **Never delete files in `docs/solutions/` or `todos/` during review** — those are institutional knowledge, protected artifacts.
 - **When modifying HTML structure**, also audit the print stylesheet and any JSON-LD/meta tag that references specific claims (meta description, OG description).
 - **When changing CSS tokens**, screenshot both light and dark mode headlessly (see `/tmp/jc-shots/` pattern).
 
@@ -124,6 +141,18 @@ Performance: 100 | Accessibility: 100 | Best Practices: 100 | SEO: 100. Total pa
 ## Known outstanding items
 
 All code-review findings from the initial review have been resolved. See `todos/*` for the full history (status: done).
+
+## Testing
+
+71 tests across 3 files. Run with `python3 -m pytest tests/ -v` (requires `pytest`).
+
+| File | Type | Tests | What it covers |
+|------|------|-------|---------------|
+| `tests/test_shared.py` | Unit | 36 | `_shared.py`: escape_html, relative_time, replace_marker, content_changed, sanitize_error, record_heartbeat |
+| `tests/test_feeds.py` | Unit | 19 | `update-whoop.py`: recovery_color; `update-public-feeds.py`: ordinal |
+| `tests/test_site_e2e.py` | E2E | 16 | All HTML pages: meta tags, CSP, aria-pressed, JSON-LD, images, feed markers, OpenSSL parity, dark mode parity |
+
+CI runs on push to `main` via `.github/workflows/ci-tests.yml`. See `docs/test-plan.md` for the full testing strategy.
 
 ## Commit/push workflow
 

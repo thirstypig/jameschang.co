@@ -41,7 +41,7 @@ def decrypt_refresh_token():
         print(f"ERROR: {TOKEN_ENC} not found. Run bin/whoop-encrypt.sh first.")
         sys.exit(1)
     result = subprocess.run(
-        ["openssl", "enc", "-aes-256-cbc", "-d", "-pbkdf2",
+        ["openssl", "enc", "-aes-256-cbc", "-d", "-pbkdf2", "-iter", "600000",
          "-in", TOKEN_ENC, "-pass", f"pass:{key}"],
         capture_output=True, text=True,
     )
@@ -55,7 +55,7 @@ def encrypt_refresh_token(token):
     """Encrypt the refresh token to .whoop-token.enc."""
     key = os.environ.get("WHOOP_TOKEN_KEY")
     result = subprocess.run(
-        ["openssl", "enc", "-aes-256-cbc", "-pbkdf2",
+        ["openssl", "enc", "-aes-256-cbc", "-pbkdf2", "-iter", "600000",
          "-out", TOKEN_ENC, "-pass", f"pass:{key}"],
         input=token, capture_output=True, text=True,
     )

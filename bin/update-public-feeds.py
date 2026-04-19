@@ -11,9 +11,7 @@ Feeds:
   - Fantastic Leagues team standings (TODO: wire once server endpoint deployed)
 """
 
-import json
 import os
-import sys
 import xml.etree.ElementTree as ET
 from collections import Counter
 from datetime import datetime, timedelta, timezone

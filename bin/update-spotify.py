@@ -12,6 +12,7 @@ import base64
 import hashlib
 import json
 import os
+import re
 import sys
 from datetime import datetime, timedelta, timezone
 from urllib.error import HTTPError
@@ -200,8 +201,7 @@ def main():
     html_block = build_html(tracks, podcast)
 
     # Content-hash cache: skip HTML write if tracks + podcast haven't changed
-    import re as _re
-    date_stripped = _re.sub(r"Auto-updated [A-Z][a-z]+ \d+, \d{4}", "", html_block)
+    date_stripped = re.sub(r"Auto-updated [A-Z][a-z]+ \d+, \d{4}", "", html_block)
     tracks_hash = hashlib.sha1(date_stripped.encode()).hexdigest()[:12]
     old_hash = state.get("last_tracks_hash")
 
@@ -220,6 +220,7 @@ def main():
         sys.exit(1)
 
     if not content_changed(old_content, new_content):
+        record_heartbeat("spotify")
         print("No meaningful changes.")
         return
 

@@ -94,6 +94,10 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
+/* Touch devices: disable fixed background to prevent scroll jank */
+@media (hover: none) {
+  body { background-attachment: scroll; }
+}
 
 /* ---------- Skip link (a11y) ---------- */
 .skip-link {

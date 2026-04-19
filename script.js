@@ -1,4 +1,4 @@
-// jameschang.co — theme toggle only.
+// jameschang.co — theme toggle + headshot rotation.
 // Email is now a plain mailto:; no reveal logic needed.
 
 (() => {
@@ -27,16 +27,43 @@
 
   // Headshot rotation — crossfade through N images
   const rotator = document.querySelector(".headshot-rotate");
-  if (rotator && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  if (rotator) {
     const pics = rotator.querySelectorAll("picture");
     if (pics.length > 1) {
       let current = 0;
+      let intervalId = null;
       pics.forEach((p, i) => { p.style.opacity = i === 0 ? "1" : "0"; });
-      setInterval(() => {
+
+      const tick = () => {
         pics[current].style.opacity = "0";
         current = (current + 1) % pics.length;
         pics[current].style.opacity = "1";
-      }, 5000);
+      };
+      const start = () => { if (!intervalId) intervalId = setInterval(tick, 5000); };
+      const stop = () => { clearInterval(intervalId); intervalId = null; };
+
+      const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+      // Only start if motion is allowed
+      if (!motionQuery.matches) start();
+
+      // Pause when tab is hidden, resume when visible (unless reduced-motion)
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          stop();
+        } else if (!motionQuery.matches) {
+          start();
+        }
+      });
+
+      // Live-respond to reduced-motion preference changes
+      motionQuery.addEventListener("change", (e) => {
+        if (e.matches) {
+          stop();
+        } else if (!document.hidden) {
+          start();
+        }
+      });
     }
   }
 })();

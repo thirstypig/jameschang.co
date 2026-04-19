@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://thirstypig.com; form-action 'none'; base-uri 'self'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://thirstypig.com; form-action 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
   <title>Now — James Chang</title>
   <meta name="description" content="What James Chang is actively working on right now. Updated April 2026.">
   <link rel="canonical" href="https://jameschang.co/now/">
@@ -36,7 +36,7 @@
       <a href="/#experience">Experience</a>
       <a href="/#work">Work</a>
       <a href="/now/" aria-current="page">Now</a>
-      <button class="theme-toggle" type="button" aria-label="Toggle light / dark theme">
+      <button class="theme-toggle" type="button" aria-label="Toggle light / dark theme" aria-pressed="false">
         <span class="icon-moon" aria-hidden="true">☾</span>
         <span class="icon-sun" aria-hidden="true">☀</span>
       </button>
@@ -417,6 +417,7 @@
             linkEntries.forEach(([key, url], i) => {
               if (i > 0) linksSpan.appendChild(document.createTextNode(' \u00b7 '));
               const a = document.createElement('a');
+              if (!/^https?:\/\//i.test(url)) return;
               a.href = url;
               a.textContent = LINK_LABELS[key] || key;
               a.target = '_blank';
@@ -440,6 +441,7 @@
 
         container.appendChild(module);
       } catch (e) {
+        console.warn('[hitlist]', e);
         container.remove();
       }
     })();
