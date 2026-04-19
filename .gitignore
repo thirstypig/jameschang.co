@@ -10,3 +10,23 @@ PLAN.md
 resume-small.pdf
 assets/JamesChang.Headshot.png
 .whoop-refresh-token
+
+# Source photos (processed versions are tracked as headshot-*.avif/webp)
+assets/JamesProProfile.png
+assets/James Chang.*.jpg
+assets/IMG_0416 copy_cleanup.jpg
+assets/x_DSC3049.jpg
+
+# Screenshots (temporary)
+assets/Screenshot *.png
+
+# Dashboard source PNGs (processed versions tracked under assets/work/)
+assets/TFL.Admindashboard.png
+assets/aleph.admindashboard.png
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Test cache
+.pytest_cache/
