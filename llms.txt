@@ -16,6 +16,20 @@ Senior Product Manager and founder of Aleph Co. Currently running Aleph Complian
 - **Tastemakers** — iOS restaurant-review app, cross-platform build. Currently paused.
 - **The Thirsty Pig** (thirstypig.com) — food & travel blog since 2007. 2026 rebuild archived 923 posts from the Wayback Machine + 1,649 Instagram posts.
 
+## /now page
+
+The site includes a Derek Sivers-style /now page at https://jameschang.co/now/ with 8 automated data feeds updated via GitHub Actions:
+- WHOOP health data (daily): recovery score, HRV, sleep, strain
+- Spotify (every 4 hours): recently played tracks + last podcast
+- GitHub activity (every 6 hours): recent pushes, PRs, releases
+- MLB / Dodgers standings and schedule
+- Letterboxd: recently watched films
+- Goodreads: recently read books
+- The Fantastic Leagues: fantasy baseball team standings
+- Thirsty Pig hit list: restaurants to try (client-side fetch)
+
+The /now page also lists active projects, back-burner work, and what James is currently exploring (Obsidian integration, OpenClaw).
+
 ## Previous roles
 
 - Gannett / LocaliQ / USA Today Network — Senior Product Manager (2022–2024). Shipped Scheduling product 0→1 to 4,900 users in year one.
