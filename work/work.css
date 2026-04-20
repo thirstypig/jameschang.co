@@ -916,6 +916,30 @@
 .gr-author { color: var(--muted); font-size: 0.875rem; }
 .gr-rating { color: var(--accent); margin-left: 0.35rem; }
 
+/* Trakt — recently watched TV shows */
+.trakt-heading {
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 0.75rem;
+}
+.trakt-heading strong { color: var(--muted); font-weight: 600; }
+.trakt-list { list-style: none; padding: 0; margin: 0 0 1rem; }
+.trakt-list li {
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+.trakt-list li:last-child { border-bottom: none; }
+.trakt-list a { color: var(--text); text-decoration-color: var(--rule); }
+.trakt-list a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+.trakt-when {
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+
 /* Responsive tweaks */
 @media (max-width: 720px) {
   .work-main { padding: 1.5rem 1rem 3rem; }

@@ -1,0 +1,39 @@
+name: Sync Trakt data to /now
+
+on:
+  schedule:
+    - cron: '30 */6 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: now-html-writer
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  update-trakt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch Trakt data and update /now/
+        env:
+          TRAKT_CLIENT_ID:     ${{ secrets.TRAKT_CLIENT_ID }}
+          TRAKT_CLIENT_SECRET: ${{ secrets.TRAKT_CLIENT_SECRET }}
+          TRAKT_TOKEN_KEY:     ${{ secrets.TRAKT_TOKEN_KEY }}
+        run: python3 bin/update-trakt.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add now/index.html .feeds-heartbeat.json .trakt-token.enc
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: update Trakt data on /now page"
+            git pull --rebase origin main
+            git push
+          fi

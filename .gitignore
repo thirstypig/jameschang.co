@@ -12,6 +12,7 @@ PLAN.md
 resume-small.pdf
 assets/JamesChang.Headshot.png
 .whoop-refresh-token
+.trakt-refresh-token
 
 # Source photos (processed versions are tracked as headshot-*.avif/webp)
 assets/JamesProProfile.png
