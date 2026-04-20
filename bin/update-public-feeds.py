@@ -290,6 +290,45 @@ def letterboxd_block():
 
 # ------------------------ Goodreads ------------------------
 
+def goodreads_reading_block():
+    """Currently reading books from Goodreads RSS."""
+    try:
+        xml = fetch_text(f"https://www.goodreads.com/review/list_rss/{GOODREADS_USER_ID}?shelf=currently-reading")
+    except (HTTPError, URLError) as e:
+        print(f"Goodreads currently-reading fetch failed: {e}")
+        return None
+
+    try:
+        root = ET.fromstring(xml)
+    except ET.ParseError as e:
+        print(f"Goodreads XML parse failed: {e}")
+        return None
+
+    items = root.findall(".//item")
+    if not items:
+        return None
+
+    parts = ['        <p class="gr-heading"><strong>Currently reading</strong></p>']
+    parts.append('        <ul class="gr-list">')
+    for item in items[:3]:
+        title_el = item.find("title")
+        link_el = item.find("link")
+        author_el = item.find("author_name")
+
+        title = title_el.text.strip() if title_el is not None and title_el.text else "Untitled"
+        link = link_el.text.strip() if link_el is not None and link_el.text else "#"
+        author = author_el.text.strip() if author_el is not None and author_el.text else ""
+
+        line = f'          <li><a href="{escape_html(link)}" rel="noopener" target="_blank"><em>{escape_html(title)}</em></a>'
+        if author:
+            line += f' <span class="gr-author">&mdash; {escape_html(author)}</span>'
+        line += '</li>'
+        parts.append(line)
+
+    parts.append('        </ul>')
+    return "\n".join(parts)
+
+
 def goodreads_block():
     """Recently read books from Goodreads RSS."""
     try:
@@ -402,6 +441,7 @@ def main():
         ("GITHUB",     github_block,     '        <p class="feed-empty">No recent activity.</p>'),
         ("MLB",        mlb_block,         '        <p class="feed-empty">MLB data unavailable.</p>'),
         ("LETTERBOXD", letterboxd_block,  '        <p class="feed-empty">No films logged yet. <a href="https://letterboxd.com/thirstypig/">Letterboxd</a>.</p>'),
+        ("GOODREADS-READING", goodreads_reading_block, '        <p class="gr-heading"><strong>Currently reading</strong></p>\n        <p class="feed-empty">Nothing on the shelf right now.</p>'),
         ("GOODREADS",  goodreads_block,   '        <p class="feed-empty">No books logged yet. <a href="https://www.goodreads.com/user/show/33966778">Goodreads</a>.</p>'),
         ("FBST",       fbst_block,        '        <p class="feed-empty">FBST standings unavailable.</p>'),
     ]
