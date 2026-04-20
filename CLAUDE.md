@@ -140,7 +140,7 @@ Performance: 100 | Accessibility: 100 | Best Practices: 100 | SEO: 100. Total pa
 
 ## Known outstanding items
 
-All code-review findings from the initial review have been resolved. See `todos/*` for the full history (status: done).
+All code-review findings from both reviews (initial + 2026-04-18 full-repo audit) have been resolved. See `todos/*` for the full history (75 files, all status: done).
 
 ## Testing
 
@@ -148,7 +148,7 @@ All code-review findings from the initial review have been resolved. See `todos/
 
 | File | Type | Tests | What it covers |
 |------|------|-------|---------------|
-| `tests/test_shared.py` | Unit | 36 | `_shared.py`: escape_html, relative_time, replace_marker, content_changed, sanitize_error, record_heartbeat |
+| `tests/test_shared.py` | Unit | 37 | `_shared.py`: escape_html, relative_time, replace_marker, content_changed, sanitize_error, record_heartbeat (incl. corrupt JSON recovery) |
 | `tests/test_feeds.py` | Unit | 19 | `update-whoop.py`: recovery_color; `update-public-feeds.py`: ordinal |
 | `tests/test_site_e2e.py` | E2E | 16 | All HTML pages: meta tags, CSP, aria-pressed, JSON-LD, images, feed markers, OpenSSL parity, dark mode parity |
 
