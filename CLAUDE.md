@@ -144,7 +144,7 @@ All code-review findings from the initial review have been resolved. See `todos/
 
 ## Testing
 
-71 tests across 3 files. Run with `python3 -m pytest tests/ -v` (requires `pytest`).
+72 tests across 3 files. Run with `python3 -m pytest tests/ -v` (requires `pytest`).
 
 | File | Type | Tests | What it covers |
 |------|------|-------|---------------|

@@ -240,6 +240,20 @@ class TestRecordHeartbeat:
         assert data["feed1"]["last_success_utc"] == success_time
         assert data["feed1"]["last_error"] == "API down"
 
+    def test_survives_corrupt_json(self, tmp_path, monkeypatch):
+        """If the heartbeat file contains invalid JSON, record_heartbeat
+        should silently recover and write a fresh valid file."""
+        hb_file = tmp_path / ".feeds-heartbeat.json"
+        hb_file.write_text("{corrupt json!!! not valid")
+        import _shared
+        monkeypatch.setattr(_shared, "HEARTBEAT_FILE", str(hb_file))
+
+        record_heartbeat("whoop")
+
+        data = json.loads(hb_file.read_text())
+        assert "whoop" in data
+        assert "last_success_utc" in data["whoop"]
+
     def test_multiple_feeds(self, tmp_path, monkeypatch):
         hb_file = tmp_path / ".feeds-heartbeat.json"
         import _shared

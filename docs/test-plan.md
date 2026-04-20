@@ -19,7 +19,7 @@ python3 -m pytest tests/ -v
 
 | Test file | Covers | Functions tested |
 |-----------|--------|-----------------|
-| `tests/test_shared.py` | `bin/_shared.py` | `escape_html`, `relative_time`, `replace_marker`, `content_changed`, `sanitize_error`, `record_heartbeat` |
+| `tests/test_shared.py` | `bin/_shared.py` | `escape_html`, `relative_time`, `replace_marker`, `content_changed`, `sanitize_error`, `record_heartbeat` (incl. corrupt JSON recovery) |
 | `tests/test_feeds.py` | `bin/update-whoop.py`, `bin/update-public-feeds.py` | `recovery_color`, `ordinal` |
 
 ### E2E Tests (`tests/test_site_e2e.py`)
