@@ -1,5 +1,7 @@
 .DS_Store
-.claude/
+# Claude settings (local, not shared) — but track commands (slash skills)
+.claude/settings.*
+.claude/projects/
 *.log
 .env
 .env.local
