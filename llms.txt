@@ -4,11 +4,11 @@ Founder of Aleph Co. and senior product manager based in Los Angeles, CA.
 
 ## Positioning
 
-Senior Product Manager and founder of Aleph Co. Currently running Aleph Compliance plus six other products in parallel — seven in total — from compliance SaaS to an AI trading experiment. Fifteen years of global supply-chain and sourcing experience preceded the PM career; that background is the foundation of Aleph Compliance.
+Senior Product Manager and founder of Aleph Co. Currently running Aleph plus six other products in parallel — seven in total — from compliance SaaS to an AI trading experiment. Fifteen years of global supply-chain and sourcing experience preceded the PM career; that background is the foundation of Aleph.
 
 ## Current work
 
-- **Aleph Compliance** (alephco.io) — SaaS platform for US importers covering FDA FSVP, CPSIA/CPC, California Prop 65, and multi-state PFAS regulations. Founder.
+- **Aleph** (alephco.io) — SaaS platform for US importers covering FDA FSVP, CPSIA/CPC, California Prop 65, and multi-state PFAS regulations. Founder.
 - **Bahtzang Trader** (bahtzang.com) — AI trading-decision experiment using Claude Sonnet. Paper-trading sandbox, not a live trading service.
 - **TableDrop** — restaurant reservation marketplace. Next.js + Stripe + Playwright.
 - **The Fantastic Leagues** (thefantasticleagues.com) — fantasy baseball platform with league-context AI (Gemini + Claude).
