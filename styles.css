@@ -853,6 +853,8 @@ h3 {
   .project-card h3 { font-size: 10pt; margin-bottom: 0.15rem; }
   .project-card p { font-size: 9pt; line-height: 1.35; }
   .project-meta { display: none; }
+  .role-url { display: none; }
+  .module-url { display: none; }
 
   .case { margin-bottom: 0.75rem; }
   .case h3 { font-size: 11pt; }
