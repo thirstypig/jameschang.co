@@ -207,6 +207,13 @@
   font-weight: 500;
   margin: 0;
 }
+.module-url {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--muted);
+  margin-left: 0.35rem;
+}
 .module-progress {
   font-family: var(--mono);
   font-size: 0.875rem;

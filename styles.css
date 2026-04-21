@@ -610,6 +610,7 @@ h3 {
 .role h3 a { color: var(--text); text-decoration: none; border-bottom: 1px dotted var(--muted); }
 .role h3 a:hover { color: var(--accent); border-bottom-color: var(--accent); }
 .role-title { font-weight: 400; color: var(--muted); }
+.role-url { font-family: var(--mono); font-size: 0.75rem; font-weight: 400; color: var(--muted); margin-left: 0.25rem; }
 .role-note { font-weight: 400; color: var(--muted); font-size: 0.8125rem; opacity: 0.7; }
 .role-meta {
   font-size: 0.875rem;
