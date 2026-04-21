@@ -97,11 +97,14 @@
       <div class="module">
         <h3 class="module-name"><a href="https://bahtzang.com">Bahtzang Trader</a></h3>
         <p>
-          The AI trading-decision experiment. Paper-trading sandbox only &mdash;
-          not a real-money trading service. Actively iterating on the
-          Claude-Sonnet decision prompts, guardrails, and the admin dashboard.
-          Learning what &ldquo;AI as collaborator&rdquo; actually means when the output
-          has concrete dollar consequences (even if only paper ones).
+          The AI trading-decision experiment. Paper-trading sandbox with
+          Alpaca &mdash; not real money yet. 18-page Next.js dashboard backed by a
+          FastAPI + Claude Sonnet pipeline that gathers market data, runs through
+          guardrails, and executes. Recently shipped Investment Plans (pie-style
+          portfolio slices with virtual cash tracking), ran a 7-agent code review
+          that found and fixed 12 issues, and built a 79-test suite from zero
+          (pytest + Vitest). Next up: 30+ paper trades to validate the pipeline
+          before flipping the live switch.
         </p>
       </div>
     </section>
@@ -143,11 +146,17 @@
       <div class="module">
         <h3 class="module-name"><a href="https://ktvsinger.com">KTV Singer</a></h3>
         <p>
-          YouTube-powered karaoke system &mdash; phone (Expo) + Apple TV (SwiftUI)
-          pairing, synced lyrics, shared queue, Express + Socket.IO + Supabase.
-          Functional across the 7-repo monorepo; on the back-burner while Aleph
-          is the priority. Personal-use weekend project that&rsquo;s held up
-          surprisingly well.
+          An Apple TV karaoke app where the phone is the remote. Search a song,
+          queue it, and the TV plays the YouTube video with synced lyrics from
+          LRCLIB while streaming your mic back in real time. The stack is one of
+          those &ldquo;small-team monorepo that happens to span seven
+          submodules&rdquo; situations &mdash; Express + Socket.IO + Drizzle on the
+          server, Expo React Native on the phone, SwiftUI on tvOS. April has been
+          about making the internals trustworthy: reworked the mic pipeline to
+          100ms binary PCM chunks, passed a security review, and just shipped a set
+          of Claude Code commands that encode the repo&rsquo;s conventions so future
+          work stays consistent. Next: vocal separation for singing over
+          instrumentals of any YouTube track.
         </p>
       </div>
     </section>
@@ -157,12 +166,12 @@
       <div class="module">
         <h3 class="module-name"><a href="https://thirstypig.com">The Thirsty Pig</a></h3>
         <p>
-          The food &amp; travel blog I've kept since 2007. After the big 2026
-          rebuild &mdash; 923 posts recovered from the Wayback Machine, 1,649
-          Instagram posts archived, 2,900+ pages live on Astro + Tina CMS &mdash;
-          it's in the best shape it's ever been. Content-forward, low-maintenance,
-          running itself. See the
-          <a href="/#case-studies">rebuild case study</a>.
+          My food blog from 2007&ndash;2017, rebuilt from Wayback Machine archives
+          and back online at <a href="https://thirstypig.com">thirstypig.com</a>.
+          2,120 posts, 1,400 mapped restaurants, new posts from Instagram.
+          Currently working through the
+          <a href="https://thirstypig.com/hitlist">hit list</a> &mdash;
+          see <a href="#hitlist-section">below</a> for what&rsquo;s next.
         </p>
       </div>
     </section>
