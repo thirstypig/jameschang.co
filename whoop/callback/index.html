@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline' https://www.googletagmanager.com; img-src https://www.google-analytics.com; connect-src https://*.google-analytics.com https://*.analytics.google.com">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
   <title>WHOOP OAuth Callback</title>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-B3HW5VBDB3"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-B3HW5VBDB3')</script>
   <style>
     body { font-family: -apple-system, system-ui, sans-serif; max-width: 480px; margin: 4rem auto; padding: 1rem; color: #0f1a2e; }
     h1 { font-size: 1.25rem; }

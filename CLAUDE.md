@@ -120,7 +120,7 @@ For screenshotting with a forced theme, temporarily write `index.html` with `<ht
 
 ## Analytics
 
-**No analytics are installed.** The GA4 placeholder (`G-XXXXXXXXXX`) was removed on 2026-04-16. CSP headers across all HTML files were tightened to remove Google domains. If adding real analytics later, re-add the GA4 snippet and update CSP `script-src`, `img-src`, and `connect-src` in all HTML files.
+**Google Analytics 4** is installed on all pages (measurement ID `G-B3HW5VBDB3`, added 2026-04-20). CSP headers include `googletagmanager.com` (script-src), `google-analytics.com` (img-src), and `*.google-analytics.com *.analytics.google.com` (connect-src). The GA4 snippet is placed before `</head>` in every HTML file including callback pages.
 
 ## WCAG contrast compliance
 
