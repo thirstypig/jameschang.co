@@ -242,3 +242,19 @@ class TestPlexBuildHtml:
         html = _plex.build_html(items)
         assert "Unknown Film" in html
         assert "()" not in html  # no empty parens
+
+
+class TestPlexFetchHistoryFailure:
+    def test_returns_none_on_network_failure(self, monkeypatch):
+        """fetch_history() must return None (not []) on network errors so
+        callers can distinguish fetch failure from an empty-history server."""
+        from urllib.error import URLError
+
+        def boom(*args, **kwargs):
+            raise URLError("SSL handshake timeout")
+
+        monkeypatch.setattr(_plex, "urlopen", boom)
+        monkeypatch.setattr(_plex, "PLEX_URL", "https://example.com")
+        monkeypatch.setattr(_plex, "PLEX_TOKEN", "t")
+
+        assert _plex.fetch_history() is None

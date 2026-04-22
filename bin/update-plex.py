@@ -31,7 +31,13 @@ HISTORY_LIMIT = 10  # fetch more, deduplicate to ~5
 
 
 def fetch_history():
-    """Fetch recent watch history from Plex API."""
+    """Fetch recent watch history from Plex API.
+
+    Returns a list of items on success (possibly empty if history is empty).
+    Returns None on network/SSL failure so callers can distinguish
+    "genuinely empty" from "couldn't reach the server" and preserve the
+    last known state rather than overwriting with a fake empty block.
+    """
     url = f"{PLEX_URL}/status/sessions/history/all?X-Plex-Token={PLEX_TOKEN}&sort=viewedAt:desc"
     req = Request(url, headers={
         "Accept": "application/json",
@@ -40,9 +46,9 @@ def fetch_history():
     try:
         with urlopen(req, timeout=15) as resp:
             data = json.loads(resp.read())
-    except (HTTPError, URLError) as e:
+    except (HTTPError, URLError, TimeoutError, OSError) as e:
         print(f"Plex fetch failed: {e}")
-        return []
+        return None
 
     items = data.get("MediaContainer", {}).get("Metadata", [])
     out = []
@@ -126,6 +132,11 @@ def main():
         sys.exit(1)
 
     items = fetch_history()
+    if items is None:
+        record_heartbeat("plex", error="fetch failed — preserving last known content")
+        print("Plex fetch failed; leaving existing PLEX block untouched.")
+        return
+
     html_block = build_html(items)
 
     old_content = read_now_html()
