@@ -351,6 +351,47 @@ class TestDarkModeParity:
         assert not failures, f"Dark mode selector imbalance:\n" + "\n".join(failures)
 
 
+# ── Tests: GA4 ───────────────────────────────────────────────────
+
+class TestGA4:
+    """Google Analytics 4 must be present on all pages."""
+
+    def test_ga4_snippet_on_all_pages(self):
+        failures = []
+        for f in HTML_FILES:
+            _, body = fetch(f)
+            if "G-B3HW5VBDB3" not in body:
+                failures.append(f)
+        assert not failures, f"Missing GA4 snippet:\n" + "\n".join(failures)
+
+    def test_csp_allows_google(self):
+        failures = []
+        for f in HTML_FILES:
+            _, body = fetch(f)
+            p = parse_page(body)
+            csp = p.metas.get("content-security-policy", "")
+            if "googletagmanager.com" not in csp:
+                failures.append(f"{f}: missing googletagmanager.com in CSP")
+        assert not failures, f"CSP missing Google domains:\n" + "\n".join(failures)
+
+
+# ── Tests: Privacy policy accuracy ───────────────────────────────
+
+class TestPrivacyPolicy:
+    """Privacy policy must accurately reflect site data practices."""
+
+    def test_lists_all_feed_sources(self):
+        _, body = fetch("privacy/index.html")
+        required = ["GitHub", "MLB", "Letterboxd", "Trakt", "Goodreads", "Fantastic Leagues"]
+        missing = [src for src in required if src not in body]
+        assert not missing, f"Privacy policy missing feed sources: {missing}"
+
+    def test_mentions_ga4(self):
+        _, body = fetch("privacy/index.html")
+        assert "Google Analytics 4" in body, "Privacy policy does not mention GA4"
+        assert "G-B3HW5VBDB3" in body, "Privacy policy does not mention measurement ID"
+
+
 # ── Tests: Print stylesheet ──────────────────────────────────────
 
 class TestPrintStylesheet:

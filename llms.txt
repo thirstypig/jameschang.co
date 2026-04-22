@@ -26,9 +26,14 @@ The site includes a Derek Sivers-style /now page at https://jameschang.co/now/ w
 - Letterboxd: recently watched films
 - Goodreads: recently read books
 - The Fantastic Leagues: fantasy baseball team standings
+- Trakt (every 6 hours): recently watched TV shows
 - Thirsty Pig hit list: restaurants to try (client-side fetch)
 
 The /now page also lists active projects, back-burner work, and what James is currently exploring (Obsidian integration, OpenClaw).
+
+## Analytics
+
+Google Analytics 4 (measurement ID G-B3HW5VBDB3) is installed on all pages. IP addresses are anonymized. No PII is collected.
 
 ## Previous roles
 
