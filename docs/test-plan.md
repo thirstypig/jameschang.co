@@ -4,7 +4,7 @@ Testing strategy, inventory, and execution cadence for the site and its automati
 
 ## Test Types
 
-### Unit Tests (`tests/test_shared.py`, `tests/test_feeds.py`, `tests/test_trakt.py`)
+### Unit Tests (6 files)
 
 **What they test:** Individual Python functions in isolation — the pure logic that transforms data, escapes HTML, formats time, and replaces content markers.
 
@@ -22,6 +22,9 @@ python3 -m pytest tests/ -v
 | `tests/test_shared.py` | `bin/_shared.py` | `escape_html`, `relative_time`, `replace_marker`, `content_changed`, `sanitize_error`, `record_heartbeat` (incl. corrupt JSON recovery) |
 | `tests/test_feeds.py` | `bin/update-whoop.py`, `bin/update-public-feeds.py` | `recovery_color`, `ordinal` |
 | `tests/test_trakt.py` | `bin/update-trakt.py` | `build_html` (rendering, escaping, empty state), `fetch_recent_shows` (deduplication, 5-show limit) |
+| `tests/test_feed_builders.py` | All feed builders | `github_block`, `mlb_block`, `letterboxd_block`, `goodreads_reading_block`, `goodreads_block`, `fbst_block`, `plex build_html` — mocked network |
+| `tests/test_spotify.py` | `bin/update-spotify.py` | `build_html`, `load_state`/`save_state`, `fetch_recent_tracks`, `fetch_current_podcast` |
+| `tests/test_whoop.py` | `bin/update-whoop.py` | `fetch_latest_recovery`/`sleep`/`cycle`, `build_html` with all recovery color thresholds |
 
 ### E2E Tests (`tests/test_site_e2e.py`)
 
@@ -74,4 +77,4 @@ python3 -m pytest tests/test_site_e2e.py -v
 
 Tests run in CI via `.github/workflows/ci-tests.yml`. Results are visible in the GitHub Actions tab. Failures block nothing (this is a single-contributor repo with direct push), but they surface regressions early.
 
-Last updated: 2026-04-21
+Last updated: 2026-04-22
