@@ -146,13 +146,14 @@ All code-review findings from both reviews (initial + 2026-04-18 full-repo audit
 
 ## Testing
 
-91 tests across 4 files. Run with `python3 -m pytest tests/ -v` (requires `pytest`).
+108 tests across 5 files. Run with `python3 -m pytest tests/ -v` (requires `pytest`).
 
 | File | Type | Tests | What it covers |
 |------|------|-------|---------------|
 | `tests/test_shared.py` | Unit | 37 | `_shared.py`: escape_html, relative_time, replace_marker, content_changed, sanitize_error, record_heartbeat (incl. corrupt JSON recovery) |
 | `tests/test_feeds.py` | Unit | 19 | `update-whoop.py`: recovery_color; `update-public-feeds.py`: ordinal |
 | `tests/test_trakt.py` | Unit | 10 | `update-trakt.py`: build_html rendering, HTML escaping, deduplication by show, 5-show limit |
+| `tests/test_feed_builders.py` | Unit | 17 | All feed builders: github, mlb, letterboxd, goodreads (reading + read), fbst, plex — mocked network, tested HTML output |
 | `tests/test_site_e2e.py` | E2E | 25 | All HTML pages: meta tags, CSP, aria-pressed, JSON-LD, images, internal links, feed markers, OpenSSL parity, dark mode parity, GA4, privacy policy, symlink detection, sitemap consistency, OG image |
 
 CI runs on push to `main` via `.github/workflows/ci-tests.yml`. See `docs/test-plan.md` for the full testing strategy.
