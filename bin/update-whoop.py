@@ -20,6 +20,7 @@ from _shared import (
     record_heartbeat,
     sanitize_error,
     content_changed,
+    format_update_time,
     read_now_html,
     write_now_html,
     NOW_HTML,
@@ -174,7 +175,7 @@ def recovery_color(score):
 
 
 def build_html(recovery, sleep, cycle):
-    now = escape_html(datetime.now(timezone.utc).strftime("%B %d, %Y"))
+    now = escape_html(format_update_time())
     parts = []
     parts.append(f'        <p class="whoop-updated">Auto-updated {now} via <a href="https://www.whoop.com">WHOOP</a> API</p>')
 

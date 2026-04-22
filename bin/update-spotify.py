@@ -26,6 +26,7 @@ from _shared import (
     record_heartbeat,
     sanitize_error,
     content_changed,
+    format_update_time,
     read_now_html,
     write_now_html,
     USER_AGENT,
@@ -166,7 +167,7 @@ def build_html(tracks, podcast):
     if not parts:
         parts.append('        <p class="spotify-empty">Nothing recent &mdash; the Action runs every few hours.</p>')
 
-    now = datetime.now(timezone.utc).strftime("%B %d, %Y")
+    now = format_update_time()
     parts.append(f'        <p class="spotify-updated">Auto-updated {now} via <a href="https://developer.spotify.com/documentation/web-api">Spotify Web API</a>.</p>')
 
     return "\n".join(parts)
@@ -201,7 +202,7 @@ def main():
     html_block = build_html(tracks, podcast)
 
     # Content-hash cache: skip HTML write if tracks + podcast haven't changed
-    date_stripped = re.sub(r"Auto-updated [A-Z][a-z]+ \d+, \d{4}", "", html_block)
+    date_stripped = re.sub(r"Auto-updated [A-Z][a-z]+ \d+, \d{4}(?: at \d{1,2}:\d{2} [AP]M [A-Z]{2,4})?", "", html_block)
     tracks_hash = hashlib.sha1(date_stripped.encode()).hexdigest()[:12]
     old_hash = state.get("last_tracks_hash")
 

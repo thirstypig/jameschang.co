@@ -26,6 +26,7 @@ from _shared import (
     fetch_json,
     fetch_text,
     content_changed,
+    format_update_time,
     read_now_html,
     write_now_html,
 )
@@ -142,7 +143,7 @@ def github_block():
             f'          <li><a href="{url}" rel="noopener" target="_blank"><code>{escape_html(repo_short)}</code> &mdash; {summary}</a> <span class="gh-when">&middot; {rel}</span></li>'
         )
     parts.append('        </ul>')
-    now = datetime.now(timezone.utc).strftime("%B %d, %Y")
+    now = format_update_time()
     parts.append(f'        <p class="feed-updated">Auto-updated {now} via <a href="https://docs.github.com/en/rest/activity/events">GitHub Events API</a>.</p>')
     return "\n".join(parts)
 
@@ -224,7 +225,7 @@ def mlb_block():
         if extras:
             parts[-1] += ' ' + ' &middot; '.join(extras) + '.'
         parts[-1] += '</p>'
-        now = datetime.now(timezone.utc).strftime("%B %d, %Y")
+        now = format_update_time()
         parts.append(f'        <p class="feed-updated">Auto-updated {now} via <a href="https://www.mlb.com/dodgers">MLB Stats API</a>.</p>')
         return "\n".join(parts)
     except (HTTPError, URLError, KeyError) as e:
@@ -285,7 +286,7 @@ def letterboxd_block():
             + '</li>'
         )
     parts.append('        </ul>')
-    now = datetime.now(timezone.utc).strftime("%B %d, %Y")
+    now = format_update_time()
     parts.append(f'        <p class="feed-updated">Auto-updated {now} via <a href="https://letterboxd.com/{LETTERBOXD_USER}/">Letterboxd</a>.</p>')
     return "\n".join(parts)
 
@@ -380,7 +381,7 @@ def goodreads_block():
         parts.append(line)
 
     parts.append('        </ul>')
-    now = datetime.now(timezone.utc).strftime("%B %d, %Y")
+    now = format_update_time()
     parts.append(f'        <p class="feed-updated">Auto-updated {now} via <a href="https://www.goodreads.com/user/show/{GOODREADS_USER_ID}">Goodreads</a>.</p>')
     return "\n".join(parts)
 
@@ -422,7 +423,7 @@ def fbst_block():
     # Format points: drop trailing .0 for whole numbers
     points_str = f"{points:g}" if isinstance(points, (int, float)) else str(points)
 
-    now = datetime.now(timezone.utc).strftime("%B %d, %Y")
+    now = format_update_time()
     html = (
         f'        <p class="fbst-line"><strong>Los Doyers:</strong> {rank_str} of {total}'
         f' &middot; {points_str} pts &middot; '

@@ -19,6 +19,7 @@ from _shared import (
     replace_marker,
     record_heartbeat,
     content_changed,
+    format_update_time,
     read_now_html,
     write_now_html,
     USER_AGENT,
@@ -113,7 +114,7 @@ def build_html(items):
     else:
         parts.append('        <p class="feed-empty">Nothing watched recently.</p>')
 
-    now = datetime.now(timezone.utc).strftime("%B %d, %Y")
+    now = format_update_time()
     parts.append(f'        <p class="feed-updated">Auto-updated {now} via Plex.</p>')
 
     return "\n".join(parts)

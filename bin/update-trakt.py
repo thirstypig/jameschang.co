@@ -23,6 +23,7 @@ from _shared import (
     record_heartbeat,
     sanitize_error,
     content_changed,
+    format_update_time,
     read_now_html,
     write_now_html,
     USER_AGENT,
@@ -176,7 +177,7 @@ def build_html(shows):
     else:
         parts.append('        <p class="feed-empty">No shows tracked recently.</p>')
 
-    now = datetime.now(timezone.utc).strftime("%B %d, %Y")
+    now = format_update_time()
     parts.append(f'        <p class="feed-updated">Auto-updated {now} via <a href="https://trakt.tv">Trakt</a>.</p>')
 
     return "\n".join(parts)

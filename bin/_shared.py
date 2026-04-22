@@ -12,6 +12,24 @@ from datetime import datetime, timedelta, timezone
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
+from zoneinfo import ZoneInfo
+
+PACIFIC_TZ = ZoneInfo("America/Los_Angeles")
+
+
+def format_update_time(now=None):
+    """Return 'April 22, 2026 at 10:15 AM PDT' format for Auto-updated lines.
+
+    Uses Pacific time (the site owner's home base). Accepts an optional
+    datetime for testability; defaults to current time.
+    """
+    if now is None:
+        now = datetime.now(PACIFIC_TZ)
+    elif now.tzinfo is None:
+        now = now.replace(tzinfo=PACIFIC_TZ)
+    else:
+        now = now.astimezone(PACIFIC_TZ)
+    return now.strftime("%B %d, %Y at %-I:%M %p %Z")
 
 REPO_ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
 NOW_HTML = os.path.join(REPO_ROOT, "now", "index.html")
@@ -101,8 +119,8 @@ def replace_marker(content, marker_name, html):
 
 
 def content_changed(old_content, new_content):
-    """Check if content changed meaningfully (ignoring Auto-updated date lines)."""
-    date_pattern = r"Auto-updated [A-Z][a-z]+ \d+, \d{4}"
+    """Check if content changed meaningfully (ignoring Auto-updated date/time lines)."""
+    date_pattern = r"Auto-updated [A-Z][a-z]+ \d+, \d{4}(?: at \d{1,2}:\d{2} [AP]M [A-Z]{2,4})?"
     old_stripped = re.sub(date_pattern, "", old_content)
     new_stripped = re.sub(date_pattern, "", new_content)
     return old_stripped != new_stripped
