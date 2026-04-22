@@ -11,11 +11,11 @@ Personal site for James Chang — founder of Aleph Co. and senior product manage
 | `index.html` | Homepage — hero, about, experience, education, skills, projects, case studies, testimonials |
 | `styles.css` | Design system (CSS custom properties) + `@media print` resume stylesheet |
 | `script.js` | Theme toggle (light/dark) + headshot rotation (crossfade, respects reduced-motion) |
-| `now/index.html` | Derek Sivers-style /now page with 8 automated data feeds |
+| `now/index.html` | Derek Sivers-style /now page with 11 automated data feeds |
 | `work/` | Deep-dive project pages (Aleph, Fantastic Leagues, Judge Tool) |
 | `work/work.css` | Shared styles for /work and /now pages |
 | `privacy/` | Privacy policy (required by WHOOP/Spotify app registrations) |
-| `bin/` | Python sync scripts (WHOOP, Spotify, public feeds) |
+| `bin/` | Python sync scripts (WHOOP, Spotify, Trakt, Plex, public feeds) |
 | `.github/workflows/` | GitHub Actions for automated feed updates + staleness monitoring |
 
 ## Local preview
@@ -40,7 +40,9 @@ python3 -m http.server 8787 &
 - System font stacks (no web fonts)
 - Dark mode via `prefers-color-scheme` + manual toggle (persisted in localStorage)
 - WCAG 2.2 AA compliant. Lighthouse 100/100/100/100.
-- 8 automated data feeds on /now (WHOOP, Spotify, GitHub, MLB, Letterboxd, Goodreads, FBST, Thirsty Pig hitlist)
+- 11 automated data feeds on /now (WHOOP, Spotify, Trakt, Plex, GitHub, MLB, Letterboxd, Goodreads currently-reading, Goodreads read, FBST, Thirsty Pig hitlist)
+- 137 tests (pytest) with pre-commit hook and CI
+- Google Analytics 4 + Google Search Console
 
 ## License
 

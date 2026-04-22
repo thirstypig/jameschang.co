@@ -27,6 +27,7 @@ The site includes a Derek Sivers-style /now page at https://jameschang.co/now/ w
 - Goodreads: recently read books
 - The Fantastic Leagues: fantasy baseball team standings
 - Trakt (every 6 hours): recently watched TV shows
+- Plex (every 6 hours): recently watched movies and TV from home server
 - Thirsty Pig hit list: restaurants to try (client-side fetch)
 
 The /now page also lists active projects, back-burner work, and what James is currently exploring (Obsidian integration, OpenClaw).
