@@ -88,7 +88,7 @@ class MetaExtractor(HTMLParser):
     def handle_starttag(self, tag, attrs):
         d = dict(attrs)
         if tag == "meta":
-            key = d.get("name") or d.get("http-equiv")
+            key = d.get("name") or d.get("http-equiv") or d.get("property")
             if key and "content" in d:
                 self.metas[key.lower()] = d["content"]
         elif tag == "title":
@@ -404,3 +404,109 @@ class TestPrintStylesheet:
     def test_resume_pdf_exists(self):
         pdf_path = os.path.join(REPO_ROOT, "resume.pdf")
         assert os.path.exists(pdf_path), "resume.pdf not found in repo root"
+
+
+# ── Tests: Internal links ────────────────────────────────────────
+
+class TestInternalLinks:
+    """All internal href values must resolve to real files."""
+
+    def test_internal_hrefs_resolve(self):
+        failures = []
+        for f in STANDARD_PAGES:
+            _, body = fetch(f)
+            p = parse_page(body)
+            page_dir = os.path.dirname(os.path.join(REPO_ROOT, f))
+            for href in p.internal_hrefs:
+                # Skip anchors and query strings
+                if href.startswith("#"):
+                    continue
+                clean = href.split("?")[0].split("#")[0]
+                if clean.startswith("/"):
+                    full = os.path.join(REPO_ROOT, clean.lstrip("/"))
+                else:
+                    full = os.path.join(page_dir, clean)
+                # Directories should have index.html
+                if full.endswith("/"):
+                    full = os.path.join(full, "index.html")
+                if not os.path.exists(full):
+                    failures.append(f"{f}: broken href {href}")
+        assert not failures, f"Broken internal links:\n" + "\n".join(failures)
+
+
+# ── Tests: Symlinks ──────────────────────────────────────────────
+
+class TestNoSymlinks:
+    """No symlinks should be committed — they break GitHub Pages."""
+
+    def test_no_symlinks_in_tracked_files(self):
+        import subprocess
+        result = subprocess.run(
+            ["git", "ls-files", "-s"],
+            capture_output=True, text=True, cwd=REPO_ROOT,
+        )
+        symlinks = [
+            line.split("\t")[-1]
+            for line in result.stdout.strip().split("\n")
+            if line.startswith("120000")
+        ]
+        assert not symlinks, f"Symlinks in git (break GitHub Pages):\n" + "\n".join(symlinks)
+
+
+# ── Tests: Sitemap consistency ───────────────────────────────────
+
+class TestSitemap:
+    """sitemap.xml URLs must match actual HTML files."""
+
+    def test_sitemap_urls_resolve(self):
+        sitemap_path = os.path.join(REPO_ROOT, "sitemap.xml")
+        if not os.path.exists(sitemap_path):
+            return  # no sitemap, nothing to check
+        with open(sitemap_path) as f:
+            content = f.read()
+        urls = re.findall(r"<loc>https://jameschang\.co/([^<]*)</loc>", content)
+        failures = []
+        for url_path in urls:
+            if not url_path:
+                # Root URL
+                full = os.path.join(REPO_ROOT, "index.html")
+            elif url_path.endswith("/"):
+                full = os.path.join(REPO_ROOT, url_path, "index.html")
+            else:
+                full = os.path.join(REPO_ROOT, url_path)
+            if not os.path.exists(full):
+                failures.append(f"sitemap lists /{url_path} but file not found")
+        assert not failures, f"Sitemap drift:\n" + "\n".join(failures)
+
+    def test_robots_txt_references_sitemap(self):
+        robots_path = os.path.join(REPO_ROOT, "robots.txt")
+        if not os.path.exists(robots_path):
+            return
+        with open(robots_path) as f:
+            content = f.read()
+        assert "sitemap.xml" in content.lower() or "Sitemap" in content, \
+            "robots.txt does not reference sitemap.xml"
+
+
+# ── Tests: OG image ──────────────────────────────────────────────
+
+class TestOGImage:
+    """OG social preview image must exist."""
+
+    def test_og_image_exists(self):
+        _, body = fetch("index.html")
+        p = parse_page(body)
+        og_image = p.metas.get("og:image", "")
+        if not og_image:
+            return  # no og:image meta, skip
+        # Resolve path
+        if og_image.startswith("http"):
+            # Extract path from full URL
+            from urllib.parse import urlparse
+            path = urlparse(og_image).path.lstrip("/")
+        elif og_image.startswith("/"):
+            path = og_image.lstrip("/")
+        else:
+            path = og_image
+        full = os.path.join(REPO_ROOT, path)
+        assert os.path.exists(full), f"OG image missing: {og_image} (expected at {full})"
