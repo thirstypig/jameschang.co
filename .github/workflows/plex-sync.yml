@@ -1,0 +1,38 @@
+name: Sync Plex data to /now
+
+on:
+  schedule:
+    - cron: '45 */6 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: now-html-writer
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  update-plex:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch Plex data and update /now/
+        env:
+          PLEX_URL:   ${{ secrets.PLEX_URL }}
+          PLEX_TOKEN: ${{ secrets.PLEX_TOKEN }}
+        run: python3 bin/update-plex.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add now/index.html .feeds-heartbeat.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: update Plex data on /now page"
+            git pull --rebase origin main
+            git push
+          fi

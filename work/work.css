@@ -947,6 +947,28 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* Plex — recently watched on home server */
+.plex-heading {
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 0.75rem;
+}
+.plex-heading strong { color: var(--muted); font-weight: 600; }
+.plex-list { list-style: none; padding: 0; margin: 0 0 1rem; }
+.plex-list li {
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+.plex-list li:last-child { border-bottom: none; }
+.plex-when {
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+
 /* Responsive tweaks */
 @media (max-width: 720px) {
   .work-main { padding: 1.5rem 1rem 3rem; }
