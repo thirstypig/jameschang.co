@@ -1,0 +1,41 @@
+name: Sync project TLDRs to /now
+
+on:
+  schedule:
+    - cron: '0 14 * * *'  # 14:00 UTC = 7:00 AM PDT (6:00 AM PST in winter)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: now-html-writer
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Sync project TLDRs
+        env:
+          TLDR_FETCH_TOKEN: ${{ secrets.TLDR_FETCH_TOKEN }}
+        run: python3 bin/update-projects.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add now/index.html .feeds-heartbeat.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: sync project TLDRs on /now page"
+            git pull --rebase origin main
+            git push
+          fi

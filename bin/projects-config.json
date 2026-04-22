@@ -1,0 +1,11 @@
+{
+  "projects": [
+    {"slug": "aleph",             "repo": "thirstypig/alephco.io-app",     "file": "CLAUDE.md"},
+    {"slug": "fantastic-leagues", "repo": "thirstypig/TheFantasticLeagues", "file": "CLAUDE.md"},
+    {"slug": "bahtzang-trader",   "repo": "thirstypig/bahtzang-trader",    "file": "CLAUDE.md"},
+    {"slug": "judge-tool",        "repo": "thirstypig/thejudgetool",       "file": "CLAUDE.md"},
+    {"slug": "tabledrop",         "repo": "thirstypig/tabledrop",          "file": "CLAUDE.md"},
+    {"slug": "tastemakers",       "repo": "thirstypig/tastemakers-backend","file": "CLAUDE.md"},
+    {"slug": "thirsty-pig",       "repo": "thirstypig/thirstypig-blog",    "file": "CLAUDE.md"}
+  ]
+}
