@@ -224,6 +224,8 @@ def mlb_block():
         if extras:
             parts[-1] += ' ' + ' &middot; '.join(extras) + '.'
         parts[-1] += '</p>'
+        now = datetime.now(timezone.utc).strftime("%B %d, %Y")
+        parts.append(f'        <p class="feed-updated">Auto-updated {now} via <a href="https://www.mlb.com/dodgers">MLB Stats API</a>.</p>')
         return "\n".join(parts)
     except (HTTPError, URLError, KeyError) as e:
         print(f"MLB fetch failed: {e}")
@@ -420,12 +422,15 @@ def fbst_block():
     # Format points: drop trailing .0 for whole numbers
     points_str = f"{points:g}" if isinstance(points, (int, float)) else str(points)
 
+    now = datetime.now(timezone.utc).strftime("%B %d, %Y")
     html = (
         f'        <p class="fbst-line"><strong>Los Doyers:</strong> {rank_str} of {total}'
         f' &middot; {points_str} pts &middot; '
         f'<a href="https://thefantasticleagues.com" rel="noopener" target="_blank">'
         f'{escape_html(league_name)} {season}</a>'
-        f' <span class="fbst-note">(dogfooding the AI-assisted platform I built)</span></p>'
+        f' <span class="fbst-note">(dogfooding the AI-assisted platform I built)</span></p>\n'
+        f'        <p class="feed-updated">Auto-updated {now} via '
+        f'<a href="https://thefantasticleagues.com">The Fantastic Leagues</a>.</p>'
     )
     return html
 
