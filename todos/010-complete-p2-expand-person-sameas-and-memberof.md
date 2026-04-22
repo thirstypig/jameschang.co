@@ -1,5 +1,5 @@
 ---
-status: pending
+status: done
 priority: p2
 issue_id: 010
 tags: [code-review, agent-native, schema]

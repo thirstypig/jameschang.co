@@ -1,5 +1,5 @@
 ---
-status: pending
+status: done
 priority: p3
 issue_id: 017
 tags: [code-review, polish, agent-native, simplicity]

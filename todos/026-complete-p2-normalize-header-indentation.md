@@ -1,5 +1,5 @@
 ---
-status: pending
+status: done
 priority: p2
 issue_id: 026
 tags: [code-review, cosmetic, quality]
