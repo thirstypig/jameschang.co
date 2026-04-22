@@ -4,7 +4,7 @@ Testing strategy, inventory, and execution cadence for the site and its automati
 
 ## Test Types
 
-### Unit Tests (`tests/test_shared.py`, `tests/test_feeds.py`)
+### Unit Tests (`tests/test_shared.py`, `tests/test_feeds.py`, `tests/test_trakt.py`)
 
 **What they test:** Individual Python functions in isolation — the pure logic that transforms data, escapes HTML, formats time, and replaces content markers.
 
@@ -21,6 +21,7 @@ python3 -m pytest tests/ -v
 |-----------|--------|-----------------|
 | `tests/test_shared.py` | `bin/_shared.py` | `escape_html`, `relative_time`, `replace_marker`, `content_changed`, `sanitize_error`, `record_heartbeat` (incl. corrupt JSON recovery) |
 | `tests/test_feeds.py` | `bin/update-whoop.py`, `bin/update-public-feeds.py` | `recovery_color`, `ordinal` |
+| `tests/test_trakt.py` | `bin/update-trakt.py` | `build_html` (rendering, escaping, empty state), `fetch_recent_shows` (deduplication, 5-show limit) |
 
 ### E2E Tests (`tests/test_site_e2e.py`)
 
@@ -49,6 +50,10 @@ python3 -m pytest tests/test_site_e2e.py -v
 | Print stylesheet | Key print-only elements exist in `index.html` |
 | OpenSSL parity | All `openssl enc` calls use matching `-iter 600000` |
 | Dark mode parity | `@media (prefers-color-scheme: dark)` count matches `[data-theme="dark"]` count in CSS |
+| GA4 presence | GA4 snippet (G-B3HW5VBDB3) present on all pages |
+| GA4 CSP | CSP allows googletagmanager.com on all pages |
+| Privacy feeds | Privacy policy lists all 6 feed data sources |
+| Privacy GA4 | Privacy policy discloses GA4 measurement ID |
 
 ## Execution Cadence Summary
 
@@ -69,4 +74,4 @@ python3 -m pytest tests/test_site_e2e.py -v
 
 Tests run in CI via `.github/workflows/ci-tests.yml`. Results are visible in the GitHub Actions tab. Failures block nothing (this is a single-contributor repo with direct push), but they surface regressions early.
 
-Last updated: 2026-04-19
+Last updated: 2026-04-21
