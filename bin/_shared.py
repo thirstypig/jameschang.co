@@ -133,9 +133,24 @@ def read_now_html():
 
 
 def write_now_html(content):
-    """Write content to now/index.html."""
+    """Write content to now/index.html.
+
+    Also refreshes the top-of-page "Updated [timestamp]" eyebrow marker
+    so every feed-sync keeps that line current as a side-effect — no
+    separate writer needed.
+    """
+    content = _refresh_page_updated_marker(content)
     with open(NOW_HTML, "w", encoding="utf-8") as f:
         f.write(content)
+
+
+def _refresh_page_updated_marker(content):
+    """Update the <!-- PAGE-UPDATED-START -->...<!-- PAGE-UPDATED-END --> marker
+    with the current timestamp. Silent if markers absent (so callers that
+    render in-memory-only content aren't affected)."""
+    pattern = r"<!-- PAGE-UPDATED-START -->.*?<!-- PAGE-UPDATED-END -->"
+    replacement = f"<!-- PAGE-UPDATED-START -->{format_update_time()}<!-- PAGE-UPDATED-END -->"
+    return re.sub(pattern, replacement, content, flags=re.DOTALL)
 
 
 def fetch_json(url, timeout=15, headers=None):

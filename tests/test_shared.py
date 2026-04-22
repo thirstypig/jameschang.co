@@ -9,6 +9,7 @@ import tempfile
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "bin"))
 
 from _shared import (
+    _refresh_page_updated_marker,
     content_changed,
     escape_html,
     record_heartbeat,
@@ -168,6 +169,24 @@ class TestContentChanged:
 
     def test_no_date_in_content(self):
         assert content_changed("<p>a</p>", "<p>b</p>") is True
+
+
+# ── _refresh_page_updated_marker ─────────────────────────────────
+
+class TestPageUpdatedMarker:
+    def test_replaces_content_between_markers(self):
+        content = "<p>Updated <!-- PAGE-UPDATED-START -->stale<!-- PAGE-UPDATED-END --></p>"
+        out = _refresh_page_updated_marker(content)
+        assert "stale" not in out
+        assert "<!-- PAGE-UPDATED-START -->" in out
+        assert "<!-- PAGE-UPDATED-END -->" in out
+        # Should contain a timestamp matching the format "Month Day, Year at H:MM AM/PM TZ"
+        import re
+        assert re.search(r"[A-Z][a-z]+ \d+, \d{4} at \d{1,2}:\d{2} [AP]M [A-Z]{2,4}", out)
+
+    def test_no_markers_leaves_content_untouched(self):
+        content = "<p>Nothing to see here</p>"
+        assert _refresh_page_updated_marker(content) == content
 
 
 # ── sanitize_error ───────────────────────────────────────────────
