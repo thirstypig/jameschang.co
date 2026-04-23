@@ -154,7 +154,7 @@ All code-review findings from both reviews (initial + 2026-04-18 full-repo audit
 
 ## Testing
 
-148 tests across 8 files. Run with `python3 -m pytest tests/ -v` (requires `pytest`).
+153 tests across 8 files. Run with `python3 -m pytest tests/ -v` (requires `pytest`).
 
 | File | Type | Tests | What it covers |
 |------|------|-------|---------------|
@@ -165,7 +165,7 @@ All code-review findings from both reviews (initial + 2026-04-18 full-repo audit
 | `tests/test_spotify.py` | Unit | 15 | `update-spotify.py`: build_html, state load/save, fetch_recent_tracks, fetch_current_podcast |
 | `tests/test_whoop.py` | Unit | 14 | `update-whoop.py`: fetch_latest_recovery/sleep/cycle, build_html with all recovery colors |
 | `tests/test_site_e2e.py` | E2E | 25 | All HTML pages: meta tags, CSP, aria-pressed, JSON-LD, images, internal links, feed markers (incl. PAGE-UPDATED), OpenSSL parity, dark mode parity, GA4, privacy policy, symlink detection, sitemap consistency, OG image |
-| `tests/test_projects.py` | Unit | 8 | `update-projects.py`: TLDR extraction from marker blocks, config schema |
+| `tests/test_projects.py` | Unit | 13 | `update-projects.py`: TLDR extraction from marker blocks, config schema, PR-event filtering (drops stripped payloads with no URL/title) |
 
 CI runs on push to `main` via `.github/workflows/ci-tests.yml`. See `docs/test-plan.md` for the full testing strategy.
 
