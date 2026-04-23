@@ -4,7 +4,7 @@ Testing strategy, inventory, and execution cadence for the site and its automati
 
 ## Test Types
 
-### Unit Tests (6 files)
+### Unit Tests (7 files)
 
 **What they test:** Individual Python functions in isolation — the pure logic that transforms data, escapes HTML, formats time, and replaces content markers.
 
@@ -19,12 +19,13 @@ python3 -m pytest tests/ -v
 
 | Test file | Covers | Functions tested |
 |-----------|--------|-----------------|
-| `tests/test_shared.py` | `bin/_shared.py` | `escape_html`, `relative_time`, `replace_marker`, `content_changed`, `sanitize_error`, `record_heartbeat` (incl. corrupt JSON recovery) |
+| `tests/test_shared.py` | `bin/_shared.py` | `escape_html`, `relative_time`, `replace_marker`, `content_changed`, `sanitize_error`, `record_heartbeat` (incl. corrupt JSON recovery), `_refresh_page_updated_marker` |
 | `tests/test_feeds.py` | `bin/update-whoop.py`, `bin/update-public-feeds.py` | `recovery_color`, `ordinal` |
 | `tests/test_trakt.py` | `bin/update-trakt.py` | `build_html` (rendering, escaping, empty state), `fetch_recent_shows` (deduplication, 5-show limit) |
-| `tests/test_feed_builders.py` | All feed builders | `github_block`, `mlb_block`, `letterboxd_block`, `goodreads_reading_block`, `goodreads_block`, `fbst_block`, `plex build_html` — mocked network |
+| `tests/test_feed_builders.py` | All feed builders | `mlb_block`, `letterboxd_block`, `goodreads_reading_block`, `goodreads_block`, `fbst_block`, `plex build_html` + `plex fetch_history` failure path — mocked network |
 | `tests/test_spotify.py` | `bin/update-spotify.py` | `build_html`, `load_state`/`save_state`, `fetch_recent_tracks`, `fetch_current_podcast` |
 | `tests/test_whoop.py` | `bin/update-whoop.py` | `fetch_latest_recovery`/`sleep`/`cycle`, `build_html` with all recovery color thresholds |
+| `tests/test_projects.py` | `bin/update-projects.py` | `extract_tldr` (marker extraction, edge cases), `load_config` (schema, repo paths) |
 
 ### E2E Tests (`tests/test_site_e2e.py`)
 
@@ -49,7 +50,7 @@ python3 -m pytest tests/test_site_e2e.py -v
 | Internal links | All `href` values pointing to local paths resolve to real files |
 | Image references | All `<img src>` and `<source srcset>` files exist |
 | JSON-LD | Structured data is valid JSON on all pages |
-| Feed markers | `now/index.html` has paired START/END markers for all feeds |
+| Feed markers | `now/index.html` has paired START/END markers for all feeds + `PAGE-UPDATED` eyebrow marker |
 | Print stylesheet | Key print-only elements exist in `index.html` |
 | OpenSSL parity | All `openssl enc` calls use matching `-iter 600000` |
 | Dark mode parity | `@media (prefers-color-scheme: dark)` count matches `[data-theme="dark"]` count in CSS |
@@ -65,7 +66,8 @@ python3 -m pytest tests/test_site_e2e.py -v
 | **Every commit** | Unit tests | `python3 -m pytest tests/ -v` |
 | **Push to main** | Unit + E2E tests | GitHub Actions (`ci-tests.yml`) |
 | **Before deploy** | Full suite + manual visual check | Local pytest + screenshot |
-| **Weekly** | Feed staleness check | Existing `feeds-staleness-check.yml` |
+| **Every 6 hours** | Feed staleness check | `feeds-staleness-check.yml` runs `bin/check-feed-health.py` — opens / comments / auto-closes GitHub issues labeled `feed-stale` when any feed's last_success_utc is >48h old |
+| **Daily 7 AM PT** | Project TLDR + shipping sync | `projects-sync.yml` runs `bin/update-projects.py` — pulls TLDR blocks from each repo's CLAUDE.md and per-project GitHub events |
 
 ## Adding a New Test
 
@@ -77,4 +79,4 @@ python3 -m pytest tests/test_site_e2e.py -v
 
 Tests run in CI via `.github/workflows/ci-tests.yml`. Results are visible in the GitHub Actions tab. Failures block nothing (this is a single-contributor repo with direct push), but they surface regressions early.
 
-Last updated: 2026-04-22
+Last updated: 2026-04-23
