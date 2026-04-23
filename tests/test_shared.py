@@ -14,6 +14,7 @@ from _shared import (
     escape_html,
     record_heartbeat,
     relative_time,
+    relative_time_html,
     replace_marker,
     sanitize_error,
 )
@@ -99,6 +100,56 @@ class TestRelativeTime:
         from datetime import datetime, timedelta, timezone
         sixty_days = (datetime.now(timezone.utc) - timedelta(days=60)).isoformat()
         assert relative_time(sixty_days) == "2mo ago"
+
+
+# ── relative_time_html ───────────────────────────────────────────
+
+class TestRelativeTimeHtml:
+    """Progressive-enhancement helper: wraps relative_time in a <time
+    datetime="..." data-rel> element so client-side JS can recompute the
+    label at view time instead of freezing it at sync time."""
+
+    def test_returns_empty_on_empty_input(self):
+        assert relative_time_html("") == ""
+        assert relative_time_html(None) == ""
+
+    def test_returns_empty_on_invalid_input(self):
+        assert relative_time_html("not-a-date") == ""
+
+    def test_wraps_recent_time_in_time_element(self):
+        from datetime import datetime, timedelta, timezone
+        recent = (datetime.now(timezone.utc) - timedelta(minutes=7)).isoformat()
+        out = relative_time_html(recent)
+        assert out.startswith('<time datetime="')
+        assert 'data-rel' in out
+        assert '>7m ago</time>' in out
+
+    def test_normalizes_datetime_to_utc_z_suffix(self):
+        """The datetime attribute must be parseable by Date.parse() unambiguously."""
+        # Input with explicit +00:00 offset should normalize to Z.
+        iso_with_offset = "2026-04-22T19:50:00+00:00"
+        out = relative_time_html(iso_with_offset)
+        assert 'datetime="2026-04-22T19:50:00Z"' in out
+
+    def test_normalizes_z_suffix_input(self):
+        iso_z = "2026-04-22T19:50:00Z"
+        out = relative_time_html(iso_z)
+        assert 'datetime="2026-04-22T19:50:00Z"' in out
+
+    def test_converts_non_utc_offset_to_utc(self):
+        """A Pacific-offset input should serialize as the equivalent UTC moment."""
+        iso_pdt = "2026-04-22T12:50:00-07:00"  # = 19:50:00 UTC
+        out = relative_time_html(iso_pdt)
+        assert 'datetime="2026-04-22T19:50:00Z"' in out
+
+    def test_label_matches_plain_relative_time(self):
+        """The inner textContent must equal relative_time() output exactly —
+        it's the no-JS fallback, so parity matters."""
+        from datetime import datetime, timedelta, timezone
+        t = (datetime.now(timezone.utc) - timedelta(hours=3)).isoformat()
+        html = relative_time_html(t)
+        plain = relative_time(t)
+        assert f'>{plain}</time>' in html
 
 
 # ── replace_marker ───────────────────────────────────────────────

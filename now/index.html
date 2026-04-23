@@ -526,5 +526,39 @@
       }
     })();
   </script>
+  <script>
+    // Live-relative time upgrader. Every <time data-rel> in the page was
+    // server-rendered with a stale "Nm ago" label at sync time; this script
+    // recomputes the label from the datetime attribute at view time and
+    // refreshes it every minute so the page never shows yesterday's number.
+    (function () {
+      function fmt(ms) {
+        var m = Math.floor(ms / 60000);
+        if (m < 1) return 'just now';
+        if (m < 60) return m + 'm ago';
+        var h = Math.floor(m / 60);
+        if (h < 24) return h + 'h ago';
+        var d = Math.floor(h / 24);
+        if (d === 1) return 'yesterday';
+        if (d < 7) return d + 'd ago';
+        var w = Math.floor(d / 7);
+        if (w < 5) return w + 'w ago';
+        return Math.floor(d / 30) + 'mo ago';
+      }
+      function tick() {
+        var now = Date.now();
+        document.querySelectorAll('time[data-rel]').forEach(function (el) {
+          var t = Date.parse(el.getAttribute('datetime'));
+          if (!isNaN(t)) el.textContent = fmt(now - t);
+        });
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', tick);
+      } else {
+        tick();
+      }
+      setInterval(tick, 60000);
+    })();
+  </script>
 </body>
 </html>

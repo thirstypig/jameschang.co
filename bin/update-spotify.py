@@ -21,7 +21,7 @@ from urllib.request import Request, urlopen
 
 from _shared import (
     escape_html,
-    relative_time,
+    relative_time_html,
     replace_marker,
     record_heartbeat,
     sanitize_error,
@@ -144,7 +144,7 @@ def build_html(tracks, podcast):
         show = podcast.get("show") or ""
         episode = podcast.get("episode") or ""
         url = podcast.get("url")
-        captured = relative_time(podcast.get("captured_at"))
+        captured = relative_time_html(podcast.get("captured_at"))
         label_html = f'<em>{escape_html(show)}</em> &mdash; &ldquo;{escape_html(episode)}&rdquo;'
         if url:
             label_html = f'<a href="{escape_html(url)}" rel="noopener" target="_blank">{label_html}</a>'
@@ -157,7 +157,7 @@ def build_html(tracks, podcast):
         for t in tracks:
             name = escape_html(t["name"])
             artists = escape_html(t["artists"])
-            played = relative_time(t.get("played_at"))
+            played = relative_time_html(t.get("played_at"))
             title_html = f'&ldquo;{name}&rdquo; &mdash; {artists}'
             if t.get("url"):
                 title_html = f'<a href="{escape_html(t["url"])}" rel="noopener" target="_blank">{title_html}</a>'
