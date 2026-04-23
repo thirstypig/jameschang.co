@@ -109,10 +109,13 @@ def main():
         return
 
     write_now_html(new_content)
-    record_heartbeat(
-        "projects",
-        error=(f"failed for: {', '.join(failures)}" if failures else None),
-    )
+    # Partial-success counts as success. A missing TLDR in one repo is a
+    # normal state (owner is still drafting the block) — not an alertable
+    # condition. Only record an error when NO projects land at all.
+    if updates:
+        record_heartbeat("projects")
+    else:
+        record_heartbeat("projects", error=f"all {len(projects)} projects failed")
     print(f"Updated now/index.html. Spliced: {len(updates)}, failed: {len(failures)}.")
 
 

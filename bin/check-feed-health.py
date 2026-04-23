@@ -66,6 +66,16 @@ def gh(*args):
     return result.stdout
 
 
+def ensure_label(name, color, description):
+    """Create the label if missing. No-op if already exists."""
+    result = subprocess.run(
+        ["gh", "label", "create", name, "--color", color, "--description", description],
+        capture_output=True, text=True,
+    )
+    if result.returncode != 0 and "already exists" not in result.stderr:
+        print(f"WARN: could not create label {name}: {result.stderr.strip()}", file=sys.stderr)
+
+
 def load_heartbeats():
     with open(HEARTBEAT_FILE) as f:
         return json.load(f)
@@ -113,6 +123,8 @@ def main():
     except FileNotFoundError:
         print("::error::.feeds-heartbeat.json not found")
         sys.exit(1)
+
+    ensure_label("feed-stale", "ED4245", "Feed has not had a successful sync in 48h")
 
     now = datetime.now(timezone.utc)
     open_issues = open_issues_by_feed()
