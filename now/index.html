@@ -55,7 +55,7 @@
     </p>
 
     <div class="work-hero">
-      <p class="eyebrow">Now page &middot; Updated <span class="page-updated"><!-- PAGE-UPDATED-START -->April 22, 2026 at 5:44 PM PDT<!-- PAGE-UPDATED-END --></span></p>
+      <p class="eyebrow">Now page &middot; Updated <span class="page-updated"><!-- PAGE-UPDATED-START -->April 22, 2026 at 5:51 PM PDT<!-- PAGE-UPDATED-END --></span></p>
       <h1>What I&rsquo;m actually working on.</h1>
       <p class="subtitle">
         A <a href="https://sive.rs/now">Derek Sivers-style /now page</a> &mdash; the
@@ -64,44 +64,27 @@
       </p>
     </div>
 
-    <!-- PROJECTS-UPDATED-START -->
-      <p class="feed-updated">Project updates auto-sync from each repo's CLAUDE.md — last refresh April 22, 2026 at 5:44 PM PDT.</p>
-        <!-- PROJECTS-UPDATED-END -->
-
     <section class="work-section">
       <h2>Active &mdash; where the time is going</h2>
       <div class="module">
         <h3 class="module-name"><a href="https://alephco.io">Aleph</a> <span class="module-url">alephco.io</span></h3>
-        <p>
-          <!-- TLDR-aleph-START -->
-      Aleph is a product compliance platform I'm building for US importers — it handles CPSIA certificates, Prop 65 labels, PFAS tracking, and FSVP audits in one place. Just wrapped a huge AI-assisted engineering sprint: 8-agent code review, 410 automated tests, a Prop 65 exposure calculator with 95 real OEHHA chemical thresholds, and PFAS supplier questionnaires covering 15 states. Next up is flipping the production switches (Stripe live keys, email DNS, database migrations) and opening doors to early users.
+        <!-- TLDR-aleph-START -->
+          <p>The compliance platform I wished existed when I was importing — CPSIA, Prop 65, PFAS, and FDA requirements in one place.</p>
         <!-- TLDR-aleph-END -->
-        </p>
       </div>
 
       <div class="module">
         <h3 class="module-name"><a href="https://thefantasticleagues.com">The Fantastic Leagues</a> <span class="module-url">thefantasticleagues.com</span></h3>
-        <p>
-          <!-- TLDR-fantastic-leagues-START -->
-          Fantasy baseball for the dozen-owner, auction-draft, keeper-league crowd
-          that Yahoo/ESPN never really served. The
-          <a href="https://app.thefantasticleagues.com">app is live</a>,
-          we just finished our first auction of the season, and I&rsquo;m iterating
-          weekly on AI features (draft grades, trade analyzer, a weekly
-          &ldquo;Week in Baseball&rdquo; report). Current focus: making the
-          commissioner tools good enough that I&rsquo;d stop using spreadsheets
-          for my own league.
-          <!-- TLDR-fantastic-leagues-END -->
-        </p>
+        <!-- TLDR-fantastic-leagues-START -->
+          <p>Fantasy baseball for the dozen-owner, auction-draft, keeper-league crowd that Yahoo and ESPN never really served. The <a href="https://app.thefantasticleagues.com">app is live</a> and I iterate weekly on AI-assisted features.</p>
+        <!-- TLDR-fantastic-leagues-END -->
       </div>
 
       <div class="module">
         <h3 class="module-name"><a href="https://bahtzang.com">Bahtzang Trader</a> <span class="module-url">bahtzang.com</span></h3>
-        <p>
-          <!-- TLDR-bahtzang-trader-START -->
-      AI trading bot that uses Claude Sonnet to make buy/sell/hold decisions, with a Next.js dashboard and Alpaca brokerage integration. Just shipped a 7-agent code review (100 findings resolved), unified the trade data model, and built a 297-test suite with pre-commit hooks and GitHub Actions CI — all AI-assisted. Currently paper trading on Alpaca while waiting for live account approval; next step is 30+ paper trades to validate the pipeline before flipping to real money.
+        <!-- TLDR-bahtzang-trader-START -->
+          <p>An AI trading-decision experiment — paper-trading sandbox with Alpaca (not real money yet).</p>
         <!-- TLDR-bahtzang-trader-END -->
-        </p>
       </div>
     </section>
 
@@ -109,44 +92,23 @@
       <h2>Back-burner &mdash; shipping but not daily</h2>
       <div class="module">
         <h3 class="module-name"><a href="https://thejudgetool.com">The Judge Tool</a> <span class="module-url">thejudgetool.com</span></h3>
-        <p>
-          <!-- TLDR-judge-tool-START -->
-          Building <a href="https://app.thejudgetool.com">The Judge Tool</a>, a
-          KCBS-style BBQ competition judging app &mdash; replaces clipboards,
-          carbon copies, and spreadsheet math with real-time digital scoring.
-          Just wired up analytics and finished the Vercel migration; next up is
-          piloting it at a real competition this season.
-          <!-- TLDR-judge-tool-END -->
-        </p>
+        <!-- TLDR-judge-tool-START -->
+          <p><a href="https://app.thejudgetool.com">The Judge Tool</a> — a KCBS-style BBQ competition judging app that replaces clipboards, carbon copies, and spreadsheet math with real-time digital scoring.</p>
+        <!-- TLDR-judge-tool-END -->
       </div>
 
       <div class="module">
         <h3 class="module-name"><a href="https://tabledrop.com">TableDrop</a> <span class="module-url">tabledrop.com</span></h3>
-        <p>
-          <!-- TLDR-tabledrop-START -->
-          Started as a reservation marketplace for Taipei; the product vision has
-          expanded into a modular restaurant operating system &mdash; pre-paid
-          reservations first, then POS integration (evaluating TastyIgniter / Odoo
-          as adapter targets), then supply chain and accounting layers. Still
-          commercially paused on the marketplace side while I find the right Taipei
-          operator; meanwhile the /tech and /roadmap pages are public now and act
-          as the thinking-in-the-open artifact.
-          <!-- TLDR-tabledrop-END -->
-        </p>
+        <!-- TLDR-tabledrop-START -->
+          <p>Started as a reservation marketplace for Taipei; now expanding into a modular restaurant operating system — reservations first, then POS, then supply chain and accounting.</p>
+        <!-- TLDR-tabledrop-END -->
       </div>
 
       <div class="module">
         <h3 class="module-name"><a href="https://tastemakersapp.com">Tastemakers</a> <span class="module-url">tastemakersapp.com</span></h3>
-        <p>
-          <!-- TLDR-tastemakers-START -->
-          Restaurant discovery app with iOS, Android, and web clients sharing a
-          Laravel API. Actively decoupling the backend from the legacy
-          WordPress/Namecheap hosting &mdash; migrating the API to Railway and the
-          web frontend to Vercel. Once the infrastructure is clean, the Next.js
-          site becomes both the marketing page and a web-accessible version of the
-          app. Not daily work, but no longer paused.
-          <!-- TLDR-tastemakers-END -->
-        </p>
+        <!-- TLDR-tastemakers-START -->
+          <p>Restaurant discovery app with iOS, Android, and web clients sharing a Laravel API. Actively decoupling the backend from legacy WordPress/Namecheap hosting.</p>
+        <!-- TLDR-tastemakers-END -->
       </div>
 
       <div class="module">
@@ -171,16 +133,9 @@
       <h2>In a good spot</h2>
       <div class="module">
         <h3 class="module-name"><a href="https://thirstypig.com">The Thirsty Pig</a> <span class="module-url">thirstypig.com</span></h3>
-        <p>
-          <!-- TLDR-thirsty-pig-START -->
-          My food blog from 2007&ndash;2017, rebuilt from Wayback Machine archives
-          and back online at <a href="https://thirstypig.com">thirstypig.com</a>.
-          2,120 posts, 1,400 mapped restaurants, new posts from Instagram.
-          Currently working through the
-          <a href="https://thirstypig.com/hitlist">hit list</a> &mdash;
-          see <a href="#hitlist-section">below</a> for what&rsquo;s next.
-          <!-- TLDR-thirsty-pig-END -->
-        </p>
+        <!-- TLDR-thirsty-pig-START -->
+          <p>My food blog from 2007–2017, rebuilt from Wayback Machine archives and back online at <a href="https://thirstypig.com">thirstypig.com</a>. Maintenance mode — new posts wire in automatically from Instagram.</p>
+        <!-- TLDR-thirsty-pig-END -->
       </div>
     </section>
 
@@ -278,23 +233,6 @@
           via <a href="https://github.com/thirstypig/jameschang.co/actions">GitHub Actions</a>.
           Recovery, sleep, strain, and HRV &mdash; the numbers I actually look at every morning.
         </p>
-      </div>
-    </section>
-
-    <section class="work-section">
-      <h2>Shipping</h2>
-      <div class="module github-module">
-        <!-- GITHUB-START -->
-        <p class="gh-summary"><strong>Shipping:</strong> 12 pushes across 5 repos this week.</p>
-        <ul class="gh-list">
-          <li><a href="https://github.com/thirstypig/TheFantasticLeagues/commit/8b81d1b42c16e3e5bdc853e5a6b01e7f23aa88d6" rel="noopener" target="_blank"><code>TheFantasticLeagues</code> &mdash; feat(roster-rules): align client IL status check with real MLB API format</a> <span class="gh-when">&middot; 13m ago</span></li>
-          <li><a href="https://github.com/thirstypig/TheFantasticLeagues" rel="noopener" target="_blank"><code>TheFantasticLeagues</code> &mdash; PR opened: (untitled)</a> <span class="gh-when">&middot; 27m ago</span></li>
-          <li><a href="https://github.com/thirstypig/jameschang.co/commit/34cbca48eec506765f0bb61984a4cb12dbfb4ad3" rel="noopener" target="_blank"><code>jameschang.co</code> &mdash; chore: refresh encrypted WHOOP token</a> <span class="gh-when">&middot; 39m ago</span></li>
-          <li><a href="https://github.com/thirstypig/jameschang.co/commit/074f267cb02e5776ced4e06b844a53ce0ad46f76" rel="noopener" target="_blank"><code>jameschang.co</code> &mdash; fix(plex): preserve last-known HTML block when fetch fails</a> <span class="gh-when">&middot; 1h ago</span></li>
-          <li><a href="https://github.com/thirstypig/jameschang.co/commit/c5924253978e77eed372e457f650ad28c2f6556e" rel="noopener" target="_blank"><code>jameschang.co</code> &mdash; chore: backfill Trakt Auto-updated line with new time format</a> <span class="gh-when">&middot; 1h ago</span></li>
-        </ul>
-        <p class="feed-updated">Auto-updated April 22, 2026 at 12:24 PM PDT via <a href="https://docs.github.com/en/rest/activity/events">GitHub Events API</a>.</p>
-        <!-- GITHUB-END -->
       </div>
     </section>
 
