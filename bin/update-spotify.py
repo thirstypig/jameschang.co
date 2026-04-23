@@ -102,21 +102,44 @@ def save_state(state):
         f.write("\n")
 
 
-def fetch_recent_tracks(token):
-    """Return list of last N music tracks, each as {name, artists, played_at}."""
-    data = api_get(token, "/me/player/recently-played", {"limit": str(TRACKS_LIMIT)})
+def fetch_recent_plays(token):
+    """Return (tracks, episodes) from /me/player/recently-played.
+
+    Without additional_types=episode, Spotify's recently-played endpoint
+    returns tracks only — podcast plays are silently dropped. That left
+    the "Last podcast" line dependent on /me/player/currently-playing,
+    which only fires if a podcast is actively playing at cron time.
+    Most episode plays were missed.
+
+    With additional_types=episode we get tracks AND episodes in one
+    response (up to 50 items), each with a real played_at timestamp.
+    The client must inspect item.track.type to tell them apart.
+    """
+    data = api_get(token, "/me/player/recently-played", {
+        "limit": "50",
+        "additional_types": "episode",
+    })
     if not data:
-        return []
-    out = []
+        return [], []
+    tracks, episodes = [], []
     for item in data.get("items", []):
-        track = item.get("track") or {}
-        out.append({
-            "name": track.get("name", "(unknown)"),
-            "artists": ", ".join(a.get("name", "") for a in track.get("artists", [])),
-            "played_at": item.get("played_at"),
-            "url": (track.get("external_urls") or {}).get("spotify"),
-        })
-    return out
+        inner = item.get("track") or {}
+        played_at = item.get("played_at")
+        if inner.get("type") == "episode":
+            episodes.append({
+                "episode": inner.get("name"),
+                "show": (inner.get("show") or {}).get("name"),
+                "url": (inner.get("external_urls") or {}).get("spotify"),
+                "captured_at": played_at,
+            })
+        else:
+            tracks.append({
+                "name": inner.get("name", "(unknown)"),
+                "artists": ", ".join(a.get("name", "") for a in inner.get("artists", [])),
+                "played_at": played_at,
+                "url": (inner.get("external_urls") or {}).get("spotify"),
+            })
+    return tracks[:TRACKS_LIMIT], episodes
 
 
 def fetch_current_podcast(token):
@@ -178,18 +201,27 @@ def build_html(tracks, podcast):
 def main():
     token = get_access_token()
 
-    tracks = fetch_recent_tracks(token)
+    tracks, episodes = fetch_recent_plays(token)
     current = fetch_current_podcast(token)
 
     state = load_state()
     podcast = state.get("last_podcast")
     state_dirty = False
 
-    if current:
+    # Prefer the most recent episode from listening history (real play
+    # timestamp, captures episodes even if playback has since stopped).
+    # Fall back to currently-playing (real-time snapshot) and then to
+    # cached state (stale up to PODCAST_AGE_LIMIT).
+    if episodes:
+        podcast = episodes[0]
+        state["last_podcast"] = podcast
+        state_dirty = True
+        print(f"Captured podcast from history: {podcast['show']} — {podcast['episode']}")
+    elif current:
         podcast = current
         state["last_podcast"] = podcast
         state_dirty = True
-        print(f"Captured podcast: {current['show']} — {current['episode']}")
+        print(f"Captured podcast from currently-playing: {current['show']} — {current['episode']}")
     elif podcast:
         try:
             captured = datetime.fromisoformat(podcast["captured_at"].replace("Z", "+00:00"))
