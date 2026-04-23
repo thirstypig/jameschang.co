@@ -63,3 +63,62 @@ class TestLoadConfig:
             assert "repo" in project
             assert "file" in project
             assert project["repo"].startswith("thirstypig/")
+
+
+class TestParseEventsPullRequest:
+    """PR events with stripped payloads (private-repo sanitization) must be
+    dropped so readers never see 'PR opened: (untitled)' linking to '#'."""
+
+    @staticmethod
+    def _now_iso():
+        from datetime import datetime, timezone
+        return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    def _pr_event(self, *, title, html_url, action="opened"):
+        return {
+            "type": "PullRequestEvent",
+            "created_at": self._now_iso(),
+            "repo": {"name": "thirstypig/demo"},
+            "payload": {
+                "action": action,
+                "pull_request": {"title": title, "html_url": html_url},
+            },
+        }
+
+    def test_keeps_pr_event_with_full_payload(self):
+        events = [self._pr_event(title="Fix bug", html_url="https://github.com/x/pull/1")]
+        result = _projects.parse_events(events, token=None)
+        assert "thirstypig/demo" in result
+        entry = result["thirstypig/demo"][0]
+        assert entry["summary"] == "PR opened: Fix bug"
+        assert entry["url"] == "https://github.com/x/pull/1"
+
+    def test_drops_pr_event_with_stripped_payload(self):
+        """Private-repo PR events arrive with null title + null html_url."""
+        events = [self._pr_event(title=None, html_url=None)]
+        result = _projects.parse_events(events, token=None)
+        assert result == {} or result.get("thirstypig/demo", []) == []
+
+    def test_drops_pr_event_missing_url_only(self):
+        events = [self._pr_event(title="Has title", html_url=None)]
+        result = _projects.parse_events(events, token=None)
+        assert result.get("thirstypig/demo", []) == []
+
+    def test_drops_pr_event_missing_title_only(self):
+        events = [self._pr_event(title=None, html_url="https://example/pr/1")]
+        result = _projects.parse_events(events, token=None)
+        assert result.get("thirstypig/demo", []) == []
+
+    def test_keeps_healthy_push_event_alongside(self):
+        """Regression guard: filtering PR events must not affect PushEvents."""
+        push = {
+            "type": "PushEvent",
+            "created_at": self._now_iso(),
+            "repo": {"name": "thirstypig/demo"},
+            "payload": {"head": "abc123", "ref": "refs/heads/main"},
+        }
+        stripped_pr = self._pr_event(title=None, html_url=None)
+        result = _projects.parse_events([push, stripped_pr], token=None)
+        entries = result["thirstypig/demo"]
+        assert len(entries) == 1
+        assert entries[0]["url"] == "https://github.com/thirstypig/demo/commit/abc123"

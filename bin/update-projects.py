@@ -119,10 +119,17 @@ def parse_events(events, token):
             entry["_head_sha"] = sha
         elif etype == "PullRequestEvent":
             pr = payload.get("pull_request") or {}
+            html_url = pr.get("html_url")
+            title = pr.get("title")
+            # Public-events endpoint strips payload.pull_request for private-
+            # repo events, leaving no URL or title. The merge commit still
+            # arrives as a PushEvent with full data, so dropping these loses
+            # nothing and avoids rendering "(untitled)" dead links.
+            if not html_url or not title:
+                continue
             action = payload.get("action", "")
-            title = pr.get("title") or "(untitled)"
             entry["summary"] = f"PR {action}: {title}"
-            entry["url"] = pr.get("html_url")
+            entry["url"] = html_url
         elif etype == "ReleaseEvent":
             rel = payload.get("release") or {}
             entry["summary"] = f"Released {rel.get('tag_name', '')}"
