@@ -850,6 +850,17 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* Per-project "Recently shipped" line inside each project's TLDR block */
+.shipping-recent {
+  margin: 0.65rem 0 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.shipping-recent strong { color: var(--text); font-weight: 600; margin-right: 0.25rem; }
+.shipping-recent a { color: var(--text); text-decoration-color: var(--rule); }
+.shipping-recent a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
 /* MLB / Dodgers */
 .mlb-line { margin: 0 0 0.75rem; font-size: 1rem; }
 .mlb-line strong { color: var(--text); font-weight: 600; }
