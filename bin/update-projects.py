@@ -8,7 +8,7 @@ bin/projects-config.json:
      <!-- now-tldr -->...<!-- /now-tldr --> block.
   2. Filters the global user-events feed for recent PushEvent/PullRequestEvent/
      ReleaseEvent activity in that project's shipping_repos and renders a
-     "Recently shipped" list of up to 3 items.
+     "Recently shipped" line showing the single most recent item.
   3. Renders an Auto-updated timestamp line.
   4. Splices the combined block into <!-- TLDR-{slug}-START -->...<!-- TLDR-{slug}-END -->
      in now/index.html.
@@ -44,7 +44,7 @@ from _shared import (
 CONFIG_PATH = os.path.join(REPO_ROOT, "bin", "projects-config.json")
 TLDR_PATTERN = re.compile(r"<!-- now-tldr -->\s*(.*?)\s*<!-- /now-tldr -->", re.DOTALL)
 EVENT_WINDOW = timedelta(days=14)  # how far back to look for shipping events
-EVENTS_PER_PROJECT = 3
+EVENTS_PER_PROJECT = 1
 
 
 def load_config():
