@@ -34,7 +34,7 @@ from _shared import (
     format_update_time,
     read_now_html,
     record_heartbeat,
-    relative_time,
+    relative_time_html,
     replace_marker,
     write_now_html,
     REPO_ROOT,
@@ -179,7 +179,7 @@ def render_shipping_list(events):
     for ev in events:
         summary = escape_html(ev["summary"])[:90]
         url = escape_html(ev["url"] or "#")
-        when = relative_time(ev["time"])
+        when = relative_time_html(ev["time"])
         items.append(f'<a href="{url}" rel="noopener" target="_blank">{summary}</a> <span class="gh-when">&middot; {when}</span>')
     return (
         '          <p class="shipping-recent"><strong>Recently shipped:</strong> '

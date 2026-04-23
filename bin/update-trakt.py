@@ -18,7 +18,7 @@ from urllib.request import Request, urlopen
 
 from _shared import (
     escape_html,
-    relative_time,
+    relative_time_html,
     replace_marker,
     record_heartbeat,
     sanitize_error,
@@ -171,7 +171,7 @@ def build_html(shows):
             title_html = f'{show_name}{ep_label}'
             if s.get("url"):
                 title_html = f'<a href="{escape_html(s["url"])}" rel="noopener" target="_blank">{title_html}</a>'
-            watched = relative_time(s.get("watched_at"))
+            watched = relative_time_html(s.get("watched_at"))
             parts.append(f'          <li>{title_html} <span class="trakt-when">&middot; {watched}</span></li>')
         parts.append('        </ul>')
     else:

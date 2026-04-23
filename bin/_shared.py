@@ -100,6 +100,28 @@ def relative_time(iso_str):
     return f"{months}mo ago"
 
 
+def relative_time_html(iso_str):
+    """Return a <time datetime="..." data-rel> element for live-relative display.
+
+    The server-rendered text (e.g. '7m ago') is the initial/no-JS fallback;
+    the inline upgrader script in now/index.html recomputes textContent on
+    page load and every minute thereafter, so the label stays truthful even
+    when the last sync ran hours ago. Returns empty string for invalid input.
+    """
+    label = relative_time(iso_str)
+    if not label or not iso_str:
+        return ""
+    # Normalize the datetime attribute to a UTC ISO-8601 string with Z suffix
+    # so Date.parse() in the browser gets an unambiguous value.
+    iso_norm = iso_str[:-1] + "+00:00" if iso_str.endswith("Z") else iso_str
+    try:
+        t_utc = datetime.fromisoformat(iso_norm).astimezone(timezone.utc)
+    except ValueError:
+        return ""
+    stamp = t_utc.strftime("%Y-%m-%dT%H:%M:%SZ")
+    return f'<time datetime="{stamp}" data-rel>{label}</time>'
+
+
 def replace_marker(content, marker_name, html):
     """Replace <!-- {MARKER}-START -->...<!-- {MARKER}-END --> in content.
 
