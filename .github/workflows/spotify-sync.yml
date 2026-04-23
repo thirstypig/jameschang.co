@@ -2,7 +2,7 @@ name: Sync Spotify data to /now
 
 on:
   schedule:
-    - cron: '0 */4 * * *'
+    - cron: '*/30 * * * *'
   workflow_dispatch:
 
 concurrency:
