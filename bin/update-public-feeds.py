@@ -5,15 +5,14 @@ Each feed is wrapped independently so one outage doesn't break the others.
 All endpoints are unauthenticated.
 
 Feeds:
-  - GitHub public activity for thirstypig
   - MLB Stats API for the Dodgers (team 119)
   - Letterboxd RSS for thirstypig
-  - Fantastic Leagues team standings (TODO: wire once server endpoint deployed)
+  - Goodreads RSS (currently-reading + read shelves)
+  - Fantastic Leagues team standings
 """
 
 import os
 import xml.etree.ElementTree as ET
-from collections import Counter
 from datetime import datetime, timedelta, timezone
 from urllib.error import HTTPError, URLError
 from zoneinfo import ZoneInfo
@@ -31,8 +30,6 @@ from _shared import (
     write_now_html,
 )
 
-GITHUB_USER = "thirstypig"
-GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
 MLB_TEAM_ID = 119  # Los Angeles Dodgers
 LETTERBOXD_USER = "thirstypig"
 GOODREADS_USER_ID = "33966778"
@@ -40,112 +37,6 @@ FBST_API_BASE = "https://app.thefantasticleagues.com/api/public"
 FBST_LEAGUE_SLUG = "ogba-2026"
 FBST_MY_TEAM = "Los Doyers"
 PT = ZoneInfo("America/Los_Angeles")
-
-
-# ------------------------ GitHub ------------------------
-
-def github_block():
-    """Recent public push/release/PR activity across the user's repos.
-
-    GitHub strips commit details from PushEvent payloads, so we fetch the
-    head commit separately for each push. Events older than 7 days ignored.
-    """
-    try:
-        gh_headers = {"Authorization": f"Bearer {GITHUB_TOKEN}"} if GITHUB_TOKEN else {}
-        events = fetch_json(f"https://api.github.com/users/{GITHUB_USER}/events/public?per_page=30", headers=gh_headers)
-    except (HTTPError, URLError) as e:
-        print(f"GitHub fetch failed: {e}")
-        return None
-
-    cutoff = datetime.now(timezone.utc) - timedelta(days=7)
-    recent = []
-    repo_counts = Counter()
-    push_count = 0
-
-    for ev in events:
-        try:
-            t = datetime.fromisoformat(ev["created_at"].replace("Z", "+00:00"))
-        except Exception:
-            continue
-        if t < cutoff:
-            break
-
-        repo = ev.get("repo", {}).get("name", "")
-        etype = ev.get("type")
-        payload = ev.get("payload") or {}
-
-        if etype == "PushEvent":
-            repo_counts[repo] += 1
-            push_count += 1
-            head_sha = payload.get("head")
-            ref = payload.get("ref", "").replace("refs/heads/", "")
-            recent.append({
-                "time": ev["created_at"],
-                "repo": repo,
-                "summary": f"Pushed to {ref}" if ref else "Pushed",
-                "url": f"https://github.com/{repo}/commit/{head_sha}" if head_sha else f"https://github.com/{repo}",
-                "_head_sha": head_sha,
-            })
-        elif etype == "PullRequestEvent":
-            repo_counts[repo] += 1
-            pr = payload.get("pull_request") or {}
-            action = payload.get("action", "")
-            title = pr.get("title") or "(untitled)"
-            recent.append({
-                "time": ev["created_at"],
-                "repo": repo,
-                "summary": f"PR {action}: {title}",
-                "url": pr.get("html_url"),
-            })
-        elif etype == "ReleaseEvent":
-            repo_counts[repo] += 1
-            rel = payload.get("release") or {}
-            recent.append({
-                "time": ev["created_at"],
-                "repo": repo,
-                "summary": f"Released {rel.get('tag_name', '')} \u2014 {rel.get('name', '')}",
-                "url": rel.get("html_url"),
-            })
-
-    if not recent:
-        return None
-
-    num_repos = len(repo_counts)
-    parts = []
-    parts.append(
-        f'        <p class="gh-summary"><strong>Shipping:</strong> '
-        f'{push_count} push{"es" if push_count != 1 else ""} across {num_repos} repo{"s" if num_repos != 1 else ""} this week.</p>'
-    )
-    # Enrich only top-5 push events with commit messages (avoids N+1 rate-limit)
-    display = recent[:5]
-    for item in display:
-        sha = item.pop("_head_sha", None)
-        if sha and item["summary"].startswith("Pushed to"):
-            try:
-                commit = fetch_json(
-                    f"https://api.github.com/repos/{item['repo']}/commits/{sha}",
-                    headers=gh_headers,
-                )
-                msg = (commit.get("commit") or {}).get("message", "")
-                first_line = msg.split("\n")[0].strip()
-                if first_line:
-                    item["summary"] = first_line
-            except (HTTPError, URLError):
-                pass
-
-    parts.append('        <ul class="gh-list">')
-    for item in display:
-        repo_short = item["repo"].split("/")[-1]
-        summary = escape_html(item["summary"])[:90]
-        rel = relative_time(item["time"])
-        url = escape_html(item.get("url") or f"https://github.com/{item['repo']}")
-        parts.append(
-            f'          <li><a href="{url}" rel="noopener" target="_blank"><code>{escape_html(repo_short)}</code> &mdash; {summary}</a> <span class="gh-when">&middot; {rel}</span></li>'
-        )
-    parts.append('        </ul>')
-    now = format_update_time()
-    parts.append(f'        <p class="feed-updated">Auto-updated {now} via <a href="https://docs.github.com/en/rest/activity/events">GitHub Events API</a>.</p>')
-    return "\n".join(parts)
 
 
 # ------------------------ MLB / Dodgers ------------------------
@@ -158,7 +49,7 @@ def mlb_block():
         if today < season_start or today > season_end:
             # offseason — show simple team link, no record
             return (
-                '        <p class="mlb-line">Off-season. '
+                '        <p>Off-season. '
                 '<a href="https://www.mlb.com/dodgers" rel="noopener" target="_blank">Dodgers</a> &middot; '
                 'next season: March.</p>'
             )
@@ -215,7 +106,7 @@ def mlb_block():
         line = '<strong>Dodgers:</strong>'
         if record:
             line += f' {record}'
-        parts.append(f'        <p class="mlb-line">{line}.')
+        parts.append(f'        <p>{line}.')
         extras = []
         if last_game:
             extras.append(f'Last: {escape_html(last_game["summary"])}')
@@ -253,25 +144,14 @@ def letterboxd_block():
     if not items:
         return None  # graceful-fail
 
-    parts = ['        <p class="lb-heading"><strong>Recently watched</strong></p>']
-    parts.append('        <ul class="lb-list">')
+    parts = ['        <ul>']
     for item in items[:3]:
         title_el = item.find("title")
         link_el = item.find("link")
-        rating_el = item.find("letterboxd:memberRating", ns)
         pub_el = item.find("pubDate")
 
         title = title_el.text if title_el is not None else "Untitled"
         link = link_el.text if link_el is not None else "#"
-        rating_text = ""
-        if rating_el is not None and rating_el.text:
-            try:
-                stars = float(rating_el.text)
-                full = int(stars)
-                half = stars - full >= 0.5
-                rating_text = " " + ("\u2605" * full) + ("\u00bd" if half else "")
-            except ValueError:
-                pass
         when = ""
         if pub_el is not None and pub_el.text:
             try:
@@ -281,8 +161,7 @@ def letterboxd_block():
                 pass
         parts.append(
             f'          <li><a href="{escape_html(link)}" rel="noopener" target="_blank">{escape_html(title)}</a>'
-            f'<span class="lb-rating">{escape_html(rating_text)}</span>'
-            + (f' <span class="lb-when">&middot; {when}</span>' if when else '')
+            + (f' <span class="when">&middot; {when}</span>' if when else '')
             + '</li>'
         )
     parts.append('        </ul>')
@@ -311,8 +190,8 @@ def goodreads_reading_block():
     if not items:
         return None
 
-    parts = ['        <p class="gr-heading"><strong>Currently reading</strong></p>']
-    parts.append('        <ul class="gr-list">')
+    parts = ['        <p><strong>Currently reading</strong></p>']
+    parts.append('        <ul>')
     for item in items[:3]:
         title_el = item.find("title")
         link_el = item.find("link")
@@ -324,7 +203,7 @@ def goodreads_reading_block():
 
         line = f'          <li><a href="{escape_html(link)}" rel="noopener" target="_blank"><em>{escape_html(title)}</em></a>'
         if author:
-            line += f' <span class="gr-author">&mdash; {escape_html(author)}</span>'
+            line += f' <span class="when">&mdash; {escape_html(author)}</span>'
         line += '</li>'
         parts.append(line)
 
@@ -350,8 +229,8 @@ def goodreads_block():
     if not items:
         return None
 
-    parts = ['        <p class="gr-heading"><strong>Recently read</strong></p>']
-    parts.append('        <ul class="gr-list">')
+    parts = ['        <p><strong>Recently read</strong></p>']
+    parts.append('        <ul>')
     for item in items[:5]:
         title_el = item.find("title")
         link_el = item.find("link")
@@ -374,9 +253,9 @@ def goodreads_block():
 
         line = f'          <li><a href="{escape_html(link)}" rel="noopener" target="_blank"><em>{escape_html(title)}</em></a>'
         if author:
-            line += f' <span class="gr-author">&mdash; {escape_html(author)}</span>'
+            line += f' <span class="when">&mdash; {escape_html(author)}</span>'
         if rating_text:
-            line += f'<span class="gr-rating">{rating_text}</span>'
+            line += f'<span class="when accent">{rating_text}</span>'
         line += '</li>'
         parts.append(line)
 
@@ -425,11 +304,10 @@ def fbst_block():
 
     now = format_update_time()
     html = (
-        f'        <p class="fbst-line"><strong>Los Doyers:</strong> {rank_str} of {total}'
+        f'        <p><strong>Los Doyers:</strong> {rank_str} of {total}'
         f' &middot; {points_str} pts &middot; '
         f'<a href="https://thefantasticleagues.com" rel="noopener" target="_blank">'
-        f'{escape_html(league_name)} {season}</a>'
-        f' <span class="fbst-note">(dogfooding the AI-assisted platform I built)</span></p>\n'
+        f'{escape_html(league_name)} {season}</a></p>\n'
         f'        <p class="feed-updated">Auto-updated {now} via '
         f'<a href="https://thefantasticleagues.com">The Fantastic Leagues</a>.</p>'
     )
@@ -447,7 +325,7 @@ def main():
     feeds = [
         ("MLB",        mlb_block,         '        <p class="feed-empty">MLB data unavailable.</p>'),
         ("LETTERBOXD", letterboxd_block,  '        <p class="feed-empty">No films logged yet. <a href="https://letterboxd.com/thirstypig/">Letterboxd</a>.</p>'),
-        ("GOODREADS-READING", goodreads_reading_block, '        <p class="gr-heading"><strong>Currently reading</strong></p>\n        <p class="feed-empty">Nothing on the shelf right now.</p>'),
+        ("GOODREADS-READING", goodreads_reading_block, '        <p><strong>Currently reading</strong></p>\n        <p class="feed-empty">Nothing on the shelf right now.</p>'),
         ("GOODREADS",  goodreads_block,   '        <p class="feed-empty">No books logged yet. <a href="https://www.goodreads.com/user/show/33966778">Goodreads</a>.</p>'),
         ("FBST",       fbst_block,        '        <p class="feed-empty">FBST standings unavailable.</p>'),
     ]

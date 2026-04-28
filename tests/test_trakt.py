@@ -28,7 +28,13 @@ class TestBuildHtml:
         assert "S01E09" in html
         assert "La Chica o El Mundo" in html
         assert "trakt.tv/shows/pluribus" in html
-        assert "trakt-list" in html
+        assert "<ul>" in html
+        assert "<li>" in html
+        assert 'class="when"' in html
+        # legacy feed-named classes should be gone
+        assert "trakt-list" not in html
+        assert "trakt-heading" not in html
+        assert "trakt-when" not in html
 
     def test_multiple_shows(self):
         shows = [
@@ -43,6 +49,7 @@ class TestBuildHtml:
     def test_empty_shows_returns_fallback(self):
         html = build_html([])
         assert "No shows tracked recently" in html
+        assert "<ul>" not in html
         assert "trakt-list" not in html
 
     def test_html_escapes_show_title(self):

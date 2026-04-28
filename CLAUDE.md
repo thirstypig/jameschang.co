@@ -50,7 +50,7 @@ The legacy `styles.css` is no longer loaded by any page and could be deleted —
 
 Dark mode is triggered via `@media (prefers-color-scheme: dark)` + an explicit `[data-theme="dark"]` override driven by `script.js` theme toggle (persisted in `localStorage`).
 
-**Cron-script class compatibility.** The /now page's cron sync scripts (`update-whoop.py`, `update-spotify.py`, etc.) emit HTML with their own legacy class names (`.spotify-list`, `.feed-updated`, `.whoop-{color}`). `notebook.css` defines all of these in notebook aesthetic so cron-written content stays visually consistent. WHOOP additionally emits notebook `.nb-grid-4` markup directly so the 4-tile recovery layout matches the rest of the design.
+**Cron-script markup.** All /now feed-sync scripts (`update-whoop.py`, `update-spotify.py`, `update-trakt.py`, `update-plex.py`, `update-public-feeds.py`, `update-projects.py`) emit notebook-design markup directly — bare `<ul>` / `<li>` / `<span class="when">` styled by the parent `.nb-feed` cascade, plus two helper classes `.nb-feed-podcast` (Spotify lead-in) and `.nb-feed-divider` (dashed top border that separates Plex's list from Trakt's above it inside their shared `.nb-feed`). WHOOP emits `.nb-grid-4` + `.nb-stat` tiles. The only generic cron-only classes left in `notebook.css` are `.feed-empty` and `.feed-updated` (used by every feed for the empty state and the trailing "Auto-updated …" line). Legacy per-feed classes (`.spotify-list`, `.trakt-when`, `.whoop-green`, etc.) were removed on 2026-04-27.
 
 ## Print stylesheet
 
@@ -166,18 +166,18 @@ All code-review findings from both reviews (initial + 2026-04-18 full-repo audit
 
 ## Testing
 
-160 tests across 8 files. Run with `python3 -m pytest tests/ -v` (requires `pytest`).
+163 tests across 8 files. Run with `python3 -m pytest tests/ -v` (requires `pytest`).
 
 | File | Type | Tests | What it covers |
 |------|------|-------|---------------|
 | `tests/test_shared.py` | Unit | 46 | `_shared.py`: escape_html, relative_time, **relative_time_html** (live-relative progressive enhancement), replace_marker, content_changed, sanitize_error, record_heartbeat (incl. corrupt JSON recovery), page-updated marker refresh |
 | `tests/test_feeds.py` | Unit | 19 | `update-whoop.py`: recovery_color; `update-public-feeds.py`: ordinal |
-| `tests/test_trakt.py` | Unit | 10 | `update-trakt.py`: build_html rendering, HTML escaping, deduplication by show, 5-show limit |
-| `tests/test_feed_builders.py` | Unit | 18 | All feed builders: github, mlb, letterboxd, goodreads (reading + read), fbst, plex — mocked network, tested HTML output; plex fetch failure returns None vs [] |
-| `tests/test_spotify.py` | Unit | 15 | `update-spotify.py`: build_html, state load/save, fetch_recent_tracks, fetch_current_podcast |
+| `tests/test_trakt.py` | Unit | 10 | `update-trakt.py`: build_html rendering, HTML escaping, deduplication by show, 5-show limit, regression assertions that legacy `trakt-*` classes are no longer emitted |
+| `tests/test_feed_builders.py` | Unit | 15 | Feed builders for mlb, letterboxd, goodreads (reading + read), fbst, plex — mocked network, tested HTML output; plex fetch failure returns None vs []; regression assertions that legacy `plex-*` classes are no longer emitted |
+| `tests/test_spotify.py` | Unit | 15 | `update-spotify.py`: build_html (asserts `nb-feed-podcast` + bare `<ul>`), state load/save, fetch_recent_tracks, fetch_current_podcast |
 | `tests/test_whoop.py` | Unit | 14 | `update-whoop.py`: fetch_latest_recovery/sleep/cycle, build_html with all recovery colors |
 | `tests/test_site_e2e.py` | E2E | 25 | All HTML pages: meta tags, CSP, aria-pressed, JSON-LD, images, internal links, feed markers (incl. PAGE-UPDATED), @media print + @page rule on notebook.css, OpenSSL parity, dark mode parity, GA4, privacy policy, symlink detection, sitemap consistency, OG image |
-| `tests/test_projects.py` | Unit | 13 | `update-projects.py`: TLDR extraction from marker blocks, config schema, PR-event filtering (drops stripped payloads with no URL/title) |
+| `tests/test_projects.py` | Unit | 19 | `update-projects.py`: TLDR extraction, config schema, PR-event filtering, render_shipping_list (uses `nb-card-shipped` + bare `<time>`, drops legacy `shipping-recent`/`gh-when`), render_block |
 
 CI runs on push to `main` via `.github/workflows/ci-tests.yml`. See `docs/test-plan.md` for the full testing strategy.
 

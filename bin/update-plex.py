@@ -96,12 +96,16 @@ def fetch_history():
 
 
 def build_html(items):
-    """Return the HTML block for the PLEX markers."""
+    """Return the HTML block for the PLEX markers.
+
+    Plex shares its parent .nb-feed with Trakt; .nb-feed-divider on the
+    <ul> provides the dashed top border that separates Plex's list from
+    Trakt's above it.
+    """
     parts = []
 
     if items:
-        parts.append('        <p class="plex-heading"><strong>Recently on Plex</strong></p>')
-        parts.append('        <ul class="plex-list">')
+        parts.append('          <ul class="nb-feed-divider">')
         for item in items:
             if item["type"] == "tv":
                 label = escape_html(item["title"])
@@ -115,13 +119,13 @@ def build_html(items):
                     label += f' ({item["year"]})'
 
             watched = relative_time(item.get("watched_at"))
-            parts.append(f'          <li>{label} <span class="plex-when">&middot; {watched}</span></li>')
-        parts.append('        </ul>')
+            parts.append(f'            <li>{label} <span class="when">&middot; {watched}</span></li>')
+        parts.append('          </ul>')
     else:
-        parts.append('        <p class="feed-empty">Nothing watched recently.</p>')
+        parts.append('          <p class="feed-empty">Nothing watched recently.</p>')
 
     now = format_update_time()
-    parts.append(f'        <p class="feed-updated">Auto-updated {now} via Plex.</p>')
+    parts.append(f'          <p class="feed-updated">Auto-updated {now} via Plex.</p>')
 
     return "\n".join(parts)
 

@@ -155,12 +155,17 @@ def fetch_recent_shows(token):
 
 
 def build_html(shows):
-    """Return the HTML block for the TRAKT markers."""
+    """Return the HTML block for the TRAKT markers.
+
+    Emits notebook-design markup: relies on .nb-feed (parent) for list and
+    .when styling, and .feed-updated for the trailing timestamp. The redundant
+    "Recently watched" heading is dropped — the parent .nb-feed-head already
+    labels the feed as "tv".
+    """
     parts = []
 
     if shows:
-        parts.append('        <p class="trakt-heading"><strong>Recently watched</strong></p>')
-        parts.append('        <ul class="trakt-list">')
+        parts.append('        <ul>')
         for s in shows:
             show_name = escape_html(s["show"])
             ep_label = ""
@@ -172,7 +177,7 @@ def build_html(shows):
             if s.get("url"):
                 title_html = f'<a href="{escape_html(s["url"])}" rel="noopener" target="_blank">{title_html}</a>'
             watched = relative_time_html(s.get("watched_at"))
-            parts.append(f'          <li>{title_html} <span class="trakt-when">&middot; {watched}</span></li>')
+            parts.append(f'          <li>{title_html} <span class="when">&middot; {watched}</span></li>')
         parts.append('        </ul>')
     else:
         parts.append('        <p class="feed-empty">No shows tracked recently.</p>')

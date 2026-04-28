@@ -586,6 +586,17 @@ a:hover { text-decoration: underline; }
 .nb-feed ul li { line-height: 1.5; }
 .nb-feed .when { color: var(--dim); font-family: var(--mono); font-size: 11px; }
 .nb-feed .accent { color: var(--accent); }
+.nb-feed-podcast {
+  font-size: 13px;
+  margin: 0 0 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--rule);
+}
+.nb-feed ul.nb-feed-divider {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--rule);
+}
 
 /* ─── Stat tiles (WHOOP) ───────────────────────────────────────────── */
 .nb-stat {
@@ -701,181 +712,25 @@ a:hover { text-decoration: underline; }
   color: var(--ink);
 }
 
-/* ─── Cron-script feed classes (legacy from work.css) ────────────────
-   The /now page's cron scripts (update-whoop.py, update-spotify.py,
-   update-trakt.py, update-plex.py, update-public-feeds.py,
-   update-projects.py) emit HTML with these classes between the
-   <!-- FEED-START -->/<!-- FEED-END --> markers. These rules style
-   that output to fit the notebook design. Hand-crafted nb-* placeholder
-   markup currently lives between the markers; once cron scripts run,
-   they replace it with this simpler list/paragraph structure. */
-
-/* Generic feed helpers */
-.feed-empty,
-.spotify-empty {
+/* ─── Generic cron-script helpers ───────────────────────────────────
+   Every /now feed-sync script (update-whoop, -spotify, -trakt, -plex,
+   -public-feeds, -projects) emits these two classes for the empty-state
+   line and the trailing "Auto-updated …" timestamp. Feed-specific
+   styling is handled by the .nb-feed cascade and the .nb-feed-podcast /
+   .nb-feed-divider helpers above. */
+.feed-empty {
   font-family: var(--mono);
   font-size: 12px;
   color: var(--dim);
   margin: 0 0 8px;
 }
-.feed-updated,
-.spotify-updated,
-.whoop-updated {
+.feed-updated {
   font-family: var(--mono);
   font-size: 11px;
   color: var(--dim);
   margin: 12px 0 0;
 }
-.feed-updated a,
-.spotify-updated a,
-.whoop-updated a { color: var(--dim); text-decoration: underline; }
-
-/* Per-feed heading paragraphs (".{feed}-heading <strong>") */
-.spotify-heading,
-.trakt-heading,
-.plex-heading,
-.lb-heading,
-.gr-heading {
-  font-family: var(--mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--dim);
-  margin: 0 0 8px;
-}
-.spotify-heading strong,
-.trakt-heading strong,
-.plex-heading strong,
-.lb-heading strong,
-.gr-heading strong { color: var(--ink); font-weight: 600; }
-
-/* Per-feed lists */
-.spotify-list,
-.trakt-list,
-.plex-list,
-.lb-list,
-.gr-list,
-.gh-list {
-  list-style: none;
-  margin: 0 0 8px;
-  padding: 0;
-  font-size: 13px;
-  line-height: 1.55;
-}
-.spotify-list li,
-.trakt-list li,
-.plex-list li,
-.lb-list li,
-.gr-list li,
-.gh-list li {
-  margin-bottom: 5px;
-  padding-left: 14px;
-  position: relative;
-}
-.spotify-list li::before,
-.trakt-list li::before,
-.plex-list li::before,
-.lb-list li::before,
-.gr-list li::before,
-.gh-list li::before {
-  content: '›';
-  position: absolute;
-  left: 0;
-  color: var(--accent);
-}
-.spotify-list a,
-.trakt-list a,
-.plex-list a,
-.lb-list a,
-.gr-list a,
-.gh-list a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--rule); }
-.spotify-list a:hover,
-.trakt-list a:hover,
-.plex-list a:hover,
-.lb-list a:hover,
-.gr-list a:hover,
-.gh-list a:hover { color: var(--accent); }
-
-/* "When" / timestamp spans */
-.spotify-when,
-.trakt-when,
-.plex-when,
-.lb-when,
-.gh-when {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--dim);
-}
-
-/* Spotify-specific extras */
-.spotify-podcast {
-  font-size: 13px;
-  margin: 0 0 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px dashed var(--rule);
-  line-height: 1.5;
-}
-.spotify-podcast strong { color: var(--ink); font-weight: 600; }
-
-/* WHOOP color indicators */
-.whoop-green { color: #2f7d3a; font-weight: 600; }
-.whoop-yellow { color: #b27a18; font-weight: 600; }
-.whoop-red { color: #b53024; font-weight: 600; }
-.whoop-muted { color: var(--dim); }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .whoop-green { color: #7cb88a; }
-  :root:not([data-theme="light"]) .whoop-yellow { color: #e0c040; }
-  :root:not([data-theme="light"]) .whoop-red { color: #d97766; }
-}
-:root[data-theme="dark"] .whoop-green { color: #7cb88a; }
-:root[data-theme="dark"] .whoop-yellow { color: #e0c040; }
-:root[data-theme="dark"] .whoop-red { color: #d97766; }
-
-/* MLB / FBST single-line paragraphs */
-.mlb-line,
-.fbst-line {
-  font-size: 13px;
-  margin: 0 0 6px;
-  line-height: 1.55;
-}
-.fbst-note {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--dim);
-  margin: 4px 0 0;
-}
-
-/* Letterboxd / Goodreads ratings + Goodreads author */
-.lb-rating,
-.gr-rating {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--accent);
-  letter-spacing: 0.05em;
-  margin-left: 4px;
-}
-.gr-author {
-  font-style: italic;
-  color: var(--dim);
-}
-
-/* GitHub event summaries */
-.gh-summary {
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--ink);
-}
-
-/* Per-project shipping line on /now (update-projects.py) */
-.shipping-recent {
-  font-family: var(--mono);
-  font-size: 11.5px;
-  color: var(--dim);
-  margin: 8px 0 4px;
-  line-height: 1.5;
-}
-.shipping-recent a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--rule); }
-.shipping-recent a:hover { color: var(--accent); }
+.feed-updated a { color: var(--dim); text-decoration: underline; }
 
 /* ─── Case study ───────────────────────────────────────────────────── */
 .nb-case {

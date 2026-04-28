@@ -136,10 +136,14 @@ def fetch_current_podcast(token):
 
 
 def build_html(tracks, podcast):
-    """Return the HTML block between the WHOOP-style markers."""
+    """Return the HTML block between SPOTIFY-START/END markers.
+
+    Emits notebook-design markup: relies on .nb-feed (parent) for list and
+    .when styling, adds .nb-feed-podcast for the dashed-bottom podcast line,
+    and .feed-updated for the trailing timestamp (matches WHOOP's pattern).
+    """
     parts = []
 
-    # Podcast line (if fresh)
     if podcast:
         show = podcast.get("show") or ""
         episode = podcast.get("episode") or ""
@@ -148,12 +152,10 @@ def build_html(tracks, podcast):
         label_html = f'<em>{escape_html(show)}</em> &mdash; &ldquo;{escape_html(episode)}&rdquo;'
         if url:
             label_html = f'<a href="{escape_html(url)}" rel="noopener" target="_blank">{label_html}</a>'
-        parts.append(f'        <p class="spotify-podcast"><strong>Last podcast:</strong> {label_html} &middot; heard {captured}</p>')
+        parts.append(f'        <div class="nb-feed-podcast"><strong>Last podcast:</strong> {label_html} &middot; heard {captured}</div>')
 
-    # Tracks list
     if tracks:
-        parts.append('        <p class="spotify-heading"><strong>Recently on Spotify</strong></p>')
-        parts.append('        <ul class="spotify-list">')
+        parts.append('        <ul>')
         for t in tracks:
             name = escape_html(t["name"])
             artists = escape_html(t["artists"])
@@ -161,14 +163,14 @@ def build_html(tracks, podcast):
             title_html = f'&ldquo;{name}&rdquo; &mdash; {artists}'
             if t.get("url"):
                 title_html = f'<a href="{escape_html(t["url"])}" rel="noopener" target="_blank">{title_html}</a>'
-            parts.append(f'          <li>{title_html} <span class="spotify-when">&middot; {played}</span></li>')
+            parts.append(f'          <li>{title_html} <span class="when">&middot; {played}</span></li>')
         parts.append('        </ul>')
 
-    if not parts:
-        parts.append('        <p class="spotify-empty">Nothing recent &mdash; the Action runs every few hours.</p>')
+    if not podcast and not tracks:
+        parts.append('        <p class="feed-empty">Nothing recent &mdash; the Action runs every few hours.</p>')
 
     now = format_update_time()
-    parts.append(f'        <p class="spotify-updated">Auto-updated {now} via <a href="https://developer.spotify.com/documentation/web-api">Spotify Web API</a>.</p>')
+    parts.append(f'        <p class="feed-updated">Auto-updated {now} via <a href="https://developer.spotify.com/documentation/web-api">Spotify Web API</a>.</p>')
 
     return "\n".join(parts)
 

@@ -27,8 +27,8 @@ class TestSpotifyBuildHtml:
         assert "Brick House" in html
         assert "Commodores" in html
         assert "Sweet Thing" in html
-        assert "spotify-list" in html
-        assert "spotify-podcast" not in html
+        assert "<ul>" in html
+        assert "nb-feed-podcast" not in html
 
     def test_podcast_and_tracks(self):
         tracks = [{"name": "Song", "artists": "Artist", "played_at": None, "url": ""}]
@@ -41,19 +41,19 @@ class TestSpotifyBuildHtml:
         html = build_html(tracks, podcast)
         assert "Baseball Tonight" in html
         assert "Big Episode" in html
-        assert "spotify-podcast" in html
-        assert "spotify-list" in html
+        assert "nb-feed-podcast" in html
+        assert "<ul>" in html
 
     def test_podcast_only_no_tracks(self):
         podcast = {"show": "Show", "episode": "Ep", "url": "", "captured_at": None}
         html = build_html([], podcast)
-        assert "spotify-podcast" in html
-        assert "spotify-list" not in html
+        assert "nb-feed-podcast" in html
+        assert "<ul>" not in html
 
     def test_empty_returns_fallback(self):
         html = build_html([], None)
         assert "Nothing recent" in html
-        assert "spotify-empty" in html
+        assert "feed-empty" in html
 
     def test_html_escapes_track_names(self):
         tracks = [{"name": "Rock & Roll", "artists": "Led <Zep>", "played_at": None, "url": ""}]

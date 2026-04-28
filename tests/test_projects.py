@@ -122,3 +122,47 @@ class TestParseEventsPullRequest:
         entries = result["thirstypig/demo"]
         assert len(entries) == 1
         assert entries[0]["url"] == "https://github.com/thirstypig/demo/commit/abc123"
+
+
+class TestRenderShippingList:
+    """Notebook-design markup contract for the shipping line."""
+
+    def _event(self):
+        from datetime import datetime, timezone
+        return {
+            "summary": "feat: ship a thing",
+            "url": "https://github.com/thirstypig/demo/commit/abc",
+            "time": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        }
+
+    def test_emits_nb_card_shipped(self):
+        html = _projects.render_shipping_list([self._event()])
+        assert 'class="nb-card-shipped"' in html
+        assert '<span class="accent">' in html
+        assert "shipped:" in html
+
+    def test_drops_legacy_classes(self):
+        html = _projects.render_shipping_list([self._event()])
+        assert "shipping-recent" not in html
+        assert "gh-when" not in html
+        # Legacy "Recently shipped" copy is replaced by the accent arrow label
+        assert "Recently shipped" not in html
+
+    def test_uses_bare_time_element(self):
+        """data-rel attr drives live-relative upgrade — no class needed."""
+        html = _projects.render_shipping_list([self._event()])
+        assert "<time" in html and "data-rel" in html
+
+    def test_empty_events_returns_empty_string(self):
+        assert _projects.render_shipping_list([]) == ""
+
+
+class TestRenderBlock:
+    def test_tldr_uses_nb_card_body(self):
+        html = _projects.render_block("hello world", "", "Apr 27, 2026")
+        assert '<p class="nb-card-body">hello world</p>' in html
+
+    def test_keeps_feed_updated_footer(self):
+        html = _projects.render_block("x", "", "Apr 27, 2026")
+        assert 'class="feed-updated"' in html
+        assert "Apr 27, 2026" in html

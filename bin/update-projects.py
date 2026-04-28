@@ -172,7 +172,13 @@ def events_for_project(project, events_by_repo):
 
 
 def render_shipping_list(events):
-    """Render the Recently-shipped <p> line, or empty string if no events."""
+    """Render the notebook-design shipped line, or empty string if no events.
+
+    Emits <p class="nb-card-shipped"> with an accent "↑ shipped:" label, the
+    event link, and a bare <time data-rel> element (data-rel drives the live-
+    relative upgrade in script.js — no class needed). Matches the static
+    placeholder format in now/index.html.
+    """
     if not events:
         return ""
     items = []
@@ -180,19 +186,26 @@ def render_shipping_list(events):
         summary = escape_html(ev["summary"])[:90]
         url = escape_html(ev["url"] or "#")
         when = relative_time_html(ev["time"])
-        items.append(f'<a href="{url}" rel="noopener" target="_blank">{summary}</a> <span class="gh-when">&middot; {when}</span>')
+        items.append(f'<a href="{url}" rel="noopener" target="_blank">{summary}</a> &middot; {when}')
     return (
-        '          <p class="shipping-recent"><strong>Recently shipped:</strong> '
+        '          <p class="nb-card-shipped"><span class="accent">&uarr; shipped:</span> '
         + ' &middot; '.join(items)
         + '</p>\n'
     )
 
 
 def render_block(tldr_html, shipping_html, now_str):
-    """Assemble the full replacement HTML for a project's TLDR marker block."""
+    """Assemble the full replacement HTML for a project's TLDR marker block.
+
+    Sits inside an <article class="nb-card"> — emits .nb-card-body for the
+    TLDR copy and .nb-card-shipped (via render_shipping_list) for the shipping
+    line, matching the rest of the notebook design system. The trailing
+    .feed-updated line keeps the generic "auto-updated" footer convention
+    used by every cron-managed feed.
+    """
     return (
         f"\n"
-        f"          <p>{tldr_html}</p>\n"
+        f'          <p class="nb-card-body">{tldr_html}</p>\n'
         f"{shipping_html}"
         f'          <p class="feed-updated">Auto-updated {now_str} via CLAUDE.md + GitHub events.</p>\n'
         f"        "

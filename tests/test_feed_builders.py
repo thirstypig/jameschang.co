@@ -3,63 +3,13 @@
 import importlib
 import os
 import sys
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from unittest.mock import patch
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "bin"))
 
 _public = importlib.import_module("update-public-feeds")
 _plex = importlib.import_module("update-plex")
-
-
-# ── github_block ─────────────────────────────────────────────────
-
-class TestGithubBlock:
-    def _make_event(self, etype, repo, minutes_ago, **kwargs):
-        t = (datetime.now(timezone.utc) - timedelta(minutes=minutes_ago)).isoformat()
-        ev = {
-            "type": etype,
-            "created_at": t,
-            "repo": {"name": f"thirstypig/{repo}"},
-            "payload": kwargs.get("payload", {}),
-        }
-        return ev
-
-    def test_renders_push_events(self, monkeypatch):
-        events = [
-            self._make_event("PushEvent", "jameschang.co", 10,
-                             payload={"head": "abc123", "ref": "refs/heads/main"}),
-        ]
-        commit_detail = {"commit": {"message": "fix: test commit message"}}
-
-        def mock_fetch(url, **kw):
-            if "events" in url:
-                return events
-            return commit_detail  # individual commit fetch
-
-        monkeypatch.setattr(_public, "fetch_json", mock_fetch)
-        monkeypatch.setattr(_public, "GITHUB_TOKEN", "")
-        html = _public.github_block()
-        assert html is not None
-        assert "gh-list" in html
-        assert "jameschang.co" in html
-        assert "test commit message" in html
-
-    def test_returns_none_on_fetch_error(self, monkeypatch):
-        from urllib.error import URLError
-        monkeypatch.setattr(_public, "fetch_json",
-                            lambda url, **kw: (_ for _ in ()).throw(URLError("fail")))
-        monkeypatch.setattr(_public, "GITHUB_TOKEN", "")
-        assert _public.github_block() is None
-
-    def test_ignores_events_older_than_7_days(self, monkeypatch):
-        events = [
-            self._make_event("PushEvent", "old-repo", 60 * 24 * 8,
-                             payload={"head": "abc", "ref": "refs/heads/main"}),
-        ]
-        monkeypatch.setattr(_public, "fetch_json", lambda url, **kw: events)
-        monkeypatch.setattr(_public, "GITHUB_TOKEN", "")
-        assert _public.github_block() is None
 
 
 # ── mlb_block ────────────────────────────────────────────────────
@@ -112,7 +62,9 @@ class TestLetterboxdBlock:
         assert html is not None
         assert "Roofman" in html
         assert "The Martian" in html
-        assert "lb-list" in html
+        assert "<ul>" in html
+        assert "<li>" in html
+        # Letterboxd RSS bakes the rating into the title text, so stars survive
         assert "★★★★" in html or "&#9733;" in html or "★" in html
 
     def test_returns_none_on_fetch_error(self, monkeypatch):
@@ -231,7 +183,12 @@ class TestPlexBuildHtml:
         assert "(2003)" in html
         assert "Lincoln Lawyer" in html
         assert "S04E02" in html
-        assert "plex-list" in html
+        # Notebook-design markup: bare <ul>, no feed-named classes
+        assert "plex-list" not in html
+        assert "plex-heading" not in html
+        assert "plex-when" not in html
+        assert "<ul" in html
+        assert 'class="when"' in html
 
     def test_empty_returns_fallback(self):
         html = _plex.build_html([])
