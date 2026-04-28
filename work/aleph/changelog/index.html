@@ -11,7 +11,9 @@
   <meta name="description" content="Aleph release history: 12 releases in 14 days documenting the FSVP Pro → Aleph rebrand and the build-out from single-module to multi-cohort platform.">
   <link rel="canonical" href="https://jameschang.co/work/aleph/changelog/">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/styles.css">
+    <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/space-grotesk-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/geist-mono-latin.woff2" crossorigin>
+  <link rel="stylesheet" href="/notebook.css">
   <link rel="stylesheet" href="/work/work.css">
   <script type="application/ld+json">
   {
@@ -40,19 +42,20 @@
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
-  <header class="site-header">
-    <div class="site-header-inner">
-    <a href="/" class="site-brand">James Chang</a>
-      <nav aria-label="Primary">
-      <a href="/#about">About</a>
-      <a href="/#experience">Experience</a>
-      <a href="/#work" aria-current="page">Projects</a>
-      <a href="/now/">Now</a>
+  <header class="nb-nav">
+    <div class="nb-nav-inner">
+      <a href="/" class="nb-brand">james<span class="dot">.</span>chang</a>
+      <span class="nb-nav-spacer"></span>
+      <a href="/#about" class="nb-link">[about]</a>
+      <a href="/#experience" class="nb-link">[experience]</a>
+      <a href="/work/" class="nb-link" aria-current="page">[work]</a>
+      <a href="/now/" class="nb-link">[now]</a>
+      <span class="nb-divider"></span>
+      <a href="/resume.pdf" class="nb-resume">résumé.pdf ↓</a>
       <button class="theme-toggle" type="button" aria-label="Toggle light / dark theme" aria-pressed="false">
         <span class="icon-moon" aria-hidden="true">☾</span>
         <span class="icon-sun" aria-hidden="true">☀</span>
       </button>
-    </nav>
     </div>
   </header>
 
@@ -337,12 +340,9 @@
     </div>
   </main>
 
-  <footer class="site-footer">
-    <p class="footer-meta">
-      <a href="/">&larr; Back to James Chang</a>
-      <span class="sep">&middot;</span>
-      <a href="https://alephco.io">Visit the live site</a>
-    </p>
+  <footer class="nb-footer">
+    <span>// © 2026 james chang</span>
+    <span>// built with claude code · <a href="https://github.com/thirstypig/jameschang.co">source on github</a></span>
   </footer>
   <script src="/script.js" defer></script>
 </body>
