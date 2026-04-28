@@ -305,6 +305,22 @@ class TestFeedMarkers:
                 failures.append(f"Missing <!-- {marker}-END -->")
         assert not failures, f"Feed marker issues:\n" + "\n".join(failures)
 
+    def test_notebook_preview_marker_parity(self):
+        # Cut-over invariant: when /notebook/now/ is renamed to /now/, the
+        # cron sync scripts (update-projects.py, update-spotify.py, etc.)
+        # must find every marker they currently write to. Drift between
+        # the preview and live marker sets silently loses cron syncs after
+        # cut-over — the script no-ops on missing markers.
+        _, live = fetch("now/index.html")
+        _, preview = fetch("notebook/now/index.html")
+        live_markers = set(re.findall(r"<!-- ([A-Z0-9-]+(?:-[a-z0-9-]+)?)-START -->", live))
+        preview_markers = set(re.findall(r"<!-- ([A-Z0-9-]+(?:-[a-z0-9-]+)?)-START -->", preview))
+        missing = live_markers - preview_markers
+        assert not missing, (
+            f"notebook/now/ is missing markers present in live /now/: {sorted(missing)}. "
+            "Cron sync would no-op on these sections after cut-over."
+        )
+
 
 # ── Tests: OpenSSL parity ────────────────────────────────────────
 
