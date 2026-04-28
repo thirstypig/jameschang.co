@@ -938,3 +938,266 @@ a:hover { text-decoration: underline; }
   .nb-hero { padding-top: 32px; }
   .nb-section { padding: 28px 0; }
 }
+
+/* ─── Print (résumé.pdf) ───────────────────────────────────────────────
+   Suppress notebook ornamentation, force ATS-friendly system fonts, and
+   reorder sections to match the live résumé layout. Graph paper, hard
+   shadows, section numbers (/01...), the terminal block, and theme/nav
+   chrome are all design language for screen — none of it belongs in a
+   printed CV. Sections are reordered with flex `order` so Experience
+   appears before Work; case studies and testimonials are hidden entirely
+   (ATS parsers struggle with prose-heavy blocks). */
+@media print {
+  @page { size: letter; margin: 0.5in; }
+
+  :root,
+  [data-theme="dark"] {
+    --bg: #fff;
+    --surface: #fff;
+    --surface-2: #fff;
+    --ink: #000;
+    --dim: #333;
+    --rule: #ccc;
+    --accent: #000;
+    --accent-ink: #fff;
+    --tag: #fff;
+    --grid: transparent;
+    --pos: #000;
+  }
+
+  /* System fonts — Geist Mono / Space Grotesk WOFF2 don't embed reliably
+     in print PDFs. Match live print stack for ATS parity. */
+  body {
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    font-size: 10pt;
+    line-height: 1.4;
+    background: #fff;
+    color: #000;
+    background-image: none;
+  }
+
+  /* Hide screen-only chrome and notebook ornamentation */
+  .nb-nav,
+  .nb-terminal,
+  .nb-hero-meta,
+  .skip-link,
+  .theme-toggle,
+  .nb-section-num,
+  .nb-section-rule,
+  .nb-card-status,
+  .nb-card-tag,
+  .nb-headshot,
+  .nb-note { display: none !important; }
+
+  .no-print { display: none !important; }
+  .print-only { display: inline; }
+
+  /* Strip the hard-shadow card aesthetic and graph-paper grid */
+  .nb-card,
+  .nb-exp-row,
+  .nb-cal-card,
+  .nb-target,
+  .nb-degree,
+  .nb-membership,
+  .nb-quote,
+  .nb-certs,
+  .nb-skill-row,
+  .nb-card.dashed {
+    box-shadow: none !important;
+    border: none !important;
+    background: #fff !important;
+    padding: 0 !important;
+  }
+
+  /* Force ATS-friendly serif/sans for all notebook labels that use --mono
+     on screen (dates, skill categories, role tags, certifications heading).
+     Geist Mono / typewriter aesthetic doesn't parse well in ATS pipelines. */
+  .nb-exp-row .yr,
+  .nb-skill-row dt,
+  .nb-certs h3,
+  .nb-membership-role,
+  .nb-membership-meta,
+  .nb-footer,
+  .nb-footer-contact .links {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  .nb-membership-head strong,
+  .nb-card-name,
+  .nb-case-title {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  /* The "8 products live · all AI-assisted..." section eyebrow is
+     redundant in print — section heading already conveys the content. */
+  .nb-section-eyebrow { display: none; }
+
+  /* Collapse the about grid to single column when the headshot is hidden */
+  .nb-about {
+    display: block;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .nb-main { max-width: 100%; padding: 0; }
+
+  /* Section spacing + page-break safety */
+  .nb-section {
+    padding: 0.4rem 0;
+    border-bottom: none;
+    break-inside: avoid;
+  }
+  .nb-section, article { page-break-inside: avoid; }
+  h2, h3 { page-break-after: avoid; }
+
+  /* Hero — strip the terminal/meta but keep tagline + lede */
+  .nb-hero {
+    padding: 0 0 0.5rem;
+    border-bottom: 1px solid #000;
+    margin-bottom: 0.5rem;
+  }
+  .nb-hero h1 {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16pt;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    color: #000;
+    margin: 0 0 0.25rem;
+  }
+  .nb-hero h1 .accent { color: #000; }
+  .nb-hero-sub {
+    font-size: 10.5pt;
+    color: #000;
+    margin: 0 0 0.5rem;
+    max-width: 100%;
+  }
+
+  /* Section headings — borrow live print pattern (sans, underlined) */
+  .nb-section-head { display: block; margin-bottom: 0.25rem; }
+  .nb-section-title {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #000;
+    border-bottom: 0.5pt solid #000;
+    padding-bottom: 2pt;
+    margin: 0.5rem 0 0.35rem;
+  }
+
+  /* Reorder for résumé scanning: Hero → About → Experience → Education
+     → Skills → Projects → Memberships. Mirror live print order. */
+  .nb-main { display: flex; flex-direction: column; }
+  .nb-hero       { order: 0; }
+  #about         { order: 1; }
+  #experience    { order: 2; }
+  #education     { order: 3; }
+  #skills        { order: 4; }
+  #work          { order: 5; }
+  #memberships   { order: 6; }
+  #contact       { order: 7; }
+  .nb-footer     { order: 8; }
+  #case-studies  { display: none !important; }
+  #testimonials  { display: none !important; }
+
+  /* Experience rows — keep year/co/role/bullets, drop visual flourishes */
+  .nb-grid-1, .nb-grid-2, .nb-grid-3, .nb-grid-4 {
+    display: block;
+  }
+  .nb-exp-row { margin-bottom: 0.5rem; }
+  .nb-exp-row .yr {
+    font-size: 9pt;
+    color: #333;
+    margin-bottom: 0.1rem;
+  }
+  .nb-exp-row .co {
+    font-size: 10.5pt;
+    font-weight: 600;
+    color: #000;
+    display: inline;
+  }
+  .nb-exp-row .co a { color: #000; text-decoration: none; }
+  .nb-exp-row .role {
+    font-size: 9.5pt;
+    color: #333;
+    display: block;
+    margin-bottom: 0.15rem;
+  }
+  .nb-exp-row ul { margin: 0.15rem 0 0; padding-left: 1.1rem; }
+  .nb-exp-row ul li {
+    font-size: 9.5pt;
+    line-height: 1.35;
+    margin-bottom: 0.15rem;
+    padding-left: 0;
+  }
+  .nb-exp-row ul li::before { content: none; }
+  .nb-exp-row ul li a { color: #000; text-decoration: underline; }
+
+  /* Project cards — collapse to single column, strip card chrome */
+  .nb-card.compact { padding: 0.2rem 0 !important; }
+  .nb-card-name {
+    font-size: 10.5pt;
+    font-weight: 600;
+    margin-bottom: 0.1rem;
+    color: #000;
+  }
+  .nb-card-url { display: none; }
+  .nb-card-body { font-size: 9.5pt; line-height: 1.35; color: #000; }
+  .nb-card-meta { display: none; }
+  .nb-section-eyebrow { font-size: 9pt; color: #333; margin-bottom: 0.25rem; }
+
+  /* Education + certifications — single column, expand the collapsed list */
+  .nb-degree { margin-bottom: 0.4rem; }
+  .nb-certs h3 {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #000;
+    margin: 0.25rem 0 0.15rem;
+    border: none;
+  }
+  .nb-certs ul { font-size: 9pt; padding-left: 1rem; margin: 0; }
+  .nb-certs ul li { padding-left: 0; margin-bottom: 0.15rem; }
+  .nb-certs ul li::before { content: none; }
+  .nb-certs details, .nb-certs details[open] { display: block; }
+  .nb-certs details > summary { display: none; }
+  .nb-certs details > *:not(summary) { display: revert; }
+
+  /* Skills — flatten dl rows to inline label: value lines */
+  .nb-skills { display: block; }
+  .nb-skill-row {
+    display: block !important;
+    padding: 0.15rem 0;
+    font-size: 9.5pt;
+    border-bottom: 0.25pt solid #ccc;
+  }
+  .nb-skill-row dt { display: inline; font-weight: 600; }
+  .nb-skill-row dt::after { content: ": "; }
+  .nb-skill-row dd { display: inline; margin: 0; }
+
+  /* Memberships */
+  .nb-membership { margin-bottom: 0.35rem; }
+  .nb-membership-head { display: block; }
+  .nb-membership-role { font-size: 9.5pt; color: #333; }
+  .nb-membership-meta { font-size: 9pt; color: #333; }
+
+  /* Footer / contact — expand external URLs after links */
+  .nb-footer-contact, .nb-footer {
+    border-top: 0.5pt solid #000;
+    padding: 0.4rem 0 0;
+    margin-top: 0.4rem;
+  }
+  .nb-footer-contact .name { font-size: 10pt; font-weight: 600; }
+  .nb-footer-contact .links { font-size: 9pt; gap: 8px; }
+  .nb-footer a, .nb-footer-contact .links a { color: #000; text-decoration: none; }
+  .nb-footer a[href^="http"]::after,
+  .nb-footer-contact .links a[href^="http"]::after,
+  .nb-footer-contact .links a[href^="mailto:"]::after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    color: #555;
+  }
+  .nb-footer-contact .links a[href^="mailto:"]::after { content: " (" attr(href) ")"; }
+
+  a { color: #000; text-decoration: none; }
+}

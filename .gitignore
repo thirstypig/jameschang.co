@@ -21,6 +21,7 @@ assets/x_DSC3049.jpg
 
 # Screenshots (temporary)
 assets/Screenshot *.png
+assets/screenshots/
 
 # Dashboard source PNGs (processed versions tracked under assets/work/)
 assets/TFL.Admindashboard.png
@@ -32,3 +33,7 @@ __pycache__/
 
 # Test cache
 .pytest_cache/
+.coverage
+
+# Claude Code scheduled tasks runtime lock
+.claude/scheduled_tasks.lock
