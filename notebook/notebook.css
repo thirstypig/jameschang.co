@@ -1,0 +1,655 @@
+/* notebook.css — preview design system for /notebook/ (port of Claude Design's
+   notebook direction to plain HTML/CSS, no React). Self-contained: does NOT
+   reuse styles.css. Theme toggle via script.js sets [data-theme] on <html>. */
+
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('/assets/fonts/geist-mono-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('/assets/fonts/space-grotesk-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  --bg: #f4efe0;
+  --surface: #fbf7ea;
+  --surface-2: #efe8d2;
+  --ink: #1d1a12;
+  --dim: #6a6352;
+  --rule: #d5ccb0;
+  --accent: #2f5d3a;
+  --accent-ink: #fbf7ea;
+  --tag: #e5dcc2;
+  --grid: rgba(45, 38, 20, 0.045);
+  --pos: #2f5d3a;
+  --warn: #a35d2a;
+  --danger: #8a2f2a;
+
+  --mono: 'Geist Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+
+  --measure: 1100px;
+  --grid-size: 24px;
+  --shadow-offset: 3px;
+  --border-w: 1.5px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #0e1814;
+    --surface: #141f1a;
+    --surface-2: #1a2620;
+    --ink: #ecead8;
+    --dim: #8a8a76;
+    --rule: #233029;
+    --accent: #d88a54;
+    --accent-ink: #0e1814;
+    --tag: #1a2620;
+    --grid: rgba(255, 240, 200, 0.03);
+    --pos: #7cb88a;
+    --warn: #d88a54;
+    --danger: #d97766;
+  }
+}
+
+[data-theme='dark'] {
+  --bg: #0e1814;
+  --surface: #141f1a;
+  --surface-2: #1a2620;
+  --ink: #ecead8;
+  --dim: #8a8a76;
+  --rule: #233029;
+  --accent: #d88a54;
+  --accent-ink: #0e1814;
+  --tag: #1a2620;
+  --grid: rgba(255, 240, 200, 0.03);
+  --pos: #7cb88a;
+  --warn: #d88a54;
+  --danger: #d97766;
+}
+
+[data-theme='light'] {
+  --bg: #f4efe0;
+  --surface: #fbf7ea;
+  --surface-2: #efe8d2;
+  --ink: #1d1a12;
+  --dim: #6a6352;
+  --rule: #d5ccb0;
+  --accent: #2f5d3a;
+  --accent-ink: #fbf7ea;
+  --tag: #e5dcc2;
+  --grid: rgba(45, 38, 20, 0.045);
+  --pos: #2f5d3a;
+  --warn: #a35d2a;
+  --danger: #8a2f2a;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: var(--grid-size) var(--grid-size);
+  min-height: 100vh;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  padding: 8px 12px;
+  background: var(--ink);
+  color: var(--bg);
+  font-family: var(--mono);
+  z-index: 100;
+}
+.skip-link:focus { left: 0; }
+
+/* ─── Nav ──────────────────────────────────────────────────────────── */
+.nb-nav {
+  border-bottom: var(--border-w) solid var(--ink);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.nb-nav-inner {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 14px 56px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: nowrap;
+}
+.nb-brand {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.6px;
+  color: var(--ink);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.nb-brand .dot { color: var(--accent); }
+.nb-nav-spacer { flex: 1; }
+.nb-link {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--dim);
+  padding: 4px 8px;
+  border: var(--border-w) solid transparent;
+  white-space: nowrap;
+}
+.nb-link:hover { color: var(--ink); text-decoration: none; }
+.nb-link[aria-current='page'] {
+  color: var(--ink);
+  background: var(--tag);
+  border-color: var(--ink);
+}
+.nb-divider {
+  width: 1px;
+  height: 14px;
+  background: var(--rule);
+  flex-shrink: 0;
+}
+.nb-resume {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--dim);
+  white-space: nowrap;
+}
+.nb-resume:hover { color: var(--ink); text-decoration: none; }
+.theme-toggle {
+  background: transparent;
+  border: var(--border-w) solid var(--rule);
+  color: var(--dim);
+  font-family: var(--mono);
+  font-size: 14px;
+  padding: 4px 8px;
+  cursor: pointer;
+  line-height: 1;
+}
+.theme-toggle:hover { color: var(--ink); border-color: var(--ink); }
+.icon-sun, .icon-moon { display: inline-block; }
+.icon-sun { display: none; }
+[data-theme='dark'] .icon-sun { display: inline-block; }
+[data-theme='dark'] .icon-moon { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .icon-sun { display: inline-block; }
+  :root:not([data-theme='light']) .icon-moon { display: none; }
+}
+
+/* ─── Layout ───────────────────────────────────────────────────────── */
+.nb-main {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 56px;
+}
+
+/* ─── Crumbs ───────────────────────────────────────────────────────── */
+.nb-crumbs {
+  padding: 20px 0 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--dim);
+}
+.nb-crumbs a { color: var(--dim); }
+.nb-crumbs a:hover { color: var(--ink); text-decoration: none; }
+.nb-crumbs .sep { margin: 0 8px; color: var(--rule); }
+.nb-crumbs .here { color: var(--ink); }
+
+/* ─── Hero ─────────────────────────────────────────────────────────── */
+.nb-hero {
+  padding: 56px 0 40px;
+}
+.nb-hero-meta {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--dim);
+  margin-bottom: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.nb-hero-meta .accent { color: var(--accent); }
+.nb-hero h1 {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(48px, 8vw, 92px);
+  line-height: 0.95;
+  margin: 0 0 32px;
+  letter-spacing: -3px;
+  color: var(--ink);
+}
+.nb-hero h1 .accent { color: var(--accent); }
+.nb-hero-sub {
+  font-family: var(--display);
+  font-size: 18px;
+  max-width: 680px;
+  margin: 0 0 28px;
+  color: var(--ink);
+}
+
+/* /now hero variant — smaller h1 */
+.nb-hero.now h1 {
+  font-size: clamp(40px, 6vw, 64px);
+  line-height: 1;
+  letter-spacing: -2px;
+  margin-bottom: 18px;
+}
+.nb-hero.now .nb-hero-sub {
+  font-size: 16px;
+  color: var(--dim);
+}
+
+/* ─── Terminal block ───────────────────────────────────────────────── */
+.nb-terminal {
+  background: var(--surface);
+  border: var(--border-w) solid var(--ink);
+  padding: 20px;
+  font-family: var(--mono);
+  font-size: 13px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 20px;
+  max-width: 680px;
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--ink);
+  margin: 0 0 32px;
+}
+.nb-terminal .prompt { color: var(--dim); }
+.nb-terminal .accent { color: var(--accent); }
+.nb-terminal a { color: var(--accent); }
+
+/* ─── Section header (numbered + dashed rule) ──────────────────────── */
+.nb-section {
+  padding: 40px 0;
+}
+.nb-section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+.nb-section-num {
+  font-family: var(--mono);
+  font-size: 14px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  padding: 4px 10px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.nb-section-title {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(28px, 4vw, 44px);
+  margin: 0;
+  letter-spacing: -1.5px;
+  color: var(--ink);
+}
+.nb-section-rule {
+  flex: 1;
+  border-bottom: var(--border-w) dashed var(--rule);
+  margin-bottom: 6px;
+  min-width: 20px;
+}
+.nb-section-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--dim);
+  margin: 0 0 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* ─── Card ─────────────────────────────────────────────────────────── */
+.nb-card {
+  border: var(--border-w) solid var(--ink);
+  background: var(--surface);
+  padding: 22px;
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--ink);
+}
+.nb-card.compact { padding: 18px; }
+.nb-card.dashed { border-style: dashed; }
+.nb-card-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.nb-card-name {
+  font-family: var(--display);
+  font-size: 26px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.7px;
+  color: var(--ink);
+}
+.nb-card.compact .nb-card-name { font-size: 20px; letter-spacing: -0.5px; }
+.nb-card-url {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+.nb-card-status {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--pos);
+}
+.nb-card-body {
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+  color: var(--ink);
+}
+.nb-card.compact .nb-card-body { font-size: 13px; line-height: 1.55; }
+.nb-card-shipped {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--rule);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--dim);
+}
+.nb-card-shipped .accent { color: var(--accent); }
+.nb-card-shipped a { color: var(--dim); }
+.nb-card-shipped a:hover { color: var(--ink); }
+
+.nb-card-meta {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--dim);
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--rule);
+}
+.nb-card-tag {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 2px 8px;
+  font-size: 10px;
+  font-family: var(--mono);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* ─── Card grids ───────────────────────────────────────────────────── */
+.nb-grid-1 { display: grid; gap: 14px; }
+.nb-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.nb-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.nb-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+
+@media (max-width: 820px) {
+  .nb-grid-2, .nb-grid-3, .nb-grid-4 { grid-template-columns: 1fr; }
+}
+@media (min-width: 821px) and (max-width: 1100px) {
+  .nb-grid-3, .nb-grid-4 { grid-template-columns: 1fr 1fr; }
+}
+
+/* ─── Experience row ───────────────────────────────────────────────── */
+.nb-exp-row {
+  border: var(--border-w) solid var(--ink);
+  background: var(--surface);
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 28px;
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--ink);
+}
+.nb-exp-row .yr {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 600;
+}
+.nb-exp-row .co {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 600;
+  margin-top: 4px;
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+  color: var(--ink);
+}
+.nb-exp-row .role {
+  color: var(--dim);
+  font-size: 12px;
+  margin-top: 2px;
+}
+.nb-exp-row ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  display: grid;
+  gap: 8px;
+  align-self: center;
+}
+.nb-exp-row ul li {
+  padding-left: 20px;
+  position: relative;
+  line-height: 1.5;
+}
+.nb-exp-row ul li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+.nb-exp-row ul li a { color: var(--accent); text-decoration: underline; }
+@media (max-width: 720px) {
+  .nb-exp-row { grid-template-columns: 1fr; gap: 14px; }
+}
+
+/* ─── Calendar card ────────────────────────────────────────────────── */
+.nb-cal-card {
+  border: var(--border-w) solid var(--ink);
+  background: var(--surface);
+  padding: 18px;
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--ink);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+}
+.nb-cal-date {
+  background: var(--accent);
+  color: var(--accent-ink);
+  padding: 10px 14px;
+  text-align: center;
+  font-family: var(--mono);
+  align-self: start;
+}
+.nb-cal-date .mo {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.nb-cal-date .day {
+  font-size: 22px;
+  font-weight: 700;
+}
+.nb-cal-tag {
+  font-size: 10px;
+  color: var(--dim);
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.nb-cal-what {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 600;
+  margin: 2px 0 0;
+  color: var(--ink);
+}
+.nb-cal-where {
+  font-size: 12px;
+  color: var(--dim);
+  margin-top: 4px;
+}
+.nb-cal-note {
+  font-size: 12px;
+  margin-top: 6px;
+  color: var(--ink);
+}
+
+/* ─── Targeting list (calendar inset) ──────────────────────────────── */
+.nb-target {
+  margin-top: 14px;
+  padding: 18px;
+  background: var(--surface);
+  border: var(--border-w) dashed var(--ink);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+.nb-target-eyebrow {
+  color: var(--dim);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.nb-target ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 24px;
+}
+.nb-target ul li::before { content: '→ '; color: var(--accent); }
+@media (max-width: 720px) { .nb-target ul { grid-template-columns: 1fr; } }
+
+/* ─── Feed card (lists inside) ─────────────────────────────────────── */
+.nb-feed {
+  border: var(--border-w) solid var(--ink);
+  background: var(--surface);
+  padding: 16px;
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--ink);
+}
+.nb-feed-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--rule);
+}
+.nb-feed-head strong {
+  font-family: var(--mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--ink);
+}
+.nb-feed-head .src {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--dim);
+}
+.nb-feed ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  display: grid;
+  gap: 4px;
+}
+.nb-feed ul li { line-height: 1.5; }
+.nb-feed .when { color: var(--dim); font-family: var(--mono); font-size: 11px; }
+.nb-feed .accent { color: var(--accent); }
+
+/* ─── Stat tiles (WHOOP) ───────────────────────────────────────────── */
+.nb-stat {
+  border: var(--border-w) solid var(--ink);
+  background: var(--surface);
+  padding: 16px;
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--ink);
+}
+.nb-stat .k {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.nb-stat .v {
+  font-family: var(--display);
+  font-size: 30px;
+  margin-top: 6px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: var(--ink);
+}
+.nb-stat .v.warn { color: var(--warn); }
+.nb-stat .v.pos { color: var(--pos); }
+.nb-stat .v.danger { color: var(--danger); }
+
+/* ─── Notebook footer ──────────────────────────────────────────────── */
+.nb-footer {
+  padding: 32px 0;
+  color: var(--dim);
+  font-size: 12px;
+  font-family: var(--mono);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  border-top: var(--border-w) solid var(--ink);
+  margin-top: 32px;
+}
+.nb-footer a { color: var(--dim); }
+.nb-footer a:hover { color: var(--ink); }
+
+/* ─── Note block (lede / outro) ────────────────────────────────────── */
+.nb-note {
+  padding: 20px 24px;
+  margin: 32px 0 0;
+  background: var(--surface-2);
+  border: var(--border-w) dashed var(--ink);
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--dim);
+}
+.nb-note a { color: var(--dim); text-decoration: underline; }
+.nb-note a:hover { color: var(--ink); }
+
+/* ─── Reduced motion ───────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+/* ─── Mobile padding ───────────────────────────────────────────────── */
+@media (max-width: 720px) {
+  .nb-nav-inner, .nb-main { padding-left: 24px; padding-right: 24px; }
+  .nb-hero { padding-top: 32px; }
+  .nb-section { padding: 28px 0; }
+}
