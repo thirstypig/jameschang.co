@@ -976,6 +976,14 @@ a:hover { text-decoration: underline; }
   color: var(--ink);
   margin: 0 0 6px;
 }
+.nb-footer-contact .looking-for {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--dim);
+  margin: 0 0 14px;
+  max-width: 720px;
+  line-height: 1.55;
+}
 .nb-footer-contact .links {
   font-family: var(--mono);
   font-size: 13px;
@@ -997,6 +1005,19 @@ a:hover { text-decoration: underline; }
   .nb-nav-inner, .nb-main { padding-left: 24px; padding-right: 24px; }
   .nb-hero { padding-top: 32px; }
   .nb-section { padding: 28px 0; }
+}
+
+/* ─── Mobile nav: collapse section links at narrow widths ──────────────
+   Below 600px the nav can't fit brand + 4 section links + résumé link +
+   theme toggle on one row (~660px of content). Hide the section links
+   and rely on the page anchor links inside the body for navigation;
+   keep brand, résumé, and theme toggle visible. */
+@media (max-width: 600px) {
+  .nb-nav-inner .nb-link,
+  .nb-nav-inner .nb-divider {
+    display: none;
+  }
+  .nb-nav-inner .nb-nav-spacer { flex: 1; }
 }
 
 /* ─── Print (résumé.pdf) ───────────────────────────────────────────────

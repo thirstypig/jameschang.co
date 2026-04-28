@@ -68,11 +68,39 @@ def fetch_file(repo, path, token):
 
 
 def extract_tldr(markdown):
-    """Return TLDR block content from markdown, or None if absent."""
+    """Return TLDR block content from markdown, or None if absent.
+
+    The TLDR block is embedded directly into the rendered HTML, so any
+    markdown emphasis (**bold**) and inline code (`code`) tokens are
+    converted to <strong> and <code> tags here. HTML entities in the
+    raw text are escaped first so that authoring something like
+    `<VenueChips>` in CLAUDE.md doesn't leak into the page as a real tag.
+    """
     if not markdown:
         return None
     m = TLDR_PATTERN.search(markdown)
-    return m.group(1).strip() if m else None
+    if not m:
+        return None
+    raw = m.group(1).strip()
+    return _render_markdown_inline(raw)
+
+
+_MD_BOLD_RE = re.compile(r"\*\*(.+?)\*\*", re.DOTALL)
+_MD_CODE_RE = re.compile(r"`([^`]+)`")
+
+
+def _render_markdown_inline(text):
+    """Convert basic inline markdown (**bold**, `code`) to HTML.
+
+    Escapes HTML entities first so author-written angle brackets in
+    CLAUDE.md TLDRs (e.g., a literal <VenueChips> reference) render
+    as text rather than breaking the page. Order matters: escape, then
+    apply the bold/code regexes against the escaped text.
+    """
+    out = escape_html(text)
+    out = _MD_BOLD_RE.sub(r"<strong>\1</strong>", out)
+    out = _MD_CODE_RE.sub(r"<code>\1</code>", out)
+    return out
 
 
 def fetch_github_events(token):

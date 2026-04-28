@@ -46,6 +46,26 @@ Line two.
         md = "<!-- now-tldr -->first<!-- /now-tldr -->\n<!-- now-tldr -->second<!-- /now-tldr -->"
         assert _projects.extract_tldr(md) == "first"
 
+    def test_renders_markdown_bold_to_strong(self):
+        md = "<!-- now-tldr -->**Just shipped:** the thing<!-- /now-tldr -->"
+        assert _projects.extract_tldr(md) == "<strong>Just shipped:</strong> the thing"
+
+    def test_renders_markdown_code_to_code_tag(self):
+        md = "<!-- now-tldr -->config at `bin/projects-config.json` updates daily<!-- /now-tldr -->"
+        assert _projects.extract_tldr(md) == "config at <code>bin/projects-config.json</code> updates daily"
+
+    def test_escapes_raw_html_in_tldr(self):
+        """A literal <VenueChips> reference in CLAUDE.md must not leak as a real tag."""
+        md = "<!-- now-tldr -->renders via <VenueChips> component<!-- /now-tldr -->"
+        out = _projects.extract_tldr(md)
+        assert "&lt;VenueChips&gt;" in out
+        assert "<VenueChips>" not in out
+
+    def test_handles_bold_spanning_multiple_words(self):
+        md = "<!-- now-tldr -->**Current focus: the design system rollout** is going<!-- /now-tldr -->"
+        out = _projects.extract_tldr(md)
+        assert out == "<strong>Current focus: the design system rollout</strong> is going"
+
 
 class TestLoadConfig:
     def test_loads_seven_projects(self):
