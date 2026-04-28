@@ -1021,15 +1021,31 @@ a:hover { text-decoration: underline; }
 .nb-dropdown {
   display: none;
   position: absolute;
-  top: calc(100% + 6px);
+  /* Sit flush with the trigger's bottom edge so there's no hover gap.
+     Visual breathing room comes from the panel's own top padding, not
+     from a positional offset — a positional gap (calc(100% + Npx)) breaks
+     the hover chain because the cursor leaves .nb-dropdown-wrap while
+     traversing it. */
+  top: 100%;
   left: 50%;
   transform: translateX(-50%);
   background: var(--surface);
   border: var(--border-w) solid var(--ink);
   box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--ink);
   min-width: 220px;
-  padding: 8px 0;
+  padding: 10px 0;
   z-index: 100;
+}
+/* Invisible bridge above the panel so a cursor coming off the trigger
+   never crosses unhovered space. The bridge sits inside .nb-dropdown
+   so :hover/:focus-within on .nb-dropdown-wrap stays continuous. */
+.nb-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 0;
+  right: 0;
+  height: 8px;
 }
 .nb-dropdown a {
   display: block;
