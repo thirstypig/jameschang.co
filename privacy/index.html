@@ -11,110 +11,131 @@
   <meta name="description" content="Privacy policy for jameschang.co — what data is collected, how WHOOP, Spotify, Trakt, and other integrations work, and how Google Analytics is used.">
   <link rel="canonical" href="https://jameschang.co/privacy/">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/space-grotesk-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/geist-mono-latin.woff2" crossorigin>
+  <link rel="stylesheet" href="/notebook.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-B3HW5VBDB3"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-B3HW5VBDB3')</script>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
-  <header class="site-header">
-    <div class="site-header-inner">
-      <a href="/" class="site-brand">James Chang</a>
-      <nav aria-label="Primary">
-        <a href="/#about">About</a>
-        <a href="/#experience">Experience</a>
-        <a href="/#work">Projects</a>
-        <a href="/now/">Now</a>
-        <button class="theme-toggle" type="button" aria-label="Toggle light / dark theme" aria-pressed="false">
-          <span class="icon-moon" aria-hidden="true">☾</span>
-          <span class="icon-sun" aria-hidden="true">☀</span>
-        </button>
-      </nav>
+
+  <header class="nb-nav">
+    <div class="nb-nav-inner">
+      <a href="/" class="nb-brand">james<span class="dot">.</span>chang</a>
+      <span class="nb-nav-spacer"></span>
+      <a href="/#about" class="nb-link">[about]</a>
+      <a href="/#experience" class="nb-link">[experience]</a>
+      <a href="/work/" class="nb-link">[work]</a>
+      <a href="/now/" class="nb-link">[now]</a>
+      <span class="nb-divider"></span>
+      <a href="/resume.pdf" class="nb-resume">résumé.pdf ↓</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle light / dark theme" aria-pressed="false">
+        <span class="icon-moon" aria-hidden="true">☾</span>
+        <span class="icon-sun" aria-hidden="true">☀</span>
+      </button>
     </div>
   </header>
 
-  <main id="main" style="max-width: 640px; margin: 0 auto; padding: 2rem 1.5rem 4rem;">
-    <h1>Privacy Policy</h1>
-    <p><em>Last updated: <time datetime="2026-04-20">April 20, 2026</time></em></p>
-
-    <h2>What this site collects</h2>
-    <p>
-      <strong>jameschang.co</strong> is a personal portfolio and r&eacute;sum&eacute; site.
-      It is a static HTML site hosted on GitHub Pages. It does not use cookies,
-      does not collect form submissions, and does not store any visitor data on
-      its own servers.
-    </p>
-    <p>
-      <strong>Google Analytics 4</strong> (measurement ID <code>G-B3HW5VBDB3</code>)
-      is used for anonymous traffic analytics (page views, referral sources,
-      device type). Google Analytics uses cookies to distinguish unique visitors.
-      IP addresses are anonymized by default in GA4. No personally identifiable
-      information is collected from visitors.
+  <main id="main" class="nb-main">
+    <p class="nb-crumbs">
+      <a href="/">james chang</a>
+      <span class="sep">/</span>
+      <span class="here">privacy</span>
     </p>
 
-    <h2>WHOOP integration</h2>
-    <p>
-      This site displays the site owner&rsquo;s own WHOOP health and recovery
-      data (recovery score, sleep, strain, HRV) on the
-      <a href="/now/">/now page</a>. This data is fetched from the
-      <a href="https://developer.whoop.com">WHOOP API</a> using the site
-      owner&rsquo;s own authorized account. No other user&rsquo;s WHOOP data
-      is accessed, stored, or displayed. The WHOOP API integration accesses
-      only the site owner&rsquo;s personal data and is used solely for
-      personal display purposes.
-    </p>
+    <section class="nb-hero">
+      <p class="nb-hero-meta">
+        <span>// last updated <time datetime="2026-04-20">april 20, 2026</time></span>
+      </p>
+      <h1>Privacy <span class="accent">policy</span>.</h1>
+      <p class="nb-hero-sub">
+        What jameschang.co collects, how the WHOOP / Spotify / Trakt integrations work, and how Google Analytics is used.
+      </p>
+    </section>
 
-    <h2>Spotify integration</h2>
-    <p>
-      This site displays the site owner&rsquo;s own recently-played tracks
-      and (when a podcast is actively playing) the currently-playing podcast
-      episode from Spotify on the <a href="/now/">/now page</a>. This data is
-      fetched from the <a href="https://developer.spotify.com">Spotify Web API</a>
-      using the site owner&rsquo;s own authorized account. No other
-      user&rsquo;s Spotify data is accessed, stored, or displayed. The
-      integration uses read-only scopes
-      (<code>user-read-recently-played</code>, <code>user-read-playback-state</code>)
-      and is used solely for personal display purposes.
-    </p>
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/01</span>
+        <h2 class="nb-section-title">what this site collects</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+      <div class="nb-prose">
+        <p><strong>jameschang.co</strong> is a personal portfolio and résumé site. It is a static HTML site hosted on GitHub Pages. It does not use cookies, does not collect form submissions, and does not store any visitor data on its own servers.</p>
+        <p><strong>Google Analytics 4</strong> (measurement ID <code>G-B3HW5VBDB3</code>) is used for anonymous traffic analytics (page views, referral sources, device type). Google Analytics uses cookies to distinguish unique visitors. IP addresses are anonymized by default in GA4. No personally identifiable information is collected from visitors.</p>
+      </div>
+    </section>
 
-    <h2>Public activity feeds</h2>
-    <p>
-      The <a href="/now/">/now page</a> also displays the site owner&rsquo;s own public
-      activity from six additional APIs:
-    </p>
-    <ul>
-      <li><a href="https://docs.github.com/en/rest/activity/events">GitHub public events</a> &mdash; recent commits, PRs, and releases across the owner&rsquo;s public repos</li>
-      <li><a href="https://statsapi.mlb.com">MLB Stats API</a> &mdash; Los Angeles Dodgers standings and schedule</li>
-      <li><a href="https://letterboxd.com/thirstypig/">Letterboxd RSS</a> &mdash; recent films the owner has logged</li>
-      <li><a href="https://trakt.tv">Trakt</a> &mdash; recent TV episodes the owner has watched</li>
-      <li><a href="https://www.goodreads.com/user/show/33966778">Goodreads RSS</a> &mdash; books the owner is currently reading or has recently read</li>
-      <li><a href="https://thefantasticleagues.com">The Fantastic Leagues</a> public standings API &mdash; the owner&rsquo;s fantasy baseball team rank in the OGBA League</li>
-    </ul>
-    <p>
-      All six sources expose only the site owner&rsquo;s own public data; no visitor
-      data is accessed, collected, or stored.
-    </p>
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/02</span>
+        <h2 class="nb-section-title">whoop integration</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+      <div class="nb-prose">
+        <p>This site displays the site owner's own WHOOP health and recovery data (recovery score, sleep, strain, HRV) on the <a href="/now/">/now page</a>. This data is fetched from the <a href="https://developer.whoop.com">WHOOP API</a> using the site owner's own authorized account. No other user's WHOOP data is accessed, stored, or displayed. The WHOOP API integration accesses only the site owner's personal data and is used solely for personal display purposes.</p>
+      </div>
+    </section>
 
-    <h2>Third-party links</h2>
-    <p>
-      This site links to external services (LinkedIn, GitHub, Calendly,
-      Amazon, Instagram, etc.). Those services have their own privacy
-      policies. This site does not control or collect data from those services.
-    </p>
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/03</span>
+        <h2 class="nb-section-title">spotify integration</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+      <div class="nb-prose">
+        <p>This site displays the site owner's own recently-played tracks and (when a podcast is actively playing) the currently-playing podcast episode from Spotify on the <a href="/now/">/now page</a>. This data is fetched from the <a href="https://developer.spotify.com">Spotify Web API</a> using the site owner's own authorized account. No other user's Spotify data is accessed, stored, or displayed. The integration uses read-only scopes (<code>user-read-recently-played</code>, <code>user-read-playback-state</code>) and is used solely for personal display purposes.</p>
+      </div>
+    </section>
 
-    <h2>Contact</h2>
-    <p>
-      Questions about this policy: <a href="mailto:jimmychang316@gmail.com">jimmychang316@gmail.com</a>.
-    </p>
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/04</span>
+        <h2 class="nb-section-title">public activity feeds</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+      <div class="nb-prose">
+        <p>The <a href="/now/">/now page</a> also displays the site owner's own public activity from six additional APIs:</p>
+        <ul>
+          <li><a href="https://docs.github.com/en/rest/activity/events">GitHub public events</a> — recent commits, PRs, and releases across the owner's public repos</li>
+          <li><a href="https://statsapi.mlb.com">MLB Stats API</a> — Los Angeles Dodgers standings and schedule</li>
+          <li><a href="https://letterboxd.com/thirstypig/">Letterboxd RSS</a> — recent films the owner has logged</li>
+          <li><a href="https://trakt.tv">Trakt</a> — recent TV episodes the owner has watched</li>
+          <li><a href="https://www.goodreads.com/user/show/33966778">Goodreads RSS</a> — books the owner is currently reading or has recently read</li>
+          <li><a href="https://thefantasticleagues.com">The Fantastic Leagues</a> public standings API — the owner's fantasy baseball team rank in the OGBA League</li>
+        </ul>
+        <p>All six sources expose only the site owner's own public data; no visitor data is accessed, collected, or stored.</p>
+      </div>
+    </section>
+
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/05</span>
+        <h2 class="nb-section-title">third-party links</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+      <div class="nb-prose">
+        <p>This site links to external services (LinkedIn, GitHub, Calendly, Amazon, Instagram, etc.). Those services have their own privacy policies. This site does not control or collect data from those services.</p>
+      </div>
+    </section>
+
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/06</span>
+        <h2 class="nb-section-title">contact</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+      <div class="nb-prose">
+        <p>Questions about this policy: <a href="mailto:jimmychang316@gmail.com">jimmychang316@gmail.com</a>.</p>
+      </div>
+    </section>
+
+    <footer class="nb-footer">
+      <span>// © 2026 james chang</span>
+      <span>// built with claude code · <a href="https://github.com/thirstypig/jameschang.co">source on github</a></span>
+    </footer>
   </main>
 
-  <footer class="site-footer">
-    <p class="footer-meta">
-      <a href="/">&larr; Back to James Chang</a>
-      <span class="sep">&middot;</span>
-      &copy; <time datetime="2026">2026</time>
-    </p>
-  </footer>
   <script src="/script.js" defer></script>
 </body>
 </html>
