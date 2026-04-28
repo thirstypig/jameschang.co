@@ -11,50 +11,64 @@ Operational notes for Claude Code (and any other agent) working on this repo. Fo
 ## Repo layout
 
 ```
-/                       Homepage (index.html + styles.css + script.js)
-/now/                   Derek Sivers-style /now page (reads work/work.css)
-/work/                  Deep-dive project pages (Aleph, Fantastic Leagues, Judge Tool) — each has sub-pages + dashboard prompt showcase
-/notebook/              Parallel design preview (notebook direction from Claude Design) — noindex/nofollow, separate notebook.css, self-hosted fonts. Pre-cut-over preview only.
-/privacy/               Privacy policy (required by WHOOP app registration)
+/                       Homepage (index.html + notebook.css + script.js) — Claude Design notebook direction
+/now/                   Derek Sivers-style /now page (reads notebook.css)
+/work/                  Deep-dive project pages (Aleph, Fantastic Leagues, Judge Tool) — each has sub-pages + dashboard prompt showcase. Still on /styles.css + /work/work.css (pre-notebook design system, untouched at cut-over).
+/privacy/               Privacy policy (required by WHOOP app registration). Still on /styles.css.
 /whoop/callback/        OAuth2 redirect target (static page that reads ?code= from URL)
 /assets/                Images (AVIF/WebP/PNG responsive triples), favicons, OG image
-/assets/fonts/          Self-hosted WOFF2 (Geist Mono + Space Grotesk, latin subset) — used only by /notebook/, not by the live site
+/assets/fonts/          Self-hosted WOFF2 (Geist Mono + Space Grotesk, latin subset) — loaded by notebook.css for the homepage + /now
 /bin/                   Maintenance scripts (whoop-auth.sh, whoop-encrypt.sh, update-whoop.py, update-spotify.py, update-public-feeds.py, spotify-auth.sh)
 /.github/workflows/     GitHub Actions (WHOOP, Spotify, public feeds sync + staleness check)
 /docs/solutions/        Internal knowledge base — past solved problems (see /ce:compound)
 /todos/                 Code-review findings (see /ce:review)
-/resume.pdf             Generated from the homepage print stylesheet
+/resume.pdf             Generated from the homepage print stylesheet (notebook.css @media print)
 .whoop-token.enc        AES-encrypted WHOOP refresh token (committed, decrypted at runtime)
 .feeds-heartbeat.json   Timestamped heartbeats per feed (committed by sync workflows)
 ```
 
+**Two coexisting design systems:** the Claude Design "notebook" direction was cut over to live on 2026-04-27 for `/` and `/now/`, replacing the prior single-page-résumé design. The `/work/*` deep-dives and `/privacy/` still run on the prior `styles.css` system — they have their own design language (terminal blocks, lightboxes, project-nav, snapshot-banner) that wasn't migrated. Migrating `/work/*` to notebook is a separate future project.
+
 ## CSS token system
 
-All color/type/spacing in `styles.css` uses CSS variables. **Never hardcode colors.** Tokens:
+The homepage and `/now/` use `notebook.css` (forest-green/clay accent, hard-shadow cards, graph-paper grid, self-hosted Geist Mono + Space Grotesk via `@font-face`). The `/work/*` and `/privacy/` pages still use `styles.css` (pure system fonts, oxide-red accent). **Never hardcode colors in either file.**
+
+**notebook.css tokens** (active design system for / and /now/):
 
 | Token | Purpose |
 |-------|---------|
-| `--bg`, `--bg-from`, `--bg-to` | Page background + gradient endpoints (light/dark) |
+| `--bg`, `--surface`, `--surface-2` | Page background + card surfaces |
+| `--ink`, `--dim` | Primary and secondary text |
+| `--accent`, `--accent-ink` | Forest green (light) / warm coral (dark), and the readable text on accent surfaces |
+| `--rule`, `--tag` | Dividers + tag chips |
+| `--grid` | Graph-paper grid color (very low alpha) |
+| `--pos`, `--warn`, `--danger` | Status colors |
+| `--mono`, `--display` | Geist Mono + Space Grotesk WOFF2 (with system fallbacks) |
+| `--measure`, `--grid-size`, `--shadow-offset`, `--border-w` | Layout tokens (1100px / 24px / 3px / 1.5px) |
+
+**styles.css tokens** (legacy, still in use by /work/* and /privacy/):
+
+| Token | Purpose |
+|-------|---------|
+| `--bg`, `--bg-from`, `--bg-to` | Page background + gradient endpoints |
 | `--text`, `--muted` | Primary and secondary text |
 | `--accent`, `--accent-hover` | Oxide-red (light) / warm coral (dark) |
 | `--rule`, `--card-bg`, `--card-border`, `--card-shadow` | Surface + dividers |
-| `--glass-blur` | `backdrop-filter` value for glass cards |
 | `--serif`, `--sans`, `--mono` | Font stacks (pure system, no `@font-face`) |
-| `--measure`, `--measure-wide` | Reading widths (640px / 960px) |
 
-Dark mode is triggered via `@media (prefers-color-scheme: dark)` + an explicit `[data-theme="dark"]` override driven by `script.js` theme toggle (persisted in `localStorage`).
-
-**Note on `/notebook/`:** the parallel preview at `/notebook/` uses its own self-contained `notebook/notebook.css` with a different token system (forest-green/clay accent, hard-shadow cards, graph-paper grid) and self-hosted Geist Mono + Space Grotesk via `@font-face`. It does *not* read `styles.css`. The "pure system, no `@font-face`" rule above applies to the live site only. If we cut over, this becomes the live system.
+Dark mode is triggered via `@media (prefers-color-scheme: dark)` + an explicit `[data-theme="dark"]` override driven by `script.js` theme toggle (persisted in `localStorage`). Both stylesheets implement the same `data-theme="dark"` contract.
 
 ## Print stylesheet
 
-`styles.css` has a substantial `@media print` block that reorders + restyles the homepage into a résumé PDF. **When adding a new section**, also add an `order` value in the print flex layout, or add `display: none` if the section shouldn't print. Testimonials and `.booking-cta`-style call-to-actions are hidden in print.
+`notebook.css` has a `@media print` block (~190 lines) that reorders + restyles the homepage into a résumé PDF. **When adding a new section**, also add an `order` value in the print flex layout, or add `display: none` if the section shouldn't print. Case studies and testimonials are hidden in print (60 lines of prose confuses ATS parsers).
 
-Current print order values (in `styles.css`):
+Current print order values (in `notebook.css`):
 ```
-.hero: 0, #about: 1, #experience: 2, #education: 3, #skills: 4, #work: 5, #memberships: 6
+.nb-hero: 0, #about: 1, #experience: 2, #education: 3, #skills: 4, #work: 5, #memberships: 6, #contact: 7, .nb-footer: 8
 #testimonials: hidden, #case-studies: hidden
 ```
+
+The print stylesheet forces ATS-friendly system fonts for all elements that use `var(--mono)` on screen (dates, skill labels, role tags) — Geist Mono / Space Grotesk WOFF2 don't reliably embed in print PDFs. Notebook ornamentation (graph paper, hard shadows, /01–/08 section numbers, terminal block) is fully suppressed.
 
 Regenerate the PDF with:
 ```bash
@@ -158,7 +172,7 @@ All code-review findings from both reviews (initial + 2026-04-18 full-repo audit
 
 ## Testing
 
-161 tests across 8 files. Run with `python3 -m pytest tests/ -v` (requires `pytest`).
+160 tests across 8 files. Run with `python3 -m pytest tests/ -v` (requires `pytest`).
 
 | File | Type | Tests | What it covers |
 |------|------|-------|---------------|
@@ -168,7 +182,7 @@ All code-review findings from both reviews (initial + 2026-04-18 full-repo audit
 | `tests/test_feed_builders.py` | Unit | 18 | All feed builders: github, mlb, letterboxd, goodreads (reading + read), fbst, plex — mocked network, tested HTML output; plex fetch failure returns None vs [] |
 | `tests/test_spotify.py` | Unit | 15 | `update-spotify.py`: build_html, state load/save, fetch_recent_tracks, fetch_current_podcast |
 | `tests/test_whoop.py` | Unit | 14 | `update-whoop.py`: fetch_latest_recovery/sleep/cycle, build_html with all recovery colors |
-| `tests/test_site_e2e.py` | E2E | 26 | All HTML pages: meta tags, CSP, aria-pressed, JSON-LD, images, internal links, feed markers (incl. PAGE-UPDATED + notebook-preview parity), OpenSSL parity, dark mode parity, GA4, privacy policy, symlink detection, sitemap consistency, OG image |
+| `tests/test_site_e2e.py` | E2E | 25 | All HTML pages: meta tags, CSP, aria-pressed, JSON-LD, images, internal links, feed markers (incl. PAGE-UPDATED), @media print + @page rule on notebook.css, OpenSSL parity, dark mode parity, GA4, privacy policy, symlink detection, sitemap consistency, OG image |
 | `tests/test_projects.py` | Unit | 13 | `update-projects.py`: TLDR extraction from marker blocks, config schema, PR-event filtering (drops stripped payloads with no URL/title) |
 
 CI runs on push to `main` via `.github/workflows/ci-tests.yml`. See `docs/test-plan.md` for the full testing strategy.

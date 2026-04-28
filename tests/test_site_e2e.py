@@ -305,23 +305,6 @@ class TestFeedMarkers:
                 failures.append(f"Missing <!-- {marker}-END -->")
         assert not failures, f"Feed marker issues:\n" + "\n".join(failures)
 
-    def test_notebook_preview_marker_parity(self):
-        # Cut-over invariant: when /notebook/now/ is renamed to /now/, the
-        # cron sync scripts (update-projects.py, update-spotify.py, etc.)
-        # must find every marker they currently write to. Drift between
-        # the preview and live marker sets silently loses cron syncs after
-        # cut-over — the script no-ops on missing markers.
-        _, live = fetch("now/index.html")
-        _, preview = fetch("notebook/now/index.html")
-        live_markers = set(re.findall(r"<!-- ([A-Z0-9-]+(?:-[a-z0-9-]+)?)-START -->", live))
-        preview_markers = set(re.findall(r"<!-- ([A-Z0-9-]+(?:-[a-z0-9-]+)?)-START -->", preview))
-        missing = live_markers - preview_markers
-        assert not missing, (
-            f"notebook/now/ is missing markers present in live /now/: {sorted(missing)}. "
-            "Cron sync would no-op on these sections after cut-over."
-        )
-
-
 # ── Tests: OpenSSL parity ────────────────────────────────────────
 
 class TestOpenSSLParity:
@@ -411,11 +394,17 @@ class TestPrivacyPolicy:
 # ── Tests: Print stylesheet ──────────────────────────────────────
 
 class TestPrintStylesheet:
-    """Homepage must have print-related elements."""
+    """Homepage must produce a printable résumé."""
 
-    def test_print_only_class_exists(self):
-        _, body = fetch("index.html")
-        assert "print-only" in body, "Missing .print-only class in index.html"
+    def test_print_media_block_exists(self):
+        # The notebook design uses ATS-canonical lowercase section labels
+        # directly (about, experience, education...) so it doesn't need the
+        # live design's .no-print/.print-only dual-text aliasing pattern.
+        # What it DOES need is an @media print block in the active stylesheet.
+        css_path = os.path.join(REPO_ROOT, "notebook.css")
+        css = open(css_path).read()
+        assert "@media print" in css, "Missing @media print block in notebook.css"
+        assert "@page" in css, "Missing @page rule for résumé page sizing"
 
     def test_resume_pdf_exists(self):
         pdf_path = os.path.join(REPO_ROOT, "resume.pdf")

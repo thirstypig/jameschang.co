@@ -11,9 +11,9 @@
   <meta name="description" content="What James Chang is actively working on right now. Updated April 2026.">
   <link rel="canonical" href="https://jameschang.co/now/">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="/work/work.css">
-
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/space-grotesk-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/geist-mono-latin.woff2" crossorigin>
+  <link rel="stylesheet" href="/notebook.css">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -21,7 +21,7 @@
     "name": "Now — James Chang",
     "description": "What James Chang is actively working on right now.",
     "url": "https://jameschang.co/now/",
-    "dateModified": "2026-04-16",
+    "dateModified": "2026-04-27",
     "author": {"@type": "Person", "name": "James Chang", "url": "https://jameschang.co"},
     "isPartOf": {"@type": "WebSite", "url": "https://jameschang.co"}
   }
@@ -31,465 +31,465 @@
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
-  <header class="site-header">
-    <div class="site-header-inner">
-    <a href="/" class="site-brand">James Chang</a>
-      <nav aria-label="Primary">
-      <a href="/#about">About</a>
-      <a href="/#experience">Experience</a>
-      <a href="/#work">Projects</a>
-      <a href="/now/" aria-current="page">Now</a>
+
+  <header class="nb-nav">
+    <div class="nb-nav-inner">
+      <a href="/" class="nb-brand">james<span class="dot">.</span>chang</a>
+      <span class="nb-nav-spacer"></span>
+      <a href="/#work" class="nb-link">[work]</a>
+      <a href="/#experience" class="nb-link">[experience]</a>
+      <a href="/now/" class="nb-link" aria-current="page">[now]</a>
+      <span class="nb-divider"></span>
+      <a href="/resume.pdf" class="nb-resume">résumé.pdf ↓</a>
       <button class="theme-toggle" type="button" aria-label="Toggle light / dark theme" aria-pressed="false">
         <span class="icon-moon" aria-hidden="true">☾</span>
         <span class="icon-sun" aria-hidden="true">☀</span>
       </button>
-    </nav>
     </div>
   </header>
 
-  <main id="main" class="work-main">
-    <p class="crumbs">
-      <a href="/">James Chang</a>
+  <main id="main" class="nb-main">
+
+    <p class="nb-crumbs">
+      <a href="/">james chang</a>
       <span class="sep">/</span>
-      <span>Now</span>
+      <span class="here">now</span>
     </p>
 
-    <div class="work-hero">
-      <p class="eyebrow">Now page &middot; Updated <span class="page-updated"><!-- PAGE-UPDATED-START -->April 27, 2026 at 7:08 PM PDT<!-- PAGE-UPDATED-END --></span></p>
-      <h1>What I&rsquo;m actually working on.</h1>
-      <p class="subtitle">
-        A <a href="https://sive.rs/now">Derek Sivers-style /now page</a> &mdash; the
-        truth about where my time is going this month, not a &ldquo;currently building&rdquo;
-        list that never updates.
+    <section class="nb-hero now">
+      <p class="nb-hero-meta">
+        <span>// /now · auto-updated <span class="accent page-updated"><!-- PAGE-UPDATED-START -->April 27, 2026 at 4:44 PM PDT<!-- PAGE-UPDATED-END --></span></span>
       </p>
-    </div>
+      <h1>What I'm <span class="accent">actually</span> working on.</h1>
+      <p class="nb-hero-sub">
+        A <a href="https://sive.rs/now">Derek Sivers-style /now page</a> — the truth about where my time is going this month, not a "currently building" list that never updates.
+      </p>
+    </section>
 
-    <section class="work-section">
-      <h2>Active &mdash; where the time is going</h2>
-      <div class="module">
-        <h3 class="module-name"><a href="https://alephco.io">Aleph</a> <span class="module-url">alephco.io</span></h3>
-        <!-- TLDR-aleph-START -->
+    <!-- ACTIVE -->
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/01</span>
+        <h2 class="nb-section-title">active</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+      <p class="nb-section-eyebrow">where the time is going · 4 projects</p>
 
-          <p>The compliance platform I wished existed when I was importing — CPSIA certificates, Prop 65 labels, PFAS tracking across 15 states, and FSVP audits in one place. Just shipped a massive sprint: 680 automated tests, live CPSC recall feed, smart lab routing that matches your product type to nearby accredited labs, and a compliance training center with step-by-step workflow guides. Next up: flipping the production switches and opening doors to the first paid importers.</p>
-          <p class="shipping-recent"><strong>Recently shipped:</strong> <a href="https://github.com/thirstypig/alephco.io-www/commit/a880d577c513d6b6879397d8bd9cc47c98c9a71d" rel="noopener" target="_blank">feat: Industries page + outcome-focused copy rewrite + nav update</a> <span class="gh-when">&middot; <time datetime="2026-04-27T00:23:36Z" data-rel>15h ago</time></span></p>
-          <p class="feed-updated">Auto-updated April 27, 2026 at 8:28 AM PDT via CLAUDE.md + GitHub events.</p>
-        
-        <!-- TLDR-aleph-END -->
-      </div>
+      <div class="nb-grid-1">
+        <article class="nb-card">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name"><a href="https://alephco.io">Aleph</a></h3>
+            <a class="nb-card-url" href="https://alephco.io">alephco.io ↗</a>
+            <span class="nb-card-status">● shipping</span>
+          </div>
+          <!-- TLDR-aleph-START -->
+          <p class="nb-card-body">The compliance platform I wished existed when I was importing — CPSIA certificates, Prop 65 labels, PFAS tracking across 15 states, and FSVP audits in one place. Just shipped a massive sprint: 680 automated tests, live CPSC recall feed, smart lab routing that matches your product type to nearby accredited labs, and a compliance training center with step-by-step workflow guides. Next up: flipping the production switches and opening doors to the first paid importers.</p>
+          <p class="nb-card-shipped"><span class="accent">↑ shipped:</span> <a href="https://github.com/thirstypig/alephco.io-www/commit/a880d577c513d6b6879397d8bd9cc47c98c9a71d" rel="noopener" target="_blank">feat: Industries page + outcome-focused copy rewrite + nav update</a> · <time datetime="2026-04-27T00:23:36Z" data-rel>15h ago</time></p>
+          <!-- TLDR-aleph-END -->
+        </article>
 
-      <div class="module">
-        <h3 class="module-name"><a href="https://thefantasticleagues.com">The Fantastic Leagues</a> <span class="module-url">thefantasticleagues.com</span></h3>
-        <!-- TLDR-fantastic-leagues-START -->
+        <article class="nb-card">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name"><a href="https://thefantasticleagues.com">The Fantastic Leagues</a></h3>
+            <a class="nb-card-url" href="https://thefantasticleagues.com">thefantasticleagues.com ↗</a>
+            <span class="nb-card-status">● shipping</span>
+          </div>
+          <!-- TLDR-fantastic-leagues-START -->
+          <p class="nb-card-body">Fantasy baseball for the dozen-owner, auction-draft, keeper-league crowd that Yahoo and ESPN never really served. App is live, our first auction of the season just wrapped, and I'm rolling out roster-rules enforcement in phases while iterating weekly on AI-assisted features (draft grades, trade analyzer, a weekly "Week in Baseball" report). Current focus: merging fixes for two silent production regressions caught this week, landing the Phase 4 UI, and finishing commissioner tooling so I can flip roster-rules enforcement on for my own OGBA owners.</p>
+          <p class="nb-card-shipped"><span class="accent">↑ shipped:</span> <a href="https://github.com/thirstypig/TheFantasticLeagues/commit/19965649fa7f540be42dfa23b05daccb8c481712" rel="noopener" target="_blank">fix(commissioner): pair add+drop in Manual Roster Management via shared AddDropPanel (#129)</a> · <time datetime="2026-04-26T16:02:31Z" data-rel>23h ago</time></p>
+          <!-- TLDR-fantastic-leagues-END -->
+        </article>
 
-          <p>Fantasy baseball for the dozen-owner, auction-draft, keeper-league crowd that Yahoo and ESPN never really served. App is live, our first auction of the season just wrapped, and I'm rolling out roster-rules enforcement in phases while iterating weekly on AI-assisted features (draft grades, trade analyzer, a weekly "Week in Baseball" report). Current focus: merging fixes for two silent production regressions caught this week, landing the Phase 4 UI, and finishing commissioner tooling so I can flip roster-rules enforcement on for my own OGBA owners.</p>
-          <p class="shipping-recent"><strong>Recently shipped:</strong> <a href="https://github.com/thirstypig/TheFantasticLeagues/commit/19965649fa7f540be42dfa23b05daccb8c481712" rel="noopener" target="_blank">fix(commissioner): pair add+drop in Manual Roster Management via shared AddDropPanel (#129</a> <span class="gh-when">&middot; <time datetime="2026-04-26T16:02:31Z" data-rel>23h ago</time></span></p>
-          <p class="feed-updated">Auto-updated April 27, 2026 at 8:28 AM PDT via CLAUDE.md + GitHub events.</p>
-        
-        <!-- TLDR-fantastic-leagues-END -->
-      </div>
+        <article class="nb-card">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name"><a href="https://bahtzang.com">Bahtzang Trader</a></h3>
+            <a class="nb-card-url" href="https://bahtzang.com">bahtzang.com ↗</a>
+            <span class="nb-card-status">● shipping</span>
+          </div>
+          <!-- TLDR-bahtzang-trader-START -->
+          <p class="nb-card-body">An AI trading-decision experiment — Claude Sonnet makes buy/sell/hold calls, a FastAPI + Next.js stack handles data and execution, and an Alpaca paper-trading account is the live target (not real money yet). Just wrapped a 7-agent code review (100 findings resolved), unified the trade data model, and stood up a 297-test suite with pre-commit hooks and CI — all AI-assisted. Next up: 30+ paper trades to validate the pipeline before flipping the live switch.</p>
+          <!-- TLDR-bahtzang-trader-END -->
+        </article>
 
-      <div class="module">
-        <h3 class="module-name"><a href="https://bahtzang.com">Bahtzang Trader</a> <span class="module-url">bahtzang.com</span></h3>
-        <!-- TLDR-bahtzang-trader-START -->
-
-          <p>An AI trading-decision experiment — Claude Sonnet makes buy/sell/hold calls, a FastAPI + Next.js stack handles data and execution, and an Alpaca paper-trading account is the live target (not real money yet). Just wrapped a 7-agent code review (100 findings resolved), unified the trade data model, and stood up a 297-test suite with pre-commit hooks and CI — all AI-assisted. Next up: 30+ paper trades to validate the pipeline before flipping the live switch.</p>
-          <p class="feed-updated">Auto-updated April 27, 2026 at 8:28 AM PDT via CLAUDE.md + GitHub events.</p>
-
-        <!-- TLDR-bahtzang-trader-END -->
-      </div>
-
-      <div class="module">
-        <h3 class="module-name"><a href="https://thirstypig.com">The Thirsty Pig</a> <span class="module-url">thirstypig.com</span></h3>
-        <!-- TLDR-thirsty-pig-START -->
-
-          <p>My food blog from 2007–present, rebuilt from Wayback Machine archives + Instagram exports. 1,639 published posts and 1,400+ mapped restaurants live at thirstypig.com. Active redesign push using Claude Design — extending April 2026's "Bold Red Poster" homepage (full-bleed red hero, Archivo type, the original pig logo, region landing pages) across the rest of the site. Content pipeline runs itself: new Instagram posts arrive via a manual-export pipeline (Meta API is walled for personal Pages — confirmed dead end across both FB Graph and IG Graph in April 2026), a local macOS launchd watcher auto-uploads export ZIPs as GitHub releases when they land in ~/Downloads, and a Monday-9am-PT weekly routine reminds me to drop the new ZIP. 10 places on the hit list.</p>
-          <p class="shipping-recent"><strong>Recently shipped:</strong> <a href="https://github.com/thirstypig/thirstypig-blog/commit/798c4440569c65b164db8d9a353d28e68d6d8109" rel="noopener" target="_blank">Swap site logo to redpig.jpg (#71)</a> <span class="gh-when">&middot; <time datetime="2026-04-24T20:15:44Z" data-rel>2d ago</time></span></p>
-          <p class="feed-updated">Auto-updated April 27, 2026 at 8:28 AM PDT via CLAUDE.md + GitHub events.</p>
-
-        <!-- TLDR-thirsty-pig-END -->
+        <article class="nb-card">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name"><a href="https://thirstypig.com">The Thirsty Pig</a></h3>
+            <a class="nb-card-url" href="https://thirstypig.com">thirstypig.com ↗</a>
+            <span class="nb-card-status">● shipping</span>
+          </div>
+          <!-- TLDR-thirsty-pig-START -->
+          <p class="nb-card-body">My food blog from 2007–present, rebuilt from Wayback Machine archives + Instagram exports. 1,639 published posts and 1,400+ mapped restaurants live at thirstypig.com. Active redesign push using Claude Design — extending April 2026's "Bold Red Poster" homepage (full-bleed red hero, Archivo type, the original pig logo, region landing pages) across the rest of the site. Content pipeline runs itself: new Instagram posts arrive via a manual-export pipeline (Meta API is walled for personal Pages — confirmed dead end across both FB Graph and IG Graph in April 2026), a local macOS launchd watcher auto-uploads export ZIPs as GitHub releases when they land in ~/Downloads, and a Monday-9am-PT weekly routine reminds me to drop the new ZIP. 10 places on the hit list.</p>
+          <p class="nb-card-shipped"><span class="accent">↑ shipped:</span> <a href="https://github.com/thirstypig/thirstypig-blog/commit/798c4440569c65b164db8d9a353d28e68d6d8109" rel="noopener" target="_blank">Swap site logo to redpig.jpg (#71)</a> · <time datetime="2026-04-24T20:15:44Z" data-rel>2d ago</time></p>
+          <!-- TLDR-thirsty-pig-END -->
+        </article>
       </div>
     </section>
 
-    <section class="work-section">
-      <h2>Back-burner &mdash; shipping but not daily</h2>
-      <div class="module">
-        <h3 class="module-name"><a href="https://thejudgetool.com">The Judge Tool</a> <span class="module-url">thejudgetool.com</span></h3>
-        <!-- TLDR-judge-tool-START -->
+    <!-- BACK-BURNER -->
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/02</span>
+        <h2 class="nb-section-title">back-burner</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+      <p class="nb-section-eyebrow">shipping but not daily · 4 projects</p>
 
-          <p>KCBS-style BBQ competition judging app — replaces clipboards, carbon copies, and spreadsheet math with real-time digital scoring for organizers, table captains, and judges. Just wrapped a shipping-readiness pass: Google Analytics on both the app and marketing site, sitemap and robots tests enforcing SEO invariants, and CI gating every PR on lint/typecheck/tests. Next up: an integration-test harness so server actions get exercised against a real database, ahead of piloting at a real KCBS-sanctioned competition this season.</p>
-          <p class="feed-updated">Auto-updated April 27, 2026 at 8:28 AM PDT via CLAUDE.md + GitHub events.</p>
-        
-        <!-- TLDR-judge-tool-END -->
-      </div>
+      <div class="nb-grid-2">
+        <article class="nb-card compact">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name"><a href="https://thejudgetool.com">The Judge Tool</a></h3>
+            <a class="nb-card-url" href="https://thejudgetool.com">thejudgetool.com ↗</a>
+          </div>
+          <!-- TLDR-judge-tool-START -->
+          <p class="nb-card-body">KCBS-style BBQ competition judging app — replaces clipboards, carbon copies, and spreadsheet math with real-time digital scoring for organizers, table captains, and judges. Just wrapped a shipping-readiness pass: GA on both the app and marketing site, sitemap and robots tests enforcing SEO invariants, and CI gating every PR on lint/typecheck/tests. Next: integration-test harness so server actions get exercised against a real database, ahead of piloting at a real KCBS-sanctioned competition this season.</p>
+          <!-- TLDR-judge-tool-END -->
+        </article>
 
-      <div class="module">
-        <h3 class="module-name"><a href="https://tabledrop.com">TableDrop</a> <span class="module-url">tabledrop.com</span></h3>
-        <!-- TLDR-tabledrop-START -->
+        <article class="nb-card compact">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name"><a href="https://tabledrop.com">TableDrop</a></h3>
+            <a class="nb-card-url" href="https://tabledrop.com">tabledrop.com ↗</a>
+          </div>
+          <!-- TLDR-tabledrop-START -->
+          <p class="nb-card-body">A marketplace for hard-to-get Taipei restaurant reservations — a Playwright scraper pulls listings from inline.app, with a Next.js + Clerk + Stripe storefront on the buy side. Recent AI-assisted work has been mostly scaffolding: admin dashboard, an MCP server so Claude Code can poke at the scraper and database directly, project-scoped slash commands. Honest blocker: neither side of the transaction is live yet — next push is one end-to-end listing → purchase flow with real data.</p>
+          <!-- TLDR-tabledrop-END -->
+        </article>
 
-          <p>A marketplace for hard-to-get Taipei restaurant reservations — a Playwright scraper pulls listings from inline.app, with a Next.js + Clerk + Stripe storefront on the buy side. Recent AI-assisted work has been mostly scaffolding: admin dashboard (roadmap, changelog, status), an MCP server so Claude Code can poke at the scraper and database directly, and project-scoped slash commands for tests and doc sync. Honest blocker: neither side of the transaction is live yet — Stripe checkout isn't wired and the scraper has barely been run — so the next push is getting one end-to-end listing → purchase flow working with real data.</p>
-          <p class="feed-updated">Auto-updated April 27, 2026 at 8:28 AM PDT via CLAUDE.md + GitHub events.</p>
-        
-        <!-- TLDR-tabledrop-END -->
-      </div>
+        <article class="nb-card compact">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name"><a href="https://tastemakersapp.com">Tastemakers</a></h3>
+            <a class="nb-card-url" href="https://tastemakersapp.com">tastemakersapp.com ↗</a>
+          </div>
+          <!-- TLDR-tastemakers-START -->
+          <p class="nb-card-body">Restaurant discovery app with iOS, Android, and web clients sharing a Laravel 8 API — this repo is the backend that feeds them all. Actively decoupling the backend from legacy WordPress/Namecheap hosting: API → Railway (managed Postgres in prod), web → Vercel. Once infrastructure is clean, Next.js becomes both marketing and a web-accessible version of the app.</p>
+          <!-- TLDR-tastemakers-END -->
+        </article>
 
-      <div class="module">
-        <h3 class="module-name"><a href="https://tastemakersapp.com">Tastemakers</a> <span class="module-url">tastemakersapp.com</span></h3>
-        <!-- TLDR-tastemakers-START -->
-
-          <p>Restaurant discovery app with iOS, Android, and web clients sharing a Laravel 8 API — this repo is the backend that feeds them all. Actively decoupling the backend from legacy WordPress/Namecheap hosting: the API is moving to Railway (managed Postgres in prod) and the web frontend to Vercel. Once the infrastructure is clean, the Next.js site becomes both the marketing page and a web-accessible version of the app.</p>
-          <p class="feed-updated">Auto-updated April 27, 2026 at 8:28 AM PDT via CLAUDE.md + GitHub events.</p>
-        
-        <!-- TLDR-tastemakers-END -->
-      </div>
-
-      <div class="module">
-        <h3 class="module-name"><a href="https://ktvsinger.com">KTV Singer</a> <span class="module-url">ktvsinger.com</span></h3>
-        <p>
-          An Apple TV karaoke app where the phone is the remote. Search a song,
-          queue it, and the TV plays the YouTube video with synced lyrics from
-          LRCLIB while streaming your mic back in real time. The stack is one of
-          those &ldquo;small-team monorepo that happens to span seven
-          submodules&rdquo; situations &mdash; Express + Socket.IO + Drizzle on the
-          server, Expo React Native on the phone, SwiftUI on tvOS. April has been
-          about making the internals trustworthy: reworked the mic pipeline to
-          100ms binary PCM chunks, passed a security review, and just shipped a set
-          of Claude Code commands that encode the repo&rsquo;s conventions so future
-          work stays consistent. Next: vocal separation for singing over
-          instrumentals of any YouTube track.
-        </p>
+        <article class="nb-card compact">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name"><a href="https://ktvsinger.com">KTV Singer</a></h3>
+            <a class="nb-card-url" href="https://ktvsinger.com">ktvsinger.com ↗</a>
+          </div>
+          <p class="nb-card-body">An Apple TV karaoke app where the phone is the remote. Search a song, queue it, and the TV plays the YouTube video with synced lyrics from LRCLIB while streaming your mic back in real time. April: reworked the mic pipeline to 100ms binary PCM chunks, passed a security review, shipped Claude Code commands encoding repo conventions. Next: vocal separation for any YouTube track.</p>
+        </article>
       </div>
     </section>
 
-    <section class="work-section">
-      <h2>On the calendar</h2>
-      <div class="module">
-        <p>
-          <strong>Confirmed: judging.</strong>
-          All American BBQ Cook-Off &mdash;
-          <time datetime="2026-06-07">June&nbsp;7, 2026</time> &middot; Ruidoso Downs, NM.
-          KCBS-sanctioned; I&rsquo;ll be on a table judging the four mandatory categories
-          (chicken, pork ribs, pork, brisket). See <a href="https://thejudgetool.com">The Judge Tool</a>
-          for what that workflow looks like from the inside.
-        </p>
+    <!-- ON THE CALENDAR -->
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/03</span>
+        <h2 class="nb-section-title">on the calendar</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+
+      <div class="nb-cal-card">
+        <div class="nb-cal-date" aria-label="June 7">
+          <div class="mo">jun</div>
+          <div class="day">07</div>
+        </div>
+        <div>
+          <div class="nb-cal-tag">confirmed · judging</div>
+          <div class="nb-cal-what">All American BBQ Cook-Off</div>
+          <div class="nb-cal-where">Ruidoso Downs, NM · KCBS-sanctioned</div>
+          <div class="nb-cal-note">On a table judging the four mandatory categories (chicken, pork ribs, pork, brisket). See <a href="https://thejudgetool.com">The Judge Tool</a> for what the workflow looks like from the inside.</div>
+        </div>
       </div>
 
-      <div class="module">
-        <p>
-          <strong>Targeting (still finalizing):</strong> a handful of additional
-          KCBS-sanctioned competitions across the West later in the season.
-        </p>
+      <div class="nb-target">
+        <div class="nb-target-eyebrow">// targeting · still finalizing</div>
         <ul>
-          <li><strong>Best Dam BBQ</strong> &mdash; <time datetime="2026-05-24">May&nbsp;24, 2026</time> &middot; Boulder City, NV</li>
-          <li><strong>IBEW So Cal BBQ &amp; Chili Cook-Off</strong> &mdash; <time datetime="2026-07-18">July&nbsp;18, 2026</time> &middot; Santa Ana, CA</li>
-          <li><strong>22nd Annual Burnt Offerings BBQ Contest</strong> &mdash; <time datetime="2026-09-19">September&nbsp;19, 2026</time> &middot; Riverside, CA</li>
-          <li><strong>BBQ Jackpot</strong> &mdash; <time datetime="2026-11-21">November&nbsp;21, 2026</time> &middot; Las Vegas, NV</li>
+          <li><strong>Best Dam BBQ</strong> · <time datetime="2026-05-24">may 24</time> · Boulder City, NV</li>
+          <li><strong>IBEW So Cal BBQ &amp; Chili</strong> · <time datetime="2026-07-18">jul 18</time> · Santa Ana, CA</li>
+          <li><strong>22nd Burnt Offerings BBQ</strong> · <time datetime="2026-09-19">sep 19</time> · Riverside, CA</li>
+          <li><strong>BBQ Jackpot</strong> · <time datetime="2026-11-21">nov 21</time> · Las Vegas, NV</li>
         </ul>
       </div>
     </section>
 
-    <section class="work-section">
-      <h2>Exploring</h2>
-      <div class="module">
-        <h3 class="module-name"><a href="https://obsidian.md">Obsidian</a></h3>
-        <p>
-          Wired up the entire Claude-assisted project ecosystem into a single,
-          searchable knowledge base &mdash; todos, docs, decision records, and
-          session notes across all 8 active projects, linked and cross-referenced
-          in one vault. Synced across Mac and iPhone via iCloud so the graph is
-          always with me.
-        </p>
-        <p>
-          Also built a pipeline from Obsidian &rarr; GitHub &rarr;
-          <a href="https://thirstypig.com">thirstypig.com</a> for the
-          <a href="https://thirstypig.com/hitlist">restaurant hit list</a>,
-          so updating the list on my phone updates the blog and the
-          <a href="#hitlist-section">/now page</a> automatically. Currently
-          migrating notes from <a href="https://www.upnote.com">UpNote</a> into
-          the vault &mdash; and glad to finally be off Evernote, which got bloated
-          and expensive before I left.
-        </p>
-      </div>
-      <div class="module">
-        <h3 class="module-name"><a href="https://openclaw.ai">OpenClaw</a></h3>
-        <p>
-          Evaluating as an open-source AI agent alternative. Peter Steinberger&rsquo;s
-          project &mdash; an autonomous AI assistant that runs locally and
-          interfaces with Claude, GPT, or DeepSeek via messaging platforms. 247k
-          GitHub stars, MIT licensed, recently transitioned to a non-profit
-          foundation after Steinberger joined OpenAI. Still deciding if it fits
-          my workflow alongside Claude Code and Cursor.
-        </p>
-        <p style="font-size: 0.8125rem; color: var(--muted);">
-          Reading: <a href="https://github.com/openclaw/openclaw">GitHub</a> &middot;
-          <a href="https://openclaw.ai">openclaw.ai</a> &middot;
-          <a href="https://www.linuxjournal.com/content/openclaw-2026-what-it-whos-using-it-and-whether-your-business-should-adopt-it">Linux Journal overview</a> &middot;
-          <a href="https://www.digitalocean.com/resources/articles/what-is-openclaw">DigitalOcean guide</a>
-        </p>
-      </div>
-      <div class="module">
-        <h3 class="module-name"><a href="https://claude.com">Claude Design</a></h3>
-        <p>
-          Using <a href="https://claude.com">Claude Design</a> to redesign
-          three of my sites &mdash;
-          <a href="https://thefantasticleagues.com">The Fantastic Leagues</a>,
-          <a href="https://alephco.io">Aleph</a>, and
-          <a href="https://thirstypig.com">The Thirsty Pig</a>. Of the AI
-          design tools I was comparing (<a href="https://www.figma.com/ai/">Figma AI</a>
-          and <a href="https://lovable.dev">Lovable</a> were the others),
-          Claude Design earned the spot &mdash; it generates component specs
-          and UI code I can wire straight into the existing stacks instead
-          of scaffolding a new app.
-        </p>
-      </div>
-      <div class="module">
-        <h3 class="module-name">Codex alongside Claude Code</h3>
-        <p>
-          Running OpenAI&rsquo;s Codex CLI agent in a second terminal tab
-          alongside Claude Code, to see whether a multi-agent split
-          makes sense for day-to-day work. The specific hypothesis I keep
-          hearing: Codex is especially strong at test generation. So the
-          experiment is &ldquo;Claude writes the feature, Codex writes the
-          tests&rdquo; as a specialization split.
-        </p>
-        <p>
-          Jury&rsquo;s out on whether the coordination overhead pays for
-          itself or whether one agent doing both tasks stays cleaner.
-          Early instinct for this repo&rsquo;s style (small, single
-          contributor, plain static site): one agent deep beats two
-          agents shallow. Want to run it on a harder codebase before I
-          commit to an opinion.
-        </p>
+    <!-- EXPLORING -->
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/04</span>
+        <h2 class="nb-section-title">exploring</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+
+      <div class="nb-grid-2">
+        <article class="nb-card compact">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name"><a href="https://obsidian.md">Obsidian</a></h3>
+          </div>
+          <p class="nb-card-body">Wired the entire Claude-assisted project ecosystem into a single, searchable knowledge base — todos, docs, decision records, and session notes across all 8 active projects, linked and cross-referenced in one vault. Synced across Mac and iPhone via iCloud. Built a pipeline from Obsidian → GitHub → <a href="https://thirstypig.com">thirstypig.com</a> for the <a href="https://thirstypig.com/hitlist">restaurant hit list</a>, so updating the list on my phone updates the blog automatically.</p>
+        </article>
+
+        <article class="nb-card compact">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name"><a href="https://openclaw.ai">OpenClaw</a></h3>
+          </div>
+          <p class="nb-card-body">Evaluating as an open-source AI agent alternative. Peter Steinberger's project — autonomous AI assistant that runs locally and interfaces with Claude, GPT, or DeepSeek via messaging platforms. 247k stars, MIT licensed, recently transitioned to non-profit after Steinberger joined OpenAI. Still deciding if it fits my workflow alongside Claude Code and Cursor.</p>
+        </article>
+
+        <article class="nb-card compact">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name"><a href="https://claude.com">Claude Design</a></h3>
+          </div>
+          <p class="nb-card-body">Using <a href="https://claude.com">Claude Design</a> to redesign three of my sites — <a href="https://thefantasticleagues.com">The Fantastic Leagues</a>, <a href="https://alephco.io">Aleph</a>, and <a href="https://thirstypig.com">The Thirsty Pig</a>. Of the AI design tools I was comparing (<a href="https://www.figma.com/ai/">Figma AI</a> and <a href="https://lovable.dev">Lovable</a> were the others), Claude Design earned the spot — it generates component specs and UI code I can wire straight into the existing stacks instead of scaffolding a new app.</p>
+        </article>
+
+        <article class="nb-card compact">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name">Codex alongside Claude Code</h3>
+          </div>
+          <p class="nb-card-body">Running OpenAI's Codex CLI agent in a second terminal tab alongside Claude Code, to see whether a multi-agent split makes sense for day-to-day work. The hypothesis: Codex is especially strong at test generation, so the experiment is "Claude writes the feature, Codex writes the tests." Early instinct for this repo's style: one agent deep beats two agents shallow. Want to run it on a harder codebase before I commit.</p>
+        </article>
       </div>
     </section>
 
-    <section class="work-section">
-      <h2>Health &amp; recovery</h2>
-      <div class="module whoop-module">
-        <!-- WHOOP-START -->
-        <p class="whoop-updated">Auto-updated April 27, 2026 at 4:50 AM PDT via <a href="https://www.whoop.com">WHOOP</a> API</p>
-        <p><strong class="whoop-red">Recovery: 29%</strong> &middot; HRV: 19ms &middot; Resting HR: 72bpm</p>
-        <p>Sleep: 5h 43m &middot; Efficiency: 76%</p>
-        <p>Day Strain: 4.8</p>
-        <!-- WHOOP-END -->
-        <p class="whoop-note">
-          Data pulled daily from the <a href="https://www.whoop.com">WHOOP</a> API
-          via <a href="https://github.com/thirstypig/jameschang.co/actions">GitHub Actions</a>.
-          Recovery, sleep, strain, and HRV &mdash; the numbers I actually look at every morning.
-        </p>
+    <!-- HEALTH & RECOVERY -->
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/05</span>
+        <h2 class="nb-section-title">health · recovery</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+      <p class="nb-section-eyebrow">via WHOOP api · auto-updated April 27, 2026 at 4:50 AM PDT</p>
+
+      <!-- WHOOP-START -->
+      <div class="nb-grid-4">
+        <div class="nb-stat">
+          <div class="k">recovery</div>
+          <div class="v danger">29%</div>
+        </div>
+        <div class="nb-stat">
+          <div class="k">hrv</div>
+          <div class="v">19 ms</div>
+        </div>
+        <div class="nb-stat">
+          <div class="k">resting hr</div>
+          <div class="v">72 bpm</div>
+        </div>
+        <div class="nb-stat">
+          <div class="k">sleep</div>
+          <div class="v">5h 43m</div>
+        </div>
+      </div>
+      <!-- WHOOP-END -->
+    </section>
+
+    <!-- OFF THE CLOCK -->
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/06</span>
+        <h2 class="nb-section-title">off the clock</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+
+      <p class="nb-section-eyebrow">board service · sgv eats · sports</p>
+
+      <div class="nb-card compact" style="margin-bottom: 14px;">
+        <p class="nb-card-body">Serving on the board of the <a href="https://camla.org">Chinese American Museum</a> in downtown Los Angeles (since Feb 2026). Eating my way through the SGV again (see <a href="https://thirstypig.com">Thirsty Pig</a> for the receipts). Trojan football, Cleveland Browns, Lakers also rotate in depending on the month.</p>
+      </div>
+
+      <div class="nb-grid-2">
+        <div class="nb-feed">
+          <div class="nb-feed-head">
+            <strong>dodgers</strong>
+            <span class="src">MLB Stats API</span>
+          </div>
+          <!-- MLB-START -->
+          <div><strong>17-9</strong> · last: W 6-0 vs CHC · next: Mon 7:10PM vs MIA</div>
+          <!-- MLB-END -->
+        </div>
+        <div class="nb-feed">
+          <div class="nb-feed-head">
+            <strong>los doyers</strong>
+            <span class="src">OGBA 2026 · keeper league</span>
+          </div>
+          <!-- FBST-START -->
+          <div><strong>6th of 8</strong> · 34 pts · <a href="https://thefantasticleagues.com" rel="noopener" target="_blank">OGBA 2026</a></div>
+          <!-- FBST-END -->
+          <div style="font-size: 11px; color: var(--dim); margin-top: 6px;">dogfooding the AI-assisted platform I built · 30+ year keeper league, 8 owners, auction draft</div>
+        </div>
       </div>
     </section>
 
-    <section class="work-section">
-      <h2>Off the clock</h2>
-      <div class="module">
-        <p>
-          Serving on the board of the <a href="https://camla.org">Chinese American
-          Museum</a> in downtown Los Angeles (since Feb 2026). Eating my way
-          through the SGV again (see <a href="https://thirstypig.com">Thirsty Pig</a>
-          for the receipts). Trojan football, Cleveland Browns, Lakers also rotate in
-          depending on the month.
-        </p>
-      </div>
-      <div class="module mlb-module">
-        <!-- MLB-START -->
-        <p class="mlb-line"><strong>Dodgers:</strong> 17-9. Last: W 6-0 vs CHC &middot; Next: Mon 7:10PM vs MIA.</p>
-        <p class="feed-updated">Auto-updated April 27, 2026 at 12:48 PM PDT via <a href="https://www.mlb.com/dodgers">MLB Stats API</a>.</p>
-        <!-- MLB-END -->
-        <!-- FBST-START -->
-        <p class="fbst-line"><strong>Los Doyers:</strong> 6th of 8 &middot; 34 pts &middot; <a href="https://thefantasticleagues.com" rel="noopener" target="_blank">OGBA 2026</a> <span class="fbst-note">(dogfooding the AI-assisted platform I built)</span></p>
-        <p class="feed-updated">Auto-updated April 27, 2026 at 12:48 PM PDT via <a href="https://thefantasticleagues.com">The Fantastic Leagues</a>.</p>
-        <!-- FBST-END -->
-        <p class="feed-empty" style="margin-top: 0.5rem; font-size: 0.8125rem; color: var(--muted);">
-          OGBA is a 30+ year keeper league &mdash; 8 owners, auction draft, deep
-          rosters. I manage <em>Los Doyers</em> and built the platform we play on.
-        </p>
+    <!-- WATCHING / LISTENING / READING -->
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/07</span>
+        <h2 class="nb-section-title">watching · listening · reading</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+
+      <div class="nb-grid-3">
+        <div class="nb-feed">
+          <div class="nb-feed-head">
+            <strong>recently watched</strong>
+            <span class="src">Letterboxd</span>
+          </div>
+          <!-- LETTERBOXD-START -->
+          <ul>
+            <li><a href="https://letterboxd.com/thirstypig/film/crime-101/" rel="noopener" target="_blank">Crime 101, 2026</a> <span class="when">· 6d ago</span></li>
+            <li><a href="https://letterboxd.com/thirstypig/film/roofman/" rel="noopener" target="_blank">Roofman, 2025</a> <span class="accent">★★★★</span> <span class="when">· 6d ago</span></li>
+            <li><a href="https://letterboxd.com/thirstypig/film/balls-up-2026/" rel="noopener" target="_blank">Balls Up, 2026</a> <span class="accent">★★</span> <span class="when">· 6d ago</span></li>
+          </ul>
+          <!-- LETTERBOXD-END -->
+        </div>
+
+        <div class="nb-feed">
+          <div class="nb-feed-head">
+            <strong>tv</strong>
+            <span class="src">Trakt + Plex</span>
+          </div>
+          <!-- TRAKT-START -->
+          <ul>
+            <li><a href="https://trakt.tv/shows/the-west-wing" rel="noopener" target="_blank">The West Wing S07E22 — "Tomorrow"</a> <span class="when">· <time datetime="2026-04-21T00:57:00Z" data-rel>6d ago</time></span></li>
+          </ul>
+          <!-- TRAKT-END -->
+          <!-- PLEX-START -->
+          <ul style="margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--rule);">
+            <li>Transformers One <span class="when">· 2h ago</span></li>
+            <li>The Wild Robot <span class="when">· 5d ago</span></li>
+            <li>Black Mirror S07E06 — "USS Callister: Into Infinity" <span class="when">· 5d ago</span></li>
+            <li>S.W.A.T.: Firefight <span class="when">· 5d ago</span></li>
+            <li>S.W.A.T. <span class="when">· 5d ago</span></li>
+          </ul>
+          <!-- PLEX-END -->
+        </div>
+
+        <div class="nb-feed">
+          <div class="nb-feed-head">
+            <strong>reading</strong>
+            <span class="src">Goodreads</span>
+          </div>
+          <!-- GOODREADS-READING-START -->
+          <div style="font-size: 11px; color: var(--dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">currently</div>
+          <ul style="margin-bottom: 10px;">
+            <li><a href="https://www.goodreads.com/review/show/8531200655" rel="noopener" target="_blank"><em>100 Things Dodgers Fans Should Know</em></a> — Weisman</li>
+            <li><a href="https://www.goodreads.com/review/show/8531200257" rel="noopener" target="_blank"><em>The Arm</em></a> — Jeff Passan</li>
+          </ul>
+          <!-- GOODREADS-READING-END -->
+          <!-- GOODREADS-START -->
+          <div style="font-size: 11px; color: var(--dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">recent</div>
+          <ul>
+            <li><a href="https://www.goodreads.com/review/show/3403861194" rel="noopener" target="_blank"><em>勇於追夢</em></a> — 張秀瓊 <span class="accent">★★★★★</span></li>
+            <li><a href="https://www.goodreads.com/review/show/2600457028" rel="noopener" target="_blank"><em>China Rich Girlfriend</em></a> — Kevin Kwan</li>
+            <li><a href="https://www.goodreads.com/review/show/2600457213" rel="noopener" target="_blank"><em>Rich Dad, Poor Dad</em></a> — Kiyosaki</li>
+            <li><a href="https://www.goodreads.com/review/show/2544644324" rel="noopener" target="_blank"><em>The Windup Girl</em></a> — Bacigalupi</li>
+            <li><a href="https://www.goodreads.com/review/show/2429413068" rel="noopener" target="_blank"><em>Sapiens</em></a> — Harari</li>
+          </ul>
+          <!-- GOODREADS-END -->
+        </div>
       </div>
     </section>
 
-    <section class="work-section">
-      <h2>Watching</h2>
-      <div class="module letterboxd-module">
-        <!-- LETTERBOXD-START -->
-        <p class="lb-heading"><strong>Recently watched</strong></p>
-        <ul class="lb-list">
-          <li><a href="https://letterboxd.com/thirstypig/film/crime-101/" rel="noopener" target="_blank">Crime 101, 2026</a><span class="lb-rating"></span> <span class="lb-when">&middot; 6d ago</span></li>
-          <li><a href="https://letterboxd.com/thirstypig/film/roofman/" rel="noopener" target="_blank">Roofman, 2025 - ★★★★</a><span class="lb-rating"> ★★★★</span> <span class="lb-when">&middot; 6d ago</span></li>
-          <li><a href="https://letterboxd.com/thirstypig/film/balls-up-2026/" rel="noopener" target="_blank">Balls Up, 2026 - ★★</a><span class="lb-rating"> ★★</span> <span class="lb-when">&middot; 6d ago</span></li>
-        </ul>
-        <p class="feed-updated">Auto-updated April 27, 2026 at 12:48 PM PDT via <a href="https://letterboxd.com/thirstypig/">Letterboxd</a>.</p>
-        <!-- LETTERBOXD-END -->
-      </div>
-      <div class="module trakt-module">
-        <!-- TRAKT-START -->
-        <p class="trakt-heading"><strong>Recently watched</strong></p>
-        <ul class="trakt-list">
-          <li><a href="https://trakt.tv/shows/the-west-wing" rel="noopener" target="_blank">The West Wing S07E22 &mdash; &ldquo;Tomorrow&rdquo;</a> <span class="trakt-when">&middot; <time datetime="2026-04-21T00:57:00Z" data-rel>6d ago</time></span></li>
-        </ul>
-        <p class="feed-updated">Auto-updated April 26, 2026 at 9:05 PM PDT via <a href="https://trakt.tv">Trakt</a>.</p>
-        <!-- TRAKT-END -->
-      </div>
-      <div class="module plex-module">
-        <!-- PLEX-START -->
-        <p class="plex-heading"><strong>Recently on Plex</strong></p>
-        <ul class="plex-list">
-          <li>Transformers One <span class="plex-when">&middot; 2h ago</span></li>
-          <li>The Wild Robot <span class="plex-when">&middot; 5d ago</span></li>
-          <li>Black Mirror S07E06 &mdash; &ldquo;USS Callister: Into Infinity&rdquo; <span class="plex-when">&middot; 5d ago</span></li>
-          <li>S.W.A.T.: Firefight <span class="plex-when">&middot; 5d ago</span></li>
-          <li>S.W.A.T. <span class="plex-when">&middot; 5d ago</span></li>
-        </ul>
-        <p class="feed-updated">Auto-updated April 27, 2026 at 12:58 PM PDT via Plex.</p>
-        <!-- PLEX-END -->
-      </div>
-    </section>
+    <!-- LISTENING -->
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/08</span>
+        <h2 class="nb-section-title">listening</h2>
+        <span class="nb-section-rule"></span>
+      </header>
 
-    <section class="work-section">
-      <h2>Listening</h2>
-      <div class="module spotify-module">
+      <div class="nb-feed">
+        <div class="nb-feed-head">
+          <strong>spotify</strong>
+          <span class="src">last podcast + 5 tracks · auto-updated 4:44 PM PDT</span>
+        </div>
         <!-- SPOTIFY-START -->
-        <p class="spotify-podcast"><strong>Last podcast:</strong> <a href="https://open.spotify.com/episode/3mlfv0lJkDdqMhAyhGLczN" rel="noopener" target="_blank"><em>How I AI</em> &mdash; &ldquo;I built a custom Slack inbox. It was easier than you’d think. | Yash Tekriwal (Clay)&rdquo;</a> &middot; heard <time datetime="2026-04-24T16:00:17Z" data-rel>3d ago</time></p>
-        <p class="spotify-heading"><strong>Recently on Spotify</strong></p>
-        <ul class="spotify-list">
-          <li><a href="https://open.spotify.com/track/6qspW4YKycviDFjHBOaqUY" rel="noopener" target="_blank">&ldquo;Waterfalls&rdquo; &mdash; TLC</a> <span class="spotify-when">&middot; <time datetime="2026-04-27T03:59:49Z" data-rel>22h ago</time></span></li>
-          <li><a href="https://open.spotify.com/track/1KGi9sZVMeszgZOWivFpxs" rel="noopener" target="_blank">&ldquo;No Scrubs&rdquo; &mdash; TLC</a> <span class="spotify-when">&middot; <time datetime="2026-04-27T03:55:09Z" data-rel>22h ago</time></span></li>
-          <li><a href="https://open.spotify.com/track/4EchqUKQ3qAQuRNKmeIpnf" rel="noopener" target="_blank">&ldquo;The Kids Aren&#39;t Alright&rdquo; &mdash; The Offspring</a> <span class="spotify-when">&middot; <time datetime="2026-04-27T03:48:21Z" data-rel>22h ago</time></span></li>
-          <li><a href="https://open.spotify.com/track/2zee8Zcesqwnnwliw2Jy8M" rel="noopener" target="_blank">&ldquo;I Belong To You&rdquo; &mdash; Lenny Kravitz</a> <span class="spotify-when">&middot; <time datetime="2026-04-27T03:45:21Z" data-rel>22h ago</time></span></li>
-          <li><a href="https://open.spotify.com/track/4Yf5bqU3NK4kNOypcrLYwU" rel="noopener" target="_blank">&ldquo;Faint&rdquo; &mdash; Linkin Park</a> <span class="spotify-when">&middot; <time datetime="2026-04-27T03:41:03Z" data-rel>22h ago</time></span></li>
+        <div style="font-size: 13px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed var(--rule);">
+          <strong>Last podcast:</strong> <a href="https://open.spotify.com/episode/3mlfv0lJkDdqMhAyhGLczN" rel="noopener" target="_blank"><em>How I AI</em> — "I built a custom Slack inbox. It was easier than you'd think. | Yash Tekriwal (Clay)"</a> · heard <time datetime="2026-04-24T16:00:17Z" data-rel>3d ago</time>
+        </div>
+        <ul>
+          <li><a href="https://open.spotify.com/track/6qspW4YKycviDFjHBOaqUY" rel="noopener" target="_blank">"Waterfalls" — TLC</a> <span class="when">· <time datetime="2026-04-27T03:59:49Z" data-rel>19h ago</time></span></li>
+          <li><a href="https://open.spotify.com/track/1KGi9sZVMeszgZOWivFpxs" rel="noopener" target="_blank">"No Scrubs" — TLC</a> <span class="when">· <time datetime="2026-04-27T03:55:09Z" data-rel>19h ago</time></span></li>
+          <li><a href="https://open.spotify.com/track/4EchqUKQ3qAQuRNKmeIpnf" rel="noopener" target="_blank">"The Kids Aren't Alright" — The Offspring</a> <span class="when">· <time datetime="2026-04-27T03:48:21Z" data-rel>19h ago</time></span></li>
+          <li><a href="https://open.spotify.com/track/2zee8Zcesqwnnwliw2Jy8M" rel="noopener" target="_blank">"I Belong To You" — Lenny Kravitz</a> <span class="when">· <time datetime="2026-04-27T03:45:21Z" data-rel>19h ago</time></span></li>
+          <li><a href="https://open.spotify.com/track/4Yf5bqU3NK4kNOypcrLYwU" rel="noopener" target="_blank">"Faint" — Linkin Park</a> <span class="when">· <time datetime="2026-04-27T03:41:03Z" data-rel>20h ago</time></span></li>
         </ul>
-        <p class="spotify-updated">Auto-updated April 27, 2026 at 7:08 PM PDT via <a href="https://developer.spotify.com/documentation/web-api">Spotify Web API</a>.</p>
         <!-- SPOTIFY-END -->
       </div>
     </section>
 
-    <section class="work-section">
-      <h2>Reading &amp; posting</h2>
-      <div class="module goodreads-module">
-        <!-- GOODREADS-READING-START -->
-        <p class="gr-heading"><strong>Currently reading</strong></p>
-        <ul class="gr-list">
-          <li><a href="https://www.goodreads.com/review/show/8531200655?utm_medium=api&amp;utm_source=rss" rel="noopener" target="_blank"><em>100 Things Dodgers Fans Should Know &amp; Do Before They Die (100 Things...Fans Should Know)</em></a> <span class="gr-author">&mdash; Jon Weisman</span></li>
-          <li><a href="https://www.goodreads.com/review/show/8531200257?utm_medium=api&amp;utm_source=rss" rel="noopener" target="_blank"><em>The Arm: Inside the Billion-Dollar Mystery of the Most Valuable Commodity in Sports</em></a> <span class="gr-author">&mdash; Jeff Passan</span></li>
-        </ul>
-        <!-- GOODREADS-READING-END -->
-        <!-- GOODREADS-START -->
-        <p class="gr-heading"><strong>Recently read</strong></p>
-        <ul class="gr-list">
-          <li><a href="https://www.goodreads.com/review/show/3403861194?utm_medium=api&amp;utm_source=rss" rel="noopener" target="_blank"><em>勇於追夢 --- 張秀瓊博士的媒體人生: 資深媒體人的媒體人生系列 (Traditional Chinese Edition)</em></a> <span class="gr-author">&mdash; 張 秀瓊</span><span class="gr-rating"> ★★★★★</span></li>
-          <li><a href="https://www.goodreads.com/review/show/2600457028?utm_medium=api&amp;utm_source=rss" rel="noopener" target="_blank"><em>China Rich Girlfriend (Crazy Rich Asians, #2)</em></a> <span class="gr-author">&mdash; Kevin Kwan</span></li>
-          <li><a href="https://www.goodreads.com/review/show/2600457213?utm_medium=api&amp;utm_source=rss" rel="noopener" target="_blank"><em>Rich Dad, Poor Dad</em></a> <span class="gr-author">&mdash; Robert T. Kiyosaki</span></li>
-          <li><a href="https://www.goodreads.com/review/show/2544644324?utm_medium=api&amp;utm_source=rss" rel="noopener" target="_blank"><em>The Windup Girl</em></a> <span class="gr-author">&mdash; Paolo Bacigalupi</span></li>
-          <li><a href="https://www.goodreads.com/review/show/2429413068?utm_medium=api&amp;utm_source=rss" rel="noopener" target="_blank"><em>Sapiens: A Brief History of Humankind</em></a> <span class="gr-author">&mdash; Yuval Noah Harari</span></li>
-        </ul>
-        <p class="feed-updated">Auto-updated April 27, 2026 at 12:48 PM PDT via <a href="https://www.goodreads.com/user/show/33966778">Goodreads</a>.</p>
-        <!-- GOODREADS-END -->
-      </div>
-      <div class="module">
-        <p>
-          <strong>Posting as @thirstypig:</strong>
-          <a href="https://instagram.com/thirstypig">Instagram</a> &middot;
-          <a href="https://facebook.com/thirstypig">Facebook</a> &middot;
-          <a href="https://tiktok.com/@thirstypig">TikTok</a> &middot;
-          <a href="https://x.com/thirstypig">X</a>
-          &mdash; food, travel, and SGV dispatches. The visual companion to
-          <a href="https://thirstypig.com">the blog</a>.
-        </p>
+    <!-- POSTING -->
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/09</span>
+        <h2 class="nb-section-title">posting</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+
+      <div class="nb-card compact">
+        <p class="nb-card-body"><strong>@thirstypig:</strong> <a href="https://instagram.com/thirstypig">Instagram</a> · <a href="https://facebook.com/thirstypig">Facebook</a> · <a href="https://tiktok.com/@thirstypig">TikTok</a> · <a href="https://x.com/thirstypig">X</a> — food, travel, and SGV dispatches. The visual companion to <a href="https://thirstypig.com">the blog</a>.</p>
       </div>
     </section>
 
-    <section class="work-section" id="hitlist-section">
-      <!-- Script populates this section from thirstypig.com/places-hitlist.json.
-           If the fetch fails or returns no items, the entire section is removed
-           so there's no empty shell visible to readers. -->
-    </section>
+    <!-- HITLIST (client-side fetch) -->
+    <section class="nb-section" id="hitlist-section"></section>
 
-    <!-- Off the screen content merged into "Off the clock" above -->
-
-    <p class="section-lede" style="margin-top: 3rem;">
-      This page follows the <a href="https://nownownow.com/">/now movement</a>
-      &mdash; plain-text, last-updated timestamp, honest about what's active vs.
-      paused. It's also <a href="https://nownownow.com/p/dhJc">listed in the
-      /now directory</a>. If it's been more than two months since this page was
-      updated, assume I forgot, not that nothing has changed.
-    </p>
+    <footer class="nb-footer">
+      <span>// © 2026 james chang</span>
+      </footer>
   </main>
 
-  <footer class="site-footer">
-    <p class="footer-meta">
-      <a href="/">&larr; Back to James Chang</a>
-      <span class="sep">&middot;</span>
-      &copy; <time datetime="2026">2026</time>
-    </p>
-  </footer>
   <script src="/script.js" defer></script>
+
   <script>
-    // Hit list fetch from thirstypig.com. Safe-by-construction:
-    // - All restaurant data rendered via textContent or createElement (no innerHTML)
-    // - Silent fail: on fetch error or empty list, the whole section is removed
-    // - CORS required on thirstypig.com/places-hitlist.json for jameschang.co
-    // - Also requires https://thirstypig.com in this page's CSP connect-src
+    // Hit list fetch from thirstypig.com — same pattern as live /now/.
+    // Silent fail removes the section if no items / fetch error.
     (async function () {
       const container = document.getElementById('hitlist-section');
       if (!container) return;
-
-      const LINK_LABELS = {
-        yelp: 'Yelp',
-        google: 'Map',
-        instagram: 'IG',
-        resy: 'Resy',
-        opentable: 'OpenTable',
-        website: 'Site',
-      };
-
+      const LINK_LABELS = { yelp: 'Yelp', google: 'Map', instagram: 'IG', resy: 'Resy', opentable: 'OpenTable', website: 'Site' };
       try {
         const res = await fetch('https://thirstypig.com/places-hitlist.json');
         if (!res.ok) throw new Error(res.status);
         const data = await res.json();
         const items = (data.items || []).slice(0, 5);
-        if (!items.length) {
-          container.remove();
-          return;
-        }
+        if (!items.length) { container.remove(); return; }
 
-        const h = document.createElement('h2');
-        h.textContent = 'Places I want to try';
-        container.appendChild(h);
+        const head = document.createElement('header');
+        head.className = 'nb-section-head';
+        const num = document.createElement('span');
+        num.className = 'nb-section-num';
+        num.textContent = '/10';
+        const title = document.createElement('h2');
+        title.className = 'nb-section-title';
+        title.textContent = 'places i want to try';
+        const rule = document.createElement('span');
+        rule.className = 'nb-section-rule';
+        head.append(num, title, rule);
+        container.appendChild(head);
 
-        const sub = document.createElement('p');
-        sub.className = 'hitlist-subhead';
-        sub.appendChild(document.createTextNode('Hit list from '));
-        const subLink = document.createElement('a');
-        subLink.href = 'https://thirstypig.com/hitlist/';
-        subLink.textContent = 'thirstypig.com';
-        sub.appendChild(subLink);
-        container.appendChild(sub);
-
-        const module = document.createElement('div');
-        module.className = 'module';
-
+        const card = document.createElement('div');
+        card.className = 'nb-card compact';
         const ul = document.createElement('ul');
-        ul.className = 'hitlist-list';
+        ul.style.margin = '0';
+        ul.style.padding = '0';
+        ul.style.listStyle = 'none';
+        ul.style.display = 'grid';
+        ul.style.gap = '8px';
         items.forEach(item => {
           const li = document.createElement('li');
-
           const name = document.createElement('strong');
           name.textContent = item.name;
           li.appendChild(name);
-
           const locText = (item.neighborhood ? item.neighborhood + ', ' : '') + (item.city || '');
           if (locText.trim().replace(/,\s*$/, '').length) {
             const loc = document.createElement('span');
-            loc.className = 'hitlist-location';
-            loc.textContent = ' \u2014 ' + locText.replace(/,\s*$/, '');
+            loc.style.color = 'var(--dim)';
+            loc.textContent = ' — ' + locText.replace(/,\s*$/, '');
             li.appendChild(loc);
           }
-
           const linkEntries = Object.entries(item.links || {}).filter(([, url]) => url);
           if (linkEntries.length) {
             const linksSpan = document.createElement('span');
-            linksSpan.className = 'hitlist-links';
-            linksSpan.appendChild(document.createTextNode(' \u00b7 '));
+            linksSpan.style.fontSize = '11px';
+            linksSpan.style.fontFamily = 'var(--mono)';
+            linksSpan.appendChild(document.createTextNode(' · '));
             linkEntries.forEach(([key, url], i) => {
-              if (i > 0) linksSpan.appendChild(document.createTextNode(' \u00b7 '));
+              if (i > 0) linksSpan.appendChild(document.createTextNode(' · '));
               const a = document.createElement('a');
               if (!/^https?:\/\//i.test(url)) return;
               a.href = url;
@@ -500,54 +500,27 @@
             });
             li.appendChild(linksSpan);
           }
-
           ul.appendChild(li);
         });
-        module.appendChild(ul);
-
-        const footer = document.createElement('p');
-        footer.className = 'hitlist-footer';
+        card.appendChild(ul);
         const footerLink = document.createElement('a');
         footerLink.href = 'https://thirstypig.com/hitlist/';
-        footerLink.textContent = 'See the full list \u2192';
-        footer.appendChild(footerLink);
-        module.appendChild(footer);
-
-        if (data.lastUpdated) {
-          const when = new Date(data.lastUpdated);
-          if (!isNaN(when)) {
-            const date = when.toLocaleDateString('en-US', {
-              month: 'long', day: 'numeric', year: 'numeric',
-              timeZone: 'America/Los_Angeles',
-            });
-            const time = when.toLocaleTimeString('en-US', {
-              hour: 'numeric', minute: '2-digit', hour12: true,
-              timeZone: 'America/Los_Angeles', timeZoneName: 'short',
-            });
-            const updated = document.createElement('p');
-            updated.className = 'feed-updated';
-            updated.appendChild(document.createTextNode('Auto-updated ' + date + ' at ' + time + ' via '));
-            const srcLink = document.createElement('a');
-            srcLink.href = 'https://thirstypig.com/hitlist/';
-            srcLink.textContent = 'Thirsty Pig';
-            updated.appendChild(srcLink);
-            updated.appendChild(document.createTextNode('.'));
-            module.appendChild(updated);
-          }
-        }
-
-        container.appendChild(module);
+        footerLink.textContent = 'See the full list →';
+        footerLink.style.display = 'inline-block';
+        footerLink.style.marginTop = '12px';
+        footerLink.style.fontFamily = 'var(--mono)';
+        footerLink.style.fontSize = '12px';
+        card.appendChild(footerLink);
+        container.appendChild(card);
       } catch (e) {
         console.warn('[hitlist]', e);
         container.remove();
       }
     })();
   </script>
+
   <script>
-    // Live-relative time upgrader. Every <time data-rel> in the page was
-    // server-rendered with a stale "Nm ago" label at sync time; this script
-    // recomputes the label from the datetime attribute at view time and
-    // refreshes it every minute so the page never shows yesterday's number.
+    // Live-relative timestamps — same upgrader as live /now/.
     (function () {
       function fmt(ms) {
         var m = Math.floor(ms / 60000);
@@ -569,11 +542,8 @@
           if (!isNaN(t)) el.textContent = fmt(now - t);
         });
       }
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', tick);
-      } else {
-        tick();
-      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tick);
+      else tick();
       setInterval(tick, 60000);
     })();
   </script>

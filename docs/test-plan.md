@@ -51,8 +51,7 @@ python3 -m pytest tests/test_site_e2e.py -v
 | Image references | All `<img src>` and `<source srcset>` files exist |
 | JSON-LD | Structured data is valid JSON on all pages |
 | Feed markers | `now/index.html` has paired START/END markers for all feeds + `PAGE-UPDATED` eyebrow marker |
-| Notebook marker parity | `notebook/now/index.html` has every START marker present in `now/index.html` — protects cut-over from silently losing cron sync targets |
-| Print stylesheet | Key print-only elements exist in `index.html` |
+| Print stylesheet | `notebook.css` contains an `@media print` block and `@page` rule for résumé PDF generation |
 | OpenSSL parity | All `openssl enc` calls use matching `-iter 600000` |
 | Dark mode parity | `@media (prefers-color-scheme: dark)` count matches `[data-theme="dark"]` count in CSS |
 | GA4 presence | GA4 snippet (G-B3HW5VBDB3) present on all pages |
