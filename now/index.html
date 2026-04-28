@@ -94,8 +94,19 @@
 
           <p>An AI trading-decision experiment — Claude Sonnet makes buy/sell/hold calls, a FastAPI + Next.js stack handles data and execution, and an Alpaca paper-trading account is the live target (not real money yet). Just wrapped a 7-agent code review (100 findings resolved), unified the trade data model, and stood up a 297-test suite with pre-commit hooks and CI — all AI-assisted. Next up: 30+ paper trades to validate the pipeline before flipping the live switch.</p>
           <p class="feed-updated">Auto-updated April 27, 2026 at 8:28 AM PDT via CLAUDE.md + GitHub events.</p>
-        
+
         <!-- TLDR-bahtzang-trader-END -->
+      </div>
+
+      <div class="module">
+        <h3 class="module-name"><a href="https://thirstypig.com">The Thirsty Pig</a> <span class="module-url">thirstypig.com</span></h3>
+        <!-- TLDR-thirsty-pig-START -->
+
+          <p>My food blog from 2007–present, rebuilt from Wayback Machine archives + Instagram exports. 1,639 published posts and 1,400+ mapped restaurants live at thirstypig.com. Active redesign push using Claude Design — extending April 2026's "Bold Red Poster" homepage (full-bleed red hero, Archivo type, the original pig logo, region landing pages) across the rest of the site. Content pipeline runs itself: new Instagram posts arrive via a manual-export pipeline (Meta API is walled for personal Pages — confirmed dead end across both FB Graph and IG Graph in April 2026), a local macOS launchd watcher auto-uploads export ZIPs as GitHub releases when they land in ~/Downloads, and a Monday-9am-PT weekly routine reminds me to drop the new ZIP. 10 places on the hit list.</p>
+          <p class="shipping-recent"><strong>Recently shipped:</strong> <a href="https://github.com/thirstypig/thirstypig-blog/commit/798c4440569c65b164db8d9a353d28e68d6d8109" rel="noopener" target="_blank">Swap site logo to redpig.jpg (#71)</a> <span class="gh-when">&middot; <time datetime="2026-04-24T20:15:44Z" data-rel>2d ago</time></span></p>
+          <p class="feed-updated">Auto-updated April 27, 2026 at 8:28 AM PDT via CLAUDE.md + GitHub events.</p>
+
+        <!-- TLDR-thirsty-pig-END -->
       </div>
     </section>
 
@@ -150,33 +161,7 @@
     </section>
 
     <section class="work-section">
-      <h2>In a good spot</h2>
-      <div class="module">
-        <h3 class="module-name"><a href="https://thirstypig.com">The Thirsty Pig</a> <span class="module-url">thirstypig.com</span></h3>
-        <!-- TLDR-thirsty-pig-START -->
-
-          <p>My food blog from 2007–2017, rebuilt from Wayback Machine archives and back online at thirstypig.com. Sits in maintenance mode now — 2,120 posts and 1,400+ mapped restaurants are live, with new posts wired in automatically from Instagram. Working slowly through the hit list of places to try; no urgency, since the content pipeline runs itself.</p>
-          <p class="shipping-recent"><strong>Recently shipped:</strong> <a href="https://github.com/thirstypig/thirstypig-blog/commit/798c4440569c65b164db8d9a353d28e68d6d8109" rel="noopener" target="_blank">Swap site logo to redpig.jpg (#71)</a> <span class="gh-when">&middot; <time datetime="2026-04-24T20:15:44Z" data-rel>2d ago</time></span></p>
-          <p class="feed-updated">Auto-updated April 27, 2026 at 8:28 AM PDT via CLAUDE.md + GitHub events.</p>
-        
-        <!-- TLDR-thirsty-pig-END -->
-      </div>
-    </section>
-
-    <section class="work-section">
       <h2>On the calendar</h2>
-      <div class="module">
-        <p>
-          <strong>Attending:</strong>
-          <a href="https://camla.org/springfest/">Spring Fest 2026</a> at the
-          <a href="https://camla.org">Chinese American Museum</a> &mdash;
-          <time datetime="2026-04-25">April&nbsp;25, 2026</time>, 12&ndash;5pm &middot;
-          425 N Los Angeles St, downtown LA. CAM + El Pueblo&rsquo;s annual Year-of-the-Horse
-          spring festival, opening AAPI Heritage Month with performances, folk crafts,
-          and vendors. (As a board member I&rsquo;ll be on-site helping run it.)
-        </p>
-      </div>
-
       <div class="module">
         <p>
           <strong>Confirmed: judging.</strong>
@@ -242,29 +227,18 @@
         </p>
       </div>
       <div class="module">
-        <h3 class="module-name">AI design tools &mdash; Claude Design, Figma AI, Lovable</h3>
+        <h3 class="module-name"><a href="https://claude.com">Claude Design</a></h3>
         <p>
-          Three tools at different layers of the stack, all worth a look.
-          <a href="https://claude.com">Claude Design</a> generates
-          component specs and UI code you wire into your own stack &mdash;
-          closest fit for a plain HTML/CSS setup like this one, no React
-          scaffolding.
-          <a href="https://www.figma.com/ai/">Figma AI</a>
-          (a.k.a. Figma Make / First Draft) lives inside your Figma file
-          and thinks in design primitives &mdash; frames, auto-layout,
-          your components &mdash; rather than code.
-          <a href="https://lovable.dev">Lovable</a> sits at the other
-          end: prompt-to-full-app, scaffolds React + Tailwind + Supabase
-          with routing, auth, and a DB schema.
-        </p>
-        <p>
-          Running all three on different-shaped problems to feel out
-          where each earns its spot. Watching specifically for: does
-          Figma AI replace the rough-sketch step or just automate the
-          parts I already enjoy? Does Lovable&rsquo;s 0&rarr;1 speed hold
-          up when you need to own and evolve the output afterward? Does
-          Claude Design drift toward a generic AI look or stay crisp
-          across many prompts? Verdicts pending.
+          Using <a href="https://claude.com">Claude Design</a> to redesign
+          three of my sites &mdash;
+          <a href="https://thefantasticleagues.com">The Fantastic Leagues</a>,
+          <a href="https://alephco.io">Aleph</a>, and
+          <a href="https://thirstypig.com">The Thirsty Pig</a>. Of the AI
+          design tools I was comparing (<a href="https://www.figma.com/ai/">Figma AI</a>
+          and <a href="https://lovable.dev">Lovable</a> were the others),
+          Claude Design earned the spot &mdash; it generates component specs
+          and UI code I can wire straight into the existing stacks instead
+          of scaffolding a new app.
         </p>
       </div>
       <div class="module">
