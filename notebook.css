@@ -1011,7 +1011,7 @@ a:hover { text-decoration: underline; }
    The [projects ▾] nav link wraps a hover-revealed dropdown showing the
    three deep-dive projects + "all projects". On hover or keyboard focus,
    the panel appears below the link. Tapping the link itself (no hover
-   on touch devices) navigates straight to /work/ — so mobile users still
+   on touch devices) navigates straight to /projects/ — so mobile users still
    get a clear destination. The dropdown panel is hidden on narrow
    viewports because there's no hover affordance there. */
 .nb-dropdown-wrap {
@@ -1077,10 +1077,10 @@ a:hover { text-decoration: underline; }
 /* ─── Mobile nav: collapse minor section links at narrow widths ─────────
    Below 600px the nav can't fit brand + 4 section links + résumé link +
    theme toggle on one row (~660px of content). Keep the high-value
-   destinations visible — [projects ▾] (linked to /work/) and [now] —
+   destinations visible — [projects ▾] (linked to /projects/) and [now] —
    and hide [about] and [experience]. The dropdown panel is also
    suppressed because hover doesn't exist on touch devices; tapping the
-   link still navigates to /work/. Body anchor links remain accessible
+   link still navigates to /projects/. Body anchor links remain accessible
    inside each section for users who scroll. */
 @media (max-width: 600px) {
   .nb-nav-inner {

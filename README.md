@@ -12,8 +12,8 @@ Personal site for James Chang — founder of Aleph Co. and senior product manage
 | `styles.css` | Design system (CSS custom properties) + `@media print` resume stylesheet |
 | `script.js` | Theme toggle (light/dark) + headshot rotation (crossfade, respects reduced-motion) |
 | `now/index.html` | Derek Sivers-style /now page with 11 automated data feeds |
-| `work/` | Deep-dive project pages (Aleph, Fantastic Leagues, Judge Tool) |
-| `work/work.css` | Shared styles for /work and /now pages |
+| `projects/` | Deep-dive project pages (Aleph, Fantastic Leagues, Judge Tool) |
+| `projects/projects.css` | Shared styles for /projects and /now pages |
 | `privacy/` | Privacy policy (required by WHOOP/Spotify app registrations) |
 | `bin/` | Python sync scripts (WHOOP, Spotify, Trakt, Plex, public feeds) |
 | `.github/workflows/` | GitHub Actions for automated feed updates + staleness monitoring |

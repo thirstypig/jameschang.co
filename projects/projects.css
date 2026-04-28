@@ -1,4 +1,4 @@
-/* /work/ pages — extends main styles.css with snapshot-specific layout. */
+/* /projects/ pages — extends main styles.css with snapshot-specific layout. */
 
 /* Wider max-width for data-dense pages */
 .work-main {
@@ -56,6 +56,47 @@
   font-weight: 500;
 }
 @media print { .project-nav { display: none; } }
+
+/* Cross-project nav: jump between sibling project deep-dives.
+   Sits above .project-nav and uses the same chip pattern, but distinguished
+   by an accent-tinted leading label so visitors can tell it's switching
+   projects (not just sub-pages within the current one). */
+.cross-project-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.5rem;
+  align-items: center;
+  margin: 1rem 0 0;
+  padding: 0.5rem 0 0.75rem;
+  font-size: 0.875rem;
+}
+.cross-project-nav .label {
+  color: var(--accent);
+  margin-right: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.cross-project-nav a {
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  color: var(--dim);
+  text-decoration: none;
+  transition: color 0.1s, border-color 0.1s;
+}
+.cross-project-nav a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.cross-project-nav a[aria-current="page"] {
+  color: var(--ink);
+  border-color: var(--ink);
+  background: var(--surface);
+  font-weight: 500;
+}
+@media print { .cross-project-nav { display: none; } }
 
 /* Snapshot banner at top of every work page */
 .snapshot-banner {

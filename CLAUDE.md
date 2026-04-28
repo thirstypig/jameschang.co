@@ -13,7 +13,7 @@ Operational notes for Claude Code (and any other agent) working on this repo. Fo
 ```
 /                       Homepage (index.html + notebook.css + script.js) — Claude Design notebook direction
 /now/                   Derek Sivers-style /now page (reads notebook.css)
-/work/                  Deep-dive project pages (Aleph, Fantastic Leagues, Judge Tool) — each has sub-pages + dashboard prompt showcase. Loads notebook.css + work/work.css.
+/projects/              Deep-dive project pages (Aleph, Fantastic Leagues, Judge Tool) — each has sub-pages + dashboard prompt showcase. Loads notebook.css + projects/projects.css.
 /privacy/               Privacy policy (required by WHOOP app registration). Loads notebook.css.
 /whoop/callback/        OAuth2 redirect target (static page that reads ?code= from URL). Inline-styled utility page, no shared CSS.
 /assets/                Images (AVIF/WebP/PNG responsive triples), favicons, OG image
@@ -27,9 +27,9 @@ Operational notes for Claude Code (and any other agent) working on this repo. Fo
 .feeds-heartbeat.json   Timestamped heartbeats per feed (committed by sync workflows)
 ```
 
-**One design system, two stylesheets.** The Claude Design "notebook" direction was cut over site-wide on 2026-04-27. Every content page (`/`, `/now/`, `/work/*`, `/privacy/`) loads `/notebook.css` and shares the same design language: forest-green/clay accent, hard-shadow cards, graph-paper grid, Geist Mono + Space Grotesk fonts.
+**One design system, two stylesheets.** The Claude Design "notebook" direction was cut over site-wide on 2026-04-27. Every content page (`/`, `/now/`, `/projects/*`, `/privacy/`) loads `/notebook.css` and shares the same design language: forest-green/clay accent, hard-shadow cards, graph-paper grid, Geist Mono + Space Grotesk fonts.
 
-The `/work/*` deep-dives additionally load `/work/work.css` for component-specific classes (`.release`, `.module`, `.snapshot-banner`, `.terminal`, `.lightbox`, `.arch-block`, `.scorecard`, `.feature-list`, `.comp-table`, etc.) — but `work.css` was **retokenized** to consume notebook design tokens (`var(--ink)`, `var(--surface)`, `var(--display)`, etc.) so visually the work sub-pages render in the same notebook aesthetic. Eventually `work.css` could be merged into `notebook.css`; it stays separate for now to avoid bloating the site-wide stylesheet with classes used only on 14 deep-dive pages.
+The `/projects/*` deep-dives additionally load `/projects/projects.css` for component-specific classes (`.release`, `.module`, `.snapshot-banner`, `.terminal`, `.lightbox`, `.arch-block`, `.scorecard`, `.feature-list`, `.comp-table`, etc.) — but `work.css` was **retokenized** to consume notebook design tokens (`var(--ink)`, `var(--surface)`, `var(--display)`, etc.) so visually the work sub-pages render in the same notebook aesthetic. Eventually `work.css` could be merged into `notebook.css`; it stays separate for now to avoid bloating the site-wide stylesheet with classes used only on 14 deep-dive pages.
 
 The legacy `styles.css` is no longer loaded by any page and could be deleted — kept temporarily only as a reference for the original design tokens.
 
@@ -72,17 +72,17 @@ python3 -m http.server 8787 &
   --print-to-pdf=resume.pdf http://127.0.0.1:8787/
 ```
 
-## /work/ deep-dive pages (labeled "Projects" in nav)
+## /projects/ deep-dive pages (labeled "Projects" in nav)
 
-Each project-with-a-deep-dive has its own folder under `/work/[slug]/` with sub-pages (how-it-works, tech, roadmap, changelog, dashboard). They share `/work/work.css`. Navigation within a project uses `.project-nav`; back to home uses `.crumbs`. The URL path is `/work/` but all user-facing text reads "Projects" (nav links, breadcrumbs, headings).
+Each project-with-a-deep-dive has its own folder under `/projects/[slug]/` with sub-pages (how-it-works, tech, roadmap, changelog, dashboard). They share `/projects/projects.css`. Navigation within a project uses `.project-nav`; back to home uses `.crumbs`. The URL path is `/projects/` but all user-facing text reads "Projects" (nav links, breadcrumbs, headings).
 
-**Dashboard prompt pages** (`/work/[slug]/dashboard/`) showcase the AI-assisted engineering process — the prompt(s) that built the admin dashboard, displayed in terminal-style UI (`.terminal` component in `work.css`). Screenshots use a clickable lightbox (`<dialog>` element). When adding a new dashboard page, ensure the Dashboard tab is added to `.project-nav` in **all** sibling pages.
+**Dashboard prompt pages** (`/projects/[slug]/dashboard/`) showcase the AI-assisted engineering process — the prompt(s) that built the admin dashboard, displayed in terminal-style UI (`.terminal` component in `work.css`). Screenshots use a clickable lightbox (`<dialog>` element). When adding a new dashboard page, ensure the Dashboard tab is added to `.project-nav` in **all** sibling pages.
 
 ### Adding a new project deep-dive
 
-1. Create `/work/[slug]/` with sub-pages (e.g. `tech/index.html`, `roadmap/index.html`, `changelog/index.html`). Copy an existing project's page as the template — match the CSP meta tag, JSON-LD, breadcrumbs, `.project-nav`, `.snapshot-banner`, `.work-hero`, footer, and script tag.
+1. Create `/projects/[slug]/` with sub-pages (e.g. `tech/index.html`, `roadmap/index.html`, `changelog/index.html`). Copy an existing project's page as the template — match the CSP meta tag, JSON-LD, breadcrumbs, `.project-nav`, `.snapshot-banner`, `.work-hero`, footer, and script tag.
 2. Set `aria-current="page"` on the active tab in `.project-nav` for each sub-page.
-3. Add the project to `/work/index.html` (the work landing page).
+3. Add the project to `/projects/index.html` (the work landing page).
 4. Add a project card to the `#work` section grid in `index.html`.
 5. Add all new URLs to `sitemap.xml`.
 6. Add the Dashboard tab to `.project-nav` in **all** sibling sub-pages if adding a dashboard page.
@@ -110,7 +110,7 @@ The `/now` page is assembled from several independent sync scripts that each wri
 ### Adding a new data feed
 
 1. Add a new `<section class="work-section">` to `now/index.html` with `FEED-START` / `FEED-END` markers.
-2. Add CSS for the feed's presentation in `work/work.css` (use existing CSS tokens). Follow the naming convention: `.{feed}-module`, `.{feed}-heading`, `.{feed}-list`, `.{feed}-when`, `.{feed}-updated`.
+2. Add CSS for the feed's presentation in `projects/projects.css` (use existing CSS tokens). Follow the naming convention: `.{feed}-module`, `.{feed}-heading`, `.{feed}-list`, `.{feed}-when`, `.{feed}-updated`.
 3. Write a Python function that fetches + returns the HTML block; add to `bin/update-public-feeds.py` (for unauth) or a new `bin/update-{feed}.py` (for OAuth). In `update-public-feeds.py`, add a tuple to the `feeds` list: `("MARKER_NAME", builder_function, 'fallback_html')`.
 4. Add the fetch to the `main()` of the sync script; use `replace_marker()` to insert.
 5. If OAuth: add a callback page at `/{service}/callback/`, auth script at `bin/{service}-auth.sh`, workflow at `.github/workflows/{service}-sync.yml`.

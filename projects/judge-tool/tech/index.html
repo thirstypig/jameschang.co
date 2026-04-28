@@ -9,12 +9,12 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; form-action 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
   <title>The Judge Tool — Under the hood — James Chang</title>
   <meta name="description" content="Full build teardown of The Judge Tool: 16,424 lines of code, 113 tests, 12 database models, 62 server actions. KCBS scoring engine. Shipped in 20 days with transparent AI-assisted workflow.">
-  <link rel="canonical" href="https://jameschang.co/work/judge-tool/tech/">
+  <link rel="canonical" href="https://jameschang.co/projects/judge-tool/tech/">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/space-grotesk-latin.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/geist-mono-latin.woff2" crossorigin>
   <link rel="stylesheet" href="/notebook.css">
-  <link rel="stylesheet" href="/work/work.css">
+  <link rel="stylesheet" href="/projects/projects.css">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -22,7 +22,7 @@
     "headline": "The Judge Tool",
     "name": "The Judge Tool \u2014 Under the hood \u2014 James Chang",
     "description": "Full build teardown of The Judge Tool: 16,424 lines of code, 113 tests, 12 database models, 62 server actions. KCBS scoring engine. Shipped in 20 days with transparent AI-assisted workflow.",
-    "url": "https://jameschang.co/work/judge-tool/tech/",
+    "url": "https://jameschang.co/projects/judge-tool/tech/",
     "author": {
       "@type": "Person",
       "name": "James Chang",
@@ -44,17 +44,16 @@
   <a href="#main" class="skip-link">Skip to content</a>
   <header class="nb-nav">
     <div class="nb-nav-inner">
-      <a href="/" class="nb-brand">james<span class="dot">.</span>chang</a>
+      <a href="/" class="nb-brand">jameschang<span class="dot">.</span>co</a>
       <span class="nb-nav-spacer"></span>
-      <a href="/#about" class="nb-link">[about]</a>
       <a href="/#experience" class="nb-link">[experience]</a>
       <div class="nb-dropdown-wrap">
-        <a href="/work/" class="nb-link" aria-current="page">[projects&nbsp;▾]</a>
+        <a href="/projects/" class="nb-link" aria-current="page">[projects&nbsp;▾]</a>
         <div class="nb-dropdown" role="menu" aria-label="Projects">
-          <a href="/work/" class="nb-dropdown-all" role="menuitem">all projects&nbsp;↗</a>
-          <a href="/work/aleph/how-it-works/" role="menuitem">aleph</a>
-          <a href="/work/fantastic-leagues/ai-insights/" role="menuitem">the fantastic leagues</a>
-          <a href="/work/judge-tool/tech/" role="menuitem">the judge tool</a>
+          <a href="/projects/" class="nb-dropdown-all" role="menuitem">all projects&nbsp;↗</a>
+          <a href="/projects/aleph/how-it-works/" role="menuitem">aleph</a>
+          <a href="/projects/fantastic-leagues/ai-insights/" role="menuitem">the fantastic leagues</a>
+          <a href="/projects/judge-tool/tech/" role="menuitem">the judge tool</a>
         </div>
       </div>
       <a href="/now/" class="nb-link">[now]</a>
@@ -71,17 +70,23 @@
     <p class="crumbs">
       <a href="/">James Chang</a>
       <span class="sep">/</span>
-      <a href="/work/">Projects</a>
+      <a href="/projects/">Projects</a>
       <span class="sep">/</span>
       <span>The Judge Tool</span>
       <span class="sep">/</span>
       <span>Under the hood</span>
     </p>
+    <nav class="cross-project-nav" aria-label="Switch projects">
+      <span class="label">Projects:</span>
+      <a href="/projects/aleph/how-it-works/">Aleph</a>
+      <a href="/projects/fantastic-leagues/ai-insights/">Fantastic Leagues</a>
+      <a href="/projects/judge-tool/tech/" aria-current="page">The Judge Tool</a>
+    </nav>
     <nav class="project-nav" aria-label="Within The Judge Tool">
       <span class="label">Judge Tool:</span>
-      <a href="/work/judge-tool/tech/" aria-current="page">Under the hood</a>
-      <a href="/work/judge-tool/roadmap/">Roadmap & health</a>
-      <a href="/work/judge-tool/changelog/">Changelog</a>
+      <a href="/projects/judge-tool/tech/" aria-current="page">Under the hood</a>
+      <a href="/projects/judge-tool/roadmap/">Roadmap & health</a>
+      <a href="/projects/judge-tool/changelog/">Changelog</a>
     </nav>
 
 
@@ -254,8 +259,8 @@ Tests
     </section>
 
     <div class="work-nav">
-      <a href="/work/fantastic-leagues/changelog/">&larr; Fantastic Leagues changelog</a>
-      <a href="/work/judge-tool/roadmap/" class="next">Roadmap &amp; health &rarr;</a>
+      <a href="/projects/fantastic-leagues/changelog/">&larr; Fantastic Leagues changelog</a>
+      <a href="/projects/judge-tool/roadmap/" class="next">Roadmap &amp; health &rarr;</a>
     </div>
   </main>
 
