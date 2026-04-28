@@ -16,33 +16,35 @@ ordinal = _public.ordinal
 
 
 # ── recovery_color (from update-whoop.py) ────────────────────────
+# Returns notebook .nb-stat .v color classes: pos / warn / danger / muted.
+# Maps to WHOOP green / yellow / red / no-data zones.
 
 class TestRecoveryColor:
     def test_none_returns_muted(self):
         assert recovery_color(None) == "muted"
 
-    def test_high_score_green(self):
-        assert recovery_color(67) == "green"
-        assert recovery_color(100) == "green"
-        assert recovery_color(80) == "green"
+    def test_high_score_pos(self):
+        assert recovery_color(67) == "pos"
+        assert recovery_color(100) == "pos"
+        assert recovery_color(80) == "pos"
 
-    def test_mid_score_yellow(self):
-        assert recovery_color(34) == "yellow"
-        assert recovery_color(50) == "yellow"
-        assert recovery_color(66) == "yellow"
+    def test_mid_score_warn(self):
+        assert recovery_color(34) == "warn"
+        assert recovery_color(50) == "warn"
+        assert recovery_color(66) == "warn"
 
-    def test_low_score_red(self):
-        assert recovery_color(0) == "red"
-        assert recovery_color(33) == "red"
-        assert recovery_color(1) == "red"
+    def test_low_score_danger(self):
+        assert recovery_color(0) == "danger"
+        assert recovery_color(33) == "danger"
+        assert recovery_color(1) == "danger"
 
     def test_boundary_67(self):
-        assert recovery_color(67) == "green"
-        assert recovery_color(66) == "yellow"
+        assert recovery_color(67) == "pos"
+        assert recovery_color(66) == "warn"
 
     def test_boundary_34(self):
-        assert recovery_color(34) == "yellow"
-        assert recovery_color(33) == "red"
+        assert recovery_color(34) == "warn"
+        assert recovery_color(33) == "danger"
 
 
 # ── ordinal (from update-public-feeds.py) ────────────────────────

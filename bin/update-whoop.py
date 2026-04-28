@@ -165,36 +165,80 @@ def fetch_latest_cycle(token):
 
 
 def recovery_color(score):
+    """Maps a WHOOP recovery score (0-100) to a notebook .v color class.
+
+    pos = WHOOP green (>= 67), warn = WHOOP yellow (34-66),
+    danger = WHOOP red (< 34), muted = no data.
+    """
     if score is None:
         return "muted"
     if score >= 67:
-        return "green"
+        return "pos"
     if score >= 34:
-        return "yellow"
-    return "red"
+        return "warn"
+    return "danger"
+
+
+def _stat(key, value, color_class=""):
+    """Render one .nb-stat tile."""
+    v_class = f"v {escape_html(color_class)}".strip() if color_class else "v"
+    return (
+        '        <div class="nb-stat">\n'
+        f'          <div class="k">{escape_html(key)}</div>\n'
+        f'          <div class="{v_class}">{value}</div>\n'
+        '        </div>'
+    )
 
 
 def build_html(recovery, sleep, cycle):
+    """Emits a 4-tile nb-grid-4 (recovery, hrv, resting hr, sleep) plus an
+    update-line that surfaces day-strain when available. The hand-crafted
+    notebook /now placeholder used the same shape \u2014 preserving it here means
+    every cron sync round-trips with no visual regression."""
     now = escape_html(format_update_time())
-    parts = []
-    parts.append(f'        <p class="whoop-updated">Auto-updated {now} via <a href="https://www.whoop.com">WHOOP</a> API</p>')
+    tiles = []
 
-    if recovery:
+    # Recovery \u2014 colored by WHOOP zone
+    if recovery and recovery.get("recovery_score") is not None:
         score = recovery["recovery_score"]
         color = recovery_color(score)
-        score_str = escape_html(f"{score:.0f}%") if score is not None else "\u2014"
-        hrv_str = escape_html(f'{recovery["hrv"]:.0f}ms') if recovery.get("hrv") else "\u2014"
-        rhr_str = escape_html(f'{recovery["resting_hr"]:.0f}bpm') if recovery.get("resting_hr") else "\u2014"
-        parts.append(f'        <p><strong class="whoop-{escape_html(color)}">Recovery: {score_str}</strong> &middot; HRV: {hrv_str} &middot; Resting HR: {rhr_str}</p>')
+        tiles.append(_stat("recovery", escape_html(f"{score:.0f}%"), color))
+    else:
+        tiles.append(_stat("recovery", "\u2014", "muted"))
 
+    # HRV
+    hrv_val = "\u2014"
+    if recovery and recovery.get("hrv") is not None:
+        hrv_val = escape_html(f'{recovery["hrv"]:.0f} ms')
+    tiles.append(_stat("hrv", hrv_val))
+
+    # Resting HR
+    rhr_val = "\u2014"
+    if recovery and recovery.get("resting_hr") is not None:
+        rhr_val = escape_html(f'{recovery["resting_hr"]:.0f} bpm')
+    tiles.append(_stat("resting hr", rhr_val))
+
+    # Sleep
     if sleep:
         h, m = sleep["hours"], sleep["minutes"]
-        eff = escape_html(f'{sleep["efficiency"]:.0f}%') if sleep.get("efficiency") else "\u2014"
-        parts.append(f'        <p>Sleep: {escape_html(str(h))}h {escape_html(f"{m:02d}")}m &middot; Efficiency: {eff}</p>')
+        sleep_val = escape_html(f"{h}h {m:02d}m")
+    else:
+        sleep_val = "\u2014"
+    tiles.append(_stat("sleep", sleep_val))
 
+    parts = ['      <div class="nb-grid-4">'] + tiles + ['      </div>']
+
+    # Day strain + update timestamp on a single trailing line
+    strain_suffix = ""
     if cycle and cycle.get("day_strain") is not None:
-        strain = escape_html(f'{cycle["day_strain"]:.1f}')
-        parts.append(f'        <p>Day Strain: {strain}</p>')
+        strain_suffix = f' &middot; day strain {escape_html(f"{cycle["day_strain"]:.1f}")}'
+    sleep_eff_suffix = ""
+    if sleep and sleep.get("efficiency") is not None:
+        sleep_eff_suffix = f' &middot; sleep efficiency {escape_html(f"{sleep["efficiency"]:.0f}%")}'
+    parts.append(
+        f'      <p class="feed-updated">Auto-updated {now} via <a href="https://www.whoop.com">WHOOP</a> API'
+        f'{strain_suffix}{sleep_eff_suffix}</p>'
+    )
 
     return "\n".join(parts)
 

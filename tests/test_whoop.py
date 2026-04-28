@@ -100,35 +100,50 @@ class TestFetchLatestCycle:
 # ── build_html ───────────────────────────────────────────────────
 
 class TestWhoopBuildHtml:
+    """build_html now emits a 4-tile nb-grid-4 (recovery/hrv/resting hr/sleep)
+    plus a feed-updated line that surfaces day-strain and sleep-efficiency.
+    See bin/update-whoop.py:build_html for the markup."""
+
     def test_full_data(self):
         recovery = {"recovery_score": 81, "hrv": 30, "resting_hr": 64}
         sleep = {"hours": 7, "minutes": 30, "efficiency": 94}
         cycle = {"day_strain": 12.5}
         html = build_html(recovery, sleep, cycle)
-        assert "Recovery: 81%" in html
-        assert "whoop-green" in html
-        assert "HRV: 30ms" in html
-        assert "Sleep: 7h 30m" in html
-        assert "Efficiency: 94%" in html
-        assert "Day Strain: 12.5" in html
+        # Grid container + 4 tiles
+        assert '<div class="nb-grid-4">' in html
+        assert html.count('<div class="nb-stat">') == 4
+        # Recovery tile with pos color (score 81 = green zone)
+        assert '<div class="k">recovery</div>' in html
+        assert '<div class="v pos">81%</div>' in html
+        # HRV / RHR / Sleep tiles
+        assert '<div class="k">hrv</div>' in html
+        assert "30 ms" in html
+        assert '<div class="k">resting hr</div>' in html
+        assert "64 bpm" in html
+        assert '<div class="k">sleep</div>' in html
+        assert "7h 30m" in html
+        # Strain + efficiency surface in the feed-updated line
+        assert "day strain 12.5" in html
+        assert "sleep efficiency 94%" in html
 
     def test_recovery_none_shows_dash(self):
         recovery = {"recovery_score": None, "hrv": None, "resting_hr": None}
         html = build_html(recovery, None, None)
-        assert "whoop-muted" in html
-        assert "\u2014" in html  # em dash for missing values
+        assert '<div class="v muted">\u2014</div>' in html
 
     def test_no_data_still_has_updated_line(self):
         html = build_html(None, None, None)
-        assert "Auto-updated" in html
+        assert '<p class="feed-updated">Auto-updated' in html
         assert "WHOOP" in html
+        # Even with no data, the 4 stat tiles still render with "\u2014"
+        assert html.count('<div class="nb-stat">') == 4
 
-    def test_yellow_recovery(self):
+    def test_warn_recovery(self):
         recovery = {"recovery_score": 50, "hrv": 25, "resting_hr": 70}
         html = build_html(recovery, None, None)
-        assert "whoop-yellow" in html
+        assert '<div class="v warn">50%</div>' in html
 
-    def test_red_recovery(self):
+    def test_danger_recovery(self):
         recovery = {"recovery_score": 20, "hrv": 15, "resting_hr": 80}
         html = build_html(recovery, None, None)
-        assert "whoop-red" in html
+        assert '<div class="v danger">20%</div>' in html
