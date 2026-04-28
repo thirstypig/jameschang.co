@@ -41,7 +41,7 @@ python3 -m http.server 8787 &
 - Dark mode via `prefers-color-scheme` + manual toggle (persisted in localStorage)
 - WCAG 2.2 AA compliant. Lighthouse 100/100/100/100.
 - 10 automated data feeds on /now (WHOOP, Spotify, Trakt, Plex, MLB, Letterboxd, Goodreads currently-reading, Goodreads read, FBST, Thirsty Pig hitlist) + per-project TLDRs and shipping activity pulled from each project's CLAUDE.md and GitHub events
-- 160 tests (pytest) with pre-commit hook and CI
+- 161 tests (pytest) with pre-commit hook and CI
 - Google Analytics 4 + Google Search Console
 
 ## License

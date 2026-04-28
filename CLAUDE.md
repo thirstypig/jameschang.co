@@ -14,9 +14,11 @@ Operational notes for Claude Code (and any other agent) working on this repo. Fo
 /                       Homepage (index.html + styles.css + script.js)
 /now/                   Derek Sivers-style /now page (reads work/work.css)
 /work/                  Deep-dive project pages (Aleph, Fantastic Leagues, Judge Tool) — each has sub-pages + dashboard prompt showcase
+/notebook/              Parallel design preview (notebook direction from Claude Design) — noindex/nofollow, separate notebook.css, self-hosted fonts. Pre-cut-over preview only.
 /privacy/               Privacy policy (required by WHOOP app registration)
 /whoop/callback/        OAuth2 redirect target (static page that reads ?code= from URL)
 /assets/                Images (AVIF/WebP/PNG responsive triples), favicons, OG image
+/assets/fonts/          Self-hosted WOFF2 (Geist Mono + Space Grotesk, latin subset) — used only by /notebook/, not by the live site
 /bin/                   Maintenance scripts (whoop-auth.sh, whoop-encrypt.sh, update-whoop.py, update-spotify.py, update-public-feeds.py, spotify-auth.sh)
 /.github/workflows/     GitHub Actions (WHOOP, Spotify, public feeds sync + staleness check)
 /docs/solutions/        Internal knowledge base — past solved problems (see /ce:compound)
@@ -41,6 +43,8 @@ All color/type/spacing in `styles.css` uses CSS variables. **Never hardcode colo
 | `--measure`, `--measure-wide` | Reading widths (640px / 960px) |
 
 Dark mode is triggered via `@media (prefers-color-scheme: dark)` + an explicit `[data-theme="dark"]` override driven by `script.js` theme toggle (persisted in `localStorage`).
+
+**Note on `/notebook/`:** the parallel preview at `/notebook/` uses its own self-contained `notebook/notebook.css` with a different token system (forest-green/clay accent, hard-shadow cards, graph-paper grid) and self-hosted Geist Mono + Space Grotesk via `@font-face`. It does *not* read `styles.css`. The "pure system, no `@font-face`" rule above applies to the live site only. If we cut over, this becomes the live system.
 
 ## Print stylesheet
 
@@ -154,7 +158,7 @@ All code-review findings from both reviews (initial + 2026-04-18 full-repo audit
 
 ## Testing
 
-160 tests across 8 files. Run with `python3 -m pytest tests/ -v` (requires `pytest`).
+161 tests across 8 files. Run with `python3 -m pytest tests/ -v` (requires `pytest`).
 
 | File | Type | Tests | What it covers |
 |------|------|-------|---------------|
@@ -164,7 +168,7 @@ All code-review findings from both reviews (initial + 2026-04-18 full-repo audit
 | `tests/test_feed_builders.py` | Unit | 18 | All feed builders: github, mlb, letterboxd, goodreads (reading + read), fbst, plex — mocked network, tested HTML output; plex fetch failure returns None vs [] |
 | `tests/test_spotify.py` | Unit | 15 | `update-spotify.py`: build_html, state load/save, fetch_recent_tracks, fetch_current_podcast |
 | `tests/test_whoop.py` | Unit | 14 | `update-whoop.py`: fetch_latest_recovery/sleep/cycle, build_html with all recovery colors |
-| `tests/test_site_e2e.py` | E2E | 25 | All HTML pages: meta tags, CSP, aria-pressed, JSON-LD, images, internal links, feed markers (incl. PAGE-UPDATED), OpenSSL parity, dark mode parity, GA4, privacy policy, symlink detection, sitemap consistency, OG image |
+| `tests/test_site_e2e.py` | E2E | 26 | All HTML pages: meta tags, CSP, aria-pressed, JSON-LD, images, internal links, feed markers (incl. PAGE-UPDATED + notebook-preview parity), OpenSSL parity, dark mode parity, GA4, privacy policy, symlink detection, sitemap consistency, OG image |
 | `tests/test_projects.py` | Unit | 13 | `update-projects.py`: TLDR extraction from marker blocks, config schema, PR-event filtering (drops stripped payloads with no URL/title) |
 
 CI runs on push to `main` via `.github/workflows/ci-tests.yml`. See `docs/test-plan.md` for the full testing strategy.
