@@ -13,11 +13,11 @@ Operational notes for Claude Code (and any other agent) working on this repo. Fo
 ```
 /                       Homepage (index.html + notebook.css + script.js) — Claude Design notebook direction
 /now/                   Derek Sivers-style /now page (reads notebook.css)
-/work/                  Deep-dive project pages (Aleph, Fantastic Leagues, Judge Tool) — each has sub-pages + dashboard prompt showcase. Still on /styles.css + /work/work.css (pre-notebook design system, untouched at cut-over).
-/privacy/               Privacy policy (required by WHOOP app registration). Still on /styles.css.
-/whoop/callback/        OAuth2 redirect target (static page that reads ?code= from URL)
+/work/                  Deep-dive project pages (Aleph, Fantastic Leagues, Judge Tool) — each has sub-pages + dashboard prompt showcase. Loads notebook.css + work/work.css.
+/privacy/               Privacy policy (required by WHOOP app registration). Loads notebook.css.
+/whoop/callback/        OAuth2 redirect target (static page that reads ?code= from URL). Inline-styled utility page, no shared CSS.
 /assets/                Images (AVIF/WebP/PNG responsive triples), favicons, OG image
-/assets/fonts/          Self-hosted WOFF2 (Geist Mono + Space Grotesk, latin subset) — loaded by notebook.css for the homepage + /now
+/assets/fonts/          Self-hosted WOFF2 (Geist Mono + Space Grotesk, latin subset) — loaded by notebook.css site-wide
 /bin/                   Maintenance scripts (whoop-auth.sh, whoop-encrypt.sh, update-whoop.py, update-spotify.py, update-public-feeds.py, spotify-auth.sh)
 /.github/workflows/     GitHub Actions (WHOOP, Spotify, public feeds sync + staleness check)
 /docs/solutions/        Internal knowledge base — past solved problems (see /ce:compound)
@@ -27,13 +27,15 @@ Operational notes for Claude Code (and any other agent) working on this repo. Fo
 .feeds-heartbeat.json   Timestamped heartbeats per feed (committed by sync workflows)
 ```
 
-**Two coexisting design systems:** the Claude Design "notebook" direction was cut over to live on 2026-04-27 for `/` and `/now/`, replacing the prior single-page-résumé design. The `/work/*` deep-dives and `/privacy/` still run on the prior `styles.css` system — they have their own design language (terminal blocks, lightboxes, project-nav, snapshot-banner) that wasn't migrated. Migrating `/work/*` to notebook is a separate future project.
+**One design system, two stylesheets.** The Claude Design "notebook" direction was cut over site-wide on 2026-04-27. Every content page (`/`, `/now/`, `/work/*`, `/privacy/`) loads `/notebook.css` and shares the same design language: forest-green/clay accent, hard-shadow cards, graph-paper grid, Geist Mono + Space Grotesk fonts.
+
+The `/work/*` deep-dives additionally load `/work/work.css` for component-specific classes (`.release`, `.module`, `.snapshot-banner`, `.terminal`, `.lightbox`, `.arch-block`, `.scorecard`, `.feature-list`, `.comp-table`, etc.) — but `work.css` was **retokenized** to consume notebook design tokens (`var(--ink)`, `var(--surface)`, `var(--display)`, etc.) so visually the work sub-pages render in the same notebook aesthetic. Eventually `work.css` could be merged into `notebook.css`; it stays separate for now to avoid bloating the site-wide stylesheet with classes used only on 14 deep-dive pages.
+
+The legacy `styles.css` is no longer loaded by any page and could be deleted — kept temporarily only as a reference for the original design tokens.
 
 ## CSS token system
 
-The homepage and `/now/` use `notebook.css` (forest-green/clay accent, hard-shadow cards, graph-paper grid, self-hosted Geist Mono + Space Grotesk via `@font-face`). The `/work/*` and `/privacy/` pages still use `styles.css` (pure system fonts, oxide-red accent). **Never hardcode colors in either file.**
-
-**notebook.css tokens** (active design system for / and /now/):
+`notebook.css` is the single source of truth for design tokens. `work.css` references the same tokens — there's only one design language now.
 
 | Token | Purpose |
 |-------|---------|
@@ -42,21 +44,13 @@ The homepage and `/now/` use `notebook.css` (forest-green/clay accent, hard-shad
 | `--accent`, `--accent-ink` | Forest green (light) / warm coral (dark), and the readable text on accent surfaces |
 | `--rule`, `--tag` | Dividers + tag chips |
 | `--grid` | Graph-paper grid color (very low alpha) |
-| `--pos`, `--warn`, `--danger` | Status colors |
+| `--pos`, `--warn`, `--danger` | Status colors (used by `.nb-stat .v` and elsewhere) |
 | `--mono`, `--display` | Geist Mono + Space Grotesk WOFF2 (with system fallbacks) |
 | `--measure`, `--grid-size`, `--shadow-offset`, `--border-w` | Layout tokens (1100px / 24px / 3px / 1.5px) |
 
-**styles.css tokens** (legacy, still in use by /work/* and /privacy/):
+Dark mode is triggered via `@media (prefers-color-scheme: dark)` + an explicit `[data-theme="dark"]` override driven by `script.js` theme toggle (persisted in `localStorage`).
 
-| Token | Purpose |
-|-------|---------|
-| `--bg`, `--bg-from`, `--bg-to` | Page background + gradient endpoints |
-| `--text`, `--muted` | Primary and secondary text |
-| `--accent`, `--accent-hover` | Oxide-red (light) / warm coral (dark) |
-| `--rule`, `--card-bg`, `--card-border`, `--card-shadow` | Surface + dividers |
-| `--serif`, `--sans`, `--mono` | Font stacks (pure system, no `@font-face`) |
-
-Dark mode is triggered via `@media (prefers-color-scheme: dark)` + an explicit `[data-theme="dark"]` override driven by `script.js` theme toggle (persisted in `localStorage`). Both stylesheets implement the same `data-theme="dark"` contract.
+**Cron-script class compatibility.** The /now page's cron sync scripts (`update-whoop.py`, `update-spotify.py`, etc.) emit HTML with their own legacy class names (`.spotify-list`, `.feed-updated`, `.whoop-{color}`). `notebook.css` defines all of these in notebook aesthetic so cron-written content stays visually consistent. WHOOP additionally emits notebook `.nb-grid-4` markup directly so the 4-tile recovery layout matches the rest of the design.
 
 ## Print stylesheet
 
