@@ -11,22 +11,23 @@
   <meta name="description" content="Static snapshots of real product work from Aleph Co., The Fantastic Leagues, and The Judge Tool — roadmaps, changelogs, and under-the-hood pages pulled directly from the running apps.">
   <link rel="canonical" href="https://jameschang.co/work/">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="/work/work.css">
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/space-grotesk-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/geist-mono-latin.woff2" crossorigin>
+  <link rel="stylesheet" href="/notebook.css">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     "headline": "Projects",
-    "name": "Projects \u2014 James Chang",
-    "description": "Static snapshots of real product work from Aleph Co., The Fantastic Leagues, and The Judge Tool \u2014 roadmaps, changelogs, and under-the-hood pages pulled directly from the running apps.",
+    "name": "Projects — James Chang",
+    "description": "Static snapshots of real product work from Aleph Co., The Fantastic Leagues, and The Judge Tool — roadmaps, changelogs, and under-the-hood pages pulled directly from the running apps.",
     "url": "https://jameschang.co/work/",
     "author": {
       "@type": "Person",
       "name": "James Chang",
       "url": "https://jameschang.co"
     },
-    "dateModified": "2026-04-14",
+    "dateModified": "2026-04-27",
     "inLanguage": "en-US",
     "isPartOf": {
       "@type": "WebSite",
@@ -40,133 +41,159 @@
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
-  <header class="site-header">
-    <div class="site-header-inner">
-    <a href="/" class="site-brand">James Chang</a>
-      <nav aria-label="Primary">
-      <a href="/#about">About</a>
-      <a href="/#experience">Experience</a>
-      <a href="/#work" aria-current="page">Projects</a>
-      <a href="/now/">Now</a>
+
+  <header class="nb-nav">
+    <div class="nb-nav-inner">
+      <a href="/" class="nb-brand">james<span class="dot">.</span>chang</a>
+      <span class="nb-nav-spacer"></span>
+      <a href="/#about" class="nb-link">[about]</a>
+      <a href="/#experience" class="nb-link">[experience]</a>
+      <a href="/work/" class="nb-link" aria-current="page">[work]</a>
+      <a href="/now/" class="nb-link">[now]</a>
+      <span class="nb-divider"></span>
+      <a href="/resume.pdf" class="nb-resume">résumé.pdf ↓</a>
       <button class="theme-toggle" type="button" aria-label="Toggle light / dark theme" aria-pressed="false">
         <span class="icon-moon" aria-hidden="true">☾</span>
         <span class="icon-sun" aria-hidden="true">☀</span>
       </button>
-    </nav>
     </div>
   </header>
 
-  <main id="main" class="work-main">
-    <p class="crumbs">
-      <a href="/">James Chang</a>
+  <main id="main" class="nb-main">
+    <p class="nb-crumbs">
+      <a href="/">james chang</a>
       <span class="sep">/</span>
-      <span>Projects</span>
+      <span class="here">projects</span>
     </p>
 
-    <div class="work-hero">
-      <p class="eyebrow">Selected project artifacts</p>
-      <h1>Real pages from real apps.</h1>
-      <p class="subtitle">
-        Static snapshots of internal tooling from three of my current products &mdash;
-        roadmaps, changelogs, technical overviews, and how-it-works docs pulled
-        directly from the running apps and mirrored here for anyone who wants to
-        see the work without a login.
+    <section class="nb-hero">
+      <p class="nb-hero-meta">
+        <span>// selected project artifacts</span>
       </p>
+      <h1>Real pages from <span class="accent">real apps</span>.</h1>
+      <p class="nb-hero-sub">
+        Static snapshots of internal tooling from three of my current products — roadmaps, changelogs, technical overviews, and how-it-works docs pulled directly from the running apps and mirrored here for anyone who wants to see the work without a login.
+      </p>
+    </section>
+
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/01</span>
+        <h2 class="nb-section-title">aleph</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+      <p class="nb-section-eyebrow">Compliance SaaS for US importers — FDA FSVP, CPSIA/CPC, California Prop 65, and multi-state PFAS. 12 releases in 14 days. <a href="https://alephco.io">alephco.io ↗</a></p>
+
+      <div class="nb-grid-2">
+        <article class="nb-card compact">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name"><a href="/work/aleph/how-it-works/">How it works</a></h3>
+          </div>
+          <p class="nb-card-body">Four-step process from SKU import to compliant output, plus a module-by-module comparison of what each regulation covers.</p>
+        </article>
+        <article class="nb-card compact">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name"><a href="/work/aleph/roadmap/">Roadmap</a></h3>
+          </div>
+          <p class="nb-card-body">All four compliance modules with workflows, feature status, and six expansion verticals (apparel, cosmetics, furniture, electronics, supplements, automotive).</p>
+        </article>
+        <article class="nb-card compact">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name"><a href="/work/aleph/changelog/">Changelog</a></h3>
+          </div>
+          <p class="nb-card-body">12 releases documenting the FSVP Pro → Aleph rebrand and the build-out from single-module to multi-cohort platform.</p>
+        </article>
+        <article class="nb-card compact">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name"><a href="/work/aleph/dashboard/">Admin Dashboard</a></h3>
+          </div>
+          <p class="nb-card-body">How one prompt became an executive compliance dashboard — the iterative process, the final spec, and the design decisions behind every metric.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/02</span>
+        <h2 class="nb-section-title">the fantastic leagues</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+      <p class="nb-section-eyebrow">Fantasy baseball platform with league-context AI. 26 feature modules, 730 passing tests, 84,400 lines of code. <a href="https://thefantasticleagues.com">thefantasticleagues.com ↗</a></p>
+
+      <div class="nb-grid-2">
+        <article class="nb-card compact">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name"><a href="/work/fantastic-leagues/ai-insights/">AI Insights</a></h3>
+          </div>
+          <p class="nb-card-body">Eight league-context-aware AI features with Gemini primary + Claude fallback, plus a shared SQLite insights cache keyed on team &amp; data hash.</p>
+        </article>
+        <article class="nb-card compact">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name"><a href="/work/fantastic-leagues/tech/">Under the hood</a></h3>
+          </div>
+          <p class="nb-card-body">Architecture, full stack, 26 feature modules, 49 database models, 62 build sessions over six months.</p>
+        </article>
+        <article class="nb-card compact">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name"><a href="/work/fantastic-leagues/analytics/">Product metrics</a></h3>
+          </div>
+          <p class="nb-card-body">PostHog tracking, development velocity across 33 sessions, four key product questions.</p>
+        </article>
+        <article class="nb-card compact">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name"><a href="/work/fantastic-leagues/changelog/">Changelog</a></h3>
+          </div>
+          <p class="nb-card-body">Recent releases through v0.57 — admin dashboard, session tracking, error correlation, parallel-agent build workflow.</p>
+        </article>
+        <article class="nb-card compact">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name"><a href="/work/fantastic-leagues/dashboard/">Admin Dashboard</a></h3>
+          </div>
+          <p class="nb-card-body">Two prompts became one — how an enterprise-scale spec evolved into a context-aware dashboard for a 14-user fantasy app.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/03</span>
+        <h2 class="nb-section-title">the judge tool</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+      <p class="nb-section-eyebrow">Digital KCBS BBQ competition judging. 16,424 lines, 113 tests, shipped in 20 days with transparent AI-assisted workflow documentation. <a href="https://thejudgetool.com">thejudgetool.com ↗</a></p>
+
+      <div class="nb-grid-2">
+        <article class="nb-card compact">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name"><a href="/work/judge-tool/tech/">Under the hood</a></h3>
+          </div>
+          <p class="nb-card-body">Full build teardown: 16,424 LOC, 12 database models, 62 server actions, 113 tests, architecture diagrams, AI workflow.</p>
+        </article>
+        <article class="nb-card compact">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name"><a href="/work/judge-tool/roadmap/">Roadmap &amp; health</a></h3>
+          </div>
+          <p class="nb-card-body">8/10 health scorecard across 6 dimensions, 6-item risk register with mitigations, phase-by-phase roadmap.</p>
+        </article>
+        <article class="nb-card compact">
+          <div class="nb-card-head">
+            <h3 class="nb-card-name"><a href="/work/judge-tool/changelog/">Changelog</a></h3>
+          </div>
+          <p class="nb-card-body">14 releases in 20 days — full app built in one session, then security hardening, WCAG pass, and Vercel migration.</p>
+        </article>
+      </div>
+    </section>
+
+    <div class="nb-note">
+      <strong>// snapshot</strong> — these are point-in-time mirrors. The live apps keep evolving — versions, counts, and roadmaps shift weekly. For the current state, follow the outbound links on each page.
     </div>
 
-    <section class="work-section">
-      <h2>Aleph</h2>
-      <p class="lede">
-        Compliance SaaS for US importers &mdash; FDA FSVP, CPSIA/CPC,
-        California Prop 65, and multi-state PFAS. 12 releases in 14 days.
-        <a href="https://alephco.io">alephco.io &rarr;</a>
-      </p>
-      <ul class="project-grid">
-        <li class="project-card">
-          <h3><a href="/work/aleph/how-it-works/">How it works</a></h3>
-          <p>Four-step process from SKU import to compliant output, plus a module-by-module comparison of what each regulation covers.</p>
-        </li>
-        <li class="project-card">
-          <h3><a href="/work/aleph/roadmap/">Roadmap</a></h3>
-          <p>All four compliance modules with workflows, feature status, and six expansion verticals (apparel, cosmetics, furniture, electronics, supplements, automotive).</p>
-        </li>
-        <li class="project-card">
-          <h3><a href="/work/aleph/changelog/">Changelog</a></h3>
-          <p>12 releases documenting the FSVP Pro &rarr; Aleph rebrand and the build-out from single-module to multi-cohort platform.</p>
-        </li>
-        <li class="project-card">
-          <h3><a href="/work/aleph/dashboard/">Admin Dashboard</a></h3>
-          <p>How one prompt became an executive compliance dashboard &mdash; the iterative process, the final spec, and the design decisions behind every metric.</p>
-        </li>
-      </ul>
-    </section>
-
-    <section class="work-section">
-      <h2>The Fantastic Leagues</h2>
-      <p class="lede">
-        Fantasy baseball platform with league-context AI.
-        26 feature modules, 730 passing tests, 84,400 lines of code.
-        <a href="https://thefantasticleagues.com">thefantasticleagues.com &rarr;</a>
-      </p>
-      <ul class="project-grid">
-        <li class="project-card">
-          <h3><a href="/work/fantastic-leagues/ai-insights/">AI Insights</a></h3>
-          <p>Eight league-context-aware AI features with Gemini primary + Claude fallback, plus a shared SQLite insights cache keyed on team &amp; data hash.</p>
-        </li>
-        <li class="project-card">
-          <h3><a href="/work/fantastic-leagues/tech/">Under the hood</a></h3>
-          <p>Architecture, full stack, 26 feature modules, 49 database models, 62 build sessions over six months.</p>
-        </li>
-        <li class="project-card">
-          <h3><a href="/work/fantastic-leagues/analytics/">Product metrics</a></h3>
-          <p>PostHog tracking, development velocity across 33 sessions, four key product questions.</p>
-        </li>
-        <li class="project-card">
-          <h3><a href="/work/fantastic-leagues/changelog/">Changelog</a></h3>
-          <p>Recent releases through v0.57 &mdash; admin dashboard, session tracking, error correlation, parallel-agent build workflow.</p>
-        </li>
-        <li class="project-card">
-          <h3><a href="/work/fantastic-leagues/dashboard/">Admin Dashboard</a></h3>
-          <p>Two prompts became one &mdash; how an enterprise-scale spec evolved into a context-aware dashboard for a 14-user fantasy app.</p>
-        </li>
-      </ul>
-    </section>
-
-    <section class="work-section">
-      <h2>The Judge Tool</h2>
-      <p class="lede">
-        Digital KCBS BBQ competition judging. 16,424 lines, 113 tests, shipped
-        in 20 days with transparent AI-assisted workflow documentation.
-        <a href="https://thejudgetool.com">thejudgetool.com &rarr;</a>
-      </p>
-      <ul class="project-grid">
-        <li class="project-card">
-          <h3><a href="/work/judge-tool/tech/">Under the hood</a></h3>
-          <p>Full build teardown: 16,424 LOC, 12 database models, 62 server actions, 113 tests, architecture diagrams, AI workflow.</p>
-        </li>
-        <li class="project-card">
-          <h3><a href="/work/judge-tool/roadmap/">Roadmap &amp; health</a></h3>
-          <p>8/10 health scorecard across 6 dimensions, 6-item risk register with mitigations, phase-by-phase roadmap.</p>
-        </li>
-        <li class="project-card">
-          <h3><a href="/work/judge-tool/changelog/">Changelog</a></h3>
-          <p>14 releases in 20 days &mdash; full app built in one session, then security hardening, WCAG pass, and Vercel migration.</p>
-        </li>
-      </ul>
-    </section>
-
-    <p class="section-lede" style="margin-top:3rem;">
-      These are point-in-time snapshots. The live apps keep evolving &mdash; versions, counts, and roadmaps shift weekly. For the current state, follow the outbound links on each page.
-    </p>
+    <footer class="nb-footer">
+      <span>// © 2026 james chang</span>
+      <span>// built with claude code · <a href="https://github.com/thirstypig/jameschang.co">source on github</a></span>
+    </footer>
   </main>
 
-  <footer class="site-footer">
-    <p class="footer-meta">
-      <a href="/">&larr; Back to James Chang</a>
-      <span class="sep">&middot;</span>
-      &copy; <time datetime="2026">2026</time>
-    </p>
-  </footer>
   <script src="/script.js" defer></script>
 </body>
 </html>
