@@ -1007,17 +1007,80 @@ a:hover { text-decoration: underline; }
   .nb-section { padding: 28px 0; }
 }
 
-/* ─── Mobile nav: collapse section links at narrow widths ──────────────
+/* ─── Projects dropdown ────────────────────────────────────────────────
+   The [projects ▾] nav link wraps a hover-revealed dropdown showing the
+   three deep-dive projects + "all projects". On hover or keyboard focus,
+   the panel appears below the link. Tapping the link itself (no hover
+   on touch devices) navigates straight to /work/ — so mobile users still
+   get a clear destination. The dropdown panel is hidden on narrow
+   viewports because there's no hover affordance there. */
+.nb-dropdown-wrap {
+  position: relative;
+  display: inline-block;
+}
+.nb-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--surface);
+  border: var(--border-w) solid var(--ink);
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--ink);
+  min-width: 220px;
+  padding: 8px 0;
+  z-index: 100;
+}
+.nb-dropdown a {
+  display: block;
+  padding: 7px 16px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+.nb-dropdown a:hover,
+.nb-dropdown a:focus-visible {
+  background: var(--surface-2);
+  color: var(--accent);
+  text-decoration: none;
+  outline: none;
+}
+.nb-dropdown-all {
+  border-bottom: 1px dashed var(--rule);
+  margin-bottom: 4px;
+  padding-bottom: 9px !important;
+  color: var(--accent) !important;
+}
+.nb-dropdown-wrap:hover .nb-dropdown,
+.nb-dropdown-wrap:focus-within .nb-dropdown {
+  display: block;
+}
+
+/* ─── Mobile nav: collapse minor section links at narrow widths ─────────
    Below 600px the nav can't fit brand + 4 section links + résumé link +
-   theme toggle on one row (~660px of content). Hide the section links
-   and rely on the page anchor links inside the body for navigation;
-   keep brand, résumé, and theme toggle visible. */
+   theme toggle on one row (~660px of content). Keep the high-value
+   destinations visible — [projects ▾] (linked to /work/) and [now] —
+   and hide [about] and [experience]. The dropdown panel is also
+   suppressed because hover doesn't exist on touch devices; tapping the
+   link still navigates to /work/. Body anchor links remain accessible
+   inside each section for users who scroll. */
 @media (max-width: 600px) {
-  .nb-nav-inner .nb-link,
-  .nb-nav-inner .nb-divider {
+  .nb-nav-inner {
+    flex-wrap: wrap;
+    column-gap: 12px;
+    row-gap: 8px;
+  }
+  .nb-nav-inner .nb-link[href*="#about"],
+  .nb-nav-inner .nb-link[href*="#experience"],
+  .nb-nav-inner .nb-divider,
+  .nb-nav-inner .nb-nav-spacer {
     display: none;
   }
-  .nb-nav-inner .nb-nav-spacer { flex: 1; }
+  .nb-nav-inner .nb-dropdown {
+    display: none !important;
+  }
 }
 
 /* ─── Print (résumé.pdf) ───────────────────────────────────────────────
