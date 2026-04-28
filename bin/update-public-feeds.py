@@ -322,9 +322,9 @@ def main():
 
     # Only fetch feeds whose markers are present in the HTML (todo 058).
     # GITHUB events moved into update-projects.py for per-project attribution.
+    # LETTERBOXD removed 2026-04-28 per user — section dropped from /now.
     feeds = [
         ("MLB",        mlb_block,         '        <p class="feed-empty">MLB data unavailable.</p>'),
-        ("LETTERBOXD", letterboxd_block,  '        <p class="feed-empty">No films logged yet. <a href="https://letterboxd.com/thirstypig/">Letterboxd</a>.</p>'),
         ("GOODREADS-READING", goodreads_reading_block, '        <p><strong>Currently reading</strong></p>\n        <p class="feed-empty">Nothing on the shelf right now.</p>'),
         ("GOODREADS",  goodreads_block,   '        <p class="feed-empty">No books logged yet. <a href="https://www.goodreads.com/user/show/33966778">Goodreads</a>.</p>'),
         ("FBST",       fbst_block,        '        <p class="feed-empty">FBST standings unavailable.</p>'),

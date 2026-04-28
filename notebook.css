@@ -547,6 +547,30 @@ a:hover { text-decoration: underline; }
 .nb-target ul li::before { content: '→ '; color: var(--accent); }
 @media (max-width: 720px) { .nb-target ul { grid-template-columns: 1fr; } }
 
+/* ─── Bullet list (off-the-clock-style itemized blocks) ──────────────── */
+.nb-bullets {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.nb-bullets li {
+  font-size: 14px;
+  line-height: 1.6;
+  padding-left: 18px;
+  position: relative;
+}
+.nb-bullets li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 600;
+}
+.nb-bullets li strong { color: var(--ink); font-weight: 600; }
+.nb-bullets li a { color: var(--accent); }
+
 /* ─── Feed card (lists inside) ─────────────────────────────────────── */
 .nb-feed {
   border: var(--border-w) solid var(--ink);
