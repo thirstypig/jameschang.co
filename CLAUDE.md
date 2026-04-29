@@ -170,7 +170,7 @@ All code-review findings from both reviews (initial + 2026-04-18 full-repo audit
 
 ## Testing
 
-176 tests across 8 files. Run with `python3 -m pytest tests/ -v` (requires `pytest`).
+183 tests across 8 files. Run with `python3 -m pytest tests/ -v` (requires `pytest`).
 
 | File | Type | Tests | What it covers |
 |------|------|-------|---------------|
@@ -180,7 +180,7 @@ All code-review findings from both reviews (initial + 2026-04-18 full-repo audit
 | `tests/test_feed_builders.py` | Unit | 15 | Feed builders for mlb, letterboxd, goodreads (reading + read), fbst, plex — mocked network, tested HTML output; plex fetch failure returns None vs []; regression assertions that legacy `plex-*` classes are no longer emitted |
 | `tests/test_spotify.py` | Unit | 15 | `update-spotify.py`: build_html (asserts `nb-feed-podcast` + bare `<ul>`), state load/save, fetch_recent_tracks, fetch_current_podcast |
 | `tests/test_whoop.py` | Unit | 14 | `update-whoop.py`: fetch_latest_recovery/sleep/cycle, build_html with all recovery colors |
-| `tests/test_site_e2e.py` | E2E | 34 | All HTML pages: meta tags, CSP, aria-pressed, JSON-LD, images, internal links, feed markers (incl. PAGE-UPDATED), @media print + @page rule on notebook.css, OpenSSL parity, dark mode parity, GA4, privacy policy, symlink detection, sitemap consistency, OG image, **top-nav consistency** (brand text, no [about], [/now] slash prefix, experience→projects→now order across all 16 pages), **cross-project nav** (presence + canonical entry-point hrefs + aria-current on 12 deep-dive pages), **/now section structure** (sequential /01–/08 numbering + /07 watching/listening/reading sub-feeds, no Trakt/Letterboxd) |
+| `tests/test_site_e2e.py` | E2E | 41 | All HTML pages: meta tags, CSP, aria-pressed, JSON-LD, images, internal links, feed markers (incl. PAGE-UPDATED), @media print + @page rule on notebook.css, OpenSSL parity, dark mode parity, GA4, privacy policy, symlink detection, sitemap consistency, OG image, **top-nav consistency** (brand text, no [about], [/now] slash prefix, experience→projects→now order across all 16 pages), **cross-project nav** (presence + canonical entry-point hrefs + aria-current on 12 deep-dive pages), **/now section structure** (sequential /01–/08 numbering + /07 watching/listening/reading sub-feeds, no Trakt/Letterboxd), **resume print pipeline** (print-name-block presence on homepage only + screen-hidden + canonical contact URLs; script.js beforeprint listener that opens `<details>` so the 8 additional certifications expand in resume.pdf; `.nb-card-name` print rule overrides screen sizing) |
 | `tests/test_projects.py` | Unit | 19 | `update-projects.py`: TLDR extraction, config schema, PR-event filtering, render_shipping_list (uses `nb-card-shipped` + bare `<time>`, drops legacy `shipping-recent`/`gh-when`), render_block |
 
 CI runs on push to `main` via `.github/workflows/ci-tests.yml`. See `docs/test-plan.md` for the full testing strategy.

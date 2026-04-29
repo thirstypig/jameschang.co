@@ -398,7 +398,13 @@ class TestPrivacyPolicy:
 # ── Tests: Print stylesheet ──────────────────────────────────────
 
 class TestPrintStylesheet:
-    """Homepage must produce a printable résumé."""
+    """Homepage must produce a printable résumé.
+
+    The print stylesheet (notebook.css @media print) + print-name-block
+    element + script.js beforeprint listener together produce resume.pdf.
+    These tests pin invariants of that pipeline so a casual edit can't
+    silently break the PDF identity block, the certifications expansion,
+    or the print-specific font sizing."""
 
     def test_print_media_block_exists(self):
         # The notebook design uses ATS-canonical lowercase section labels
@@ -413,6 +419,111 @@ class TestPrintStylesheet:
     def test_resume_pdf_exists(self):
         pdf_path = os.path.join(REPO_ROOT, "resume.pdf")
         assert os.path.exists(pdf_path), "resume.pdf not found in repo root"
+
+    def test_print_name_block_only_on_homepage(self):
+        """The .print-name-block <header> renders the name + contact line at
+        the top of resume.pdf. It belongs on index.html only — other pages
+        wouldn't add value if a contributor accidentally copy-pasted it.
+        Regression this prevents: someone deletes it during a refactor →
+        resume.pdf top of page 1 has no candidate name."""
+        _, body = fetch("index.html")
+        assert 'class="print-name-block"' in body, (
+            "Missing <header class='print-name-block'> on homepage — "
+            "resume.pdf will have no name + contact info on page 1"
+        )
+        assert '<h1 class="print-name">James Chang</h1>' in body, (
+            "Print-name-block missing the canonical name <h1>"
+        )
+        # Ensure it's NOT on /now or /privacy or /projects (would print twice)
+        for f in ["now/index.html", "privacy/index.html", "projects/index.html"]:
+            _, other = fetch(f)
+            assert 'class="print-name-block"' not in other, (
+                f"{f}: print-name-block leaked onto a non-homepage — "
+                "would render duplicate name blocks if printed"
+            )
+
+    def test_print_name_block_hidden_on_screen(self):
+        """notebook.css must declare `.print-name-block { display: none }`
+        OUTSIDE the @media print block so the element is screen-hidden by
+        default, then revealed only in print. Regression this prevents:
+        someone removes the screen-hide rule → the name block bleeds onto
+        the homepage above the nav, breaking the screen design."""
+        css = open(os.path.join(REPO_ROOT, "notebook.css")).read()
+        # Strip the @media print block first to ensure the rule lives at
+        # the top level, not just inside @media print.
+        before_print = css.split("@media print")[0]
+        assert ".print-name-block { display: none" in before_print or \
+               ".print-name-block {\n  display: none" in before_print, (
+            "Missing top-level `.print-name-block { display: none }` — "
+            "the print-only block is leaking onto the screen"
+        )
+
+    def test_print_name_block_contact_canonical_urls(self):
+        """The contact line carries the four canonical channels: email,
+        LinkedIn, GitHub, jameschang.co. Catches typos / stale handles
+        when any of these change."""
+        _, body = fetch("index.html")
+        # Scope assertions to the print-name-block region
+        m = re.search(
+            r'<header class="print-name-block">(.*?)</header>',
+            body, re.DOTALL,
+        )
+        assert m, "print-name-block region not found"
+        block = m.group(1)
+        for required in [
+            "jimmychang316@gmail.com",
+            "linkedin.com/in/jimmychang316",
+            "github.com/thirstypig",
+            "jameschang.co",
+        ]:
+            assert required in block, (
+                f"print-name-block contact line missing: {required}"
+            )
+
+    def test_script_js_expands_details_on_print(self):
+        """Chrome's <details> element is open-attribute-driven, not
+        CSS-driven — a stylesheet alone cannot unfold a closed <details>
+        in print. script.js carries a beforeprint listener that sets the
+        `open` attribute on every <details> right before --print-to-pdf
+        runs. Without this, the 8 additional certifications collapse and
+        resume.pdf shows only CSPO + Product School. This is exactly the
+        kind of silent regression (only visible when someone prints) the
+        test suite is for."""
+        js = open(os.path.join(REPO_ROOT, "script.js")).read()
+        assert 'addEventListener("beforeprint"' in js or \
+               "addEventListener('beforeprint'" in js, (
+            "script.js missing the beforeprint listener — additional "
+            "certifications will collapse in resume.pdf"
+        )
+        assert 'querySelectorAll("details")' in js or \
+               "querySelectorAll('details')" in js, (
+            "script.js beforeprint listener doesn't query <details> — "
+            "the cert expansion won't fire"
+        )
+        # The actual unfold operation (could be .open = true OR setAttribute)
+        assert 'setAttribute("open"' in js or "open = true" in js, (
+            "script.js beforeprint listener doesn't open <details> elements"
+        )
+
+    def test_print_card_name_overrides_screen_size(self):
+        """The screen rule `.nb-card.compact .nb-card-name { font-size: 20px }`
+        has higher specificity (2 classes) than a plain `.nb-card-name`
+        print rule (1 class). The print stylesheet must either match
+        specificity or use !important so project names in resume.pdf
+        render at the print 10.5pt, not the screen 20px. Regression
+        this prevents: someone removes the specificity guard → project
+        names blow up to display size in the PDF and consume an extra
+        page (real bug fixed in commit ba49300)."""
+        css = open(os.path.join(REPO_ROOT, "notebook.css")).read()
+        print_block = css[css.find("@media print"):]
+        # The override must be present in some recognizable form
+        has_specificity_match = ".nb-card.compact .nb-card-name" in print_block
+        has_important = "font-size: 10.5pt !important" in print_block
+        assert has_specificity_match or has_important, (
+            "Print rule for .nb-card-name doesn't override the screen-mode "
+            ".nb-card.compact .nb-card-name { font-size: 20px } rule. "
+            "Project names will render at 20px in resume.pdf instead of 10.5pt."
+        )
 
 
 # ── Tests: Internal links ────────────────────────────────────────
