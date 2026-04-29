@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="light dark">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; form-action 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; form-action 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
   <title>The Judge Tool — Changelog — James Chang</title>
   <meta name="description" content="14 releases of The Judge Tool in 20 days: full app built in one session, then security hardening, WCAG accessibility, E2E simulation, Vercel migration.">
   <link rel="canonical" href="https://jameschang.co/projects/judge-tool/changelog/">
@@ -38,7 +38,7 @@
   }
   </script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-B3HW5VBDB3"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-B3HW5VBDB3')</script>
+  <script src="/assets/js/gtag-init.js"></script>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -116,13 +116,13 @@
     <section class="work-section">
       <h2>Change-type distribution</h2>
       <div class="timeline">
-        <div class="t-label">Features</div><div class="t-body"><span class="t-bar" style="width: 155px;"></span>31 (37%)</div>
-        <div class="t-label">Fixes</div><div class="t-body"><span class="t-bar" style="width: 65px;"></span>13 (16%)</div>
-        <div class="t-label">Refactor</div><div class="t-body"><span class="t-bar" style="width: 60px;"></span>12 (14%)</div>
-        <div class="t-label">Docs</div><div class="t-body"><span class="t-bar" style="width: 60px;"></span>12 (14%)</div>
-        <div class="t-label">Security</div><div class="t-body"><span class="t-bar" style="width: 35px;"></span>7 (8%)</div>
-        <div class="t-label">Tests</div><div class="t-body"><span class="t-bar" style="width: 35px;"></span>7 (8%)</div>
-        <div class="t-label">Perf</div><div class="t-body"><span class="t-bar" style="width: 5px;"></span>1 (1%)</div>
+        <div class="t-label">Features</div><div class="t-body"><span class="t-bar" style="--t-bar: 155px"></span>31 (37%)</div>
+        <div class="t-label">Fixes</div><div class="t-body"><span class="t-bar" style="--t-bar: 65px"></span>13 (16%)</div>
+        <div class="t-label">Refactor</div><div class="t-body"><span class="t-bar" style="--t-bar: 60px"></span>12 (14%)</div>
+        <div class="t-label">Docs</div><div class="t-body"><span class="t-bar" style="--t-bar: 60px"></span>12 (14%)</div>
+        <div class="t-label">Security</div><div class="t-body"><span class="t-bar" style="--t-bar: 35px"></span>7 (8%)</div>
+        <div class="t-label">Tests</div><div class="t-body"><span class="t-bar" style="--t-bar: 35px"></span>7 (8%)</div>
+        <div class="t-label">Perf</div><div class="t-body"><span class="t-bar" style="--t-bar: 5px"></span>1 (1%)</div>
       </div>
     </section>
 

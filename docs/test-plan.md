@@ -50,14 +50,17 @@ python3 -m pytest tests/test_site_e2e.py -v
 | Internal links | All `href` values pointing to local paths resolve to real files |
 | Image references | All `<img src>` and `<source srcset>` files exist |
 | JSON-LD | Structured data is valid JSON on all pages |
-| Feed markers | `now/index.html` has paired START/END markers for all feeds + `PAGE-UPDATED` eyebrow marker |
+| Feed markers | `now/index.html` has paired START/END markers for all current feeds (WHOOP, SPOTIFY, MLB, GOODREADS-READING, GOODREADS, FBST, PLEX) + `PAGE-UPDATED` eyebrow marker. TRAKT and LETTERBOXD removed from `EXPECTED_MARKERS` on 2026-04-28. |
 | Print stylesheet | `notebook.css` contains an `@media print` block and `@page` rule for résumé PDF generation |
 | OpenSSL parity | All `openssl enc` calls use matching `-iter 600000` |
 | Dark mode parity | `@media (prefers-color-scheme: dark)` count matches `[data-theme="dark"]` count in CSS |
 | GA4 presence | GA4 snippet (G-B3HW5VBDB3) present on all pages |
 | GA4 CSP | CSP allows googletagmanager.com on all pages |
-| Privacy feeds | Privacy policy lists all 6 feed data sources |
+| Privacy feeds | Privacy policy lists all current feed data sources |
 | Privacy GA4 | Privacy policy discloses GA4 measurement ID |
+| **Top-nav consistency** *(added 2026-04-28)* | Brand text reads `jameschang.co` on every page, no `[about]` link, `[/now]` slash-prefix, nav order is `[experience] → [projects ▾] → [/now]` across all 16 HTML files |
+| **Cross-project nav** *(added 2026-04-28)* | Every deep-dive sub-page under `/projects/{slug}/` has a `.cross-project-nav` strip with chips for the 3 projects, hrefs pointing at canonical entry-point sub-pages (`how-it-works`, `ai-insights`, `tech`), and exactly one chip carrying `aria-current="page"` matching the current slug |
+| **/now section structure** *(added 2026-04-28)* | `/01..../08` numbered sections sequential without gaps; section `/07` contains `watching` (Plex) + `listening` (Spotify) + `reading` (Goodreads) feed heads and zero TRAKT/LETTERBOXD marker leakage |
 
 ## Execution Cadence Summary
 
@@ -79,4 +82,4 @@ python3 -m pytest tests/test_site_e2e.py -v
 
 Tests run in CI via `.github/workflows/ci-tests.yml`. Results are visible in the GitHub Actions tab. Failures block nothing (this is a single-contributor repo with direct push), but they surface regressions early.
 
-Last updated: 2026-04-27
+Last updated: 2026-04-28

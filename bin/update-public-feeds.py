@@ -323,6 +323,13 @@ def main():
     # Only fetch feeds whose markers are present in the HTML (todo 058).
     # GITHUB events moved into update-projects.py for per-project attribution.
     # LETTERBOXD removed 2026-04-28 per user — section dropped from /now.
+    # To revive Letterboxd: (1) restore the <!-- LETTERBOXD-START/END --> marker
+    # pair in now/index.html /07 section, (2) re-add the tuple here:
+    #     ("LETTERBOXD", letterboxd_block, '<p class="feed-empty">No films logged yet. <a href="https://letterboxd.com/thirstypig/">Letterboxd</a>.</p>'),
+    # (3) restore the Letterboxd disclosure paragraph in privacy/index.html
+    # (see commit cede613 for the prior wording), and (4) update
+    # tests/test_site_e2e.py: add LETTERBOXD back to EXPECTED_MARKERS and add
+    # "Letterboxd" to the privacy-policy required list.
     feeds = [
         ("MLB",        mlb_block,         '        <p class="feed-empty">MLB data unavailable.</p>'),
         ("GOODREADS-READING", goodreads_reading_block, '        <p><strong>Currently reading</strong></p>\n        <p class="feed-empty">Nothing on the shelf right now.</p>'),

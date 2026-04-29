@@ -6,16 +6,28 @@
   <meta name="color-scheme" content="light dark">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; form-action 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; form-action 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
   <title>Privacy Policy — James Chang</title>
-  <meta name="description" content="Privacy policy for jameschang.co — what data is collected, how WHOOP, Spotify, Trakt, and other integrations work, and how Google Analytics is used.">
+  <meta name="description" content="Privacy policy for jameschang.co — what data is collected, how WHOOP, Spotify, Plex, and other integrations work, and how Google Analytics is used.">
   <link rel="canonical" href="https://jameschang.co/privacy/">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/space-grotesk-latin.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/geist-mono-latin.woff2" crossorigin>
   <link rel="stylesheet" href="/notebook.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Privacy Policy — James Chang",
+    "description": "Privacy policy for jameschang.co — what data is collected, how the WHOOP / Spotify / Plex integrations work, and how Google Analytics is used.",
+    "url": "https://jameschang.co/privacy/",
+    "dateModified": "2026-04-28",
+    "author": {"@type": "Person", "name": "James Chang", "url": "https://jameschang.co"},
+    "isPartOf": {"@type": "WebSite", "url": "https://jameschang.co"}
+  }
+  </script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-B3HW5VBDB3"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-B3HW5VBDB3')</script>
+  <script src="/assets/js/gtag-init.js"></script>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -57,7 +69,7 @@
       </p>
       <h1>Privacy <span class="accent">policy</span>.</h1>
       <p class="nb-hero-sub">
-        What jameschang.co collects, how the WHOOP / Spotify / Trakt integrations work, and how Google Analytics is used.
+        What jameschang.co collects, how the WHOOP / Spotify / Plex integrations work, and how Google Analytics is used.
       </p>
     </section>
 
@@ -98,26 +110,36 @@
     <section class="nb-section">
       <header class="nb-section-head">
         <span class="nb-section-num">/04</span>
-        <h2 class="nb-section-title">public activity feeds</h2>
+        <h2 class="nb-section-title">plex integration</h2>
         <span class="nb-section-rule"></span>
       </header>
       <div class="nb-prose">
-        <p>The <a href="/now/">/now page</a> also displays the site owner's own public activity from six additional APIs:</p>
-        <ul>
-          <li><a href="https://docs.github.com/en/rest/activity/events">GitHub public events</a> — recent commits, PRs, and releases across the owner's public repos</li>
-          <li><a href="https://statsapi.mlb.com">MLB Stats API</a> — Los Angeles Dodgers standings and schedule</li>
-          <li><a href="https://letterboxd.com/thirstypig/">Letterboxd RSS</a> — recent films the owner has logged</li>
-          <li><a href="https://trakt.tv">Trakt</a> — recent TV episodes the owner has watched</li>
-          <li><a href="https://www.goodreads.com/user/show/33966778">Goodreads RSS</a> — books the owner is currently reading or has recently read</li>
-          <li><a href="https://thefantasticleagues.com">The Fantastic Leagues</a> public standings API — the owner's fantasy baseball team rank in the OGBA League</li>
-        </ul>
-        <p>All six sources expose only the site owner's own public data; no visitor data is accessed, collected, or stored.</p>
+        <p>This site displays the site owner's own recently-watched library entries (movie and TV titles, year, episode metadata) from a personal Plex Media Server on the <a href="/now/">/now page</a>. The Plex API is queried via the server's relay URL using a static, server-scoped API token; only the owner's library metadata is read. No other user's Plex data is accessed, stored, or displayed. The token is stored as a GitHub Secret and used solely for personal display purposes.</p>
       </div>
     </section>
 
     <section class="nb-section">
       <header class="nb-section-head">
         <span class="nb-section-num">/05</span>
+        <h2 class="nb-section-title">public activity feeds</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+      <div class="nb-prose">
+        <p>The <a href="/now/">/now page</a> also displays the site owner's own public activity from these additional APIs:</p>
+        <ul>
+          <li><a href="https://docs.github.com/en/rest/activity/events">GitHub public events</a> — recent commits, PRs, and releases across the owner's public repos</li>
+          <li><a href="https://statsapi.mlb.com">MLB Stats API</a> — Los Angeles Dodgers standings and schedule</li>
+          <li><a href="https://www.goodreads.com/user/show/33966778">Goodreads RSS</a> — books the owner is currently reading or has recently read</li>
+          <li><a href="https://thefantasticleagues.com">The Fantastic Leagues</a> public standings API — the owner's fantasy baseball team rank in the OGBA League</li>
+          <li><a href="https://thirstypig.com">Thirsty Pig hitlist JSON</a> — a public list of restaurants the owner wants to try, fetched client-side from <code>thirstypig.com/places-hitlist.json</code>. The thirstypig.com server CORS-locks responses to <code>https://jameschang.co</code>, so no visitor data crosses the origin.</li>
+        </ul>
+        <p>All sources expose only the site owner's own public data; no visitor data is accessed, collected, or stored.</p>
+      </div>
+    </section>
+
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/06</span>
         <h2 class="nb-section-title">third-party links</h2>
         <span class="nb-section-rule"></span>
       </header>
@@ -128,7 +150,7 @@
 
     <section class="nb-section">
       <header class="nb-section-head">
-        <span class="nb-section-num">/06</span>
+        <span class="nb-section-num">/07</span>
         <h2 class="nb-section-title">contact</h2>
         <span class="nb-section-rule"></span>
       </header>

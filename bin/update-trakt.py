@@ -1,10 +1,23 @@
 #!/usr/bin/env python3
 """Fetch Trakt watch history and update /now/index.html.
 
-Called by the GitHub Action on a 6-hour cron. Uses an encrypted refresh token
-file (.trakt-token.enc) that gets re-encrypted after each token rotation.
-Same pattern as the WHOOP integration — see docs/solutions/integration-issues/
-oauth2-refresh-token-rotation-encrypted-committed-file.md.
+DISABLED 2026-04-28: the workflow file was renamed to
+`.github/workflows/trakt-sync.yml.disabled` so GitHub Actions no longer
+invokes this script on a schedule. The script + tests are preserved.
+
+To revive: (1) rename the workflow back to `.yml`, (2) restore the
+<!-- TRAKT-START/END --> marker pair in now/index.html (probably under
+the "tv" feed in /07 alongside Plex), (3) restore the Trakt disclosure
+paragraph in privacy/index.html (see commit cede613 for the prior
+wording — the paragraph mentioned "/users/me/history/shows" + the
+read-only nature of the integration), and (4) update
+tests/test_site_e2e.py: add TRAKT back to EXPECTED_MARKERS and add
+"Trakt" to the privacy-policy required list.
+
+Called by the GitHub Action on a 6-hour cron (when enabled). Uses an
+encrypted refresh token file (.trakt-token.enc) that gets re-encrypted
+after each token rotation. Same pattern as the WHOOP integration — see
+docs/solutions/integration-issues/oauth2-refresh-token-rotation-encrypted-committed-file.md.
 """
 
 import json

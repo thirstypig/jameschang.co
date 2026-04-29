@@ -381,7 +381,11 @@ class TestPrivacyPolicy:
 
     def test_lists_all_feed_sources(self):
         _, body = fetch("privacy/index.html")
-        required = ["GitHub", "MLB", "Letterboxd", "Trakt", "Goodreads", "Fantastic Leagues"]
+        # Trakt + Letterboxd disclosures dropped 2026-04-28 along with the
+        # feeds themselves. Plex + Thirsty Pig hitlist added 2026-04-28
+        # after /ce:review surfaced their absence. The list must accurately
+        # reflect what /now still surfaces at runtime.
+        required = ["GitHub", "MLB", "Goodreads", "Fantastic Leagues", "Plex", "hitlist"]
         missing = [src for src in required if src not in body]
         assert not missing, f"Privacy policy missing feed sources: {missing}"
 
@@ -515,3 +519,272 @@ class TestOGImage:
             path = og_image
         full = os.path.join(REPO_ROOT, path)
         assert os.path.exists(full), f"OG image missing: {og_image} (expected at {full})"
+
+
+# ── Tests: Top-nav consistency ───────────────────────────────────
+#
+# The top nav is duplicated across 16 HTML files with no compile-time check
+# that they stay in sync. These tests assert the structure that was
+# standardized in commits 5f06bd8 (rename to /projects/, drop [about],
+# update brand) and cede613 (rename [now] → [/now], unify nav order).
+# Without these tests, any future single-file edit could silently drift
+# from the rest of the site.
+
+class TestNavConsistency:
+    """Every page's top nav must match the canonical structure."""
+
+    def test_brand_text_is_jameschang_co(self):
+        """Brand reads jameschang.co with the dot in an accent span — set in cede613."""
+        failures = []
+        for f in STANDARD_PAGES:
+            _, body = fetch(f)
+            if 'class="nb-brand">jameschang<span class="dot">.</span>co</a>' not in body:
+                failures.append(f"{f}: brand drifted from jameschang.co")
+        assert not failures, "Brand inconsistency:\n" + "\n".join(failures)
+
+    def test_no_about_link_anywhere(self):
+        """[about] was retired — the brand link covers home/about."""
+        failures = []
+        for f in STANDARD_PAGES:
+            _, body = fetch(f)
+            if '[about]' in body and 'class="nb-link"' in body:
+                # Be precise — only flag if [about] appears inside a nav link
+                if re.search(r'class="nb-link"[^>]*>\[about\]</a>', body):
+                    failures.append(f"{f}: stray [about] nav link")
+        assert not failures, "[about] link reappeared:\n" + "\n".join(failures)
+
+    def test_now_link_uses_slash_prefix(self):
+        """[now] was renamed to [/now] in cede613 to match path convention."""
+        failures = []
+        for f in STANDARD_PAGES:
+            _, body = fetch(f)
+            # Exactly one [/now] nav link; zero [now] nav links
+            if re.search(r'class="nb-link"[^>]*>\[now\]</a>', body):
+                failures.append(f"{f}: legacy [now] (should be [/now])")
+            if not re.search(r'class="nb-link"[^>]*>\[/now\]</a>', body):
+                failures.append(f"{f}: missing [/now] nav link")
+        assert not failures, "[/now] inconsistency:\n" + "\n".join(failures)
+
+    def test_nav_order_experience_then_projects_then_now(self):
+        """Standard order: [experience] → [projects ▾] → [/now]. /now had this
+        flipped before cede613; the test prevents regression."""
+        failures = []
+        for f in STANDARD_PAGES:
+            _, body = fetch(f)
+            # Find first occurrence of each marker inside the nav block
+            nav_match = re.search(r'<div class="nb-nav-inner">(.*?)</div>\s*</header>', body, re.DOTALL)
+            if not nav_match:
+                continue
+            nav = nav_match.group(1)
+            i_exp = nav.find('[experience]')
+            i_proj = nav.find('[projects&nbsp;▾]')
+            i_now = nav.find('[/now]')
+            # All three must be present and in that order
+            if not (0 < i_exp < i_proj < i_now):
+                failures.append(
+                    f"{f}: nav order [experience]={i_exp} [projects ▾]={i_proj} [/now]={i_now}"
+                )
+        assert not failures, "Nav order drifted:\n" + "\n".join(failures)
+
+
+# ── Tests: Cross-project nav on deep-dive pages ──────────────────
+#
+# Added in commit 5f06bd8. Every deep-dive sub-page under /projects/{slug}/
+# must surface the cross-project nav strip so visitors can switch projects
+# without going back to the projects landing. These tests catch (a) a new
+# deep-dive page added without the strip, (b) a project's hrefs drifting
+# from the canonical entry-point sub-pages, (c) aria-current going stale.
+
+class TestCrossProjectNav:
+    """All deep-dive sub-pages must carry the cross-project nav."""
+
+    DEEP_DIVES = [
+        f for f in STANDARD_PAGES
+        if f.startswith("projects/") and f.count("/") >= 3
+    ]
+    EXPECTED_LINKS = {
+        "aleph": "/projects/aleph/how-it-works/",
+        "fantastic-leagues": "/projects/fantastic-leagues/ai-insights/",
+        "judge-tool": "/projects/judge-tool/tech/",
+    }
+
+    def test_every_deep_dive_has_cross_project_nav_with_canonical_links(self):
+        """Combined presence + href assertion (merged 2026-04-28 from two
+        separate tests after /ce:review flagged the duplicate iteration)."""
+        # Sanity: 12 deep-dives (4 aleph + 5 fl + 3 judge-tool)
+        assert len(self.DEEP_DIVES) == 12, (
+            f"Expected 12 deep-dive pages, found {len(self.DEEP_DIVES)}: {self.DEEP_DIVES}"
+        )
+        failures = []
+        for f in self.DEEP_DIVES:
+            _, body = fetch(f)
+            if 'class="cross-project-nav"' not in body:
+                failures.append(f"{f}: missing cross-project-nav")
+                continue
+            for slug, expected_href in self.EXPECTED_LINKS.items():
+                if expected_href not in body:
+                    failures.append(f"{f}: missing canonical href {expected_href}")
+        assert not failures, "Cross-project nav drift:\n" + "\n".join(failures)
+
+    def test_current_project_is_marked_aria_current(self):
+        """Within the cross-project nav, exactly one chip should carry
+        aria-current='page' — the slug of the page being viewed."""
+        failures = []
+        for f in self.DEEP_DIVES:
+            _, body = fetch(f)
+            slug = f.split("/")[1]  # projects/<slug>/...
+            # Find the cross-project-nav block specifically
+            block_match = re.search(
+                r'<nav class="cross-project-nav"[^>]*>(.*?)</nav>',
+                body, re.DOTALL,
+            )
+            if not block_match:
+                failures.append(f"{f}: cross-project-nav block not found")
+                continue
+            block = block_match.group(1)
+            # Inside the block, exactly one anchor should have aria-current
+            current_anchors = re.findall(r'<a[^>]*aria-current="page"[^>]*>', block)
+            if len(current_anchors) != 1:
+                failures.append(f"{f}: expected 1 aria-current chip, found {len(current_anchors)}")
+                continue
+            # The aria-current chip's href should match the current slug
+            anchor = current_anchors[0]
+            if f"/projects/{slug}/" not in anchor:
+                failures.append(f"{f}: aria-current chip points at wrong project")
+        assert not failures, "aria-current drift:\n" + "\n".join(failures)
+
+
+# ── Tests: /now page section structure ───────────────────────────
+#
+# /07 was rebuilt and /09 renumbered to /08 in cede613. The cron sync
+# writes inside marker pairs but should never touch section headers,
+# so these assertions are stable against scheduled commits and only
+# fail if a manual edit drops/adds a section without renumbering.
+
+class TestNowSectionStructure:
+    """/now must have exactly 8 numbered sections in sequence."""
+
+    def test_section_numbers_are_sequential(self):
+        _, body = fetch("now/index.html")
+        nums = re.findall(r'<span class="nb-section-num">/(\d+)</span>', body)
+        # Filter to top-level section markers (some are inside JS strings — those
+        # appear with quoted attribute values; the body markers are bare HTML)
+        numeric = [int(n) for n in nums]
+        # We expect at least the static 8 — additional numbers may appear in
+        # script blocks but the first 8 unique values must be /01..../08 in order
+        sequential = []
+        for n in numeric:
+            if not sequential or n == sequential[-1] + 1:
+                sequential.append(n)
+            else:
+                break  # gap — sequence broken
+        assert sequential[:8] == list(range(1, 9)), (
+            f"Expected /01../08 sequential, got {sequential[:8]}"
+        )
+
+    def test_section_07_has_three_media_subfeeds(self):
+        """/07 must contain watching (Plex), listening (Spotify), reading
+        (Goodreads) sub-feeds. Trakt and Letterboxd must NOT appear."""
+        _, body = fetch("now/index.html")
+        # Find the section-07 block
+        section_match = re.search(
+            r'<span class="nb-section-num">/07</span>(.*?)<span class="nb-section-num">/08</span>',
+            body, re.DOTALL,
+        )
+        assert section_match, "Section /07 boundary not found"
+        section = section_match.group(1)
+
+        # Three feed heads with the expected names
+        for name in ("watching", "listening", "reading"):
+            assert f"<strong>{name}</strong>" in section, (
+                f"Section /07 missing feed: <strong>{name}</strong>"
+            )
+
+        # Trakt + Letterboxd were removed
+        assert "TRAKT-START" not in section, "TRAKT marker reappeared in /07"
+        assert "LETTERBOXD-START" not in section, "LETTERBOXD marker reappeared in /07"
+
+
+# ── Tests: Multi-file structural parity ──────────────────────────
+#
+# Added 2026-04-28 after /ce:review flagged drift gaps the rest of the
+# suite doesn't cover. Static HTML duplication across 16 files means
+# any single-file edit can silently desynchronize a duplicated block.
+# These tests pin the dropdown menu HTML, the CSP meta-tag content,
+# and the deep-dive structural ordering.
+
+class TestStructuralParity:
+    """Locks duplicated structural blocks across the site so any drift fails fast."""
+
+    HOMOGENEOUS_CSP_PAGES = [
+        f for f in STANDARD_PAGES if f != "now/index.html"
+    ]
+    NON_DASHBOARD_DEEP_DIVES = [
+        f for f in STANDARD_PAGES
+        if f.startswith("projects/")
+        and f.count("/") >= 3
+        and not f.endswith("dashboard/index.html")
+    ]
+    CSP_META_RE = re.compile(
+        r'<meta http-equiv="Content-Security-Policy" content="([^"]+)"',
+        re.IGNORECASE,
+    )
+    DROPDOWN_MENU_RE = re.compile(
+        r'<div class="nb-dropdown" role="menu"[^>]*>(.*?)</div>',
+        re.DOTALL,
+    )
+
+    def test_csp_homogeneous_across_15_pages(self):
+        """15 of 16 pages must share an identical CSP. now/index.html is
+        intentionally exempt — it adds https://thirstypig.com to connect-src
+        for the client-side hitlist fetch (documented in CLAUDE.md)."""
+        cspsets = {}
+        for f in self.HOMOGENEOUS_CSP_PAGES:
+            _, body = fetch(f)
+            m = self.CSP_META_RE.search(body)
+            assert m, f"{f}: no CSP meta tag found"
+            cspsets.setdefault(m.group(1), []).append(f)
+        # Exactly one unique CSP value across the homogeneous set
+        assert len(cspsets) == 1, (
+            "CSP drift across 15 pages — expected one unique value, got:\n"
+            + "\n".join(f"  CSP variant ({len(files)} pages): {files[:3]}..."
+                       for files in cspsets.values())
+        )
+
+    def test_dropdown_menu_html_is_pinned_across_all_pages(self):
+        """The [projects ▾] dropdown menu items must be byte-identical
+        across all 16 pages — a single-file edit reordering or dropping
+        a project would otherwise drift silently."""
+        menus = {}
+        for f in STANDARD_PAGES:
+            _, body = fetch(f)
+            m = self.DROPDOWN_MENU_RE.search(body)
+            assert m, f"{f}: no dropdown menu block found"
+            # Normalize whitespace so indentation differences don't trip parity
+            content = re.sub(r'\s+', ' ', m.group(1)).strip()
+            menus.setdefault(content, []).append(f)
+        assert len(menus) == 1, (
+            "Dropdown menu drift across pages — expected one variant, got:\n"
+            + "\n".join(f"  variant ({len(files)} pages): {files[:3]}..."
+                       for files in menus.values())
+        )
+
+    def test_deep_dive_block_order(self):
+        """On non-dashboard deep-dive pages, the structural order is
+        project-nav → snapshot-banner → work-hero. Dashboard pages are
+        intentionally exempt (they're prompt-display pages, not snapshots
+        of a live page)."""
+        failures = []
+        for f in self.NON_DASHBOARD_DEEP_DIVES:
+            _, body = fetch(f)
+            i_pnav = body.find('class="project-nav"')
+            i_snap = body.find('class="snapshot-banner"')
+            i_hero = body.find('class="work-hero"')
+            if not (0 < i_pnav < i_snap < i_hero):
+                failures.append(
+                    f"{f}: project-nav={i_pnav}, snapshot-banner={i_snap}, work-hero={i_hero}"
+                )
+        assert not failures, (
+            "Deep-dive block order drifted (expected project-nav → snapshot-banner → work-hero):\n"
+            + "\n".join(failures)
+        )

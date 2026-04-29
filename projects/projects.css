@@ -705,6 +705,37 @@
   margin-right: 0.5rem;
   vertical-align: middle;
   opacity: 0.8;
+  /* Width is data-driven per row via the --t-bar custom property:
+     <span class="t-bar" style="--t-bar: 155px"></span>
+     This keeps the value in markup (data) and the visual treatment in CSS. */
+  width: var(--t-bar, 0);
+}
+
+/* Priority labels — used on roadmap pages where modules are tagged with
+   relative priority. Three-step scale; classes consume design tokens
+   so they track theme changes. */
+.priority-high { color: var(--accent); }
+.priority-medium { color: var(--muted); }
+.priority-low { color: var(--muted); opacity: 0.7; }
+
+/* Wong colorblind-friendly priority palette — used by /projects/fantastic-leagues/
+   dashboard for the priority-bordered cards that the prompt-driven dashboard
+   spec called out. Hex values are deliberate (not theme tokens) because the
+   Wong palette's accessibility properties are tied to specific RGB values. */
+.priority-wong-red    { color: #D55E00; }
+.priority-wong-amber  { color: #E69F00; }
+.priority-wong-blue   { color: #0072B2; }
+
+/* Multi-column block — used by /projects/fantastic-leagues/tech for a
+   2-column list block to fit dense feature inventories without scrolling. */
+.tech-columns {
+  columns: 2;
+  column-gap: 2rem;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+@media (max-width: 720px) {
+  .tech-columns { columns: 1; }
 }
 
 /* WHOOP recovery colors (matches WHOOP green/yellow/red system) */

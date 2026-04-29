@@ -80,12 +80,14 @@ Each project-with-a-deep-dive has its own folder under `/projects/[slug]/` with 
 
 ### Adding a new project deep-dive
 
-1. Create `/projects/[slug]/` with sub-pages (e.g. `tech/index.html`, `roadmap/index.html`, `changelog/index.html`). Copy an existing project's page as the template — match the CSP meta tag, JSON-LD, breadcrumbs, `.project-nav`, `.snapshot-banner`, `.work-hero`, footer, and script tag.
-2. Set `aria-current="page"` on the active tab in `.project-nav` for each sub-page.
+1. Create `/projects/[slug]/` with sub-pages (e.g. `tech/index.html`, `roadmap/index.html`, `changelog/index.html`). Copy an existing project's page as the template — match the CSP meta tag, JSON-LD, breadcrumbs, `.cross-project-nav`, `.project-nav`, `.snapshot-banner`, `.work-hero`, footer, and script tag.
+2. Set `aria-current="page"` on the active tab in `.project-nav` for each sub-page, and on the matching chip in `.cross-project-nav`.
 3. Add the project to `/projects/index.html` (the work landing page).
 4. Add a project card to the `#work` section grid in `index.html`.
 5. Add all new URLs to `sitemap.xml`.
 6. Add the Dashboard tab to `.project-nav` in **all** sibling sub-pages if adding a dashboard page.
+7. **Cross-project nav update** (added 2026-04-28): add the new project as a chip in the `.cross-project-nav` block on **every existing deep-dive sub-page** (currently 12 across Aleph + Fantastic Leagues + Judge Tool). The chip's `href` should point at the new project's canonical entry-point sub-page (e.g., `/projects/{new-slug}/{tech-or-default}/`).
+8. Update `tests/test_site_e2e.py::TestCrossProjectNav.EXPECTED_LINKS` to include the new slug, and bump the `len(self.DEEP_DIVES)` assertion to match the new total. The e2e suite enforces presence + canonical hrefs + aria-current; without the test update, CI will flag the mismatch immediately.
 
 **Headshot rotation** — the About section cycles through 7 photos using JS-driven crossfade (5s interval, `script.js`). Images need `object-position` tuning per photo. Respects `prefers-reduced-motion` (freezes on first image). New photos need AVIF + WebP variants and a `.headshot-*` class for positioning.
 
@@ -99,13 +101,15 @@ The `/now` page is assembled from several independent sync scripts that each wri
 
 **Project TLDRs + per-project shipping** (Active / Back-burner sections) — each project's content is wrapped in `<!-- TLDR-{slug}-START -->...<!-- TLDR-{slug}-END -->`. `bin/update-projects.py` runs daily at 7 AM PT (14:00 UTC) via `.github/workflows/projects-sync.yml` and splices a three-part block into each marker: (1) the TLDR paragraph from the repo's CLAUDE.md `<!-- now-tldr -->...<!-- /now-tldr -->` block, (2) a `<p class="shipping-recent">` listing the single most recent GitHub event (PushEvent / PullRequestEvent / ReleaseEvent) — capped by `EVENTS_PER_PROJECT=1`, (3) a `<p class="feed-updated">` with the sync timestamp. Config at `bin/projects-config.json` — `{slug, repo, file, shipping_repos[]}` per project; `shipping_repos` is the list of repos whose events attribute to this project (e.g., Aleph pulls from both `alephco.io-app` and `alephco.io-www`). **Required GitHub Secret:** `TLDR_FETCH_TOKEN` (fine-grained PAT with Contents:Read on the 4 private repos — Aleph, Judge Tool, TableDrop, Tastemakers). Fail-safe: on 404 / missing marker / events-API failure, existing HTML fallback is preserved — no empty blocks.
 
+**Markdown contract for `<!-- now-tldr -->` blocks** (added 2026-04-28): the TLDR text is rendered through a tiny inline-only renderer (`_render_markdown_inline` in `bin/update-projects.py`). Supported tokens: **`**bold**`** → `<strong>`, **`` `code` ``** → `<code>`. HTML entities are escaped first, so author-written angle brackets like `<VenueChips>` render as text, not as a real tag. Anything else — `_italic_`, `[links](…)`, lists, headings — renders as literal markdown text on the page. Authors of downstream-repo CLAUDE.md TLDRs should keep prose plain; reach for `<strong>`/`<code>` directly if more emphasis is needed.
+
 **Feed staleness monitor** — `bin/check-feed-health.py` runs every 6 hours via `.github/workflows/feeds-staleness-check.yml`. Opens a GitHub issue (labeled `feed-stale`) when a feed's `last_success_utc` is older than 48h, adds a comment if the issue is already open, and auto-closes when the feed recovers. Issue body includes feed-specific actionable guidance (e.g. "run `./bin/whoop-auth.sh`" for WHOOP). GitHub emails you on issue creation via repo subscription.
 
 - **WHOOP** — daily via `.github/workflows/whoop-sync.yml`. Refresh token stored **encrypted in the repo** (`.whoop-token.enc`), decrypted at runtime with a GitHub Secret passphrase (`WHOOP_TOKEN_KEY`), re-encrypted + committed each run. This avoids needing a PAT for `secrets: write`. Full write-up in `docs/solutions/integration-issues/oauth2-refresh-token-rotation-encrypted-committed-file.md`. **Required GitHub Secrets:** `WHOOP_CLIENT_ID`, `WHOOP_CLIENT_SECRET`, `WHOOP_TOKEN_KEY`.
 - **Spotify** — every 30 minutes via `.github/workflows/spotify-sync.yml`. Refresh token stored in plain text as a GitHub Secret (`SPOTIFY_REFRESH_TOKEN`); the script writes `.spotify-state.json` to remember the last-seen podcast episode so the now-playing block doesn't flap when playback pauses. The 30-min cadence is tuned to maximize podcast capture rate — Spotify's `recently-played` endpoint is tracks-only in practice, so the only reliable way to catch a podcast is to poll `currently-playing` often enough to snapshot it mid-listen. Content-hash cache makes no-op runs free. **Required GitHub Secrets:** `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, `SPOTIFY_REFRESH_TOKEN`.
-- **Trakt** — every 6 hours via `.github/workflows/trakt-sync.yml`. Refresh token stored **encrypted in the repo** (`.trakt-token.enc`), same pattern as WHOOP — rotates on every use, re-encrypted + committed each run. **Required GitHub Secrets:** `TRAKT_CLIENT_ID`, `TRAKT_CLIENT_SECRET`, `TRAKT_TOKEN_KEY`.
+- **Trakt** — **disabled 2026-04-28**. Workflow renamed to `.github/workflows/trakt-sync.yml.disabled` (preserved for re-enable; rename back to `.yml` to resume). Trakt was dropped from /now along with Letterboxd because the noise-to-signal ratio wasn't paying for itself. The `update-trakt.py` script and tests are kept in place. Token (`.trakt-token.enc`) and Secrets (`TRAKT_CLIENT_ID`, `TRAKT_CLIENT_SECRET`, `TRAKT_TOKEN_KEY`) are still in the repo / GitHub.
 - **Plex** — every 6 hours via `.github/workflows/plex-sync.yml`. Static token (no rotation). Connects via Plex relay URL. **Required GitHub Secrets:** `PLEX_URL`, `PLEX_TOKEN`.
-- **Public feeds** (MLB Stats API / Dodgers, Letterboxd RSS, Goodreads RSS currently-reading + read, The Fantastic Leagues / FBST standings) — every 6 hours via `.github/workflows/public-feeds-sync.yml`. All unauthenticated; no secrets needed. Handled by `bin/update-public-feeds.py`. GitHub events moved into `bin/update-projects.py` as per-project shipping lists — no longer a standalone feed.
+- **Public feeds** (MLB Stats API / Dodgers, Goodreads RSS currently-reading + read, The Fantastic Leagues / FBST standings) — every 6 hours via `.github/workflows/public-feeds-sync.yml`. All unauthenticated; no secrets needed. Handled by `bin/update-public-feeds.py`. GitHub events moved into `bin/update-projects.py` as per-project shipping lists. **Letterboxd was dropped 2026-04-28** along with Trakt — the `letterboxd_block()` function is preserved in the script in case it's revived, but the marker pair was removed from `now/index.html` and the entry in `feeds[]` was trimmed.
 
 ### Adding a new data feed
 
@@ -141,7 +145,7 @@ For screenshotting with a forced theme, temporarily write `index.html` with `<ht
 
 ## Analytics
 
-**Google Analytics 4** is installed on all pages (measurement ID `G-B3HW5VBDB3`, added 2026-04-20). CSP headers include `googletagmanager.com` (script-src), `google-analytics.com` (img-src), and `*.google-analytics.com *.analytics.google.com` (connect-src). The GA4 snippet is placed before `</head>` in every HTML file including callback pages.
+**Google Analytics 4** is installed on all pages (measurement ID `G-B3HW5VBDB3`, added 2026-04-20). CSP headers include `googletagmanager.com` (script-src + **img-src**, the latter added 2026-04-28 after browser-testing surfaced silently-blocked GA4 measurement pixels), `google-analytics.com` (img-src), and `*.google-analytics.com *.analytics.google.com` (connect-src). The GA4 snippet is placed before `</head>` in every HTML file including callback pages.
 
 ## WCAG contrast compliance
 
@@ -166,7 +170,7 @@ All code-review findings from both reviews (initial + 2026-04-18 full-repo audit
 
 ## Testing
 
-163 tests across 8 files. Run with `python3 -m pytest tests/ -v` (requires `pytest`).
+176 tests across 8 files. Run with `python3 -m pytest tests/ -v` (requires `pytest`).
 
 | File | Type | Tests | What it covers |
 |------|------|-------|---------------|
@@ -176,7 +180,7 @@ All code-review findings from both reviews (initial + 2026-04-18 full-repo audit
 | `tests/test_feed_builders.py` | Unit | 15 | Feed builders for mlb, letterboxd, goodreads (reading + read), fbst, plex — mocked network, tested HTML output; plex fetch failure returns None vs []; regression assertions that legacy `plex-*` classes are no longer emitted |
 | `tests/test_spotify.py` | Unit | 15 | `update-spotify.py`: build_html (asserts `nb-feed-podcast` + bare `<ul>`), state load/save, fetch_recent_tracks, fetch_current_podcast |
 | `tests/test_whoop.py` | Unit | 14 | `update-whoop.py`: fetch_latest_recovery/sleep/cycle, build_html with all recovery colors |
-| `tests/test_site_e2e.py` | E2E | 25 | All HTML pages: meta tags, CSP, aria-pressed, JSON-LD, images, internal links, feed markers (incl. PAGE-UPDATED), @media print + @page rule on notebook.css, OpenSSL parity, dark mode parity, GA4, privacy policy, symlink detection, sitemap consistency, OG image |
+| `tests/test_site_e2e.py` | E2E | 34 | All HTML pages: meta tags, CSP, aria-pressed, JSON-LD, images, internal links, feed markers (incl. PAGE-UPDATED), @media print + @page rule on notebook.css, OpenSSL parity, dark mode parity, GA4, privacy policy, symlink detection, sitemap consistency, OG image, **top-nav consistency** (brand text, no [about], [/now] slash prefix, experience→projects→now order across all 16 pages), **cross-project nav** (presence + canonical entry-point hrefs + aria-current on 12 deep-dive pages), **/now section structure** (sequential /01–/08 numbering + /07 watching/listening/reading sub-feeds, no Trakt/Letterboxd) |
 | `tests/test_projects.py` | Unit | 19 | `update-projects.py`: TLDR extraction, config schema, PR-event filtering, render_shipping_list (uses `nb-card-shipped` + bare `<time>`, drops legacy `shipping-recent`/`gh-when`), render_block |
 
 CI runs on push to `main` via `.github/workflows/ci-tests.yml`. See `docs/test-plan.md` for the full testing strategy.

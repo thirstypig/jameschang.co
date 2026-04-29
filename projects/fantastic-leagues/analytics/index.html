@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="light dark">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; form-action 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; form-action 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
   <title>Fantastic Leagues — Product metrics — James Chang</title>
   <meta name="description" content="Product metrics, development velocity, and AI feature infrastructure for The Fantastic Leagues: 8 AI features (Gemini + Claude), PostHog tracking, 33-session velocity chart.">
   <link rel="canonical" href="https://jameschang.co/projects/fantastic-leagues/analytics/">
@@ -38,7 +38,7 @@
   }
   </script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-B3HW5VBDB3"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-B3HW5VBDB3')</script>
+  <script src="/assets/js/gtag-init.js"></script>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -156,19 +156,19 @@
         auth push).
       </p>
       <div class="timeline">
-        <div class="t-label">S1–2</div><div class="t-body"><span class="t-bar" style="width: 15px;"></span>3 items &middot; Scaffolding</div>
-        <div class="t-label">S3–6</div><div class="t-body"><span class="t-bar" style="width: 40px;"></span>8 items &middot; Core features</div>
-        <div class="t-label">S7–10</div><div class="t-body"><span class="t-bar" style="width: 70px;"></span>14 items &middot; Auction, trades, security</div>
-        <div class="t-label">S11–14</div><div class="t-body"><span class="t-bar" style="width: 60px;"></span>12 items &middot; Archive, design</div>
-        <div class="t-label">S15–17</div><div class="t-body"><span class="t-bar" style="width: 80px;"></span>16 items &middot; Scripts, maintenance, franchise</div>
-        <div class="t-label">S18–20</div><div class="t-body"><span class="t-bar" style="width: 110px;"></span>22 items &middot; Season gating, testing</div>
-        <div class="t-label">S21–23</div><div class="t-body"><span class="t-bar" style="width: 150px;"></span><strong>30 items</strong> &middot; Code review, auth, MCP &mdash; peak</div>
-        <div class="t-label">S24–25</div><div class="t-body"><span class="t-bar" style="width: 130px;"></span>26 items &middot; Live data, auction prep</div>
-        <div class="t-label">S26–27</div><div class="t-body"><span class="t-bar" style="width: 120px;"></span>24 items &middot; Stats, bid tracking, roadmap</div>
-        <div class="t-label">S28–30</div><div class="t-body"><span class="t-bar" style="width: 140px;"></span>28 items &middot; Auction UX, proxy, chat, sounds</div>
-        <div class="t-label">S31</div><div class="t-body"><span class="t-bar" style="width: 155px;"></span>31 items &middot; My Val, guides, code review</div>
-        <div class="t-label">S32</div><div class="t-body"><span class="t-bar" style="width: 125px;"></span>25 items &middot; AI, reliability, mobile, PWA</div>
-        <div class="t-label">S33</div><div class="t-body"><span class="t-bar" style="width: 65px;"></span>13 items &middot; Deploy, CSP, HSTS, retrospective</div>
+        <div class="t-label">S1–2</div><div class="t-body"><span class="t-bar" style="--t-bar: 15px"></span>3 items &middot; Scaffolding</div>
+        <div class="t-label">S3–6</div><div class="t-body"><span class="t-bar" style="--t-bar: 40px"></span>8 items &middot; Core features</div>
+        <div class="t-label">S7–10</div><div class="t-body"><span class="t-bar" style="--t-bar: 70px"></span>14 items &middot; Auction, trades, security</div>
+        <div class="t-label">S11–14</div><div class="t-body"><span class="t-bar" style="--t-bar: 60px"></span>12 items &middot; Archive, design</div>
+        <div class="t-label">S15–17</div><div class="t-body"><span class="t-bar" style="--t-bar: 80px"></span>16 items &middot; Scripts, maintenance, franchise</div>
+        <div class="t-label">S18–20</div><div class="t-body"><span class="t-bar" style="--t-bar: 110px"></span>22 items &middot; Season gating, testing</div>
+        <div class="t-label">S21–23</div><div class="t-body"><span class="t-bar" style="--t-bar: 150px"></span><strong>30 items</strong> &middot; Code review, auth, MCP &mdash; peak</div>
+        <div class="t-label">S24–25</div><div class="t-body"><span class="t-bar" style="--t-bar: 130px"></span>26 items &middot; Live data, auction prep</div>
+        <div class="t-label">S26–27</div><div class="t-body"><span class="t-bar" style="--t-bar: 120px"></span>24 items &middot; Stats, bid tracking, roadmap</div>
+        <div class="t-label">S28–30</div><div class="t-body"><span class="t-bar" style="--t-bar: 140px"></span>28 items &middot; Auction UX, proxy, chat, sounds</div>
+        <div class="t-label">S31</div><div class="t-body"><span class="t-bar" style="--t-bar: 155px"></span>31 items &middot; My Val, guides, code review</div>
+        <div class="t-label">S32</div><div class="t-body"><span class="t-bar" style="--t-bar: 125px"></span>25 items &middot; AI, reliability, mobile, PWA</div>
+        <div class="t-label">S33</div><div class="t-body"><span class="t-bar" style="--t-bar: 65px"></span>13 items &middot; Deploy, CSP, HSTS, retrospective</div>
       </div>
       <p>
         <strong>Average:</strong> 8.8 items per session &middot;

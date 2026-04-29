@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="light dark">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; form-action 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; form-action 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
   <title>The Fantastic Leagues — Under the hood — James Chang</title>
   <meta name="description" content="Under-the-hood page for The Fantastic Leagues: 84,400 lines of code, 26 feature modules, 730 passing tests, 62 build sessions across six months. Full stack and architecture.">
   <link rel="canonical" href="https://jameschang.co/projects/fantastic-leagues/tech/">
@@ -38,7 +38,7 @@
   }
   </script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-B3HW5VBDB3"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-B3HW5VBDB3')</script>
+  <script src="/assets/js/gtag-init.js"></script>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -179,7 +179,7 @@ WS ──Auction state──▶ API</div>
     <section class="work-section">
       <h2>26 feature modules</h2>
       <p class="lede">Each module follows an identical pattern: <code>actions/</code>, <code>components/</code>, <code>types/</code>, <code>schemas/</code>, <code>store/</code>, <code>index.ts</code> barrel. Both client and server mirror the same 26-module split.</p>
-      <div style="columns: 2; column-gap: 2rem; font-size: 0.9375rem; line-height: 1.6;">
+      <div class="tech-columns">
         <p><strong>auth</strong> &mdash; login, signup, password reset, Google OAuth</p>
         <p><strong>leagues</strong> &mdash; league CRUD, rules configuration</p>
         <p><strong>teams</strong> &mdash; management, roster views</p>
@@ -214,23 +214,23 @@ WS ──Auction state──▶ API</div>
       <p class="lede">Six months, 62 sessions. Grouped here into themes.</p>
       <div class="timeline">
         <div class="t-label">Nov 2025 &middot; S1–2</div>
-        <div class="t-body"><span class="t-bar" style="width: 30px;"></span>Scaffolding &mdash; Vite + Express + Prisma, Supabase auth, 10 initial models</div>
+        <div class="t-body"><span class="t-bar" style="--t-bar: 30px"></span>Scaffolding &mdash; Vite + Express + Prisma, Supabase auth, 10 initial models</div>
         <div class="t-label">Dec 2025 &middot; S3–6</div>
-        <div class="t-body"><span class="t-bar" style="width: 80px;"></span>Core features &mdash; teams, rosters, player search, standings engine</div>
+        <div class="t-body"><span class="t-bar" style="--t-bar: 80px"></span>Core features &mdash; teams, rosters, player search, standings engine</div>
         <div class="t-label">Jan 2026 &middot; S7–10</div>
-        <div class="t-body"><span class="t-bar" style="width: 140px;"></span>The hard stuff &mdash; live auction WebSocket, trade proposals, FAAB waivers, commissioner tools</div>
+        <div class="t-body"><span class="t-bar" style="--t-bar: 140px"></span>The hard stuff &mdash; live auction WebSocket, trade proposals, FAAB waivers, commissioner tools</div>
         <div class="t-label">Feb 2026 &middot; S11–14</div>
-        <div class="t-body"><span class="t-bar" style="width: 120px;"></span>Archive &amp; design &mdash; 17 years of Excel parsing, design system overhaul, file-naming cleanup</div>
+        <div class="t-body"><span class="t-bar" style="--t-bar: 120px"></span>Archive &amp; design &mdash; 17 years of Excel parsing, design system overhaul, file-naming cleanup</div>
         <div class="t-label">Mar 2026 &middot; S15–20</div>
-        <div class="t-body"><span class="t-bar" style="width: 160px;"></span>Hardening &mdash; season lifecycle, franchise refactor, +116 new tests, service extraction</div>
+        <div class="t-body"><span class="t-bar" style="--t-bar: 160px"></span>Hardening &mdash; season lifecycle, franchise refactor, +116 new tests, service extraction</div>
         <div class="t-label">Mar 2026 &middot; S21–23</div>
-        <div class="t-body"><span class="t-bar" style="width: 200px;"></span>Polish &amp; auth &mdash; 6-agent code review, password reset, Google OAuth, Resend SMTP, MCP proxy (644 tests)</div>
+        <div class="t-body"><span class="t-bar" style="--t-bar: 200px"></span>Polish &amp; auth &mdash; 6-agent code review, password reset, Google OAuth, Resend SMTP, MCP proxy (644 tests)</div>
         <div class="t-label">Mar 2026 &middot; S24–25</div>
-        <div class="t-body"><span class="t-bar" style="width: 180px;"></span>Live data &amp; auction prep &mdash; live standings, all-team MLB sync, 4 test leagues prepped (670 tests)</div>
+        <div class="t-body"><span class="t-bar" style="--t-bar: 180px"></span>Live data &amp; auction prep &mdash; live standings, all-team MLB sync, 4 test leagues prepped (670 tests)</div>
         <div class="t-label">Mar 2026 &middot; S26–27</div>
-        <div class="t-body"><span class="t-bar" style="width: 170px;"></span>Stats &amp; code review &mdash; 2025 player stats, auction bid tracking, 6-agent review (660 tests)</div>
+        <div class="t-body"><span class="t-bar" style="--t-bar: 170px"></span>Stats &amp; code review &mdash; 2025 player stats, auction bid tracking, 6-agent review (660 tests)</div>
         <div class="t-label">Mar 2026 &middot; S28–33</div>
-        <div class="t-body"><span class="t-bar" style="width: 220px;"></span>Meta pages, analytics, production &mdash; /changelog /status /analytics, tech-debt cleanup, production deployment (710 tests)</div>
+        <div class="t-body"><span class="t-bar" style="--t-bar: 220px"></span>Meta pages, analytics, production &mdash; /changelog /status /analytics, tech-debt cleanup, production deployment (710 tests)</div>
       </div>
     </section>
 
