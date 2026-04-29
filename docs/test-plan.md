@@ -19,7 +19,7 @@ python3 -m pytest tests/ -v
 
 | Test file | Covers | Functions tested |
 |-----------|--------|-----------------|
-| `tests/test_shared.py` | `bin/_shared.py` | `escape_html`, `relative_time`, `replace_marker`, `content_changed`, `sanitize_error`, `record_heartbeat` (incl. corrupt JSON recovery), `_refresh_page_updated_marker` |
+| `tests/test_shared.py` | `bin/_shared.py` | `escape_html`, `relative_time`, `relative_time_html` (live-relative `<time data-rel>` element), `replace_marker`, `content_changed` + `strip_volatile` (`<time data-rel>` text strip — see `docs/solutions/integration-issues/relative-time-html-defeats-content-changed-cache.md`), `sanitize_error`, `record_heartbeat` (incl. corrupt JSON recovery; `last_run_utc` field dropped 2026-04-29 since nothing read it), `_refresh_page_updated_marker` |
 | `tests/test_feeds.py` | `bin/update-whoop.py`, `bin/update-public-feeds.py` | `recovery_color`, `ordinal` |
 | `tests/test_trakt.py` | `bin/update-trakt.py` | `build_html` (rendering, escaping, empty state), `fetch_recent_shows` (deduplication, 5-show limit) |
 | `tests/test_feed_builders.py` | All feed builders | `mlb_block`, `letterboxd_block`, `goodreads_reading_block`, `goodreads_block`, `fbst_block`, `plex build_html` + `plex fetch_history` failure path — mocked network |
@@ -82,4 +82,4 @@ python3 -m pytest tests/test_site_e2e.py -v
 
 Tests run in CI via `.github/workflows/ci-tests.yml`. Results are visible in the GitHub Actions tab. Failures block nothing (this is a single-contributor repo with direct push), but they surface regressions early.
 
-Last updated: 2026-04-28
+Last updated: 2026-04-29 — 174 tests (down from 183 after 2026-04-29 cleanup: dropped one tautological MLB-offseason test, trimmed 8 redundant `ordinal()` rotations, swapped the deleted `styles.css` reference in `TestDarkModeParity` for `notebook.css`). New helpers covered this session: `_shared.strip_volatile`, `_shared.safe_url`, `_shared.require_env`.

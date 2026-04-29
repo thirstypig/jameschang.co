@@ -52,6 +52,8 @@ Dark mode is triggered via `@media (prefers-color-scheme: dark)` + an explicit `
 
 **Cron-script markup.** All /now feed-sync scripts (`update-whoop.py`, `update-spotify.py`, `update-trakt.py`, `update-plex.py`, `update-public-feeds.py`, `update-projects.py`) emit notebook-design markup directly — bare `<ul>` / `<li>` / `<span class="when">` styled by the parent `.nb-feed` cascade, plus two helper classes `.nb-feed-podcast` (Spotify lead-in) and `.nb-feed-divider` (dashed top border that separates Plex's list from Trakt's above it inside their shared `.nb-feed`). WHOOP emits `.nb-grid-4` + `.nb-stat` tiles. The only generic cron-only classes left in `notebook.css` are `.feed-empty` and `.feed-updated` (used by every feed for the empty state and the trailing "Auto-updated …" line). Legacy per-feed classes (`.spotify-list`, `.trakt-when`, `.whoop-green`, etc.) were removed on 2026-04-27.
 
+**`<time data-rel>` ↔ `content_changed()` invariant.** Sync scripts skip the `git commit && push` step when the rendered HTML matches the existing HTML modulo time-volatile substrings. `_shared.strip_volatile()` strips both the `Auto-updated …` eyebrow AND the visible text inside `<time data-rel>…</time>` elements (the latter reformats every minute via `now/now.js`). **If you add a new server-rendered relative-time string**, extend `_VOLATILE_REL_TIME_RE` (or add a new pattern) — otherwise every cron run will see a fake "diff" and produce timestamp-only commits across all sync scripts. Full write-up: `docs/solutions/integration-issues/relative-time-html-defeats-content-changed-cache.md`.
+
 ## Print stylesheet
 
 `notebook.css` has a `@media print` block (~190 lines) that reorders + restyles the homepage into a résumé PDF. **When adding a new section**, also add an `order` value in the print flex layout, or add `display: none` if the section shouldn't print. Case studies and testimonials are hidden in print (60 lines of prose confuses ATS parsers).
@@ -145,18 +147,17 @@ python3 -m http.server 8787
 
 For screenshotting with a forced theme, temporarily write `index.html` with `<html data-theme="light">` or `data-theme="dark">` baked in (OS preference otherwise leaks through to headless Chrome).
 
+**Running feeds locally:** copy `bin/.env.example` to `.env` (or set the vars in your shell) and run `python3 bin/update-{whoop,spotify,plex,projects,public-feeds}.py`. For `bin/check-feed-health.py` use `DRY_RUN=1` so it doesn't open / close real GitHub issues.
+
 ## Analytics
 
 **Google Analytics 4** is installed on all pages (measurement ID `G-B3HW5VBDB3`, added 2026-04-20). CSP headers include `googletagmanager.com` (script-src + **img-src**, the latter added 2026-04-28 after browser-testing surfaced silently-blocked GA4 measurement pixels), `google-analytics.com` (img-src), and `*.google-analytics.com *.analytics.google.com` (connect-src). The GA4 snippet is placed before `</head>` in every HTML file including callback pages.
 
 ## WCAG contrast compliance
 
-All light-mode color tokens were audited and adjusted on 2026-04-16 to meet **WCAG AA (4.5:1)**:
-- `--accent`: `#993524` (4.6:1 on `--bg`, 6.0:1 on `--card-bg`)
-- `--muted`: `#4a5568` (4.8:1 on `--bg`, 6.2:1 on `--card-bg`)
-- Dark mode tokens already passed (7.6:1 accent, 5.8:1 muted)
+The original WCAG AA audit (2026-04-16) was done against `styles.css`'s `--accent: #993524` and `--muted: #4a5568` — those tokens were retired with the 2026-04-27 notebook cut-over. Current notebook.css tokens (`--accent: #2f5d3a` forest-green light / `#d88a54` coral dark, `--dim: #6a6352` light / `#8a8a76` dark) ship with the design and inherit the audit framework. See `docs/solutions/accessibility/wcag-contrast-light-mode-accent-muted.md` for the original audit history and the contrast formula.
 
-**When changing color tokens**, re-run the WCAG contrast check — both on `--bg` and on composited `--card-bg`. The formula is in the project memory.
+**When changing color tokens**, re-run the WCAG contrast check on both `--bg` and `--surface` composited surfaces. Both light and dark variants must clear AA (4.5:1).
 
 ## CSP notes
 
@@ -168,7 +169,7 @@ Performance: 100 | Accessibility: 100 | Best Practices: 100 | SEO: 100. Total pa
 
 ## Known outstanding items
 
-All code-review findings from both reviews (initial + 2026-04-18 full-repo audit) have been resolved. See `todos/*` for the full history (75 files, all status: done).
+All code-review findings from three reviews (initial, 2026-04-18 full-repo audit, 2026-04-29 whole-repo audit) have been resolved. See `todos/*` for the full history (120 files: 118 complete, 2 discarded, 0 pending). The 2026-04-29 sweep is captured in `todos/089-120` and the matching solution doc `docs/solutions/integration-issues/relative-time-html-defeats-content-changed-cache.md`.
 
 ## Testing
 
