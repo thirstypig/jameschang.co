@@ -1,5 +1,5 @@
 ---
-status: pending
+status: complete
 priority: p1
 issue_id: 096
 tags: ['code-review', 'css', 'visual-regression']

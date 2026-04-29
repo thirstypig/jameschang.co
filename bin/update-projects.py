@@ -280,7 +280,10 @@ def main():
     for project in projects:
         slug = project["slug"]
         repo = project["repo"]
-        path = project["file"]
+        # The TLDR block always lives in CLAUDE.md — every project in
+        # bin/projects-config.json declared "file": "CLAUDE.md" and the
+        # field was YAGNI from day one.
+        path = "CLAUDE.md"
         print(f"  {slug} ({repo}/{path}):")
 
         markdown = fetch_file(repo, path, token)
@@ -304,16 +307,22 @@ def main():
         updates.append(slug)
         print(f"    spliced ({len(shipping_events)} shipping event{'s' if len(shipping_events) != 1 else ''})")
 
+    # Record an error heartbeat if every project failed, regardless of whether
+    # the rendered HTML happened to match the prior state — otherwise an "all
+    # 7 projects failed but the cron's no-op short-circuit fired" run would
+    # silently look healthy to the staleness monitor.
+    if failures and not updates:
+        record_heartbeat("projects", error=f"all {len(projects)} projects failed")
+        print(f"All {len(projects)} projects failed — heartbeat recorded with error.")
+        return
+
     if not content_changed(old_content, new_content):
         record_heartbeat("projects")
         print("No meaningful changes.")
         return
 
     write_now_html(new_content)
-    if updates:
-        record_heartbeat("projects")
-    else:
-        record_heartbeat("projects", error=f"all {len(projects)} projects failed")
+    record_heartbeat("projects")
     print(f"Updated now/index.html. Spliced: {len(updates)}, failed: {len(failures)}.")
 
 

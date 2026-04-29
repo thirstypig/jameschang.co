@@ -6,14 +6,17 @@ Pure utility functions — no shared state, no side effects beyond file I/O.
 import json
 import os
 import re
+import sys
 from datetime import datetime, timezone
+from typing import Optional
+from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
 PACIFIC_TZ = ZoneInfo("America/Los_Angeles")
 
 
-def format_update_time(now=None):
+def format_update_time(now: Optional[datetime] = None) -> str:
     """Return 'April 22, 2026 at 10:15 AM PDT' format for Auto-updated lines.
 
     Uses Pacific time (the site owner's home base). Accepts an optional
@@ -33,8 +36,13 @@ HEARTBEAT_FILE = os.path.join(REPO_ROOT, ".feeds-heartbeat.json")
 USER_AGENT = "jameschang.co/1.0 (personal dashboard; +https://jameschang.co)"
 
 
-def record_heartbeat(feed_name, error=None):
-    """Record a timestamped heartbeat for a feed in .feeds-heartbeat.json."""
+def record_heartbeat(feed_name: str, error=None) -> None:
+    """Record a timestamped heartbeat for a feed in .feeds-heartbeat.json.
+
+    Only `last_success_utc` and `last_error` are persisted — the staleness
+    monitor (bin/check-feed-health.py) reads `last_success_utc` only, so a
+    standalone "last_run_utc" field would be write-only.
+    """
     data = {}
     if os.path.exists(HEARTBEAT_FILE):
         try:
@@ -44,7 +52,7 @@ def record_heartbeat(feed_name, error=None):
             pass
     now = datetime.now(timezone.utc).isoformat()
     existing = data.get(feed_name, {})
-    entry = {"last_run_utc": now}
+    entry: dict = {}
     if error:
         entry["last_error"] = str(error)[:200]
         if "last_success_utc" in existing:
@@ -59,7 +67,7 @@ def record_heartbeat(feed_name, error=None):
 _SAFE_URL_RE = re.compile(r"^https?://", re.IGNORECASE)
 
 
-def safe_url(s, fallback="#"):
+def safe_url(s: Optional[str], fallback: str = "#") -> str:
     """Return URL only if it has http(s) scheme; else fallback.
 
     Defends against javascript:/data:/file: URLs from upstream RSS feeds
@@ -70,7 +78,7 @@ def safe_url(s, fallback="#"):
     return s
 
 
-def escape_html(s):
+def escape_html(s: Optional[str]) -> str:
     """Escape all 5 HTML-significant characters (& < > " ')."""
     if s is None:
         return ""
@@ -81,7 +89,7 @@ def escape_html(s):
              .replace("'", "&#39;"))
 
 
-def relative_time(iso_str):
+def relative_time(iso_str: Optional[str]) -> str:
     """Human-readable 'Nm ago' / 'Nh ago' / 'yesterday' / 'Nd ago'."""
     if not iso_str:
         return ""
@@ -110,7 +118,7 @@ def relative_time(iso_str):
     return f"{months}mo ago"
 
 
-def relative_time_html(iso_str):
+def relative_time_html(iso_str: Optional[str]) -> str:
     """Return a <time datetime="..." data-rel> element for live-relative display.
 
     The server-rendered text (e.g. '7m ago') is the initial/no-JS fallback;
@@ -132,7 +140,7 @@ def relative_time_html(iso_str):
     return f'<time datetime="{stamp}" data-rel>{label}</time>'
 
 
-def replace_marker(content, marker_name, html):
+def replace_marker(content: str, marker_name: str, html: str) -> tuple[str, bool]:
     """Replace <!-- {MARKER}-START -->...<!-- {MARKER}-END --> in content.
 
     Validates exactly one occurrence exists. Returns (new_content, replaced).
@@ -162,7 +170,7 @@ _VOLATILE_REL_TIME_RE = re.compile(
 )
 
 
-def strip_volatile(content):
+def strip_volatile(content: str) -> str:
     """Strip time-volatile substrings so content-equality checks compare the
     upstream payload, not the wall-clock-driven 'Nm ago' / 'Auto-updated …'
     decorations. Keeps the surrounding <time datetime="..." data-rel> shell so
@@ -172,18 +180,18 @@ def strip_volatile(content):
     return content
 
 
-def content_changed(old_content, new_content):
+def content_changed(old_content: str, new_content: str) -> bool:
     """Check if content changed meaningfully (ignoring time-volatile substrings)."""
     return strip_volatile(old_content) != strip_volatile(new_content)
 
 
-def read_now_html():
+def read_now_html() -> str:
     """Read now/index.html and return content string."""
     with open(NOW_HTML, "r", encoding="utf-8") as f:
         return f.read()
 
 
-def write_now_html(content):
+def write_now_html(content: str) -> None:
     """Write content to now/index.html.
 
     Also refreshes the top-of-page "Updated [timestamp]" eyebrow marker
@@ -204,7 +212,7 @@ def _refresh_page_updated_marker(content):
     return re.sub(pattern, replacement, content, flags=re.DOTALL)
 
 
-def fetch_json(url, timeout=15, headers=None):
+def fetch_json(url: str, timeout: int = 15, headers: Optional[dict] = None) -> dict:
     """GET JSON from a URL. Returns parsed dict or raises."""
     hdrs = {"User-Agent": USER_AGENT, "Accept": "application/json"}
     if headers:
@@ -214,14 +222,14 @@ def fetch_json(url, timeout=15, headers=None):
         return json.loads(resp.read())
 
 
-def fetch_text(url, timeout=15):
+def fetch_text(url: str, timeout: int = 15) -> str:
     """GET text from a URL. Returns string or raises."""
     req = Request(url, headers={"User-Agent": USER_AGENT})
     with urlopen(req, timeout=timeout) as resp:
         return resp.read().decode("utf-8", errors="replace")
 
 
-def sanitize_error(e):
+def sanitize_error(e: HTTPError) -> str:
     """Extract a safe error message from an HTTPError, stripping tokens."""
     msg = f"HTTP {e.code}"
     try:
@@ -239,14 +247,13 @@ def sanitize_error(e):
     return msg
 
 
-def require_env(*names):
+def require_env(*names: str) -> None:
     """Verify required env vars are set; print missing list + exit 1 if any
     are absent. Replaces opaque KeyError tracebacks for cold-run failures
     (an agent or human running this script locally without the right
     env exported should see "Missing env vars: X, Y", not 30 lines of
     Python traceback)."""
-    import sys as _sys
     missing = [n for n in names if not os.environ.get(n)]
     if missing:
-        print(f"ERROR: missing env vars: {', '.join(missing)}", file=_sys.stderr)
-        _sys.exit(1)
+        print(f"ERROR: missing env vars: {', '.join(missing)}", file=sys.stderr)
+        sys.exit(1)

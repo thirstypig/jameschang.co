@@ -293,7 +293,6 @@ class TestRecordHeartbeat:
 
         data = json.loads(hb_file.read_text())
         assert "test_feed" in data
-        assert "last_run_utc" in data["test_feed"]
         assert "last_success_utc" in data["test_feed"]
 
     def test_error_preserves_last_success(self, tmp_path, monkeypatch):

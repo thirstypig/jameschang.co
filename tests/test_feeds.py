@@ -50,16 +50,13 @@ class TestRecoveryColor:
 # ── ordinal (from update-public-feeds.py) ────────────────────────
 
 class TestOrdinal:
-    def test_first(self):
+    """1, 2, 3, 11–13 (teens-are-th), and 21 prove the algorithm — every
+    other case is a rotation of those, so we keep coverage tight."""
+
+    def test_basic_suffixes(self):
         assert ordinal(1) == "1st"
-
-    def test_second(self):
         assert ordinal(2) == "2nd"
-
-    def test_third(self):
         assert ordinal(3) == "3rd"
-
-    def test_fourth(self):
         assert ordinal(4) == "4th"
 
     def test_teens_are_th(self):
@@ -67,25 +64,14 @@ class TestOrdinal:
         assert ordinal(12) == "12th"
         assert ordinal(13) == "13th"
 
-    def test_twenty_first(self):
+    def test_twenties_resume_normal_pattern(self):
         assert ordinal(21) == "21st"
-
-    def test_twenty_second(self):
         assert ordinal(22) == "22nd"
-
-    def test_twenty_third(self):
         assert ordinal(23) == "23rd"
 
-    def test_hundredth(self):
-        assert ordinal(100) == "100th"
-
-    def test_hundred_eleventh(self):
+    def test_hundred_teens_still_th(self):
         assert ordinal(111) == "111th"
-
-    def test_hundred_twelfth(self):
         assert ordinal(112) == "112th"
-
-    def test_hundred_thirteenth(self):
         assert ordinal(113) == "113th"
 
     def test_hundred_twenty_first(self):

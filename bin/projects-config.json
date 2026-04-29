@@ -3,37 +3,44 @@
     {
       "slug": "aleph",
       "repo": "thirstypig/alephco.io-app",
-      "file": "CLAUDE.md",
-      "shipping_repos": ["thirstypig/alephco.io-app", "thirstypig/alephco.io-www"]
+      "shipping_repos": [
+        "thirstypig/alephco.io-app",
+        "thirstypig/alephco.io-www"
+      ]
     },
     {
       "slug": "fantastic-leagues",
       "repo": "thirstypig/TheFantasticLeagues",
-      "file": "CLAUDE.md",
-      "shipping_repos": ["thirstypig/TheFantasticLeagues", "thirstypig/thefantasticleagues-www"]
+      "shipping_repos": [
+        "thirstypig/TheFantasticLeagues",
+        "thirstypig/thefantasticleagues-www"
+      ]
     },
     {
       "slug": "bahtzang-trader",
       "repo": "thirstypig/bahtzang-trader",
-      "file": "CLAUDE.md",
-      "shipping_repos": ["thirstypig/bahtzang-trader"]
+      "shipping_repos": [
+        "thirstypig/bahtzang-trader"
+      ]
     },
     {
       "slug": "judge-tool",
       "repo": "thirstypig/thejudgetool",
-      "file": "CLAUDE.md",
-      "shipping_repos": ["thirstypig/thejudgetool", "thirstypig/thejudgetool.com-www"]
+      "shipping_repos": [
+        "thirstypig/thejudgetool",
+        "thirstypig/thejudgetool.com-www"
+      ]
     },
     {
       "slug": "tabledrop",
       "repo": "thirstypig/tabledrop",
-      "file": "CLAUDE.md",
-      "shipping_repos": ["thirstypig/tabledrop"]
+      "shipping_repos": [
+        "thirstypig/tabledrop"
+      ]
     },
     {
       "slug": "tastemakers",
       "repo": "thirstypig/tastemakers-backend",
-      "file": "CLAUDE.md",
       "shipping_repos": [
         "thirstypig/tastemakers-backend",
         "thirstypig/tastemakers-ios",
@@ -45,8 +52,9 @@
     {
       "slug": "thirsty-pig",
       "repo": "thirstypig/thirstypig-blog",
-      "file": "CLAUDE.md",
-      "shipping_repos": ["thirstypig/thirstypig-blog"]
+      "shipping_repos": [
+        "thirstypig/thirstypig-blog"
+      ]
     }
   ]
 }

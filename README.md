@@ -29,9 +29,11 @@ python3 -m http.server 8787
 
 ```bash
 python3 -m http.server 8787 &
+SERVER_PID=$!
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
   --headless --disable-gpu --no-pdf-header-footer \
   --print-to-pdf=resume.pdf http://127.0.0.1:8787/
+kill "$SERVER_PID"
 ```
 
 ## Stack
@@ -41,7 +43,7 @@ python3 -m http.server 8787 &
 - Dark mode via `prefers-color-scheme` + manual toggle (persisted in localStorage)
 - WCAG 2.2 AA compliant. Lighthouse 100/100/100/100.
 - 8 automated data feeds on /now (WHOOP, Spotify, Plex, MLB Dodgers, FBST standings, Goodreads currently-reading, Goodreads read, Thirsty Pig hitlist) + per-project TLDRs and shipping activity pulled from each project's CLAUDE.md and GitHub events
-- 183 tests (pytest) with pre-commit hook and CI
+- 174 tests (pytest) with pre-commit hook and CI
 - Google Analytics 4 + Google Search Console
 
 ## License

@@ -1,5 +1,5 @@
 ---
-status: pending
+status: complete
 priority: p1
 issue_id: 093
 tags: ['code-review', 'correctness', 'projects-sync']

@@ -331,7 +331,7 @@ class TestDarkModeParity:
 
     def test_selector_balance(self):
         failures = []
-        for css_file in ["styles.css", "projects/projects.css"]:
+        for css_file in ["notebook.css", "projects/projects.css"]:
             path = os.path.join(REPO_ROOT, css_file)
             if not os.path.exists(path):
                 continue

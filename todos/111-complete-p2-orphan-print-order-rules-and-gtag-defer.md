@@ -1,5 +1,5 @@
 ---
-status: pending
+status: complete
 priority: p2
 issue_id: 111
 tags: ['code-review', 'css', 'performance', 'print-pipeline']

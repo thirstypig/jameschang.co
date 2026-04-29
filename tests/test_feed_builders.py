@@ -15,19 +15,6 @@ _plex = importlib.import_module("update-plex")
 # ── mlb_block ────────────────────────────────────────────────────
 
 class TestMlbBlock:
-    def test_offseason_message(self, monkeypatch):
-        """During offseason (Dec–Feb), should return a simple offseason line."""
-        fake_today = datetime(2026, 1, 15, tzinfo=timezone.utc).date()
-        monkeypatch.setattr(_public, "datetime",
-                            type("FakeDatetime", (), {
-                                "now": staticmethod(lambda tz=None: datetime(2026, 1, 15, tzinfo=tz)),
-                            }))
-        # Can't easily mock datetime.now().date() without more machinery,
-        # so test the output shape instead
-        html = _public.mlb_block()
-        # In April it should return game data or an error, not offseason
-        assert html is not None or html is None  # just ensure no crash
-
     def test_returns_none_on_fetch_error(self, monkeypatch):
         from urllib.error import URLError
         monkeypatch.setattr(_public, "fetch_json",

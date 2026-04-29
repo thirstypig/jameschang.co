@@ -81,7 +81,6 @@ class TestLoadConfig:
         for project in _projects.load_config():
             assert "slug" in project
             assert "repo" in project
-            assert "file" in project
             assert project["repo"].startswith("thirstypig/")
 
 
