@@ -1,5 +1,13 @@
-// jameschang.co — theme toggle + headshot rotation.
+// jameschang.co — theme toggle + headshot rotation + print expansion.
 // Email is now a plain mailto:; no reveal logic needed.
+
+// Before print: expand any <details> elements (e.g., the "+ 8 additional
+// certifications" collapse) so all credentials render on the resume PDF.
+// Chrome's <details> is open-attribute-driven, not CSS-driven, so a
+// stylesheet alone can't unfold it.
+window.addEventListener("beforeprint", () => {
+  document.querySelectorAll("details").forEach(d => d.setAttribute("open", ""));
+});
 
 (() => {
   const stored = localStorage.getItem("theme");

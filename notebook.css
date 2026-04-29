@@ -1131,6 +1131,11 @@ a:hover { text-decoration: underline; }
    printed CV. Sections are reordered with flex `order` so Experience
    appears before Work; case studies and testimonials are hidden entirely
    (ATS parsers struggle with prose-heavy blocks). */
+/* Print-only name + contact block — hidden on screen, top of page 1 in print.
+   The screen-side hero is where the design language lives; the PDF needs an
+   ATS-parseable identity block at the top. */
+.print-name-block { display: none; }
+
 @media print {
   @page { size: letter; margin: 0.5in; }
 
@@ -1141,7 +1146,7 @@ a:hover { text-decoration: underline; }
     --surface-2: #fff;
     --ink: #000;
     --dim: #333;
-    --rule: #ccc;
+    --rule: #999;
     --accent: #000;
     --accent-ink: #fff;
     --tag: #fff;
@@ -1149,19 +1154,62 @@ a:hover { text-decoration: underline; }
     --pos: #000;
   }
 
-  /* System fonts — Geist Mono / Space Grotesk WOFF2 don't embed reliably
-     in print PDFs. Match live print stack for ATS parity. */
+  /* Single sans-serif stack everywhere — ATS pipelines parse this cleanly,
+     and a senior PM résumé is a sans-serif document, not a magazine spread.
+     Geist Mono / Space Grotesk WOFF2 don't embed reliably in print PDFs and
+     mixed serif+sans reads as "design portfolio," not "résumé". */
+  body, h1, h2, h3, h4, p, li, dt, dd, span, a {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  }
   body {
-    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
     font-size: 10pt;
-    line-height: 1.4;
+    line-height: 1.35;
     background: #fff;
     color: #000;
     background-image: none;
   }
 
+  /* ─── Print name block (top of page 1) ──────────────────────────── */
+  .print-name-block {
+    display: block;
+    text-align: center;
+    margin: 0 0 0.55rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1pt solid #000;
+  }
+  .print-name {
+    font-size: 18pt;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0 0 0.2rem;
+    color: #000;
+  }
+  .print-tagline {
+    font-size: 10.5pt;
+    font-style: italic;
+    margin: 0 0 0.2rem;
+    color: #000;
+  }
+  .print-contact {
+    font-size: 9.5pt;
+    margin: 0;
+    color: #000;
+  }
+  .print-contact a {
+    color: #000;
+    text-decoration: underline;
+    text-underline-offset: 1.5pt;
+    text-decoration-thickness: 0.5pt;
+  }
+  .print-contact .sep {
+    margin: 0 0.4em;
+    color: #666;
+  }
+
   /* Hide screen-only chrome and notebook ornamentation */
   .nb-nav,
+  .nb-hero,
   .nb-terminal,
   .nb-hero-meta,
   .skip-link,
@@ -1171,7 +1219,12 @@ a:hover { text-decoration: underline; }
   .nb-card-status,
   .nb-card-tag,
   .nb-headshot,
-  .nb-note { display: none !important; }
+  .nb-note,
+  .nb-footer,
+  .nb-footer-contact { display: none !important; }
+  /* The screen hero ("A career of product instinct...") is brand voice
+     and overlaps with the print-name-block tagline. Drop from print to
+     keep the page header clean and ATS-friendly. */
 
   .no-print { display: none !important; }
   .print-only { display: inline; }
@@ -1211,63 +1264,55 @@ a:hover { text-decoration: underline; }
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
 
-  /* The "8 products live · all AI-assisted..." section eyebrow is
-     redundant in print — section heading already conveys the content. */
-  .nb-section-eyebrow { display: none; }
-
   /* Collapse the about grid to single column when the headshot is hidden */
   .nb-about {
     display: block;
     grid-template-columns: 1fr;
     gap: 0;
   }
+  .nb-about p {
+    font-size: 10pt !important;
+    line-height: 1.4 !important;
+    margin: 0 0 0.3rem !important;
+    color: #000;
+  }
+  .nb-about p:last-child { margin-bottom: 0 !important; }
+  .nb-about a { color: #000; text-decoration: none; }
 
   .nb-main { max-width: 100%; padding: 0; }
 
-  /* Section spacing + page-break safety */
+  /* Section spacing + page-break behavior. Allow sections to break across
+     pages so content flows naturally — `break-inside: avoid` on whole
+     sections caused giant white-space gaps when a section was just slightly
+     too tall to fit. Keep `avoid` only on the smaller atomic blocks
+     (experience rows, project cards, memberships) so individual entries
+     never split mid-bullet. */
   .nb-section {
-    padding: 0.4rem 0;
+    padding: 0.3rem 0 0.1rem;
     border-bottom: none;
+    break-inside: auto;
+  }
+  .nb-exp-row, .nb-card, .nb-membership, .nb-degree {
+    page-break-inside: avoid;
     break-inside: avoid;
   }
-  .nb-section, article { page-break-inside: avoid; }
   h2, h3 { page-break-after: avoid; }
 
-  /* Hero — strip the terminal/meta but keep tagline + lede */
-  .nb-hero {
-    padding: 0 0 0.5rem;
-    border-bottom: 1px solid #000;
-    margin-bottom: 0.5rem;
-  }
-  .nb-hero h1 {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 16pt;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    line-height: 1.2;
-    color: #000;
-    margin: 0 0 0.25rem;
-  }
-  .nb-hero h1 .accent { color: #000; }
-  .nb-hero-sub {
-    font-size: 10.5pt;
-    color: #000;
-    margin: 0 0 0.5rem;
-    max-width: 100%;
-  }
-
-  /* Section headings — borrow live print pattern (sans, underlined) */
-  .nb-section-head { display: block; margin-bottom: 0.25rem; }
+  /* Section headings — uppercase, tracked, underlined for hierarchy. The
+     section-title underline is the only "underline as visual emphasis"
+     on the résumé. Inline links in body copy stay un-underlined to keep
+     the page calm — underline does heavy lifting only at the section
+     boundary. */
+  .nb-section-head { display: block; margin: 0.55rem 0 0.25rem; }
   .nb-section-title {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    font-size: 12pt;
-    font-weight: 600;
+    font-size: 11pt;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.08em;
     color: #000;
-    border-bottom: 0.5pt solid #000;
+    border-bottom: 1pt solid #000;
     padding-bottom: 2pt;
-    margin: 0.5rem 0 0.35rem;
+    margin: 0;
   }
 
   /* Reorder for résumé scanning: Hero → About → Experience → Education
@@ -1285,103 +1330,170 @@ a:hover { text-decoration: underline; }
   #case-studies  { display: none !important; }
   #testimonials  { display: none !important; }
 
-  /* Experience rows — keep year/co/role/bullets, drop visual flourishes */
+  /* Experience rows — bold company name, italic date + role + location.
+     This is the standard résumé typography contract: bold for the noun
+     (the place you worked), italic for the modifiers (when, what, where). */
   .nb-grid-1, .nb-grid-2, .nb-grid-3, .nb-grid-4 {
     display: block;
   }
-  .nb-exp-row { margin-bottom: 0.5rem; }
+  .nb-exp-row {
+    margin-bottom: 0.45rem;
+    page-break-inside: avoid;
+  }
   .nb-exp-row .yr {
-    font-size: 9pt;
+    font-size: 9.5pt;
+    font-style: italic;
     color: #333;
-    margin-bottom: 0.1rem;
+    margin: 0 0 0.05rem;
   }
   .nb-exp-row .co {
     font-size: 10.5pt;
-    font-weight: 600;
+    font-weight: 700;
     color: #000;
-    display: inline;
+    display: block;
+    margin: 0;
   }
   .nb-exp-row .co a { color: #000; text-decoration: none; }
   .nb-exp-row .role {
     font-size: 9.5pt;
+    font-style: italic;
     color: #333;
     display: block;
-    margin-bottom: 0.15rem;
+    margin: 0 0 0.2rem;
   }
-  .nb-exp-row ul { margin: 0.15rem 0 0; padding-left: 1.1rem; }
+  .nb-exp-row ul { margin: 0.1rem 0 0; padding-left: 1rem; list-style: disc; }
   .nb-exp-row ul li {
-    font-size: 9.5pt;
+    font-size: 10pt;
     line-height: 1.35;
     margin-bottom: 0.15rem;
     padding-left: 0;
+    list-style: disc;
   }
   .nb-exp-row ul li::before { content: none; }
-  .nb-exp-row ul li a { color: #000; text-decoration: underline; }
+  .nb-exp-row ul li a { color: #000; text-decoration: none; }
 
-  /* Project cards — collapse to single column, strip card chrome */
-  .nb-card.compact { padding: 0.2rem 0 !important; }
-  .nb-card-name {
-    font-size: 10.5pt;
-    font-weight: 600;
-    margin-bottom: 0.1rem;
+  /* Project cards — bold project name, body in regular weight.
+     Selectors mirror screen specificity so print sizes win over the
+     screen-mode `.nb-card.compact .nb-card-name { font-size: 20px }` rule. */
+  .nb-card.compact { padding: 0.15rem 0 !important; margin-bottom: 0.25rem; }
+  .nb-card-name,
+  .nb-card.compact .nb-card-name {
+    font-size: 10.5pt !important;
+    font-weight: 700 !important;
+    letter-spacing: normal !important;
+    margin: 0 0 0.05rem !important;
     color: #000;
   }
   .nb-card-url { display: none; }
-  .nb-card-body { font-size: 9.5pt; line-height: 1.35; color: #000; }
+  .nb-card-body { font-size: 10pt !important; line-height: 1.35 !important; color: #000; margin: 0; }
   .nb-card-meta { display: none; }
-  .nb-section-eyebrow { font-size: 9pt; color: #333; margin-bottom: 0.25rem; }
-
-  /* Education + certifications — single column, expand the collapsed list */
-  .nb-degree { margin-bottom: 0.4rem; }
-  .nb-certs h3 {
-    font-size: 10pt;
-    font-weight: 600;
-    color: #000;
-    margin: 0.25rem 0 0.15rem;
-    border: none;
+  .nb-section-eyebrow {
+    font-size: 9.5pt;
+    font-style: italic;
+    color: #333;
+    margin: 0.15rem 0 0.3rem;
+    letter-spacing: normal !important;
+    text-transform: none !important;
   }
-  .nb-certs ul { font-size: 9pt; padding-left: 1rem; margin: 0; }
-  .nb-certs ul li { padding-left: 0; margin-bottom: 0.15rem; }
+
+  /* Education — bold institution, italic degree+date line. */
+  .nb-degree { margin: 0 0 0.3rem; }
+  .nb-degree h3 {
+    font-size: 10.5pt;
+    font-weight: 700;
+    margin: 0 0 0.05rem;
+    color: #000;
+  }
+  .nb-degree p {
+    font-size: 10pt;
+    font-style: italic;
+    margin: 0;
+    color: #333;
+  }
+
+  /* Certifications — expand the on-screen <details> collapse so all
+     certs render in print. Inline-list rendering keeps the section
+     compact while preserving every credential for ATS keyword matching. */
+  .nb-certs h3 {
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: #000;
+    margin: 0.3rem 0 0.1rem;
+    border: none;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .nb-certs ul { font-size: 10pt; padding-left: 1rem; margin: 0; list-style: disc; }
+  .nb-certs ul li { padding-left: 0; margin-bottom: 0.1rem; list-style: disc; }
   .nb-certs ul li::before { content: none; }
   .nb-certs details, .nb-certs details[open] { display: block; }
   .nb-certs details > summary { display: none; }
   .nb-certs details > *:not(summary) { display: revert; }
 
-  /* Skills — flatten dl rows to inline label: value lines */
-  .nb-skills { display: block; }
+  /* Skills — `Category: items` format, one per line. Bold label, regular
+     value. Tight rhythm so the skills section fits comfortably on one page. */
+  .nb-skills { display: block; margin: 0.1rem 0 0; }
   .nb-skill-row {
     display: block !important;
-    padding: 0.15rem 0;
-    font-size: 9.5pt;
-    border-bottom: 0.25pt solid #ccc;
+    padding: 0;
+    margin-bottom: 0.18rem;
+    font-size: 10pt;
+    line-height: 1.35;
+    border: none;
   }
-  .nb-skill-row dt { display: inline; font-weight: 600; }
+  .nb-skill-row dt {
+    display: inline;
+    font-weight: 700;
+    text-transform: capitalize;
+  }
   .nb-skill-row dt::after { content: ": "; }
-  .nb-skill-row dd { display: inline; margin: 0; }
+  .nb-skill-row dd { display: inline; margin: 0; color: #000; }
 
-  /* Memberships */
-  .nb-membership { margin-bottom: 0.35rem; }
-  .nb-membership-head { display: block; }
-  .nb-membership-role { font-size: 9.5pt; color: #333; }
-  .nb-membership-meta { font-size: 9pt; color: #333; }
-
-  /* Footer / contact — expand external URLs after links */
-  .nb-footer-contact, .nb-footer {
-    border-top: 0.5pt solid #000;
-    padding: 0.4rem 0 0;
-    margin-top: 0.4rem;
+  /* Memberships — bold organization, italic role + date+location line. */
+  .nb-membership { margin-bottom: 0.4rem; page-break-inside: avoid; }
+  .nb-membership-head { display: block; margin-bottom: 0.05rem; }
+  .nb-membership-head strong { font-size: 10.5pt; font-weight: 700; color: #000; }
+  .nb-membership-role {
+    font-size: 9.5pt;
+    font-style: italic;
+    color: #333;
+    text-transform: none;
+    margin-left: 0.4em;
   }
-  .nb-footer-contact .name { font-size: 10pt; font-weight: 600; }
-  .nb-footer-contact .links { font-size: 9pt; gap: 8px; }
-  .nb-footer a, .nb-footer-contact .links a { color: #000; text-decoration: none; }
-  .nb-footer a[href^="http"]::after,
-  .nb-footer-contact .links a[href^="http"]::after,
-  .nb-footer-contact .links a[href^="mailto:"]::after {
-    content: " (" attr(href) ")";
-    font-size: 8pt;
-    color: #555;
+  .nb-membership-meta {
+    font-size: 9.5pt;
+    font-style: italic;
+    color: #333;
+    margin: 0 0 0.15rem;
   }
-  .nb-footer-contact .links a[href^="mailto:"]::after { content: " (" attr(href) ")"; }
+  .nb-membership p { font-size: 10pt; line-height: 1.35; margin: 0; color: #000; }
 
-  a { color: #000; text-decoration: none; }
+  /* Inline links in body copy — black, no underline. The print-name-block
+     contact line + active-section section-titles carry the only underlines.
+     Everything else stays calm. The !important + descendant scoping is
+     needed because screen rules like `.nb-prose a { text-decoration: underline }`
+     have higher specificity than a plain `a` selector. */
+  .nb-main a,
+  .nb-section a,
+  .nb-prose a,
+  .nb-exp-row a,
+  .nb-card a,
+  .nb-membership a,
+  .nb-degree a {
+    color: #000 !important;
+    text-decoration: none !important;
+  }
+  .print-contact a { text-decoration: underline !important; }
+
+  /* Override screen-only letter-spacing + text-transform on the print
+     content. Screen treatment uses tracked uppercase mono labels for
+     the "notebook" aesthetic; print needs natural-case sans-serif so
+     "AI" doesn't render as "Ai" and "Tools" labels don't crawl wide. */
+  .nb-skill-row dt,
+  .nb-membership-role,
+  .nb-membership-meta,
+  .nb-card-meta {
+    letter-spacing: normal !important;
+    text-transform: none !important;
+  }
 }
