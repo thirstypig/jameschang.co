@@ -1315,18 +1315,17 @@ a:hover { text-decoration: underline; }
     margin: 0;
   }
 
-  /* Reorder for résumé scanning: Hero → About → Experience → Education
-     → Skills → Projects → Memberships. Mirror live print order. */
+  /* Reorder for résumé scanning: About → Experience → Education
+     → Skills → Projects → Memberships. (Hero, footer, and #contact
+     are display:none in print — see the "Hide screen-only chrome"
+     block above — so no order assignment is needed for them.) */
   .nb-main { display: flex; flex-direction: column; }
-  .nb-hero       { order: 0; }
   #about         { order: 1; }
   #experience    { order: 2; }
   #education     { order: 3; }
   #skills        { order: 4; }
   #work          { order: 5; }
   #memberships   { order: 6; }
-  #contact       { order: 7; }
-  .nb-footer     { order: 8; }
   #case-studies  { display: none !important; }
   #testimonials  { display: none !important; }
 

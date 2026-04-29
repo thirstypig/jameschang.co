@@ -36,17 +36,11 @@ GUIDANCE = {
         "Refresh token invalid. Run `./bin/spotify-auth.sh` and update the "
         "`SPOTIFY_REFRESH_TOKEN` GitHub Secret."
     ),
-    "trakt": (
-        "OAuth refresh token expired. Run `./bin/trakt-auth.sh` to re-auth, then "
-        "re-encrypt `.trakt-token.enc` and commit."
-    ),
     "plex": (
         "Usually transient (SSL handshake against the Plex relay). If it persists "
         "past 48h, verify the `PLEX_URL` secret still points to an active relay."
     ),
-    "github": "Usually transient. Check the workflow logs for HTTP 401/403 or rate-limit hits.",
     "mlb": "MLB Stats API is unauthenticated — usually self-resolves on the next cron.",
-    "letterboxd": "Letterboxd RSS — check if the `thirstypig` account is still accessible.",
     "goodreads": "Goodreads RSS — verify user ID 33966778 is still valid.",
     "goodreads-reading": "See `goodreads` above — same RSS source.",
     "fbst": "The Fantastic Leagues standings endpoint. Check thefantasticleagues.com is reachable.",
