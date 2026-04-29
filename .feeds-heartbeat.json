@@ -24,9 +24,8 @@
     "last_success_utc": "2026-04-29T04:02:36.246620+00:00"
   },
   "plex": {
-    "last_error": "fetch failed \u2014 preserving last known content",
-    "last_run_utc": "2026-04-28T20:05:29.415807+00:00",
-    "last_success_utc": "2026-04-27T19:58:25.580392+00:00"
+    "last_run_utc": "2026-04-29T04:21:07.687375+00:00",
+    "last_success_utc": "2026-04-29T04:21:07.687375+00:00"
   },
   "projects": {
     "last_run_utc": "2026-04-28T16:02:31.701265+00:00",
