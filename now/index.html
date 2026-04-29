@@ -66,7 +66,7 @@
 
     <section class="nb-hero now">
       <p class="nb-hero-meta">
-        <span>// /now · auto-updated <span class="accent page-updated"><!-- PAGE-UPDATED-START -->April 29, 2026 at 6:55 AM PDT<!-- PAGE-UPDATED-END --></span></span>
+        <span>// /now · auto-updated <span class="accent page-updated"><!-- PAGE-UPDATED-START -->April 29, 2026 at 8:49 AM PDT<!-- PAGE-UPDATED-END --></span></span>
       </p>
       <h1>What I'm up to <span class="accent">/now</span>.</h1>
       <p class="nb-hero-sub">
@@ -92,9 +92,8 @@
           </div>
           <!-- TLDR-aleph-START -->
 
-          <p class="nb-card-body">The compliance platform I wished existed when I was importing — CPSIA certificates, Prop 65 labels, PFAS tracking across 15 states, and FSVP audits in one place. Just shipped a massive sprint: 680 automated tests, live CPSC recall feed, smart lab routing that matches your product type to nearby accredited labs, and a compliance training center with step-by-step workflow guides. The "Manifest" design system is now 100% complete across the entire app — navy/cream/red institutional aesthetic with Bungee Inline display headers, IBM Plex Mono mono labels, Inter body, and zero border-radius. Every page reskinned (47 files changed across 7 commits in session 13): Login/Register rebuilt as navy/cream split-screen, ProfileSetupPage converted from dark slate/emerald to cream/navy, Executive Dashboard converted from Chorus (teal/purple) to Manifest, and landing pages (Thaifex + HC Foods) are mobile responsive. 680 unit tests passing, zero type errors.</p>
-          <p class="nb-card-shipped"><span class="accent">&uarr; shipped:</span> <a href="https://github.com/thirstypig/alephco.io-www/commit/bd0be6d8323df668f8a14ebe8ac33b04b73ed578" rel="noopener" target="_blank">feat: blog post — The Manifest Redesign: Why We Made Aleph Look Like a Customs Form</a> &middot; <time datetime="2026-04-28T04:42:54Z" data-rel>11h ago</time></p>
-          <p class="feed-updated">Auto-updated April 28, 2026 at 9:02 AM PDT via CLAUDE.md + GitHub events.</p>
+          <p class="nb-card-body">The compliance platform I wished existed when I was importing — CPSIA certificates, Prop 65 labels, PFAS tracking across 15 states, and FSVP audits in one place. Now running on the Manifest Design System v7 (v0.17.0) — a complete visual overhaul matching the Claude Design v7 spec pixel-for-pixel. Horizontal stamp-bar + tab-strip top nav (replaced sidebar), navy-deep table headers, Bungee Inline 128px hero scores, KPI ticker strips, critical alert cards with floating labels, connected filter chips, abutting button groups, corner registration marks on auth, and zero border-radius enforced across 295 class removals in 73 files. 27 commits this session touching ~150 files across 3 repos. Interactive ROI calculator on HC Foods landing page. Blog post (&quot;The Manifest Redesign&quot;) scheduled May 5. Dark mode tokens (--success/--warning) with adaptive light/dark values. 696 tests passing (680 unit + 16 E2E), zero type errors, zero emerald/slate references remaining.</p>
+          <p class="feed-updated">Auto-updated April 29, 2026 at 8:49 AM PDT via CLAUDE.md + GitHub events.</p>
         
         <!-- TLDR-aleph-END -->
         </article>
@@ -107,9 +106,9 @@
           </div>
           <!-- TLDR-fantastic-leagues-START -->
 
-          <p class="nb-card-body">Fantasy baseball for the dozen-owner, auction-draft, keeper-league crowd that Yahoo and ESPN never really served. App is live, our first auction of the season just wrapped, and I'm rolling out roster-rules enforcement in phases while iterating weekly on AI-assisted features (draft grades, trade analyzer, a weekly "Week in Baseball" report). Current focus: merging fixes for two silent production regressions caught this week, landing the Phase 4 UI, and finishing commissioner tooling so I can flip roster-rules enforcement on for my own OGBA owners.</p>
-          <p class="nb-card-shipped"><span class="accent">&uarr; shipped:</span> <a href="https://github.com/thirstypig/TheFantasticLeagues/commit/0a2dfa9137cdc820fe2a8e895df2e36078b3f894" rel="noopener" target="_blank">feat(aurora): deep port auction children — DraftReport / BidHistoryChart / AuctionReplay (</a> &middot; <time datetime="2026-04-28T16:01:01Z" data-rel>1m ago</time></p>
-          <p class="feed-updated">Auto-updated April 28, 2026 at 9:02 AM PDT via CLAUDE.md + GitHub events.</p>
+          <p class="nb-card-body">Fantasy baseball for the dozen-owner, auction-draft, keeper-league crowd that Yahoo and ESPN never really served. App is live for OGBA, the auction has wrapped, and the season is in flight. Roster-rules enforcement landed and is on for OGBA. <strong>Aurora design system rollout is complete</strong> — every routed page from login through admin uses the unified Aurora chrome (floating Topbar + bottom Dock for authenticated routes; centered Glass cards for pre-auth). 8 of 8 design-bundle screens are ported, including the live auction floor (PR #157) and the 7 pre-auth + onboarding pages (PR #158). The token-redirect mechanism in <code>aurora.css</code> (PR #153) means every legacy <code>ThemedTable</code> / <code>lg-card</code> / <code>lg-button</code> instance reads Aurora colors via the <code>--am-*</code> namespace inside <code>.aurora-theme</code>. Style sheet doc lives at <code>docs/aurora-design-system.md</code> (linked from <code>/docs</code>). <strong>Current focus shifted to component-level deep ports</strong> (RulesEditor, SeasonManager, StatTile, FunnelBar, etc — Aurora colors via redirects but still legacy bento layouts) and <strong>server-side enhancements</strong> for two known gaps: real boxscore stat lines on My Team Today, and true daily snapshots for category day-over-day deltas. Live-floor browser verification owed for next OGBA pre-draft window.</p>
+          <p class="nb-card-shipped"><span class="accent">&uarr; shipped:</span> <a href="https://github.com/thirstypig/TheFantasticLeagues/commit/694924ee27ceb8fe27df24eb56a14d73a68af63a" rel="noopener" target="_blank">fix(ci): remove redundant deploy job — Railway auto-deploys from GitHub (#161)</a> &middot; <time datetime="2026-04-29T03:59:02Z" data-rel>11h ago</time></p>
+          <p class="feed-updated">Auto-updated April 29, 2026 at 8:49 AM PDT via CLAUDE.md + GitHub events.</p>
         
         <!-- TLDR-fantastic-leagues-END -->
         </article>
@@ -123,7 +122,7 @@
           <!-- TLDR-bahtzang-trader-START -->
 
           <p class="nb-card-body">An AI trading-decision experiment — Claude Sonnet makes buy/sell/hold calls, a FastAPI + Next.js stack handles data and execution, and an Alpaca paper-trading account is the live target (not real money yet). Just wrapped a 7-agent code review (100 findings resolved), unified the trade data model, and stood up a 297-test suite with pre-commit hooks and CI — all AI-assisted. Next up: 30+ paper trades to validate the pipeline before flipping the live switch.</p>
-          <p class="feed-updated">Auto-updated April 28, 2026 at 9:02 AM PDT via CLAUDE.md + GitHub events.</p>
+          <p class="feed-updated">Auto-updated April 29, 2026 at 8:49 AM PDT via CLAUDE.md + GitHub events.</p>
         
         <!-- TLDR-bahtzang-trader-END -->
         </article>
@@ -136,9 +135,9 @@
           </div>
           <!-- TLDR-thirsty-pig-START -->
 
-          <p class="nb-card-body">My food blog from 2007–present, rebuilt from Wayback Machine archives + Instagram exports. 1,639 published posts and 1,400+ mapped restaurants live at thirstypig.com. Active redesign push using Claude Design — extending April 2026's "Bold Red Poster" homepage (full-bleed red hero, Archivo type, the original pig logo, region landing pages) across the rest of the site. Content pipeline runs itself: new Instagram posts arrive via a manual-export pipeline (Meta API is walled for personal Pages — confirmed dead end across both FB Graph and IG Graph in April 2026), a local macOS launchd watcher auto-uploads export ZIPs as GitHub releases when they land in ~/Downloads, and a Monday-9am-PT weekly routine reminds me to drop the new ZIP. 10 places on the hit list.</p>
-          <p class="nb-card-shipped"><span class="accent">&uarr; shipped:</span> <a href="https://github.com/thirstypig/thirstypig-blog/commit/08dc90c0d8ad6a4d1f351edf9275ad3afb7a938f" rel="noopener" target="_blank">Document Yelp scraping resumption playbook (#85)</a> &middot; <time datetime="2026-04-28T06:29:14Z" data-rel>9h ago</time></p>
-          <p class="feed-updated">Auto-updated April 28, 2026 at 9:02 AM PDT via CLAUDE.md + GitHub events.</p>
+          <p class="nb-card-body">My food blog from 2007–present, rebuilt from Wayback Machine archives + Instagram exports. 1,639 published posts and 1,400+ mapped restaurants live at thirstypig.com. <strong>Just shipped (2026-04-27/28): venue-tags MVP</strong> — a headed Playwright pipeline scrapes Google Maps&#39; &quot;Refine reviews&quot; topic chips, publishes per-venue JSON at <code>/venue-tags/{place_id}.json</code>, and renders the chips as pills on individual post pages via a new <code>&lt;VenueChips&gt;</code> component (5 venues seeded, 4 PRs merged: #82 scraper + index, #83 build hotfix, #84 chips on posts, #85 Yelp resumption playbook). Yelp source paused — IP block; playbook in <code>scripts/venue-tags/YELP.md</code>. Active redesign push using Claude Design also continues — extending April 2026&#39;s &quot;Bold Red Poster&quot; homepage across the rest of the site. Content pipeline runs itself: new Instagram posts arrive via manual-export + local launchd watcher + Monday-9am-PT weekly reminder (Meta API walled for personal Pages, confirmed dead end). 10 places on the hit list.</p>
+          <p class="nb-card-shipped"><span class="accent">&uarr; shipped:</span> <a href="https://github.com/thirstypig/thirstypig-blog/commit/0ff919107dadf3e7dfedb4af204b4407dd8a4c1d" rel="noopener" target="_blank">e2e: Cities nav assertion now lives on /cities, not /categories</a> &middot; <time datetime="2026-04-29T06:38:22Z" data-rel>9h ago</time></p>
+          <p class="feed-updated">Auto-updated April 29, 2026 at 8:49 AM PDT via CLAUDE.md + GitHub events.</p>
         
         <!-- TLDR-thirsty-pig-END -->
         </article>
@@ -163,7 +162,7 @@
           <!-- TLDR-judge-tool-START -->
 
           <p class="nb-card-body">KCBS-style BBQ competition judging app — replaces clipboards, carbon copies, and spreadsheet math with real-time digital scoring for organizers, table captains, and judges. Just wrapped a shipping-readiness pass: Google Analytics on both the app and marketing site, sitemap and robots tests enforcing SEO invariants, and CI gating every PR on lint/typecheck/tests. Next up: an integration-test harness so server actions get exercised against a real database, ahead of piloting at a real KCBS-sanctioned competition this season.</p>
-          <p class="feed-updated">Auto-updated April 28, 2026 at 9:02 AM PDT via CLAUDE.md + GitHub events.</p>
+          <p class="feed-updated">Auto-updated April 29, 2026 at 8:49 AM PDT via CLAUDE.md + GitHub events.</p>
         
         <!-- TLDR-judge-tool-END -->
         </article>
@@ -175,8 +174,8 @@
           </div>
           <!-- TLDR-tabledrop-START -->
 
-          <p class="nb-card-body">A marketplace for hard-to-get Taipei restaurant reservations — a Playwright scraper pulls listings from inline.app, with a Next.js + Clerk + Stripe storefront on the buy side. Recent AI-assisted work has been mostly scaffolding: admin dashboard (roadmap, changelog, status), an MCP server so Claude Code can poke at the scraper and database directly, and project-scoped slash commands for tests and doc sync. Honest blocker: neither side of the transaction is live yet — Stripe checkout isn't wired and the scraper has barely been run — so the next push is getting one end-to-end listing → purchase flow working with real data.</p>
-          <p class="feed-updated">Auto-updated April 28, 2026 at 9:02 AM PDT via CLAUDE.md + GitHub events.</p>
+          <p class="nb-card-body">A marketplace for hard-to-get Taipei restaurant reservations — a Playwright scraper pulls listings from inline.app, with a Next.js + Clerk + Stripe storefront on the buy side. Recent AI-assisted work has been mostly scaffolding: admin dashboard (roadmap, changelog, status), an MCP server so Claude Code can poke at the scraper and database directly, and project-scoped slash commands for tests and doc sync. Honest blocker: neither side of the transaction is live yet — Stripe checkout isn&#39;t wired and the scraper has barely been run — so the next push is getting one end-to-end listing → purchase flow working with real data.</p>
+          <p class="feed-updated">Auto-updated April 29, 2026 at 8:49 AM PDT via CLAUDE.md + GitHub events.</p>
         
         <!-- TLDR-tabledrop-END -->
         </article>
@@ -189,7 +188,7 @@
           <!-- TLDR-tastemakers-START -->
 
           <p class="nb-card-body">Restaurant discovery app with iOS, Android, and web clients sharing a Laravel 8 API — this repo is the backend that feeds them all. Actively decoupling the backend from legacy WordPress/Namecheap hosting: the API is moving to Railway (managed Postgres in prod) and the web frontend to Vercel. Once the infrastructure is clean, the Next.js site becomes both the marketing page and a web-accessible version of the app.</p>
-          <p class="feed-updated">Auto-updated April 28, 2026 at 9:02 AM PDT via CLAUDE.md + GitHub events.</p>
+          <p class="feed-updated">Auto-updated April 29, 2026 at 8:49 AM PDT via CLAUDE.md + GitHub events.</p>
         
         <!-- TLDR-tastemakers-END -->
         </article>
