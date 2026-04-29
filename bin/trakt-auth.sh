@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # One-time Trakt OAuth2 setup.
-# Run locally to obtain a refresh token, then store it as TRAKT_REFRESH_TOKEN
-# in GitHub Secrets (repo → Settings → Secrets → Actions).
+# Run locally to obtain a refresh token; the encrypted token file
+# (.trakt-token.enc) is committed to the repo and decrypted at runtime
+# by update-trakt.py via the TRAKT_TOKEN_KEY GitHub Secret.
 #
 # Usage:
 #   export TRAKT_CLIENT_ID="your-client-id"
@@ -40,39 +41,65 @@ read -rp "   Authorization code: " AUTH_CODE
 echo ""
 echo "3. Exchanging code for tokens..."
 
-RESPONSE=$(curl -s -X POST "https://api.trakt.tv/oauth/token" \
+# Build the JSON body via python json.dumps so a " in any client_id /
+# secret can't break the request. Pipe through curl --data @- so the body
+# is never an argv argument.
+export AUTH_CODE REDIRECT_URI
+BODY=$(python3 -c '
+import json, os
+print(json.dumps({
+    "code": os.environ["AUTH_CODE"],
+    "client_id": os.environ["TRAKT_CLIENT_ID"],
+    "client_secret": os.environ["TRAKT_CLIENT_SECRET"],
+    "redirect_uri": os.environ["REDIRECT_URI"],
+    "grant_type": "authorization_code",
+}))
+')
+
+BODY_FILE=$(mktemp)
+HTTP_CODE=$(printf '%s' "${BODY}" | curl -s -o "${BODY_FILE}" -w "%{http_code}" -X POST "https://api.trakt.tv/oauth/token" \
   -H "Content-Type: application/json" \
-  -d "{
-    \"code\": \"${AUTH_CODE}\",
-    \"client_id\": \"${TRAKT_CLIENT_ID}\",
-    \"client_secret\": \"${TRAKT_CLIENT_SECRET}\",
-    \"redirect_uri\": \"${REDIRECT_URI}\",
-    \"grant_type\": \"authorization_code\"
-  }")
+  --data-binary @-)
+
+RESPONSE=$(cat "${BODY_FILE}")
+rm -f "${BODY_FILE}"
+
+if [ "${HTTP_CODE}" != "200" ]; then
+  echo "Token exchange failed: ${HTTP_CODE}"
+  exit 1
+fi
 
 ACCESS_TOKEN=$(echo "$RESPONSE" | python3 -c "import sys,json; print(json.load(sys.stdin).get('access_token',''))")
 REFRESH_TOKEN=$(echo "$RESPONSE" | python3 -c "import sys,json; print(json.load(sys.stdin).get('refresh_token',''))")
 
 if [ -z "$ACCESS_TOKEN" ] || [ -z "$REFRESH_TOKEN" ]; then
-  echo "ERROR: Token exchange failed."
-  echo "Response: ${RESPONSE}"
+  echo "ERROR: Token exchange failed — no access_token / refresh_token in response."
   exit 1
 fi
+
+# Write the refresh token to a mode-600 tempfile instead of echoing it to
+# stdout. Avoids leakage via terminal scrollback, recorded sessions, or
+# screen-share tools — same pattern as bin/whoop-auth.sh and bin/spotify-auth.sh.
+umask 077
+SECRETS_FILE=$(mktemp)
+{
+  echo "TRAKT_REFRESH_TOKEN = ${REFRESH_TOKEN}"
+} > "${SECRETS_FILE}"
 
 echo ""
 echo "=== Success! ==="
 echo ""
-echo "Access token:  ${ACCESS_TOKEN:0:20}... (truncated)"
-echo "Refresh token: ${REFRESH_TOKEN:0:20}... (truncated)"
+echo "Access token (truncated):  ${ACCESS_TOKEN:0:20}..."
+echo "Refresh token saved to: ${SECRETS_FILE}"
 echo ""
-echo "4. Now add this as a GitHub Secret:"
+echo "Next steps:"
+echo "  1. Encrypt the refresh token into .trakt-token.enc:"
+echo "       export TRAKT_TOKEN_KEY=\"<a strong passphrase>\""
+echo "       cat ${SECRETS_FILE} | awk -F'= ' '{print \$2}' | bash bin/trakt-encrypt.sh"
+echo "  2. Add TRAKT_TOKEN_KEY (and TRAKT_CLIENT_ID / TRAKT_CLIENT_SECRET) as GitHub Secrets."
+echo "  3. shred -u ${SECRETS_FILE}    # or rm — the secret is no longer needed locally."
 echo ""
-echo "   Secret name:  TRAKT_REFRESH_TOKEN"
-echo "   Secret value: ${REFRESH_TOKEN}"
-echo ""
-echo "   Go to: https://github.com/thirstypig/jameschang.co/settings/secrets/actions"
-echo ""
-echo "5. Quick test — fetching your recently watched shows..."
+echo "Quick test — fetching your recently watched shows..."
 
 TEST=$(curl -s "https://api.trakt.tv/users/me/history/shows?limit=3" \
   -H "Content-Type: application/json" \
@@ -97,4 +124,4 @@ else:
 "
 
 echo ""
-echo "Done. The refresh token does not rotate — store it once in GitHub Secrets."
+echo "Done. The refresh token rotates on every use — bin/update-trakt.py handles re-encryption."

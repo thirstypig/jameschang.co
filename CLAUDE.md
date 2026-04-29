@@ -16,22 +16,22 @@ Operational notes for Claude Code (and any other agent) working on this repo. Fo
 /projects/              Deep-dive project pages (Aleph, Fantastic Leagues, Judge Tool) — each has sub-pages + dashboard prompt showcase. Loads notebook.css + projects/projects.css.
 /privacy/               Privacy policy (required by WHOOP app registration). Loads notebook.css.
 /whoop/callback/        OAuth2 redirect target (static page that reads ?code= from URL). Inline-styled utility page, no shared CSS.
-/assets/                Images (AVIF/WebP/PNG responsive triples), favicons, OG image
+/spotify/callback/      OAuth2 redirect target for the Spotify auth flow. Same shape as /whoop/callback/.
+/assets/                Images (AVIF/WebP responsive pairs), favicons, OG image, apple-touch-icon
 /assets/fonts/          Self-hosted WOFF2 (Geist Mono + Space Grotesk, latin subset) — loaded by notebook.css site-wide
-/bin/                   Maintenance scripts (whoop-auth.sh, whoop-encrypt.sh, update-whoop.py, update-spotify.py, update-public-feeds.py, spotify-auth.sh)
-/.github/workflows/     GitHub Actions (WHOOP, Spotify, public feeds sync + staleness check)
+/bin/                   Sync + auth scripts: _shared.py, update-{whoop,spotify,plex,trakt,public-feeds,projects}.py, check-feed-health.py, {whoop,spotify,trakt}-{auth,encrypt}.sh, projects-config.json
+/.github/workflows/     GitHub Actions (WHOOP, Spotify, Plex, public feeds, projects, staleness check; trakt-sync.yml.disabled is dormant)
 /docs/solutions/        Internal knowledge base — past solved problems (see /ce:compound)
 /todos/                 Code-review findings (see /ce:review)
 /resume.pdf             Generated from the homepage print stylesheet (notebook.css @media print)
 .whoop-token.enc        AES-encrypted WHOOP refresh token (committed, decrypted at runtime)
+.trakt-token.enc        AES-encrypted Trakt refresh token (preserved while the Trakt sync is disabled)
 .feeds-heartbeat.json   Timestamped heartbeats per feed (committed by sync workflows)
 ```
 
 **One design system, two stylesheets.** The Claude Design "notebook" direction was cut over site-wide on 2026-04-27. Every content page (`/`, `/now/`, `/projects/*`, `/privacy/`) loads `/notebook.css` and shares the same design language: forest-green/clay accent, hard-shadow cards, graph-paper grid, Geist Mono + Space Grotesk fonts.
 
 The `/projects/*` deep-dives additionally load `/projects/projects.css` for component-specific classes (`.release`, `.module`, `.snapshot-banner`, `.terminal`, `.lightbox`, `.arch-block`, `.scorecard`, `.feature-list`, `.comp-table`, etc.) — but `work.css` was **retokenized** to consume notebook design tokens (`var(--ink)`, `var(--surface)`, `var(--display)`, etc.) so visually the work sub-pages render in the same notebook aesthetic. Eventually `work.css` could be merged into `notebook.css`; it stays separate for now to avoid bloating the site-wide stylesheet with classes used only on 14 deep-dive pages.
-
-The legacy `styles.css` is no longer loaded by any page and could be deleted — kept temporarily only as a reference for the original design tokens.
 
 ## CSS token system
 
@@ -99,7 +99,7 @@ The `/now` page is assembled from several independent sync scripts that each wri
 
 **Hitlist** (Places I want to try) — client-side fetch of `thirstypig.com/places-hitlist.json`. The JSON carries its own `lastUpdated` ISO field; the inline JS in `now/index.html` reads it and renders an `Auto-updated` line. Server-side sync not applicable (CORS locks the fetch to `https://jameschang.co`; won't render on localhost).
 
-**Project TLDRs + per-project shipping** (Active / Back-burner sections) — each project's content is wrapped in `<!-- TLDR-{slug}-START -->...<!-- TLDR-{slug}-END -->`. `bin/update-projects.py` runs daily at 7 AM PT (14:00 UTC) via `.github/workflows/projects-sync.yml` and splices a three-part block into each marker: (1) the TLDR paragraph from the repo's CLAUDE.md `<!-- now-tldr -->...<!-- /now-tldr -->` block, (2) a `<p class="shipping-recent">` listing the single most recent GitHub event (PushEvent / PullRequestEvent / ReleaseEvent) — capped by `EVENTS_PER_PROJECT=1`, (3) a `<p class="feed-updated">` with the sync timestamp. Config at `bin/projects-config.json` — `{slug, repo, file, shipping_repos[]}` per project; `shipping_repos` is the list of repos whose events attribute to this project (e.g., Aleph pulls from both `alephco.io-app` and `alephco.io-www`). **Required GitHub Secret:** `TLDR_FETCH_TOKEN` (fine-grained PAT with Contents:Read on the 4 private repos — Aleph, Judge Tool, TableDrop, Tastemakers). Fail-safe: on 404 / missing marker / events-API failure, existing HTML fallback is preserved — no empty blocks.
+**Project TLDRs + per-project shipping** (Active / Back-burner sections) — each project's content is wrapped in `<!-- TLDR-{slug}-START -->...<!-- TLDR-{slug}-END -->`. `bin/update-projects.py` runs daily at 7 AM PT (14:00 UTC) via `.github/workflows/projects-sync.yml` and splices a three-part block into each marker: (1) the TLDR paragraph from the repo's CLAUDE.md `<!-- now-tldr -->...<!-- /now-tldr -->` block, (2) a `<p class="nb-card-shipped">` listing the single most recent GitHub event (PushEvent / PullRequestEvent / ReleaseEvent) — capped by `EVENTS_PER_PROJECT=1`, (3) a `<p class="feed-updated">` with the sync timestamp. Config at `bin/projects-config.json` — `{slug, repo, file, shipping_repos[]}` per project; `shipping_repos` is the list of repos whose events attribute to this project (e.g., Aleph pulls from both `alephco.io-app` and `alephco.io-www`). **Required GitHub Secret:** `TLDR_FETCH_TOKEN` (fine-grained PAT with Contents:Read on every repo listed in `bin/projects-config.json`'s `shipping_repos` for any private project — currently Aleph, Judge Tool, TableDrop, Tastemakers x5). Fail-safe: on 404 / missing marker / events-API failure, existing HTML fallback is preserved — no empty blocks.
 
 **Markdown contract for `<!-- now-tldr -->` blocks** (added 2026-04-28): the TLDR text is rendered through a tiny inline-only renderer (`_render_markdown_inline` in `bin/update-projects.py`). Supported tokens: **`**bold**`** → `<strong>`, **`` `code` ``** → `<code>`. HTML entities are escaped first, so author-written angle brackets like `<VenueChips>` render as text, not as a real tag. Anything else — `_italic_`, `[links](…)`, lists, headings — renders as literal markdown text on the page. Authors of downstream-repo CLAUDE.md TLDRs should keep prose plain; reach for `<strong>`/`<code>` directly if more emphasis is needed.
 
@@ -181,7 +181,7 @@ All code-review findings from both reviews (initial + 2026-04-18 full-repo audit
 | `tests/test_spotify.py` | Unit | 15 | `update-spotify.py`: build_html (asserts `nb-feed-podcast` + bare `<ul>`), state load/save, fetch_recent_tracks, fetch_current_podcast |
 | `tests/test_whoop.py` | Unit | 14 | `update-whoop.py`: fetch_latest_recovery/sleep/cycle, build_html with all recovery colors |
 | `tests/test_site_e2e.py` | E2E | 41 | All HTML pages: meta tags, CSP, aria-pressed, JSON-LD, images, internal links, feed markers (incl. PAGE-UPDATED), @media print + @page rule on notebook.css, OpenSSL parity, dark mode parity, GA4, privacy policy, symlink detection, sitemap consistency, OG image, **top-nav consistency** (brand text, no [about], [/now] slash prefix, experience→projects→now order across all 16 pages), **cross-project nav** (presence + canonical entry-point hrefs + aria-current on 12 deep-dive pages), **/now section structure** (sequential /01–/08 numbering + /07 watching/listening/reading sub-feeds, no Trakt/Letterboxd), **resume print pipeline** (print-name-block presence on homepage only + screen-hidden + canonical contact URLs; script.js beforeprint listener that opens `<details>` so the 8 additional certifications expand in resume.pdf; `.nb-card-name` print rule overrides screen sizing) |
-| `tests/test_projects.py` | Unit | 19 | `update-projects.py`: TLDR extraction, config schema, PR-event filtering, render_shipping_list (uses `nb-card-shipped` + bare `<time>`, drops legacy `shipping-recent`/`gh-when`), render_block |
+| `tests/test_projects.py` | Unit | 23 | `update-projects.py`: TLDR extraction, config schema, PR-event filtering, render_shipping_list (uses `nb-card-shipped` + bare `<time>`, drops legacy `shipping-recent`/`gh-when`), render_block |
 
 CI runs on push to `main` via `.github/workflows/ci-tests.yml`. See `docs/test-plan.md` for the full testing strategy.
 
