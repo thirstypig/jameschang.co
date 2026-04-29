@@ -14,16 +14,22 @@ Issue management:
 - Feed recovered: close any open `feed-stale` issue for that feed.
 
 Requires GH_TOKEN env var (provided by github.token in the workflow).
+
+Local / agent use: set DRY_RUN=1 to print what would happen without making
+any `gh issue create/close/comment` calls. Required for any cold-run
+verification — running the script unguarded against the live repo will open
+or close real issues.
 """
 
 import json
 import os
 import subprocess
 import sys
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 
 STALE_HOURS = 48
 HEARTBEAT_FILE = os.path.join(os.path.dirname(__file__), "..", ".feeds-heartbeat.json")
+DRY_RUN = bool(os.environ.get("DRY_RUN"))
 
 # Actionable guidance per feed — shown in the GitHub issue body.
 GUIDANCE = {
@@ -53,7 +59,11 @@ GUIDANCE = {
 
 def gh(*args):
     """Run a gh CLI command; return stdout or raise on failure."""
-    result = subprocess.run(["gh", *args], capture_output=True, text=True)
+    is_write = args and args[0] in ("issue",) and len(args) > 1 and args[1] in ("create", "close", "comment")
+    if DRY_RUN and is_write:
+        print(f"[dry-run] would run: gh {' '.join(args)}")
+        return ""
+    result = subprocess.run(["gh", *args], capture_output=True, text=True, timeout=30)
     if result.returncode != 0:
         print(f"gh {' '.join(args)} failed: {result.stderr.strip()}", file=sys.stderr)
         raise RuntimeError(result.stderr.strip())
@@ -62,16 +72,19 @@ def gh(*args):
 
 def ensure_label(name, color, description):
     """Create the label if missing. No-op if already exists."""
+    if DRY_RUN:
+        print(f"[dry-run] would ensure label: {name}")
+        return
     result = subprocess.run(
         ["gh", "label", "create", name, "--color", color, "--description", description],
-        capture_output=True, text=True,
+        capture_output=True, text=True, timeout=30,
     )
     if result.returncode != 0 and "already exists" not in result.stderr:
         print(f"WARN: could not create label {name}: {result.stderr.strip()}", file=sys.stderr)
 
 
 def load_heartbeats():
-    with open(HEARTBEAT_FILE) as f:
+    with open(HEARTBEAT_FILE, encoding="utf-8") as f:
         return json.load(f)
 
 
@@ -79,7 +92,15 @@ def feed_age_hours(info, now):
     last = info.get("last_success_utc")
     if not last:
         return float("inf")
-    return (now - datetime.fromisoformat(last)).total_seconds() / 3600
+    try:
+        parsed = datetime.fromisoformat(last)
+    except ValueError:
+        return float("inf")
+    # Defensive: heartbeats are written tz-aware, but if the file is hand-
+    # edited a naive timestamp would crash the subtraction. Treat naive as UTC.
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return (now - parsed).total_seconds() / 3600
 
 
 def open_issues_by_feed():
@@ -152,7 +173,10 @@ def main():
         else:
             print(f"OK: {slug} ({hours:.0f}h)")
 
-    print(f"\nSummary: {stale_opened} opened, {recovered_closed} closed.")
+    if DRY_RUN:
+        print(f"\n[dry-run] Summary: {stale_opened} would open, {recovered_closed} would close.")
+    else:
+        print(f"\nSummary: {stale_opened} opened, {recovered_closed} closed.")
 
 
 if __name__ == "__main__":

@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 """Fetch Spotify listening data and update /now/index.html.
 
-Called by the GitHub Action on a 4-hour cron. Pulls recently-played music
-tracks (always) and the currently-playing podcast episode (when one is
-actively playing). Persists the last-seen podcast in .spotify-state.json
-so the /now page can show it until superseded by a newer podcast, with a
-7-day auto-age-out.
+Called by the GitHub Action on a 30-minute cron — high cadence is deliberate,
+since Spotify's recently-played endpoint is tracks-only in practice. The only
+way to catch a podcast play is to snapshot /me/player/currently-playing
+often enough to land mid-listen. Persists the last-seen podcast in
+.spotify-state.json so the /now page can show it until superseded by a newer
+podcast, with a 7-day auto-age-out. Content-hash cache makes no-op runs free.
 """
 
 import base64
 import hashlib
 import json
 import os
-import re
 import sys
 from datetime import datetime, timedelta, timezone
 from urllib.error import HTTPError
@@ -24,10 +24,12 @@ from _shared import (
     relative_time_html,
     replace_marker,
     record_heartbeat,
+    require_env,
     sanitize_error,
     content_changed,
     format_update_time,
     read_now_html,
+    strip_volatile,
     write_now_html,
     USER_AGENT,
     REPO_ROOT,
@@ -58,10 +60,10 @@ def get_access_token():
         "User-Agent": USER_AGENT,
     })
     try:
-        with urlopen(req) as resp:
+        with urlopen(req, timeout=15) as resp:
             body = json.loads(resp.read())
     except HTTPError as e:
-        print(f"Token refresh failed: {sanitize_error(e)}")
+        print(f"Token refresh failed: {sanitize_error(e)}", file=sys.stderr)
         sys.exit(1)
 
     return body["access_token"]
@@ -77,12 +79,12 @@ def api_get(token, path, params=None):
         "Accept": "application/json",
     })
     try:
-        with urlopen(req) as resp:
+        with urlopen(req, timeout=15) as resp:
             if resp.status == 204:
                 return None
             return json.loads(resp.read())
     except HTTPError as e:
-        print(f"API {path} failed: {sanitize_error(e)}")
+        print(f"API {path} failed: {sanitize_error(e)}", file=sys.stderr)
         return None
 
 
@@ -90,14 +92,14 @@ def load_state():
     if not os.path.exists(STATE_FILE):
         return {}
     try:
-        with open(STATE_FILE) as f:
+        with open(STATE_FILE, encoding="utf-8") as f:
             return json.load(f)
     except (OSError, json.JSONDecodeError):
         return {}
 
 
 def save_state(state):
-    with open(STATE_FILE, "w") as f:
+    with open(STATE_FILE, "w", encoding="utf-8") as f:
         json.dump(state, f, indent=2)
         f.write("\n")
 
@@ -178,6 +180,8 @@ def build_html(tracks, podcast):
 
 
 def main():
+    require_env("SPOTIFY_CLIENT_ID", "SPOTIFY_CLIENT_SECRET", "SPOTIFY_REFRESH_TOKEN")
+
     token = get_access_token()
 
     tracks = fetch_recent_tracks(token)
@@ -203,9 +207,11 @@ def main():
 
     html_block = build_html(tracks, podcast)
 
-    # Content-hash cache: skip HTML write if tracks + podcast haven't changed
-    date_stripped = re.sub(r"Auto-updated [A-Z][a-z]+ \d+, \d{4}(?: at \d{1,2}:\d{2} [AP]M [A-Z]{2,4})?", "", html_block)
-    tracks_hash = hashlib.sha1(date_stripped.encode()).hexdigest()[:12]
+    # Content-hash cache: skip HTML write if upstream tracks + podcast haven't
+    # changed. Strip both the Auto-updated date AND the <time data-rel> visible
+    # text — both reformat every minute via now/now.js, so without stripping
+    # them every cron run sees a fake "diff" and pushes a timestamp-only commit.
+    tracks_hash = hashlib.sha1(strip_volatile(html_block).encode()).hexdigest()[:12]
     old_hash = state.get("last_tracks_hash")
 
     if tracks_hash == old_hash and not state_dirty:
@@ -219,7 +225,7 @@ def main():
     old_content = read_now_html()
     new_content, replaced = replace_marker(old_content, "SPOTIFY", html_block)
     if not replaced:
-        print("ERROR: SPOTIFY markers not found in now/index.html")
+        print("ERROR: SPOTIFY markers not found in now/index.html", file=sys.stderr)
         sys.exit(1)
 
     if not content_changed(old_content, new_content):

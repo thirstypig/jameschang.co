@@ -18,6 +18,7 @@ from _shared import (
     escape_html,
     replace_marker,
     record_heartbeat,
+    require_env,
     sanitize_error,
     content_changed,
     format_update_time,
@@ -34,34 +35,30 @@ TOKEN_ENC = os.path.join(REPO_ROOT, ".whoop-token.enc")
 
 def decrypt_refresh_token():
     """Decrypt the refresh token from .whoop-token.enc using WHOOP_TOKEN_KEY."""
-    key = os.environ.get("WHOOP_TOKEN_KEY")
-    if not key:
-        print("ERROR: WHOOP_TOKEN_KEY not set.")
-        sys.exit(1)
     if not os.path.exists(TOKEN_ENC):
-        print(f"ERROR: {TOKEN_ENC} not found. Run bin/whoop-encrypt.sh first.")
+        print(f"ERROR: {TOKEN_ENC} not found. Run bin/whoop-encrypt.sh first.", file=sys.stderr)
         sys.exit(1)
+    # Pass the key via env: form so it's never visible in /proc/<pid>/cmdline.
     result = subprocess.run(
         ["openssl", "enc", "-aes-256-cbc", "-d", "-pbkdf2", "-iter", "600000",
-         "-in", TOKEN_ENC, "-pass", f"pass:{key}"],
-        capture_output=True, text=True,
+         "-in", TOKEN_ENC, "-pass", "env:WHOOP_TOKEN_KEY"],
+        capture_output=True, text=True, timeout=30,
     )
     if result.returncode != 0:
-        print(f"Decryption failed: {result.stderr}")
+        print(f"Decryption failed: {result.stderr}", file=sys.stderr)
         sys.exit(1)
     return result.stdout.strip()
 
 
 def encrypt_refresh_token(token):
     """Encrypt the refresh token to .whoop-token.enc."""
-    key = os.environ.get("WHOOP_TOKEN_KEY")
     result = subprocess.run(
         ["openssl", "enc", "-aes-256-cbc", "-pbkdf2", "-iter", "600000",
-         "-out", TOKEN_ENC, "-pass", f"pass:{key}"],
-        input=token, capture_output=True, text=True,
+         "-out", TOKEN_ENC, "-pass", "env:WHOOP_TOKEN_KEY"],
+        input=token, capture_output=True, text=True, timeout=30,
     )
     if result.returncode != 0:
-        print(f"Encryption failed: {result.stderr}")
+        print(f"Encryption failed: {result.stderr}", file=sys.stderr)
         sys.exit(1)
 
 
@@ -92,10 +89,10 @@ def get_access_token():
     )
 
     try:
-        with urlopen(req) as resp:
+        with urlopen(req, timeout=15) as resp:
             body = json.loads(resp.read())
     except HTTPError as e:
-        print(f"Token refresh failed: {sanitize_error(e)}")
+        print(f"Token refresh failed: {sanitize_error(e)}", file=sys.stderr)
         sys.exit(1)
 
     new_refresh = body.get("refresh_token")
@@ -113,10 +110,10 @@ def api_get(token, path, params=None):
         "Accept": "application/json",
     })
     try:
-        with urlopen(req) as resp:
+        with urlopen(req, timeout=15) as resp:
             return json.loads(resp.read())
     except HTTPError as e:
-        print(f"API {path} failed: {sanitize_error(e)}")
+        print(f"API {path} failed: {sanitize_error(e)}", file=sys.stderr)
         return {"records": []}
 
 
@@ -244,7 +241,19 @@ def build_html(recovery, sleep, cycle):
 
 
 def main():
+    require_env("WHOOP_TOKEN_KEY", "WHOOP_CLIENT_ID", "WHOOP_CLIENT_SECRET")
+
     access_token, new_refresh = get_access_token()
+
+    # Encrypt the rotated refresh token IMMEDIATELY (matching update-trakt.py).
+    # WHOOP rotates refresh tokens on every use, so the old one is dead
+    # the moment get_access_token() returns. If we delayed this to post-write
+    # and the runner died (or write_now_html raised), the new token would be
+    # lost and the committed .whoop-token.enc would still hold the now-invalid
+    # old token → permanent break until manual ./bin/whoop-auth.sh re-run.
+    if new_refresh:
+        encrypt_refresh_token(new_refresh)
+        print("Refresh token rotated and re-encrypted.")
 
     recovery = fetch_latest_recovery(access_token)
     sleep = fetch_latest_sleep(access_token)
@@ -255,7 +264,7 @@ def main():
     old_content = read_now_html()
     new_content, replaced = replace_marker(old_content, "WHOOP", html_block)
     if not replaced:
-        print("ERROR: WHOOP markers not found in now/index.html")
+        print("ERROR: WHOOP markers not found in now/index.html", file=sys.stderr)
         sys.exit(1)
 
     if not content_changed(old_content, new_content):
@@ -266,11 +275,6 @@ def main():
     write_now_html(new_content)
     record_heartbeat("whoop")
     print(f"Updated {NOW_HTML} with latest WHOOP data.")
-
-    # Encrypt the rotated refresh token AFTER successful write (todo 045)
-    if new_refresh:
-        encrypt_refresh_token(new_refresh)
-        print("Refresh token rotated and re-encrypted.")
 
     if recovery and recovery["recovery_score"] is not None:
         print(f"  Recovery: {recovery['recovery_score']:.0f}%")

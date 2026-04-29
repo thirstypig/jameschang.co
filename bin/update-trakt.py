@@ -34,6 +34,7 @@ from _shared import (
     relative_time_html,
     replace_marker,
     record_heartbeat,
+    require_env,
     sanitize_error,
     content_changed,
     format_update_time,
@@ -50,34 +51,29 @@ SHOWS_LIMIT = 10  # fetch more, then deduplicate to ~5 unique shows
 
 def decrypt_refresh_token():
     """Decrypt the refresh token from .trakt-token.enc using TRAKT_TOKEN_KEY."""
-    key = os.environ.get("TRAKT_TOKEN_KEY")
-    if not key:
-        print("ERROR: TRAKT_TOKEN_KEY not set.")
-        sys.exit(1)
     if not os.path.exists(TOKEN_ENC):
-        print(f"ERROR: {TOKEN_ENC} not found. Run bin/trakt-encrypt.sh first.")
+        print(f"ERROR: {TOKEN_ENC} not found. Run bin/trakt-encrypt.sh first.", file=sys.stderr)
         sys.exit(1)
     result = subprocess.run(
         ["openssl", "enc", "-aes-256-cbc", "-d", "-pbkdf2", "-iter", "600000",
-         "-in", TOKEN_ENC, "-pass", f"pass:{key}"],
-        capture_output=True, text=True,
+         "-in", TOKEN_ENC, "-pass", "env:TRAKT_TOKEN_KEY"],
+        capture_output=True, text=True, timeout=30,
     )
     if result.returncode != 0:
-        print(f"Decryption failed: {result.stderr}")
+        print(f"Decryption failed: {result.stderr}", file=sys.stderr)
         sys.exit(1)
     return result.stdout.strip()
 
 
 def encrypt_refresh_token(token):
     """Encrypt the refresh token to .trakt-token.enc."""
-    key = os.environ.get("TRAKT_TOKEN_KEY")
     result = subprocess.run(
         ["openssl", "enc", "-aes-256-cbc", "-pbkdf2", "-iter", "600000",
-         "-out", TOKEN_ENC, "-pass", f"pass:{key}"],
-        input=token, capture_output=True, text=True,
+         "-out", TOKEN_ENC, "-pass", "env:TRAKT_TOKEN_KEY"],
+        input=token, capture_output=True, text=True, timeout=30,
     )
     if result.returncode != 0:
-        print(f"Encryption failed: {result.stderr}")
+        print(f"Encryption failed: {result.stderr}", file=sys.stderr)
         sys.exit(1)
 
 
@@ -106,10 +102,10 @@ def get_access_token():
     )
 
     try:
-        with urlopen(req) as resp:
+        with urlopen(req, timeout=15) as resp:
             body = json.loads(resp.read())
     except HTTPError as e:
-        print(f"Token refresh failed: {sanitize_error(e)}")
+        print(f"Token refresh failed: {sanitize_error(e)}", file=sys.stderr)
         sys.exit(1)
 
     return body["access_token"], body.get("refresh_token")
@@ -128,10 +124,10 @@ def api_get(token, path, params=None):
         "User-Agent": USER_AGENT,
     })
     try:
-        with urlopen(req) as resp:
+        with urlopen(req, timeout=15) as resp:
             return json.loads(resp.read())
     except HTTPError as e:
-        print(f"API {path} failed: {sanitize_error(e)}")
+        print(f"API {path} failed: {sanitize_error(e)}", file=sys.stderr)
         return []
 
 
@@ -202,6 +198,8 @@ def build_html(shows):
 
 
 def main():
+    require_env("TRAKT_TOKEN_KEY", "TRAKT_CLIENT_ID", "TRAKT_CLIENT_SECRET")
+
     access_token, new_refresh = get_access_token()
 
     # Encrypt the rotated refresh token IMMEDIATELY (before any API calls)
@@ -215,7 +213,7 @@ def main():
     old_content = read_now_html()
     new_content, replaced = replace_marker(old_content, "TRAKT", html_block)
     if not replaced:
-        print("ERROR: TRAKT markers not found in now/index.html")
+        print("ERROR: TRAKT markers not found in now/index.html", file=sys.stderr)
         sys.exit(1)
 
     if not content_changed(old_content, new_content):

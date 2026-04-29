@@ -4,14 +4,17 @@
 Each feed is wrapped independently so one outage doesn't break the others.
 All endpoints are unauthenticated.
 
-Feeds:
+Active feeds:
   - MLB Stats API for the Dodgers (team 119)
-  - Letterboxd RSS for thirstypig
   - Goodreads RSS (currently-reading + read shelves)
   - Fantastic Leagues team standings
+
+Letterboxd block is preserved (letterboxd_block) but unregistered — see the
+revival comment in main() for re-enable steps.
 """
 
 import os
+import sys
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 from urllib.error import HTTPError, URLError
@@ -27,6 +30,7 @@ from _shared import (
     content_changed,
     format_update_time,
     read_now_html,
+    safe_url,
     write_now_html,
 )
 
@@ -119,8 +123,8 @@ def mlb_block():
         now = format_update_time()
         parts.append(f'        <p class="feed-updated">Auto-updated {now} via <a href="https://www.mlb.com/dodgers">MLB Stats API</a>.</p>')
         return "\n".join(parts)
-    except (HTTPError, URLError, KeyError) as e:
-        print(f"MLB fetch failed: {e}")
+    except (HTTPError, URLError) as e:
+        print(f"MLB fetch failed: {e}", file=sys.stderr)
         return None
 
 
@@ -130,16 +134,15 @@ def letterboxd_block():
     try:
         xml = fetch_text(f"https://letterboxd.com/{LETTERBOXD_USER}/rss/")
     except (HTTPError, URLError) as e:
-        print(f"Letterboxd fetch failed: {e}")
+        print(f"Letterboxd fetch failed: {e}", file=sys.stderr)
         return None
 
     try:
         root = ET.fromstring(xml)
     except ET.ParseError as e:
-        print(f"Letterboxd XML parse failed: {e}")
+        print(f"Letterboxd XML parse failed: {e}", file=sys.stderr)
         return None
 
-    ns = {"letterboxd": "https://letterboxd.com"}
     items = root.findall(".//item")
     if not items:
         return None  # graceful-fail
@@ -151,7 +154,7 @@ def letterboxd_block():
         pub_el = item.find("pubDate")
 
         title = title_el.text if title_el is not None else "Untitled"
-        link = link_el.text if link_el is not None else "#"
+        link = safe_url(link_el.text if link_el is not None else None)
         when = ""
         if pub_el is not None and pub_el.text:
             try:
@@ -177,13 +180,13 @@ def goodreads_reading_block():
     try:
         xml = fetch_text(f"https://www.goodreads.com/review/list_rss/{GOODREADS_USER_ID}?shelf=currently-reading")
     except (HTTPError, URLError) as e:
-        print(f"Goodreads currently-reading fetch failed: {e}")
+        print(f"Goodreads currently-reading fetch failed: {e}", file=sys.stderr)
         return None
 
     try:
         root = ET.fromstring(xml)
     except ET.ParseError as e:
-        print(f"Goodreads XML parse failed: {e}")
+        print(f"Goodreads XML parse failed: {e}", file=sys.stderr)
         return None
 
     items = root.findall(".//item")
@@ -198,7 +201,7 @@ def goodreads_reading_block():
         author_el = item.find("author_name")
 
         title = title_el.text.strip() if title_el is not None and title_el.text else "Untitled"
-        link = link_el.text.strip() if link_el is not None and link_el.text else "#"
+        link = safe_url(link_el.text.strip() if link_el is not None and link_el.text else None)
         author = author_el.text.strip() if author_el is not None and author_el.text else ""
 
         line = f'          <li><a href="{escape_html(link)}" rel="noopener" target="_blank"><em>{escape_html(title)}</em></a>'
@@ -216,13 +219,13 @@ def goodreads_block():
     try:
         xml = fetch_text(f"https://www.goodreads.com/review/list_rss/{GOODREADS_USER_ID}?shelf=read")
     except (HTTPError, URLError) as e:
-        print(f"Goodreads fetch failed: {e}")
+        print(f"Goodreads fetch failed: {e}", file=sys.stderr)
         return None
 
     try:
         root = ET.fromstring(xml)
     except ET.ParseError as e:
-        print(f"Goodreads XML parse failed: {e}")
+        print(f"Goodreads XML parse failed: {e}", file=sys.stderr)
         return None
 
     items = root.findall(".//item")
@@ -237,7 +240,7 @@ def goodreads_block():
         author_el = item.find("author_name")
 
         title = title_el.text.strip() if title_el is not None and title_el.text else "Untitled"
-        link = link_el.text.strip() if link_el is not None and link_el.text else "#"
+        link = safe_url(link_el.text.strip() if link_el is not None and link_el.text else None)
         author = author_el.text.strip() if author_el is not None and author_el.text else ""
 
         # Rating from user_rating element
@@ -279,7 +282,7 @@ def fbst_block():
     try:
         data = fetch_json(f"{FBST_API_BASE}/leagues/{FBST_LEAGUE_SLUG}/standings")
     except (HTTPError, URLError) as e:
-        print(f"FBST fetch failed: {e}")
+        print(f"FBST fetch failed: {e}", file=sys.stderr)
         return None
 
     standings = data.get("standings") or []

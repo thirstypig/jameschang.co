@@ -36,6 +36,7 @@ from _shared import (
     record_heartbeat,
     relative_time_html,
     replace_marker,
+    safe_url,
     write_now_html,
     REPO_ROOT,
     USER_AGENT,
@@ -45,6 +46,7 @@ CONFIG_PATH = os.path.join(REPO_ROOT, "bin", "projects-config.json")
 TLDR_PATTERN = re.compile(r"<!-- now-tldr -->\s*(.*?)\s*<!-- /now-tldr -->", re.DOTALL)
 EVENT_WINDOW = timedelta(days=14)  # how far back to look for shipping events
 EVENTS_PER_PROJECT = 1
+MAX_COMMIT_ENRICHMENTS = 15  # hard cap on per-run GitHub /commits/{sha} fetches
 
 
 def load_config():
@@ -63,7 +65,7 @@ def fetch_file(repo, path, token):
         with urlopen(req, timeout=15) as resp:
             return resp.read().decode("utf-8", errors="replace")
     except (HTTPError, URLError, TimeoutError, OSError) as e:
-        print(f"  fetch failed for {repo}/{path}: {e}")
+        print(f"  fetch failed for {repo}/{path}: {e}", file=sys.stderr)
         return None
 
 
@@ -110,35 +112,49 @@ def fetch_github_events(token):
     if token:
         headers["Authorization"] = f"Bearer {token}"
     try:
-        return fetch_json(url, headers=headers)
+        return fetch_json(url, headers=headers, timeout=15)
     except (HTTPError, URLError) as e:
-        print(f"  events fetch failed: {e}")
+        print(f"  events fetch failed: {e}", file=sys.stderr)
+        return None
+
+
+def _parse_iso(ts):
+    """Parse an ISO-8601 timestamp into a UTC datetime, tolerating both Z
+    and +00:00 suffixes. Returns None on failure."""
+    if not ts:
+        return None
+    try:
+        return datetime.fromisoformat(ts.replace("Z", "+00:00"))
+    except (ValueError, AttributeError):
         return None
 
 
 def parse_events(events, token):
     """Group recent events by repo. Returns {repo_name: [event_dict, ...]}.
 
-    Each event dict: {time, summary, url, _head_sha?}. Events are ordered
-    newest-first. PushEvents include a _head_sha for commit-message enrichment.
+    Each event dict: {time, summary, url, _repo, _head_sha?}. Events within a
+    repo are ordered newest-first by their `time` field (datetime-parsed, not
+    lex-compared, so mixed Z / +00:00 suffixes sort correctly). PushEvents
+    include a _head_sha for commit-message enrichment.
     """
     if not events:
         return {}
     cutoff = datetime.now(timezone.utc) - EVENT_WINDOW
     by_repo = defaultdict(list)
     for ev in events:
-        try:
-            t = datetime.fromisoformat(ev["created_at"].replace("Z", "+00:00"))
-        except (KeyError, ValueError):
-            continue
-        if t < cutoff:
+        t = _parse_iso(ev.get("created_at"))
+        if t is None or t < cutoff:
             continue
         repo = ev.get("repo", {}).get("name", "")
         if not repo:
             continue
         etype = ev.get("type")
         payload = ev.get("payload") or {}
-        entry = {"time": ev["created_at"], "url": None, "summary": None}
+        # _repo is stamped on construction so enrichment can attribute the
+        # entry back to its repo by direct field lookup — avoids the prior
+        # O(N²) `if entry in lst` identity-equality scan that broke silently
+        # if any future refactor copied the entry dict.
+        entry = {"time": ev["created_at"], "url": None, "summary": None, "_repo": repo}
         if etype == "PushEvent":
             sha = payload.get("head")
             ref = payload.get("ref", "").replace("refs/heads/", "")
@@ -165,21 +181,23 @@ def parse_events(events, token):
         else:
             continue
         by_repo[repo].append(entry)
-    # Enrich push events with first line of commit message (top-N only to avoid rate burn)
+    # Enrich the most-recent N push events per repo with the first line of
+    # the commit message. Time-sort first so the "first N" we enrich match
+    # the "first N" that events_for_project will surface.
     enriched = 0
     for events_list in by_repo.values():
+        events_list.sort(key=lambda e: _parse_iso(e["time"]) or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
         for entry in events_list[:EVENTS_PER_PROJECT]:
             sha = entry.pop("_head_sha", None)
             if not sha or not entry["summary"].startswith("Pushed"):
                 continue
-            if enriched >= 15:  # hard cap to stay well inside rate limit
+            if enriched >= MAX_COMMIT_ENRICHMENTS:
                 break
             try:
                 headers = {"User-Agent": USER_AGENT, "Accept": "application/vnd.github+json"}
                 if token:
                     headers["Authorization"] = f"Bearer {token}"
-                repo_name = [r for r, lst in by_repo.items() if entry in lst][0]
-                commit = fetch_json(f"https://api.github.com/repos/{repo_name}/commits/{sha}", headers=headers)
+                commit = fetch_json(f"https://api.github.com/repos/{entry['_repo']}/commits/{sha}", headers=headers, timeout=15)
                 first_line = ((commit.get("commit") or {}).get("message") or "").split("\n")[0].strip()
                 if first_line:
                     entry["summary"] = first_line
@@ -195,7 +213,9 @@ def events_for_project(project, events_by_repo):
     merged = []
     for r in shipping_repos:
         merged.extend(events_by_repo.get(r, []))
-    merged.sort(key=lambda e: e["time"], reverse=True)
+    # Parse to datetime for correctness — lex-sort works only when every
+    # timestamp shares the same tz suffix, which is fragile.
+    merged.sort(key=lambda e: _parse_iso(e["time"]) or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
     return merged[:EVENTS_PER_PROJECT]
 
 
@@ -211,8 +231,10 @@ def render_shipping_list(events):
         return ""
     items = []
     for ev in events:
-        summary = escape_html(ev["summary"])[:90]
-        url = escape_html(ev["url"] or "#")
+        # Truncate raw text first, then escape — slicing escaped HTML by char
+        # count can split mid-entity (`&amp;` → `&am`).
+        summary = escape_html((ev["summary"] or "")[:90])
+        url = escape_html(safe_url(ev["url"]))
         when = relative_time_html(ev["time"])
         items.append(f'<a href="{url}" rel="noopener" target="_blank">{summary}</a> &middot; {when}')
     return (

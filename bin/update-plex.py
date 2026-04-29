@@ -38,16 +38,20 @@ def fetch_history():
     "genuinely empty" from "couldn't reach the server" and preserve the
     last known state rather than overwriting with a fake empty block.
     """
-    url = f"{PLEX_URL}/status/sessions/history/all?X-Plex-Token={PLEX_TOKEN}&sort=viewedAt:desc"
+    # Send the token via header instead of query string — keeps it out of any
+    # logged URL (redirect chains, future debug prints, third-party error
+    # wrappers). Plex supports both forms.
+    url = f"{PLEX_URL}/status/sessions/history/all?sort=viewedAt:desc"
     req = Request(url, headers={
         "Accept": "application/json",
         "User-Agent": USER_AGENT,
+        "X-Plex-Token": PLEX_TOKEN,
     })
     try:
         with urlopen(req, timeout=15) as resp:
             data = json.loads(resp.read())
     except (HTTPError, URLError, TimeoutError, OSError) as e:
-        print(f"Plex fetch failed: {e}")
+        print(f"Plex fetch failed: {e}", file=sys.stderr)
         return None
 
     items = data.get("MediaContainer", {}).get("Metadata", [])
@@ -132,7 +136,7 @@ def build_html(items):
 
 def main():
     if not PLEX_URL or not PLEX_TOKEN:
-        print("ERROR: PLEX_URL and PLEX_TOKEN must be set.")
+        print("ERROR: PLEX_URL and PLEX_TOKEN must be set.", file=sys.stderr)
         sys.exit(1)
 
     items = fetch_history()
@@ -146,7 +150,7 @@ def main():
     old_content = read_now_html()
     new_content, replaced = replace_marker(old_content, "PLEX", html_block)
     if not replaced:
-        print("ERROR: PLEX markers not found in now/index.html")
+        print("ERROR: PLEX markers not found in now/index.html", file=sys.stderr)
         sys.exit(1)
 
     if not content_changed(old_content, new_content):

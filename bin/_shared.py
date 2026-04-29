@@ -1,16 +1,12 @@
 """Shared helpers for /now data-feed sync scripts.
 
-Used by update-whoop.py, update-spotify.py, and update-public-feeds.py.
 Pure utility functions — no shared state, no side effects beyond file I/O.
 """
 
 import json
 import os
 import re
-import sys
-from datetime import datetime, timedelta, timezone
-from urllib.error import HTTPError, URLError
-from urllib.parse import urlencode
+from datetime import datetime, timezone
 from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
@@ -42,7 +38,7 @@ def record_heartbeat(feed_name, error=None):
     data = {}
     if os.path.exists(HEARTBEAT_FILE):
         try:
-            with open(HEARTBEAT_FILE, "r") as f:
+            with open(HEARTBEAT_FILE, "r", encoding="utf-8") as f:
                 data = json.load(f)
         except (json.JSONDecodeError, OSError):
             pass
@@ -56,8 +52,22 @@ def record_heartbeat(feed_name, error=None):
     else:
         entry["last_success_utc"] = now
     data[feed_name] = entry
-    with open(HEARTBEAT_FILE, "w") as f:
+    with open(HEARTBEAT_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, sort_keys=True)
+
+
+_SAFE_URL_RE = re.compile(r"^https?://", re.IGNORECASE)
+
+
+def safe_url(s, fallback="#"):
+    """Return URL only if it has http(s) scheme; else fallback.
+
+    Defends against javascript:/data:/file: URLs from upstream RSS feeds
+    or third-party API responses that get rendered into <a href="…">.
+    """
+    if not s or not _SAFE_URL_RE.match(s):
+        return fallback
+    return s
 
 
 def escape_html(s):
@@ -140,12 +150,31 @@ def replace_marker(content, marker_name, html):
     return new_content, True
 
 
+_VOLATILE_DATE_RE = re.compile(
+    r"Auto-updated [A-Z][a-z]+ \d+, \d{4}(?: at \d{1,2}:\d{2} [AP]M [A-Z]{2,4})?"
+)
+# Match the visible text inside a <time data-rel> element ("17h ago", "just now"
+# etc.). The text reformats on every wall-clock minute via now/now.js, so
+# without stripping it here every cron run sees a "diff" on a no-op rebuild
+# and pushes a timestamp-only commit.
+_VOLATILE_REL_TIME_RE = re.compile(
+    r"(<time\b[^>]*\bdata-rel\b[^>]*>)[^<]*(</time>)"
+)
+
+
+def strip_volatile(content):
+    """Strip time-volatile substrings so content-equality checks compare the
+    upstream payload, not the wall-clock-driven 'Nm ago' / 'Auto-updated …'
+    decorations. Keeps the surrounding <time datetime="..." data-rel> shell so
+    structural diffs (added/removed feed entries) are still detected."""
+    content = _VOLATILE_DATE_RE.sub("", content)
+    content = _VOLATILE_REL_TIME_RE.sub(r"\1\2", content)
+    return content
+
+
 def content_changed(old_content, new_content):
-    """Check if content changed meaningfully (ignoring Auto-updated date/time lines)."""
-    date_pattern = r"Auto-updated [A-Z][a-z]+ \d+, \d{4}(?: at \d{1,2}:\d{2} [AP]M [A-Z]{2,4})?"
-    old_stripped = re.sub(date_pattern, "", old_content)
-    new_stripped = re.sub(date_pattern, "", new_content)
-    return old_stripped != new_stripped
+    """Check if content changed meaningfully (ignoring time-volatile substrings)."""
+    return strip_volatile(old_content) != strip_volatile(new_content)
 
 
 def read_now_html():
@@ -202,5 +231,22 @@ def sanitize_error(e):
         sanitized = {k: v for k, v in parsed.items() if k in safe_keys}
         msg += f" — {json.dumps(sanitized)}"
     except Exception:
+        # Defensive: error bodies from upstream APIs come in unpredictable
+        # shapes (HTML error pages, plain text, malformed JSON). Any parse
+        # failure should yield a generic message rather than re-raising
+        # mid-cron — the goal is to surface "request failed" cleanly.
         msg += " (could not parse error body)"
     return msg
+
+
+def require_env(*names):
+    """Verify required env vars are set; print missing list + exit 1 if any
+    are absent. Replaces opaque KeyError tracebacks for cold-run failures
+    (an agent or human running this script locally without the right
+    env exported should see "Missing env vars: X, Y", not 30 lines of
+    Python traceback)."""
+    import sys as _sys
+    missing = [n for n in names if not os.environ.get(n)]
+    if missing:
+        print(f"ERROR: missing env vars: {', '.join(missing)}", file=_sys.stderr)
+        _sys.exit(1)
