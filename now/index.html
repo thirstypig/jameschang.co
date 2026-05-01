@@ -78,7 +78,7 @@
 
     <section class="nb-hero now">
       <p class="nb-hero-meta">
-        <span>// /now · auto-updated <span class="accent page-updated"><!-- PAGE-UPDATED-START -->May 01, 2026 at 7:04 AM PDT<!-- PAGE-UPDATED-END --></span></span>
+        <span>// /now · auto-updated <span class="accent page-updated"><!-- PAGE-UPDATED-START -->May 01, 2026 at 7:43 AM PDT<!-- PAGE-UPDATED-END --></span></span>
       </p>
       <h1>What I'm up to <span class="accent">/now</span>.</h1>
       <p class="nb-hero-sub">
@@ -104,8 +104,8 @@
           </div>
           <!-- TLDR-aleph-START -->
 
-          <p class="nb-card-body">The compliance platform I wished existed when I was importing — CPSIA certificates, Prop 65 labels, PFAS tracking across 15 states, and FSVP audits in one place. Running on the Manifest Design System v7 (v0.18.0) with full supply chain management: compliance status dots, concentration risk analysis, search+filter, AI auto-populate from shipping docs, bidirectional alerts integration, bulk actions, saved views, multi-tier sub-suppliers, audit trail, geographic concentration, and backup supplier tracking. 8-agent code review resolved 36 findings (security, performance, architecture). 916 tests passing (908 unit + 8 E2E), zero type errors, ~443 LOC dead code removed.</p>
-          <p class="feed-updated">Auto-updated April 30, 2026 at 8:31 AM PDT via CLAUDE.md + GitHub events.</p>
+          <p class="nb-card-body">The compliance platform I wished existed when I was importing — CPSIA certificates, Prop 65 labels, PFAS tracking across 15 states, and FSVP audits in one place. Running on the Manifest Design System v7 (v0.19.0) with full compliance output layer (8 export/reporting endpoints), help panel, supply chain management, type-specific document fields with OCR auto-fill, product status workflow, compliance rollup, and category-aware module visibility. Four 8-agent code reviews resolved 113 findings across sessions 14-17 (security, performance, architecture). 1013 tests passing (1005 unit + 8 E2E) across 63 files, zero type errors.</p>
+          <p class="feed-updated">Auto-updated May 01, 2026 at 7:43 AM PDT via CLAUDE.md + GitHub events.</p>
         
         <!-- TLDR-aleph-END -->
         </article>
@@ -118,8 +118,9 @@
           </div>
           <!-- TLDR-fantastic-leagues-START -->
 
-          <p class="nb-card-body">Fantasy baseball for the dozen-owner, auction-draft, keeper-league crowd that Yahoo and ESPN never really served. App is live for OGBA, the auction has wrapped, and the season is in flight. Roster-rules enforcement landed and is on for OGBA. <strong>Aurora design system rollout is complete</strong> — every routed page from login through admin uses the unified Aurora chrome (floating Topbar + bottom Dock for authenticated routes; centered Glass cards for pre-auth). 8 of 8 design-bundle screens are ported, including the live auction floor (PR #157) and the 7 pre-auth + onboarding pages (PR #158). The token-redirect mechanism in <code>aurora.css</code> (PR #153) means every legacy <code>ThemedTable</code> / <code>lg-card</code> / <code>lg-button</code> instance reads Aurora colors via the <code>--am-*</code> namespace inside <code>.aurora-theme</code>. Style sheet doc lives at <code>docs/aurora-design-system.md</code> (linked from <code>/docs</code>). All four post-Aurora enhancement gaps closed: component-level deep ports (PR #159), Gap 2 daily category snapshots (PR #160), Gap 1 boxscore stat lines (PR #163). Production confirmed Aurora-live 2026-04-29 after a multi-hour Supabase IPv4-deprecation + session-pool-exhaustion debug — runbook at <code>docs/solutions/deployment/supabase-railway-ipv6-pooler-and-pool-exhaustion.md</code>. <strong>Next focus</strong>: live-floor browser verification owed for next OGBA pre-draft window; otherwise feature-complete pending user feedback.</p>
-          <p class="feed-updated">Auto-updated April 30, 2026 at 8:31 AM PDT via CLAUDE.md + GitHub events.</p>
+          <p class="nb-card-body">Fantasy baseball for the dozen-owner, auction-draft, keeper-league crowd that Yahoo and ESPN never really served. App is live for OGBA, the auction has wrapped, and the season is in flight. <strong>Aurora design system rollout is complete</strong> — every routed page from login through admin uses the unified Aurora chrome. <strong>Yahoo-style roster moves PR2 wiring is in flight on <code>main</code></strong> as a 6-PR stack opened 2026-04-30: #180 (cuts: drop displayOrder + auto_resolve_slots flag), #181 (eligible-slots endpoint + <code>shared/api/rosterMoves.ts</code> Zod schema), #182 (wire <code>RosterHubV3</code> into <code>Team.tsx</code> + 3 manage sub-routes at <code>/teams/:code/manage/{claim,il-stash,il-activate}</code>), #183 stacked on #182 (thread <code>posList</code> + <code>gamesByPos</code> through <code>TeamDetailResponse</code> so multi-chip eligibility renders), #184 stacked on #183 (plumb real <code>Player.id</code> through to the hub — was reusing rosterId), and #185 stacked on #184 (extract <code>toHubPlayer</code> to a sibling module + 17 unit tests). Plus 4 review-cleanup PRs from the morning&#39;s parallel-agent run: #176 (standings weighted averaging — P1 correctness fix where AVG/ERA/WHIP used unweighted means), #177 (admin/public typing + cleanup, 5 todos), #178 (extended player stats + standalone awards endpoint, agent-native), #179 (dashboard perf + types, 6 todos). 9 PRs total awaiting review/merge as of session 86. Tests: 1,273 across server/client/MCP/E2E. Cross-feature pattern documented: <code>teams/pages/Team</code> imports <code>transactions/components/RosterMovesTab/{AddDropPanel,PlaceOnIlPanel,ActivateFromIlPanel}</code> to remount the existing panels as inline sub-routes (no rewrites of the panels themselves). What&#39;s deferred: real per-position GP via <code>Player.posGames</code> JSON column, <code>rosterVersion</code> etag for cross-tab safety, drag-to-mutate, pending-changes save/revert. Style sheet at <code>docs/aurora-design-system.md</code>. Live-floor browser verification still owed for next OGBA pre-draft window.</p>
+          <p class="nb-card-shipped"><span class="accent">&uarr; shipped:</span> <a href="https://github.com/thirstypig/TheFantasticLeagues/commit/02e56d4b3fa5f7c2288142c532a14395ec6cfb60" rel="noopener" target="_blank">feat(roster-hub): complex batch + diff preview modal + dependency cascading (Complex scena</a> &middot; <time datetime="2026-05-01T05:44:36Z" data-rel>8h ago</time></p>
+          <p class="feed-updated">Auto-updated May 01, 2026 at 7:43 AM PDT via CLAUDE.md + GitHub events.</p>
         
         <!-- TLDR-fantastic-leagues-END -->
         </article>
@@ -133,7 +134,7 @@
           <!-- TLDR-bahtzang-trader-START -->
 
           <p class="nb-card-body">An AI trading-decision experiment — Claude Sonnet makes buy/sell/hold calls, a FastAPI + Next.js stack handles data and execution, and an Alpaca paper-trading account is the live target (not real money yet). Just wrapped a 7-agent code review (100 findings resolved), unified the trade data model, and stood up a 297-test suite with pre-commit hooks and CI — all AI-assisted. Next up: 30+ paper trades to validate the pipeline before flipping the live switch.</p>
-          <p class="feed-updated">Auto-updated April 30, 2026 at 8:31 AM PDT via CLAUDE.md + GitHub events.</p>
+          <p class="feed-updated">Auto-updated May 01, 2026 at 7:43 AM PDT via CLAUDE.md + GitHub events.</p>
         
         <!-- TLDR-bahtzang-trader-END -->
         </article>
@@ -146,8 +147,9 @@
           </div>
           <!-- TLDR-thirsty-pig-START -->
 
-          <p class="nb-card-body">My food blog from 2007–present, rebuilt from Wayback Machine archives + Instagram exports. 1,639 published posts and 1,400+ mapped restaurants live at thirstypig.com. <strong>Big arc shipped 2026-04-27/29: venue tags system</strong> — a headed Playwright pipeline scrapes Google Maps&#39; &quot;Refine reviews&quot; topic tags (formerly called &quot;chips&quot; internally), publishes per-venue JSON at <code>/venue-tags/{place_id}.json</code>, and renders them as pills on post pages via the <code>&lt;VenueTags&gt;</code> component. <strong>State: 53 venues published, 110 posts displaying tags.</strong> Three viz pages (<code>/tags/cloud</code>, <code>/tags/map</code>, <code>/tags/graph</code>), tag-graph banner above <code>/map</code>, search ranks results by tag mention_count, nav rationalized (Posts / Cities / Map / Cuisine / Hit List / About) with stable <code>data-testid</code> hooks, redirects for the renamed URLs. About page uses a circular SVG badge. Style Sheet panel in TinaCMS admin. Yelp source paused (IP block; YELP.md playbook). 21 international/CJK venues queued for the future Google Places API run (~$0 within free tier). The Bold Red Poster redesign continues; venue-tags layered on top of it. Content pipeline runs itself: IG posts arrive via manual-export + local launchd watcher + Monday-9am-PT weekly reminder (Meta API walled for personal Pages — dead end). 10 places on the hit list.</p>
-          <p class="feed-updated">Auto-updated April 30, 2026 at 8:31 AM PDT via CLAUDE.md + GitHub events.</p>
+          <p class="nb-card-body">My food blog from 2007–present, rebuilt from Wayback Machine archives + Instagram exports. 1,639 published posts and 1,400+ mapped restaurants live at thirstypig.com. <strong>Venue tags system shipped at scale (PRs #96–98):</strong> Places API + headed Playwright pipeline scrapes Google Maps&#39; &quot;Refine reviews&quot; topic tags, publishes per-venue JSON at <code>/venue-tags/{place_id}.json</code>, and renders them as pills on post pages via the <code>&lt;VenueTags&gt;</code> component. <strong>State as of 2026-04-30: 319 venues published, 434 posts displaying tags.</strong> 552 single-post candidates remain in the long tail. The cid→FID self-healing scraper resolves international/CJK venues — fix at <code>docs/solutions/api-migration/google-maps-cid-fid-self-healing-scrape.md</code>. <strong>PR #97 added two TinaCMS admin screens</strong>: <code>Docs</code> (operator how-it-works) and <code>Cleanup</code> (auto-detected duplicate venues + suspect posts where title/location frontmatter disagrees, surfacing a real contamination class). Curator filters tightened (<code>service</code>, <code>repair</code>, <code>auto</code>, plus <code>park(?!&#39;)</code> apostrophe-fix); venues.yaml hardened against silent dupe-key drift via a strict-loader pytest. <strong>PR #98 honored the privacy promise</strong>: dropped Google Analytics 4 + AdSense (page claimed &quot;no analytics&quot; while shipping all three), kept cookieless Vercel Analytics, rewrote <code>/privacy</code> to disclose what&#39;s actually loaded; same PR surfaced the tag cloud in main nav and reordered it largest-tag-first instead of the prior shuffle. <strong>PR #100</strong> added a 3-test E2E spec (<code>tests/e2e/tag-cloud.spec.ts</code>) covering nav routing + popularity-sort regression. A scheduled remote-agent verification fires 2026-05-14 to confirm GA4/AdSense don&#39;t reappear in production HTML. Three viz pages (<code>/tags/cloud</code>, <code>/tags/map</code>, <code>/tags/graph</code>), tag-graph banner above <code>/map</code>, search ranks results by tag mention_count, nav rationalized (Posts / Cities / Map / Tags / Cuisine / Hit List / About) with stable <code>data-testid</code> hooks. About page uses a circular SVG badge. Style Sheet panel in TinaCMS admin. Yelp source paused (IP block; YELP.md playbook). The Bold Red Poster redesign continues; venue-tags layered on top of it. Content pipeline runs itself: IG posts arrive via manual-export + local launchd watcher + Monday-9am-PT weekly reminder (Meta API walled for personal Pages — dead end). 10 places on the hit list.</p>
+          <p class="nb-card-shipped"><span class="accent">&uarr; shipped:</span> <a href="https://github.com/thirstypig/thirstypig-blog/commit/c5ecf591736e1c84ae5a84b6a08f1b0a7dfecc55" rel="noopener" target="_blank">Sync docs to reflect PRs #97-101 (#102)</a> &middot; <time datetime="2026-05-01T03:40:11Z" data-rel>11h ago</time></p>
+          <p class="feed-updated">Auto-updated May 01, 2026 at 7:43 AM PDT via CLAUDE.md + GitHub events.</p>
         
         <!-- TLDR-thirsty-pig-END -->
         </article>
@@ -172,7 +174,7 @@
           <!-- TLDR-judge-tool-START -->
 
           <p class="nb-card-body">KCBS-style BBQ competition judging app — replaces clipboards, carbon copies, and spreadsheet math with real-time digital scoring for organizers, table captains, and judges. Just wrapped a shipping-readiness pass: Google Analytics on both the app and marketing site, sitemap and robots tests enforcing SEO invariants, and CI gating every PR on lint/typecheck/tests. Next up: an integration-test harness so server actions get exercised against a real database, ahead of piloting at a real KCBS-sanctioned competition this season.</p>
-          <p class="feed-updated">Auto-updated April 30, 2026 at 8:31 AM PDT via CLAUDE.md + GitHub events.</p>
+          <p class="feed-updated">Auto-updated May 01, 2026 at 7:43 AM PDT via CLAUDE.md + GitHub events.</p>
         
         <!-- TLDR-judge-tool-END -->
         </article>
@@ -185,7 +187,7 @@
           <!-- TLDR-tabledrop-START -->
 
           <p class="nb-card-body">A marketplace for hard-to-get Taipei restaurant reservations — a Playwright scraper pulls listings from inline.app, with a Next.js + Clerk + Stripe storefront on the buy side. Recent AI-assisted work has been mostly scaffolding: admin dashboard (roadmap, changelog, status), an MCP server so Claude Code can poke at the scraper and database directly, and project-scoped slash commands for tests and doc sync. Honest blocker: neither side of the transaction is live yet — Stripe checkout isn&#39;t wired and the scraper has barely been run — so the next push is getting one end-to-end listing → purchase flow working with real data.</p>
-          <p class="feed-updated">Auto-updated April 30, 2026 at 8:31 AM PDT via CLAUDE.md + GitHub events.</p>
+          <p class="feed-updated">Auto-updated May 01, 2026 at 7:43 AM PDT via CLAUDE.md + GitHub events.</p>
         
         <!-- TLDR-tabledrop-END -->
         </article>
@@ -198,7 +200,7 @@
           <!-- TLDR-tastemakers-START -->
 
           <p class="nb-card-body">Restaurant discovery app with iOS, Android, and web clients sharing a Laravel 8 API — this repo is the backend that feeds them all. Actively decoupling the backend from legacy WordPress/Namecheap hosting: the API is moving to Railway (managed Postgres in prod) and the web frontend to Vercel. Once the infrastructure is clean, the Next.js site becomes both the marketing page and a web-accessible version of the app.</p>
-          <p class="feed-updated">Auto-updated April 30, 2026 at 8:31 AM PDT via CLAUDE.md + GitHub events.</p>
+          <p class="feed-updated">Auto-updated May 01, 2026 at 7:43 AM PDT via CLAUDE.md + GitHub events.</p>
         
         <!-- TLDR-tastemakers-END -->
         </article>
