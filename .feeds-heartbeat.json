@@ -1,15 +1,15 @@
 {
   "fbst": {
-    "last_success_utc": "2026-04-30T19:50:13.358674+00:00"
+    "last_success_utc": "2026-05-01T04:17:23.130360+00:00"
   },
   "goodreads": {
-    "last_success_utc": "2026-04-30T19:50:13.068300+00:00"
+    "last_success_utc": "2026-05-01T04:17:22.654986+00:00"
   },
   "goodreads-reading": {
-    "last_success_utc": "2026-04-30T19:50:12.359370+00:00"
+    "last_success_utc": "2026-05-01T04:17:21.752254+00:00"
   },
   "mlb": {
-    "last_success_utc": "2026-04-30T19:50:12.043417+00:00"
+    "last_success_utc": "2026-05-01T04:17:21.286428+00:00"
   },
   "plex": {
     "last_error": "fetch failed \u2014 preserving last known content",
