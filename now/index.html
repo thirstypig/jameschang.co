@@ -104,7 +104,7 @@
           </div>
           <!-- TLDR-aleph-START -->
 
-          <p class="nb-card-body">The compliance platform I wished existed when I was importing — CPSIA certificates, Prop 65 labels, PFAS tracking across 15 states, and FSVP audits in one place. Running on the Manifest Design System v7 (v0.19.0) with full compliance output layer (8 export/reporting endpoints), help panel, supply chain management, type-specific document fields with OCR auto-fill, product status workflow, compliance rollup, and category-aware module visibility. Four 8-agent code reviews resolved 113 findings across sessions 14-17 (security, performance, architecture). 1013 tests passing (1005 unit + 8 E2E) across 63 files, zero type errors.</p>
+          <p class="nb-card-body">The compliance platform I wished existed when I was importing — one place to manage CPSIA certificates, Prop 65 labels, PFAS tracking across 15 states, and FSVP audits for food brands. <strong>Just wrapped a top-to-bottom redesign</strong>: new typography, new layout, dark mode, and the export and reporting tools that compliance teams actually need at audit time. Put the product through four rounds of rigorous AI-assisted code review along the way — security, performance, and architecture. Next up: keep hardening the platform and start lining up the first paying customers.</p>
           <p class="feed-updated">Auto-updated May 04, 2026 at 8:52 AM PDT via CLAUDE.md + GitHub events.</p>
         
         <!-- TLDR-aleph-END -->
@@ -118,8 +118,8 @@
           </div>
           <!-- TLDR-fantastic-leagues-START -->
 
-          <p class="nb-card-body">Fantasy baseball for the dozen-owner, auction-draft, keeper-league crowd that Yahoo and ESPN never really served. App is live for OGBA, the auction has wrapped, and the season is in flight. <strong>Current focus is OGBA in-season correctness and roster-management UX</strong>: Roster Hub is the active Yahoo-style direction, add/drop + IL stash + IL activate use server-backed previews, and confirm buttons unlock only when the full-roster matcher accepts the move. Home is now the daily league cockpit: My Team Today, Weekly Insights, current standings, league activity with full fantasy team names, pending trade proposals, Around the League, League Board, and Injured List. <strong>Planning source of truth is <code>server/data/planning.json</code></strong>: micro todos live in <code>categories[].tasks</code>, macro roadmap items live in <code>roadmap[]</code>; do not recreate <code>TODO.md</code>, <code>server/data/todo-tasks.json</code>, or <code>docs/ROADMAP.md</code>. SEO/blog work is deferred while roster management, standings accuracy, daily stats, and dashboard UX stabilize. Display rules: frontend league UI never shows fantasy team codes; OGBA slots are <code>P</code>, <code>OF</code>, <code>CM</code>, <code>MI</code>, <code>DH</code>. Recent focused verification: Home/AddDrop targeted tests passing, broader 50-test client slice passing, client <code>tsc --noEmit</code> passing, and Home browser smoke clean on desktop/mobile. Style sheet at <code>docs/aurora-design-system.md</code>; active status doc at <code>docs/CURRENT_STATUS.md</code>.</p>
-          <p class="nb-card-shipped"><span class="accent">&uarr; shipped:</span> <a href="https://github.com/thirstypig/TheFantasticLeagues/commit/bc482c197b28f6370ea05041b65dae2934a2f85c" rel="noopener" target="_blank">docs: align planning and roster roadmap</a> &middot; <time datetime="2026-05-04T06:10:54Z" data-rel>9h ago</time></p>
+          <p class="nb-card-body">Fantasy baseball for the dozen-owner, auction-draft, keeper-league crowd that Yahoo and ESPN never really served. <strong>The app is live for OGBA</strong> — auction has wrapped and the season is in flight. Current focus is the day-to-day of running a team: a daily league cockpit on the home page (today&#39;s matchups, standings, trade proposals, league activity, injured list), smarter add/drop with live previews of how a move affects the roster, and an injured-list workflow that doesn&#39;t fight the user. Next up: tightening the in-season correctness of the standings, the daily stat lines, and the league dashboard.</p>
+          <p class="nb-card-shipped"><span class="accent">&uarr; shipped:</span> <a href="https://github.com/thirstypig/TheFantasticLeagues/commit/694924ee27ceb8fe27df24eb56a14d73a68af63a" rel="noopener" target="_blank">fix(ci): remove redundant deploy job — Railway auto-deploys from GitHub (#161)</a> &middot; <time datetime="2026-04-29T03:59:02Z" data-rel>11h ago</time></p>
           <p class="feed-updated">Auto-updated May 04, 2026 at 8:52 AM PDT via CLAUDE.md + GitHub events.</p>
         
         <!-- TLDR-fantastic-leagues-END -->
@@ -133,7 +133,7 @@
           </div>
           <!-- TLDR-bahtzang-trader-START -->
 
-          <p class="nb-card-body">An AI trading-decision experiment — Claude Sonnet makes buy/sell/hold calls, a FastAPI + Next.js stack handles data and execution, and an Alpaca paper-trading account is the live target (not real money yet). Just wrapped a 7-agent code review (100 findings resolved), unified the trade data model, and stood up a 297-test suite with pre-commit hooks and CI — all AI-assisted. Next up: 30+ paper trades to validate the pipeline before flipping the live switch.</p>
+          <p class="nb-card-body">An AI trading experiment — Claude makes the buy / sell / hold calls, a small web app handles the data and execution, and a paper-trading account at Alpaca is the live target (no real money yet). Just wrapped a thorough AI-assisted code review, unified how trade data is stored across the app, and stood up an automated test suite that runs on every change. Next up: 30+ paper trades to prove the pipeline works end-to-end before flipping the live switch.</p>
           <p class="feed-updated">Auto-updated May 04, 2026 at 8:52 AM PDT via CLAUDE.md + GitHub events.</p>
         
         <!-- TLDR-bahtzang-trader-END -->
@@ -147,8 +147,8 @@
           </div>
           <!-- TLDR-thirsty-pig-START -->
 
-          <p class="nb-card-body">My food blog from 2007–present, rebuilt from Wayback Machine archives + Instagram exports. 1,639 published posts and 1,400+ mapped restaurants live at thirstypig.com. <strong>Venue tags system shipped at scale (PRs #96–98):</strong> Places API + headed Playwright pipeline scrapes Google Maps&#39; &quot;Refine reviews&quot; topic tags, publishes per-venue JSON at <code>/venue-tags/{place_id}.json</code>, and renders them as pills on post pages via the <code>&lt;VenueTags&gt;</code> component. <strong>State as of 2026-04-30: 319 venues published, 434 posts displaying tags.</strong> 552 single-post candidates remain in the long tail. The cid→FID self-healing scraper resolves international/CJK venues — fix at <code>docs/solutions/api-migration/google-maps-cid-fid-self-healing-scrape.md</code>. <strong>PR #97 added two TinaCMS admin screens</strong>: <code>Docs</code> (operator how-it-works) and <code>Cleanup</code> (auto-detected duplicate venues + suspect posts where title/location frontmatter disagrees, surfacing a real contamination class). Curator filters tightened (<code>service</code>, <code>repair</code>, <code>auto</code>, plus <code>park(?!&#39;)</code> apostrophe-fix); venues.yaml hardened against silent dupe-key drift via a strict-loader pytest. <strong>PR #98 honored the privacy promise</strong>: dropped Google Analytics 4 + AdSense (page claimed &quot;no analytics&quot; while shipping all three), kept cookieless Vercel Analytics, rewrote <code>/privacy</code> to disclose what&#39;s actually loaded; same PR surfaced the tag cloud in main nav and reordered it largest-tag-first instead of the prior shuffle. <strong>PR #100</strong> added a 3-test E2E spec (<code>tests/e2e/tag-cloud.spec.ts</code>) covering nav routing + popularity-sort regression. A scheduled remote-agent verification fires 2026-05-14 to confirm GA4/AdSense don&#39;t reappear in production HTML. Three viz pages (<code>/tags/cloud</code>, <code>/tags/map</code>, <code>/tags/graph</code>), tag-graph banner above <code>/map</code>, search ranks results by tag mention_count, nav rationalized (Posts / Cities / Map / Tags / Cuisine / Hit List / About) with stable <code>data-testid</code> hooks. About page uses a circular SVG badge. Style Sheet panel in TinaCMS admin. Yelp source paused (IP block; YELP.md playbook). The Bold Red Poster redesign continues; venue-tags layered on top of it. Content pipeline runs itself: IG posts arrive via manual-export + local launchd watcher + Monday-9am-PT weekly reminder (Meta API walled for personal Pages — dead end). 10 places on the hit list.</p>
-          <p class="nb-card-shipped"><span class="accent">&uarr; shipped:</span> <a href="https://github.com/thirstypig/thirstypig-blog/commit/03f543df3854f61228f25d50f2e000cc72f83b0b" rel="noopener" target="_blank">TinaCMS content update</a> &middot; <time datetime="2026-05-01T23:49:48Z" data-rel>2d ago</time></p>
+          <p class="nb-card-body">My food blog from 2007–present, rebuilt from Wayback Machine archives and Instagram exports — <strong>1,639 posts and 1,400+ mapped restaurants live at thirstypig.com</strong>. Just shipped venue tags at scale: a pipeline pulls topic tags from Google Maps and shows them as little pills on each post page, so a single visit to any post tells you what the place is actually known for (319 venues published, 434 posts now displaying tags). Then tightened the privacy promise — ripped out Google Analytics and AdSense (the privacy page claimed &ldquo;no analytics&rdquo; while quietly shipping all three) and rewrote it to actually match what&#39;s loaded. Next up: keep extending tags into the long tail of single-venue posts, and continue rolling out the Bold Red Poster redesign across the rest of the site.</p>
+          <p class="nb-card-shipped"><span class="accent">&uarr; shipped:</span> <a href="https://github.com/thirstypig/thirstypig-blog/commit/0ff919107dadf3e7dfedb4af204b4407dd8a4c1d" rel="noopener" target="_blank">e2e: Cities nav assertion now lives on /cities, not /categories</a> &middot; <time datetime="2026-04-29T06:38:22Z" data-rel>9h ago</time></p>
           <p class="feed-updated">Auto-updated May 04, 2026 at 8:52 AM PDT via CLAUDE.md + GitHub events.</p>
         
         <!-- TLDR-thirsty-pig-END -->
@@ -173,7 +173,7 @@
           </div>
           <!-- TLDR-judge-tool-START -->
 
-          <p class="nb-card-body">KCBS-style BBQ competition judging app — replaces clipboards, carbon copies, and spreadsheet math with real-time digital scoring for organizers, table captains, and judges. Just wrapped a shipping-readiness pass: Google Analytics on both the app and marketing site, sitemap and robots tests enforcing SEO invariants, and CI gating every PR on lint/typecheck/tests. Next up: an integration-test harness so server actions get exercised against a real database, ahead of piloting at a real KCBS-sanctioned competition this season.</p>
+          <p class="nb-card-body">A KCBS-style BBQ competition judging app — replaces clipboards, carbon copies, and spreadsheet math with real-time digital scoring for organizers, table captains, and judges. <strong>Just wrapped a shipping-readiness pass</strong>: analytics installed, search-engine basics in place, and an automated check on every code change before it ships. Next up: a richer test setup so the app gets exercised against a real database, ahead of piloting at a KCBS-sanctioned competition this season.</p>
           <p class="feed-updated">Auto-updated May 04, 2026 at 8:52 AM PDT via CLAUDE.md + GitHub events.</p>
         
         <!-- TLDR-judge-tool-END -->
@@ -186,7 +186,7 @@
           </div>
           <!-- TLDR-tabledrop-START -->
 
-          <p class="nb-card-body">A marketplace for hard-to-get Taipei restaurant reservations — a Playwright scraper pulls listings from inline.app, with a Next.js + Clerk + Stripe storefront on the buy side. Recent AI-assisted work has been mostly scaffolding: admin dashboard (roadmap, changelog, status), an MCP server so Claude Code can poke at the scraper and database directly, and project-scoped slash commands for tests and doc sync. Honest blocker: neither side of the transaction is live yet — Stripe checkout isn&#39;t wired and the scraper has barely been run — so the next push is getting one end-to-end listing → purchase flow working with real data.</p>
+          <p class="nb-card-body">A marketplace for hard-to-get Taipei restaurant reservations — a scraper pulls listings from inline.app, and a modern web storefront with Stripe handles the buy side. Recent AI-assisted work has been mostly scaffolding: an admin dashboard, a way for Claude Code to poke at the scraper and database directly, and project-specific shortcuts for running tests and keeping docs in sync. <strong>Honest blocker</strong>: neither side of the transaction is live yet — checkout isn&#39;t wired and the scraper has barely been run — so the next push is getting one full listing-to-purchase flow working with real data.</p>
           <p class="feed-updated">Auto-updated May 04, 2026 at 8:52 AM PDT via CLAUDE.md + GitHub events.</p>
         
         <!-- TLDR-tabledrop-END -->
@@ -199,7 +199,7 @@
           </div>
           <!-- TLDR-tastemakers-START -->
 
-          <p class="nb-card-body">Restaurant discovery app with iOS, Android, and web clients sharing a Laravel 8 API — this repo is the backend that feeds them all. Actively decoupling the backend from legacy WordPress/Namecheap hosting: the API is moving to Railway (managed Postgres in prod) and the web frontend to Vercel. Once the infrastructure is clean, the Next.js site becomes both the marketing page and a web-accessible version of the app.</p>
+          <p class="nb-card-body">A restaurant-discovery app with iOS, Android, and web clients sharing a single backend — this repo is the backend that feeds them all. Actively moving everything off legacy WordPress hosting onto a modern stack: a managed database in production, a fast hosting platform for the website, and clean separation between the two. Once the infrastructure is solid, the website becomes both the marketing page and a web-accessible version of the app.</p>
           <p class="feed-updated">Auto-updated May 04, 2026 at 8:52 AM PDT via CLAUDE.md + GitHub events.</p>
         
         <!-- TLDR-tastemakers-END -->
@@ -232,6 +232,19 @@
       </header>
 
       <div class="nb-cal-card">
+        <div class="nb-cal-date" aria-label="May 9">
+          <div class="mo">may</div>
+          <div class="day">09</div>
+        </div>
+        <div>
+          <div class="nb-cal-tag">confirmed · comedy</div>
+          <div class="nb-cal-what">Nate Bargatze &middot; Netflix Is a Joke Fest</div>
+          <div class="nb-cal-where">Intuit Dome, Inglewood, CA &middot; <time datetime="2026-05-09T17:00">may 9, 5:00 PM</time></div>
+          <div class="nb-cal-note">Catching Nate Bargatze headline at Intuit Dome as part of the Netflix Is a Joke Fest run.</div>
+        </div>
+      </div>
+
+      <div class="nb-cal-card">
         <div class="nb-cal-date" aria-label="June 7">
           <div class="mo">jun</div>
           <div class="day">07</div>
@@ -254,6 +267,19 @@
           <div class="nb-cal-what"><a href="https://www.minitakesthestates.com/">MINI TAKES THE STATES</a> &middot; California Route</div>
           <div class="nb-cal-where">Monterey &rarr; Sonoma &rarr; Lake Tahoe &middot; <time datetime="2026-10-02">oct 2</time>&ndash;<time datetime="2026-10-04">4</time></div>
           <div class="nb-cal-note">Three-day MINI USA owner rally on the California leg, driven in my Legend Grey 2026 MINI Countryman JCW.</div>
+        </div>
+      </div>
+
+      <div class="nb-cal-card">
+        <div class="nb-cal-date" aria-label="September 2026">
+          <div class="mo">sep</div>
+          <div class="day">&rsquo;26</div>
+        </div>
+        <div>
+          <div class="nb-cal-tag">looking forward · museum opening</div>
+          <div class="nb-cal-what"><a href="https://lucasmuseum.org">Lucas Museum of Narrative Art</a> opens</div>
+          <div class="nb-cal-where">Exposition Park, Los Angeles · <time datetime="2026-09">sep 2026</time></div>
+          <div class="nb-cal-note">Joined as a Founding Insider ahead of opening day. The first museum dedicated to narrative art across painting, illustration, comics, and film — counting the months until the doors open.</div>
         </div>
       </div>
 
@@ -286,9 +312,9 @@
 
         <article class="nb-card compact">
           <div class="nb-card-head">
-            <h3 class="nb-card-name"><a href="https://openclaw.ai">OpenClaw</a></h3>
+            <h3 class="nb-card-name"><a href="https://getupnote.com">Upnote MCP</a></h3>
           </div>
-          <p class="nb-card-body">Evaluating as an open-source AI agent alternative. Peter Steinberger's project — autonomous AI assistant that runs locally and interfaces with Claude, GPT, or DeepSeek via messaging platforms. 247k stars, MIT licensed, recently transitioned to non-profit after Steinberger joined OpenAI. Still deciding if it fits my workflow alongside Claude Code and Cursor.</p>
+          <p class="nb-card-body">Testing an <a href="https://modelcontextprotocol.io">MCP</a> server that gives Claude Code (and any other MCP-aware agent) read/write access to my Upnote notes. The pull is keeping fleeting thoughts, draft prompts, and reference notes outside the chat window but still accessible to whatever agent is doing the work — no context-switching to the app to copy a paragraph back in. Running it alongside the Obsidian setup to see whether one becomes the canonical capture tool, or whether they cleanly split (Upnote for raw thinking, Obsidian for project ops).</p>
         </article>
 
         <article class="nb-card compact">
@@ -305,6 +331,14 @@
           <p class="nb-card-body">Running OpenAI's Codex CLI agent in a second terminal tab alongside Claude Code, to see whether a multi-agent split makes sense for day-to-day work. The hypothesis: Codex is especially strong at test generation, so the experiment is "Claude writes the feature, Codex writes the tests." Early instinct for this repo's style: one agent deep beats two agents shallow. Want to run it on a harder codebase before I commit.</p>
         </article>
       </div>
+
+      <p class="nb-section-eyebrow" style="margin-top:20px;">// back-burner — circling back when there&rsquo;s a real reason to</p>
+      <article class="nb-card compact">
+        <div class="nb-card-head">
+          <h3 class="nb-card-name"><a href="https://openclaw.ai">OpenClaw</a></h3>
+        </div>
+        <p class="nb-card-body">Open-source AI agent — Peter Steinberger&rsquo;s project that runs locally and interfaces with Claude, GPT, or DeepSeek via messaging platforms. Tabled for now: between Claude Code and Cursor I haven&rsquo;t hit a workflow gap that warrants standing up a third agent surface. Worth a second look if a use case shows up that needs the messaging-app entrypoint specifically.</p>
+      </article>
     </section>
 
     <!-- HEALTH & RECOVERY -->
@@ -449,6 +483,42 @@
         <!-- GOODREADS-END -->
         </div>
       </div>
+
+      <article class="nb-card compact" style="margin-top:20px;">
+        <div class="nb-card-head">
+          <h3 class="nb-card-name">recent favorites</h3>
+        </div>
+        <div class="nb-grid-3" style="margin-top:8px;">
+          <div>
+            <strong>watching</strong>
+            <ul style="margin:6px 0 0;padding-left:18px;">
+              <li>Tulsa King</li>
+              <li>The Diplomat</li>
+              <li>The Lincoln Lawyer</li>
+              <li>Pluribus</li>
+              <li>A Knight of the Seven Kingdoms</li>
+              <li>Landman</li>
+              <li>The Bear</li>
+            </ul>
+          </div>
+          <div>
+            <strong>listening</strong>
+            <ul style="margin:6px 0 0;padding-left:18px;">
+              <li>Baseball Tonight with Buster Olney</li>
+              <li>How I AI</li>
+              <li>Lenny&rsquo;s Podcast</li>
+              <li>The Kevin Rose Show</li>
+              <li>Diggnation</li>
+              <li>The Deal</li>
+              <li>The Tim Ferriss Show</li>
+            </ul>
+          </div>
+          <div>
+            <strong>reading</strong>
+            <p style="color:var(--dim);margin:6px 0 0;">— nothing in heavy rotation right now.</p>
+          </div>
+        </div>
+      </article>
     </section>
 
     <!-- POSTING -->
@@ -466,6 +536,9 @@
 
     <!-- HITLIST (client-side fetch) -->
     <section class="nb-section" id="hitlist-section"></section>
+
+    <!-- BUCKET LIST (client-side fetch from /bucketlist.json) -->
+    <section class="nb-section" id="bucketlist-section"></section>
 
     <footer class="nb-footer">
       <span>// © 2026 james chang</span>

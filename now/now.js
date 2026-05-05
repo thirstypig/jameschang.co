@@ -22,7 +22,7 @@
         num.textContent = '/10';
         const title = document.createElement('h2');
         title.className = 'nb-section-title';
-        title.textContent = 'places i want to try';
+        title.textContent = 'places i want to eat at';
         const rule = document.createElement('span');
         rule.className = 'nb-section-rule';
         head.append(num, title, rule);
@@ -80,6 +80,72 @@
         container.appendChild(card);
       } catch (e) {
         console.warn('[hitlist]', e);
+        container.remove();
+      }
+    })();
+
+// Bucket list — top 5 todos rendered from /bucketlist.json (same-origin, no CORS issue).
+// Silent fail removes the section if no items / fetch error.
+    (async function () {
+      const container = document.getElementById('bucketlist-section');
+      if (!container) return;
+      try {
+        const res = await fetch('/bucketlist.json', { cache: 'no-cache' });
+        if (!res.ok) throw new Error(res.status);
+        const data = await res.json();
+        const todos = (data.items || []).filter(i => i.status === 'todo').slice(0, 5);
+        if (!todos.length) { container.remove(); return; }
+
+        const head = document.createElement('header');
+        head.className = 'nb-section-head';
+        const num = document.createElement('span');
+        num.className = 'nb-section-num';
+        num.textContent = '/11';
+        const title = document.createElement('h2');
+        title.className = 'nb-section-title';
+        title.textContent = 'bucket list';
+        const rule = document.createElement('span');
+        rule.className = 'nb-section-rule';
+        head.append(num, title, rule);
+        container.appendChild(head);
+
+        const eyebrow = document.createElement('p');
+        eyebrow.className = 'nb-section-eyebrow';
+        eyebrow.textContent = 'top ' + todos.length + ' · in priority order';
+        container.appendChild(eyebrow);
+
+        const card = document.createElement('div');
+        card.className = 'nb-card compact';
+        const ol = document.createElement('ol');
+        ol.style.margin = '0';
+        ol.style.padding = '0 0 0 20px';
+        ol.style.display = 'grid';
+        ol.style.gap = '8px';
+        todos.forEach(item => {
+          const li = document.createElement('li');
+          const name = document.createElement('strong');
+          name.textContent = item.title;
+          li.appendChild(name);
+          if (item.note) {
+            const note = document.createElement('span');
+            note.style.color = 'var(--dim)';
+            note.textContent = ' — ' + item.note;
+            li.appendChild(note);
+          }
+          ol.appendChild(li);
+        });
+        card.appendChild(ol);
+        const footerLink = document.createElement('a');
+        footerLink.href = '/bucketlist/';
+        footerLink.textContent = 'See the full list →';
+        footerLink.style.display = 'inline-block';
+        footerLink.style.marginTop = '12px';
+        footerLink.style.fontFamily = 'var(--mono)';
+        footerLink.style.fontSize = '12px';
+        card.appendChild(footerLink);
+        container.appendChild(card);
+      } catch (e) {
+        console.warn('[bucketlist]', e);
         container.remove();
       }
     })();

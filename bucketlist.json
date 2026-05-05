@@ -1,0 +1,16 @@
+{
+  "items": [
+    { "id": "great-wall-china", "title": "Great Wall of China", "note": "", "status": "todo", "completed_date": null },
+    { "id": "sao-paolo", "title": "São Paulo", "note": "", "status": "todo", "completed_date": null },
+    { "id": "northern-lights", "title": "See the northern lights", "note": "", "status": "todo", "completed_date": null },
+    { "id": "lake-como", "title": "Lake Como", "note": "", "status": "todo", "completed_date": null },
+    { "id": "santorini", "title": "Santorini", "note": "", "status": "todo", "completed_date": null },
+    { "id": "amalfi-coast", "title": "Amalfi Coast", "note": "", "status": "todo", "completed_date": null },
+    { "id": "alaska-fishing", "title": "Fishing in Alaska", "note": "", "status": "todo", "completed_date": null },
+    { "id": "galapagos", "title": "Galápagos Islands", "note": "", "status": "todo", "completed_date": null },
+    { "id": "buenos-aires", "title": "Buenos Aires", "note": "", "status": "todo", "completed_date": null },
+    { "id": "scotland-distilleries", "title": "Scotch distillery tour in Scotland", "note": "", "status": "todo", "completed_date": null },
+    { "id": "japan-whisky", "title": "Whisky distillery tour in Japan", "note": "", "status": "todo", "completed_date": null }
+  ],
+  "last_updated": "2026-05-04T00:00:00Z"
+}

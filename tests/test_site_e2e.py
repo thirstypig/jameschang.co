@@ -899,3 +899,110 @@ class TestStructuralParity:
             "Deep-dive block order drifted (expected project-nav → snapshot-banner → work-hero):\n"
             + "\n".join(failures)
         )
+
+
+# ── Tests: Bucket list ───────────────────────────────────────────
+
+class TestBucketList:
+    """Bucket list is a flat JSON file rendered client-side on /now and /bucketlist/.
+    These tests pin the contract the thirstypig admin writes to and the renderers read from.
+    """
+
+    REQUIRED_KEYS = {"id", "title", "note", "status", "completed_date"}
+    VALID_STATUSES = {"todo", "done"}
+
+    def _load(self):
+        path = os.path.join(REPO_ROOT, "bucketlist.json")
+        with open(path) as f:
+            return json.load(f)
+
+    def test_json_parses_and_has_top_level_keys(self):
+        data = self._load()
+        assert "items" in data, "bucketlist.json missing 'items'"
+        assert "last_updated" in data, "bucketlist.json missing 'last_updated'"
+        assert isinstance(data["items"], list), "'items' must be a list"
+
+    def test_every_item_has_required_schema(self):
+        """Every row must carry the keys the admin and renderers depend on. A missing key
+        would silently break either the public renderer (blank pill) or the admin's edit
+        form (can't target a row without an id)."""
+        data = self._load()
+        failures = []
+        for i, item in enumerate(data["items"]):
+            missing = self.REQUIRED_KEYS - set(item.keys())
+            if missing:
+                failures.append(f"items[{i}] missing keys: {missing}")
+            if item.get("status") not in self.VALID_STATUSES:
+                failures.append(f"items[{i}] invalid status: {item.get('status')!r}")
+            if item.get("status") == "todo" and item.get("completed_date") is not None:
+                failures.append(f"items[{i}] is todo but has completed_date set")
+            if not item.get("title"):
+                failures.append(f"items[{i}] has empty title")
+        assert not failures, "bucketlist.json schema violations:\n" + "\n".join(failures)
+
+    def test_ids_are_unique(self):
+        """Admin uses id to target rows for edit/delete. Duplicate ids would let the
+        admin update the wrong row."""
+        data = self._load()
+        ids = [item["id"] for item in data["items"]]
+        dupes = {x for x in ids if ids.count(x) > 1}
+        assert not dupes, f"Duplicate ids in bucketlist.json: {dupes}"
+
+    def test_now_has_bucketlist_render_target(self):
+        """now/now.js fills #bucketlist-section. If the container is removed from
+        now/index.html, the renderer silently no-ops and the top-5 teaser disappears."""
+        _, body = fetch("now/index.html")
+        assert 'id="bucketlist-section"' in body, (
+            "now/index.html missing <section id=\"bucketlist-section\"> render target"
+        )
+
+    def test_now_js_renames_hitlist_to_eat_at(self):
+        """Regression: hitlist title was renamed 'places i want to try' → 'places i want to eat at'
+        when the bucket list took over the broader 'want to try' framing."""
+        path = os.path.join(REPO_ROOT, "now/now.js")
+        with open(path) as f:
+            js = f.read()
+        assert "places i want to eat at" in js, "hitlist title rename missing"
+        assert "places i want to try" not in js, (
+            "hitlist still says 'places i want to try' — should be 'places i want to eat at'"
+        )
+
+    def test_now_js_links_to_bucketlist_page(self):
+        """The /now teaser must link to /bucketlist/ — that link is the only path in
+        because there's intentionally no top-nav entry."""
+        path = os.path.join(REPO_ROOT, "now/now.js")
+        with open(path) as f:
+            js = f.read()
+        assert "/bucketlist/" in js, "now/now.js missing link to /bucketlist/"
+
+    def test_bucketlist_page_loads_and_references_renderer(self):
+        status, body = fetch("bucketlist/index.html")
+        assert status == 200, f"/bucketlist/ returned {status}"
+        assert "/bucketlist/bucketlist.js" in body, (
+            "bucketlist/index.html doesn't reference its renderer script"
+        )
+        for anchor in ("bucketlist-todo", "bucketlist-done", "bucketlist-updated"):
+            assert f'id="{anchor}"' in body, (
+                f"bucketlist/index.html missing #{anchor} render target"
+            )
+
+    def test_bucketlist_renderer_script_exists(self):
+        """The script tag in bucketlist/index.html must resolve. A 404 would leave the
+        page stuck on its 'Loading…' placeholder."""
+        status, _ = fetch("bucketlist/bucketlist.js")
+        assert status == 200, f"/bucketlist/bucketlist.js returned {status}"
+
+    def test_no_top_nav_link_to_bucketlist(self):
+        """Per design: the only path into /bucketlist/ is the 'see the full list →' teaser
+        on /now. If a top-nav link sneaks in, this test catches it."""
+        offenders = []
+        for f in STANDARD_PAGES:
+            _, body = fetch(f)
+            # Look only inside the .nb-nav block (top nav). The /bucketlist/ page itself
+            # legitimately uses /bucketlist/ in its <link rel="canonical"> + crumbs.
+            nav_match = re.search(r'<header class="nb-nav".*?</header>', body, re.DOTALL)
+            if nav_match and "/bucketlist" in nav_match.group(0):
+                offenders.append(f)
+        assert not offenders, (
+            "Top nav references /bucketlist/ on: " + ", ".join(offenders)
+        )
