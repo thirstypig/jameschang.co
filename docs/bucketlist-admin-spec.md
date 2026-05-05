@@ -85,3 +85,28 @@ The renderer is forgiving but the admin should enforce on save:
 - `https://jameschang.co/now/` — top 5 `status:"todo"` items in priority order, with a "see the full list →" link
 
 Both fetch `/bucketlist.json` directly (same-origin), so changes appear within ~60s of the GitHub Pages redeploy.
+
+## Agent direct-commit (alternative to GitHub Contents API)
+
+Agents with clone access to `thirstypig/jameschang.co` can edit `bucketlist.json` and commit + push to `main` directly. The Contents API path is the browser admin's mechanism; the canonical interface is the JSON file in the repo.
+
+## id derivation
+
+Use kebab-case slug from title (lowercase, ASCII only, dashes for non-alphanumeric), deduped with `-2`, `-3`, ... suffix. The admin enforces this; agents writing directly should follow the same convention.
+
+## Reorder semantics
+
+Order matters only WITHIN a single `status` bucket. Cross-bucket moves are no-ops at render time (the renderer groups by status, then sorts by priority, then by array order).
+
+## Failure modes
+
+- **PAT expiry**: rotate every 90 days. Set a calendar reminder.
+- **409 conflict**: refetch sha, replay your write, retry once. The admin auto-recovers (see todo 123).
+- **422 on PUT**: usually means branch protection got added to `main`. Spec assumes unrestricted main.
+- **401/403**: token expired or scope is wrong (see todo 124). Admin auto-clears the dead token and re-prompts.
+- **GitHub Pages CDN staleness**: ~10 minute window after a write before all CDN edges serve the new file. The renderer fetches with `cache: 'reload'` to force network revalidation, but downstream CDN edges may still be stale briefly.
+- **Atomicity**: one mutation = one commit. No batch endpoint. Multi-edits create commit-spam in git log.
+
+## last_updated field
+
+The `last_updated` field is **admin-asserted**, not commit-derived. Operator clock skew or an agent-direct-commit that forgets to bump it can produce inaccurate timestamps. Display only — do not rely on it for ordering or freshness logic.

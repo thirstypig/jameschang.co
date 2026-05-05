@@ -90,7 +90,7 @@
       const container = document.getElementById('bucketlist-section');
       if (!container) return;
       try {
-        const res = await fetch('/bucketlist.json', { cache: 'no-cache' });
+        const res = await fetch('/bucketlist.json', { cache: 'reload' });
         if (!res.ok) throw new Error(res.status);
         const data = await res.json();
         const PRI_RANK = { high: 0, medium: 1, low: 2 };

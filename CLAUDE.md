@@ -99,6 +99,8 @@ Each project-with-a-deep-dive has its own folder under `/projects/[slug]/` with 
 
 The `/now` page is assembled from several independent sync scripts that each write into an HTML block delimited by `<!-- FEED-START -->` / `<!-- FEED-END -->` markers in `now/index.html` (e.g. `<!-- WHOOP-START -->`, `<!-- SPOTIFY-START -->`, etc.). **Don't remove the markers** — they are the replacement targets for the sync scripts.
 
+**Marker boundaries.** `replace_marker()` only writes between `<!-- {FEED}-START -->` and `<!-- {FEED}-END -->`. Date strings, status indicators, or eyebrow lines OUTSIDE markers are never updated by the sync — they freeze on their last hand-edit. Same trap applies to `bin/check-feed-health.py`'s heartbeat-iteration: a retired feed slug's GitHub issue won't auto-close because the slug isn't in the heartbeat dict. See `docs/solutions/integration-issues/marker-boundary-content-staleness.md`.
+
 **Top-of-page "Updated" eyebrow** — the `<!-- PAGE-UPDATED-START -->...<!-- PAGE-UPDATED-END -->` marker inside `.eyebrow` gets refreshed automatically every time *any* feed script calls `write_now_html()` in `_shared.py`. Single source of truth: whatever feed most recently synced sets the top-of-page timestamp. No separate sync script needed.
 
 **Hitlist** (Places I want to eat at) — client-side fetch of `thirstypig.com/places-hitlist.json`. The JSON carries its own `lastUpdated` ISO field; the inline JS in `now/index.html` reads it and renders an `Auto-updated` line. Server-side sync not applicable (CORS locks the fetch to `https://jameschang.co`; won't render on localhost).
@@ -139,6 +141,10 @@ The Places-I-want-to-try section fetches `https://thirstypig.com/places-hitlist.
 - **Never delete files in `docs/solutions/` or `todos/` during review** — those are institutional knowledge, protected artifacts.
 - **When modifying HTML structure**, also audit the print stylesheet and any JSON-LD/meta tag that references specific claims (meta description, OG description).
 - **When changing CSS tokens**, screenshot both light and dark mode headlessly (see `/tmp/jc-shots/` pattern).
+
+### Cross-repo PAT trade-off
+
+**Cross-repo PAT trade-off.** The bucket list admin lives on `thirstypig.com/admin/` but writes to this repo via the GitHub Contents API. The PAT is shared across `thirstypig-blog` and `jameschang.co` (see commit `d64bdb85` on thirstypig) so one paste covers both managers. Trade-off: an XSS or supply-chain compromise in the Tina admin context now mutates BOTH repos. Mitigations: (a) PAT scope must be `Contents: Read+Write` only, never `repo`; (b) rotate every 90 days max (calendar reminder); (c) sessionStorage clears on tab close; (d) admin-side CSP and Google Maps SDK pinning are tracked in todos/129 and todos/136. The decision to share keys was a deliberate UX call — splitting back is the alternative if the trade-off ever stops feeling worth it.
 
 ## Local preview
 

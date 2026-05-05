@@ -571,6 +571,29 @@ a:hover { text-decoration: underline; }
 .nb-bullets li strong { color: var(--ink); font-weight: 600; }
 .nb-bullets li a { color: var(--accent); }
 
+/* Chip — used by bucketlist.js for priority/difficulty tags */
+.nb-chip {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 1px 6px;
+  margin-left: 6px;
+  border: 1px solid var(--c, var(--rule));
+  color: var(--c, var(--dim));
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+/* Favorites sub-block inside an .nb-feed column on /now */
+.nb-feed-favorites {
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--rule);
+}
+.nb-feed-favorites p { margin: 0 0 6px; }
+.nb-feed-favorites ul { margin: 0; padding-left: 18px; }
+
 /* ─── Feed card (lists inside) ─────────────────────────────────────── */
 .nb-feed {
   border: var(--border-w) solid var(--ink);

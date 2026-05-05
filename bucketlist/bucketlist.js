@@ -23,17 +23,9 @@
 
   function chip(label, color) {
     const el = document.createElement('span');
+    el.className = 'nb-chip';
+    if (color) el.style.setProperty('--c', color);
     el.textContent = label;
-    el.style.fontFamily = 'var(--mono)';
-    el.style.fontSize = '10px';
-    el.style.textTransform = 'uppercase';
-    el.style.letterSpacing = '0.06em';
-    el.style.padding = '1px 6px';
-    el.style.marginLeft = '6px';
-    el.style.border = '1px solid ' + (color || 'var(--rule)');
-    el.style.color = color || 'var(--dim)';
-    el.style.borderRadius = '2px';
-    el.style.whiteSpace = 'nowrap';
     return el;
   }
 
@@ -74,7 +66,7 @@
   }
 
   try {
-    const res = await fetch('/bucketlist.json', { cache: 'no-cache' });
+    const res = await fetch('/bucketlist.json', { cache: 'reload' });
     if (!res.ok) throw new Error(res.status);
     const data = await res.json();
     const items = data.items || [];

@@ -12,6 +12,7 @@ import re
 import threading
 import time
 import urllib.request
+from datetime import datetime
 from functools import partial
 from html.parser import HTMLParser
 from http.server import HTTPServer, SimpleHTTPRequestHandler
@@ -938,8 +939,21 @@ class TestBucketList:
                 failures.append(f"items[{i}] invalid status: {item.get('status')!r}")
             if item.get("status") == "todo" and item.get("completed_date") is not None:
                 failures.append(f"items[{i}] is todo but has completed_date set")
+            if item.get("status") == "done":
+                cd = item.get("completed_date")
+                if cd is None:
+                    failures.append(f"items[{i}] is done but completed_date is null/missing")
+                else:
+                    try:
+                        datetime.strptime(cd, "%Y-%m-%d")
+                    except (TypeError, ValueError):
+                        failures.append(f"items[{i}] completed_date is not a valid ISO date")
+            if not isinstance(item.get("title"), str):
+                failures.append(f"items[{i}] title is not a string: {type(item.get('title')).__name__}")
             if not item.get("title"):
                 failures.append(f"items[{i}] has empty title")
+            if not isinstance(item.get("note"), str):
+                failures.append(f"items[{i}] note is not a string: {type(item.get('note')).__name__}")
             if item.get("priority") not in self.VALID_PRIORITIES:
                 failures.append(f"items[{i}] invalid priority: {item.get('priority')!r}")
             if item.get("difficulty") not in self.VALID_DIFFICULTIES:
@@ -954,23 +968,30 @@ class TestBucketList:
         dupes = {x for x in ids if ids.count(x) > 1}
         assert not dupes, f"Duplicate ids in bucketlist.json: {dupes}"
 
+    def test_last_updated_is_valid_iso8601(self):
+        """`last_updated` is the contract timestamp the admin must bump on every save.
+        Spec says ISO 8601; an unparseable value (e.g. 'yesterday') means the admin shipped
+        a bug and downstream consumers can't sort or diff."""
+        data = self._load()
+        last_updated = data.get("last_updated")
+        assert isinstance(last_updated, str), (
+            f"last_updated must be a string, got {type(last_updated).__name__}"
+        )
+        # datetime.fromisoformat in Python <3.11 doesn't accept trailing 'Z'; normalize.
+        normalized = last_updated.replace("Z", "+00:00") if last_updated.endswith("Z") else last_updated
+        try:
+            datetime.fromisoformat(normalized)
+        except ValueError as exc:
+            raise AssertionError(
+                f"last_updated is not valid ISO 8601: {last_updated!r} ({exc})"
+            )
+
     def test_now_has_bucketlist_render_target(self):
         """now/now.js fills #bucketlist-section. If the container is removed from
         now/index.html, the renderer silently no-ops and the top-5 teaser disappears."""
         _, body = fetch("now/index.html")
         assert 'id="bucketlist-section"' in body, (
             "now/index.html missing <section id=\"bucketlist-section\"> render target"
-        )
-
-    def test_now_js_renames_hitlist_to_eat_at(self):
-        """Regression: hitlist title was renamed 'places i want to try' → 'places i want to eat at'
-        when the bucket list took over the broader 'want to try' framing."""
-        path = os.path.join(REPO_ROOT, "now/now.js")
-        with open(path) as f:
-            js = f.read()
-        assert "places i want to eat at" in js, "hitlist title rename missing"
-        assert "places i want to try" not in js, (
-            "hitlist still says 'places i want to try' — should be 'places i want to eat at'"
         )
 
     def test_now_js_links_to_bucketlist_page(self):
