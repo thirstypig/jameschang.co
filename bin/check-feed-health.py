@@ -173,6 +173,20 @@ def main():
         else:
             print(f"OK: {slug} ({hours:.0f}h)")
 
+    # Orphan cleanup: close any open feed-stale issues whose slug is no longer
+    # in the heartbeat. Happens when a feed is renamed (e.g., "github" → folded
+    # into "projects") or retired entirely. Without this pass the issue sits
+    # forever — the main loop never visits it because `data.items()` skips it.
+    heartbeat_slugs = set(data.keys())
+    for slug, issue_num in open_issues.items():
+        if slug not in heartbeat_slugs:
+            gh("issue", "close", str(issue_num),
+               "--comment",
+               f"Feed `{slug}` is no longer tracked in `.feeds-heartbeat.json` "
+               f"(renamed or retired). Auto-closed by `bin/check-feed-health.py`.")
+            print(f"CLOSE #{issue_num}: {slug} (orphan — slug not in heartbeat)")
+            recovered_closed += 1
+
     if DRY_RUN:
         print(f"\n[dry-run] Summary: {stale_opened} would open, {recovered_closed} would close.")
     else:
