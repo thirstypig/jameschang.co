@@ -1,5 +1,6 @@
 // Bucket list renderer — fetches /bucketlist.json and splits items into "todo" vs "done" lists.
-// Order in items[] is the priority order; the admin (thirstypig.com/admin) writes the file.
+// Sort order: priority desc (high → medium → low → unset), then array order as tiebreaker.
+// The admin on thirstypig.com/admin writes the file via the GitHub Contents API.
 
 (async function () {
   const todoOl = document.getElementById('bucketlist-todo');
@@ -10,6 +11,9 @@
   const doneEyebrow = document.getElementById('bucketlist-done-eyebrow');
   if (!todoOl) return;
 
+  const PRIORITY_RANK = { high: 0, medium: 1, low: 2 };
+  const PRIORITY_COLOR = { high: 'var(--accent)', medium: 'var(--ink)', low: 'var(--dim)' };
+
   function fmtDate(iso) {
     if (!iso) return '';
     const d = new Date(iso);
@@ -17,22 +21,54 @@
     return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
   }
 
+  function chip(label, color) {
+    const el = document.createElement('span');
+    el.textContent = label;
+    el.style.fontFamily = 'var(--mono)';
+    el.style.fontSize = '10px';
+    el.style.textTransform = 'uppercase';
+    el.style.letterSpacing = '0.06em';
+    el.style.padding = '1px 6px';
+    el.style.marginLeft = '6px';
+    el.style.border = '1px solid ' + (color || 'var(--rule)');
+    el.style.color = color || 'var(--dim)';
+    el.style.borderRadius = '2px';
+    el.style.whiteSpace = 'nowrap';
+    return el;
+  }
+
+  function sortByPriority(a, b) {
+    const ra = PRIORITY_RANK[a.priority] ?? 99;
+    const rb = PRIORITY_RANK[b.priority] ?? 99;
+    if (ra !== rb) return ra - rb;
+    return 0; // stable — preserves array order within priority bucket
+  }
+
   function renderItem(li, item, opts) {
     const name = document.createElement('strong');
     name.textContent = item.title;
     li.appendChild(name);
+    if (item.priority) {
+      li.appendChild(chip(item.priority, PRIORITY_COLOR[item.priority]));
+    }
+    if (item.difficulty) {
+      li.appendChild(chip(item.difficulty));
+    }
     if (item.note) {
-      const note = document.createElement('span');
+      const note = document.createElement('div');
       note.style.color = 'var(--dim)';
-      note.textContent = ' — ' + item.note;
+      note.style.fontSize = '13px';
+      note.style.marginTop = '2px';
+      note.textContent = item.note;
       li.appendChild(note);
     }
     if (opts && opts.date && item.completed_date) {
-      const when = document.createElement('span');
+      const when = document.createElement('div');
       when.style.color = 'var(--dim)';
       when.style.fontFamily = 'var(--mono)';
       when.style.fontSize = '11px';
-      when.textContent = ' · ' + fmtDate(item.completed_date);
+      when.style.marginTop = '2px';
+      when.textContent = '✓ done ' + fmtDate(item.completed_date);
       li.appendChild(when);
     }
   }
@@ -42,17 +78,18 @@
     if (!res.ok) throw new Error(res.status);
     const data = await res.json();
     const items = data.items || [];
-    const todos = items.filter(i => i.status === 'todo');
+    const todos = items.filter(i => i.status === 'todo').slice().sort(sortByPriority);
     const done = items.filter(i => i.status === 'done');
 
     todoOl.innerHTML = '';
     if (todos.length) {
       todos.forEach(item => {
         const li = document.createElement('li');
+        li.style.marginBottom = '6px';
         renderItem(li, item);
         todoOl.appendChild(li);
       });
-      todoEyebrow.textContent = todos.length + ' item' + (todos.length === 1 ? '' : 's') + ' · in priority order';
+      todoEyebrow.textContent = todos.length + ' item' + (todos.length === 1 ? '' : 's') + ' · sorted by priority';
     } else {
       todoOl.innerHTML = '<li style="color:var(--dim)">All done. Time to add more.</li>';
       todoEyebrow.textContent = '';
@@ -61,6 +98,7 @@
     if (done.length) {
       done.forEach(item => {
         const li = document.createElement('li');
+        li.style.marginBottom = '6px';
         renderItem(li, item, { date: true });
         doneUl.appendChild(li);
       });

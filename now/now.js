@@ -93,7 +93,12 @@
         const res = await fetch('/bucketlist.json', { cache: 'no-cache' });
         if (!res.ok) throw new Error(res.status);
         const data = await res.json();
-        const todos = (data.items || []).filter(i => i.status === 'todo').slice(0, 5);
+        const PRI_RANK = { high: 0, medium: 1, low: 2 };
+        const todos = (data.items || [])
+          .filter(i => i.status === 'todo')
+          .slice()
+          .sort((a, b) => (PRI_RANK[a.priority] ?? 99) - (PRI_RANK[b.priority] ?? 99))
+          .slice(0, 5);
         if (!todos.length) { container.remove(); return; }
 
         const head = document.createElement('header');
@@ -111,7 +116,7 @@
 
         const eyebrow = document.createElement('p');
         eyebrow.className = 'nb-section-eyebrow';
-        eyebrow.textContent = 'top ' + todos.length + ' · in priority order';
+        eyebrow.textContent = 'top ' + todos.length + ' · highest priority';
         container.appendChild(eyebrow);
 
         const card = document.createElement('div');

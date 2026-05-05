@@ -908,8 +908,10 @@ class TestBucketList:
     These tests pin the contract the thirstypig admin writes to and the renderers read from.
     """
 
-    REQUIRED_KEYS = {"id", "title", "note", "status", "completed_date"}
+    REQUIRED_KEYS = {"id", "title", "note", "status", "completed_date", "priority", "difficulty"}
     VALID_STATUSES = {"todo", "done"}
+    VALID_PRIORITIES = {"high", "medium", "low", None}
+    VALID_DIFFICULTIES = {"easy", "hard", None}
 
     def _load(self):
         path = os.path.join(REPO_ROOT, "bucketlist.json")
@@ -938,6 +940,10 @@ class TestBucketList:
                 failures.append(f"items[{i}] is todo but has completed_date set")
             if not item.get("title"):
                 failures.append(f"items[{i}] has empty title")
+            if item.get("priority") not in self.VALID_PRIORITIES:
+                failures.append(f"items[{i}] invalid priority: {item.get('priority')!r}")
+            if item.get("difficulty") not in self.VALID_DIFFICULTIES:
+                failures.append(f"items[{i}] invalid difficulty: {item.get('difficulty')!r}")
         assert not failures, "bucketlist.json schema violations:\n" + "\n".join(failures)
 
     def test_ids_are_unique(self):

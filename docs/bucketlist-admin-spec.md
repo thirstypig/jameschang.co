@@ -1,6 +1,6 @@
 # Bucket list admin spec — for thirstypig.com/admin
 
-The bucket list on jameschang.co is a flat JSON file. It's rendered client-side on `/bucketlist/` (full list) and `/now/` (top 5 todos). Order in `items[]` is the priority order — drag-reorder = rewrite the array.
+The bucket list on jameschang.co is a flat JSON file. It's rendered client-side on `/bucketlist/` (full list) and `/now/` (top 5 todos). Sort order: priority desc (high → medium → low → unset), with array order as the tiebreaker within each priority bucket. Drag-reorder rewrites the array, which controls ordering *within* the same priority.
 
 ## Source of truth
 
@@ -16,7 +16,9 @@ The bucket list on jameschang.co is a flat JSON file. It's rendered client-side 
       "title": "string (required, the visible label)",
       "note": "string (optional 1-line context, shown as ' — note' after the title)",
       "status": "todo | done",
-      "completed_date": "ISO 8601 date string, or null when status=todo"
+      "completed_date": "ISO 8601 date string, or null when status=todo",
+      "priority": "high | medium | low | null",
+      "difficulty": "easy | hard | null"
     }
   ],
   "last_updated": "ISO 8601 timestamp — admin must update on every save"
@@ -30,7 +32,9 @@ The bucket list on jameschang.co is a flat JSON file. It's rendered client-side 
 | Add item        | `items.push({...})` with a fresh `id`, `status:"todo"`, `completed_date:null`    |
 | Edit item       | Mutate `title` / `note` in place                                                 |
 | Delete item     | Splice out of `items[]` by `id`                                                  |
-| Reorder         | Rewrite `items[]` in the new order — array order IS priority                     |
+| Reorder         | Rewrite `items[]` in the new order — drives ordering *within* a priority bucket  |
+| Set priority    | Radio: `high` / `medium` / `low`. Drives the primary sort on /bucketlist/ + /now |
+| Set difficulty  | Radio: `easy` / `hard`. Display chip; not a sort key                             |
 | Mark done       | Flip `status` → `"done"`, set `completed_date` to today (UTC ISO)                |
 | Re-open         | Flip `status` → `"todo"`, set `completed_date` → null                            |
 
