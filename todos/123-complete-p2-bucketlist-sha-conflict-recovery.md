@@ -1,5 +1,5 @@
 ---
-status: pending
+status: complete
 priority: p2
 issue_id: 123
 tags: ['code-review', 'cross-repo-admin', 'bucketlist', 'reliability']
