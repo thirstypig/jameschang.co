@@ -1,5 +1,9 @@
 # CLAUDE.md
 
+<!-- now-tldr -->
+The personal site at jameschang.co — homepage, project deep-dives, and a Derek Sivers-style /now page that auto-updates from a half-dozen feeds (WHOOP, Spotify, Plex, Goodreads, MLB stats, fantasy standings) plus per-project TLDRs synced daily from each repo's CLAUDE.md. **Recently shipped**: a public bucket list, a feed staleness monitor that opens a GitHub issue when anything goes quiet, and a cron-driven /now project hub that classifies each project as active or back-burner based on real GitHub activity. Plain HTML/CSS/JS on GitHub Pages — no build step, ~78 KB page weight, Lighthouse 100/100/100/100.
+<!-- /now-tldr -->
+
 Operational notes for Claude Code (and any other agent) working on this repo. For human-facing workflow see `README.md`; for design/positioning history see `PLAN.md`; for past solved problems see `docs/solutions/`.
 
 ## Stack
@@ -117,6 +121,7 @@ The `/now` page is assembled from several independent sync scripts that each wri
 - **Spotify** — every 30 minutes via `.github/workflows/spotify-sync.yml`. Refresh token stored in plain text as a GitHub Secret (`SPOTIFY_REFRESH_TOKEN`); the script writes `.spotify-state.json` to remember the last-seen podcast episode so the now-playing block doesn't flap when playback pauses. The 30-min cadence is tuned to maximize podcast capture rate — Spotify's `recently-played` endpoint is tracks-only in practice, so the only reliable way to catch a podcast is to poll `currently-playing` often enough to snapshot it mid-listen. Content-hash cache makes no-op runs free. **Required GitHub Secrets:** `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, `SPOTIFY_REFRESH_TOKEN`.
 - **Trakt** — **disabled 2026-04-28**. Workflow renamed to `.github/workflows/trakt-sync.yml.disabled` (preserved for re-enable; rename back to `.yml` to resume). Trakt was dropped from /now along with Letterboxd because the noise-to-signal ratio wasn't paying for itself. The `update-trakt.py` script and tests are kept in place. Token (`.trakt-token.enc`) and Secrets (`TRAKT_CLIENT_ID`, `TRAKT_CLIENT_SECRET`, `TRAKT_TOKEN_KEY`) are still in the repo / GitHub.
 - **Plex** — every 6 hours via `.github/workflows/plex-sync.yml`. Static token (no rotation). Connects via Plex relay URL. **Required GitHub Secrets:** `PLEX_URL`, `PLEX_TOKEN`.
+- **Google Calendar** — daily at 06:00 UTC via `.github/workflows/gcal-sync.yml`. Fetches a public iCal feed (the calendar's "Get a secret address in iCal format" URL — secret-by-obscurity), parses VEVENTs with a hand-rolled stdlib parser (no `icalendar` pip dep), filters to events from today forward, caps at 6 upcoming, and renders them as `.nb-cal-card` blocks tagged "from google calendar" between the `<!-- GCAL-START -->` / `<!-- GCAL-END -->` markers in `now/index.html` /03 section. Each card carries `data-cal-end="YYYY-MM-DD"` so `now/now.js` auto-prunes past events client-side as a backstop. The fetch never logs the URL on error — just the exception class. **Required GitHub Secret:** `GCAL_ICAL_URL`.
 - **Public feeds** (MLB Stats API / Dodgers, Goodreads RSS currently-reading + read, The Fantastic Leagues / FBST standings) — every 6 hours via `.github/workflows/public-feeds-sync.yml`. All unauthenticated; no secrets needed. Handled by `bin/update-public-feeds.py`. GitHub events moved into `bin/update-projects.py` as per-project shipping lists. **Letterboxd was dropped 2026-04-28** along with Trakt — the `letterboxd_block()` function is preserved in the script in case it's revived, but the marker pair was removed from `now/index.html` and the entry in `feeds[]` was trimmed.
 
 ### Adding a new data feed
@@ -181,7 +186,7 @@ All code-review findings from three reviews (initial, 2026-04-18 full-repo audit
 
 ## Testing
 
-183 tests across 8 files. Run with `python3 -m pytest tests/ -v` (requires `pytest`).
+210 tests across 9 files. Run with `python3 -m pytest tests/ -v` (requires `pytest`).
 
 | File | Type | Tests | What it covers |
 |------|------|-------|---------------|

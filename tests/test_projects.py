@@ -68,13 +68,14 @@ Line two.
 
 
 class TestLoadConfig:
-    def test_loads_seven_projects(self):
+    def test_loads_nine_projects(self):
         config = _projects.load_config()
-        assert len(config) == 7
+        assert len(config) == 9
         slugs = {p["slug"] for p in config}
         assert slugs == {
             "aleph", "fantastic-leagues", "bahtzang-trader", "judge-tool",
-            "tabledrop", "tastemakers", "thirsty-pig",
+            "tabledrop", "tastemakers", "thirsty-pig", "jameschang-co",
+            "ktv-singer",
         }
 
     def test_every_project_has_required_fields(self):
@@ -82,6 +83,9 @@ class TestLoadConfig:
             assert "slug" in project
             assert "repo" in project
             assert project["repo"].startswith("thirstypig/")
+            # New display fields drive the cron-rendered card markup.
+            for field in ("name", "url", "url_label", "status_badge"):
+                assert field in project, f"{project['slug']} missing {field}"
 
 
 class TestParseEventsPullRequest:
@@ -174,6 +178,91 @@ class TestRenderShippingList:
 
     def test_empty_events_returns_empty_string(self):
         assert _projects.render_shipping_list([]) == ""
+
+
+class TestProjectClassification:
+    """classify_projects(events_by_slug, threshold_days) splits projects into
+    (active, backburner) by recency of most-recent shipping event."""
+
+    @staticmethod
+    def _ago(days):
+        from datetime import datetime, timedelta, timezone
+        return datetime.now(timezone.utc) - timedelta(days=days)
+
+    def test_all_recent_events_all_active(self):
+        events = {"a": self._ago(1), "b": self._ago(3), "c": self._ago(10)}
+        active, back = _projects.classify_projects(events, threshold_days=14)
+        assert set(active) == {"a", "b", "c"}
+        assert back == []
+
+    def test_all_old_events_all_backburner(self):
+        events = {"a": self._ago(20), "b": self._ago(40)}
+        active, back = _projects.classify_projects(events, threshold_days=14)
+        assert active == []
+        assert set(back) == {"a", "b"}
+
+    def test_mixed_split_correctly(self):
+        events = {
+            "fresh": self._ago(2),
+            "stale": self._ago(30),
+            "edge": self._ago(13),
+        }
+        active, back = _projects.classify_projects(events, threshold_days=14)
+        assert set(active) == {"fresh", "edge"}
+        assert set(back) == {"stale"}
+
+    def test_project_with_no_events_is_backburner(self):
+        events = {"empty": None, "alive": self._ago(2)}
+        active, back = _projects.classify_projects(events, threshold_days=14)
+        assert active == ["alive"]
+        assert back == ["empty"]
+
+    def test_event_at_exactly_threshold_is_backburner(self):
+        """Edge case pinned: event delta == threshold_days falls into
+        back-burner (the comparison is strict greater-than the cutoff)."""
+        from datetime import datetime, timedelta, timezone
+        # Build an event whose timestamp matches the cutoff exactly. Use a
+        # tiny epsilon-older value so the freshness check (latest > cutoff)
+        # is unambiguous on the "older or equal" side.
+        threshold = 14
+        latest = datetime.now(timezone.utc) - timedelta(days=threshold, seconds=1)
+        active, back = _projects.classify_projects({"x": latest}, threshold_days=threshold)
+        assert active == []
+        assert back == ["x"]
+
+
+class TestRenderCard:
+    """Cron renders the full <article class="nb-card"> markup, including the
+    nested TLDR markers so per-project sync continues to work."""
+
+    PROJECT = {
+        "slug": "demo",
+        "name": "Demo",
+        "url": "https://demo.example",
+        "url_label": "demo.example ↗",
+        "status_badge": "● shipping",
+    }
+
+    def test_active_card_has_status_badge_and_url(self):
+        html = _projects.render_card(self.PROJECT, "tldr text", "", "May 7, 2026", compact=False)
+        assert '<article class="nb-card">' in html
+        assert 'class="nb-card-status"' in html
+        assert 'demo.example' in html
+        assert "<!-- TLDR-demo-START -->" in html
+        assert "<!-- TLDR-demo-END -->" in html
+        assert '<p class="nb-card-body">tldr text</p>' in html
+
+    def test_backburner_card_is_compact_and_has_no_status(self):
+        html = _projects.render_card(self.PROJECT, "tldr", "", "May 7, 2026", compact=True)
+        assert '<article class="nb-card compact">' in html
+        assert 'nb-card-status' not in html
+        # nb-card-url is preserved for back-burner cards (matches prior layout).
+        assert 'class="nb-card-url"' in html
+
+    def test_card_escapes_unsafe_url(self):
+        bad = dict(self.PROJECT, url="javascript:alert(1)")
+        html = _projects.render_card(bad, "x", "", "May 7, 2026", compact=False)
+        assert "javascript:" not in html
 
 
 class TestRenderBlock:

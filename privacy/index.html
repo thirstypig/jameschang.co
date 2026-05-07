@@ -145,6 +145,7 @@
           <li><a href="https://thefantasticleagues.com">The Fantastic Leagues</a> public standings API — the owner's fantasy baseball team rank in the OGBA League</li>
           <li><a href="https://thirstypig.com">Thirsty Pig hitlist JSON</a> — a public list of restaurants the owner wants to try, fetched client-side from <code>thirstypig.com/places-hitlist.json</code>. The thirstypig.com server CORS-locks responses to <code>https://jameschang.co</code>, so no visitor data crosses the origin.</li>
         </ul>
+        <p>The /now page also surfaces upcoming events from a personal Google Calendar named &ldquo;Events&rdquo; via the calendar&rsquo;s public iCal feed (the &ldquo;Get a secret address in iCal format&rdquo; URL). The URL is stored as a GitHub Secret and fetched server-side daily; only event summary, location, URL, and start/end dates are extracted, and the feed is opt-in by virtue of the site owner choosing which entries to make public on that calendar. No other person&rsquo;s calendar data is accessed, stored, or displayed.</p>
         <p>All sources expose only the site owner's own public data; no visitor data is accessed, collected, or stored.</p>
       </div>
     </section>

@@ -3,6 +3,10 @@
     {
       "slug": "aleph",
       "repo": "thirstypig/alephco.io-app",
+      "name": "Aleph",
+      "url": "https://alephco.io",
+      "url_label": "alephco.io ↗",
+      "status_badge": "● shipping",
       "shipping_repos": [
         "thirstypig/alephco.io-app",
         "thirstypig/alephco.io-www"
@@ -11,6 +15,10 @@
     {
       "slug": "fantastic-leagues",
       "repo": "thirstypig/TheFantasticLeagues",
+      "name": "The Fantastic Leagues",
+      "url": "https://thefantasticleagues.com",
+      "url_label": "thefantasticleagues.com ↗",
+      "status_badge": "● shipping",
       "shipping_repos": [
         "thirstypig/TheFantasticLeagues",
         "thirstypig/thefantasticleagues-www"
@@ -19,6 +27,10 @@
     {
       "slug": "bahtzang-trader",
       "repo": "thirstypig/bahtzang-trader",
+      "name": "Bahtzang Trader",
+      "url": "https://bahtzang.com",
+      "url_label": "bahtzang.com ↗",
+      "status_badge": "● shipping",
       "shipping_repos": [
         "thirstypig/bahtzang-trader"
       ]
@@ -26,6 +38,10 @@
     {
       "slug": "judge-tool",
       "repo": "thirstypig/thejudgetool",
+      "name": "The Judge Tool",
+      "url": "https://thejudgetool.com",
+      "url_label": "thejudgetool.com ↗",
+      "status_badge": "● shipping",
       "shipping_repos": [
         "thirstypig/thejudgetool",
         "thirstypig/thejudgetool.com-www"
@@ -34,6 +50,10 @@
     {
       "slug": "tabledrop",
       "repo": "thirstypig/tabledrop",
+      "name": "TableDrop",
+      "url": "https://tabledrop.com",
+      "url_label": "tabledrop.com ↗",
+      "status_badge": "● shipping",
       "shipping_repos": [
         "thirstypig/tabledrop"
       ]
@@ -41,6 +61,10 @@
     {
       "slug": "tastemakers",
       "repo": "thirstypig/tastemakers-backend",
+      "name": "Tastemakers",
+      "url": "https://tastemakersapp.com",
+      "url_label": "tastemakersapp.com ↗",
+      "status_badge": "● shipping",
       "shipping_repos": [
         "thirstypig/tastemakers-backend",
         "thirstypig/tastemakers-ios",
@@ -52,8 +76,36 @@
     {
       "slug": "thirsty-pig",
       "repo": "thirstypig/thirstypig-blog",
+      "name": "The Thirsty Pig",
+      "url": "https://thirstypig.com",
+      "url_label": "thirstypig.com ↗",
+      "status_badge": "● shipping",
       "shipping_repos": [
         "thirstypig/thirstypig-blog"
+      ]
+    },
+    {
+      "slug": "ktv-singer",
+      "repo": "thirstypig/ktv-singer-app",
+      "name": "KTV Singer",
+      "url": "https://ktvsinger.com",
+      "url_label": "ktvsinger.com ↗",
+      "status_badge": "● shipping",
+      "shipping_repos": [
+        "thirstypig/ktv-singer-app",
+        "thirstypig/ktv-singer-tvos",
+        "thirstypig/ktv-singer-server"
+      ]
+    },
+    {
+      "slug": "jameschang-co",
+      "repo": "thirstypig/jameschang.co",
+      "name": "jameschang.co",
+      "url": "https://jameschang.co",
+      "url_label": "jameschang.co ↗",
+      "status_badge": "● shipping",
+      "shipping_repos": [
+        "thirstypig/jameschang.co"
       ]
     }
   ]

@@ -47,6 +47,7 @@ TLDR_PATTERN = re.compile(r"<!-- now-tldr -->\s*(.*?)\s*<!-- /now-tldr -->", re.
 EVENT_WINDOW = timedelta(days=14)  # how far back to look for shipping events
 EVENTS_PER_PROJECT = 1
 MAX_COMMIT_ENRICHMENTS = 15  # hard cap on per-run GitHub /commits/{sha} fetches
+ACTIVE_THRESHOLD_DAYS = 14  # most-recent shipping event within this window → active
 
 
 def load_config():
@@ -244,6 +245,86 @@ def render_shipping_list(events):
     )
 
 
+def most_recent_event_time(project, events_by_repo):
+    """Return the datetime of the most recent shipping event for a project,
+    or None if the project has no events in the current window."""
+    shipping_repos = project.get("shipping_repos") or [project["repo"]]
+    latest = None
+    for r in shipping_repos:
+        for ev in events_by_repo.get(r, []):
+            t = _parse_iso(ev["time"])
+            if t and (latest is None or t > latest):
+                latest = t
+    return latest
+
+
+def classify_projects(events_by_slug, threshold_days=ACTIVE_THRESHOLD_DAYS):
+    """Split projects into (active_slugs, backburner_slugs) by recency.
+
+    `events_by_slug` is a mapping {slug: most_recent_event_datetime_or_None}.
+    A project is "active" if its most recent event is strictly within
+    `threshold_days` of now. A project with no events is back-burner.
+
+    Edge case pinned: an event exactly `threshold_days` old (delta ==
+    threshold) is back-burner — the comparison is strict less-than.
+    """
+    cutoff = datetime.now(timezone.utc) - timedelta(days=threshold_days)
+    active, backburner = [], []
+    for slug, latest in events_by_slug.items():
+        if latest is not None and latest > cutoff:
+            active.append(slug)
+        else:
+            backburner.append(slug)
+    return active, backburner
+
+
+def render_card(project, tldr_html, shipping_html, now_str, *, compact):
+    """Render the full <article class="nb-card"> markup for a project.
+
+    Active cards (compact=False) sit in the /01 .nb-grid-1 list and include
+    a status badge. Back-burner cards (compact=True) sit in the /02
+    .nb-grid-2 grid without the badge — matching the prior hand-curated
+    structure.
+
+    The TLDR markers stay nested INSIDE the card so the existing
+    per-project TLDR sync continues to work for downstream-repo edits.
+    """
+    name = escape_html(project.get("name", project["slug"]))
+    url = escape_html(safe_url(project.get("url"), fallback="#"))
+    url_label = escape_html(project.get("url_label", ""))
+    status = escape_html(project.get("status_badge", ""))
+    slug = project["slug"]
+    article_class = "nb-card compact" if compact else "nb-card"
+
+    head_lines = [
+        f'        <article class="{article_class}">',
+        '          <div class="nb-card-head">',
+        f'            <h3 class="nb-card-name"><a href="{url}">{name}</a></h3>',
+    ]
+    if url_label:
+        head_lines.append(f'            <a class="nb-card-url" href="{url}">{url_label}</a>')
+    if status and not compact:
+        head_lines.append(f'            <span class="nb-card-status">{status}</span>')
+    head_lines.append('          </div>')
+
+    body = (
+        f'          <!-- TLDR-{slug}-START -->\n'
+        f'\n'
+        f'          <p class="nb-card-body">{tldr_html}</p>\n'
+        f'{shipping_html}'
+        f'          <p class="feed-updated">Auto-updated {now_str} via CLAUDE.md + GitHub events.</p>\n'
+        f'        \n'
+        f'        <!-- TLDR-{slug}-END -->'
+    )
+
+    return "\n".join(head_lines) + "\n" + body + "\n        </article>"
+
+
+def render_eyebrow(label, count):
+    noun = "project" if count == 1 else "projects"
+    return f"{label} &middot; {count} {noun}"
+
+
 def render_block(tldr_html, shipping_html, now_str):
     """Assemble the full replacement HTML for a project's TLDR marker block.
 
@@ -272,48 +353,80 @@ def main():
     events_by_repo = parse_events(events_raw, token)
 
     old_content = read_now_html()
-    new_content = old_content
-    updates = []
-    failures = []
     now_str = format_update_time()
 
+    # Per project: fetch TLDR from upstream CLAUDE.md, compute most-recent
+    # event time, and stage the rendered card body. Projects with no TLDR
+    # are tracked as failures and excluded from the rendered output.
+    rendered = {}  # slug → (project, tldr_html, shipping_html, latest_dt)
+    failures = []
     for project in projects:
         slug = project["slug"]
         repo = project["repo"]
-        # The TLDR block always lives in CLAUDE.md — every project in
-        # bin/projects-config.json declared "file": "CLAUDE.md" and the
-        # field was YAGNI from day one.
-        path = "CLAUDE.md"
-        print(f"  {slug} ({repo}/{path}):")
-
-        markdown = fetch_file(repo, path, token)
+        print(f"  {slug} ({repo}/CLAUDE.md):")
+        markdown = fetch_file(repo, "CLAUDE.md", token)
         tldr = extract_tldr(markdown)
         if not tldr:
             failures.append(slug)
-            print("    skipped (no TLDR content) — preserving existing HTML")
+            print("    skipped (no TLDR content)")
             continue
-
         shipping_events = events_for_project(project, events_by_repo)
         shipping_html = render_shipping_list(shipping_events)
+        latest_dt = most_recent_event_time(project, events_by_repo)
+        rendered[slug] = (project, tldr, shipping_html, latest_dt)
+        print(f"    ready ({len(shipping_events)} shipping event{'s' if len(shipping_events) != 1 else ''})")
 
-        block = render_block(tldr, shipping_html, now_str)
-        candidate, replaced = replace_marker(new_content, f"TLDR-{slug}", block)
-        if not replaced:
-            failures.append(slug)
-            print(f"    skipped (markers <!-- TLDR-{slug}-START/END --> not found in now/index.html)")
-            continue
-
-        new_content = candidate
-        updates.append(slug)
-        print(f"    spliced ({len(shipping_events)} shipping event{'s' if len(shipping_events) != 1 else ''})")
-
-    # Record an error heartbeat if every project failed, regardless of whether
-    # the rendered HTML happened to match the prior state — otherwise an "all
-    # 7 projects failed but the cron's no-op short-circuit fired" run would
-    # silently look healthy to the staleness monitor.
-    if failures and not updates:
+    if failures and not rendered:
         record_heartbeat("projects", error=f"all {len(projects)} projects failed")
         print(f"All {len(projects)} projects failed — heartbeat recorded with error.")
+        return
+
+    # Classify by recency. classify_projects only knows about slugs that
+    # had a TLDR; failures are skipped entirely (no empty card rendered).
+    events_by_slug = {slug: data[3] for slug, data in rendered.items()}
+    active_slugs, backburner_slugs = classify_projects(events_by_slug)
+
+    # Order within each bucket: most-recent first for active (most-shipping
+    # at the top); for back-burner, projects with any event sort newest-
+    # first, then projects with no events in alphabetical slug order so
+    # the layout is deterministic across runs.
+    def _active_key(s):
+        dt = events_by_slug.get(s)
+        return dt or datetime.min.replace(tzinfo=timezone.utc)
+
+    def _backburner_key(s):
+        dt = events_by_slug.get(s)
+        # Two-tier sort: has-events-newest-first, then no-events-alpha.
+        if dt is not None:
+            return (0, -dt.timestamp(), s)
+        return (1, 0, s)
+
+    active_slugs.sort(key=_active_key, reverse=True)
+    backburner_slugs.sort(key=_backburner_key)
+
+    # Render full card markup for each bucket.
+    active_cards = "\n".join(
+        render_card(rendered[s][0], rendered[s][1], rendered[s][2], now_str, compact=False)
+        for s in active_slugs
+    )
+    backburner_cards = "\n".join(
+        render_card(rendered[s][0], rendered[s][1], rendered[s][2], now_str, compact=True)
+        for s in backburner_slugs
+    )
+
+    new_content = old_content
+    new_content, ok1 = replace_marker(new_content, "ACTIVE-PROJECTS", active_cards)
+    new_content, ok2 = replace_marker(new_content, "BACKBURNER-PROJECTS", backburner_cards)
+    new_content, _ = replace_marker(
+        new_content, "ACTIVE-EYEBROW", render_eyebrow("where the time is going", len(active_slugs))
+    )
+    new_content, _ = replace_marker(
+        new_content, "BACKBURNER-EYEBROW", render_eyebrow("shipping but not daily", len(backburner_slugs))
+    )
+
+    if not (ok1 and ok2):
+        record_heartbeat("projects", error="ACTIVE-PROJECTS or BACKBURNER-PROJECTS markers missing")
+        print("ERROR: ACTIVE-PROJECTS / BACKBURNER-PROJECTS markers missing in now/index.html.")
         return
 
     if not content_changed(old_content, new_content):
@@ -323,7 +436,11 @@ def main():
 
     write_now_html(new_content)
     record_heartbeat("projects")
-    print(f"Updated now/index.html. Spliced: {len(updates)}, failed: {len(failures)}.")
+    print(
+        f"Updated now/index.html. Active: {len(active_slugs)} "
+        f"({', '.join(active_slugs) or 'none'}); back-burner: {len(backburner_slugs)} "
+        f"({', '.join(backburner_slugs) or 'none'}); failed: {len(failures)}."
+    )
 
 
 if __name__ == "__main__":

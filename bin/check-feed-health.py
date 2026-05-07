@@ -54,6 +54,10 @@ GUIDANCE = {
         "Project TLDR sync. Verify `TLDR_FETCH_TOKEN` secret is valid (fine-grained PATs "
         "expire; regenerate at github.com/settings/personal-access-tokens)."
     ),
+    "gcal": (
+        "Google Calendar iCal feed. Verify `GCAL_ICAL_URL` secret is still valid "
+        "(URL doesn't expire normally; user can rotate via Calendar settings if leaked)."
+    ),
 }
 
 
