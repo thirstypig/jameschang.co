@@ -20,7 +20,7 @@
     },
     {
       "id": "northern-lights",
-      "title": "See the northern lights",
+      "title": "Northern Lights",
       "note": "",
       "status": "todo",
       "completed_date": null,
@@ -100,5 +100,5 @@
       "difficulty": "easy"
     }
   ],
-  "last_updated": "2026-05-07T21:45:43.283Z"
+  "last_updated": "2026-05-07T21:45:54.157Z"
 }
