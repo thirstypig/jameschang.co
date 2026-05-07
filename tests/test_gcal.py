@@ -102,11 +102,10 @@ class TestFilter:
         # The 6/8 datetime event survives
         assert any(e["summary"] == "Joe Wong in Chinese" for e in out)
 
-    def test_dedupe_one_per_day_collapses_same_day_events(self):
-        """Two events on the same calendar day → one card. The first
-        chronologically wins; the second is dropped. User chose this trade-off
-        ("keep it simple — one card per day") at the cost of occasional hidden
-        same-day events."""
+    def test_same_day_events_all_render(self):
+        """Two events on the same calendar day → both render as separate cards.
+        Every calendar entry shows up; no dedupe. Order is by start time
+        ascending (filter_and_sort guarantees that)."""
         payload = (
             "BEGIN:VCALENDAR\n"
             "BEGIN:VEVENT\nUID:a@x\nSUMMARY:Morning event\n"
@@ -115,37 +114,15 @@ class TestFilter:
             "BEGIN:VEVENT\nUID:b@x\nSUMMARY:Evening event\n"
             "DTSTART;VALUE=DATE:20260801\nDTEND;VALUE=DATE:20260802\n"
             "END:VEVENT\n"
-            "BEGIN:VEVENT\nUID:c@x\nSUMMARY:Next-day event\n"
-            "DTSTART;VALUE=DATE:20260802\nDTEND;VALUE=DATE:20260803\n"
-            "END:VEVENT\n"
             "END:VCALENDAR\n"
         )
         events = gcal.parse_ical(payload)
-        sorted_events = gcal.filter_and_sort(events, date(2026, 7, 1))
-        deduped = gcal.dedupe_one_per_day(sorted_events)
-        # Three input events → two unique days → two output events
-        assert len(sorted_events) == 3
-        assert len(deduped) == 2
-        # Day 8/1: Morning (first chronologically) wins. Evening dropped.
-        # Day 8/2: Next-day event survives.
-        summaries = [e["summary"] for e in deduped]
-        assert summaries == ["Morning event", "Next-day event"]
-
-    def test_dedupe_preserves_multi_day_event_unaffected(self):
-        """A single multi-day event (DTEND > DTSTART by >1 day) is not split
-        into per-day duplicates — it's one event with one start day, so the
-        dedupe leaves it intact."""
-        payload = (
-            "BEGIN:VCALENDAR\n"
-            "BEGIN:VEVENT\nUID:trip@x\nSUMMARY:Three-day trip\n"
-            "DTSTART;VALUE=DATE:20260801\nDTEND;VALUE=DATE:20260804\n"  # 8/1 → 8/3 inclusive (DTEND exclusive)
-            "END:VEVENT\n"
-            "END:VCALENDAR\n"
-        )
-        events = gcal.parse_ical(payload)
-        out = gcal.dedupe_one_per_day(gcal.filter_and_sort(events, date(2026, 7, 1)))
-        assert len(out) == 1
-        assert out[0]["summary"] == "Three-day trip"
+        html = gcal.build_html(events, date(2026, 7, 1))
+        assert html is not None
+        # Both same-day events render
+        assert html.count("nb-cal-card") == 2
+        assert "Morning event" in html
+        assert "Evening event" in html
 
     def test_caps_at_max_upcoming(self):
         # Build (MAX_UPCOMING + 5) events so the cap is actually exercised.

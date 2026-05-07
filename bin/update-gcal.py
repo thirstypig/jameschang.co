@@ -250,24 +250,6 @@ def filter_and_sort(events: list[dict], today: date) -> list[dict]:
     return out
 
 
-def dedupe_one_per_day(events: list[dict]) -> list[dict]:
-    """Keep one event per calendar START-day — the first one chronologically.
-    Multi-day events (DTEND > DTSTART) are unaffected since each starts on a
-    distinct day. Trade-off: two genuinely-distinct events on the same day
-    will collapse to one card; the second one disappears from /now until the
-    user consolidates them in the calendar.
-
-    Input must already be sorted ascending (filter_and_sort handles that).
-    """
-    seen_start_dates: set[date] = set()
-    out: list[dict] = []
-    for ev in events:
-        d = ev["_start_local"]
-        if d in seen_start_dates:
-            continue
-        seen_start_dates.add(d)
-        out.append(ev)
-    return out
 
 
 def fmt_time_label(dt: datetime) -> str:
@@ -357,10 +339,11 @@ def render_card(event: dict) -> str:
 def build_html(events: list[dict], today: date) -> str | None:
     """Return rendered HTML for the GCAL marker block, or None on empty.
 
-    Pipeline: filter past events → sort ascending → collapse to one card per
-    start-day → cap at MAX_UPCOMING. The dedupe runs before the cap so the
-    cap reflects unique-day count, not raw event count."""
-    upcoming = dedupe_one_per_day(filter_and_sort(events, today))[:MAX_UPCOMING]
+    Pipeline: filter past events → sort ascending → cap at MAX_UPCOMING.
+    Every calendar entry renders as its own card — no dedupe. If the user
+    wants a single card for a multi-day event, they make one calendar entry
+    with DTSTART/DTEND spanning the range (the renderer handles ranges)."""
+    upcoming = filter_and_sort(events, today)[:MAX_UPCOMING]
     if not upcoming:
         return None
     return "\n".join(render_card(ev) for ev in upcoming)
