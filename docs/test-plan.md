@@ -4,7 +4,7 @@ Testing strategy, inventory, and execution cadence for the site and its automati
 
 ## Test Types
 
-### Unit Tests (7 files)
+### Unit Tests (8 files)
 
 **What they test:** Individual Python functions in isolation — the pure logic that transforms data, escapes HTML, formats time, and replaces content markers.
 
@@ -25,7 +25,8 @@ python3 -m pytest tests/ -v
 | `tests/test_feed_builders.py` | All feed builders | `mlb_block`, `letterboxd_block`, `goodreads_reading_block`, `goodreads_block`, `fbst_block`, `plex build_html` + `plex fetch_history` failure path — mocked network |
 | `tests/test_spotify.py` | `bin/update-spotify.py` | `build_html`, `load_state`/`save_state`, `fetch_recent_tracks`, `fetch_current_podcast` |
 | `tests/test_whoop.py` | `bin/update-whoop.py` | `fetch_latest_recovery`/`sleep`/`cycle`, `build_html` with all recovery color thresholds |
-| `tests/test_projects.py` | `bin/update-projects.py` | `extract_tldr` (marker extraction, edge cases), `load_config` (schema, repo paths) |
+| `tests/test_projects.py` | `bin/update-projects.py` | `extract_tldr` (marker extraction, edge cases), `load_config` (9-project schema), `classify_projects` (active/back-burner threshold = 7 days, no-events default, edge case at exactly threshold), `render_card` (active vs back-burner markup + URL safety), PR-event filtering, `render_shipping_list`, `render_block` |
+| `tests/test_gcal.py` | `bin/update-gcal.py` | VEVENT parsing (line continuations, escapes, TZID + UTC + all-day), filter past + sort by full PT datetime (same-day-time-of-day ordering), `_first_n_words_key` + `group_consecutive_by_prefix` (first-3-words rule + consecutive constraint), `merge_group` (title trim at ` - ` / ` · ` / `:` separator, date span union), `build_html` (URL anchor only on http/https, multi-line LOCATION whitespace collapse, no per-card source tag, multi-day all-day range rendering, MAX_UPCOMING cap exercised, all-day vs timed sort against synthetic midnight) |
 
 ### E2E Tests (`tests/test_site_e2e.py`)
 

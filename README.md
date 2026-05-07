@@ -11,7 +11,7 @@ Personal site for James Chang — founder of Aleph Co. and senior product manage
 | `index.html` | Homepage — hero, about, experience, education, skills, projects, case studies, testimonials |
 | `notebook.css` | Site-wide design system (CSS custom properties, notebook aesthetic) + `@media print` résumé stylesheet |
 | `script.js` | Theme toggle (light/dark, persisted in localStorage) |
-| `now/index.html` | Derek Sivers-style /now page with 8 automated data feeds + 7 per-project TLDR/shipping blocks |
+| `now/index.html` | Derek Sivers-style /now page with 9 automated data feeds (incl. Google Calendar) + 9 cron-classified per-project TLDR/shipping cards |
 | `projects/` | Deep-dive project pages (Aleph, Fantastic Leagues, Judge Tool) |
 | `projects/projects.css` | Component styles for the 14 deep-dive sub-pages (consumes notebook design tokens) |
 | `privacy/` | Privacy policy (required by WHOOP/Spotify app registrations) |
@@ -43,7 +43,7 @@ kill "$SERVER_PID"
 - Dark mode via `prefers-color-scheme` + manual toggle (persisted in localStorage)
 - WCAG 2.2 AA compliant. Lighthouse 100/100/100/100.
 - 8 automated data feeds on /now (WHOOP, Spotify, Plex, MLB Dodgers, FBST standings, Goodreads currently-reading, Goodreads read, Thirsty Pig hitlist) + per-project TLDRs and shipping activity pulled from each project's CLAUDE.md and GitHub events
-- 174 tests (pytest) with pre-commit hook and CI
+- 221 tests (pytest, across 9 files) with pre-commit hook and CI
 - Google Analytics 4 + Google Search Console
 
 ## License
