@@ -25,6 +25,7 @@ from _shared import (
     USER_AGENT,
     content_changed,
     escape_html,
+    format_update_time,
     read_now_html,
     record_heartbeat,
     replace_marker,
@@ -447,6 +448,17 @@ def main():
     html = build_html(events, today)
     rendered = html if html else FALLBACK_HTML
 
+    # Eyebrow ("via google calendar · auto-updated …") — same "Auto-updated"
+    # phrase as other feeds so _shared.strip_volatile() removes the timestamp
+    # before content_changed() compares. Without that, every hourly sync would
+    # produce a timestamp-only commit even on no-op runs.
+    upcoming_count = 0 if html is None else html.count("nb-cal-card")
+    eyebrow = (
+        f"via google calendar &middot; "
+        f"Auto-updated {format_update_time()} &middot; "
+        f"{upcoming_count} upcoming"
+    )
+
     old_content = read_now_html()
     if f"<!-- {MARKER}-START -->" not in old_content:
         print(f"WARNING: {MARKER}-START / -END markers not present in now/index.html")
@@ -454,6 +466,8 @@ def main():
         return
 
     new_content, _ = replace_marker(old_content, MARKER, rendered)
+    if f"<!-- {MARKER}-EYEBROW-START -->" in new_content:
+        new_content, _ = replace_marker(new_content, f"{MARKER}-EYEBROW", eyebrow)
 
     # Always heartbeat success — fetch + parse worked even if no upcoming events.
     record_heartbeat("gcal", error=None)
