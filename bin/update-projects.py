@@ -47,7 +47,7 @@ TLDR_PATTERN = re.compile(r"<!-- now-tldr -->\s*(.*?)\s*<!-- /now-tldr -->", re.
 EVENT_WINDOW = timedelta(days=14)  # how far back to look for shipping events
 EVENTS_PER_PROJECT = 1
 MAX_COMMIT_ENRICHMENTS = 15  # hard cap on per-run GitHub /commits/{sha} fetches
-ACTIVE_THRESHOLD_DAYS = 14  # most-recent shipping event within this window → active
+ACTIVE_THRESHOLD_DAYS = 7  # most-recent shipping event within this window → active
 
 
 def load_config():
