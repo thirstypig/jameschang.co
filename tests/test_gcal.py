@@ -171,6 +171,28 @@ class TestRender:
         # Confirm no anchor at all in this rendering (URL missing)
         assert '<a href=' not in html
 
+    def test_multi_line_location_collapses_whitespace(self):
+        """Google Calendar often returns LOCATION with embedded newlines —
+        venue name then street address. The renderer must collapse to a single
+        inline string so the rendered card doesn't look ragged in the source."""
+        payload = (
+            "BEGIN:VCALENDAR\n"
+            "BEGIN:VEVENT\n"
+            "SUMMARY:Sketching at the museum\n"
+            "DTSTART;VALUE=DATE:20260801\n"
+            "LOCATION:Norton Simon Museum\\n411 West Colorado Boulevard\\, Pasadena\\, CA 91105\n"
+            "END:VEVENT\n"
+            "END:VCALENDAR\n"
+        )
+        events = gcal.parse_ical(payload)
+        html = gcal.build_html(events, date(2026, 7, 1))
+        assert html is not None
+        # No literal newlines should leak into the rendered card
+        assert "Norton Simon Museum\n" not in html
+        assert "Norton Simon Museum 411" in html  # collapsed to single space
+        # Comma is escaped inside iCal LOCATION but should decode to a literal
+        assert "Pasadena, CA 91105" in html
+
     def test_with_url_renders_anchor(self):
         events = gcal.parse_ical(load_fixture())
         html = gcal.build_html(events, date(2026, 6, 1))

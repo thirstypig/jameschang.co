@@ -269,8 +269,11 @@ def render_card(event: dict) -> str:
     s_local: date = event["_start_local"]
     e_local: date = event["_end_local"]
 
-    summary = event.get("summary") or "Untitled event"
-    location = (event.get("location") or "").strip()
+    summary = " ".join((event.get("summary") or "Untitled event").split())
+    # Google Calendar often embeds newlines in LOCATION (e.g., venue name on
+    # one line, street address on the next). Collapse all whitespace to single
+    # spaces so the rendered card reads as one inline string.
+    location = " ".join((event.get("location") or "").split())
     url = (event.get("url") or "").strip()
     use_url = url.startswith("http://") or url.startswith("https://")
 
