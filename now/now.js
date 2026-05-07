@@ -155,6 +155,34 @@
       }
     })();
 
+// Auto-prune past calendar entries — removes any .nb-cal-card with a
+// data-cal-end (or .nb-target li with a single <time datetime>) whose
+// date is strictly before today (local). Cards covering today or a
+// future day stay. Runs once at load; nothing rebuilds the DOM after.
+    (function () {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      function isPast(iso) {
+        if (!iso) return false;
+        const d = new Date(iso);
+        if (isNaN(d)) return false;
+        d.setHours(23, 59, 59, 999); // Treat the whole event-day as "today"
+        return d < today;
+      }
+      document.querySelectorAll('.nb-cal-card[data-cal-end]').forEach(function (el) {
+        if (isPast(el.getAttribute('data-cal-end'))) el.remove();
+      });
+      document.querySelectorAll('.nb-target li').forEach(function (li) {
+        const t = li.querySelector('time[datetime]');
+        if (t && isPast(t.getAttribute('datetime'))) li.remove();
+      });
+      // If a .nb-target list ends up empty after pruning, hide the whole block.
+      document.querySelectorAll('.nb-target').forEach(function (block) {
+        const ul = block.querySelector('ul');
+        if (ul && !ul.children.length) block.style.display = 'none';
+      });
+    })();
+
 // Live-relative timestamps — same upgrader as live /now/.
     (function () {
       function fmt(ms) {
