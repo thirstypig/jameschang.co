@@ -98,7 +98,16 @@
       "completed_date": null,
       "priority": "low",
       "difficulty": "easy"
+    },
+    {
+      "id": "rome",
+      "title": "Rome",
+      "note": "",
+      "status": "todo",
+      "completed_date": null,
+      "priority": "low",
+      "difficulty": "easy"
     }
   ],
-  "last_updated": "2026-05-07T21:45:54.157Z"
+  "last_updated": "2026-05-07T21:49:22.729Z"
 }
