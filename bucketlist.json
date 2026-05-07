@@ -52,7 +52,7 @@
       "status": "todo",
       "completed_date": null,
       "priority": "medium",
-      "difficulty": "easy"
+      "difficulty": "hard"
     },
     {
       "id": "alaska-fishing",
@@ -100,5 +100,5 @@
       "difficulty": "easy"
     }
   ],
-  "last_updated": "2026-05-07T21:45:15.945Z"
+  "last_updated": "2026-05-07T21:45:28.682Z"
 }
