@@ -42,7 +42,7 @@
       "note": "",
       "status": "todo",
       "completed_date": null,
-      "priority": "high",
+      "priority": "low",
       "difficulty": "easy"
     },
     {
@@ -100,5 +100,5 @@
       "difficulty": "easy"
     }
   ],
-  "last_updated": "2026-05-07T21:45:28.682Z"
+  "last_updated": "2026-05-07T21:45:38.445Z"
 }
