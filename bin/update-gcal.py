@@ -14,6 +14,7 @@ Stdlib only — no `icalendar` pip dependency.
 """
 
 import os
+import re
 import sys
 from datetime import date, datetime, timedelta, timezone
 from urllib.error import HTTPError, URLError
@@ -250,6 +251,64 @@ def filter_and_sort(events: list[dict], today: date) -> list[dict]:
     return out
 
 
+# ── Grouping rule ────────────────────────────────────────────────
+#
+# Events whose SUMMARY shares the same first N words AND that are consecutive
+# in the sorted-by-date list collapse into a single card. The merged card
+# spans the union of start/end dates (so a 3-day MINI trip with sub-events
+# per day renders as one card "Oct 2–4"). The "consecutive" constraint
+# prevents far-apart events with coincidentally-matching prefixes (recurring
+# games, weekly classes) from being lumped together.
+
+GROUP_PREFIX_WORDS = 3
+_WORD_RE = re.compile(r"\w+", re.UNICODE)
+
+
+def _first_n_words_key(summary: str, n: int = GROUP_PREFIX_WORDS):
+    """Lowercase tuple of the first n word-sequences (regex \\w+) in summary.
+    Returns None if there are fewer than n words — single-word titles never
+    group into a multi-event card."""
+    words = _WORD_RE.findall((summary or "").lower())
+    return tuple(words[:n]) if len(words) >= n else None
+
+
+def group_consecutive_by_prefix(events: list[dict], n: int = GROUP_PREFIX_WORDS) -> list[list[dict]]:
+    """Walk sorted events; group consecutive ones with matching prefix key."""
+    groups: list[list[dict]] = []
+    current_key = None
+    current: list[dict] = []
+    for ev in events:
+        key = _first_n_words_key(ev.get("summary"), n)
+        if key is not None and key == current_key:
+            current.append(ev)
+        else:
+            if current:
+                groups.append(current)
+            current = [ev]
+            current_key = key
+    if current:
+        groups.append(current)
+    return groups
+
+
+def merge_group(group: list[dict]) -> dict:
+    """Collapse a group of events into one. Single-event groups pass through.
+    Multi-event groups: title is the first event's summary trimmed at the
+    first ' - ' / ' · ' / ': ' separator; URL + location come from the first
+    event; date range spans from the earliest start to the latest end."""
+    first = group[0]
+    if len(group) == 1:
+        return first
+    merged = dict(first)
+    summary = first.get("summary") or ""
+    for sep in (" - ", " · ", ": "):
+        if sep in summary:
+            summary = summary.split(sep, 1)[0].strip()
+            break
+    merged["summary"] = summary
+    merged["_start_local"] = min(e["_start_local"] for e in group)
+    merged["_end_local"] = max(e["_end_local"] for e in group)
+    return merged
 
 
 def fmt_time_label(dt: datetime) -> str:
@@ -339,11 +398,15 @@ def render_card(event: dict) -> str:
 def build_html(events: list[dict], today: date) -> str | None:
     """Return rendered HTML for the GCAL marker block, or None on empty.
 
-    Pipeline: filter past events → sort ascending → cap at MAX_UPCOMING.
-    Every calendar entry renders as its own card — no dedupe. If the user
-    wants a single card for a multi-day event, they make one calendar entry
-    with DTSTART/DTEND spanning the range (the renderer handles ranges)."""
-    upcoming = filter_and_sort(events, today)[:MAX_UPCOMING]
+    Pipeline: filter past events → sort ascending → group consecutive events
+    sharing the first GROUP_PREFIX_WORDS-word prefix → merge each group into
+    one card with spanning date range → cap at MAX_UPCOMING. The cap counts
+    rendered cards (post-grouping), so if MINI's 5 calendar entries collapse
+    to 1 card, that's 1 of 20 slots used."""
+    sorted_events = filter_and_sort(events, today)
+    groups = group_consecutive_by_prefix(sorted_events)
+    merged = [merge_group(g) for g in groups]
+    upcoming = merged[:MAX_UPCOMING]
     if not upcoming:
         return None
     return "\n".join(render_card(ev) for ev in upcoming)

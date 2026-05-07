@@ -102,16 +102,16 @@ class TestFilter:
         # The 6/8 datetime event survives
         assert any(e["summary"] == "Joe Wong in Chinese" for e in out)
 
-    def test_same_day_events_all_render(self):
-        """Two events on the same calendar day → both render as separate cards.
-        Every calendar entry shows up; no dedupe. Order is by start time
-        ascending (filter_and_sort guarantees that)."""
+    def test_same_day_distinct_titles_render_separately(self):
+        """Two events on the same day with DIFFERENT first-3-word prefixes
+        render as separate cards (no grouping). 'Morning event' and 'Evening
+        event' don't share a 3-word prefix, so they stay distinct."""
         payload = (
             "BEGIN:VCALENDAR\n"
-            "BEGIN:VEVENT\nUID:a@x\nSUMMARY:Morning event\n"
+            "BEGIN:VEVENT\nUID:a@x\nSUMMARY:Morning event with friends\n"
             "DTSTART;VALUE=DATE:20260801\nDTEND;VALUE=DATE:20260802\n"
             "END:VEVENT\n"
-            "BEGIN:VEVENT\nUID:b@x\nSUMMARY:Evening event\n"
+            "BEGIN:VEVENT\nUID:b@x\nSUMMARY:Evening dinner downtown\n"
             "DTSTART;VALUE=DATE:20260801\nDTEND;VALUE=DATE:20260802\n"
             "END:VEVENT\n"
             "END:VCALENDAR\n"
@@ -119,10 +119,132 @@ class TestFilter:
         events = gcal.parse_ical(payload)
         html = gcal.build_html(events, date(2026, 7, 1))
         assert html is not None
-        # Both same-day events render
         assert html.count("nb-cal-card") == 2
-        assert "Morning event" in html
-        assert "Evening event" in html
+        assert "Morning event with friends" in html
+        assert "Evening dinner downtown" in html
+
+
+class TestGroupByPrefix:
+    """The grouping rule: consecutive events sharing the same first 3 words
+    (lowercased, word-character runs only) collapse into one card spanning
+    the union of start/end dates. Single-event groups pass through unchanged.
+    """
+
+    def _events_payload(self, *summaries_and_dates):
+        """Helper: build a VCALENDAR with N events. summaries_and_dates is a
+        flat list of (summary, YYYYMMDD start, YYYYMMDD end) tuples."""
+        lines = ["BEGIN:VCALENDAR"]
+        for i, (summary, start, end) in enumerate(summaries_and_dates):
+            lines += [
+                "BEGIN:VEVENT",
+                f"UID:e{i}@x",
+                f"SUMMARY:{summary}",
+                f"DTSTART;VALUE=DATE:{start}",
+                f"DTEND;VALUE=DATE:{end}",
+                "END:VEVENT",
+            ]
+        lines.append("END:VCALENDAR")
+        return "\n".join(lines)
+
+    def test_first_n_words_key_uses_word_chars_only(self):
+        # Punctuation, dashes, colons don't count as words
+        assert gcal._first_n_words_key("Mini Takes The States - California") == ("mini", "takes", "the")
+        assert gcal._first_n_words_key("Joe Wong in Chinese: 奈飞") == ("joe", "wong", "in")
+        # Case-insensitive
+        assert gcal._first_n_words_key("MINI TAKES the") == ("mini", "takes", "the")
+        # Fewer than n words → None (no grouping key)
+        assert gcal._first_n_words_key("Two words") is None
+
+    def test_mini_style_grouping_5_entries_into_1_card(self):
+        """The real-world MINI Takes The States case: 5 consecutive entries
+        across Oct 2-4 collapse to one card spanning the range."""
+        payload = self._events_payload(
+            ("Mini Takes The States - California Day 1 - Monterey Rise", "20261002", "20261003"),
+            ("Mini Takes The States - California Day 1 - Sonoma Evening", "20261002", "20261003"),
+            ("Mini Takes The States - California Day 2 - Sonoma Rise", "20261003", "20261004"),
+            ("Mini Takes The States - California Day 2 - Lake Tahoe", "20261003", "20261004"),
+            ("Mini Takes The States - California Day 3 - Lake Tahoe", "20261004", "20261005"),
+        )
+        events = gcal.parse_ical(payload)
+        html = gcal.build_html(events, date(2026, 9, 1))
+        assert html is not None
+        # 5 events → 1 card
+        assert html.count("nb-cal-card") == 1
+        # Title trimmed at first ' - '
+        assert "Mini Takes The States" in html
+        assert "California Day 1" not in html  # the verbose part dropped
+        # Date range covers oct 2 (earliest start) to oct 4 (latest end day)
+        assert 'data-cal-end="2026-10-04"' in html
+
+    def test_smorgasburg_style_3_distinct_days_same_title(self):
+        """Smorgasburg case: 3 entries with identical title on consecutive
+        days collapse to one card spanning the 3-day range."""
+        payload = self._events_payload(
+            ("The Smorgasburg BBQ Invitational", "20260523", "20260524"),
+            ("The Smorgasburg BBQ Invitational", "20260524", "20260525"),
+            ("The Smorgasburg BBQ Invitational", "20260525", "20260526"),
+        )
+        events = gcal.parse_ical(payload)
+        html = gcal.build_html(events, date(2026, 5, 1))
+        assert html is not None
+        assert html.count("nb-cal-card") == 1
+        assert "The Smorgasburg BBQ Invitational" in html
+        assert 'data-cal-end="2026-05-25"' in html
+
+    def test_distinct_prefixes_dont_group(self):
+        """'Joe Wong' and 'Norton Simon' on the same day don't share first 3
+        words → render as two separate cards."""
+        payload = self._events_payload(
+            ("Joe Wong in Chinese", "20260509", "20260510"),
+            ("Norton Simon Museum 2nd Saturday", "20260509", "20260510"),
+        )
+        events = gcal.parse_ical(payload)
+        html = gcal.build_html(events, date(2026, 5, 1))
+        assert html is not None
+        assert html.count("nb-cal-card") == 2
+        assert "Joe Wong in Chinese" in html
+        assert "Norton Simon Museum 2nd Saturday" in html
+
+    def test_far_apart_same_prefix_dont_group_via_consecutive_constraint(self):
+        """Two events with matching first 3 words BUT separated in the sorted
+        order by an unrelated event don't merge — the consecutive constraint
+        protects against accidental merging of recurring weekly/monthly events."""
+        payload = self._events_payload(
+            ("Yankees vs Red Sox at home", "20260601", "20260602"),
+            ("Joe Wong in Chinese", "20260615", "20260616"),  # interloper
+            ("Yankees vs Red Sox in Boston", "20260701", "20260702"),
+        )
+        events = gcal.parse_ical(payload)
+        html = gcal.build_html(events, date(2026, 5, 1))
+        assert html is not None
+        # Three groups of one each — no merging since Yankees events aren't consecutive
+        assert html.count("nb-cal-card") == 3
+
+    def test_single_event_group_passes_through_unchanged(self):
+        """A standalone event (no neighbor with matching prefix) renders with
+        its full original title — no trimming applied to single-event groups."""
+        payload = self._events_payload(
+            ("Nate Bargatze - Big Dumb Eyes World Tour - Netflix Fest", "20260510", "20260511"),
+        )
+        events = gcal.parse_ical(payload)
+        html = gcal.build_html(events, date(2026, 5, 1))
+        assert html is not None
+        assert html.count("nb-cal-card") == 1
+        # Full title kept (not trimmed at ' - ') because group size is 1
+        assert "Big Dumb Eyes" in html
+
+    def test_short_title_with_fewer_than_n_words_doesnt_group(self):
+        """An event with only 2 words has no grouping key; consecutive 2-word
+        events (even if they happen to share both words) stay as separate
+        cards."""
+        payload = self._events_payload(
+            ("Open mic", "20260801", "20260802"),
+            ("Open mic", "20260802", "20260803"),
+        )
+        events = gcal.parse_ical(payload)
+        html = gcal.build_html(events, date(2026, 7, 1))
+        assert html is not None
+        assert html.count("nb-cal-card") == 2
 
     def test_caps_at_max_upcoming(self):
         # Build (MAX_UPCOMING + 5) events so the cap is actually exercised.
