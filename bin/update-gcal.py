@@ -35,7 +35,6 @@ from _shared import (
 PT = ZoneInfo("America/Los_Angeles")
 MAX_UPCOMING = 20
 MARKER = "GCAL"
-SOURCE_TAG = "from google calendar"
 MONTH_ABBR = ["jan", "feb", "mar", "apr", "may", "jun",
               "jul", "aug", "sep", "oct", "nov", "dec"]
 MONTH_FULL = ["January", "February", "March", "April", "May", "June",
@@ -234,7 +233,10 @@ def event_local_dates(event: dict) -> tuple[date, date]:
 
 
 def filter_and_sort(events: list[dict], today: date) -> list[dict]:
-    """Drop events whose end date is before `today`; sort by start ascending."""
+    """Drop events whose end date is before `today`; sort ascending by full
+    start datetime so same-day events break ties by time-of-day. All-day
+    events get a synthetic midnight-PT datetime so they compare cleanly
+    against TZID/UTC events on the same day."""
     out = []
     for ev in events:
         if ev.get("dtstart") is None:
@@ -247,8 +249,15 @@ def filter_and_sort(events: list[dict], today: date) -> list[dict]:
             continue
         ev["_start_local"] = s_local
         ev["_end_local"] = e_local
+        # Unified datetime for sorting: timed events keep their time-of-day,
+        # all-day events sort as midnight on their start date.
+        s = ev["dtstart"]
+        if isinstance(s, datetime):
+            ev["_start_dt"] = s.astimezone(PT)
+        else:
+            ev["_start_dt"] = datetime.combine(s, datetime.min.time(), tzinfo=PT)
         out.append(ev)
-    out.sort(key=lambda e: (e["_start_local"], e["_end_local"]))
+    out.sort(key=lambda e: (e["_start_dt"], e["_end_local"]))
     return out
 
 
@@ -387,7 +396,6 @@ def render_card(event: dict) -> str:
         f'            <div class="day">{day}</div>',
         '          </div>',
         '          <div>',
-        f'            <div class="nb-cal-tag">{SOURCE_TAG}</div>',
         f'            <div class="nb-cal-what">{what_html}</div>',
         f'            <div class="nb-cal-where">{where_html}</div>',
         '          </div>',

@@ -102,6 +102,53 @@ class TestFilter:
         # The 6/8 datetime event survives
         assert any(e["summary"] == "Joe Wong in Chinese" for e in out)
 
+    def test_same_day_events_sort_by_time_of_day(self):
+        """Two events on the same calendar day must order by their start time
+        of day, not by iCal source order. A 3PM event renders before a 5PM
+        event regardless of which one appeared first in the feed.
+        Real-world case: Norton Simon at 3PM should appear before Joe Wong
+        at 5PM on the same day."""
+        # Build events out-of-order in the feed (5PM listed first) to prove
+        # the sort overrides iCal insertion order.
+        payload = (
+            "BEGIN:VCALENDAR\n"
+            "BEGIN:VEVENT\nUID:later@x\n"
+            "SUMMARY:Five PM event\n"
+            "DTSTART;TZID=America/Los_Angeles:20260509T170000\n"
+            "DTEND;TZID=America/Los_Angeles:20260509T190000\n"
+            "END:VEVENT\n"
+            "BEGIN:VEVENT\nUID:earlier@x\n"
+            "SUMMARY:Three PM event\n"
+            "DTSTART;TZID=America/Los_Angeles:20260509T150000\n"
+            "DTEND;TZID=America/Los_Angeles:20260509T170000\n"
+            "END:VEVENT\n"
+            "END:VCALENDAR\n"
+        )
+        events = gcal.parse_ical(payload)
+        out = gcal.filter_and_sort(events, date(2026, 5, 1))
+        summaries = [e["summary"] for e in out]
+        assert summaries == ["Three PM event", "Five PM event"]
+
+    def test_all_day_event_sorts_as_midnight_against_timed(self):
+        """All-day events get a synthetic midnight-PT start datetime, so they
+        sort BEFORE timed events on the same day. (An all-day "weekend trip"
+        shows above a 2pm meeting on the same start date.)"""
+        payload = (
+            "BEGIN:VCALENDAR\n"
+            "BEGIN:VEVENT\nUID:a@x\nSUMMARY:All-day event\n"
+            "DTSTART;VALUE=DATE:20260509\nDTEND;VALUE=DATE:20260510\n"
+            "END:VEVENT\n"
+            "BEGIN:VEVENT\nUID:b@x\nSUMMARY:Afternoon meeting\n"
+            "DTSTART;TZID=America/Los_Angeles:20260509T140000\n"
+            "DTEND;TZID=America/Los_Angeles:20260509T150000\n"
+            "END:VEVENT\n"
+            "END:VCALENDAR\n"
+        )
+        events = gcal.parse_ical(payload)
+        out = gcal.filter_and_sort(events, date(2026, 5, 1))
+        summaries = [e["summary"] for e in out]
+        assert summaries == ["All-day event", "Afternoon meeting"]
+
     def test_same_day_distinct_titles_render_separately(self):
         """Two events on the same day with DIFFERENT first-3-word prefixes
         render as separate cards (no grouping). 'Morning event' and 'Evening
@@ -376,11 +423,15 @@ class TestRender:
         assert "Multi-day BBQ" in html
         assert 'data-cal-end="2026-06-13"' in html
 
-    def test_source_tag_present(self):
+    def test_no_source_tag_in_card(self):
+        """Per-card source label was removed — the eyebrow at the top of /03
+        ('via google calendar · auto-updated …') already signals where the
+        events come from. Repeating it on every card is redundant."""
         events = gcal.parse_ical(load_fixture())
         html = gcal.build_html(events, date(2026, 6, 1))
         assert html is not None
-        assert "from google calendar" in html
+        assert "from google calendar" not in html
+        assert 'class="nb-cal-tag"' not in html
 
     def test_build_html_empty_returns_none(self):
         assert gcal.build_html([], date(2026, 6, 1)) is None
