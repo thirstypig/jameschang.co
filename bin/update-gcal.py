@@ -31,7 +31,7 @@ from _shared import (
 )
 
 PT = ZoneInfo("America/Los_Angeles")
-MAX_UPCOMING = 6
+MAX_UPCOMING = 20
 MARKER = "GCAL"
 SOURCE_TAG = "from google calendar"
 MONTH_ABBR = ["jan", "feb", "mar", "apr", "may", "jun",

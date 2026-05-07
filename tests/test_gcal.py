@@ -103,23 +103,30 @@ class TestFilter:
         assert any(e["summary"] == "Joe Wong in Chinese" for e in out)
 
     def test_caps_at_max_upcoming(self):
-        # Build 20 events programmatically
+        # Build (MAX_UPCOMING + 5) events so the cap is actually exercised.
+        # Use a date range broad enough to spread across two months without
+        # tripping the day-of-month upper bound.
+        n = gcal.MAX_UPCOMING + 5
         lines = ["BEGIN:VCALENDAR"]
-        for i in range(20):
-            day = 1 + i
+        for i in range(n):
+            month = 7 + (i // 28)
+            day = 1 + (i % 28)
             lines += [
                 "BEGIN:VEVENT",
                 f"UID:e{i}@x",
                 f"SUMMARY:Event {i}",
-                f"DTSTART;VALUE=DATE:202607{day:02d}",
-                f"DTEND;VALUE=DATE:202607{day:02d}",
+                f"DTSTART;VALUE=DATE:2026{month:02d}{day:02d}",
+                f"DTEND;VALUE=DATE:2026{month:02d}{day:02d}",
                 "END:VEVENT",
             ]
         lines.append("END:VCALENDAR")
         events = gcal.parse_ical("\n".join(lines))
         html = gcal.build_html(events, date(2026, 7, 1))
         assert html is not None
-        assert html.count("nb-cal-card") == gcal.MAX_UPCOMING == 6
+        # Render count is exactly the cap, even though more events were available.
+        assert html.count("nb-cal-card") == gcal.MAX_UPCOMING
+        # Pin the documented value so a future bump is intentional, not silent.
+        assert gcal.MAX_UPCOMING == 20
 
 
 # ── render ───────────────────────────────────────────────────────
