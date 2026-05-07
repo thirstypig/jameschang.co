@@ -18,6 +18,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Sync to latest main (avoid stale checkout when queued behind another run)
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+
       - name: Fetch Spotify data and update /now/
         env:
           SPOTIFY_CLIENT_ID:     ${{ secrets.SPOTIFY_CLIENT_ID }}

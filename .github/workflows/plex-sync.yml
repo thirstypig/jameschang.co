@@ -18,6 +18,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Sync to latest main (avoid stale checkout when queued behind another run)
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+
       - name: Fetch Plex data and update /now/
         env:
           PLEX_URL:   ${{ secrets.PLEX_URL }}
