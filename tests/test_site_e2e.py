@@ -31,7 +31,12 @@ HTML_FILES = sorted(
 STANDARD_PAGES = [f for f in HTML_FILES if "callback" not in f]
 
 # Expected feed markers in now/index.html
-EXPECTED_MARKERS = ["WHOOP", "SPOTIFY", "MLB", "GOODREADS-READING", "GOODREADS", "FBST", "PLEX", "PAGE-UPDATED"]
+EXPECTED_MARKERS = [
+    "WHOOP", "SPOTIFY", "MLB", "GOODREADS-READING", "GOODREADS", "FBST", "PLEX",
+    "PAGE-UPDATED",
+    "ACTIVE-PROJECTS", "BACKBURNER-PROJECTS", "ACTIVE-EYEBROW", "BACKBURNER-EYEBROW",
+    "GCAL", "GCAL-EYEBROW",
+]
 
 
 # ── Server fixture ───────────────────────────────────────────────
