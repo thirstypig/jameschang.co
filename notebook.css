@@ -372,11 +372,11 @@ a:hover { text-decoration: underline; }
 }
 .nb-card.compact .nb-card-body { font-size: 13px; line-height: 1.55; }
 .nb-card-shipped {
-  margin-top: 12px;
-  padding-top: 12px;
+  margin-top: 20px;
+  padding-top: 10px;
   border-top: 1px dashed var(--rule);
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--dim);
 }
 .nb-card-shipped .accent { color: var(--accent); }
