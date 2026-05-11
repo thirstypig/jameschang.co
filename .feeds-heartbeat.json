@@ -15,8 +15,7 @@
     "last_success_utc": "2026-05-11T09:59:30.951521+00:00"
   },
   "plex": {
-    "last_error": "fetch failed \u2014 preserving last known content",
-    "last_success_utc": "2026-05-10T19:44:40.489324+00:00"
+    "last_success_utc": "2026-05-11T10:25:07.700707+00:00"
   },
   "projects": {
     "last_error": "ACTIVE-PROJECTS or BACKBURNER-PROJECTS markers missing",
