@@ -1,7 +1,7 @@
 # CLAUDE.md
 
 <!-- now-tldr -->
-The personal site at jameschang.co — homepage, project deep-dives, and a Derek Sivers-style /now page that auto-updates from a half-dozen feeds (WHOOP, Spotify, Plex, Goodreads, MLB stats, fantasy standings) plus per-project TLDRs synced daily from each repo's CLAUDE.md. **Recently shipped**: a public bucket list, a feed staleness monitor that opens a GitHub issue when anything goes quiet, and a cron-driven /now project hub that classifies each project as active or back-burner based on real GitHub activity. Plain HTML/CSS/JS on GitHub Pages — no build step, ~78 KB page weight, Lighthouse 100/100/100/100.
+The personal site at jameschang.co — homepage, project deep-dives, and a Derek Sivers-style /now page that auto-updates from eight feeds (WHOOP, Spotify, Plex, Goodreads, MLB stats, fantasy standings, Google Calendar) plus per-project TLDRs synced daily from each repo's CLAUDE.md. **Recently shipped**: a public bucket list, a feed staleness monitor that opens a GitHub issue when anything goes quiet, Google Calendar integration for upcoming events, and a cron-driven /now project hub that classifies each project as active or back-burner based on real GitHub activity. Plain HTML/CSS/JS on GitHub Pages — no build step, ~78 KB page weight, Lighthouse 100/100/100/100.
 <!-- /now-tldr -->
 
 Operational notes for Claude Code (and any other agent) working on this repo. For human-facing workflow see `README.md`; for design/positioning history see `PLAN.md`; for past solved problems see `docs/solutions/`.
