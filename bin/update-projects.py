@@ -430,12 +430,18 @@ def main():
         return
 
     if not content_changed(old_content, new_content):
-        record_heartbeat("projects")
+        if failures:
+            record_heartbeat("projects", error=f"skipped {len(failures)} project(s): {', '.join(failures)}")
+        else:
+            record_heartbeat("projects")
         print("No meaningful changes.")
         return
 
     write_now_html(new_content)
-    record_heartbeat("projects")
+    if failures:
+        record_heartbeat("projects", error=f"skipped {len(failures)} project(s): {', '.join(failures)}")
+    else:
+        record_heartbeat("projects")
     print(
         f"Updated now/index.html. Active: {len(active_slugs)} "
         f"({', '.join(active_slugs) or 'none'}); back-burner: {len(backburner_slugs)} "
