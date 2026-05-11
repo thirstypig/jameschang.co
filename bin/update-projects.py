@@ -107,8 +107,8 @@ def _render_markdown_inline(text):
 
 
 def fetch_github_events(token):
-    """Fetch recent public events for thirstypig. Returns list or None on failure."""
-    url = "https://api.github.com/users/thirstypig/events/public?per_page=100"
+    """Fetch recent events for thirstypig (includes private repos when token is provided). Returns list or None on failure."""
+    url = "https://api.github.com/users/thirstypig/events?per_page=100"
     headers = {"User-Agent": USER_AGENT, "Accept": "application/vnd.github+json"}
     if token:
         headers["Authorization"] = f"Bearer {token}"
