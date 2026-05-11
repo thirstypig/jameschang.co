@@ -16,7 +16,7 @@ jobs:
   update-spotify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Sync to latest main (avoid stale checkout when queued behind another run)
         run: |
