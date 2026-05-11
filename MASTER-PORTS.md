@@ -1,6 +1,6 @@
 # 🗂️ Master Port Registry — All Projects
 > 📍 Canonical location: `~/Projects/MASTER-PORTS.md`
-> 🗓️ Last Updated: 2026-04-20
+> 🗓️ Last Updated: 2026-05-11
 > ⚠️ This is the single source of truth. Update this file first, then mirror to each project's local copy.
 
 Copies of this file live in each active project root (e.g., `~/Projects/bahtzang-trader/MASTER-PORTS.md`). They must stay byte-identical to the root copy.
@@ -107,5 +107,6 @@ lsof -i -P -n | grep LISTEN | grep -E '3010|3011|3030|3031|3040|3050|3060|3070|3
 
 ## 📝 Changelog
 
+- **2026-05-11** — Full sync: updated date, added top-level MASTER-PORTS.md + PORTS.md to all project folders (alephco.io, bbq-judge, thefantasticleagues). Created root PORTS.md quick-reference and README.md for Projects folder.
 - **2026-04-20** — Major restructure: added alephco.io, bahtzang-trader, tabledrop, jameschang.co, thirstypig, cooper-stack3, and `-www` marketing sites. Resolved 3 port conflicts (3060, 4060, 3030). Retired fsvppro block.
 - **2026-03-08** — Initial 5-project registry (fbst, fvsppro, bbq-judge, ktv-singer, tastemakers).
