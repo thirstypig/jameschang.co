@@ -264,6 +264,22 @@ class TestRenderCard:
         html = _projects.render_card(bad, "x", "", "May 7, 2026", compact=False)
         assert "javascript:" not in html
 
+    def test_card_footer_wraps_shipped_and_timestamp(self):
+        """nb-card-footer must contain both the shipped line and feed-updated so
+        the CSS bleed-to-edges treatment applies to both elements together."""
+        shipping = '<p class="nb-card-shipped">↑ shipped: link</p>\n'
+        html = _projects.render_card(self.PROJECT, "tldr", shipping, "May 7, 2026", compact=False)
+        footer_start = html.index('class="nb-card-footer"')
+        footer_end = html.index("</div>", footer_start)
+        footer_block = html[footer_start:footer_end]
+        assert "nb-card-shipped" in footer_block
+        assert "feed-updated" in footer_block
+
+    def test_card_footer_present_even_without_shipped_line(self):
+        """Footer div renders even when no shipping events exist (empty string)."""
+        html = _projects.render_card(self.PROJECT, "tldr", "", "May 7, 2026", compact=False)
+        assert 'class="nb-card-footer"' in html
+
 
 class TestRenderBlock:
     def test_tldr_uses_nb_card_body(self):
@@ -274,3 +290,14 @@ class TestRenderBlock:
         html = _projects.render_block("x", "", "Apr 27, 2026")
         assert 'class="feed-updated"' in html
         assert "Apr 27, 2026" in html
+
+    def test_block_footer_wraps_shipped_and_timestamp(self):
+        """render_block (used for per-project TLDR marker updates) must also
+        wrap shipped + feed-updated in nb-card-footer."""
+        shipping = '<p class="nb-card-shipped">↑ shipped: link</p>\n'
+        html = _projects.render_block("tldr", shipping, "Apr 27, 2026")
+        footer_start = html.index('class="nb-card-footer"')
+        footer_end = html.index("</div>", footer_start)
+        footer_block = html[footer_start:footer_end]
+        assert "nb-card-shipped" in footer_block
+        assert "feed-updated" in footer_block
