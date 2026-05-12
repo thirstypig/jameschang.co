@@ -18,7 +18,7 @@
     "last_success_utc": "2026-05-12T15:32:40.487941+00:00"
   },
   "projects": {
-    "last_error": "skipped 5 project(s): aleph, judge-tool, tabledrop, tastemakers, ktv-singer",
+    "last_error": "skipped 1 project(s): ktv-singer",
     "last_success_utc": "2026-05-11T19:57:25.372304+00:00"
   },
   "spotify": {
