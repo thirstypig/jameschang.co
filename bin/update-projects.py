@@ -311,8 +311,10 @@ def render_card(project, tldr_html, shipping_html, now_str, *, compact):
         f'          <!-- TLDR-{slug}-START -->\n'
         f'\n'
         f'          <p class="nb-card-body">{tldr_html}</p>\n'
+        f'          <div class="nb-card-footer">\n'
         f'{shipping_html}'
         f'          <p class="feed-updated">Auto-updated {now_str} via CLAUDE.md + GitHub events.</p>\n'
+        f'          </div>\n'
         f'        \n'
         f'        <!-- TLDR-{slug}-END -->'
     )
@@ -337,8 +339,10 @@ def render_block(tldr_html, shipping_html, now_str):
     return (
         f"\n"
         f'          <p class="nb-card-body">{tldr_html}</p>\n'
+        f'          <div class="nb-card-footer">\n'
         f"{shipping_html}"
         f'          <p class="feed-updated">Auto-updated {now_str} via CLAUDE.md + GitHub events.</p>\n'
+        f'          </div>\n'
         f"        "
     )
 

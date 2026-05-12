@@ -371,14 +371,23 @@ a:hover { text-decoration: underline; }
   color: var(--ink);
 }
 .nb-card.compact .nb-card-body { font-size: 13px; line-height: 1.55; }
-.nb-card-shipped {
-  margin-top: 20px;
-  padding-top: 10px;
+.nb-card-footer {
+  margin: 16px -22px -22px;
+  padding: 12px 22px;
+  background: var(--surface-2);
   border-top: 1px dashed var(--rule);
+}
+.nb-card.compact .nb-card-footer {
+  margin: 14px -18px -18px;
+  padding: 10px 18px;
+}
+.nb-card-shipped {
   font-family: var(--mono);
   font-size: 12px;
   color: var(--dim);
+  margin: 0 0 6px;
 }
+.nb-card-shipped:last-child { margin-bottom: 0; }
 .nb-card-shipped .accent { color: var(--accent); }
 .nb-card-shipped a { color: var(--dim); }
 .nb-card-shipped a:hover { color: var(--ink); }
