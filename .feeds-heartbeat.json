@@ -15,8 +15,7 @@
     "last_success_utc": "2026-05-12T14:49:08.768585+00:00"
   },
   "plex": {
-    "last_error": "fetch failed \u2014 preserving last known content",
-    "last_success_utc": "2026-05-12T04:26:45.970536+00:00"
+    "last_success_utc": "2026-05-12T15:32:40.487941+00:00"
   },
   "projects": {
     "last_error": "skipped 5 project(s): aleph, judge-tool, tabledrop, tastemakers, ktv-singer",
