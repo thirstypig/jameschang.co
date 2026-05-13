@@ -8,11 +8,11 @@
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; form-action 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
   <title>The Judge Tool — Under the hood — James Chang</title>
-  <meta name="description" content="Full build teardown of The Judge Tool: 16,424 lines of code, 113 tests, 12 database models, 62 server actions. KCBS scoring engine. Shipped in 20 days with transparent AI-assisted workflow.">
+  <meta name="description" content="Full build teardown of The Judge Tool: 16,424 lines of code, 113 tests, 12 database models, 62 server actions. Barbeque scoring engine. Shipped in 20 days with transparent AI-assisted workflow.">
   <link rel="canonical" href="https://jameschang.co/projects/judge-tool/tech/">
   <meta property="og:type" content="article">
   <meta property="og:title" content="The Judge Tool — Under the hood — James Chang">
-  <meta property="og:description" content="Full build teardown of The Judge Tool: 16,424 lines of code, 113 tests, 12 database models, 62 server actions. KCBS scoring engine. Shipped in 20 days with transparent AI-assisted workflow.">
+  <meta property="og:description" content="Full build teardown of The Judge Tool: 16,424 lines of code, 113 tests, 12 database models, 62 server actions. Barbeque scoring engine. Shipped in 20 days with transparent AI-assisted workflow.">
   <meta property="og:url" content="https://jameschang.co/projects/judge-tool/tech/">
   <meta property="og:image" content="https://jameschang.co/assets/og-image.png">
   <meta property="og:image:width" content="1200">
@@ -33,7 +33,7 @@
     "@type": "TechArticle",
     "headline": "The Judge Tool",
     "name": "The Judge Tool \u2014 Under the hood \u2014 James Chang",
-    "description": "Full build teardown of The Judge Tool: 16,424 lines of code, 113 tests, 12 database models, 62 server actions. KCBS scoring engine. Shipped in 20 days with transparent AI-assisted workflow.",
+    "description": "Full build teardown of The Judge Tool: 16,424 lines of code, 113 tests, 12 database models, 62 server actions. Barbeque scoring engine. Shipped in 20 days with transparent AI-assisted workflow.",
     "url": "https://jameschang.co/projects/judge-tool/tech/",
     "author": {
       "@type": "Person",
@@ -110,7 +110,7 @@
 
     <div class="work-hero">
       <p class="eyebrow">Judge Tool &middot; Tech / Under the hood &middot; Last Updated <time datetime="2026-04-15">April 15, 2026</time></p>
-      <h1>A full-stack KCBS judging platform, shipped in 20 days.</h1>
+      <h1>A full-stack Barbeque judging platform, shipped in 20 days.</h1>
       <p class="subtitle">
         16,424 lines of code, 113 passing tests, 12 Prisma models, 62 auth-guarded
         server actions. Built methodically across 13 sessions with a transparent
@@ -213,7 +213,7 @@ Tests
         </div>
         <div class="stack-cat">
           <h4>tabulation</h4>
-          <div class="items">KCBS scoring engine, tiebreaking, winner declaration, audit. <strong>7 actions, 7 components.</strong></div>
+          <div class="items">Barbeque scoring engine, tiebreaking, winner declaration, audit. <strong>7 actions, 7 components.</strong></div>
         </div>
         <div class="stack-cat">
           <h4>users</h4>
@@ -229,7 +229,7 @@ Tests
           <h4>What worked</h4>
           <div class="items">
             <p><strong>CLAUDE.md is critical.</strong> 103 lines of cross-session context eliminates re-briefing every session.</p>
-            <p><strong>Pure functions for business logic.</strong> KCBS scoring, box distribution, validation all extracted and tested (113 passing tests).</p>
+            <p><strong>Pure functions for business logic.</strong> Barbeque scoring, box distribution, validation all extracted and tested (113 passing tests).</p>
             <p><strong>Feature module pattern.</strong> 5 modules with identical structure keeps the code navigable as it scales.</p>
             <p><strong>E2E simulation catches what unit tests miss.</strong> Found 3 scoring bugs that passed code review.</p>
           </div>
@@ -262,7 +262,7 @@ Tests
         <source srcset="/assets/work/judge-tool/judge-scoring.avif" type="image/avif">
         <img src="/assets/work/judge-tool/judge-scoring.webp" width="1440" height="900" alt="Judge scoring interface showing the 4-phase flow" class="screenshot" loading="lazy">
       </picture>
-      <p class="screenshot-caption">Judge scoring interface &mdash; KCBS-compliant score entry (1, 2, 5–9).</p>
+      <p class="screenshot-caption">Judge scoring interface &mdash; Barbeque judging score entry (1, 2, 5–9).</p>
       <picture>
         <source srcset="/assets/work/judge-tool/captain-dashboard.avif" type="image/avif">
         <img src="/assets/work/judge-tool/captain-dashboard.webp" width="1425" height="3527" alt="Table captain dashboard with score review" class="screenshot" loading="lazy">
