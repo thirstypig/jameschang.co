@@ -897,11 +897,15 @@ class TestStructuralParity:
             i_pnav = body.find('class="project-nav"')
             i_snap = body.find('class="snapshot-banner"')
             i_hero = body.find('class="work-hero"')
+            if i_pnav == -1 or i_hero == -1:
+                failures.append(
+                    f"{f}: missing required element — project-nav={i_pnav}, work-hero={i_hero}"
+                )
+                continue
             if i_snap == -1:
-                # Banner absent — just require project-nav before work-hero
-                ok = 0 < i_pnav < i_hero
+                ok = i_pnav < i_hero
             else:
-                ok = 0 < i_pnav < i_snap < i_hero
+                ok = i_pnav < i_snap < i_hero
             if not ok:
                 failures.append(
                     f"{f}: project-nav={i_pnav}, snapshot-banner={i_snap}, work-hero={i_hero}"
