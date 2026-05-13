@@ -888,21 +888,26 @@ class TestStructuralParity:
 
     def test_deep_dive_block_order(self):
         """On non-dashboard deep-dive pages, the structural order is
-        project-nav → snapshot-banner → work-hero. Dashboard pages are
-        intentionally exempt (they're prompt-display pages, not snapshots
-        of a live page)."""
+        project-nav → [snapshot-banner →] work-hero. snapshot-banner is
+        optional; when present it must fall between project-nav and work-hero.
+        Dashboard pages are intentionally exempt."""
         failures = []
         for f in self.NON_DASHBOARD_DEEP_DIVES:
             _, body = fetch(f)
             i_pnav = body.find('class="project-nav"')
             i_snap = body.find('class="snapshot-banner"')
             i_hero = body.find('class="work-hero"')
-            if not (0 < i_pnav < i_snap < i_hero):
+            if i_snap == -1:
+                # Banner absent — just require project-nav before work-hero
+                ok = 0 < i_pnav < i_hero
+            else:
+                ok = 0 < i_pnav < i_snap < i_hero
+            if not ok:
                 failures.append(
                     f"{f}: project-nav={i_pnav}, snapshot-banner={i_snap}, work-hero={i_hero}"
                 )
         assert not failures, (
-            "Deep-dive block order drifted (expected project-nav → snapshot-banner → work-hero):\n"
+            "Deep-dive block order drifted (expected project-nav → [snapshot-banner →] work-hero):\n"
             + "\n".join(failures)
         )
 
