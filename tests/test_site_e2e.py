@@ -771,6 +771,35 @@ class TestCrossProjectNav:
         assert not failures, "aria-current drift:\n" + "\n".join(failures)
 
 
+# ── Tests: Judge Tool branding ────────────────────────────────────
+
+class TestJudgeToolBranding:
+    """Regression guard: 'KCBS' must not reappear in Judge Tool project pages.
+
+    The membership section on index.html and calendar event names in
+    now/index.html legitimately retain 'KCBS' — these pages are intentionally
+    excluded. The project deep-dive pages have no valid reason to use the term.
+    """
+
+    JUDGE_TOOL_PAGES = [
+        f for f in STANDARD_PAGES
+        if f.startswith("projects/judge-tool/")
+    ]
+
+    def test_no_kcbs_in_judge_tool_pages(self):
+        assert self.JUDGE_TOOL_PAGES, "No judge-tool pages found — path filter broke"
+        failures = []
+        for f in self.JUDGE_TOOL_PAGES:
+            _, body = fetch(f)
+            if "KCBS" in body:
+                positions = [m.start() for m in re.finditer("KCBS", body)]
+                failures.append(f"{f}: 'KCBS' at char positions {positions[:5]}")
+        assert not failures, (
+            "Legacy KCBS branding must not appear in Judge Tool project pages:\n"
+            + "\n".join(failures)
+        )
+
+
 # ── Tests: /now page section structure ───────────────────────────
 #
 # /07 was rebuilt and /09 renumbered to /08 in cede613. The cron sync
