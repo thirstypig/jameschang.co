@@ -15,8 +15,7 @@
     "last_success_utc": "2026-05-23T04:07:27.853669+00:00"
   },
   "plex": {
-    "last_error": "fetch failed \u2014 preserving last known content",
-    "last_success_utc": "2026-05-22T15:40:15.403832+00:00"
+    "last_success_utc": "2026-05-23T04:28:35.160375+00:00"
   },
   "projects": {
     "last_error": "skipped 1 project(s): ktv-singer",
