@@ -18,6 +18,18 @@
     "last_error": "fetch failed \u2014 preserving last known content",
     "last_success_utc": "2026-05-25T15:41:01.146135+00:00"
   },
+  "project-docs": {
+    "last_success_utc": "2026-05-30T00:16:25.558617+00:00"
+  },
+  "project-docs:aleph-roadmap": {
+    "last_success_utc": "2026-05-30T00:16:25.143739+00:00"
+  },
+  "project-docs:fantastic-leagues-roadmap": {
+    "last_success_utc": "2026-05-30T00:16:25.343043+00:00"
+  },
+  "project-docs:judge-tool-roadmap": {
+    "last_success_utc": "2026-05-30T00:16:25.558377+00:00"
+  },
   "projects": {
     "last_error": "skipped 1 project(s): ktv-singer",
     "last_success_utc": "2026-05-11T19:57:25.372304+00:00"

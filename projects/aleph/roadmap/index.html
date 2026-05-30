@@ -122,114 +122,146 @@
     <section class="work-section">
       <h2>Compliance modules</h2>
       <!-- ROADMAP-START -->
-
       <div class="module">
         <div class="module-head">
           <h3 class="module-name">CPSIA / CPC</h3>
-          <span class="module-progress">Progress: 60%</span>
+          <span class="module-progress">Progress: 100%</span>
         </div>
-        <p class="module-desc">
-          Generate Children's Product Certificates (CPC) for products intended for
-          children 12 and under. Covers the seven required CPC fields under CPSIA
-          Section 14(a).
-        </p>
+        <p class="module-desc">Children&#39;s Product Safety Improvement Act — generate Children&#39;s Product Certificates (CPC) for products intended for children 12 and under.</p>
         <div class="module-workflow">
           <strong>Workflow</strong>
           <ol>
-            <li>Add children's product with SKU, manufacturer, country of origin, age group</li>
-            <li>Upload lab test report from a CPSC-accepted lab; link to product record</li>
-            <li>Complete CPC form &mdash; seven required fields (description, standards, lab info, test date/location, manufacture date/location, importer info, tracking label)</li>
-            <li>Preview and generate the formatted PDF ready for filing</li>
+            <li><strong>Add Product</strong> — Register the children&#39;s product with SKU, manufacturer, country of origin, and intended age group.</li>
+            <li><strong>Upload Lab Test Report</strong> — Attach the test report PDF from a CPSC-accepted laboratory. Link it to the product record.</li>
+            <li><strong>Complete CPC Form</strong> — Fill in all 7 required CPC fields: product description, applicable standards, lab info, test date/location, manufacture date/location, importer info, and tracking label.</li>
+            <li><strong>Preview &amp; Generate PDF</strong> — Review the completed certificate data, then generate a formatted CPC PDF ready for filing or sharing with customs.</li>
           </ol>
         </div>
         <ul class="feature-list">
-          <li class="done">Product creation (children's product type)</li>
+          <li class="done">Product creation (children&#39;s product type)</li>
           <li class="done">CPC 7-field data entry form</li>
           <li class="done">CPC preview (read-only view)</li>
           <li class="done">CPC PDF generation (pdf-lib)</li>
           <li class="done">Lab test document upload + linking</li>
-          <li class="done">CPC status tracking (draft → issued → superseded)</li>
-          <li class="done">Product list with CPC status badges</li>
+          <li class="done">CPC status tracking (draft -&gt; issued -&gt; superseded)</li>
+          <li class="done">CPSIA product list with CPC status badges</li>
           <li class="done">Pre-populated CPSC safety standards (ASTM F963, etc.)</li>
           <li class="done">Importer info pre-fill from business profile</li>
-          <li class="planned">Cohort-aware product creation form</li>
-          <li class="planned">Server-side cohort enforcement middleware</li>
-          <li class="deferred">CPSC e-Filing integration</li>
-          <li class="deferred">CPC version history / supersession chain</li>
+          <li class="done">Server-side cohort enforcement (<code>requireModule(&quot;cpsia&quot;)</code> middleware) — session 19</li>
+          <li class="done">Ownership checks on CPC endpoints (IDOR 404 fix) — session 19</li>
+          <li class="done">CPSC e-Filing CSV export (<code>GET /api/cpsia/efiling-export</code>) — session 17</li>
+          <li class="done">Consumer goods product creation form (cohort-aware) — session 16</li>
+          <li class="planned">CPSC e-Filing live submission to ACE *(deferred — pending July 2026 mandate)*</li>
+          <li class="done">CPC version history / supersession chain — explicit <code>supersedePreviousCpcId</code> flow with atomic transaction, <code>GET /api/cpsia/products/:productId/cpc-history</code> endpoint, vertical timeline UI on CPC preview, audit log on supersession (session 21)</li>
         </ul>
       </div>
 
       <div class="module">
         <div class="module-head">
           <h3 class="module-name">Prop 65</h3>
-          <span class="module-progress">Progress: 55%</span>
+          <span class="module-progress">Progress: 100%</span>
         </div>
-        <p class="module-desc">
-          California Proposition 65 toxic-substance disclosure.
-          Assess products for listed chemicals; generate short-form and long-form
-          warning labels at the packaging or shelf-tag size.
-        </p>
+        <p class="module-desc">California Proposition 65 — assess products for listed chemicals, generate compliant warning labels (short-form and long-form).</p>
         <div class="module-workflow">
           <strong>Workflow</strong>
           <ol>
-            <li>Add consumer product with materials, manufacturer, country of origin</li>
-            <li>Answer: does this product require a Prop 65 warning? Yes / No / Not Sure</li>
-            <li>Select chemicals (Lead, DEHP, Cadmium, etc.), exposure routes, warning type (cancer / reproductive / both)</li>
-            <li>Generate short-form or long-form label; preview in packaging and shelf-tag sizes; download PDF</li>
+            <li><strong>Add Product</strong> — Register the consumer product with materials, manufacturer, and country of origin.</li>
+            <li><strong>Chemical Assessment</strong> — Answer: does this product require a Prop 65 warning? Select Yes / No / Not Sure. If No, record the negative assessment.</li>
+            <li><strong>Identify Chemicals &amp; Warning Type</strong> — Select chemicals present from the pre-populated list (Lead, DEHP, Cadmium, etc.), exposure routes, and warning type (cancer / reproductive / both).</li>
+            <li><strong>Generate Warning Label</strong> — Choose short-form or long-form label format. Preview the label in packaging and shelf-tag sizes, then download as PDF.</li>
           </ol>
         </div>
         <ul class="feature-list">
-          <li class="done">Yes / No / Not Sure assessment flow</li>
-          <li class="done">Chemical multi-select with CAS numbers</li>
+          <li class="done">Product creation for Prop 65 module</li>
+          <li class="done">Yes/No/Not Sure assessment flow</li>
+          <li class="done">Chemical multi-select with CAS numbers and tooltips</li>
           <li class="done">Warning type selection (cancer / reproductive / both)</li>
           <li class="done">Exposure route checkboxes</li>
           <li class="done">Safe harbor compliance checkbox with explanation</li>
           <li class="done">Short-form and long-form label text generation</li>
           <li class="done">Label preview (packaging + shelf tag sizes)</li>
           <li class="done">Label PDF generation</li>
-          <li class="done">Server-side chemicals endpoint (/api/prop65/chemicals)</li>
-          <li class="done">Product list with disclosure status badges</li>
-          <li class="planned">Ownership checks on disclosure endpoints</li>
-          <li class="deferred">OEHHA list auto-update (regulation change alerting)</li>
-          <li class="deferred">Tailored warning label format</li>
+          <li class="done">Server-side chemicals list endpoint (/api/prop65/chemicals)</li>
+          <li class="done">Prop 65 product list with disclosure status badges</li>
+          <li class="done">Server-side cohort enforcement (<code>requireModule(&quot;prop65&quot;)</code> middleware) — session 19</li>
+          <li class="done">Ownership checks on disclosure endpoints (IDOR 404 fix) — session 19</li>
+          <li class="done">Consumer goods product creation form (cohort-aware) — session 16</li>
+          <li class="done">Prop 65 60-day notice CRUD with cure-deadline tracking (<code>/api/prop65/notices</code>) — session 17</li>
+          <li class="done">OEHHA list auto-update — weekly cron syncs <code>prop65_chemicals_master</code>, diffs added/toxicity_changed/delisted into <code>prop65_list_changes</code>, fans out as 7th source in Compliance Alerts when a user disclosure references a changed chemical (admin sees cross-tenant)</li>
+          <li class="planned">Tailored warning label format *(deferred)*</li>
         </ul>
       </div>
 
       <div class="module">
         <div class="module-head">
           <h3 class="module-name">PFAS</h3>
-          <span class="module-progress">Progress: 50%</span>
+          <span class="module-progress">Progress: 100%</span>
         </div>
-        <p class="module-desc">
-          Per- and polyfluoroalkyl substance disclosure for multi-state regulation
-          (California, Maine, New York, Washington, Minnesota, Vermont, Colorado,
-          Maryland) via a structured material disclosure questionnaire.
-        </p>
+        <p class="module-desc">Per- and polyfluoroalkyl substances — structured material disclosure questionnaire and multi-state regulatory mapping.</p>
         <div class="module-workflow">
           <strong>Workflow</strong>
           <ol>
-            <li>Add product with category, materials, manufacturer details</li>
-            <li>Assessment: does this product contain PFAS? Yes / No / Unknown</li>
-            <li>For each PFAS component &mdash; name, substance (PTFE, PFOS, GenX), concentration (ppm), function</li>
-            <li>Select states where product is sold; auto-identify applicable regulations (CA SB 1249, ME LD 1503, NY A4978, WA HB 2658, etc.)</li>
-            <li>Generate disclosure PDF with component table, applicable regulations, company certification</li>
+            <li><strong>Add Product</strong> — Register the product with category, materials, and manufacturer details.</li>
+            <li><strong>PFAS Assessment</strong> — Answer: does this product contain PFAS? Yes / No / Unknown. If No, certify and complete. If Unknown, guidance is provided.</li>
+            <li><strong>Component Disclosure</strong> — For each PFAS-containing component: name, substance (PTFE, PFOS, GenX), concentration in ppm, and function (water resistance, non-stick, etc.).</li>
+            <li><strong>Regulatory Scope</strong> — Select states where the product is sold. Auto-identify applicable regulations (CA SB 1249, ME LD 1503, NY A4978, WA HB 2658, etc.).</li>
+            <li><strong>Generate Disclosure Report</strong> — Generate a formatted PDF report with component table, applicable regulations, and company certification.</li>
           </ol>
         </div>
         <ul class="feature-list">
-          <li class="done">3-step questionnaire wizard (assessment → components → regulations)</li>
-          <li class="done">Yes / No / Unknown assessment with guidance</li>
+          <li class="done">Product creation for PFAS module</li>
+          <li class="done">3-step questionnaire wizard (assessment -&gt; components -&gt; regulations)</li>
+          <li class="done">Yes/No/Unknown assessment with guidance</li>
           <li class="done">Dynamic component entry (add/remove rows)</li>
           <li class="done">8-state regulation database (CA, ME, NY, WA, MN, VT, CO, MD)</li>
           <li class="done">Auto-populate regulatory basis from selected states</li>
           <li class="done">Disclosure report preview (HTML)</li>
           <li class="done">Disclosure report PDF generation</li>
-          <li class="done">Product list with status badges</li>
-          <li class="planned">Ownership checks on disclosure endpoints</li>
-          <li class="deferred">Expanded PFAS substance database (8,380 chemicals)</li>
-          <li class="deferred">Manufacturer PFAS declaration request flow</li>
+          <li class="done">PFAS product list with status badges</li>
+          <li class="done">Server-side cohort enforcement (<code>requireModule(&quot;pfas&quot;)</code> middleware) — session 19</li>
+          <li class="done">Ownership checks on disclosure endpoints (IDOR 404 fix) — session 19</li>
+          <li class="done">Consumer goods product creation form (cohort-aware) — session 16</li>
+          <li class="done">PFAS state-report PDF for 6 states (<code>/api/pfas/state-report/:stateCode</code>) — session 17</li>
+          <li class="done">Maine DEP annual report CSV export (<code>/api/pfas/maine-dep-report</code>) — session 17</li>
+          <li class="done">Expanded PFAS substance database (EPA CompTox PFASMASTER, ~8,380 chemicals) — <code>pfas_substances</code> table + <code>/api/pfas/substances/search</code> autocomplete in component disclosure — session 21</li>
+          <li class="done">Manufacturer PFAS declaration request flow — B2B tokenized supplier questionnaire, anon-allowed public surface, response writes a <code>pfas_disclosures</code> row on the requester&#39;s product — session 21</li>
         </ul>
       </div>
 
+      <div class="module">
+        <div class="module-head">
+          <h3 class="module-name">FSVP</h3>
+          <span class="module-progress">Progress: 100%</span>
+        </div>
+        <p class="module-desc">Foreign Supplier Verification Program (21 CFR Part 1, Subpart L) — required for US food importers. Verify foreign suppliers produce food meeting US safety standards.</p>
+        <div class="module-workflow">
+          <strong>Workflow</strong>
+          <ol>
+            <li><strong>Add Food Product</strong> — Register the imported food with supplier, country of origin, food category.</li>
+            <li><strong>Hazard Analysis</strong> — Identify known or reasonably foreseeable hazards (biological, chemical, physical, radiological) with severity + probability assessments per food.</li>
+            <li><strong>Supplier Verification Activity</strong> — Choose onsite audit, sampling/testing, or records review based on hazard severity. Set frequency (typically annual for severe hazards).</li>
+            <li><strong>Qualified Individual</strong> — Assign a QI (in-house with documented training, or third-party firm) to perform verification activities.</li>
+            <li><strong>Inspection Bundle</strong> — Generate a per-supplier ZIP package with all FSVP records for FDA inspection or customs entry.</li>
+          </ol>
+        </div>
+        <ul class="feature-list">
+          <li class="done">Food-cohort product creation</li>
+          <li class="done">FSVP module page (<code>/fsvp</code>) — split-pane shell — session 19</li>
+          <li class="done">FDA proxy (enforcement + adverse events) gated by <code>requireModule(&quot;fsvp&quot;)</code> — session 19</li>
+          <li class="done">Per-supplier FSVP inspection package export (<code>/api/compliance/fsvp/inspection-package</code>) — session 17</li>
+          <li class="done">FDA registration wizard</li>
+          <li class="done">Hazard analysis CRUD (per-product, 4 hazard categories) — session 20</li>
+          <li class="done">Supplier verification activity scheduling + tracking — session 20</li>
+          <li class="done">Qualified Individual roster + assignment — session 20</li>
+          <li class="done">FSVP record CRUD with ownership scoping (<code>/api/fsvp/*</code> — 17 endpoints, IDOR 404, requireModule, mass-assignment guards, audit log) — session 20</li>
+          <li class="done">Compliance Alerts integration for overdue verifications (6th alerts source) — session 20</li>
+          <li class="done">Hazard analysis / verification / QI form UIs (3 dialogs, Manifest design, mobile-stacked) — session 20</li>
+          <li class="done">Product-detail Compliance tab integration — FSVP section with hazards, supplier verifications, assigned QIs (consistency with CPSIA/Prop65/PFAS access pattern) — session 21</li>
+          <li class="done">FSVP inspection prep checklist (per-product red/yellow/green readiness rollup) — <code>GET /api/fsvp/products/:productId/readiness</code> + <code>&lt;InspectionReadinessCard&gt;</code> on <code>/fsvp</code>, 4 checks (hazard analysis / supplier verification / QI / supporting docs), pure rules in <code>server/lib/fsvp-readiness.ts</code> — session 21</li>
+          <li class="planned">Foreign supplier directory with reusable supplier entities *(deferred — currently free-text supplier name)*</li>
+          <li class="planned">Concurrent-edit handling / optimistic locking *(deferred — single-user use today)*</li>
+        </ul>
+      </div>
       <!-- ROADMAP-END -->
     </section>
 
