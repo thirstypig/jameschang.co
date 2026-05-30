@@ -1,0 +1,49 @@
+name: Sync project changelog/roadmap docs
+
+on:
+  schedule:
+    - cron: '15 14 * * *'  # 14:15 UTC — 15 min after projects-sync to avoid concurrency races
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  # Distinct group from projects-sync — this script writes /projects/*/index.html,
+  # not now/index.html, so there's no shared write contention. Keeping the group
+  # name script-scoped lets two manual runs queue cleanly.
+  group: project-docs-writer
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Sync to latest main (avoid stale checkout when queued behind another run)
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Sync project changelog/roadmap docs
+        env:
+          TLDR_FETCH_TOKEN: ${{ secrets.TLDR_FETCH_TOKEN }}
+        run: python3 bin/update-project-docs.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add projects .feeds-heartbeat.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: sync project changelog/roadmap docs from source repos"
+            git pull --rebase origin main
+            git push
+          fi

@@ -23,8 +23,8 @@ Operational notes for Claude Code (and any other agent) working on this repo. Fo
 /spotify/callback/      OAuth2 redirect target for the Spotify auth flow. Same shape as /whoop/callback/.
 /assets/                Images (AVIF/WebP responsive pairs), favicons, OG image, apple-touch-icon
 /assets/fonts/          Self-hosted WOFF2 (Geist Mono + Space Grotesk, latin subset) — loaded by notebook.css site-wide
-/bin/                   Sync + auth scripts: _shared.py, update-{whoop,spotify,plex,trakt,public-feeds,projects}.py, check-feed-health.py, {whoop,spotify,trakt}-{auth,encrypt}.sh, projects-config.json
-/.github/workflows/     GitHub Actions (WHOOP, Spotify, Plex, public feeds, projects, staleness check; trakt-sync.yml.disabled is dormant)
+/bin/                   Sync + auth scripts: _shared.py, update-{whoop,spotify,plex,trakt,public-feeds,projects,project-docs}.py, check-feed-health.py, {whoop,spotify,trakt}-{auth,encrypt}.sh, projects-config.json
+/.github/workflows/     GitHub Actions (WHOOP, Spotify, Plex, public feeds, projects, project-docs, staleness check; trakt-sync.yml.disabled is dormant)
 /docs/solutions/        Internal knowledge base — past solved problems (see /ce:compound)
 /todos/                 Code-review findings (see /ce:review)
 /resume.pdf             Generated from the homepage print stylesheet (notebook.css @media print)
@@ -98,6 +98,108 @@ Each project-with-a-deep-dive has its own folder under `/projects/[slug]/` with 
 8. Update `tests/test_site_e2e.py::TestCrossProjectNav.EXPECTED_LINKS` to include the new slug, and bump the `len(self.DEEP_DIVES)` assertion to match the new total. The e2e suite enforces presence + canonical hrefs + aria-current; without the test update, CI will flag the mismatch immediately.
 
 **Headshot rotation** — the About section cycles through 7 photos using JS-driven crossfade (5s interval, `script.js`). Images need `object-position` tuning per photo. Respects `prefers-reduced-motion` (freezes on first image). New photos need AVIF + WebP variants and a `.headshot-*` class for positioning.
+
+## Project doc sync (changelog + roadmap)
+
+`bin/update-project-docs.py` runs daily at 7:15 AM PT (14:15 UTC) via `.github/workflows/project-docs-sync.yml`. Each (slug, doctype) sync is driven by a **per-project adapter** — a small callable `(token) → (parsed, error)` that knows how to fetch + parse one project's source-of-truth format. The rendered HTML is then spliced between `<!-- {CHANGELOG|ROADMAP}-START -->` / `<!-- ...END -->` markers on the destination page.
+
+The adapter pattern lets us sync from heterogeneous sources (plain markdown, custom-shape markdown, TypeScript data structures) without forcing every source repo to author a single shared convention. Adapters today:
+
+| Adapter | Source | Doctype | Notes |
+|---|---|---|---|
+| `parse_changelog` | `docs/changelog.md` | changelog | heading-line convention (see spec below); used by all 3 changelog entries |
+| `parse_aleph_roadmap` | `docs/plans/roadmap.md` | roadmap | `### Module` H3s, `**Workflow:**` + `**Features:**` bold markers, percent from `## Project Health` table |
+| `parse_jt_roadmap` | `docs/PRODUCTION_ROADMAP.md` | roadmap | `## PHASE N: Name` H2s, task-list body, no per-phase percent (renderer omits the badge) |
+| `parse_fl_roadmap` | `client/src/pages/Roadmap.tsx` | roadmap | extracts `productRoadmap` TypeScript data array via brace-counted slicing; phases → modules, items → features |
+
+**Currently wired (6 (slug, doctype) entries)** — see `PROJECT_DOCS` in the script:
+
+| Slug | Doctype | Source | Destination |
+|------|---------|--------|-------------|
+| `aleph` | changelog | `thirstypig/alephco.io-app:docs/changelog.md` | `/projects/aleph/changelog/` |
+| `aleph` | roadmap | `thirstypig/alephco.io-app:docs/plans/roadmap.md` | `/projects/aleph/roadmap/` |
+| `fantastic-leagues` | changelog | `thirstypig/TheFantasticLeagues:docs/changelog.md` | `/projects/fantastic-leagues/changelog/` |
+| `fantastic-leagues` | roadmap | `thirstypig/TheFantasticLeagues:client/src/pages/Roadmap.tsx` | `/projects/fantastic-leagues/roadmap/` |
+| `judge-tool` | changelog | `thirstypig/thejudgetool:docs/changelog.md` | `/projects/judge-tool/changelog/` |
+| `judge-tool` | roadmap | `thirstypig/thejudgetool:docs/PRODUCTION_ROADMAP.md` | `/projects/judge-tool/roadmap/` |
+
+**Changelogs are deferred** — no source `docs/changelog.md` exists in any of the 3 repos today; sync gracefully skips. The in-app changelog is currently the source of truth. Author a `docs/changelog.md` in a source repo (using the heading-line convention below) to opt that project's changelog into sync.
+
+**JT roadmap markers replaced the Done/Planned buckets** — `/projects/judge-tool/roadmap/` previously had hand-curated "Done" and "Planned" `.module` blocks under a "Short-term roadmap" section. Those were replaced with a "Production readiness" section containing markers that the sync overwrites with the live phases from `docs/PRODUCTION_ROADMAP.md`. The Health scorecard, Medium & long term, Risk register, and Findings history sections on the same page stay hand-curated.
+
+**FL roadmap was promoted from external link to internal sub-page** — early scope had an external `Roadmap ↗` link in `.project-nav` pointing at `app.thefantasticleagues.com/roadmap`. After the FL adapter was built, that link became an internal `/projects/fantastic-leagues/roadmap/` link. The external URL still appears INSIDE the FL roadmap page as "View live ↗" — not in nav. Test guard: `tests/test_site_e2e.py::TestFLRoadmapInternalNav::test_external_app_url_not_in_fl_navs` catches any nav regression to the old external href.
+
+**Markers.** Each destination page must contain a `<!-- CHANGELOG-START -->` / `<!-- CHANGELOG-END -->` pair (or `ROADMAP-START`/`-END` for roadmaps). The sync ONLY rewrites content between markers — surrounding `.stats-grid`, `.work-hero`, "Recent releases" headings, etc. stay hand-edited. Same bootstrap rule as `/now`: a missing marker pair makes the cron silently skip that page forever. `tests/test_site_e2e.py::TestProjectDocSyncMarkers` is the CI guard.
+
+**Fail-safe behavior** — per-doc, never crashes the whole script:
+- Source file missing → skip + log; no heartbeat written if the feed has never succeeded (prevents day-1 false-positive issues from the staleness monitor). Once a feed has succeeded once, future source-missing errors record `last_error` while preserving `last_success_utc`.
+- Markdown parses to zero entries → skip (treated like missing source).
+- Markers missing in destination → error + heartbeat (if known).
+- Network/PAT failures → handled by `urllib` exception catch in `fetch_file()`; returns None.
+
+**Heartbeat slugs.** `project-docs` aggregate, plus `project-docs:{slug}-{doctype}` per doc (e.g. `project-docs:aleph-changelog`). The staleness monitor's `GUIDANCE` has a `project-docs` entry; per-doc slugs fall through via `_fallback_guidance()` prefix match.
+
+### Heading-line markdown convention
+
+The sync uses small dedicated parsers, not a general markdown library. Authors of source-repo `docs/*.md` files must follow these rules — anything outside the contract is ignored, malformed entries are skipped silently. Supported inline: `**bold**` → `<strong>`, `` `code` `` → `<code>`. HTML in source is escaped (so a literal `<Component>` in prose renders as text).
+
+**`docs/changelog.md`** — one release per H2. The H2 line carries metadata; the H3 is the human title; bullets are the body.
+
+```markdown
+## v0.12.0 — 2026-04-14 — security, improvement
+### Code review batch — security, quality & cleanup
+
+- **Security:** Fixed SoQL injection in ENERGY STAR search
+- **Quality:** 47 inline auth checks → router middleware
+- **Cleanup:** Renamed service files to PascalCase
+
+## v0.11.0 — 2026-04-13 — improvement
+### Admin consolidation — 11 pages to 6
+
+- 11 sidebar items → 6 (Operations, Planning groups)
+- ~3,700 lines of static JSX eliminated
+```
+
+- H2 format: `## <version> — <date> [— <tag1, tag2, ...>]`. Em-dash (`—`, U+2014) is canonical; ASCII `--` works as fallback for editors that mangle Unicode. The date can carry trailing suffix like `2026-04-13 · Session 63` — anything up to the next em-dash is the date.
+- Tags map 1:1 to CSS classes in `projects/projects.css`. Known tags (rendered with existing styling): `feature`, `improvement`, `security`, `fix`, `breaking`, `docs`, `refactor`. Unknown tags get a sanitized class name `[a-z0-9-]` only — add a CSS rule if you want them styled.
+- Title (`###` line) is optional but recommended; an empty title renders as `<h3 class="release-title"></h3>`.
+- Body must be bullets (`-` or `*`). Paragraphs above the bullets are ignored. Continuation lines (indented 2+ spaces) are joined into the preceding bullet.
+
+**`docs/roadmap.md`** — one module per H2. The H2 line carries `<name> — <NN>%`. Inside each module: a prose description, then optional `### Workflow` (ordered list) and `### Features` (task list with state markers).
+
+```markdown
+## CPSIA / CPC — 60%
+Generate Children's Product Certificates for products intended for children
+12 and under. Covers the seven required CPC fields under CPSIA Section 14(a).
+
+### Workflow
+1. Add children's product with SKU, manufacturer, country of origin
+2. Upload lab test report from a CPSC-accepted lab
+3. Complete CPC form — seven required fields
+4. Preview and generate the formatted PDF
+
+### Features
+- [x] Product creation (children's product type)
+- [x] CPC 7-field data entry form
+- [ ] Cohort-aware product creation form
+- [~] CPSC e-Filing integration
+```
+
+- H2 format: `## <name> — <NN>%`. Percent must be an integer 0–999.
+- Description is the prose between the H2 line and the first H3 (or end of section if no H3). Multi-line descriptions collapse to a single space-joined paragraph — use blank lines only between subsections, not within prose.
+- `### Workflow` items use `1.`, `2.`, ... ordered-list syntax. Other H3 sections (anything that doesn't start with `Work` or `Feature`) are ignored.
+- `### Features` items use task-list syntax with three states:
+  - `- [x]` → `<li class="done">` (shipped)
+  - `- [ ]` → `<li class="planned">` (committed but unshipped)
+  - `- [~]` → `<li class="deferred">` (explicitly deprioritized)
+
+### Adding a project to the sync
+
+1. Add a new `(slug, repo, doctype)` tuple to `PROJECT_DOCS` in `bin/update-project-docs.py`.
+2. Add a matching `<!-- {DOCTYPE}-START -->` / `<!-- {DOCTYPE}-END -->` marker pair to the destination HTML page in the **same commit** (bootstrap requirement — without markers, the cron silently does nothing forever).
+3. Update `tests/test_project_docs.py::TestProjectDocsConfig::test_expected_entries_present` and `tests/test_site_e2e.py::TestProjectDocSyncMarkers::EXPECTED` to include the new entry.
+4. Verify `TLDR_FETCH_TOKEN` PAT has `Contents:Read` scope on the source repo (necessary for any private repo).
+5. Author `docs/{doctype}.md` in the source repo following the heading-line convention. The sync will pick it up on the next 14:15 UTC cron tick (or trigger via `workflow_dispatch`).
 
 ## Data feeds on /now
 
@@ -186,7 +288,7 @@ All code-review findings from four reviews (initial, 2026-04-18 full-repo audit,
 
 ## Testing
 
-224 tests across 9 files. Run with `python3 -m pytest tests/ -v` (requires `pytest`).
+287 tests across 10 files. Run with `python3 -m pytest tests/ -v` (requires `pytest`).
 
 | File | Type | Tests | What it covers |
 |------|------|-------|---------------|
@@ -196,9 +298,10 @@ All code-review findings from four reviews (initial, 2026-04-18 full-repo audit,
 | `tests/test_feed_builders.py` | Unit | 14 | Feed builders for mlb, letterboxd, goodreads (reading + read), fbst, plex — mocked network, tested HTML output; plex fetch failure returns None vs []; regression assertions that legacy `plex-*` classes are no longer emitted |
 | `tests/test_spotify.py` | Unit | 15 | `update-spotify.py`: build_html (asserts `nb-feed-podcast` + bare `<ul>`), state load/save, fetch_recent_tracks, fetch_current_podcast |
 | `tests/test_whoop.py` | Unit | 14 | `update-whoop.py`: fetch_latest_recovery/sleep/cycle, build_html with all recovery colors |
-| `tests/test_site_e2e.py` | E2E | 50 | All HTML pages: meta tags, CSP, aria-pressed, JSON-LD, images, internal links, feed markers (incl. PAGE-UPDATED), @media print + @page rule on notebook.css, OpenSSL parity, dark mode parity, GA4, privacy policy, symlink detection, sitemap consistency, OG image, **top-nav consistency** (brand text, no [about], [/now] slash prefix, experience→projects→now order across all 16 pages), **cross-project nav** (presence + canonical entry-point hrefs + aria-current on 12 deep-dive pages), **/now section structure** (sequential /01–/08 numbering + /07 watching/listening/reading sub-feeds, no Trakt/Letterboxd), **resume print pipeline** (print-name-block presence on homepage only + screen-hidden + canonical contact URLs; script.js beforeprint listener that opens `<details>` so the 8 additional certifications expand in resume.pdf; `.nb-card-name` print rule overrides screen sizing), **bucket list** (`bucketlist.json` schema + unique ids + status/completed-date invariants, /now render-target + hitlist title rename + link to /bucketlist/, public page loads + renderer script resolves + render targets present, no top-nav link to /bucketlist/) |
+| `tests/test_site_e2e.py` | E2E | 54 | All HTML pages: meta tags, CSP, aria-pressed, JSON-LD, images, internal links, feed markers (incl. PAGE-UPDATED), @media print + @page rule on notebook.css, OpenSSL parity, dark mode parity, GA4, privacy policy, symlink detection, sitemap consistency, OG image, **top-nav consistency** (brand text, no [about], [/now] slash prefix, experience→projects→now order across all pages), **cross-project nav** (presence + canonical entry-point hrefs + aria-current on 13 deep-dive pages), **/now section structure** (sequential /01–/08 numbering + /07 watching/listening/reading sub-feeds, no Trakt/Letterboxd), **resume print pipeline** (print-name-block presence on homepage only + screen-hidden + canonical contact URLs; script.js beforeprint listener that opens `<details>` so the 8 additional certifications expand in resume.pdf; `.nb-card-name` print rule overrides screen sizing), **bucket list** (`bucketlist.json` schema + unique ids + status/completed-date invariants, /now render-target + hitlist title rename + link to /bucketlist/, public page loads + renderer script resolves + render targets present, no top-nav link to /bucketlist/), **project doc sync markers** (6 destination pages have matching CHANGELOG/ROADMAP marker pairs — bootstrap guard for `bin/update-project-docs.py`), **FL Roadmap internal nav** (5 FL deep-dive pages link to `/projects/fantastic-leagues/roadmap/` in `.project-nav`; pre-promotion external href is asserted absent from any FL nav) |
 | `tests/test_projects.py` | Unit | 34 | `update-projects.py`: TLDR extraction, config schema (9 projects incl. ktv-singer + jameschang-co self-classifying), PR-event filtering, render_shipping_list, render_block, **classify_projects** (active/back-burner threshold = 7 days; project with no events → back-burner; edge case at exactly threshold pinned), **render_card** (active vs back-burner markup + URL safety), **nb-card-footer** wraps shipped + feed-updated in both render_card and render_block |
 | `tests/test_gcal.py` | Unit | 30 | `update-gcal.py`: VEVENT parsing (line continuations, escapes, TZID + UTC + all-day), filter past events + sort by full PT datetime (same-day-time-of-day ordering pinned), `_first_n_words_key` + `group_consecutive_by_prefix` (the first-3-words rule + consecutive constraint), `merge_group` (title trim + date span union), `build_html` (URL anchor only on http/https, multi-line LOCATION whitespace collapse, no per-card source tag, multi-day all-day range rendering, MAX_UPCOMING cap exercised) |
+| `tests/test_project_docs.py` | Unit | 59 | `update-project-docs.py`: convention changelog parser (heading-line: version + date + tags; date trailing suffix preserved; ASCII fallback; bullet continuation lines), convention roadmap parser (H2 module + percent; H3 Workflow/Features; task-list states `[x]`/`[ ]`/`[~]`), **Aleph adapter** (percent from Project Health table; bounded to Compliance Module Roadmaps section), **JT adapter** (`## PHASE N:` extraction; non-task-list bullets ignored), **FL Tsx adapter** (`productRoadmap` array extraction via brace-counted slicing; nested-brace handling in descriptions; `in-progress` → `planned` lossy mapping), HTML renderers (escape-then-bold/code; unknown tags get sanitized class; `percent=None` omits progress badge; optional blocks omitted when empty), **adapter factory** (`make_adapter` closure pattern; source-missing / unparseable error contracts), **sync_one fail-safe** (source-missing → skipped, no heartbeat on bootstrap; source-missing + known feed → error recorded while preserving prior last_success_utc; unknown doctype + missing destination → error), **PROJECT_DOCS invariants** (6 entries pinned; every adapter callable; wired destinations have matching marker pair) |
 
 CI runs on push to `main` via `.github/workflows/ci-tests.yml`. See `docs/test-plan.md` for the full testing strategy.
 

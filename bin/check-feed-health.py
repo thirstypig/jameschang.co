@@ -58,7 +58,26 @@ GUIDANCE = {
         "Google Calendar iCal feed. Verify `GCAL_ICAL_URL` secret is still valid "
         "(URL doesn't expire normally; user can rotate via Calendar settings if leaked)."
     ),
+    "project-docs": (
+        "Project changelog/roadmap sync (bin/update-project-docs.py). Aggregate "
+        "slug — at least one per-doc sync is failing. Check the workflow logs for "
+        "the colon-prefixed per-doc slugs (e.g. `project-docs:aleph-changelog`) "
+        "to identify which source repo is the problem. "
+        "Common causes: source `docs/changelog.md` deleted, "
+        "`TLDR_FETCH_TOKEN` PAT expired, or destination markers missing."
+    ),
 }
+
+
+def _fallback_guidance(slug):
+    """Resolve guidance for slugs that aren't an exact match. Currently only
+    `project-docs:{slug}-{doctype}` falls through to the aggregate entry.
+
+    Kept as a small named function so the lookup rule is explicit and can be
+    extended without touching build_body."""
+    if slug.startswith("project-docs:"):
+        return GUIDANCE["project-docs"]
+    return None
 
 
 def gh(*args):
@@ -124,7 +143,7 @@ def open_issues_by_feed():
 def build_body(slug, info, hours):
     last_success = info.get("last_success_utc", "never")
     last_error = info.get("last_error", "none recorded")
-    guidance = GUIDANCE.get(slug, "No specific guidance — investigate the workflow logs.")
+    guidance = GUIDANCE.get(slug) or _fallback_guidance(slug) or "No specific guidance — investigate the workflow logs."
     return (
         f"Feed `{slug}` has not had a successful sync in **{hours:.0f} hours**.\n\n"
         f"- **Last success (UTC):** `{last_success}`\n"

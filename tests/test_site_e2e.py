@@ -729,8 +729,8 @@ class TestCrossProjectNav:
         """Combined presence + href assertion (merged 2026-04-28 from two
         separate tests after /ce:review flagged the duplicate iteration)."""
         # Sanity: 12 deep-dives (4 aleph + 5 fl + 3 judge-tool)
-        assert len(self.DEEP_DIVES) == 12, (
-            f"Expected 12 deep-dive pages, found {len(self.DEEP_DIVES)}: {self.DEEP_DIVES}"
+        assert len(self.DEEP_DIVES) == 13, (
+            f"Expected 13 deep-dive pages, found {len(self.DEEP_DIVES)}: {self.DEEP_DIVES}"
         )
         failures = []
         for f in self.DEEP_DIVES:
@@ -769,6 +769,95 @@ class TestCrossProjectNav:
             if f"/projects/{slug}/" not in anchor:
                 failures.append(f"{f}: aria-current chip points at wrong project")
         assert not failures, "aria-current drift:\n" + "\n".join(failures)
+
+
+# ── Tests: Project doc sync markers ──────────────────────────────
+#
+# bin/update-project-docs.py splices rendered HTML between CHANGELOG-START/END
+# (or ROADMAP-START/END) on each destination page. If the markers ever drift
+# out of a destination page, the cron silently skips that page forever. These
+# tests enforce the bootstrap invariant: the marker must exist before the
+# script can do anything useful.
+
+class TestProjectDocSyncMarkers:
+    """Every (slug, doctype) entry in PROJECT_DOCS must have its marker pair."""
+
+    # Mirror of bin/update-project-docs.py's PROJECT_DOCS — kept literal here
+    # to catch unintended additions / removals via this test.
+    EXPECTED = [
+        ("aleph", "changelog"),
+        ("aleph", "roadmap"),
+        ("fantastic-leagues", "changelog"),
+        ("fantastic-leagues", "roadmap"),
+        ("judge-tool", "changelog"),
+        ("judge-tool", "roadmap"),
+    ]
+
+    def test_markers_present_on_destination_pages(self):
+        failures = []
+        for slug, doctype in self.EXPECTED:
+            page = f"projects/{slug}/{doctype}/index.html"
+            _, body = fetch(page)
+            marker = doctype.upper()
+            for tag in (f"<!-- {marker}-START -->", f"<!-- {marker}-END -->"):
+                if tag not in body:
+                    failures.append(f"{page}: missing {tag}")
+        assert not failures, "Project doc sync marker drift:\n" + "\n".join(failures)
+
+
+# ── Tests: Fantastic Leagues Roadmap internal nav link ───────────
+#
+# The FL roadmap was promoted from an external link (app.thefantasticleagues.com)
+# to an internal sub-page (/projects/fantastic-leagues/roadmap/) once the
+# Tsx adapter went live. Every FL deep-dive must carry the internal Roadmap
+# link in its project-nav. The external URL still appears INSIDE the FL
+# roadmap page (as "View live ↗") but no longer in nav.
+
+class TestFLRoadmapInternalNav:
+    FL_DEEP_DIVES = [
+        f for f in STANDARD_PAGES if f.startswith("projects/fantastic-leagues/")
+    ]
+    EXPECTED_HREF = "/projects/fantastic-leagues/roadmap/"
+
+    def test_every_fl_page_has_internal_roadmap_link(self):
+        assert self.FL_DEEP_DIVES, "No FL deep-dive pages found — path filter broke"
+        failures = []
+        for f in self.FL_DEEP_DIVES:
+            _, body = fetch(f)
+            nav_match = re.search(
+                r'<nav class="project-nav"[^>]*>(.*?)</nav>',
+                body, re.DOTALL,
+            )
+            if not nav_match:
+                failures.append(f"{f}: project-nav block not found")
+                continue
+            nav = nav_match.group(1)
+            if self.EXPECTED_HREF not in nav:
+                failures.append(f"{f}: project-nav missing {self.EXPECTED_HREF}")
+            # Internal links must NOT have rel/target attrs — those are for
+            # external links. A stale rel/target here would be a leftover from
+            # the pre-promotion external href.
+            if f'href="{self.EXPECTED_HREF}" target=' in nav:
+                failures.append(f"{f}: internal Roadmap link has stale target attr")
+        assert not failures, "FL Roadmap nav drift:\n" + "\n".join(failures)
+
+    def test_external_app_url_not_in_fl_navs(self):
+        """The pre-promotion external href must not linger in any FL nav.
+        It can still appear in `.snapshot-banner` or page body — only nav
+        is asserted clean."""
+        stale = "https://app.thefantasticleagues.com/roadmap"
+        failures = []
+        for f in self.FL_DEEP_DIVES:
+            _, body = fetch(f)
+            nav_match = re.search(
+                r'<nav class="project-nav"[^>]*>(.*?)</nav>',
+                body, re.DOTALL,
+            )
+            if not nav_match:
+                continue
+            if stale in nav_match.group(1):
+                failures.append(f"{f}: project-nav still contains stale external href {stale}")
+        assert not failures, "Stale external href in nav:\n" + "\n".join(failures)
 
 
 # ── Tests: Judge Tool branding ────────────────────────────────────
