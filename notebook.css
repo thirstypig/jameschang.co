@@ -642,6 +642,15 @@ a:hover { text-decoration: underline; }
   gap: 4px;
 }
 .nb-feed ul li { line-height: 1.5; }
+.nb-feed ol.nb-feed-questions {
+  margin: 0;
+  padding-left: 22px;
+  font-size: 13px;
+  display: grid;
+  gap: 8px;
+}
+.nb-feed ol.nb-feed-questions li { line-height: 1.55; padding-left: 4px; }
+.nb-feed ol.nb-feed-questions li::marker { font-family: var(--mono); color: var(--accent); font-weight: 700; }
 .nb-feed .when { color: var(--dim); font-family: var(--mono); font-size: 11px; }
 .nb-feed .accent { color: var(--accent); }
 .nb-feed-podcast {
