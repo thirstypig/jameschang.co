@@ -131,11 +131,18 @@ def fetch_latest_recovery(token):
 
 
 def fetch_latest_sleep(token):
-    data = api_get(token, "/activity/sleep", {"limit": "1"})
+    # Pull several records and skip naps. WHOOP logs naps as separate sleep
+    # activities, so limit=1 can land on a 30-min daytime nap instead of the
+    # main nightly sleep the app headlines. `nap` is a top-level boolean on
+    # each sleep record (sibling of `score`). Pick the most recent NON-nap by
+    # `end` timestamp rather than trusting the API's default sort order.
+    data = api_get(token, "/activity/sleep", {"limit": "10"})
     records = data.get("records", [])
-    if not records:
+    main_sleeps = [r for r in records if not r.get("nap", False)]
+    if not main_sleeps:
         return None
-    score = records[0].get("score", {})
+    record = max(main_sleeps, key=lambda r: r.get("end") or r.get("start") or "")
+    score = record.get("score", {}) or {}
     stages = score.get("stage_summary", {}) or {}
     # Actual sleep time = in-bed minus awake (matches what the WHOOP app displays)
     in_bed_ms = stages.get("total_in_bed_time_milli", 0)

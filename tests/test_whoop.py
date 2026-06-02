@@ -82,6 +82,43 @@ class TestFetchLatestSleep:
         assert result["hours"] == 0
         assert result["minutes"] == 0
 
+    def test_skips_nap_picks_main_sleep(self, monkeypatch):
+        """A recent 30-min nap must not shadow last night's main sleep — the
+        bug that showed '0h 30m' on /now while the app showed 5h 29m."""
+        fake = {"records": [
+            {"nap": True, "end": "2026-06-02T15:00:00.000Z", "score": {"stage_summary": {
+                "total_in_bed_time_milli": 30 * 60_000,
+                "total_awake_time_milli": 0,
+            }}},
+            {"nap": False, "end": "2026-06-02T07:00:00.000Z", "score": {"stage_summary": {
+                "total_in_bed_time_milli": 6 * 3_600_000,
+                "total_awake_time_milli": 31 * 60_000,
+            }, "sleep_efficiency_percentage": 90.0}},
+        ]}
+        monkeypatch.setattr(_whoop, "api_get", lambda token, path, params=None: fake)
+        result = fetch_latest_sleep("fake")
+        assert (result["hours"], result["minutes"]) == (5, 29)  # 6h - 31m
+        assert result["efficiency"] == 90.0
+
+    def test_picks_most_recent_main_sleep_by_end(self, monkeypatch):
+        """With two non-nap sleeps, the later `end` wins regardless of order."""
+        fake = {"records": [
+            {"nap": False, "end": "2026-05-30T07:00:00.000Z", "score": {"stage_summary": {
+                "total_in_bed_time_milli": 4 * 3_600_000, "total_awake_time_milli": 0}}},
+            {"nap": False, "end": "2026-06-02T07:00:00.000Z", "score": {"stage_summary": {
+                "total_in_bed_time_milli": 8 * 3_600_000, "total_awake_time_milli": 0}}},
+        ]}
+        monkeypatch.setattr(_whoop, "api_get", lambda token, path, params=None: fake)
+        result = fetch_latest_sleep("fake")
+        assert result["hours"] == 8
+
+    def test_all_naps_returns_none(self, monkeypatch):
+        """If every recent record is a nap, report no main sleep (tile shows —)."""
+        fake = {"records": [{"nap": True, "end": "2026-06-02T15:00:00.000Z", "score": {
+            "stage_summary": {"total_in_bed_time_milli": 30 * 60_000, "total_awake_time_milli": 0}}}]}
+        monkeypatch.setattr(_whoop, "api_get", lambda token, path, params=None: fake)
+        assert fetch_latest_sleep("fake") is None
+
 
 # ── fetch_latest_cycle ───────────────────────────────────────────
 
