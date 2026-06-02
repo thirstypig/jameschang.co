@@ -106,17 +106,51 @@ def _render_markdown_inline(text):
     return out
 
 
-def fetch_github_events(token):
-    """Fetch recent events for thirstypig (includes private repos when token is provided). Returns list or None on failure."""
-    url = "https://api.github.com/users/thirstypig/events?per_page=100"
+def shipping_repos_for(projects):
+    """Union of every repo whose events attribute to some project, in config
+    order, de-duplicated. Falls back to a project's `repo` if it declares no
+    `shipping_repos` — mirrors the same fallback in events_for_project()."""
+    seen = []
+    for p in projects:
+        for r in (p.get("shipping_repos") or [p["repo"]]):
+            if r not in seen:
+                seen.append(r)
+    return seen
+
+
+def fetch_repo_events(repo, token):
+    """Fetch recent events for ONE repo via /repos/{repo}/events.
+
+    Unlike the public /users/{user}/events feed (which only returns PUBLIC
+    events to a PAT), the per-repo endpoint returns events for PRIVATE repos
+    too, as long as the token can read the repo. This is why private projects
+    like Aleph (alephco.io-app) are now classified correctly instead of being
+    permanently stuck as back-burner. Returns a list of raw event dicts (same
+    shape the user-events feed produced) or [] on failure."""
+    url = f"https://api.github.com/repos/{repo}/events?per_page=100"
     headers = {"User-Agent": USER_AGENT, "Accept": "application/vnd.github+json"}
     if token:
         headers["Authorization"] = f"Bearer {token}"
     try:
-        return fetch_json(url, headers=headers, timeout=15)
+        return fetch_json(url, headers=headers, timeout=15) or []
     except (HTTPError, URLError) as e:
-        print(f"  events fetch failed: {e}", file=sys.stderr)
-        return None
+        print(f"  events fetch failed for {repo}: {e}", file=sys.stderr)
+        return []
+
+
+def fetch_github_events(token, repos):
+    """Aggregate recent events across all shipping repos into one flat list,
+    identical in shape to what parse_events() expects.
+
+    Per-repo fetch (vs. the old single /users/thirstypig/events call) means
+    private-repo activity is included, and the prior global 100-event cap
+    becomes a per-repo cap — so an active project's events can no longer be
+    pushed off the list by churn in a different repo. A single repo failing
+    is isolated (skipped, returns []), never fatal to the whole run."""
+    all_events = []
+    for repo in repos:
+        all_events.extend(fetch_repo_events(repo, token))
+    return all_events
 
 
 def _parse_iso(ts):
@@ -353,7 +387,7 @@ def main():
     if not token:
         print("WARNING: TLDR_FETCH_TOKEN not set — private repos will 404.")
 
-    events_raw = fetch_github_events(token)
+    events_raw = fetch_github_events(token, shipping_repos_for(projects))
     events_by_repo = parse_events(events_raw, token)
 
     old_content = read_now_html()

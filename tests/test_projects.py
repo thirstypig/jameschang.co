@@ -147,6 +147,50 @@ class TestParseEventsPullRequest:
         assert entries[0]["url"] == "https://github.com/thirstypig/demo/commit/abc123"
 
 
+class TestShippingReposFor:
+    """Union of shipping repos drives which repos we fetch events for."""
+
+    def test_unions_and_dedupes_in_config_order(self):
+        projects = [
+            {"slug": "a", "repo": "o/a", "shipping_repos": ["o/a", "o/a-www"]},
+            {"slug": "b", "repo": "o/b", "shipping_repos": ["o/a-www", "o/b"]},
+        ]
+        assert _projects.shipping_repos_for(projects) == ["o/a", "o/a-www", "o/b"]
+
+    def test_falls_back_to_repo_when_no_shipping_repos(self):
+        projects = [{"slug": "a", "repo": "o/solo"}]
+        assert _projects.shipping_repos_for(projects) == ["o/solo"]
+
+    def test_empty_projects_returns_empty(self):
+        assert _projects.shipping_repos_for([]) == []
+
+
+class TestFetchGithubEvents:
+    """Per-repo aggregation: private-repo events are included (the whole point
+    of Option A), and a single repo's failure is isolated, never fatal."""
+
+    def test_aggregates_across_repos(self, monkeypatch):
+        canned = {
+            "o/pub": [{"type": "PushEvent", "repo": {"name": "o/pub"}}],
+            "o/priv": [{"type": "PushEvent", "repo": {"name": "o/priv"}}],
+        }
+        monkeypatch.setattr(_projects, "fetch_repo_events",
+                            lambda repo, token: canned.get(repo, []))
+        out = _projects.fetch_github_events(token=None, repos=["o/pub", "o/priv"])
+        assert len(out) == 2
+        assert {e["repo"]["name"] for e in out} == {"o/pub", "o/priv"}
+
+    def test_single_repo_failure_is_isolated(self, monkeypatch):
+        # fetch_repo_events swallows network errors and returns [] — the
+        # aggregate must still surface the healthy repo's events.
+        def fake(repo, token):
+            return [] if repo == "o/broken" else [{"type": "PushEvent", "repo": {"name": repo}}]
+        monkeypatch.setattr(_projects, "fetch_repo_events", fake)
+        out = _projects.fetch_github_events(token=None, repos=["o/ok", "o/broken"])
+        assert len(out) == 1
+        assert out[0]["repo"]["name"] == "o/ok"
+
+
 class TestRenderShippingList:
     """Notebook-design markup contract for the shipping line."""
 
