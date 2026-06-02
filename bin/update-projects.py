@@ -467,9 +467,13 @@ def main():
         print("ERROR: ACTIVE-PROJECTS / BACKBURNER-PROJECTS markers missing in now/index.html.")
         return
 
+    # Healthy paths below (markers intact, ≥1 project rendered, page written or
+    # confirmed unchanged): a skipped optional project is a non-fatal note, not
+    # a feed outage — record it via partial_success so last_success still
+    # refreshes and the 48h staleness monitor doesn't cry wolf.
     if not content_changed(old_content, new_content):
         if failures:
-            record_heartbeat("projects", error=f"skipped {len(failures)} project(s): {', '.join(failures)}")
+            record_heartbeat("projects", error=f"skipped {len(failures)} project(s): {', '.join(failures)}", partial_success=True)
         else:
             record_heartbeat("projects")
         print("No meaningful changes.")
@@ -477,7 +481,7 @@ def main():
 
     write_now_html(new_content)
     if failures:
-        record_heartbeat("projects", error=f"skipped {len(failures)} project(s): {', '.join(failures)}")
+        record_heartbeat("projects", error=f"skipped {len(failures)} project(s): {', '.join(failures)}", partial_success=True)
     else:
         record_heartbeat("projects")
     print(

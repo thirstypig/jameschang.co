@@ -309,6 +309,37 @@ class TestRecordHeartbeat:
         assert data["feed1"]["last_success_utc"] == success_time
         assert data["feed1"]["last_error"] == "API down"
 
+    def test_partial_success_refreshes_and_records_note(self, tmp_path, monkeypatch):
+        """partial_success=True: the feed ran (refresh last_success) but with a
+        non-fatal note (record last_error) — e.g. one optional project skipped.
+        Distinguishes a partial skip from a real outage so the 48h staleness
+        monitor doesn't false-trip."""
+        hb_file = tmp_path / ".feeds-heartbeat.json"
+        hb_file.write_text(json.dumps({"projects": {"last_success_utc": "2020-01-01T00:00:00+00:00"}}))
+        import _shared
+        monkeypatch.setattr(_shared, "HEARTBEAT_FILE", str(hb_file))
+
+        record_heartbeat("projects", error="skipped 1 project(s): ktv-singer", partial_success=True)
+
+        data = json.loads(hb_file.read_text())
+        assert data["projects"]["last_success_utc"] != "2020-01-01T00:00:00+00:00"  # refreshed
+        assert data["projects"]["last_error"] == "skipped 1 project(s): ktv-singer"
+
+    def test_genuine_failure_preserves_without_partial_flag(self, tmp_path, monkeypatch):
+        """Regression: error WITHOUT partial_success keeps the original
+        preserve-and-don't-refresh contract, so real outages still age toward
+        the staleness alert."""
+        hb_file = tmp_path / ".feeds-heartbeat.json"
+        hb_file.write_text(json.dumps({"projects": {"last_success_utc": "2020-01-01T00:00:00+00:00"}}))
+        import _shared
+        monkeypatch.setattr(_shared, "HEARTBEAT_FILE", str(hb_file))
+
+        record_heartbeat("projects", error="all projects failed")
+
+        data = json.loads(hb_file.read_text())
+        assert data["projects"]["last_success_utc"] == "2020-01-01T00:00:00+00:00"  # preserved
+        assert data["projects"]["last_error"] == "all projects failed"
+
     def test_survives_corrupt_json(self, tmp_path, monkeypatch):
         """If the heartbeat file contains invalid JSON, record_heartbeat
         should silently recover and write a fresh valid file."""

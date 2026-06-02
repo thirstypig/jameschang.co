@@ -36,12 +36,22 @@ HEARTBEAT_FILE = os.path.join(REPO_ROOT, ".feeds-heartbeat.json")
 USER_AGENT = "jameschang.co/1.0 (personal dashboard; +https://jameschang.co)"
 
 
-def record_heartbeat(feed_name: str, error=None) -> None:
+def record_heartbeat(feed_name: str, error=None, partial_success: bool = False) -> None:
     """Record a timestamped heartbeat for a feed in .feeds-heartbeat.json.
 
     Only `last_success_utc` and `last_error` are persisted — the staleness
     monitor (bin/check-feed-health.py) reads `last_success_utc` only, so a
     standalone "last_run_utc" field would be write-only.
+
+    Three modes:
+    - `error=None` → clean success: refresh `last_success_utc`, drop any error.
+    - `error=...`, `partial_success=False` (default) → genuine failure: record
+      the error and PRESERVE the prior `last_success_utc` (do not refresh).
+    - `error=...`, `partial_success=True` → the feed actually ran and produced
+      its output, but with a non-fatal note (e.g. one optional project skipped):
+      refresh `last_success_utc` AND record the note in `last_error`. This stops
+      a perpetual partial-skip from freezing `last_success` and false-tripping
+      the 48h staleness monitor.
     """
     data = {}
     if os.path.exists(HEARTBEAT_FILE):
@@ -53,12 +63,14 @@ def record_heartbeat(feed_name: str, error=None) -> None:
     now = datetime.now(timezone.utc).isoformat()
     existing = data.get(feed_name, {})
     entry: dict = {}
-    if error:
+    if error and not partial_success:
         entry["last_error"] = str(error)[:200]
         if "last_success_utc" in existing:
             entry["last_success_utc"] = existing["last_success_utc"]
     else:
         entry["last_success_utc"] = now
+        if error:
+            entry["last_error"] = str(error)[:200]
     data[feed_name] = entry
     with open(HEARTBEAT_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, sort_keys=True)
