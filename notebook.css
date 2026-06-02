@@ -651,6 +651,26 @@ a:hover { text-decoration: underline; }
 }
 .nb-feed ol.nb-feed-questions li { line-height: 1.55; padding-left: 4px; }
 .nb-feed ol.nb-feed-questions li::marker { font-family: var(--mono); color: var(--accent); font-weight: 700; }
+.nb-feed .q-group {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent);
+  margin: 16px 0 8px;
+}
+.nb-feed .q-group:first-of-type { margin-top: 6px; }
+.nb-feed ol.nb-feed-questions .q-why {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--dim);
+}
+/* people i follow (/09) — reuses .nb-bullets; links are mono + dim */
+.nb-people li { margin-bottom: 10px; }
+.nb-people .people-links { font-family: var(--mono); font-size: 12px; white-space: nowrap; }
+.nb-people .people-links .when { color: var(--dim); }
 .nb-feed .when { color: var(--dim); font-family: var(--mono); font-size: 11px; }
 .nb-feed .accent { color: var(--accent); }
 .nb-feed-podcast {

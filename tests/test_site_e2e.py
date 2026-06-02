@@ -897,7 +897,7 @@ class TestJudgeToolBranding:
 # fail if a manual edit drops/adds a section without renumbering.
 
 class TestNowSectionStructure:
-    """/now must have exactly 8 numbered sections in sequence."""
+    """/now must have exactly 9 numbered sections in sequence."""
 
     def test_section_numbers_are_sequential(self):
         _, body = fetch("now/index.html")
@@ -905,17 +905,27 @@ class TestNowSectionStructure:
         # Filter to top-level section markers (some are inside JS strings — those
         # appear with quoted attribute values; the body markers are bare HTML)
         numeric = [int(n) for n in nums]
-        # We expect at least the static 8 — additional numbers may appear in
-        # script blocks but the first 8 unique values must be /01..../08 in order
+        # We expect at least the static 9 — additional numbers may appear in
+        # script blocks but the first 9 unique values must be /01..../09 in order
         sequential = []
         for n in numeric:
             if not sequential or n == sequential[-1] + 1:
                 sequential.append(n)
             else:
                 break  # gap — sequence broken
-        assert sequential[:8] == list(range(1, 9)), (
-            f"Expected /01../08 sequential, got {sequential[:8]}"
+        assert sequential[:9] == list(range(1, 10)), (
+            f"Expected /01../09 sequential, got {sequential[:9]}"
         )
+
+    def test_section_09_is_people_follow(self):
+        """/09 is the hand-maintained 'people i follow' section."""
+        _, body = fetch("now/index.html")
+        section_match = re.search(
+            r'<span class="nb-section-num">/09</span>\s*<h2 class="nb-section-title">([^<]+)</h2>',
+            body, re.DOTALL,
+        )
+        assert section_match, "Section /09 header not found"
+        assert section_match.group(1).strip() == "people i follow"
 
     def test_section_07_has_three_media_subfeeds(self):
         """/07 must contain watching (Plex), listening (Spotify), reading
