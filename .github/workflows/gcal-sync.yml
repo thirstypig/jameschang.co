@@ -2,7 +2,7 @@ name: Sync Google Calendar feed to /now
 
 on:
   schedule:
-    - cron: '0 * * * *'  # hourly at :00 UTC
+    - cron: '0 * * * *'  # hourly, top of the hour (UTC; PT minutes identical). Cron must be UTC.
   workflow_dispatch: {}
 
 permissions:

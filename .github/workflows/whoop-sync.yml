@@ -2,7 +2,7 @@ name: Sync WHOOP data to /now
 
 on:
   schedule:
-    - cron: '0 10 * * *'
+    - cron: '0 10 * * *'  # 10:00 UTC = 3:00 AM PT (PDT; 2:00 AM PST in winter). Cron must be UTC — GitHub requires it.
   workflow_dispatch:
 
 concurrency:

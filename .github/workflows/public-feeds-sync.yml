@@ -2,7 +2,7 @@ name: Sync public feeds to /now (GitHub, MLB, Letterboxd, FBST)
 
 on:
   schedule:
-    - cron: '15 */6 * * *'
+    - cron: '15 */6 * * *'  # every 6h at :15 UTC (00:15/06:15/12:15/18:15) = 5:15 PM/11:15 PM/5:15 AM/11:15 AM PT (PDT; −1h PST in winter)
   workflow_dispatch:
 
 concurrency:

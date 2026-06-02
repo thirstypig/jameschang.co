@@ -26,6 +26,20 @@ import os
 import subprocess
 import sys
 from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
+
+PACIFIC_TZ = ZoneInfo("America/Los_Angeles")
+
+
+def _to_pacific(iso_str):
+    """Render an ISO-8601 UTC timestamp as a human Pacific-time string
+    (auto PST/PDT). Returns the input unchanged if it isn't a parseable
+    datetime (e.g. the literal 'never')."""
+    try:
+        dt = datetime.fromisoformat(str(iso_str).replace("Z", "+00:00"))
+    except (ValueError, AttributeError, TypeError):
+        return iso_str
+    return dt.astimezone(PACIFIC_TZ).strftime("%b %d, %Y at %-I:%M %p %Z")
 
 STALE_HOURS = 48
 HEARTBEAT_FILE = os.path.join(os.path.dirname(__file__), "..", ".feeds-heartbeat.json")
@@ -141,12 +155,12 @@ def open_issues_by_feed():
 
 
 def build_body(slug, info, hours):
-    last_success = info.get("last_success_utc", "never")
+    last_success = _to_pacific(info.get("last_success_utc", "never"))
     last_error = info.get("last_error", "none recorded")
     guidance = GUIDANCE.get(slug) or _fallback_guidance(slug) or "No specific guidance — investigate the workflow logs."
     return (
         f"Feed `{slug}` has not had a successful sync in **{hours:.0f} hours**.\n\n"
-        f"- **Last success (UTC):** `{last_success}`\n"
+        f"- **Last success (PT):** `{last_success}`\n"
         f"- **Last error:** `{last_error}`\n\n"
         f"### What to do\n\n"
         f"{guidance}\n\n"

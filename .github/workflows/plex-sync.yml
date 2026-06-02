@@ -2,7 +2,7 @@ name: Sync Plex data to /now
 
 on:
   schedule:
-    - cron: '45 */6 * * *'
+    - cron: '45 */6 * * *'  # every 6h at :45 UTC (00:45/06:45/12:45/18:45) = 5:45 PM/11:45 PM/5:45 AM/11:45 AM PT (PDT; −1h PST in winter)
   workflow_dispatch:
 
 concurrency:
