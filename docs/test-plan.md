@@ -4,7 +4,7 @@ Testing strategy, inventory, and execution cadence for the site and its automati
 
 ## Test Types
 
-### Unit Tests (8 files)
+### Unit Tests (9 files)
 
 **What they test:** Individual Python functions in isolation — the pure logic that transforms data, escapes HTML, formats time, and replaces content markers.
 
@@ -27,6 +27,7 @@ python3 -m pytest tests/ -v
 | `tests/test_whoop.py` | `bin/update-whoop.py` | `fetch_latest_recovery`/`sleep`/`cycle`, `build_html` with all recovery color thresholds |
 | `tests/test_projects.py` | `bin/update-projects.py` | `extract_tldr` (marker extraction, edge cases), `load_config` (9-project schema), `classify_projects` (active/back-burner threshold = 7 days, no-events default, edge case at exactly threshold), `render_card` (active vs back-burner markup + URL safety + nb-card-footer wraps shipped + feed-updated), PR-event filtering, `render_shipping_list`, `render_block` (nb-card-footer wrapper asserted) |
 | `tests/test_gcal.py` | `bin/update-gcal.py` | VEVENT parsing (line continuations, escapes, TZID + UTC + all-day), filter past + sort by full PT datetime (same-day-time-of-day ordering), `_first_n_words_key` + `group_consecutive_by_prefix` (first-3-words rule + consecutive constraint), `merge_group` (title trim at ` - ` / ` · ` / `:` separator, date span union), `build_html` (URL anchor only on http/https, multi-line LOCATION whitespace collapse, no per-card source tag, multi-day all-day range rendering, MAX_UPCOMING cap exercised, all-day vs timed sort against synthetic midnight) |
+| `tests/test_project_docs.py` *(added 2026-05-29)* | `bin/update-project-docs.py` | Convention parsers (`parse_changelog`, `parse_roadmap` heading-line grammar), **Aleph adapter** (`parse_aleph_roadmap` — percent from Project Health table; anchored-and-bounded module discovery so downstream H2 sections don't leak), **JT adapter** (`parse_jt_roadmap` — `## PHASE N:` extraction; non-task-list bullets ignored), **FL Tsx adapter** (`parse_fl_roadmap` — brace-counted `productRoadmap` array slicing with string-state tracking; `[]` type-annotation skip; `in-progress` → `planned` lossy mapping), shared renderers (`percent=None` omits progress badge; optional blocks omitted), **`make_adapter` factory** (closure pattern; source-missing / unparseable error contracts), **`sync_one` fail-safe** (bootstrap-aware heartbeat gating — error heartbeats only for already-known feeds), **`PROJECT_DOCS` invariants** (6 entries pinned; every adapter callable; 4 wired destinations have matching marker pair) |
 
 ### E2E Tests (`tests/test_site_e2e.py`)
 
@@ -59,7 +60,9 @@ python3 -m pytest tests/test_site_e2e.py -v
 | GA4 CSP | CSP allows googletagmanager.com on all pages |
 | Privacy feeds | Privacy policy lists all current feed data sources |
 | Privacy GA4 | Privacy policy discloses GA4 measurement ID |
-| **Top-nav consistency** *(added 2026-04-28)* | Brand text reads `jameschang.co` on every page, no `[about]` link, `[/now]` slash-prefix, nav order is `[experience] → [projects ▾] → [/now]` across all 16 HTML files |
+| **Top-nav consistency** *(added 2026-04-28)* | Brand text reads `jameschang.co` on every page, no `[about]` link, `[/now]` slash-prefix, nav order is `[experience] → [projects ▾] → [/now]` across all 17 HTML files |
+| **Project doc sync markers** *(added 2026-05-28)* | All 6 wired destination pages (Aleph + JT + FL × {changelog, roadmap}) carry matching `CHANGELOG-START/END` or `ROADMAP-START/END` marker pairs. Bootstrap guard for `bin/update-project-docs.py` — without these, the daily cron silently skips every page. |
+| **FL Roadmap internal nav** *(added 2026-05-28)* | All 5 FL deep-dive pages link to `/projects/fantastic-leagues/roadmap/` in `.project-nav`. The pre-promotion external href (`app.thefantasticleagues.com/roadmap`) is asserted absent from any FL nav — guards against regression to the old external link. |
 | **Cross-project nav** *(added 2026-04-28)* | Every deep-dive sub-page under `/projects/{slug}/` has a `.cross-project-nav` strip with chips for the 3 projects, hrefs pointing at canonical entry-point sub-pages (`how-it-works`, `ai-insights`, `tech`), and exactly one chip carrying `aria-current="page"` matching the current slug |
 | **/now section structure** *(added 2026-04-28)* | `/01..../08` numbered sections sequential without gaps; section `/07` contains `watching` (Plex) + `listening` (Spotify) + `reading` (Goodreads) feed heads and zero TRAKT/LETTERBOXD marker leakage |
 
@@ -72,6 +75,7 @@ python3 -m pytest tests/test_site_e2e.py -v
 | **Before deploy** | Full suite + manual visual check | Local pytest + screenshot |
 | **Every 6 hours** | Feed staleness check | `feeds-staleness-check.yml` runs `bin/check-feed-health.py` — opens / comments / auto-closes GitHub issues labeled `feed-stale` when any feed's last_success_utc is >48h old |
 | **Daily 7 AM PT** | Project TLDR + shipping sync | `projects-sync.yml` runs `bin/update-projects.py` — pulls TLDR blocks from each repo's CLAUDE.md and per-project GitHub events |
+| **Daily 7:15 AM PT** | Project changelog/roadmap sync | `project-docs-sync.yml` runs `bin/update-project-docs.py` — per-project adapters fetch source-of-truth from each repo's native format (Aleph `docs/plans/roadmap.md`, JT `docs/PRODUCTION_ROADMAP.md`, FL `client/src/pages/Roadmap.tsx`) and render into the deep-dive pages. 15-min offset from `projects-sync.yml` to avoid concurrency races. See `docs/solutions/integration-issues/per-project-adapters-for-heterogeneous-roadmap-sources.md`. |
 
 ## Adding a New Test
 
