@@ -2,36 +2,6 @@
   "last_updated": "2026-06-02",
   "items": [
     {
-      "id": "ride-donkey-look-horse",
-      "text": "Ride a donkey while you look for a horse.",
-      "original": "騎驢找馬",
-      "lang": "zh",
-      "translation": "Ride a donkey, look for a horse.",
-      "source": "Chinese idiom",
-      "note": "Make do with what you have while you search for something better.",
-      "category": "idiom"
-    },
-    {
-      "id": "rather-go-without",
-      "text": "Rather go without than settle for shoddy.",
-      "original": "寧缺毋濫",
-      "lang": "zh",
-      "translation": "Better to have less but better than more and worse.",
-      "source": "Chinese idiom",
-      "note": "Quality over quantity; never lower the standard just to fill a gap.",
-      "category": "idiom"
-    },
-    {
-      "id": "art-never-finished",
-      "text": "Art is never finished, only abandoned.",
-      "original": "",
-      "lang": "",
-      "translation": "",
-      "source": "Paul Valéry",
-      "note": "Commonly misattributed to Leonardo da Vinci. Valéry wrote it of a work (his poem) in a 1933 essay on Le Cimetière marin.",
-      "category": "literature"
-    },
-    {
       "id": "veritas-inlustrat",
       "text": "Truth enlightens.",
       "original": "Veritas inlustrat",
@@ -42,84 +12,14 @@
       "category": "latin"
     },
     {
-      "id": "strength-overcoming",
-      "text": "Strength doesn't come from what you can do. It comes from overcoming the things you once thought you couldn't.",
+      "id": "morgan-spurlock-influencers",
+      "text": "Now comes the next big step, which will be huge, as the pipelines converge. Democratization of curation. Democratization of marketing. How do we point toward what matters? That's where it's going — to influencers, to people like you and people like me, who people trust. Those voices will be more resonant as we move forward, because people will trust them more as we move forward.",
       "original": "",
       "lang": "",
       "translation": "",
-      "source": "Rikki Rogers",
-      "note": "",
+      "source": "Morgan Spurlock, The Tim Ferriss Show #150 (Mar 29, 2016)",
+      "note": "Transcribed from the episode; wording lightly tidied from the spoken delivery.",
       "category": "philosophy"
-    },
-    {
-      "id": "seven-emotions-six-desires",
-      "text": "Seven emotions, six desires.",
-      "original": "七情六欲",
-      "lang": "zh",
-      "translation": "The seven emotions and six desires.",
-      "source": "Chinese idiom",
-      "note": "The full range of human feeling and wanting. The seven emotions trace to the Book of Rites; the six desires to the Lüshi Chunqiu and Buddhist tradition.",
-      "category": "idiom"
-    },
-    {
-      "id": "wang-wei-stream-clouds",
-      "text": "I walk to where the stream runs out, and sit to watch the clouds rise.",
-      "original": "行到水窮處，坐看雲起時",
-      "lang": "zh",
-      "translation": "I stroll along the stream up to where it ends. I sit down watching the clouds as they begin to rise.",
-      "source": "Wang Wei 王維, 《終南別業》",
-      "note": "Tang-dynasty Chan (Zen) poem — the celebrated fifth and sixth lines.",
-      "category": "literature"
-    },
-    {
-      "id": "health-crown",
-      "text": "Health is a crown worn by the healthy that only the sick can see.",
-      "original": "",
-      "lang": "",
-      "translation": "",
-      "source": "Arabic proverb",
-      "note": "Sometimes attributed to al-Shāfiʿī or Ali ibn Abi Talib, but best cited simply as an Arabic proverb.",
-      "category": "proverb"
-    },
-    {
-      "id": "guilty-than-impotent",
-      "text": "These days, better to appear guilty than impotent.",
-      "original": "",
-      "lang": "",
-      "translation": "",
-      "source": "President Nemerov, The Sum of All Fears (2002)",
-      "note": "",
-      "category": "film"
-    },
-    {
-      "id": "keep-my-options-open",
-      "text": "Listen, I'm a politician, which means I'm a cheat and a liar, and when I'm not kissing babies I'm stealing their lollipops. But it also means I keep my options open.",
-      "original": "",
-      "lang": "",
-      "translation": "",
-      "source": "Jeffrey Pelt, The Hunt for Red October (1990)",
-      "note": "",
-      "category": "film"
-    },
-    {
-      "id": "life-and-death-wearing-me-out",
-      "text": "Life and Death Are Wearing Me Out.",
-      "original": "生死疲勞",
-      "lang": "zh",
-      "translation": "Life and Death Are Wearing Me Out.",
-      "source": "Mo Yan 莫言",
-      "note": "Title of Mo Yan's 2006 novel; English translation by Howard Goldblatt (2008).",
-      "category": "literature"
-    },
-    {
-      "id": "courage-to-act",
-      "text": "A good idea is meaningless without the courage to act. You must speak up.",
-      "original": "",
-      "lang": "",
-      "translation": "",
-      "source": "Elizabeth McCord, Madam Secretary",
-      "note": "",
-      "category": "film"
     },
     {
       "id": "go-fast-go-far",
@@ -132,16 +32,6 @@
       "category": "proverb"
     },
     {
-      "id": "pascal-shorter-letter",
-      "text": "I have made this longer than usual because I did not have the time to make it shorter.",
-      "original": "Je n'ai fait celle-ci plus longue que parce que je n'ai pas eu le loisir de la faire plus courte.",
-      "lang": "fr",
-      "translation": "I have made this longer than usual because I did not have the time to make it shorter.",
-      "source": "Blaise Pascal, Lettres provinciales, Letter XVI (1657)",
-      "note": "Frequently misattributed to Mark Twain and others; Pascal is the documented origin.",
-      "category": "literature"
-    },
-    {
       "id": "insult-indifference",
       "text": "The greatest insult a man can level at another man is indifference.",
       "original": "",
@@ -152,24 +42,24 @@
       "category": "philosophy"
     },
     {
-      "id": "lazy-person-hard-job",
-      "text": "I choose a lazy person to do a hard job, because a lazy person will find an easy way to do it.",
-      "original": "",
-      "lang": "",
-      "translation": "",
-      "source": "Frank Gilbreth (lineage)",
-      "note": "Commonly misattributed to Bill Gates. The idea traces to efficiency expert Frank Gilbreth Sr. (1920) and the phrasing to Clarence Bleicher (1947).",
-      "category": "philosophy"
+      "id": "wang-wei-stream-clouds",
+      "text": "I walk to where the stream runs out, and sit to watch the clouds rise.",
+      "original": "行到水窮處，坐看雲起時",
+      "lang": "zh",
+      "translation": "I stroll along the stream up to where it ends. I sit down watching the clouds as they begin to rise.",
+      "source": "Wang Wei 王維, 《終南別業》",
+      "note": "Tang-dynasty Chan (Zen) poem — the celebrated fifth and sixth lines.",
+      "category": "literature"
     },
     {
-      "id": "morgan-spurlock-influencers",
-      "text": "Now comes the next big step, which will be huge, as the pipelines converge. Democratization of curation. Democratization of marketing. How do we point toward what matters? That's where it's going — to influencers, to people like you and people like me, who people trust. Those voices will be more resonant as we move forward, because people will trust them more as we move forward.",
+      "id": "art-never-finished",
+      "text": "Art is never finished, only abandoned.",
       "original": "",
       "lang": "",
       "translation": "",
-      "source": "Morgan Spurlock, The Tim Ferriss Show #150 (Mar 29, 2016)",
-      "note": "Transcribed from the episode; wording lightly tidied from the spoken delivery.",
-      "category": "philosophy"
+      "source": "Paul Valéry",
+      "note": "Commonly misattributed to Leonardo da Vinci. Valéry wrote it of a work (his poem) in a 1933 essay on Le Cimetière marin.",
+      "category": "literature"
     },
     {
       "id": "bruce-lee",
@@ -200,6 +90,96 @@
       ]
     },
     {
+      "id": "keep-my-options-open",
+      "text": "Listen, I'm a politician, which means I'm a cheat and a liar, and when I'm not kissing babies I'm stealing their lollipops. But it also means I keep my options open.",
+      "original": "",
+      "lang": "",
+      "translation": "",
+      "source": "Jeffrey Pelt, The Hunt for Red October (1990)",
+      "note": "",
+      "category": "film"
+    },
+    {
+      "id": "health-crown",
+      "text": "Health is a crown worn by the healthy that only the sick can see.",
+      "original": "",
+      "lang": "",
+      "translation": "",
+      "source": "Arabic proverb",
+      "note": "Sometimes attributed to al-Shāfiʿī or Ali ibn Abi Talib, but best cited simply as an Arabic proverb.",
+      "category": "proverb"
+    },
+    {
+      "id": "guilty-than-impotent",
+      "text": "These days, better to appear guilty than impotent.",
+      "original": "",
+      "lang": "",
+      "translation": "",
+      "source": "President Nemerov, The Sum of All Fears (2002)",
+      "note": "",
+      "category": "film"
+    },
+    {
+      "id": "rather-go-without",
+      "text": "Rather go without than settle for shoddy.",
+      "original": "寧缺毋濫",
+      "lang": "zh",
+      "translation": "Better to have less but better than more and worse.",
+      "source": "Chinese idiom",
+      "note": "Quality over quantity; never lower the standard just to fill a gap.",
+      "category": "idiom"
+    },
+    {
+      "id": "pascal-shorter-letter",
+      "text": "I have made this longer than usual because I did not have the time to make it shorter.",
+      "original": "Je n'ai fait celle-ci plus longue que parce que je n'ai pas eu le loisir de la faire plus courte.",
+      "lang": "fr",
+      "translation": "I have made this longer than usual because I did not have the time to make it shorter.",
+      "source": "Blaise Pascal, Lettres provinciales, Letter XVI (1657)",
+      "note": "Frequently misattributed to Mark Twain and others; Pascal is the documented origin.",
+      "category": "literature"
+    },
+    {
+      "id": "courage-to-act",
+      "text": "A good idea is meaningless without the courage to act. You must speak up.",
+      "original": "",
+      "lang": "",
+      "translation": "",
+      "source": "Elizabeth McCord, Madam Secretary",
+      "note": "",
+      "category": "film"
+    },
+    {
+      "id": "life-and-death-wearing-me-out",
+      "text": "Life and Death Are Wearing Me Out.",
+      "original": "生死疲勞",
+      "lang": "zh",
+      "translation": "Life and Death Are Wearing Me Out.",
+      "source": "Mo Yan 莫言",
+      "note": "Title of Mo Yan's 2006 novel; English translation by Howard Goldblatt (2008).",
+      "category": "literature"
+    },
+    {
+      "id": "goethe-knowing-not-enough",
+      "text": "Knowing is not enough; we must apply. Willing is not enough; we must do.",
+      "original": "",
+      "lang": "",
+      "translation": "",
+      "source": "Johann Wolfgang von Goethe",
+      "note": "From Wilhelm Meister's Journeyman Years. Frequently misattributed to Bruce Lee, who quoted it.",
+      "category": "philosophy"
+    },
+    {
+      "id": "ride-donkey-look-horse",
+      "text": "Ride a donkey while you look for a horse.",
+      "original": "騎驢找馬",
+      "lang": "zh",
+      "translation": "Ride a donkey, look for a horse.",
+      "source": "Chinese idiom",
+      "note": "Make do with what you have while you search for something better.",
+      "category": "idiom"
+    },
+    {
       "id": "ed-catmull-creativity-inc",
       "title": "Ed Catmull",
       "text": "If there is more truth in the hallways than in meetings, you have a problem.",
@@ -221,7 +201,10 @@
       "text": "If you can keep your head when all about you are losing theirs and blaming it on you…",
       "source": "Rudyard Kipling (1910)",
       "note": "Recited by Tommy (Jason Clarke) to his fellow representatives in the Rhode Island state legislature in the series Brotherhood.",
-      "link": { "url": "https://www.youtube.com/watch?v=7YKXI3QUl-A", "label": "Watch the scene ↗" },
+      "link": {
+        "url": "https://www.youtube.com/watch?v=7YKXI3QUl-A",
+        "label": "Watch the scene ↗"
+      },
       "category": "poem",
       "entries": [
         "If you can keep your head when all about you\nAre losing theirs and blaming it on you,\nIf you can trust yourself when all men doubt you,\nBut make allowance for their doubting too;\nIf you can wait and not be tired by waiting,\nOr being lied about, don't deal in lies,\nOr being hated, don't give way to hating,\nAnd yet don't look too good, nor talk too wise:",
@@ -231,13 +214,33 @@
       ]
     },
     {
-      "id": "goethe-knowing-not-enough",
-      "text": "Knowing is not enough; we must apply. Willing is not enough; we must do.",
+      "id": "seven-emotions-six-desires",
+      "text": "Seven emotions, six desires.",
+      "original": "七情六欲",
+      "lang": "zh",
+      "translation": "The seven emotions and six desires.",
+      "source": "Chinese idiom",
+      "note": "The full range of human feeling and wanting. The seven emotions trace to the Book of Rites; the six desires to the Lüshi Chunqiu and Buddhist tradition.",
+      "category": "idiom"
+    },
+    {
+      "id": "lazy-person-hard-job",
+      "text": "I choose a lazy person to do a hard job, because a lazy person will find an easy way to do it.",
       "original": "",
       "lang": "",
       "translation": "",
-      "source": "Johann Wolfgang von Goethe",
-      "note": "From Wilhelm Meister's Journeyman Years. Frequently misattributed to Bruce Lee, who quoted it.",
+      "source": "Frank Gilbreth (lineage)",
+      "note": "Commonly misattributed to Bill Gates. The idea traces to efficiency expert Frank Gilbreth Sr. (1920) and the phrasing to Clarence Bleicher (1947).",
+      "category": "philosophy"
+    },
+    {
+      "id": "strength-overcoming",
+      "text": "Strength doesn't come from what you can do. It comes from overcoming the things you once thought you couldn't.",
+      "original": "",
+      "lang": "",
+      "translation": "",
+      "source": "Rikki Rogers",
+      "note": "",
       "category": "philosophy"
     }
   ]
