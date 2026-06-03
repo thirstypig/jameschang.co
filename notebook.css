@@ -919,6 +919,132 @@ a:hover { text-decoration: underline; }
 }
 .nb-quote figcaption strong { color: var(--ink); }
 
+/* ─── /now quote cards + expand modal ─────────────────────────────── */
+.nb-quote-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+.nb-quote-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+  min-height: 158px;
+  padding: 18px 18px 16px;
+  border: var(--border-w) solid var(--ink);
+  background: var(--surface);
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--ink);
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+.nb-quote-card:hover,
+.nb-quote-card:focus-visible {
+  transform: translate(-2px, -2px);
+  box-shadow: calc(var(--shadow-offset) + 2px) calc(var(--shadow-offset) + 2px) 0 var(--accent);
+  outline: none;
+}
+.nb-quote-card-text {
+  font-family: var(--display);
+  font-size: 15px;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.nb-quote-card-text:lang(zh) {
+  font-size: 19px;
+  letter-spacing: 0.04em;
+}
+.nb-quote-card-source {
+  margin-top: auto;
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--dim);
+}
+.nb-quote-card-expand {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-family: var(--mono);
+  font-size: 16px;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.nb-quote-modal {
+  border: var(--border-w) solid var(--ink);
+  background: var(--surface);
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--ink);
+  max-width: 560px;
+  width: calc(100% - 48px);
+  padding: 30px 28px 26px;
+  color: var(--ink);
+}
+.nb-quote-modal::backdrop { background: rgba(0, 0, 0, 0.45); }
+.nb-quote-modal-close {
+  position: absolute;
+  top: 6px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 26px;
+  line-height: 1;
+  color: var(--dim);
+  cursor: pointer;
+}
+.nb-quote-modal-close:hover { color: var(--ink); }
+.nb-quote-modal-original {
+  font-family: var(--display);
+  font-size: 22px;
+  line-height: 1.5;
+  margin: 0 0 14px;
+}
+.nb-quote-modal-original:lang(zh) { letter-spacing: 0.05em; }
+.nb-quote-modal-text {
+  font-family: var(--display);
+  font-size: 17px;
+  line-height: 1.6;
+  margin: 0 0 16px;
+  padding-left: 22px;
+  position: relative;
+}
+.nb-quote-modal-text::before {
+  content: '"';
+  position: absolute;
+  left: 0;
+  top: -6px;
+  font-family: var(--display);
+  font-size: 30px;
+  line-height: 1;
+  color: var(--accent);
+}
+.nb-quote-modal-source {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--accent);
+  margin: 0 0 12px;
+}
+.nb-quote-modal-note {
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--dim);
+  margin: 0;
+  padding-top: 12px;
+  border-top: 1px dashed var(--rule);
+}
+@media (prefers-reduced-motion: reduce) {
+  .nb-quote-card { transition: none; }
+  .nb-quote-card:hover,
+  .nb-quote-card:focus-visible { transform: none; }
+}
+
 /* ─── Education / certifications ───────────────────────────────────── */
 .nb-degree {
   border: var(--border-w) solid var(--ink);

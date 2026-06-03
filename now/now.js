@@ -155,6 +155,84 @@
       }
     })();
 
+// Quotes — collected external quotes rendered from /quotes.json (same-origin).
+// Each quote is an equal-size card; clicking opens the shared #quote-modal
+// <dialog> with the full text + attribution. Silent-fail removes the section.
+    (async function () {
+      const container = document.getElementById('quotes-section');
+      if (!container) return;
+      const modal = document.getElementById('quote-modal');
+      const modalBody = modal && modal.querySelector('.nb-quote-modal-body');
+
+      // textContent-only node builder — keeps CJK/Latin/quote chars inert (no innerHTML).
+      function el(tag, cls, text, lang) {
+        const node = document.createElement(tag);
+        if (cls) node.className = cls;
+        if (text != null) node.textContent = text;
+        if (lang) node.lang = lang;
+        return node;
+      }
+
+      function openModal(q) {
+        if (!modal || !modalBody || !modal.showModal) return;
+        modalBody.replaceChildren();
+        if (q.original) {
+          modalBody.appendChild(el('p', 'nb-quote-modal-original', q.original, q.lang));
+          const gloss = q.translation || q.text;
+          if (gloss) modalBody.appendChild(el('blockquote', 'nb-quote-modal-text', gloss));
+        } else {
+          modalBody.appendChild(el('blockquote', 'nb-quote-modal-text', q.text));
+        }
+        if (q.source) modalBody.appendChild(el('p', 'nb-quote-modal-source', '— ' + q.source));
+        if (q.note) modalBody.appendChild(el('p', 'nb-quote-modal-note', q.note));
+        modal.showModal();
+      }
+
+      // Close when the backdrop (outside the dialog content) is clicked.
+      if (modal) {
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) modal.close();
+        });
+      }
+
+      try {
+        const res = await fetch('/quotes.json', { cache: 'reload' });
+        if (!res.ok) throw new Error(res.status);
+        const data = await res.json();
+        const items = (data.items || []).filter(q => q && (q.text || q.original));
+        if (!items.length) { container.remove(); return; }
+
+        const head = document.createElement('header');
+        head.className = 'nb-section-head';
+        const num = el('span', 'nb-section-num', '/12');
+        const title = el('h2', 'nb-section-title', 'quotes');
+        const rule = el('span', 'nb-section-rule');
+        head.append(num, title, rule);
+        container.appendChild(head);
+
+        container.appendChild(el('p', 'nb-section-eyebrow', items.length + ' collected · tap a card to expand'));
+
+        const grid = document.createElement('div');
+        grid.className = 'nb-quote-grid';
+        items.forEach(q => {
+          const btn = document.createElement('button');
+          btn.className = 'nb-quote-card';
+          btn.type = 'button';
+          const headline = q.original || q.text;
+          btn.appendChild(el('span', 'nb-quote-card-text', headline, q.original ? q.lang : ''));
+          if (q.source) btn.appendChild(el('span', 'nb-quote-card-source', q.source));
+          btn.appendChild(el('span', 'nb-quote-card-expand', '+', null));
+          btn.setAttribute('aria-haspopup', 'dialog');
+          btn.addEventListener('click', function () { openModal(q); });
+          grid.appendChild(btn);
+        });
+        container.appendChild(grid);
+      } catch (e) {
+        console.warn('[quotes]', e);
+        container.remove();
+      }
+    })();
+
 // Auto-prune past calendar entries — removes any .nb-cal-card with a
 // data-cal-end (or .nb-target li with a single <time datetime>) whose
 // date is strictly before today (local). Cards covering today or a

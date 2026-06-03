@@ -1175,3 +1175,102 @@ class TestBucketList:
         assert not offenders, (
             "Top nav references /bucketlist/ on: " + ", ".join(offenders)
         )
+
+
+class TestQuotes:
+    """Quotes are a flat JSON file rendered client-side into /now's /12 section.
+    These tests pin the schema the renderer reads from and the contract that
+    every quote carries a source (attribution discipline — no anonymous quotes
+    slipping in unlabeled)."""
+
+    REQUIRED_KEYS = {"id", "text", "source"}
+    OPTIONAL_KEYS = {"original", "lang", "translation", "note", "category"}
+    VALID_LANGS = {"zh", "la", "fr", ""}
+    VALID_CATEGORIES = {"idiom", "film", "literature", "proverb", "philosophy", "latin", ""}
+
+    def _load(self):
+        path = os.path.join(REPO_ROOT, "quotes.json")
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+
+    def test_json_parses_and_has_top_level_keys(self):
+        data = self._load()
+        assert "items" in data, "quotes.json missing 'items'"
+        assert "last_updated" in data, "quotes.json missing 'last_updated'"
+        assert isinstance(data["items"], list), "'items' must be a list"
+
+    def test_every_item_has_required_schema(self):
+        """id + text + source are mandatory; any extra key must be a known optional
+        one (typo guard). lang/category, when present, must be from the allowed sets
+        the renderer + CSS know how to style."""
+        data = self._load()
+        allowed = self.REQUIRED_KEYS | self.OPTIONAL_KEYS
+        failures = []
+        for i, item in enumerate(data["items"]):
+            missing = self.REQUIRED_KEYS - set(item.keys())
+            if missing:
+                failures.append(f"items[{i}] missing keys: {missing}")
+            unknown = set(item.keys()) - allowed
+            if unknown:
+                failures.append(f"items[{i}] has unknown keys: {unknown}")
+            if not isinstance(item.get("text"), str) or not item.get("text").strip():
+                failures.append(f"items[{i}] text is empty or not a string")
+            if not isinstance(item.get("source"), str) or not item.get("source").strip():
+                failures.append(f"items[{i}] source is empty or not a string")
+            if item.get("lang", "") not in self.VALID_LANGS:
+                failures.append(f"items[{i}] invalid lang: {item.get('lang')!r}")
+            if item.get("category", "") not in self.VALID_CATEGORIES:
+                failures.append(f"items[{i}] invalid category: {item.get('category')!r}")
+            # A non-empty `original` should carry a `lang` so the renderer can label it.
+            if item.get("original", "").strip() and not item.get("lang", "").strip():
+                failures.append(f"items[{i}] has original text but no lang label")
+        assert not failures, "quotes.json schema violations:\n" + "\n".join(failures)
+
+    def test_ids_are_unique(self):
+        data = self._load()
+        ids = [item["id"] for item in data["items"]]
+        dupes = {x for x in ids if ids.count(x) > 1}
+        assert not dupes, f"Duplicate ids in quotes.json: {dupes}"
+
+    def test_every_quote_has_attribution(self):
+        """Attribution discipline: every quote must name a source — even if that
+        source is the honest 'Source unknown'. Catches a quote being added without
+        any provenance, which is the whole point of the section's verification."""
+        data = self._load()
+        anonymous = [item["id"] for item in data["items"] if not item.get("source", "").strip()]
+        assert not anonymous, f"Quotes missing a source: {anonymous}"
+
+    def test_last_updated_is_valid_iso8601(self):
+        data = self._load()
+        last_updated = data.get("last_updated")
+        assert isinstance(last_updated, str), (
+            f"last_updated must be a string, got {type(last_updated).__name__}"
+        )
+        normalized = last_updated.replace("Z", "+00:00") if last_updated.endswith("Z") else last_updated
+        try:
+            datetime.fromisoformat(normalized)
+        except ValueError as exc:
+            raise AssertionError(f"last_updated is not valid ISO 8601: {last_updated!r} ({exc})")
+
+    def test_now_has_quotes_render_target(self):
+        """now/now.js fills #quotes-section. If the container is removed from
+        now/index.html, the renderer silently no-ops and the /12 section vanishes."""
+        _, body = fetch("now/index.html")
+        assert 'id="quotes-section"' in body, (
+            "now/index.html missing <section id=\"quotes-section\"> render target"
+        )
+
+    def test_now_has_quote_modal_dialog(self):
+        """The shared <dialog> the cards expand into must be seeded in the HTML;
+        the renderer populates it rather than creating it, so a missing element
+        means clicking a card does nothing."""
+        _, body = fetch("now/index.html")
+        assert 'id="quote-modal"' in body, (
+            "now/index.html missing <dialog id=\"quote-modal\"> for the expand popup"
+        )
+
+    def test_now_js_references_quotes_json(self):
+        path = os.path.join(REPO_ROOT, "now/now.js")
+        with open(path, encoding="utf-8") as f:
+            js = f.read()
+        assert "/quotes.json" in js, "now/now.js missing fetch of /quotes.json"

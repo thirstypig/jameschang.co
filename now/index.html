@@ -661,6 +661,9 @@ via google calendar &middot; Auto-updated June 02, 2026 at 2:10 AM PDT &middot; 
     <!-- BUCKET LIST (client-side fetch from /bucketlist.json) -->
     <section class="nb-section" id="bucketlist-section"></section>
 
+    <!-- QUOTES (client-side fetch from /quotes.json; cards expand into #quote-modal) -->
+    <section class="nb-section" id="quotes-section"></section>
+
     <section id="availability" class="nb-footer-contact">
       <p class="name">james.chang</p>
       <p class="looking-for">// availability: <strong>open to new projects and collaborations.</strong> Product strategy, AI-assisted shipping, fractional product leadership, advisory engagements — if you&rsquo;re building something interesting and want a senior PM in the loop, let&rsquo;s talk.</p>
@@ -675,6 +678,14 @@ via google calendar &middot; Auto-updated June 02, 2026 at 2:10 AM PDT &middot; 
     <footer class="nb-footer">
       <span>// © 2026 james chang</span>
       </footer>
+
+    <!-- Shared popup for expanded quotes — populated by now/now.js on card click -->
+    <dialog id="quote-modal" class="nb-quote-modal" aria-label="Quote">
+      <form method="dialog">
+        <button class="nb-quote-modal-close" value="close" aria-label="Close">×</button>
+      </form>
+      <div class="nb-quote-modal-body"></div>
+    </dialog>
   </main>
 
   <script src="/script.js" defer></script>
