@@ -176,7 +176,19 @@
       function openModal(q) {
         if (!modal || !modalBody || !modal.showModal) return;
         modalBody.replaceChildren();
-        if (q.original) {
+        modal.scrollTop = 0;
+        if (q.title) modalBody.appendChild(el('p', 'nb-quote-modal-title', q.title));
+        if (q.entries && q.entries.length) {
+          // Collection (many quotes) or poem (stanzas) — one box, expanded list.
+          const isPoem = q.category === 'poem';
+          const list = document.createElement(isPoem ? 'div' : 'ol');
+          list.className = isPoem ? 'nb-quote-poem' : 'nb-quote-list';
+          q.entries.forEach(function (entry) {
+            list.appendChild(el(isPoem ? 'p' : 'li',
+              isPoem ? 'nb-quote-poem-stanza' : 'nb-quote-list-item', entry));
+          });
+          modalBody.appendChild(list);
+        } else if (q.original) {
           modalBody.appendChild(el('p', 'nb-quote-modal-original', q.original, q.lang));
           const gloss = q.translation || q.text;
           if (gloss) modalBody.appendChild(el('blockquote', 'nb-quote-modal-text', gloss));
@@ -185,6 +197,16 @@
         }
         if (q.source) modalBody.appendChild(el('p', 'nb-quote-modal-source', '— ' + q.source));
         if (q.note) modalBody.appendChild(el('p', 'nb-quote-modal-note', q.note));
+        // Optional external link (e.g. a clip). Only render http/https URLs.
+        if (q.link && q.link.url && /^https?:\/\//i.test(q.link.url)) {
+          const a = document.createElement('a');
+          a.className = 'nb-quote-modal-link';
+          a.href = q.link.url;
+          a.textContent = q.link.label || 'Watch ↗';
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          modalBody.appendChild(a);
+        }
         modal.showModal();
       }
 
@@ -218,8 +240,11 @@
           const btn = document.createElement('button');
           btn.className = 'nb-quote-card';
           btn.type = 'button';
-          const headline = q.original || q.text;
-          btn.appendChild(el('span', 'nb-quote-card-text', headline, q.original ? q.lang : ''));
+          if (q.title) btn.classList.add('nb-quote-card--collection');
+          const headline = q.title || q.original || q.text;
+          btn.appendChild(el('span', 'nb-quote-card-text', headline, (!q.title && q.original) ? q.lang : ''));
+          // Collections/poems carry a title; show the quote text as a teaser line beneath it.
+          if (q.title && q.text) btn.appendChild(el('span', 'nb-quote-card-teaser', q.text));
           if (q.source) btn.appendChild(el('span', 'nb-quote-card-source', q.source));
           btn.appendChild(el('span', 'nb-quote-card-expand', '+', null));
           btn.setAttribute('aria-haspopup', 'dialog');

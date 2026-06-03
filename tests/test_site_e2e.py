@@ -1184,9 +1184,9 @@ class TestQuotes:
     slipping in unlabeled)."""
 
     REQUIRED_KEYS = {"id", "text", "source"}
-    OPTIONAL_KEYS = {"original", "lang", "translation", "note", "category"}
+    OPTIONAL_KEYS = {"original", "lang", "translation", "note", "category", "title", "entries", "link"}
     VALID_LANGS = {"zh", "la", "fr", ""}
-    VALID_CATEGORIES = {"idiom", "film", "literature", "proverb", "philosophy", "latin", ""}
+    VALID_CATEGORIES = {"idiom", "film", "literature", "proverb", "philosophy", "latin", "poem", ""}
 
     def _load(self):
         path = os.path.join(REPO_ROOT, "quotes.json")
@@ -1224,7 +1224,44 @@ class TestQuotes:
             # A non-empty `original` should carry a `lang` so the renderer can label it.
             if item.get("original", "").strip() and not item.get("lang", "").strip():
                 failures.append(f"items[{i}] has original text but no lang label")
+            # `entries` (collection / poem) must be a non-empty list of non-empty strings,
+            # and such an item must carry a `title` (the card headline + modal heading).
+            if "entries" in item:
+                entries = item["entries"]
+                if not isinstance(entries, list) or not entries:
+                    failures.append(f"items[{i}] entries must be a non-empty list")
+                elif not all(isinstance(e, str) and e.strip() for e in entries):
+                    failures.append(f"items[{i}] entries must all be non-empty strings")
+                if not item.get("title", "").strip():
+                    failures.append(f"items[{i}] has entries but no title")
+            # `link`, when present, must be {url, label} with an http(s) url — the
+            # renderer only emits anchors for http/https (XSS / javascript: guard).
+            if "link" in item:
+                link = item["link"]
+                if not isinstance(link, dict) or not isinstance(link.get("url"), str):
+                    failures.append(f"items[{i}] link must be an object with a url string")
+                elif not re.match(r"^https?://", link["url"], re.IGNORECASE):
+                    failures.append(f"items[{i}] link url must be http(s): {link.get('url')!r}")
+                elif not isinstance(link.get("label"), str) or not link["label"].strip():
+                    failures.append(f"items[{i}] link must have a non-empty label")
         assert not failures, "quotes.json schema violations:\n" + "\n".join(failures)
+
+    def test_collections_and_poem_render_via_entries(self):
+        """A collection (many quotes) or poem is one card that expands into a module.
+        Pin that the entries-bearing items exist and that the poem is tagged so the
+        renderer applies pre-line (line-break-preserving) styling instead of a list."""
+        data = self._load()
+        by_id = {q["id"]: q for q in data["items"]}
+        collections = [q for q in data["items"] if q.get("entries")]
+        assert collections, "expected at least one entries-based collection/poem item"
+        poems = [q for q in collections if q.get("category") == "poem"]
+        assert poems, "expected at least one poem (category='poem') among entries items"
+        # The renderer keys off category=='poem'; every poem entry should contain a
+        # line break (stanzas are multi-line) — guards against flattening to one line.
+        for p in poems:
+            assert any("\n" in e for e in p["entries"]), (
+                f"poem {p['id']} has no multi-line stanza — pre-line styling would be a no-op"
+            )
 
     def test_ids_are_unique(self):
         data = self._load()
