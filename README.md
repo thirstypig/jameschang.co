@@ -43,7 +43,7 @@ kill "$SERVER_PID"
 - Dark mode via `prefers-color-scheme` + manual toggle (persisted in localStorage)
 - WCAG 2.2 AA compliant. Lighthouse 100/100/100/100.
 - 9 automated data feeds on /now (WHOOP, Spotify, Plex, MLB Dodgers, FBST standings, Goodreads currently-reading, Goodreads read, Google Calendar, Thirsty Pig hitlist) + per-project TLDRs and shipping activity pulled from each project's CLAUDE.md and GitHub events + per-project roadmap content synced from each source repo's native format (Aleph markdown, JT markdown, FL TypeScript) via per-project adapters
-- 287 tests (pytest, across 10 files) with pre-commit hook and CI
+- 307 tests (pytest, across 10 files) with pre-commit hook and CI
 - Google Analytics 4 + Google Search Console
 
 ## License
