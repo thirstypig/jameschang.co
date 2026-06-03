@@ -43,7 +43,7 @@ kill "$SERVER_PID"
 - Dark mode via `prefers-color-scheme` + manual toggle (persisted in localStorage)
 - WCAG 2.2 AA compliant. Lighthouse 100/100/100/100.
 - 8 cron-synced data feeds on /now (WHOOP, Spotify, Plex, MLB Dodgers, FBST standings, Goodreads currently-reading, Goodreads read, Google Calendar) — each with a staleness heartbeat — plus client-rendered sections (Thirsty Pig hitlist, bucket list, quotes) that fetch JSON at runtime with no cron + per-project TLDRs and shipping activity pulled from each project's CLAUDE.md and GitHub events + per-project roadmap content synced from each source repo's native format (Aleph markdown, JT markdown, FL TypeScript) via per-project adapters
-- 307 tests (pytest, across 10 files) with pre-commit hook and CI
+- 313 tests (pytest, across 10 files) with pre-commit hook and CI
 - Google Analytics 4 + Google Search Console
 
 ## License

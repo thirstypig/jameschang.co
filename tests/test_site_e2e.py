@@ -1277,6 +1277,43 @@ class TestQuotes:
         anonymous = [item["id"] for item in data["items"] if not item.get("source", "").strip()]
         assert not anonymous, f"Quotes missing a source: {anonymous}"
 
+    def test_bruce_lee_box_excludes_verified_misattributions(self):
+        """The Bruce Lee collection was curated (2026-06-02 attribution verification)
+        to drop lines proven NOT his. Pin that curation so a future edit can't silently
+        re-add a misattributed quote. Concrete regression this prevents: someone pastes
+        the popular 'Bruce Lee quotes' list back in wholesale, reintroducing Goethe /
+        Jeremy Taylor / the 1993 film Dragon line, or the embellished 'breaking a board'
+        prefix (the real Enter the Dragon line is just 'Boards don't hit back.')."""
+        data = self._load()
+        bruce = next((q for q in data["items"] if q.get("id") == "bruce-lee"), None)
+        assert bruce, "bruce-lee collection item missing"
+        blob = " ".join(bruce.get("entries", [])).lower()
+        forbidden = {
+            "knowing is not enough": "Goethe, not Bruce Lee",
+            "friendship caught on fire": "Jeremy Taylor, not Bruce Lee",
+            "key to immortality": "1993 film Dragon, not Bruce Lee",
+            "there's no challenge in breaking a board": "embellished prefix — real line is just 'Boards don't hit back.'",
+        }
+        leaked = [f"{phrase!r} ({why})" for phrase, why in forbidden.items() if phrase in blob]
+        assert not leaked, (
+            "Misattributed lines leaked back into the Bruce Lee box:\n" + "\n".join(leaked)
+        )
+
+    def test_goethe_line_is_its_own_attributed_card(self):
+        """The 'knowing is not enough' line lives as a standalone card attributed to
+        Goethe (not inside the Bruce Lee box). Pins the correct attribution so a future
+        edit can't re-credit it to Bruce Lee."""
+        data = self._load()
+        goethe = next(
+            (q for q in data["items"] if "knowing is not enough" in q.get("text", "").lower()),
+            None,
+        )
+        assert goethe, "Goethe 'knowing is not enough' standalone card missing"
+        assert "goethe" in goethe.get("source", "").lower(), (
+            f"'knowing is not enough' must be attributed to Goethe, got: {goethe.get('source')!r}"
+        )
+        assert "entries" not in goethe, "Goethe line should be a single quote, not a collection box"
+
     def test_last_updated_is_valid_iso8601(self):
         data = self._load()
         last_updated = data.get("last_updated")
@@ -1311,3 +1348,52 @@ class TestQuotes:
         with open(path, encoding="utf-8") as f:
             js = f.read()
         assert "/quotes.json" in js, "now/now.js missing fetch of /quotes.json"
+
+
+class TestDetailCards:
+    """`people i follow` (/09) and the `off the clock` (/06) top items render as cards
+    that expand into the shared #detail-modal. now.js clones each card's <template>
+    into the modal — so a missing template, trigger, or dialog breaks the popup."""
+
+    def test_detail_modal_present(self):
+        _, body = fetch("now/index.html")
+        assert 'id="detail-modal"' in body, (
+            "now/index.html missing <dialog id=\"detail-modal\"> for the people/off-the-clock popups"
+        )
+
+    def test_every_detail_card_has_trigger_and_template(self):
+        """Each card needs a .nb-detail-trigger (the open button) and a <template>
+        (the modal payload). A card without a template would open an empty modal;
+        without a trigger it can't open at all. <template> is used ONLY by detail
+        cards on /now, so the counts must line up exactly."""
+        _, body = fetch("now/index.html")
+        cards = body.count('class="nb-detail-card"')
+        triggers = body.count('class="nb-detail-trigger"')
+        templates = body.count('<template>')
+        assert cards == 10, f"expected 10 detail cards (6 people + 4 off-the-clock), got {cards}"
+        assert triggers == cards, f"{triggers} triggers vs {cards} cards — each card needs exactly one"
+        assert templates == cards, f"{templates} <template>s vs {cards} cards — each card needs exactly one"
+
+    def test_people_and_off_the_clock_card_counts(self):
+        _, body = fetch("now/index.html")
+        people = re.search(r'<span class="nb-section-num">/09</span>(.*?)</section>', body, re.DOTALL)
+        clock = re.search(
+            r'<span class="nb-section-num">/06</span>(.*?)<span class="nb-section-num">/07</span>',
+            body, re.DOTALL,
+        )
+        assert people and people.group(1).count('class="nb-detail-card"') == 6, (
+            "expected 6 detail cards in /09 people i follow"
+        )
+        assert clock and clock.group(1).count('class="nb-detail-card"') == 4, (
+            "expected 4 detail cards in /06 off the clock (top list)"
+        )
+
+    def test_now_js_wires_detail_modal_via_clone(self):
+        """The wiring must clone <template> content (preserves links/<em>, XSS-safe),
+        not innerHTML — and must target #detail-modal + .nb-detail-trigger."""
+        path = os.path.join(REPO_ROOT, "now/now.js")
+        with open(path, encoding="utf-8") as f:
+            js = f.read()
+        assert "detail-modal" in js, "now.js missing #detail-modal wiring"
+        assert "nb-detail-trigger" in js, "now.js missing .nb-detail-trigger selector"
+        assert "cloneNode" in js, "detail wiring must clone template content (no innerHTML)"

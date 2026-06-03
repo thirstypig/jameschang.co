@@ -1091,10 +1091,101 @@ a:hover { text-decoration: underline; }
   font-size: 12px;
   color: var(--accent);
 }
+/* ─── /now detail cards (people i follow + off the clock) → shared popup ─── */
+.nb-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+}
+.nb-detail-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 104px;
+  border: var(--border-w) solid var(--ink);
+  background: var(--surface);
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--ink);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+.nb-detail-card:hover,
+.nb-detail-card:focus-within {
+  transform: translate(-2px, -2px);
+  box-shadow: calc(var(--shadow-offset) + 2px) calc(var(--shadow-offset) + 2px) 0 var(--accent);
+}
+.nb-detail-trigger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-start;
+  text-align: left;
+  width: 100%;
+  padding: 14px 30px 10px 16px;
+  background: none;
+  border: none;
+  font: inherit;
+  color: var(--ink);
+  cursor: pointer;
+}
+.nb-detail-trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.nb-detail-card::after {
+  content: '+';
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-family: var(--mono);
+  font-size: 16px;
+  line-height: 1;
+  color: var(--accent);
+  pointer-events: none;
+}
+.nb-detail-name {
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.nb-detail-tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--dim);
+}
+.nb-detail-links {
+  margin-top: auto;
+  padding: 0 16px 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+}
+.nb-detail-links .when { color: var(--dim); }
+.nb-detail-modal-name {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: var(--border-w) solid var(--ink);
+}
+.nb-detail-modal-body {
+  font-family: var(--display);
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0 0 14px;
+}
+.nb-detail-modal-links {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+}
+.nb-detail-modal-links .when { color: var(--dim); }
+
 @media (prefers-reduced-motion: reduce) {
-  .nb-quote-card { transition: none; }
+  .nb-quote-card,
+  .nb-detail-card { transition: none; }
   .nb-quote-card:hover,
-  .nb-quote-card:focus-visible { transform: none; }
+  .nb-quote-card:focus-visible,
+  .nb-detail-card:hover,
+  .nb-detail-card:focus-within { transform: none; }
 }
 
 /* ─── Education / certifications ───────────────────────────────────── */

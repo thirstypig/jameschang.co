@@ -258,6 +258,27 @@
       }
     })();
 
+// Detail cards (people i follow + off the clock) — each .nb-detail-trigger button
+// opens the shared #detail-modal, populated by CLONING the card's <template> content
+// (preserves links/<em>, XSS-safe, no innerHTML). CSP forbids inline handlers, so the
+// wiring lives here.
+    (function () {
+      const modal = document.getElementById('detail-modal');
+      const body = modal && modal.querySelector('.nb-quote-modal-body');
+      if (!modal || !body || !modal.showModal) return;
+      modal.addEventListener('click', function (e) { if (e.target === modal) modal.close(); });
+      document.querySelectorAll('.nb-detail-trigger').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const card = btn.closest('.nb-detail-card');
+          const tpl = card && card.querySelector('template');
+          if (!tpl) return;
+          body.replaceChildren(tpl.content.cloneNode(true));
+          modal.scrollTop = 0;
+          modal.showModal();
+        });
+      });
+    })();
+
 // Auto-prune past calendar entries — removes any .nb-cal-card with a
 // data-cal-end (or .nb-target li with a single <time datetime>) whose
 // date is strictly before today (local). Cards covering today or a

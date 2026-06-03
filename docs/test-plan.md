@@ -66,6 +66,7 @@ python3 -m pytest tests/test_site_e2e.py -v
 | **Cross-project nav** *(added 2026-04-28)* | Every deep-dive sub-page under `/projects/{slug}/` has a `.cross-project-nav` strip with chips for the 3 projects, hrefs pointing at canonical entry-point sub-pages (`how-it-works`, `ai-insights`, `tech`), and exactly one chip carrying `aria-current="page"` matching the current slug |
 | **/now section structure** *(added 2026-04-28)* | `/01..../09` numbered sections sequential without gaps; section `/07` contains `watching` (Plex) + `listening` (Spotify) + `reading` (Goodreads) feed heads and zero TRAKT/LETTERBOXD marker leakage; section `/09` is the hand-maintained `people i follow` |
 | **Quotes section** *(added 2026-06-02)* | `quotes.json` schema (`{id,text,source}` required + optional `original/lang/translation/note/category/title/entries/link`), unique ids, every-quote-has-a-source discipline, collection/poem `entries[]` (poem stanzas multi-line), and `link` `{url,label}` http(s) validation; `#quotes-section` render target + `#quote-modal` dialog seeded in `now/index.html`; `now/now.js` fetches `/quotes.json`. The `/12` client-rendered section. See `docs/solutions/integration-issues/client-rendered-json-section-on-now.md`. |
+| **Detail cards** *(added 2026-06-02)* | `people i follow` (/09) + `off the clock` (/06) top list render as `.nb-detail-card`s (10 total = 6 people + 4 off-the-clock), each with a `.nb-detail-trigger` button + a `<template>` payload; shared `#detail-modal` dialog present; `now/now.js` wires `.nb-detail-trigger` → clone template (`cloneNode`, not `innerHTML` — XSS-safe, preserves links/`<em>`). |
 
 ## Execution Cadence Summary
 
@@ -88,6 +89,8 @@ python3 -m pytest tests/test_site_e2e.py -v
 
 Tests run in CI via `.github/workflows/ci-tests.yml`. Results are visible in the GitHub Actions tab. Failures block nothing (this is a single-contributor repo with direct push), but they surface regressions early.
 
-Last updated: 2026-06-02 — 307 tests. Added the `/12` quotes section (`TestQuotes` in `test_site_e2e.py`, 10 tests): JSON schema + unique ids + every-quote-has-a-source discipline, collection/poem `entries[]` rendering, and `link` http(s) validation. E2E suite now 64.
+Last updated: 2026-06-02 — 313 tests. Added detail cards (`TestDetailCards`, 4 tests): `people i follow` (/09) + `off the clock` (/06) top list render as `.nb-detail-card`s that expand into the shared `#detail-modal` via cloned `<template>` content (10 cards = 6 people + 4 off-the-clock; trigger/template/dialog presence + clone-not-innerHTML wiring). E2E suite now 70.
+
+Prior: 2026-06-02 — 309 tests. Added the `/12` quotes section (`TestQuotes` in `test_site_e2e.py`, 11 tests): JSON schema + unique ids + every-quote-has-a-source discipline, collection/poem `entries[]` rendering, `link` http(s) validation, and a content-integrity guard (Bruce Lee box excludes the verified misattributions — Goethe / Jeremy Taylor / 1993 Dragon film — and the Goethe line is its own correctly-attributed card).
 
 Prior: 2026-05-11 — 224 tests. Added 3 tests to `test_projects.py` (34 total) asserting `nb-card-footer` wraps shipped line + feed-updated timestamp in both `render_card` and `render_block`.
