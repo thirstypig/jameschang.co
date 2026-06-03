@@ -1,7 +1,7 @@
 # CLAUDE.md
 
 <!-- now-tldr -->
-The personal site at jameschang.co — homepage, project deep-dives, and a Derek Sivers-style /now page that auto-updates from eight feeds (WHOOP, Spotify, Plex, Goodreads, MLB stats, fantasy standings, Google Calendar) plus per-project TLDRs synced daily from each repo's CLAUDE.md. **Recently shipped**: a public bucket list, a feed staleness monitor that opens a GitHub issue when anything goes quiet, Google Calendar integration for upcoming events, and a cron-driven /now project hub that classifies each project as active or back-burner based on real GitHub activity. Plain HTML/CSS/JS on GitHub Pages — no build step, ~78 KB page weight, Lighthouse 100/100/100/100.
+The personal site at jameschang.co — homepage, project deep-dives, and a Derek Sivers-style /now page that auto-updates from eight cron-synced feeds (WHOOP, Spotify, Plex, MLB stats, fantasy standings, Google Calendar, and two Goodreads shelves — currently-reading + read) plus per-project TLDRs synced daily from each repo's CLAUDE.md. **Recently shipped**: a public bucket list, a feed staleness monitor that opens a GitHub issue when anything goes quiet, Google Calendar integration for upcoming events, and a cron-driven /now project hub that classifies each project as active or back-burner based on real GitHub activity. Plain HTML/CSS/JS on GitHub Pages — no build step, ~78 KB page weight, Lighthouse 100/100/100/100.
 <!-- /now-tldr -->
 
 Operational notes for Claude Code (and any other agent) working on this repo. For human-facing workflow see `README.md`; for design/positioning history see `PLAN.md`; for past solved problems see `docs/solutions/`.
@@ -204,6 +204,8 @@ Generate Children's Product Certificates for products intended for children
 ## Data feeds on /now
 
 The `/now` page is assembled from several independent sync scripts that each write into an HTML block delimited by `<!-- FEED-START -->` / `<!-- FEED-END -->` markers in `now/index.html` (e.g. `<!-- WHOOP-START -->`, `<!-- SPOTIFY-START -->`, etc.). **Don't remove the markers** — they are the replacement targets for the sync scripts.
+
+**What counts as a "feed" (the canonical 8).** A *feed* is a cron-synced block with a staleness heartbeat in `.feeds-heartbeat.json`. There are exactly **8**: `whoop`, `spotify`, `plex`, `gcal`, `mlb`, `fbst`, `goodreads-reading`, `goodreads`. The `projects` / `project-docs*` heartbeats are the per-project TLDR/doc syncs, not data feeds. The **hitlist, bucket list, and quotes** are **client-rendered sections** (runtime JSON fetch, no cron, no heartbeat) — count them as sections, not feeds. Use "8 cron-synced feeds" consistently in README + this file.
 
 **Marker boundaries.** `replace_marker()` only writes between `<!-- {FEED}-START -->` and `<!-- {FEED}-END -->`. Date strings, status indicators, or eyebrow lines OUTSIDE markers are never updated by the sync — they freeze on their last hand-edit. Same trap applies to `bin/check-feed-health.py`'s heartbeat-iteration: a retired feed slug's GitHub issue won't auto-close because the slug isn't in the heartbeat dict. See `docs/solutions/integration-issues/marker-boundary-content-staleness.md`.
 
