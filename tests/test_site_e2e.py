@@ -1370,7 +1370,7 @@ class TestDetailCards:
         cards = body.count('class="nb-detail-card"')
         triggers = body.count('class="nb-detail-trigger"')
         templates = body.count('<template>')
-        assert cards == 10, f"expected 10 detail cards (6 people + 4 off-the-clock), got {cards}"
+        assert cards == 13, f"expected 13 detail cards (6 people + 7 off-the-clock), got {cards}"
         assert triggers == cards, f"{triggers} triggers vs {cards} cards — each card needs exactly one"
         assert templates == cards, f"{templates} <template>s vs {cards} cards — each card needs exactly one"
 
@@ -1384,8 +1384,8 @@ class TestDetailCards:
         assert people and people.group(1).count('class="nb-detail-card"') == 6, (
             "expected 6 detail cards in /09 people i follow"
         )
-        assert clock and clock.group(1).count('class="nb-detail-card"') == 4, (
-            "expected 4 detail cards in /06 off the clock (top list)"
+        assert clock and clock.group(1).count('class="nb-detail-card"') == 7, (
+            "expected 7 detail cards in /06 off the clock (top list)"
         )
 
     def test_now_js_wires_detail_modal_via_clone(self):

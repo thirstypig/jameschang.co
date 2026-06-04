@@ -2,7 +2,7 @@ name: Sync project TLDRs to /now
 
 on:
   schedule:
-    - cron: '0 14 * * *'  # 14:00 UTC = 7:00 AM PDT (6:00 AM PST in winter)
+    - cron: '0 13 * * *'  # 13:00 UTC = 6:00 AM PDT (5:00 AM PST in winter)
   workflow_dispatch: {}
 
 permissions:
