@@ -97,55 +97,79 @@
 where the time is going &middot; 3 projects
         <!-- ACTIVE-EYEBROW-END --></p>
 
-      <div class="nb-grid-1">
+      <div class="nb-grid-1" id="proj-active">
         <!-- ACTIVE-PROJECTS-START -->
-        <article class="nb-card">
-          <div class="nb-card-head">
-            <h3 class="nb-card-name"><a href="https://jameschang.co">jameschang.co</a></h3>
-            <a class="nb-card-url" href="https://jameschang.co">jameschang.co ↗</a>
-            <span class="nb-card-status">● shipping</span>
+        <article class="nb-proj-card">
+          <div class="nb-proj-head">
+            <div class="nb-proj-title">
+              <h3 class="nb-proj-name"><a href="https://jameschang.co">jameschang.co</a></h3>
+              <span class="nb-proj-domain">jameschang.co &#8599;</span>
+            </div>
+            <span class="nb-proj-badge nb-proj-badge--live"><svg class="nb-proj-badge-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8M11.5 3a17 17 0 0 0 0 18M12.5 3a17 17 0 0 1 0 18"/></svg>Live &middot; Public</span>
           </div>
           <!-- TLDR-jameschang-co-START -->
-
-          <p class="nb-card-body">The personal site at jameschang.co — homepage, project deep-dives, and a Derek Sivers-style /now page that auto-updates from eight cron-synced feeds (WHOOP, Spotify, Plex, MLB stats, fantasy standings, Google Calendar, and two Goodreads shelves — currently-reading + read) plus per-project TLDRs synced daily from each repo&#39;s CLAUDE.md. <strong>Recently shipped</strong>: a public bucket list, a feed staleness monitor that opens a GitHub issue when anything goes quiet, Google Calendar integration for upcoming events, and a cron-driven /now project hub that classifies each project as active or back-burner based on real GitHub activity. Plain HTML/CSS/JS on GitHub Pages — no build step, ~78 KB page weight, Lighthouse 100/100/100/100.</p>
-          <div class="nb-card-footer">
-          <p class="nb-card-shipped"><span class="accent">&uarr; shipped:</span> <a href="https://github.com/thirstypig/jameschang.co/commit/c84ad35ce1869512b7562c2df180de0d06e2236c" rel="noopener" target="_blank">chore: update Plex data on /now page</a> &middot; <time datetime="2026-06-03T17:33:18Z" data-rel>40m ago</time></p>
-          <p class="feed-updated">Auto-updated June 03, 2026 at 11:14 AM PDT via CLAUDE.md + GitHub events.</p>
+          <div class="nb-proj-activity">
+            <span class="nb-proj-activity-label">&#8593; shipped</span>
+            <div class="nb-proj-activity-body">
+              <a href="https://github.com/thirstypig/jameschang.co/commit/c84ad35ce1869512b7562c2df180de0d06e2236c" rel="noopener" target="_blank">chore: update Plex data on /now page</a>
+              &middot; <time datetime="2026-06-03T17:33:18Z" data-rel>yesterday</time>
+            </div>
           </div>
-        
-        <!-- TLDR-jameschang-co-END -->
+          <p class="nb-proj-desc">This site — plain HTML/CSS/JS on GitHub Pages, auto-updating from 8 data feeds.</p>
+          <p class="nb-proj-next">
+            <span class="nb-proj-next-label">next up</span>
+            Keep shipping features; keep resume.pdf in sync.
+          </p>
+          <p class="feed-updated">Auto-updated June 03, 2026 at 11:14 AM PDT via GitHub events.</p>
+          <!-- TLDR-jameschang-co-END -->
         </article>
-        <article class="nb-card">
-          <div class="nb-card-head">
-            <h3 class="nb-card-name"><a href="https://thefantasticleagues.com">The Fantastic Leagues</a></h3>
-            <a class="nb-card-url" href="https://thefantasticleagues.com">thefantasticleagues.com ↗</a>
-            <span class="nb-card-status">● shipping</span>
+        <article class="nb-proj-card">
+          <div class="nb-proj-head">
+            <div class="nb-proj-title">
+              <h3 class="nb-proj-name"><a href="https://thefantasticleagues.com">The Fantastic Leagues</a></h3>
+              <span class="nb-proj-domain">thefantasticleagues.com &#8599;</span>
+            </div>
+            <span class="nb-proj-badge nb-proj-badge--shipping"><svg class="nb-proj-badge-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8l-4 4 4 4"/><path d="M17 8l4 4-4 4"/><path d="M14 4l-4 16"/></svg>Shipping &middot; Beta</span>
           </div>
           <!-- TLDR-fantastic-leagues-START -->
-
-          <p class="nb-card-body">Fantasy baseball for the dozen-owner, auction-draft, keeper-league crowd that Yahoo and ESPN never really served. <strong>The app is live for OGBA</strong> — auction has wrapped and the season is in flight. Current focus is the day-to-day of running a team: a daily league cockpit on the home page (today&#39;s matchups, standings, trade proposals, league activity, injured list), smarter add/drop with live previews of how a move affects the roster, and an injured-list workflow that doesn&#39;t fight the user. Next up: tightening the in-season correctness of the standings, the daily stat lines, and the league dashboard.</p>
-          <div class="nb-card-footer">
-          <p class="nb-card-shipped"><span class="accent">&uarr; shipped:</span> <a href="https://github.com/thirstypig/TheFantasticLeagues/commit/d809f674ea7fb87960c21774be751009dc7d93b4" rel="noopener" target="_blank">feat(ai): Draft Report Card — auction-day values &amp; busts at 1/3, 2/3, EOS checkpoints (#37</a> &middot; <time datetime="2026-06-03T07:34:56Z" data-rel>10h ago</time></p>
-          <p class="feed-updated">Auto-updated June 03, 2026 at 11:14 AM PDT via CLAUDE.md + GitHub events.</p>
+          <div class="nb-proj-activity">
+            <span class="nb-proj-activity-label">&#8593; shipped</span>
+            <div class="nb-proj-activity-body">
+              <a href="https://github.com/thirstypig/TheFantasticLeagues/commit/d809f674ea7fb87960c21774be751009dc7d93b4" rel="noopener" target="_blank">feat(ai): Draft Report Card — auction-day values &amp; busts at 1/3, 2/3, EOS checkpoints (#37</a>
+              &middot; <time datetime="2026-06-03T07:34:56Z" data-rel>yesterday</time>
+            </div>
           </div>
-        
-        <!-- TLDR-fantastic-leagues-END -->
+          <p class="nb-proj-desc">AI-powered fantasy baseball for serious keeper leagues — live for OGBA this season.</p>
+          <p class="nb-proj-next">
+            <span class="nb-proj-next-label">next up</span>
+            Tighten in-season standings accuracy and daily stat lines.
+          </p>
+          <p class="feed-updated">Auto-updated June 03, 2026 at 11:14 AM PDT via GitHub events.</p>
+          <!-- TLDR-fantastic-leagues-END -->
         </article>
-        <article class="nb-card">
-          <div class="nb-card-head">
-            <h3 class="nb-card-name"><a href="https://alephco.io">Aleph</a></h3>
-            <a class="nb-card-url" href="https://alephco.io">alephco.io ↗</a>
-            <span class="nb-card-status">● shipping</span>
+        <article class="nb-proj-card">
+          <div class="nb-proj-head">
+            <div class="nb-proj-title">
+              <h3 class="nb-proj-name"><a href="https://alephco.io">Aleph</a></h3>
+              <span class="nb-proj-domain">alephco.io &#8599;</span>
+            </div>
+            <span class="nb-proj-badge nb-proj-badge--shipping"><svg class="nb-proj-badge-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8l-4 4 4 4"/><path d="M17 8l4 4-4 4"/><path d="M14 4l-4 16"/></svg>Shipping &middot; Beta</span>
           </div>
           <!-- TLDR-aleph-START -->
-
-          <p class="nb-card-body">The compliance platform I wished existed when I was importing — one place to manage CPSIA certificates, Prop 65 labels, PFAS tracking across 15 states, and FSVP audits for food brands. <strong>All four compliance modules are feature-complete</strong>: CPC version history + supersession, expanded PFAS substance database (EPA CompTox PFASMASTER), OEHHA Prop 65 weekly auto-update with diff alerts, and a tokenized B2B PFAS declaration request flow for supplier questionnaires. Just rebuilt the <code>/learn</code> content hub with two batches of compliance guides. Put the product through seven rounds of rigorous AI-assisted code review — security, performance, and architecture. Next up: start lining up the first paying customers.</p>
-          <div class="nb-card-footer">
-          <p class="nb-card-shipped"><span class="accent">&uarr; shipped:</span> <a href="https://github.com/thirstypig/alephco.io-app/commit/c06e631ff1dc51a769cec36cba3c7b0b06bb583a" rel="noopener" target="_blank">fix(pr63-review): close 14 review todos (381–394) + session 39 doc-sync</a> &middot; <time datetime="2026-06-02T17:27:29Z" data-rel>yesterday</time></p>
-          <p class="feed-updated">Auto-updated June 03, 2026 at 11:14 AM PDT via CLAUDE.md + GitHub events.</p>
+          <div class="nb-proj-activity">
+            <span class="nb-proj-activity-label">&#8593; shipped</span>
+            <div class="nb-proj-activity-body">
+              <a href="https://github.com/thirstypig/alephco.io-app/commit/c06e631ff1dc51a769cec36cba3c7b0b06bb583a" rel="noopener" target="_blank">fix(pr63-review): close 14 review todos (381–394) + session 39 doc-sync</a>
+              &middot; <time datetime="2026-06-02T17:27:29Z" data-rel>2d ago</time>
+            </div>
           </div>
-        
-        <!-- TLDR-aleph-END -->
+          <p class="nb-proj-desc">The compliance platform for US importers — CPSIA, Prop 65, PFAS, and FSVP in one place.</p>
+          <p class="nb-proj-next">
+            <span class="nb-proj-next-label">next up</span>
+            Line up the first paying customers.
+          </p>
+          <p class="feed-updated">Auto-updated June 03, 2026 at 11:14 AM PDT via GitHub events.</p>
+          <!-- TLDR-aleph-END -->
         </article>
         <!-- ACTIVE-PROJECTS-END -->
       </div>
@@ -162,93 +186,135 @@ where the time is going &middot; 3 projects
 shipping but not daily &middot; 6 projects
         <!-- BACKBURNER-EYEBROW-END --></p>
 
-      <div class="nb-grid-2">
+      <div class="nb-grid-3" id="proj-backburner">
         <!-- BACKBURNER-PROJECTS-START -->
-        <article class="nb-card compact">
-          <div class="nb-card-head">
-            <h3 class="nb-card-name"><a href="https://bahtzang.com">Bahtzang Trader</a></h3>
-            <a class="nb-card-url" href="https://bahtzang.com">bahtzang.com ↗</a>
+        <article class="nb-proj-card">
+          <div class="nb-proj-head">
+            <div class="nb-proj-title">
+              <h3 class="nb-proj-name"><a href="https://bahtzang.com">Bahtzang Trader</a></h3>
+              <span class="nb-proj-domain">bahtzang.com &#8599;</span>
+            </div>
+            <span class="nb-proj-badge nb-proj-badge--live"><svg class="nb-proj-badge-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-6z"/><circle cx="12" cy="16" r="1"/><path d="M8 13V7a4 4 0 0 1 8 0v6"/></svg>Live &middot; Private</span>
           </div>
           <!-- TLDR-bahtzang-trader-START -->
-
-          <p class="nb-card-body">An AI trading experiment — Claude makes the buy / sell / hold calls, a small web app handles the data and execution, and a paper-trading account at Alpaca is the live target (no real money yet). 24/30 paper trades executed (as of 2026-05-14); 6 more needed to gate the Phase G live switch. Only Test 4 ($10k portfolio) is active; three $100 test portfolios deactivated (spent). Fixed: BTC/ETH removed from Claude prompts (StockHistoricalDataClient returned wrong $35 price for crypto tickers). Decision modes, oversight activity, pause/resume UI, sign-out all shipped.</p>
-          <div class="nb-card-footer">
-          <p class="nb-card-shipped"><span class="accent">&uarr; shipped:</span> <a href="https://github.com/thirstypig/bahtzang-trader/commit/e7a0c55e516417ef6b1d2184540bbc947f2bb891" rel="noopener" target="_blank">Merge pull request #26 from thirstypig/fix/review-screener-fetch-and-quota</a> &middot; <time datetime="2026-05-21T23:06:18Z" data-rel>1w ago</time></p>
-          <p class="feed-updated">Auto-updated June 03, 2026 at 11:14 AM PDT via CLAUDE.md + GitHub events.</p>
+          <div class="nb-proj-activity">
+            <span class="nb-proj-activity-label">&#8593; shipped</span>
+            <div class="nb-proj-activity-body">
+              <a href="https://github.com/thirstypig/bahtzang-trader/commit/e7a0c55e516417ef6b1d2184540bbc947f2bb891" rel="noopener" target="_blank">Merge pull request #26 from thirstypig/fix/review-screener-fetch-and-quota</a>
+              &middot; <time datetime="2026-05-21T23:06:18Z" data-rel>1w ago</time>
+            </div>
           </div>
-        
-        <!-- TLDR-bahtzang-trader-END -->
+          <p class="nb-proj-desc">AI trading experiment — Claude makes buy/sell/hold calls against a paper-trading Alpaca account.</p>
+          <p class="nb-proj-next">
+            <span class="nb-proj-next-label">next up</span>
+            6 more paper trades to gate the Phase G live-trading switch.
+          </p>
+          <p class="feed-updated">Auto-updated June 03, 2026 at 11:14 AM PDT via GitHub events.</p>
+          <!-- TLDR-bahtzang-trader-END -->
         </article>
-        <article class="nb-card compact">
-          <div class="nb-card-head">
-            <h3 class="nb-card-name"><a href="https://tastemakersapp.com">Tastemakers</a></h3>
-            <a class="nb-card-url" href="https://tastemakersapp.com">tastemakersapp.com ↗</a>
+        <article class="nb-proj-card">
+          <div class="nb-proj-head">
+            <div class="nb-proj-title">
+              <h3 class="nb-proj-name"><a href="https://tastemakersapp.com">Tastemakers</a></h3>
+              <span class="nb-proj-domain">tastemakersapp.com &#8599;</span>
+            </div>
+            <span class="nb-proj-badge nb-proj-badge--shipping"><svg class="nb-proj-badge-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8l-4 4 4 4"/><path d="M17 8l4 4-4 4"/><path d="M14 4l-4 16"/></svg>Shipping &middot; Beta</span>
           </div>
           <!-- TLDR-tastemakers-START -->
-
-          <p class="nb-card-body">Laravel 8 API backend for Tastemakers — <strong>live on Railway</strong> at <code>api.tastemakersapp.com</code>. GitHub auto-deploy active (push to main → Railway builds automatically). Debug/diagnostic routes removed (debug-schema, debug-signup, run-schema-fix, clear-cache). Remaining security work: unauthenticated delete endpoints and IDOR vulnerabilities. Production DB is empty — all real data still on legacy Namecheap MySQL host.</p>
-          <div class="nb-card-footer">
-          <p class="nb-card-shipped"><span class="accent">&uarr; shipped:</span> <a href="https://github.com/thirstypig/tastemakers-backend/commit/28a23db1694ac773d9231237f241af8ec7787fc3" rel="noopener" target="_blank">Merge pull request #4 from thirstypig/feat/tag-seeding-pipeline</a> &middot; <time datetime="2026-05-20T21:11:03Z" data-rel>1w ago</time></p>
-          <p class="feed-updated">Auto-updated June 03, 2026 at 11:14 AM PDT via CLAUDE.md + GitHub events.</p>
+          <div class="nb-proj-activity">
+            <span class="nb-proj-activity-label">&#8593; shipped</span>
+            <div class="nb-proj-activity-body">
+              <a href="https://github.com/thirstypig/tastemakers-backend/commit/28a23db1694ac773d9231237f241af8ec7787fc3" rel="noopener" target="_blank">Merge pull request #4 from thirstypig/feat/tag-seeding-pipeline</a>
+              &middot; <time datetime="2026-05-20T21:11:03Z" data-rel>1w ago</time>
+            </div>
           </div>
-        
-        <!-- TLDR-tastemakers-END -->
+          <p class="nb-proj-desc">Social dining discovery app — Laravel backend live on Railway, iOS/Android clients dormant.</p>
+          <p class="nb-proj-next">
+            <span class="nb-proj-next-label">next up</span>
+            Migrate production DB from Namecheap MySQL to Railway.
+          </p>
+          <p class="feed-updated">Auto-updated June 03, 2026 at 11:14 AM PDT via GitHub events.</p>
+          <!-- TLDR-tastemakers-END -->
         </article>
-        <article class="nb-card compact">
-          <div class="nb-card-head">
-            <h3 class="nb-card-name"><a href="https://thejudgetool.com">The Judge Tool</a></h3>
-            <a class="nb-card-url" href="https://thejudgetool.com">thejudgetool.com ↗</a>
+        <article class="nb-proj-card">
+          <div class="nb-proj-head">
+            <div class="nb-proj-title">
+              <h3 class="nb-proj-name"><a href="https://thejudgetool.com">The Judge Tool</a></h3>
+              <span class="nb-proj-domain">thejudgetool.com &#8599;</span>
+            </div>
+            <span class="nb-proj-badge nb-proj-badge--blocked"><svg class="nb-proj-badge-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>Blocked &middot; Alpha</span>
           </div>
           <!-- TLDR-judge-tool-START -->
-
-          <p class="nb-card-body">A barbeque competition judging platform — replaces clipboards, carbon copies, and spreadsheet math with real-time digital scoring for organizers, table captains, and judges. <strong>Just wrapped a shipping-readiness pass</strong>: analytics installed, search-engine basics in place, and an automated check on every code change before it ships. Next up: a richer test setup so the app gets exercised against a real database, ahead of piloting at a sanctioned competition this season.</p>
-          <div class="nb-card-footer">
-          <p class="feed-updated">Auto-updated June 03, 2026 at 11:14 AM PDT via CLAUDE.md + GitHub events.</p>
+          <div class="nb-proj-activity nb-proj-activity--empty">
+            <span class="nb-proj-activity-label">no recent activity</span>
           </div>
-        
-        <!-- TLDR-judge-tool-END -->
+          <p class="nb-proj-desc">Digital scoring platform for KCBS BBQ competitions — replaces clipboards and carbon copies.</p>
+          <p class="nb-proj-next">
+            <span class="nb-proj-next-label">next up</span>
+            Build a real-DB test setup ahead of piloting at a sanctioned competition.
+          </p>
+          <p class="feed-updated">Auto-updated June 03, 2026 at 11:14 AM PDT via GitHub events.</p>
+          <!-- TLDR-judge-tool-END -->
         </article>
-        <article class="nb-card compact">
-          <div class="nb-card-head">
-            <h3 class="nb-card-name"><a href="https://ktvsinger.com">KTV Singer</a></h3>
-            <a class="nb-card-url" href="https://ktvsinger.com">ktvsinger.com ↗</a>
+        <article class="nb-proj-card">
+          <div class="nb-proj-head">
+            <div class="nb-proj-title">
+              <h3 class="nb-proj-name"><a href="https://ktvsinger.com">KTV Singer</a></h3>
+              <span class="nb-proj-domain">ktvsinger.com &#8599;</span>
+            </div>
+            <span class="nb-proj-badge nb-proj-badge--blocked"><svg class="nb-proj-badge-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>Blocked &middot; Alpha</span>
           </div>
           <!-- TLDR-ktv-singer-START -->
-
-          <p class="nb-card-body">KTV Singer is an AI-assisted karaoke system I&#39;m building for home use — phones pair with an Apple TV over Socket.IO, stream mic audio to the living-room speakers, and share a YouTube-backed queue with synced lyrics. Just wrapped a mic-pipeline cleanup and a security/code-review sweep across the server and Expo app, split the monorepo into seven submodules (server, app, tvOS, shared types, docs, infra, web), and wired up project-specific Claude Code slash commands so I can iterate the same way every session. Next is API versioning and making end-to-end pairing reliable enough that friends can actually use it without me babysitting; the open question is whether yt-dlp streaming holds up off my LAN.</p>
-          <div class="nb-card-footer">
-          <p class="feed-updated">Auto-updated June 03, 2026 at 11:14 AM PDT via CLAUDE.md + GitHub events.</p>
+          <div class="nb-proj-activity nb-proj-activity--empty">
+            <span class="nb-proj-activity-label">no recent activity</span>
           </div>
-        
-        <!-- TLDR-ktv-singer-END -->
+          <p class="nb-proj-desc">AI-assisted home karaoke system — phones pair with Apple TV over Socket.IO, YouTube-backed queue.</p>
+          <p class="nb-proj-next">
+            <span class="nb-proj-next-label">next up</span>
+            Make end-to-end pairing reliable enough for friends without babysitting.
+          </p>
+          <p class="feed-updated">Auto-updated June 03, 2026 at 11:14 AM PDT via GitHub events.</p>
+          <!-- TLDR-ktv-singer-END -->
         </article>
-        <article class="nb-card compact">
-          <div class="nb-card-head">
-            <h3 class="nb-card-name"><a href="https://tabledrop.com">TableDrop</a></h3>
-            <a class="nb-card-url" href="https://tabledrop.com">tabledrop.com ↗</a>
+        <article class="nb-proj-card">
+          <div class="nb-proj-head">
+            <div class="nb-proj-title">
+              <h3 class="nb-proj-name"><a href="https://tabledrop.com">TableDrop</a></h3>
+              <span class="nb-proj-domain">tabledrop.com &#8599;</span>
+            </div>
+            <span class="nb-proj-badge nb-proj-badge--blocked"><svg class="nb-proj-badge-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>Blocked &middot; Alpha</span>
           </div>
           <!-- TLDR-tabledrop-START -->
-
-          <p class="nb-card-body">A marketplace for hard-to-get Taipei restaurant reservations — a scraper pulls listings from inline.app, and a modern web storefront with Stripe handles the buy side. Recent AI-assisted work has been mostly scaffolding: an admin dashboard, a way for Claude Code to poke at the scraper and database directly, and project-specific shortcuts for running tests and keeping docs in sync. <strong>Honest blocker</strong>: neither side of the transaction is live yet — checkout isn&#39;t wired and the scraper has barely been run — so the next push is getting one full listing-to-purchase flow working with real data.</p>
-          <div class="nb-card-footer">
-          <p class="feed-updated">Auto-updated June 03, 2026 at 11:14 AM PDT via CLAUDE.md + GitHub events.</p>
+          <div class="nb-proj-activity nb-proj-activity--empty">
+            <span class="nb-proj-activity-label">no recent activity</span>
           </div>
-        
-        <!-- TLDR-tabledrop-END -->
+          <p class="nb-proj-desc">Marketplace for hard-to-get Taipei restaurant reservations — scraper + Stripe storefront.</p>
+          <p class="nb-proj-next">
+            <span class="nb-proj-next-label">next up</span>
+            Get one full listing-to-purchase flow working with real data.
+          </p>
+          <p class="feed-updated">Auto-updated June 03, 2026 at 11:14 AM PDT via GitHub events.</p>
+          <!-- TLDR-tabledrop-END -->
         </article>
-        <article class="nb-card compact">
-          <div class="nb-card-head">
-            <h3 class="nb-card-name"><a href="https://thirstypig.com">The Thirsty Pig</a></h3>
-            <a class="nb-card-url" href="https://thirstypig.com">thirstypig.com ↗</a>
+        <article class="nb-proj-card">
+          <div class="nb-proj-head">
+            <div class="nb-proj-title">
+              <h3 class="nb-proj-name"><a href="https://thirstypig.com">The Thirsty Pig</a></h3>
+              <span class="nb-proj-domain">thirstypig.com &#8599;</span>
+            </div>
+            <span class="nb-proj-badge nb-proj-badge--live"><svg class="nb-proj-badge-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8M11.5 3a17 17 0 0 0 0 18M12.5 3a17 17 0 0 1 0 18"/></svg>Live &middot; Public</span>
           </div>
           <!-- TLDR-thirsty-pig-START -->
-
-          <p class="nb-card-body">My food blog from 2007–present, rebuilt from Wayback Machine archives and Instagram exports — <strong>1,639 posts and 1,400+ mapped restaurants live at thirstypig.com</strong>. Venue tags long-tail push ongoing: 655 venue JSONs published, 885 posts displaying tag pills, 699 venues in venues.yaml. Python test suite at 118 (+ new <code>test_scrape_google.py</code> for auth_gated() heuristic). Next up: keep extending venue tags (use <code>curate_candidates.py --min-posts 1</code>), then roll out the Bold Red Poster redesign across the rest of the site.</p>
-          <div class="nb-card-footer">
-          <p class="feed-updated">Auto-updated June 03, 2026 at 11:14 AM PDT via CLAUDE.md + GitHub events.</p>
+          <div class="nb-proj-activity nb-proj-activity--empty">
+            <span class="nb-proj-activity-label">no recent activity</span>
           </div>
-        
-        <!-- TLDR-thirsty-pig-END -->
+          <p class="nb-proj-desc">My food blog from 2007–present — 1,639 posts and 1,400+ mapped LA restaurants.</p>
+          <p class="nb-proj-next">
+            <span class="nb-proj-next-label">next up</span>
+            Continue venue tag rollout, then launch the Bold Red Poster redesign.
+          </p>
+          <p class="feed-updated">Auto-updated June 03, 2026 at 11:14 AM PDT via GitHub events.</p>
+          <!-- TLDR-thirsty-pig-END -->
         </article>
         <!-- BACKBURNER-PROJECTS-END -->
       </div>
