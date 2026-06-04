@@ -1462,6 +1462,14 @@ a:hover { text-decoration: underline; }
 .nb-membership p { margin: 0; font-size: 13px; line-height: 1.6; }
 .nb-membership a { color: var(--accent); text-decoration: underline; }
 
+.nb-membership--minor {
+  padding: 12px 14px;
+  box-shadow: none;
+  border-color: var(--rule);
+  margin-bottom: 0;
+}
+.nb-membership--minor .nb-membership-head strong { font-size: 15px; }
+
 /* ─── Footer contact ───────────────────────────────────────────────── */
 .nb-footer-contact {
   padding: 28px 0 12px;
@@ -1941,6 +1949,7 @@ a:hover { text-decoration: underline; }
     margin: 0 0 0.15rem;
   }
   .nb-membership p { font-size: 10pt; line-height: 1.35; margin: 0; color: #000; }
+  .nb-membership--minor { display: none; }
 
   /* Inline links in body copy — black, no underline. The print-name-block
      contact line + active-section section-titles carry the only underlines.
