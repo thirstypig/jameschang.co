@@ -49,6 +49,23 @@ EVENTS_PER_PROJECT = 1
 MAX_COMMIT_ENRICHMENTS = 15  # hard cap on per-run GitHub /commits/{sha} fetches
 ACTIVE_THRESHOLD_DAYS = 7  # most-recent shipping event within this window → active
 
+_BADGE_SAFE_RE = re.compile(r"[^a-z0-9-]")
+
+# Tabler outline icon SVG strings (MIT) — inlined to avoid CDN dependency.
+_ICON_ATTRS = ('class="nb-proj-badge-icon" width="12" height="12" viewBox="0 0 24 24" '
+               'fill="none" stroke="currentColor" stroke-width="2" '
+               'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"')
+_SVG_CODE  = (f'<svg {_ICON_ATTRS}>'
+              '<path d="M7 8l-4 4 4 4"/><path d="M17 8l4 4-4 4"/><path d="M14 4l-4 16"/></svg>')
+_SVG_GLOBE = (f'<svg {_ICON_ATTRS}>'
+              '<circle cx="12" cy="12" r="9"/>'
+              '<path d="M3.6 9h16.8M3.6 15h16.8M11.5 3a17 17 0 0 0 0 18M12.5 3a17 17 0 0 1 0 18"/></svg>')
+_SVG_LOCK  = (f'<svg {_ICON_ATTRS}>'
+              '<path d="M5 13a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-6z"/>'
+              '<circle cx="12" cy="16" r="1"/><path d="M8 13V7a4 4 0 0 1 8 0v6"/></svg>')
+_SVG_CLOCK = (f'<svg {_ICON_ATTRS}>'
+              '<circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>')
+
 
 def load_config():
     with open(CONFIG_PATH, "r", encoding="utf-8") as f:
@@ -279,6 +296,60 @@ def render_shipping_list(events):
     )
 
 
+def render_badge(status, maturity=None):
+    """Return badge span: inline SVG icon + 'Status · Maturity' label.
+
+    Icon selection: shipping → code, live+public → globe, live+private → lock,
+    blocked → clock. CSS modifier (nb-proj-badge--{status}) drives border/icon
+    color via notebook.css color tokens. Returns '' if status is falsy.
+    """
+    if not status:
+        return ""
+    safe = _BADGE_SAFE_RE.sub("", status.lower())
+    if not safe:
+        return ""
+    safe_maturity = _BADGE_SAFE_RE.sub("", (maturity or "").lower())
+    if safe == "live" and safe_maturity == "private":
+        icon = _SVG_LOCK
+    elif safe == "live":
+        icon = _SVG_GLOBE
+    elif safe == "blocked":
+        icon = _SVG_CLOCK
+    else:
+        icon = _SVG_CODE
+    label = escape_html(status.capitalize())
+    if safe_maturity:
+        label += f" &middot; {escape_html(maturity.capitalize())}"
+    return f'<span class="nb-proj-badge nb-proj-badge--{safe}">{icon}{label}</span>'
+
+
+def render_activity_box(events):
+    """Render the .nb-proj-activity inset for the most recent shipped item.
+
+    Shows the activity link + live-relative timestamp when events exist;
+    falls back to a muted "no recent activity" label when empty.
+    """
+    if not events:
+        return (
+            '          <div class="nb-proj-activity nb-proj-activity--empty">\n'
+            '            <span class="nb-proj-activity-label">no recent activity</span>\n'
+            '          </div>'
+        )
+    ev = events[0]
+    summary = escape_html((ev["summary"] or "")[:90])
+    url = escape_html(safe_url(ev["url"]))
+    when = relative_time_html(ev["time"])
+    return (
+        '          <div class="nb-proj-activity">\n'
+        '            <span class="nb-proj-activity-label">&#8593; shipped</span>\n'
+        '            <div class="nb-proj-activity-body">\n'
+        f'              <a href="{url}" rel="noopener" target="_blank">{summary}</a>\n'
+        f'              &middot; {when}\n'
+        '            </div>\n'
+        '          </div>'
+    )
+
+
 def most_recent_event_time(project, events_by_repo):
     """Return the datetime of the most recent shipping event for a project,
     or None if the project has no events in the current window."""
@@ -312,48 +383,58 @@ def classify_projects(events_by_slug, threshold_days=ACTIVE_THRESHOLD_DAYS):
     return active, backburner
 
 
-def render_card(project, tldr_html, shipping_html, now_str, *, compact):
-    """Render the full <article class="nb-card"> markup for a project.
+def render_card(project, shipping_events, now_str):
+    """Render the full <article class="nb-proj-card"> markup for a project.
 
-    Active cards (compact=False) sit in the /01 .nb-grid-1 list and include
-    a status badge. Back-burner cards (compact=True) sit in the /02
-    .nb-grid-2 grid without the badge — matching the prior hand-curated
-    structure.
-
-    The TLDR markers stay nested INSIDE the card so the existing
-    per-project TLDR sync continues to work for downstream-repo edits.
+    Both active and back-burner cards use the same format; visual separation
+    comes from the grid container (.nb-grid-1 vs .nb-grid-3), not card size.
+    desc and next_up come from projects-config.json; the shipped item comes
+    from live GitHub events. TLDR markers are preserved inside the card so
+    future tooling can identify per-project boundaries.
     """
     name = escape_html(project.get("name", project["slug"]))
     url = escape_html(safe_url(project.get("url"), fallback="#"))
-    url_label = escape_html(project.get("url_label", ""))
-    status = escape_html(project.get("status_badge", ""))
+    url_label = escape_html(project.get("url_label", "").strip())
+    desc = escape_html(project.get("desc", ""))
+    next_up = escape_html(project.get("next_up", ""))
     slug = project["slug"]
-    article_class = "nb-card compact" if compact else "nb-card"
 
-    head_lines = [
-        f'        <article class="{article_class}">',
-        '          <div class="nb-card-head">',
-        f'            <h3 class="nb-card-name"><a href="{url}">{name}</a></h3>',
+    badge_html = render_badge(project.get("status_badge", ""), project.get("maturity"))
+    activity_html = render_activity_box(shipping_events)
+
+    lines = [
+        '        <article class="nb-proj-card">',
+        '          <div class="nb-proj-head">',
+        '            <div class="nb-proj-title">',
+        f'              <h3 class="nb-proj-name"><a href="{url}">{name}</a></h3>',
     ]
     if url_label:
-        head_lines.append(f'            <a class="nb-card-url" href="{url}">{url_label}</a>')
-    if status and not compact:
-        head_lines.append(f'            <span class="nb-card-status">{status}</span>')
-    head_lines.append('          </div>')
-
-    body = (
-        f'          <!-- TLDR-{slug}-START -->\n'
-        f'\n'
-        f'          <p class="nb-card-body">{tldr_html}</p>\n'
-        f'          <div class="nb-card-footer">\n'
-        f'{shipping_html}'
-        f'          <p class="feed-updated">Auto-updated {now_str} via CLAUDE.md + GitHub events.</p>\n'
-        f'          </div>\n'
-        f'        \n'
-        f'        <!-- TLDR-{slug}-END -->'
-    )
-
-    return "\n".join(head_lines) + "\n" + body + "\n        </article>"
+        lines.append(f'              <span class="nb-proj-domain">{url_label} &#8599;</span>')
+    lines.append('            </div>')
+    if badge_html:
+        lines.append(f'            {badge_html}')
+    lines += [
+        '          </div>',
+        f'          <!-- TLDR-{slug}-START -->',
+    ]
+    # Activity-first: shipped item before description so returning visitors
+    # see the delta immediately without reading the full project summary.
+    lines.append(activity_html)
+    if desc:
+        lines.append(f'          <p class="nb-proj-desc">{desc}</p>')
+    if next_up:
+        lines += [
+            '          <p class="nb-proj-next">',
+            '            <span class="nb-proj-next-label">next up</span>',
+            f'            {next_up}',
+            '          </p>',
+        ]
+    lines += [
+        f'          <p class="feed-updated">Auto-updated {now_str} via GitHub events.</p>',
+        f'          <!-- TLDR-{slug}-END -->',
+        '        </article>',
+    ]
+    return "\n".join(lines)
 
 
 def render_eyebrow(label, count):
@@ -385,7 +466,7 @@ def main():
     projects = load_config()
     token = os.environ.get("TLDR_FETCH_TOKEN", "").strip() or None
     if not token:
-        print("WARNING: TLDR_FETCH_TOKEN not set — private repos will 404.")
+        print("WARNING: TLDR_FETCH_TOKEN not set — GitHub Events for private repos may be missing.")
 
     events_raw = fetch_github_events(token, shipping_repos_for(projects))
     events_by_repo = parse_events(events_raw, token)
@@ -393,48 +474,25 @@ def main():
     old_content = read_now_html()
     now_str = format_update_time()
 
-    # Per project: fetch TLDR from upstream CLAUDE.md, compute most-recent
-    # event time, and stage the rendered card body. Projects with no TLDR
-    # are tracked as failures and excluded from the rendered output.
-    rendered = {}  # slug → (project, tldr_html, shipping_html, latest_dt)
-    failures = []
+    # desc + next_up come from projects-config.json (editorial); shipped item
+    # comes from live GitHub events. No CLAUDE.md fetch needed for /now cards.
+    rendered = {}  # slug → (project, shipping_events, latest_dt)
     for project in projects:
         slug = project["slug"]
-        repo = project["repo"]
-        print(f"  {slug} ({repo}/CLAUDE.md):")
-        markdown = fetch_file(repo, "CLAUDE.md", token)
-        tldr = extract_tldr(markdown)
-        if not tldr:
-            failures.append(slug)
-            print("    skipped (no TLDR content)")
-            continue
         shipping_events = events_for_project(project, events_by_repo)
-        shipping_html = render_shipping_list(shipping_events)
         latest_dt = most_recent_event_time(project, events_by_repo)
-        rendered[slug] = (project, tldr, shipping_html, latest_dt)
-        print(f"    ready ({len(shipping_events)} shipping event{'s' if len(shipping_events) != 1 else ''})")
+        rendered[slug] = (project, shipping_events, latest_dt)
+        print(f"  {slug}: {len(shipping_events)} event{'s' if len(shipping_events) != 1 else ''}")
 
-    if failures and not rendered:
-        record_heartbeat("projects", error=f"all {len(projects)} projects failed")
-        print(f"All {len(projects)} projects failed — heartbeat recorded with error.")
-        return
-
-    # Classify by recency. classify_projects only knows about slugs that
-    # had a TLDR; failures are skipped entirely (no empty card rendered).
-    events_by_slug = {slug: data[3] for slug, data in rendered.items()}
+    events_by_slug = {slug: data[2] for slug, data in rendered.items()}
     active_slugs, backburner_slugs = classify_projects(events_by_slug)
 
-    # Order within each bucket: most-recent first for active (most-shipping
-    # at the top); for back-burner, projects with any event sort newest-
-    # first, then projects with no events in alphabetical slug order so
-    # the layout is deterministic across runs.
     def _active_key(s):
         dt = events_by_slug.get(s)
         return dt or datetime.min.replace(tzinfo=timezone.utc)
 
     def _backburner_key(s):
         dt = events_by_slug.get(s)
-        # Two-tier sort: has-events-newest-first, then no-events-alpha.
         if dt is not None:
             return (0, -dt.timestamp(), s)
         return (1, 0, s)
@@ -442,13 +500,12 @@ def main():
     active_slugs.sort(key=_active_key, reverse=True)
     backburner_slugs.sort(key=_backburner_key)
 
-    # Render full card markup for each bucket.
     active_cards = "\n".join(
-        render_card(rendered[s][0], rendered[s][1], rendered[s][2], now_str, compact=False)
+        render_card(rendered[s][0], rendered[s][1], now_str)
         for s in active_slugs
     )
     backburner_cards = "\n".join(
-        render_card(rendered[s][0], rendered[s][1], rendered[s][2], now_str, compact=True)
+        render_card(rendered[s][0], rendered[s][1], now_str)
         for s in backburner_slugs
     )
 
@@ -467,27 +524,17 @@ def main():
         print("ERROR: ACTIVE-PROJECTS / BACKBURNER-PROJECTS markers missing in now/index.html.")
         return
 
-    # Healthy paths below (markers intact, ≥1 project rendered, page written or
-    # confirmed unchanged): a skipped optional project is a non-fatal note, not
-    # a feed outage — record it via partial_success so last_success still
-    # refreshes and the 48h staleness monitor doesn't cry wolf.
     if not content_changed(old_content, new_content):
-        if failures:
-            record_heartbeat("projects", error=f"skipped {len(failures)} project(s): {', '.join(failures)}", partial_success=True)
-        else:
-            record_heartbeat("projects")
+        record_heartbeat("projects")
         print("No meaningful changes.")
         return
 
     write_now_html(new_content)
-    if failures:
-        record_heartbeat("projects", error=f"skipped {len(failures)} project(s): {', '.join(failures)}", partial_success=True)
-    else:
-        record_heartbeat("projects")
+    record_heartbeat("projects")
     print(
         f"Updated now/index.html. Active: {len(active_slugs)} "
         f"({', '.join(active_slugs) or 'none'}); back-burner: {len(backburner_slugs)} "
-        f"({', '.join(backburner_slugs) or 'none'}); failed: {len(failures)}."
+        f"({', '.join(backburner_slugs) or 'none'})."
     )
 
 

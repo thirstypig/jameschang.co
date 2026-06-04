@@ -5,8 +5,11 @@
       "repo": "thirstypig/alephco.io-app",
       "name": "Aleph",
       "url": "https://alephco.io",
-      "url_label": "alephco.io ↗",
-      "status_badge": "● shipping",
+      "url_label": "alephco.io",
+      "status_badge": "shipping",
+      "maturity": "beta",
+      "desc": "The compliance platform for US importers — CPSIA, Prop 65, PFAS, and FSVP in one place.",
+      "next_up": "Line up the first paying customers.",
       "shipping_repos": [
         "thirstypig/alephco.io-app",
         "thirstypig/alephco.io-www"
@@ -17,8 +20,11 @@
       "repo": "thirstypig/TheFantasticLeagues",
       "name": "The Fantastic Leagues",
       "url": "https://thefantasticleagues.com",
-      "url_label": "thefantasticleagues.com ↗",
-      "status_badge": "● shipping",
+      "url_label": "thefantasticleagues.com",
+      "status_badge": "shipping",
+      "maturity": "beta",
+      "desc": "AI-powered fantasy baseball for serious keeper leagues — live for OGBA this season.",
+      "next_up": "Tighten in-season standings accuracy and daily stat lines.",
       "shipping_repos": [
         "thirstypig/TheFantasticLeagues",
         "thirstypig/thefantasticleagues-www"
@@ -29,8 +35,11 @@
       "repo": "thirstypig/bahtzang-trader",
       "name": "Bahtzang Trader",
       "url": "https://bahtzang.com",
-      "url_label": "bahtzang.com ↗",
-      "status_badge": "● shipping",
+      "url_label": "bahtzang.com",
+      "status_badge": "live",
+      "maturity": "private",
+      "desc": "AI trading experiment — Claude makes buy/sell/hold calls against a paper-trading Alpaca account.",
+      "next_up": "6 more paper trades to gate the Phase G live-trading switch.",
       "shipping_repos": [
         "thirstypig/bahtzang-trader"
       ]
@@ -40,8 +49,11 @@
       "repo": "thirstypig/thejudgetool",
       "name": "The Judge Tool",
       "url": "https://thejudgetool.com",
-      "url_label": "thejudgetool.com ↗",
-      "status_badge": "● shipping",
+      "url_label": "thejudgetool.com",
+      "status_badge": "blocked",
+      "maturity": "alpha",
+      "desc": "Digital scoring platform for KCBS BBQ competitions — replaces clipboards and carbon copies.",
+      "next_up": "Build a real-DB test setup ahead of piloting at a sanctioned competition.",
       "shipping_repos": [
         "thirstypig/thejudgetool",
         "thirstypig/thejudgetool.com-www"
@@ -52,8 +64,11 @@
       "repo": "thirstypig/tabledrop",
       "name": "TableDrop",
       "url": "https://tabledrop.com",
-      "url_label": "tabledrop.com ↗",
-      "status_badge": "● shipping",
+      "url_label": "tabledrop.com",
+      "status_badge": "blocked",
+      "maturity": "alpha",
+      "desc": "Marketplace for hard-to-get Taipei restaurant reservations — scraper + Stripe storefront.",
+      "next_up": "Get one full listing-to-purchase flow working with real data.",
       "shipping_repos": [
         "thirstypig/tabledrop"
       ]
@@ -63,8 +78,11 @@
       "repo": "thirstypig/tastemakers-backend",
       "name": "Tastemakers",
       "url": "https://tastemakersapp.com",
-      "url_label": "tastemakersapp.com ↗",
-      "status_badge": "● shipping",
+      "url_label": "tastemakersapp.com",
+      "status_badge": "shipping",
+      "maturity": "beta",
+      "desc": "Social dining discovery app — Laravel backend live on Railway, iOS/Android clients dormant.",
+      "next_up": "Migrate production DB from Namecheap MySQL to Railway.",
       "shipping_repos": [
         "thirstypig/tastemakers-backend",
         "thirstypig/tastemakers-ios",
@@ -78,8 +96,11 @@
       "repo": "thirstypig/thirstypig-blog",
       "name": "The Thirsty Pig",
       "url": "https://thirstypig.com",
-      "url_label": "thirstypig.com ↗",
-      "status_badge": "● shipping",
+      "url_label": "thirstypig.com",
+      "status_badge": "live",
+      "maturity": "public",
+      "desc": "My food blog from 2007–present — 1,639 posts and 1,400+ mapped LA restaurants.",
+      "next_up": "Continue venue tag rollout, then launch the Bold Red Poster redesign.",
       "shipping_repos": [
         "thirstypig/thirstypig-blog"
       ]
@@ -89,8 +110,11 @@
       "repo": "thirstypig/ktv-singer",
       "name": "KTV Singer",
       "url": "https://ktvsinger.com",
-      "url_label": "ktvsinger.com ↗",
-      "status_badge": "● shipping",
+      "url_label": "ktvsinger.com",
+      "status_badge": "blocked",
+      "maturity": "alpha",
+      "desc": "AI-assisted home karaoke system — phones pair with Apple TV over Socket.IO, YouTube-backed queue.",
+      "next_up": "Make end-to-end pairing reliable enough for friends without babysitting.",
       "shipping_repos": [
         "thirstypig/ktv-singer-app",
         "thirstypig/ktv-singer-tvos",
@@ -102,8 +126,11 @@
       "repo": "thirstypig/jameschang.co",
       "name": "jameschang.co",
       "url": "https://jameschang.co",
-      "url_label": "jameschang.co ↗",
-      "status_badge": "● shipping",
+      "url_label": "jameschang.co",
+      "status_badge": "live",
+      "maturity": "public",
+      "desc": "This site — plain HTML/CSS/JS on GitHub Pages, auto-updating from 8 data feeds.",
+      "next_up": "Keep shipping features; keep resume.pdf in sync.",
       "shipping_repos": [
         "thirstypig/jameschang.co"
       ]

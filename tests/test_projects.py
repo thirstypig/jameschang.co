@@ -275,54 +275,126 @@ class TestProjectClassification:
         assert back == ["x"]
 
 
+class TestRenderBadge:
+    def test_known_status_emits_modifier_class(self):
+        html = _projects.render_badge("shipping", "beta")
+        assert "nb-proj-badge--shipping" in html
+        assert "Shipping" in html
+
+    def test_maturity_appended_with_middot(self):
+        html = _projects.render_badge("shipping", "beta")
+        assert "Beta" in html
+        assert "&middot;" in html
+
+    def test_live_public_uses_globe_icon(self):
+        html = _projects.render_badge("live", "public")
+        assert "nb-proj-badge--live" in html
+        assert "Live" in html and "Public" in html
+        # globe SVG has a <circle> — code/lock/clock don't at the same position
+        assert "<circle" in html
+
+    def test_live_private_uses_lock_icon(self):
+        html = _projects.render_badge("live", "private")
+        assert "Private" in html
+        # lock SVG has a <circle cx="12" cy="16"> not a globe's <circle cx="12" cy="12">
+        assert 'cy="16"' in html
+
+    def test_blocked_uses_clock_icon(self):
+        html = _projects.render_badge("blocked", "alpha")
+        assert "nb-proj-badge--blocked" in html
+        assert "polyline" in html  # clock's hand polyline
+
+    def test_returns_empty_for_falsy_status(self):
+        assert _projects.render_badge("") == ""
+        assert _projects.render_badge(None) == ""
+
+    def test_sanitizes_unsafe_chars_from_class(self):
+        html = _projects.render_badge("in progress!", "beta")
+        assert '"in progress!"' not in html
+        assert "nb-proj-badge" in html
+
+    def test_escapes_display_text(self):
+        html = _projects.render_badge("<script>")
+        assert "<script>" not in html
+        assert "&lt;script&gt;" in html
+
+
+class TestRenderActivityBox:
+    def _event(self):
+        from datetime import datetime, timezone
+        return {
+            "summary": "feat: ship a thing",
+            "url": "https://github.com/thirstypig/demo/commit/abc",
+            "time": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        }
+
+    def test_emits_activity_box_with_label(self):
+        html = _projects.render_activity_box([self._event()])
+        assert 'class="nb-proj-activity"' in html
+        assert "nb-proj-activity-label" in html
+
+    def test_empty_events_emits_empty_state(self):
+        html = _projects.render_activity_box([])
+        assert "nb-proj-activity--empty" in html
+
+    def test_uses_bare_time_element_with_data_rel(self):
+        html = _projects.render_activity_box([self._event()])
+        assert "<time" in html and "data-rel" in html
+
+    def test_link_present_in_activity_body(self):
+        html = _projects.render_activity_box([self._event()])
+        assert "feat: ship a thing" in html
+        assert "nb-proj-activity-body" in html
+
+
 class TestRenderCard:
-    """Cron renders the full <article class="nb-card"> markup, including the
-    nested TLDR markers so per-project sync continues to work."""
+    """Cron renders the full <article class="nb-proj-card"> markup, including
+    nested TLDR markers so per-project boundary detection continues to work."""
 
     PROJECT = {
         "slug": "demo",
         "name": "Demo",
         "url": "https://demo.example",
-        "url_label": "demo.example ↗",
-        "status_badge": "● shipping",
+        "url_label": "demo.example",
+        "status_badge": "shipping",
+        "maturity": "beta",
+        "desc": "A demo project for testing.",
+        "next_up": "Ship the next thing.",
     }
 
-    def test_active_card_has_status_badge_and_url(self):
-        html = _projects.render_card(self.PROJECT, "tldr text", "", "May 7, 2026", compact=False)
-        assert '<article class="nb-card">' in html
-        assert 'class="nb-card-status"' in html
-        assert 'demo.example' in html
+    def test_card_has_proj_card_class_and_name(self):
+        html = _projects.render_card(self.PROJECT, [], "May 7, 2026")
+        assert '<article class="nb-proj-card">' in html
+        assert 'class="nb-proj-name"' in html
+        assert "Demo" in html
+
+    def test_card_has_domain_and_tldr_markers(self):
+        html = _projects.render_card(self.PROJECT, [], "May 7, 2026")
+        assert "demo.example" in html
         assert "<!-- TLDR-demo-START -->" in html
         assert "<!-- TLDR-demo-END -->" in html
-        assert '<p class="nb-card-body">tldr text</p>' in html
 
-    def test_backburner_card_is_compact_and_has_no_status(self):
-        html = _projects.render_card(self.PROJECT, "tldr", "", "May 7, 2026", compact=True)
-        assert '<article class="nb-card compact">' in html
-        assert 'nb-card-status' not in html
-        # nb-card-url is preserved for back-burner cards (matches prior layout).
-        assert 'class="nb-card-url"' in html
+    def test_card_has_badge_with_maturity(self):
+        html = _projects.render_card(self.PROJECT, [], "May 7, 2026")
+        assert "nb-proj-badge--shipping" in html
+        assert "Beta" in html
+
+    def test_card_has_desc_and_next_up(self):
+        html = _projects.render_card(self.PROJECT, [], "May 7, 2026")
+        assert 'class="nb-proj-desc"' in html
+        assert "A demo project for testing." in html
+        assert 'class="nb-proj-next"' in html
+        assert "Ship the next thing." in html
+
+    def test_activity_box_precedes_description(self):
+        """Activity-first: the shipped box must appear before the description."""
+        html = _projects.render_card(self.PROJECT, [], "May 7, 2026")
+        assert html.index("nb-proj-activity") < html.index("nb-proj-desc")
 
     def test_card_escapes_unsafe_url(self):
         bad = dict(self.PROJECT, url="javascript:alert(1)")
-        html = _projects.render_card(bad, "x", "", "May 7, 2026", compact=False)
+        html = _projects.render_card(bad, [], "May 7, 2026")
         assert "javascript:" not in html
-
-    def test_card_footer_wraps_shipped_and_timestamp(self):
-        """nb-card-footer must contain both the shipped line and feed-updated so
-        the CSS bleed-to-edges treatment applies to both elements together."""
-        shipping = '<p class="nb-card-shipped">↑ shipped: link</p>\n'
-        html = _projects.render_card(self.PROJECT, "tldr", shipping, "May 7, 2026", compact=False)
-        footer_start = html.index('class="nb-card-footer"')
-        footer_end = html.index("</div>", footer_start)
-        footer_block = html[footer_start:footer_end]
-        assert "nb-card-shipped" in footer_block
-        assert "feed-updated" in footer_block
-
-    def test_card_footer_present_even_without_shipped_line(self):
-        """Footer div renders even when no shipping events exist (empty string)."""
-        html = _projects.render_card(self.PROJECT, "tldr", "", "May 7, 2026", compact=False)
-        assert 'class="nb-card-footer"' in html
 
 
 class TestRenderBlock:
