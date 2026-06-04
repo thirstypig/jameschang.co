@@ -68,14 +68,14 @@ Line two.
 
 
 class TestLoadConfig:
-    def test_loads_nine_projects(self):
+    def test_loads_ten_projects(self):
         config = _projects.load_config()
-        assert len(config) == 9
+        assert len(config) == 10
         slugs = {p["slug"] for p in config}
         assert slugs == {
             "aleph", "fantastic-leagues", "bahtzang-trader", "judge-tool",
             "tabledrop", "tastemakers", "thirsty-pig", "jameschang-co",
-            "ktv-singer",
+            "ktv-singer", "wcrn",
         }
 
     def test_every_project_has_required_fields(self):

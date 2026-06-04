@@ -9,7 +9,7 @@
       "status_badge": "shipping",
       "maturity": "beta",
       "desc": "The compliance platform for US importers — CPSIA, Prop 65, PFAS, and FSVP in one place.",
-      "next_up": "Line up the first paying customers.",
+      "next_up": "Onboard the first beta users before pushing to paid conversions.",
       "shipping_repos": [
         "thirstypig/alephco.io-app",
         "thirstypig/alephco.io-www"
@@ -53,7 +53,7 @@
       "status_badge": "blocked",
       "maturity": "alpha",
       "desc": "Digital scoring platform for KCBS BBQ competitions — replaces clipboards and carbon copies.",
-      "next_up": "Build a real-DB test setup ahead of piloting at a sanctioned competition.",
+      "next_up": "Arranging time with stakeholders to test the product and validate viability.",
       "shipping_repos": [
         "thirstypig/thejudgetool",
         "thirstypig/thejudgetool.com-www"
@@ -133,6 +133,20 @@
       "next_up": "Keep shipping features; keep resume.pdf in sync.",
       "shipping_repos": [
         "thirstypig/jameschang.co"
+      ]
+    },
+    {
+      "slug": "wcrn",
+      "repo": "thirstypig/wcrn",
+      "name": "WCRN",
+      "url": "#",
+      "url_label": "wcrn",
+      "status_badge": "shipping",
+      "maturity": "alpha",
+      "desc": "Workplace conflict resolution network — early-stage concept.",
+      "next_up": "Define scope and validate the concept.",
+      "shipping_repos": [
+        "thirstypig/wcrn"
       ]
     }
   ]

@@ -132,7 +132,7 @@
       status: 'shipping',
       maturity: 'beta',
       description: 'The compliance platform for US importers — CPSIA, Prop 65, PFAS, and FSVP in one place.',
-      nextUp: 'Line up the first paying customers.',
+      nextUp: 'Onboard the first beta users before pushing to paid conversions.',
     },
     {
       slug: 'fantastic-leagues',
@@ -175,7 +175,7 @@
       status: 'blocked',
       maturity: 'alpha',
       description: 'Digital scoring platform for KCBS BBQ competitions — replaces clipboards and carbon copies.',
-      nextUp: 'Build a real-DB test setup ahead of piloting at a sanctioned competition.',
+      nextUp: 'Arranging time with stakeholders to test the product and validate viability.',
     },
     {
       slug: 'ktv-singer',
@@ -206,6 +206,16 @@
       maturity: 'public',
       description: 'My food blog from 2007–present — 1,639 posts and 1,400+ mapped LA restaurants.',
       nextUp: 'Continue venue tag rollout, then launch the Bold Red Poster redesign.',
+    },
+    {
+      slug: 'wcrn',
+      name: 'WCRN',
+      url: '#',
+      domain: 'concept stage',
+      status: 'shipping',
+      maturity: 'alpha',
+      description: 'Workplace conflict resolution network — early-stage concept.',
+      nextUp: 'Define scope and validate the concept.',
     },
   ];
 
