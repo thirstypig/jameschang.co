@@ -179,7 +179,17 @@ def main():
     ensure_label("feed-stale", "ED4245", "Feed has not had a successful sync in 48h")
 
     now = datetime.now(timezone.utc)
-    open_issues = open_issues_by_feed()
+    try:
+        open_issues = open_issues_by_feed()
+    except RuntimeError as e:
+        err = str(e)
+        # Transient GitHub API errors (5xx, gateway timeout) — skip this run
+        # rather than failing the workflow and generating noise. The next
+        # scheduled run (6h later) will catch any genuinely stale feeds.
+        if any(x in err for x in ("504", "503", "502", "500", "Timeout", "timeout")):
+            print(f"GitHub API transient error — skipping run: {err}", file=sys.stderr)
+            sys.exit(0)
+        raise
     stale_opened = 0
     recovered_closed = 0
 
