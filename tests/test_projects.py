@@ -68,6 +68,9 @@ Line two.
 
 
 class TestLoadConfig:
+    VALID_MATURITY = {"alpha", "beta", "public", "private"}
+    VALID_STATUS = {"shipping", "live", "blocked", "shipped"}
+
     def test_loads_ten_projects(self):
         config = _projects.load_config()
         assert len(config) == 10
@@ -77,6 +80,29 @@ class TestLoadConfig:
             "tabledrop", "tastemakers", "thirsty-pig", "jameschang-co",
             "ktv-singer", "wcrn",
         }
+
+    def test_all_projects_have_editorial_fields(self):
+        """Every project must have desc + next_up to render the activity-first card."""
+        config = _projects.load_config()
+        for p in config:
+            slug = p["slug"]
+            assert p.get("desc"), f"{slug} missing desc"
+            assert p.get("next_up"), f"{slug} missing next_up"
+
+    def test_all_projects_have_valid_maturity(self):
+        """Maturity drives the badge label; a typo would silently produce a broken badge."""
+        config = _projects.load_config()
+        for p in config:
+            assert p.get("maturity") in self.VALID_MATURITY, (
+                f"{p['slug']} has invalid maturity: {p.get('maturity')!r}"
+            )
+
+    def test_all_projects_have_valid_status_badge(self):
+        config = _projects.load_config()
+        for p in config:
+            assert p.get("status_badge") in self.VALID_STATUS, (
+                f"{p['slug']} has invalid status_badge: {p.get('status_badge')!r}"
+            )
 
     def test_every_project_has_required_fields(self):
         for project in _projects.load_config():
@@ -280,6 +306,12 @@ class TestRenderBadge:
         html = _projects.render_badge("shipping", "beta")
         assert "nb-proj-badge--shipping" in html
         assert "Shipping" in html
+
+    def test_shipping_uses_code_icon(self):
+        """shipping must use the ti-code SVG (bracket paths, no circle)."""
+        html = _projects.render_badge("shipping", "alpha")
+        assert 'M7 8l-4 4 4 4' in html   # distinctive code icon path
+        assert '<circle' not in html      # globe/lock/clock all have circles
 
     def test_maturity_appended_with_middot(self):
         html = _projects.render_badge("shipping", "beta")
