@@ -1397,3 +1397,125 @@ class TestDetailCards:
         assert "detail-modal" in js, "now.js missing #detail-modal wiring"
         assert "nb-detail-trigger" in js, "now.js missing .nb-detail-trigger selector"
         assert "cloneNode" in js, "detail wiring must clone template content (no innerHTML)"
+
+    def test_off_the_clock_eyebrow_includes_alumni(self):
+        """The /06 eyebrow must reflect all card categories including the alumni/previous
+        memberships added 2026-06-04. Without 'alumni', the label is misleading since
+        3 of the 7 cards are alumni or previous memberships, not board service/arts/sports."""
+        _, body = fetch("now/index.html")
+        clock = re.search(
+            r'<span class="nb-section-num">/06</span>(.*?)<span class="nb-section-num">/07</span>',
+            body, re.DOTALL,
+        )
+        assert clock, "/06 section not found"
+        eyebrow = re.search(r'class="nb-section-eyebrow">(.*?)</p>', clock.group(1), re.DOTALL)
+        assert eyebrow and "alumni" in eyebrow.group(1), (
+            "/06 eyebrow must include 'alumni' — section now has 3 alumni/previous cards"
+        )
+
+    def test_off_the_clock_new_cards_have_expected_links(self):
+        """The three alumni/previous detail cards added 2026-06-04 must carry their
+        canonical site links. Missing links would leave visitors with a popup that has
+        no way to learn more — the primary purpose of the modal."""
+        _, body = fetch("now/index.html")
+        clock = re.search(
+            r'<span class="nb-section-num">/06</span>(.*?)<span class="nb-section-num">/07</span>',
+            body, re.DOTALL,
+        )
+        assert clock, "/06 section not found"
+        section = clock.group(1)
+        assert "tmbaa.org" in section, (
+            "tmbaa.org link missing from /06 — USC Marching Band card must link to tmbaa.org"
+        )
+        assert "www.aquariumofpacific.org" in section, (
+            "www.aquariumofpacific.org link missing from /06 — Aquarium card must use canonical www form"
+        )
+
+
+# ── Tests: Homepage minor memberships ────────────────────────────────
+
+class TestMinorMemberships:
+    """The three alumni/previous membership cards on the homepage use a visual
+    de-emphasis treatment (.nb-membership--minor) and are grouped in a .nb-grid-3
+    wrapper so they read as secondary relative to the three primary memberships above."""
+
+    def test_exactly_three_minor_membership_articles(self):
+        """Trip-wire: exactly 3 articles carry the --minor modifier. Promotes visual
+        hierarchy contract — if one is accidentally promoted or a 4th is added without
+        updating this test, it fails explicitly."""
+        _, body = fetch("index.html")
+        count = body.count('class="nb-membership nb-membership--minor"')
+        assert count == 3, (
+            f"expected 3 nb-membership--minor articles on homepage, got {count} — "
+            "update this assertion if intentionally adding/removing a minor membership"
+        )
+
+    def test_minor_cards_are_inside_grid_wrapper(self):
+        """The three minor cards must stay inside a .nb-grid-3 wrapper so they render
+        as a side-by-side row rather than stacking like the primary memberships above."""
+        _, body = fetch("index.html")
+        grid_match = re.search(
+            r'<div class="nb-grid-3">(.*?)</div>\s*</section>',
+            body, re.DOTALL,
+        )
+        assert grid_match, "No .nb-grid-3 found inside #memberships section"
+        grid_content = grid_match.group(1)
+        minor_count = grid_content.count('class="nb-membership nb-membership--minor"')
+        assert minor_count == 3, (
+            f"expected all 3 minor cards inside .nb-grid-3, found {minor_count}"
+        )
+
+
+# ── Tests: Homepage JSON-LD memberOf ─────────────────────────────────
+
+class TestMemberOfJsonLD:
+    """The JSON-LD Person schema on the homepage must accurately reflect all five
+    organizational memberships. memberOf drives structured-data rich results on Google
+    and is invisible to manual inspection — only a test catches silent drift."""
+
+    @staticmethod
+    def _person_node():
+        _, body = fetch("index.html")
+        p = parse_page(body)
+        graph_block = next((b for b in p.json_ld_blocks if '"@graph"' in b), None)
+        assert graph_block, "No @graph JSON-LD block on homepage"
+        data = json.loads(graph_block)
+        person = next((n for n in data["@graph"] if n.get("@type") == "Person"), None)
+        assert person, "No Person node in @graph"
+        return person
+
+    def test_memberof_contains_five_organizations(self):
+        """Five orgs expected: Chinese American Museum, KCBS, USC Marching Band,
+        USC Alumni Club of Shanghai, Aquarium of the Pacific."""
+        person = self._person_node()
+        orgs = person.get("memberOf", [])
+        assert len(orgs) == 5, (
+            f"expected 5 memberOf entries, got {len(orgs)}: {[o.get('name') for o in orgs]}"
+        )
+
+    def test_tmbaa_memberof_entry_has_url(self):
+        """TMBAA entry must carry a url field — added as a review fix since the HTML
+        links tmbaa.org but the JSON-LD originally omitted it."""
+        person = self._person_node()
+        tmbaa = next(
+            (o for o in person.get("memberOf", []) if "Marching Band" in o.get("name", "")),
+            None,
+        )
+        assert tmbaa, "USC Marching Band Alumni Association not found in memberOf"
+        assert tmbaa.get("url"), (
+            "USC Marching Band memberOf entry must have a url field (tmbaa.org)"
+        )
+
+    def test_aquarium_memberof_url_is_canonical_www(self):
+        """Aquarium of the Pacific url must use the www-canonical form to match
+        the visible link — review finding 2026-06-04."""
+        person = self._person_node()
+        aquarium = next(
+            (o for o in person.get("memberOf", []) if "Aquarium" in o.get("name", "")),
+            None,
+        )
+        assert aquarium, "Aquarium of the Pacific not found in memberOf"
+        url = aquarium.get("url", "")
+        assert url.startswith("https://www."), (
+            f"Aquarium memberOf url must use https://www. canonical form, got: {url!r}"
+        )
