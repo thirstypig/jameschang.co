@@ -113,6 +113,17 @@ class TestLoadConfig:
             for field in ("name", "url", "url_label", "status_badge"):
                 assert field in project, f"{project['slug']} missing {field}"
 
+    def test_self_slug_exists_in_config(self):
+        """SELF_SLUG must match a real slug in projects-config.json.
+
+        pin_self_last() silently does nothing when the slug is absent — so a
+        rename in JSON would break the card ordering without any error.
+        """
+        slugs = {p["slug"] for p in _projects.load_config()}
+        assert _projects.SELF_SLUG in slugs, (
+            f"SELF_SLUG={_projects.SELF_SLUG!r} not found in projects-config.json slugs: {slugs}"
+        )
+
 
 class TestParseEventsPullRequest:
     """PR events with stripped payloads (private-repo sanitization) must be
