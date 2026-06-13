@@ -301,6 +301,36 @@ class TestProjectClassification:
         assert back == ["x"]
 
 
+class TestPinSelfLast:
+    """pin_self_last always moves SELF_SLUG to the end of its section."""
+
+    def test_pins_to_bottom_of_active(self):
+        active = ["jameschang-co", "aleph", "fl"]
+        back = ["judge-tool"]
+        _projects.pin_self_last("jameschang-co", active, back)
+        assert active[-1] == "jameschang-co"
+        assert back == ["judge-tool"]
+
+    def test_pins_to_bottom_of_backburner(self):
+        active = ["aleph"]
+        back = ["jameschang-co", "judge-tool"]
+        _projects.pin_self_last("jameschang-co", active, back)
+        assert back[-1] == "jameschang-co"
+        assert active == ["aleph"]
+
+    def test_noop_when_already_last(self):
+        active = ["aleph", "jameschang-co"]
+        _projects.pin_self_last("jameschang-co", active)
+        assert active == ["aleph", "jameschang-co"]
+
+    def test_noop_when_slug_absent(self):
+        active = ["aleph", "fl"]
+        back = ["judge-tool"]
+        _projects.pin_self_last("jameschang-co", active, back)
+        assert active == ["aleph", "fl"]
+        assert back == ["judge-tool"]
+
+
 class TestRenderBadge:
     def test_known_status_emits_modifier_class(self):
         html = _projects.render_badge("shipping", "beta")

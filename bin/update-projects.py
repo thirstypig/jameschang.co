@@ -48,6 +48,7 @@ EVENT_WINDOW = timedelta(days=14)  # how far back to look for shipping events
 EVENTS_PER_PROJECT = 1
 MAX_COMMIT_ENRICHMENTS = 15  # hard cap on per-run GitHub /commits/{sha} fetches
 ACTIVE_THRESHOLD_DAYS = 7  # most-recent shipping event within this window → active
+SELF_SLUG = "jameschang-co"  # always pinned to the bottom of its section
 
 _BADGE_SAFE_RE = re.compile(r"[^a-z0-9-]")
 
@@ -383,6 +384,18 @@ def classify_projects(events_by_slug, threshold_days=ACTIVE_THRESHOLD_DAYS):
     return active, backburner
 
 
+def pin_self_last(slug, *lists):
+    """Move `slug` to the end of whichever list it appears in.
+
+    jameschang.co gets cron commits constantly, so without this it floats
+    to the top of the active section on every run.
+    """
+    for lst in lists:
+        if slug in lst:
+            lst.remove(slug)
+            lst.append(slug)
+
+
 def render_card(project, shipping_events, now_str):
     """Render the full <article class="nb-proj-card"> markup for a project.
 
@@ -499,6 +512,7 @@ def main():
 
     active_slugs.sort(key=_active_key, reverse=True)
     backburner_slugs.sort(key=_backburner_key)
+    pin_self_last(SELF_SLUG, active_slugs, backburner_slugs)
 
     active_cards = "\n".join(
         render_card(rendered[s][0], rendered[s][1], now_str)
