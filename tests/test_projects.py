@@ -71,14 +71,14 @@ class TestLoadConfig:
     VALID_MATURITY = {"alpha", "beta", "public", "private"}
     VALID_STATUS = {"shipping", "live", "blocked", "shipped"}
 
-    def test_loads_ten_projects(self):
+    def test_loads_nine_projects(self):
         config = _projects.load_config()
-        assert len(config) == 10
+        assert len(config) == 9
         slugs = {p["slug"] for p in config}
         assert slugs == {
             "aleph", "fantastic-leagues", "bahtzang-trader", "judge-tool",
             "tabledrop", "tastemakers", "thirsty-pig", "jameschang-co",
-            "ktv-singer", "wcrn",
+            "ktv-singer",
         }
 
     def test_all_projects_have_editorial_fields(self):

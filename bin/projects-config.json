@@ -134,20 +134,6 @@
       "shipping_repos": [
         "thirstypig/jameschang.co"
       ]
-    },
-    {
-      "slug": "wcrn",
-      "repo": "thirstypig/wcrn",
-      "name": "WCRN",
-      "url": "#",
-      "url_label": "wcrn",
-      "status_badge": "shipping",
-      "maturity": "alpha",
-      "desc": "Workplace conflict resolution network — early-stage concept.",
-      "next_up": "Define scope and validate the concept.",
-      "shipping_repos": [
-        "thirstypig/wcrn"
-      ]
     }
   ]
 }
