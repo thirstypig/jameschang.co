@@ -187,6 +187,42 @@ The Places-I-want-to-try section fetches `https://thirstypig.com/places-hitlist.
 - **When modifying HTML structure**, also audit the print stylesheet and any JSON-LD/meta tag that references specific claims (meta description, OG description).
 - **When changing CSS tokens**, screenshot both light and dark mode headlessly (see `/tmp/jc-shots/` pattern).
 
+### File storage conventions
+
+- **Screenshots for docs:** → `docs/screenshots/{purpose}/` with a README explaining what they document
+- **Working/draft docs:** → `docs/archive/` or ephemeral (never root level)
+- **Testing artifacts:** → `.gitignore` (auto-regenerated on test runs)
+- **PDFs:** Only commit current versions (e.g., `resume.pdf`). Delete dated versions (e.g., `James_Chang_resume_April2026.pdf`).
+- **Root directory:** Code, config, and live assets only. No drafts, no screenshots, no stale versions.
+
+### Folder hygiene & maintenance
+
+**Pre-commit safeguards:**
+- `.git/hooks/pre-commit` blocks accidental commits of junk files (see blocklist in hook)
+- `.gitignore` covers all build artifacts, OS junk, and working documents
+- Both are version-controlled; distribute to teammates via git clone
+
+**Quarterly audit** (run every ~3 months to prevent drift):
+```bash
+# 1. Check file count trend
+git ls-files | wc -l
+
+# 2. Check root clutter
+find . -maxdepth 1 -type f | wc -l
+
+# 3. Scan for dated files (potential stale versions)
+find . -maxdepth 1 -type f | grep -E '[0-9]{4}-[0-9]{2}'
+
+# 4. Verify repo size hasn't exploded
+du -sh .
+```
+
+**Red flags** (cleanup triggers):
+- Root files > 40 (target: ~35)
+- Total repo size > 100 MB
+- PNG/PDF files modified today but not referenced in code
+- Anything with a date in the filename (often superseded versions)
+
 ### Cross-repo PAT trade-off
 
 **Cross-repo PAT trade-off.** The bucket list admin lives on `thirstypig.com/admin/` but writes to this repo via the GitHub Contents API. The PAT is shared across `thirstypig-blog` and `jameschang.co` (see commit `d64bdb85` on thirstypig) so one paste covers both managers. Trade-off: an XSS or supply-chain compromise in the Tina admin context now mutates BOTH repos. Mitigations: (a) PAT scope must be `Contents: Read+Write` only, never `repo`; (b) rotate every 90 days max (calendar reminder); (c) sessionStorage clears on tab close; (d) admin-side CSP and Google Maps SDK pinning are tracked in todos/129 and todos/136. The decision to share keys was a deliberate UX call — splitting back is the alternative if the trade-off ever stops feeling worth it.

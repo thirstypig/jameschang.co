@@ -1,39 +1,62 @@
+# OS & IDE junk
 .DS_Store
-# Claude settings (local, not shared) — but track commands (slash skills)
+Thumbs.db
+.AppleDouble/
+.LSOverride/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Claude Code (local settings + runtime)
 .claude/settings.*
 .claude/projects/
-*.log
+.claude/scheduled_tasks.lock
+
+# Environment & secrets (local overrides)
 .env
 .env.local
-.playwright-mcp/
-CONTENT_SOURCES.md
-PLAN.md
-resume-small.pdf
-assets/JamesChang.Headshot.png
+*.local.json
 .whoop-refresh-token
 .trakt-refresh-token
 
-# Source photos (processed versions are tracked as headshot-*.avif/webp)
+# Build artifacts & test caches
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+.playwright-mcp/
+
+# Logs & temp files
+*.log
+*.tmp
+*.screenrecord
+
+# Working documents (not production)
+CONTENT_SOURCES.md
+PLAN.md
+
+# Resume versions (only commit current resume.pdf)
+resume-small.pdf
+*-resume-*.pdf
+James_Chang_resume_*.pdf
+
+# Source media (processed versions are tracked as headshot-*.avif/webp)
+assets/JamesChang.Headshot.png
 assets/JamesProProfile.png
 assets/James Chang.*.jpg
 assets/IMG_0416 copy_cleanup.jpg
 assets/x_DSC3049.jpg
 
-# Screenshots (temporary)
+# Screenshots & dashboard sources (temporary working files)
 assets/Screenshot *.png
 assets/screenshots/
-
-# Dashboard source PNGs (processed versions tracked under assets/work/)
 assets/TFL.Admindashboard.png
 assets/aleph.admindashboard.png
+docs/screenshots/
+docs/archive/
 
-# Python bytecode
-__pycache__/
-*.pyc
-
-# Test cache
-.pytest_cache/
-.coverage
-
-# Claude Code scheduled tasks runtime lock
-.claude/scheduled_tasks.lock
+# Root-level junk (catch stray artifacts)
+/*.png
+/*.screenrecord
