@@ -88,14 +88,7 @@ Each project-with-a-deep-dive has its own folder under `/projects/[slug]/` with 
 
 ### Adding a new project deep-dive
 
-1. Create `/projects/[slug]/` with sub-pages (e.g. `tech/index.html`, `roadmap/index.html`, `changelog/index.html`). Copy an existing project's page as the template — match the CSP meta tag, JSON-LD, breadcrumbs, `.cross-project-nav`, `.project-nav`, `.snapshot-banner`, `.work-hero`, footer, and script tag.
-2. Set `aria-current="page"` on the active tab in `.project-nav` for each sub-page, and on the matching chip in `.cross-project-nav`.
-3. Add the project to `/projects/index.html` (the work landing page).
-4. Add a project card to the `#work` section grid in `index.html`.
-5. Add all new URLs to `sitemap.xml`.
-6. Add the Dashboard tab to `.project-nav` in **all** sibling sub-pages if adding a dashboard page.
-7. **Cross-project nav update** (added 2026-04-28): add the new project as a chip in the `.cross-project-nav` block on **every existing deep-dive sub-page** (currently 13 across Aleph + Fantastic Leagues + Judge Tool). The chip's `href` should point at the new project's canonical entry-point sub-page (e.g., `/projects/{new-slug}/{tech-or-default}/`).
-8. Update `tests/test_site_e2e.py::TestCrossProjectNav.EXPECTED_LINKS` to include the new slug, and bump the `len(self.DEEP_DIVES)` assertion to match the new total. The e2e suite enforces presence + canonical hrefs + aria-current; without the test update, CI will flag the mismatch immediately.
+See `docs/guides/adding-deep-dive.md` for the full checklist (8 steps covering structure, nav, markers, and tests). The process covers sub-pages, CSP + JSON-LD templates, cross-project nav updates, and test assertions.
 
 **Headshot rotation** — the About section cycles through 7 photos using JS-driven crossfade (5s interval, `script.js`). Images need `object-position` tuning per photo. Respects `prefers-reduced-motion` (freezes on first image). New photos need AVIF + WebP variants and a `.headshot-*` class for positioning.
 
@@ -139,67 +132,9 @@ The adapter pattern lets us sync from heterogeneous sources (plain markdown, cus
 
 **Heartbeat slugs.** `project-docs` aggregate, plus `project-docs:{slug}-{doctype}` per doc (e.g. `project-docs:aleph-changelog`). The staleness monitor's `GUIDANCE` has a `project-docs` entry; per-doc slugs fall through via `_fallback_guidance()` prefix match.
 
-### Heading-line markdown convention
-
-The sync uses small dedicated parsers, not a general markdown library. Authors of source-repo `docs/*.md` files must follow these rules — anything outside the contract is ignored, malformed entries are skipped silently. Supported inline: `**bold**` → `<strong>`, `` `code` `` → `<code>`. HTML in source is escaped (so a literal `<Component>` in prose renders as text).
-
-**`docs/changelog.md`** — one release per H2. The H2 line carries metadata; the H3 is the human title; bullets are the body.
-
-```markdown
-## v0.12.0 — 2026-04-14 — security, improvement
-### Code review batch — security, quality & cleanup
-
-- **Security:** Fixed SoQL injection in ENERGY STAR search
-- **Quality:** 47 inline auth checks → router middleware
-- **Cleanup:** Renamed service files to PascalCase
-
-## v0.11.0 — 2026-04-13 — improvement
-### Admin consolidation — 11 pages to 6
-
-- 11 sidebar items → 6 (Operations, Planning groups)
-- ~3,700 lines of static JSX eliminated
-```
-
-- H2 format: `## <version> — <date> [— <tag1, tag2, ...>]`. Em-dash (`—`, U+2014) is canonical; ASCII `--` works as fallback for editors that mangle Unicode. The date can carry trailing suffix like `2026-04-13 · Session 63` — anything up to the next em-dash is the date.
-- Tags map 1:1 to CSS classes in `projects/projects.css`. Known tags (rendered with existing styling): `feature`, `improvement`, `security`, `fix`, `breaking`, `docs`, `refactor`. Unknown tags get a sanitized class name `[a-z0-9-]` only — add a CSS rule if you want them styled.
-- Title (`###` line) is optional but recommended; an empty title renders as `<h3 class="release-title"></h3>`.
-- Body must be bullets (`-` or `*`). Paragraphs above the bullets are ignored. Continuation lines (indented 2+ spaces) are joined into the preceding bullet.
-
-**`docs/roadmap.md`** — one module per H2. The H2 line carries `<name> — <NN>%`. Inside each module: a prose description, then optional `### Workflow` (ordered list) and `### Features` (task list with state markers).
-
-```markdown
-## CPSIA / CPC — 60%
-Generate Children's Product Certificates for products intended for children
-12 and under. Covers the seven required CPC fields under CPSIA Section 14(a).
-
-### Workflow
-1. Add children's product with SKU, manufacturer, country of origin
-2. Upload lab test report from a CPSC-accepted lab
-3. Complete CPC form — seven required fields
-4. Preview and generate the formatted PDF
-
-### Features
-- [x] Product creation (children's product type)
-- [x] CPC 7-field data entry form
-- [ ] Cohort-aware product creation form
-- [~] CPSC e-Filing integration
-```
-
-- H2 format: `## <name> — <NN>%`. Percent must be an integer 0–999.
-- Description is the prose between the H2 line and the first H3 (or end of section if no H3). Multi-line descriptions collapse to a single space-joined paragraph — use blank lines only between subsections, not within prose.
-- `### Workflow` items use `1.`, `2.`, ... ordered-list syntax. Other H3 sections (anything that doesn't start with `Work` or `Feature`) are ignored.
-- `### Features` items use task-list syntax with three states:
-  - `- [x]` → `<li class="done">` (shipped)
-  - `- [ ]` → `<li class="planned">` (committed but unshipped)
-  - `- [~]` → `<li class="deferred">` (explicitly deprioritized)
-
 ### Adding a project to the sync
 
-1. Add a new `(slug, repo, doctype)` tuple to `PROJECT_DOCS` in `bin/update-project-docs.py`.
-2. Add a matching `<!-- {DOCTYPE}-START -->` / `<!-- {DOCTYPE}-END -->` marker pair to the destination HTML page in the **same commit** (bootstrap requirement — without markers, the cron silently does nothing forever).
-3. Update `tests/test_project_docs.py::TestProjectDocsConfig::test_expected_entries_present` and `tests/test_site_e2e.py::TestProjectDocSyncMarkers::EXPECTED` to include the new entry.
-4. Verify `TLDR_FETCH_TOKEN` PAT has `Contents:Read` scope on the source repo (necessary for any private repo).
-5. Author `docs/{doctype}.md` in the source repo following the heading-line convention. The sync will pick it up on the next 13:15 UTC cron tick (or trigger via `workflow_dispatch`).
+See `docs/guides/adding-new-project.md` for the full guide (5 steps + markdown conventions for both changelog and roadmap formats). The conventions are strict but machine-parseable — heading-line metadata, task-list states, and per-project adapter patterns documented with examples.
 
 ## Data feeds on /now
 
@@ -238,14 +173,7 @@ The `/now` page is assembled from several independent sync scripts that each wri
 
 ### Adding a new data feed
 
-1. Add a new `<section class="work-section">` to `now/index.html` with `FEED-START` / `FEED-END` markers. **Bootstrap requirement:** any new marker names introduced by the script must be seeded in `now/index.html` in the **same commit** that adds the script logic — never after. The cron's fail-safe (`replace_marker()` returning `False`) will silently preserve stale content indefinitely if markers are absent. This applies to both per-feed section markers (e.g. `WHOOP-START`/`END`) and section-level markers (e.g. `ACTIVE-PROJECTS-START`/`END`, `ACTIVE-EYEBROW-START`/`END`). Also add the new marker name(s) to `EXPECTED_MARKERS` in `tests/test_site_e2e.py` so CI catches any future deletion.
-2. Add CSS for the feed's presentation in `projects/projects.css` (use existing CSS tokens). Follow the naming convention: `.{feed}-module`, `.{feed}-heading`, `.{feed}-list`, `.{feed}-when`, `.{feed}-updated`.
-3. Write a Python function that fetches + returns the HTML block; add to `bin/update-public-feeds.py` (for unauth) or a new `bin/update-{feed}.py` (for OAuth). In `update-public-feeds.py`, add a tuple to the `feeds` list: `("MARKER_NAME", builder_function, 'fallback_html')`.
-4. Add the fetch to the `main()` of the sync script; use `replace_marker()` to insert.
-5. If OAuth: add a callback page at `/{service}/callback/`, auth script at `bin/{service}-auth.sh`, workflow at `.github/workflows/{service}-sync.yml`.
-6. Call `record_heartbeat("feed_name")` from `_shared.py` in the sync script's `main()` — both on success and on early-return (no-change) paths. The 6-hour staleness check (`bin/check-feed-health.py` run by `.github/workflows/feeds-staleness-check.yml`) opens a GitHub issue (labeled `feed-stale`) if any feed's `last_success_utc` is >48h old, comments on existing open issues instead of duplicating, and auto-closes them when the feed recovers. Note: the 48h threshold may not suit feeds that update less frequently (e.g. weekly).
-7. If the new feed fetches from an external domain client-side, add the domain to the CSP `connect-src` directive in `now/index.html`.
-8. Sync scripts must be invoked as `python3 bin/update-{feed}.py` from the repo root (not imported as modules).
+See `docs/guides/adding-new-feed.md` for the full checklist (8 steps covering markers, CSS, Python fetchers, OAuth setup, heartbeats, and CSP). Also documents the current 8 canonical feeds and their configurations (secrets, cadence, token storage patterns).
 
 ## Third-party fetches on /now/
 
@@ -298,23 +226,11 @@ All code-review findings from four reviews (initial, 2026-04-18 full-repo audit,
 
 ## Testing
 
-335 tests across 11 files. Run with `python3 -m pytest tests/ -v` (requires `pytest`).
+**335 tests** across 11 files: 265 unit tests (9 files) + 70 E2E tests. Run locally with `python3 -m pytest tests/ -v` (requires `pytest`).
 
-| File | Type | Tests | What it covers |
-|------|------|-------|---------------|
-| `tests/test_shared.py` | Unit | 48 | `_shared.py`: escape_html, relative_time, **relative_time_html** (live-relative progressive enhancement), replace_marker, content_changed, sanitize_error, record_heartbeat (incl. corrupt JSON recovery), page-updated marker refresh |
-| `tests/test_feeds.py` | Unit | 11 | `update-whoop.py`: recovery_color; `update-public-feeds.py`: ordinal |
-| `tests/test_trakt.py` | Unit | 10 | `update-trakt.py`: build_html rendering, HTML escaping, deduplication by show, 5-show limit, regression assertions that legacy `trakt-*` classes are no longer emitted |
-| `tests/test_feed_builders.py` | Unit | 14 | Feed builders for mlb, letterboxd, goodreads (reading + read), fbst, plex — mocked network, tested HTML output; plex fetch failure returns None vs []; regression assertions that legacy `plex-*` classes are no longer emitted |
-| `tests/test_spotify.py` | Unit | 15 | `update-spotify.py`: build_html (asserts `nb-feed-podcast` + bare `<ul>`), state load/save, fetch_recent_tracks, fetch_current_podcast |
-| `tests/test_whoop.py` | Unit | 17 | `update-whoop.py`: fetch_latest_recovery/sleep/cycle, build_html with all recovery colors |
-| `tests/test_feed_health.py` | Unit | 5 | `check-feed-health.py`: transient 5xx/timeout errors exit cleanly (code 0) while non-transient errors (auth failures) still propagate and fail the workflow |
-| `tests/test_site_e2e.py` | E2E | 70 | All HTML pages: meta tags, CSP, aria-pressed, JSON-LD, images, internal links, feed markers (incl. PAGE-UPDATED), @media print + @page rule on notebook.css, OpenSSL parity, dark mode parity, GA4, privacy policy, symlink detection, sitemap consistency, OG image, **top-nav consistency** (brand text, no [about], [/now] slash prefix, experience→projects→now order across all pages), **cross-project nav** (presence + canonical entry-point hrefs + aria-current on 13 deep-dive pages), **/now section structure** (sequential /01–/09 numbering + /07 watching/listening/reading sub-feeds, no Trakt/Letterboxd), **resume print pipeline** (print-name-block presence on homepage only + screen-hidden + canonical contact URLs; script.js beforeprint listener that opens `<details>` so the 8 additional certifications expand in resume.pdf; `.nb-card-name` print rule overrides screen sizing), **bucket list** (`bucketlist.json` schema + unique ids + status/completed-date invariants, /now render-target + hitlist title rename + link to /bucketlist/, public page loads + renderer script resolves + render targets present, no top-nav link to /bucketlist/), **project doc sync markers** (6 destination pages have matching CHANGELOG/ROADMAP marker pairs — bootstrap guard for `bin/update-project-docs.py`), **FL Roadmap internal nav** (5 FL deep-dive pages link to `/projects/fantastic-leagues/roadmap/` in `.project-nav`; pre-promotion external href is asserted absent from any FL nav), **quotes** (`quotes.json` schema + unique ids + every-quote-has-a-source discipline + collection/poem `entries[]` + `link` http(s) validation + Bruce Lee box excludes verified misattributions / Goethe line is its own correctly-attributed card, `#quotes-section` render target + `#quote-modal` dialog present, `now.js` fetches `/quotes.json`), **detail cards** (people i follow `/09` + off-the-clock `/06` top list render as `.nb-detail-card`s — 13 total, 6+7 — each with a trigger + `<template>`; `#detail-modal` dialog present; `now.js` wires `.nb-detail-trigger` → clone template, not innerHTML) |
-| `tests/test_projects.py` | Unit | 56 | `update-projects.py`: TLDR extraction (dead code, kept for test compat), config schema (**9 projects**; all must have `maturity` + `desc` + `next_up` with valid enum values), PR-event filtering, render_shipping_list, render_block, **classify_projects** (active/back-burner threshold = 7 days; project with no events → back-burner; edge case at exactly threshold pinned), **render_badge** (icon selection: code/globe/lock/clock; maturity label; XSS sanitization), **render_activity_box** (filled vs empty state; data-rel timestamp), **render_card** (activity-first order asserted; badge with maturity; desc + next_up from config; URL safety) |
-| `tests/test_gcal.py` | Unit | 30 | `update-gcal.py`: VEVENT parsing (line continuations, escapes, TZID + UTC + all-day), filter past events + sort by full PT datetime (same-day-time-of-day ordering pinned), `_first_n_words_key` + `group_consecutive_by_prefix` (the first-3-words rule + consecutive constraint), `merge_group` (title trim + date span union), `build_html` (URL anchor only on http/https, multi-line LOCATION whitespace collapse, no per-card source tag, multi-day all-day range rendering, MAX_UPCOMING cap exercised) |
-| `tests/test_project_docs.py` | Unit | 59 | `update-project-docs.py`: convention changelog parser (heading-line: version + date + tags; date trailing suffix preserved; ASCII fallback; bullet continuation lines), convention roadmap parser (H2 module + percent; H3 Workflow/Features; task-list states `[x]`/`[ ]`/`[~]`), **Aleph adapter** (percent from Project Health table; bounded to Compliance Module Roadmaps section), **JT adapter** (`## PHASE N:` extraction; non-task-list bullets ignored), **FL Tsx adapter** (`productRoadmap` array extraction via brace-counted slicing; nested-brace handling in descriptions; `in-progress` → `planned` lossy mapping), HTML renderers (escape-then-bold/code; unknown tags get sanitized class; `percent=None` omits progress badge; optional blocks omitted when empty), **adapter factory** (`make_adapter` closure pattern; source-missing / unparseable error contracts), **sync_one fail-safe** (source-missing → skipped, no heartbeat on bootstrap; source-missing + known feed → error recorded while preserving prior last_success_utc; unknown doctype + missing destination → error), **PROJECT_DOCS invariants** (6 entries pinned; every adapter callable; wired destinations have matching marker pair) |
+See `docs/test-plan.md` for the full testing strategy, inventory by file, and CI cadence. Unit tests cover individual feed sync scripts + the shared `_shared.py` utilities. E2E tests cover all pages: meta tags, CSP, feed markers, print stylesheet, sitemap, top-nav consistency, cross-project nav, detail cards, quotes section, and more.
 
-CI runs on push to `main` via `.github/workflows/ci-tests.yml`. See `docs/test-plan.md` for the full testing strategy.
+CI runs on every push to `main` via `.github/workflows/ci-tests.yml`.
 
 ## Commit/push workflow
 

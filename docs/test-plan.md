@@ -17,17 +17,18 @@ python3 -m pytest tests/ -v
 
 **Execution cadence:** On every commit (via GitHub Actions CI) and locally before pushing.
 
-| Test file | Covers | Functions tested |
-|-----------|--------|-----------------|
-| `tests/test_shared.py` | `bin/_shared.py` | `escape_html`, `relative_time`, `relative_time_html` (live-relative `<time data-rel>` element), `replace_marker`, `content_changed` + `strip_volatile` (`<time data-rel>` text strip — see `docs/solutions/integration-issues/relative-time-html-defeats-content-changed-cache.md`), `sanitize_error`, `record_heartbeat` (incl. corrupt JSON recovery; `last_run_utc` field dropped 2026-04-29 since nothing read it), `_refresh_page_updated_marker` |
-| `tests/test_feeds.py` | `bin/update-whoop.py`, `bin/update-public-feeds.py` | `recovery_color`, `ordinal` |
-| `tests/test_trakt.py` | `bin/update-trakt.py` | `build_html` (rendering, escaping, empty state), `fetch_recent_shows` (deduplication, 5-show limit) |
-| `tests/test_feed_builders.py` | All feed builders | `mlb_block`, `letterboxd_block`, `goodreads_reading_block`, `goodreads_block`, `fbst_block`, `plex build_html` + `plex fetch_history` failure path — mocked network |
-| `tests/test_spotify.py` | `bin/update-spotify.py` | `build_html`, `load_state`/`save_state`, `fetch_recent_tracks`, `fetch_current_podcast` |
-| `tests/test_whoop.py` | `bin/update-whoop.py` | `fetch_latest_recovery`/`sleep`/`cycle`, `build_html` with all recovery color thresholds |
-| `tests/test_projects.py` | `bin/update-projects.py` | `extract_tldr` (marker extraction, edge cases), `load_config` (9-project schema), `classify_projects` (active/back-burner threshold = 7 days, no-events default, edge case at exactly threshold), `render_card` (active vs back-burner markup + URL safety + nb-card-footer wraps shipped + feed-updated), PR-event filtering, `render_shipping_list`, `render_block` (nb-card-footer wrapper asserted) |
-| `tests/test_gcal.py` | `bin/update-gcal.py` | VEVENT parsing (line continuations, escapes, TZID + UTC + all-day), filter past + sort by full PT datetime (same-day-time-of-day ordering), `_first_n_words_key` + `group_consecutive_by_prefix` (first-3-words rule + consecutive constraint), `merge_group` (title trim at ` - ` / ` · ` / `:` separator, date span union), `build_html` (URL anchor only on http/https, multi-line LOCATION whitespace collapse, no per-card source tag, multi-day all-day range rendering, MAX_UPCOMING cap exercised, all-day vs timed sort against synthetic midnight) |
-| `tests/test_project_docs.py` *(added 2026-05-29)* | `bin/update-project-docs.py` | Convention parsers (`parse_changelog`, `parse_roadmap` heading-line grammar), **Aleph adapter** (`parse_aleph_roadmap` — percent from Project Health table; anchored-and-bounded module discovery so downstream H2 sections don't leak), **JT adapter** (`parse_jt_roadmap` — `## PHASE N:` extraction; non-task-list bullets ignored), **FL Tsx adapter** (`parse_fl_roadmap` — brace-counted `productRoadmap` array slicing with string-state tracking; `[]` type-annotation skip; `in-progress` → `planned` lossy mapping), shared renderers (`percent=None` omits progress badge; optional blocks omitted), **`make_adapter` factory** (closure pattern; source-missing / unparseable error contracts), **`sync_one` fail-safe** (bootstrap-aware heartbeat gating — error heartbeats only for already-known feeds), **`PROJECT_DOCS` invariants** (6 entries pinned; every adapter callable; 4 wired destinations have matching marker pair) |
+| Test file | Type | Count | What it covers |
+|-----------|------|-------|---|
+| `tests/test_shared.py` | Unit | 48 | `_shared.py`: escape_html, relative_time, **relative_time_html** (live-relative progressive enhancement), replace_marker, content_changed, sanitize_error, record_heartbeat (incl. corrupt JSON recovery), page-updated marker refresh |
+| `tests/test_feeds.py` | Unit | 11 | `update-whoop.py`: recovery_color; `update-public-feeds.py`: ordinal |
+| `tests/test_trakt.py` | Unit | 10 | `update-trakt.py`: build_html rendering, HTML escaping, deduplication by show, 5-show limit, regression assertions that legacy `trakt-*` classes are no longer emitted |
+| `tests/test_feed_builders.py` | Unit | 14 | Feed builders for mlb, letterboxd, goodreads (reading + read), fbst, plex — mocked network, tested HTML output; plex fetch failure returns None vs []; regression assertions that legacy `plex-*` classes are no longer emitted |
+| `tests/test_spotify.py` | Unit | 15 | `update-spotify.py`: build_html (asserts `nb-feed-podcast` + bare `<ul>`), state load/save, fetch_recent_tracks, fetch_current_podcast |
+| `tests/test_whoop.py` | Unit | 17 | `update-whoop.py`: fetch_latest_recovery/sleep/cycle, build_html with all recovery colors |
+| `tests/test_feed_health.py` | Unit | 5 | `check-feed-health.py`: transient 5xx/timeout errors exit cleanly (code 0) while non-transient errors (auth failures) still propagate and fail the workflow |
+| `tests/test_projects.py` | Unit | 56 | `update-projects.py`: TLDR extraction (dead code, kept for test compat), config schema (**9 projects**; all must have `maturity` + `desc` + `next_up` with valid enum values), PR-event filtering, render_shipping_list, render_block, **classify_projects** (active/back-burner threshold = 7 days; project with no events → back-burner; edge case at exactly threshold pinned), **render_badge** (icon selection: code/globe/lock/clock; maturity label; XSS sanitization), **render_activity_box** (filled vs empty state; data-rel timestamp), **render_card** (activity-first order asserted; badge with maturity; desc + next_up from config; URL safety) |
+| `tests/test_gcal.py` | Unit | 30 | `update-gcal.py`: VEVENT parsing (line continuations, escapes, TZID + UTC + all-day), filter past events + sort by full PT datetime (same-day-time-of-day ordering pinned), `_first_n_words_key` + `group_consecutive_by_prefix` (the first-3-words rule + consecutive constraint), `merge_group` (title trim + date span union), `build_html` (URL anchor only on http/https, multi-line LOCATION whitespace collapse, no per-card source tag, multi-day all-day range rendering, MAX_UPCOMING cap exercised) |
+| `tests/test_project_docs.py` | Unit | 59 | `update-project-docs.py`: convention changelog parser (heading-line: version + date + tags; date trailing suffix preserved; ASCII fallback; bullet continuation lines), convention roadmap parser (H2 module + percent; H3 Workflow/Features; task-list states `[x]`/`[ ]`/`[~]`), **Aleph adapter** (percent from Project Health table; bounded to Compliance Module Roadmaps section), **JT adapter** (`## PHASE N:` extraction; non-task-list bullets ignored), **FL Tsx adapter** (`productRoadmap` array extraction via brace-counted slicing; nested-brace handling in descriptions; `in-progress` → `planned` lossy mapping), HTML renderers (escape-then-bold/code; unknown tags get sanitized class; `percent=None` omits progress badge; optional blocks omitted when empty), **adapter factory** (`make_adapter` closure pattern; source-missing / unparseable error contracts), **sync_one fail-safe** (source-missing → skipped, no heartbeat on bootstrap; source-missing + known feed → error recorded while preserving prior last_success_utc; unknown doctype + missing destination → error), **PROJECT_DOCS invariants** (6 entries pinned; every adapter callable; wired destinations have matching marker pair) |
 
 ### E2E Tests (`tests/test_site_e2e.py`)
 
@@ -42,31 +43,9 @@ python3 -m pytest tests/test_site_e2e.py -v
 
 **Execution cadence:** On every push to `main` (via GitHub Actions CI) and locally before deploying CSS/HTML changes.
 
-| Test | What it checks |
-|------|---------------|
-| Page loads | Every HTML page returns 200 |
-| CSP headers | All pages have Content-Security-Policy meta tag |
-| Meta tags | All pages have viewport, color-scheme, referrer, title, description |
-| aria-pressed | Theme toggle has `aria-pressed="false"` on all pages |
-| object-src | CSP includes `object-src 'none'` on all pages |
-| Internal links | All `href` values pointing to local paths resolve to real files |
-| Image references | All `<img src>` and `<source srcset>` files exist |
-| JSON-LD | Structured data is valid JSON on all pages |
-| Feed markers | `now/index.html` has paired START/END markers for all current feeds (WHOOP, SPOTIFY, MLB, GOODREADS-READING, GOODREADS, FBST, PLEX) + `PAGE-UPDATED` eyebrow marker. TRAKT and LETTERBOXD removed from `EXPECTED_MARKERS` on 2026-04-28. |
-| Print stylesheet | `notebook.css` contains an `@media print` block and `@page` rule for résumé PDF generation |
-| OpenSSL parity | All `openssl enc` calls use matching `-iter 600000` |
-| Dark mode parity | `@media (prefers-color-scheme: dark)` count matches `[data-theme="dark"]` count in CSS |
-| GA4 presence | GA4 snippet (G-B3HW5VBDB3) present on all pages |
-| GA4 CSP | CSP allows googletagmanager.com on all pages |
-| Privacy feeds | Privacy policy lists all current feed data sources |
-| Privacy GA4 | Privacy policy discloses GA4 measurement ID |
-| **Top-nav consistency** *(added 2026-04-28)* | Brand text reads `jameschang.co` on every page, no `[about]` link, `[/now]` slash-prefix, nav order is `[experience] → [projects ▾] → [/now]` across all 17 HTML files |
-| **Project doc sync markers** *(added 2026-05-28)* | All 6 wired destination pages (Aleph + JT + FL × {changelog, roadmap}) carry matching `CHANGELOG-START/END` or `ROADMAP-START/END` marker pairs. Bootstrap guard for `bin/update-project-docs.py` — without these, the daily cron silently skips every page. |
-| **FL Roadmap internal nav** *(added 2026-05-28)* | All 5 FL deep-dive pages link to `/projects/fantastic-leagues/roadmap/` in `.project-nav`. The pre-promotion external href (`app.thefantasticleagues.com/roadmap`) is asserted absent from any FL nav — guards against regression to the old external link. |
-| **Cross-project nav** *(added 2026-04-28)* | Every deep-dive sub-page under `/projects/{slug}/` has a `.cross-project-nav` strip with chips for the 3 projects, hrefs pointing at canonical entry-point sub-pages (`how-it-works`, `ai-insights`, `tech`), and exactly one chip carrying `aria-current="page"` matching the current slug |
-| **/now section structure** *(added 2026-04-28)* | `/01..../09` numbered sections sequential without gaps; section `/07` contains `watching` (Plex) + `listening` (Spotify) + `reading` (Goodreads) feed heads and zero TRAKT/LETTERBOXD marker leakage; section `/09` is the hand-maintained `people i follow` |
-| **Quotes section** *(added 2026-06-02)* | `quotes.json` schema (`{id,text,source}` required + optional `original/lang/translation/note/category/title/entries/link`), unique ids, every-quote-has-a-source discipline, collection/poem `entries[]` (poem stanzas multi-line), and `link` `{url,label}` http(s) validation; `#quotes-section` render target + `#quote-modal` dialog seeded in `now/index.html`; `now/now.js` fetches `/quotes.json`. The `/12` client-rendered section. See `docs/solutions/integration-issues/client-rendered-json-section-on-now.md`. |
-| **Detail cards** *(added 2026-06-02)* | `people i follow` (/09) + `off the clock` (/06) top list render as `.nb-detail-card`s (10 total = 6 people + 4 off-the-clock), each with a `.nb-detail-trigger` button + a `<template>` payload; shared `#detail-modal` dialog present; `now/now.js` wires `.nb-detail-trigger` → clone template (`cloneNode`, not `innerHTML` — XSS-safe, preserves links/`<em>`). |
+**70 E2E tests** covering:
+
+All HTML pages: meta tags, CSP, aria-pressed, JSON-LD, images, internal links, feed markers (incl. PAGE-UPDATED), @media print + @page rule on notebook.css, OpenSSL parity, dark mode parity, GA4, privacy policy, symlink detection, sitemap consistency, OG image, **top-nav consistency** (brand text, no [about], [/now] slash prefix, experience→projects→now order across all pages), **cross-project nav** (presence + canonical hrefs + aria-current on 13 deep-dive pages), **/now section structure** (sequential /01–/09 numbering + /07 watching/listening/reading sub-feeds, no Trakt/Letterboxd), **resume print pipeline** (print-name-block presence on homepage only + screen-hidden + canonical contact URLs; script.js beforeprint listener that opens `<details>` so the 8 additional certifications expand in resume.pdf; `.nb-card-name` print rule overrides screen sizing), **bucket list** (`bucketlist.json` schema + unique ids + status/completed-date invariants, /now render-target + hitlist title rename + link to /bucketlist/, public page loads + renderer script resolves + render targets present, no top-nav link to /bucketlist/), **project doc sync markers** (6 destination pages have matching CHANGELOG/ROADMAP marker pairs — bootstrap guard for `bin/update-project-docs.py`), **FL Roadmap internal nav** (5 FL deep-dive pages link to `/projects/fantastic-leagues/roadmap/` in `.project-nav`; pre-promotion external href is asserted absent from any FL nav), **quotes** (`quotes.json` schema + unique ids + every-quote-has-a-source discipline + collection/poem `entries[]` + `link` http(s) validation + Bruce Lee box excludes verified misattributions / Goethe line is its own correctly-attributed card, `#quotes-section` render target + `#quote-modal` dialog present, `now.js` fetches `/quotes.json`), **detail cards** (people i follow `/09` + off-the-clock `/06` top list render as `.nb-detail-card`s — 13 total, 6+7 — each with a trigger + `<template>`; `#detail-modal` dialog present; `now.js` wires `.nb-detail-trigger` → clone template, not innerHTML).
 
 ## Execution Cadence Summary
 
@@ -89,8 +68,6 @@ python3 -m pytest tests/test_site_e2e.py -v
 
 Tests run in CI via `.github/workflows/ci-tests.yml`. Results are visible in the GitHub Actions tab. Failures block nothing (this is a single-contributor repo with direct push), but they surface regressions early.
 
-Last updated: 2026-06-02 — 313 tests. Added detail cards (`TestDetailCards`, 4 tests): `people i follow` (/09) + `off the clock` (/06) top list render as `.nb-detail-card`s that expand into the shared `#detail-modal` via cloned `<template>` content (10 cards = 6 people + 4 off-the-clock; trigger/template/dialog presence + clone-not-innerHTML wiring). E2E suite now 70.
+**335 tests total:** 265 unit tests + 70 E2E tests.
 
-Prior: 2026-06-02 — 309 tests. Added the `/12` quotes section (`TestQuotes` in `test_site_e2e.py`, 11 tests): JSON schema + unique ids + every-quote-has-a-source discipline, collection/poem `entries[]` rendering, `link` http(s) validation, and a content-integrity guard (Bruce Lee box excludes the verified misattributions — Goethe / Jeremy Taylor / 1993 Dragon film — and the Goethe line is its own correctly-attributed card).
-
-Prior: 2026-05-11 — 224 tests. Added 3 tests to `test_projects.py` (34 total) asserting `nb-card-footer` wraps shipped line + feed-updated timestamp in both `render_card` and `render_block`.
+See `CLAUDE.md` for the full testing inventory and refer to the tables above for what each test file covers.
