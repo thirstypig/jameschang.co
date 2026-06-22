@@ -822,12 +822,6 @@ a:hover { text-decoration: underline; }
   padding-bottom: 10px;
   border-bottom: 1px dashed var(--rule);
 }
-.nb-feed ul.nb-feed-divider {
-  margin-top: 6px;
-  padding-top: 6px;
-  border-top: 1px dashed var(--rule);
-}
-
 /* ─── Stat tiles (WHOOP) ───────────────────────────────────────────── */
 .nb-stat {
   border: var(--border-w) solid var(--ink);
