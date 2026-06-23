@@ -1657,6 +1657,8 @@ a:hover { text-decoration: underline; }
     --pos: #000;
   }
 
+  .nb-exp-row--print-hide { display: none; }
+
   /* Single sans-serif stack everywhere — ATS pipelines parse this cleanly,
      and a senior PM résumé is a sans-serif document, not a magazine spread.
      Geist Mono / Space Grotesk WOFF2 don't embed reliably in print PDFs and
