@@ -1894,7 +1894,7 @@ a:hover { text-decoration: underline; }
   /* Project cards — bold project name, body in regular weight.
      Selectors mirror screen specificity so print sizes win over the
      screen-mode `.nb-card.compact .nb-card-name { font-size: 20px }` rule. */
-  .nb-card.compact { padding: 0 !important; margin-bottom: 0.12rem; page-break-inside: avoid; }
+  .nb-card.compact { padding: 0 !important; margin-bottom: 0.08rem; page-break-inside: avoid; }
   .nb-card-name,
   .nb-card.compact .nb-card-name {
     font-size: 10.5pt !important;
