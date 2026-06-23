@@ -1894,19 +1894,20 @@ a:hover { text-decoration: underline; }
   /* Project cards — bold project name, body in regular weight.
      Selectors mirror screen specificity so print sizes win over the
      screen-mode `.nb-card.compact .nb-card-name { font-size: 20px }` rule. */
-  .nb-card.compact { padding: 0 !important; margin-bottom: 0.08rem; page-break-inside: avoid; }
+  .nb-card.compact { padding: 0 !important; margin-bottom: 0.08rem; page-break-inside: avoid; display: inline !important; white-space: nowrap; }
   .nb-card-name,
   .nb-card.compact .nb-card-name {
     font-size: 10.5pt !important;
     font-weight: 700 !important;
     letter-spacing: normal !important;
     margin: 0 !important;
+    padding: 0 !important;
     color: #000;
-    display: inline;
+    display: inline !important;
   }
   .nb-card-name::after { content: " — "; }
   .nb-card-url { display: none; }
-  .nb-card-body { font-size: 10pt !important; line-height: 1.3 !important; color: #000; margin: 0 !important; display: inline; }
+  .nb-card-body { font-size: 10pt !important; line-height: 1.3 !important; color: #000; margin: 0 !important; padding: 0 !important; display: inline !important; }
   .nb-card-meta { display: none; }
   .nb-section-eyebrow {
     font-size: 9.5pt;
