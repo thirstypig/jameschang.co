@@ -1973,9 +1973,9 @@ a:hover { text-decoration: underline; }
   .nb-skill-row dd { display: inline; margin: 0; color: #000; }
 
   /* Memberships — bold organization, italic role + date+location line. */
-  .nb-membership { margin-bottom: 0.4rem; page-break-inside: avoid; }
+  .nb-membership { margin-bottom: 0.15rem; page-break-inside: avoid; }
   .nb-membership:nth-child(n+4) { display: none; }
-  .nb-membership-head { display: block; margin-bottom: 0.05rem; }
+  .nb-membership-head { display: block; margin-bottom: 0.02rem; }
   .nb-membership-head strong { font-size: 10.5pt; font-weight: 700; color: #000; }
   .nb-membership-role {
     font-size: 9.5pt;
@@ -1988,10 +1988,9 @@ a:hover { text-decoration: underline; }
     font-size: 9.5pt;
     font-style: italic;
     color: #333;
-    margin: 0 0 0.15rem;
+    margin: 0;
   }
   .nb-membership p { font-size: 10pt; line-height: 1.35; margin: 0; color: #000; }
-  .nb-membership--minor { display: none; }
 
   /* Inline links in body copy — black, no underline. The print-name-block
      contact line + active-section section-titles carry the only underlines.
