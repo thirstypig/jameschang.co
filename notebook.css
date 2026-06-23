@@ -1698,6 +1698,13 @@ a:hover { text-decoration: underline; }
     margin: 0 0 0.2rem;
     color: #000;
   }
+  .print-title {
+    font-size: 10pt;
+    font-style: normal;
+    margin: 0 0 0.15rem;
+    color: #000;
+    letter-spacing: 0.02em;
+  }
   .print-contact {
     font-size: 9.5pt;
     margin: 0;
@@ -1843,11 +1850,9 @@ a:hover { text-decoration: underline; }
     display: block;
   }
 
-  /* Education: 2-column layout in print */
+  /* Education: single-column layout in print (better ATS parsing) */
   #education .nb-grid-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.3rem;
+    display: block;
   }
 
   /* Leadership & Memberships: single-column layout in print */
