@@ -1850,11 +1850,9 @@ a:hover { text-decoration: underline; }
     gap: 0.3rem;
   }
 
-  /* Leadership & Memberships: 3-column layout in print */
+  /* Leadership & Memberships: single-column layout in print */
   #memberships .nb-grid-3 {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 0.2rem;
+    display: block;
   }
 
   .nb-exp-row {
