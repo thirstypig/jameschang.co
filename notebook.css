@@ -1842,6 +1842,21 @@ a:hover { text-decoration: underline; }
   .nb-grid-1, .nb-grid-2, .nb-grid-3, .nb-grid-4 {
     display: block;
   }
+
+  /* Education: 2-column layout in print */
+  #education .nb-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.3rem;
+  }
+
+  /* Leadership & Memberships: 3-column layout in print */
+  #memberships .nb-grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.2rem;
+  }
+
   .nb-exp-row {
     margin-bottom: 0.45rem;
     page-break-inside: avoid;
@@ -1881,17 +1896,17 @@ a:hover { text-decoration: underline; }
   /* Project cards — bold project name, body in regular weight.
      Selectors mirror screen specificity so print sizes win over the
      screen-mode `.nb-card.compact .nb-card-name { font-size: 20px }` rule. */
-  .nb-card.compact { padding: 0.15rem 0 !important; margin-bottom: 0.25rem; }
+  .nb-card.compact { padding: 0 !important; margin-bottom: 0.12rem; page-break-inside: avoid; }
   .nb-card-name,
   .nb-card.compact .nb-card-name {
     font-size: 10.5pt !important;
     font-weight: 700 !important;
     letter-spacing: normal !important;
-    margin: 0 0 0.05rem !important;
+    margin: 0 0 0.02rem !important;
     color: #000;
   }
   .nb-card-url { display: none; }
-  .nb-card-body { font-size: 10pt !important; line-height: 1.35 !important; color: #000; margin: 0; }
+  .nb-card-body { font-size: 10pt !important; line-height: 1.3 !important; color: #000; margin: 0; }
   .nb-card-meta { display: none; }
   .nb-section-eyebrow {
     font-size: 9.5pt;
