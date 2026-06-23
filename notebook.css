@@ -1902,11 +1902,13 @@ a:hover { text-decoration: underline; }
     font-size: 10.5pt !important;
     font-weight: 700 !important;
     letter-spacing: normal !important;
-    margin: 0 0 0.02rem !important;
+    margin: 0 !important;
     color: #000;
+    display: inline;
   }
+  .nb-card-name::after { content: " — "; }
   .nb-card-url { display: none; }
-  .nb-card-body { font-size: 10pt !important; line-height: 1.3 !important; color: #000; margin: 0; }
+  .nb-card-body { font-size: 10pt !important; line-height: 1.3 !important; color: #000; margin: 0 !important; display: inline; }
   .nb-card-meta { display: none; }
   .nb-section-eyebrow {
     font-size: 9.5pt;
@@ -1972,6 +1974,7 @@ a:hover { text-decoration: underline; }
 
   /* Memberships — bold organization, italic role + date+location line. */
   .nb-membership { margin-bottom: 0.4rem; page-break-inside: avoid; }
+  .nb-membership:nth-child(n+4) { display: none; }
   .nb-membership-head { display: block; margin-bottom: 0.05rem; }
   .nb-membership-head strong { font-size: 10.5pt; font-weight: 700; color: #000; }
   .nb-membership-role {
