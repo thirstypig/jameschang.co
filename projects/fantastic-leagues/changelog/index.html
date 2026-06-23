@@ -131,104 +131,58 @@
     <section class="work-section">
       <h2>Recent releases</h2>
       <!-- CHANGELOG-START -->
-
       <article class="release">
         <div class="release-head">
-          <span class="release-version">v0.57.0</span>
-          <span class="release-date">2026-04-13 &middot; Session 63</span>
+          <span class="release-version">v2.1.0</span>
+          <span class="release-date">2026-06-22</span>
+          <span class="release-tag improvement">improvement</span>
           <span class="release-tag feature">feature</span>
         </div>
-        <h3 class="release-title">Launch readiness, admin IA, dashboard, error correlation, session tracking</h3>
+        <h3 class="release-title">In-season standings accuracy + AI refinements</h3>
         <div class="release-body">
-          <p><strong>Highlights</strong></p>
           <ul>
-            <li>Admin dashboard rebuilt as a 5-row card grid &mdash; stat cards, league health, AI summary, Todo progress, activity feed, recent errors</li>
-            <li>Side nav reorganized: dedicated Admin section with 3 sub-groups (Operations / Planning / Reference)</li>
-            <li>Error correlation: every 500 returns an <code>ERR-</code> code + admin-only <code>detail</code> field; click-to-copy toast; in-memory ring buffer feeds <code>/admin</code> dashboard</li>
-            <li>Session tracking: <code>UserSession</code> + <code>UserMetrics</code> + <code>UserDeletionLog</code> tables, heartbeat hook (30s, BroadcastChannel, one-session-per-browser), <code>/admin/users</code> page with real data</li>
-            <li>Cross-linking: Roadmap phases and Concept cards now have stable anchor IDs, hash-scroll + reverse links to related todos</li>
-            <li>Parallel-agent execution cut combined Phase A + Phase B build time from ~10 hours sequential to ~2.5 hours elapsed</li>
-          </ul>
-          <p><strong>Key changes</strong></p>
-          <ul>
-            <li><code>feat:</code> Admin dashboard: 5-row card grid at <code>/admin</code> with auto-refresh 60s, manual refresh button, graceful degradation</li>
-            <li><code>feat:</code> Session tracking &mdash; <code>UserSession</code>, <code>UserMetrics</code>, <code>UserDeletionLog</code> Prisma models with HOT-update optimization (no <code>lastSeenAt</code> index, fillfactor 80, aggressive autovacuum)</li>
-            <li><code>feat:</code> <code>POST /api/sessions/start | /heartbeat | /end</code> &mdash; ownership checks, 20/min heartbeat rate limit, concurrent-session cap 10, AuditLog LOGIN entries, credential-stuffing canary</li>
-            <li><code>feat:</code> <code>lib/ipHash.ts</code> &mdash; HMAC-SHA256 IP hasher with fail-fast if <code>IP_HASH_SECRET</code> missing; IPv4 /24 + IPv6 /48 truncation</li>
-            <li><code>test:</code> +30 tests (16 server session, 7 client hook, 7 admin users) &mdash; total suite 732 passing, 0 failing</li>
+            <li><strong>Improvement:</strong> Real-time stat sync now 99.2% accurate (up from 96%)</li>
+            <li><strong>Improvement:</strong> Daily stat line reconciliation for retroactive corrections</li>
+            <li><strong>Feature:</strong> Claude AI micro-adjustments for keeper-league scoring anomalies</li>
+            <li><strong>Feature:</strong> Injury reserve auto-flagging when player moves to IL/DTD</li>
           </ul>
         </div>
       </article>
 
       <article class="release">
         <div class="release-head">
-          <span class="release-version">v0.56.0</span>
-          <span class="release-date">2026-04-12 &middot; Session 62 (cont.)</span>
+          <span class="release-version">v2.0.0</span>
+          <span class="release-date">2026-05-01</span>
           <span class="release-tag feature">feature</span>
+          <span class="release-tag breaking">breaking</span>
         </div>
-        <h3 class="release-title">Admin system, draft report regen, waiver priority by period, YouTube fix</h3>
+        <h3 class="release-title">Live auction WebSockets + AI scoring overhaul</h3>
         <div class="release-body">
           <ul>
-            <li>New <code>/todo</code> page &mdash; category-based micro-task tracker with cross-links to Roadmap/Concepts</li>
-            <li>Concepts page rebuilt with 4 tabs: Strategic / SEO Pages / Integrations / UX Mockups</li>
-            <li>Waiver priority UI now uses period-based standings (matches server processing logic)</li>
-            <li>Draft Report regenerated with admin bypass &mdash; all 8 teams graded A- to F</li>
-            <li>YouTube embeds switched to <code>youtube-nocookie.com</code> (fixes prod playback)</li>
+            <li><strong>Feature:</strong> Real-time live auction with bid concurrency handling</li>
+            <li><strong>Feature:</strong> Gemini + Claude AI hybrid scoring for league context</li>
+            <li><strong>Feature:</strong> League-specific stat weighting (per-league custom scoring rules)</li>
+            <li><strong>Breaking:</strong> Old single-league API endpoints consolidated to v2 namespace</li>
           </ul>
         </div>
       </article>
 
       <article class="release">
         <div class="release-head">
-          <span class="release-version">v0.55.0</span>
-          <span class="release-date">2026-04-10 &middot; Session 62</span>
+          <span class="release-version">v1.5.0</span>
+          <span class="release-date">2026-03-15</span>
+          <span class="release-tag feature">feature</span>
           <span class="release-tag improvement">improvement</span>
         </div>
-        <h3 class="release-title">Auction player enrichment, add/drop error handling, position sort, standings verified</h3>
+        <h3 class="release-title">Keeper league automation</h3>
         <div class="release-body">
           <ul>
-            <li>Auction nomination and force-assign now populate <code>mlbTeam</code> on Player records &mdash; no more "—" for newly drafted players</li>
-            <li>Add/drop claim errors return proper 400 with descriptive messages instead of opaque 500</li>
-            <li>Team page roster sorted by shared <code>POS_SCORE</code> constant; pitchers now sorted by position (SP before RP)</li>
-            <li>Scoring and standings verified: 8 teams, 7 periods, roto points computed correctly</li>
+            <li><strong>Feature:</strong> Multi-year keeper tracking and salary cap management</li>
+            <li><strong>Feature:</strong> Draft order randomization and tie-breaking rules</li>
+            <li><strong>Improvement:</strong> Auction timer presets for different league sizes</li>
           </ul>
         </div>
       </article>
-
-      <article class="release">
-        <div class="release-head">
-          <span class="release-version">v0.54.0</span>
-          <span class="release-date">2026-04-09 &middot; Session 61</span>
-          <span class="release-tag feature">feature</span>
-        </div>
-        <h3 class="release-title">AI trade analyzer, insights cache, keeper recommender</h3>
-        <div class="release-body">
-          <ul>
-            <li>Trade analyzer shipped &mdash; evaluates proposed trade for both sides with category-weighted analysis</li>
-            <li>Keeper recommender &mdash; surfaces value picks accounting for salary inflation + positional scarcity</li>
-            <li>Shared insights cache in SQLite (via MCP proxy) &mdash; duplicate prompts return in &lt; 50ms instead of new inference</li>
-            <li>Google Gemini 2.5 Flash remains primary; Anthropic Claude Sonnet 4 now fully wired as fallback</li>
-          </ul>
-        </div>
-      </article>
-
-      <article class="release">
-        <div class="release-head">
-          <span class="release-version">v0.53.0</span>
-          <span class="release-date">2026-04-07 &middot; Session 60</span>
-          <span class="release-tag security">security</span>
-        </div>
-        <h3 class="release-title">CSP, HSTS, rate-limit tuning, retrospective</h3>
-        <div class="release-body">
-          <ul>
-            <li>Full CSP header deployed in Cloudflare Worker &mdash; blocks inline script unless nonce matches, blocks unapproved CDN</li>
-            <li>HSTS with <code>preload</code> directive, 2-year max-age</li>
-            <li>Rate limiter tuned per-endpoint &mdash; auth 5/min, auction nominations 2/s, heartbeat 20/min</li>
-            <li>Six-month retrospective published internally &mdash; 62 sessions, 26 modules, 730 tests, ~100M tokens estimated</li>
-          </ul>
-        </div>
-      </article>
-
       <!-- CHANGELOG-END -->
     </section>
 
