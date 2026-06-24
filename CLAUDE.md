@@ -262,7 +262,7 @@ All code-review findings from four reviews (initial, 2026-04-18 full-repo audit,
 
 ## Testing
 
-**335 tests** across 11 files: 265 unit tests (9 files) + 70 E2E tests. Run locally with `python3 -m pytest tests/ -v` (requires `pytest`).
+**347 tests** across 11 files: 277 unit tests (9 files) + 70 E2E tests. Run locally with `python3 -m pytest tests/ -v` (requires `pytest`).
 
 See `docs/test-plan.md` for the full testing strategy, inventory by file, and CI cadence. Unit tests cover individual feed sync scripts + the shared `_shared.py` utilities. E2E tests cover all pages: meta tags, CSP, feed markers, print stylesheet, sitemap, top-nav consistency, cross-project nav, detail cards, quotes section, and more.
 
