@@ -437,7 +437,7 @@ class TestPrintStylesheet:
             "Missing <header class='print-name-block'> on homepage — "
             "resume.pdf will have no name + contact info on page 1"
         )
-        assert '<h1 class="print-name">James Chang</h1>' in body, (
+        assert '<h1 class="print-name">James Chang, MBA</h1>' in body, (
             "Print-name-block missing the canonical name <h1>"
         )
         # Ensure it's NOT on /now or /privacy or /projects (would print twice)
@@ -1445,14 +1445,14 @@ class TestMinorMemberships:
         updating this test, it fails explicitly."""
         _, body = fetch("index.html")
         count = body.count('class="nb-membership nb-membership--minor"')
-        assert count == 3, (
-            f"expected 3 nb-membership--minor articles on homepage, got {count} — "
+        assert count == 6, (
+            f"expected 6 nb-membership--minor articles on homepage (incl. former memberships), got {count} — "
             "update this assertion if intentionally adding/removing a minor membership"
         )
 
     def test_minor_cards_are_inside_grid_wrapper(self):
-        """The three minor cards must stay inside a .nb-grid-3 wrapper so they render
-        as a side-by-side row rather than stacking like the primary memberships above."""
+        """The six minor cards (incl. former memberships) must stay inside a .nb-grid-3 wrapper
+        so they render in a grid rather than stacking like the primary memberships above."""
         _, body = fetch("index.html")
         grid_match = re.search(
             r'<div class="nb-grid-3">(.*?)</div>\s*</section>',
@@ -1461,8 +1461,8 @@ class TestMinorMemberships:
         assert grid_match, "No .nb-grid-3 found inside #memberships section"
         grid_content = grid_match.group(1)
         minor_count = grid_content.count('class="nb-membership nb-membership--minor"')
-        assert minor_count == 3, (
-            f"expected all 3 minor cards inside .nb-grid-3, found {minor_count}"
+        assert minor_count == 6, (
+            f"expected all 6 minor cards inside .nb-grid-3, found {minor_count}"
         )
 
 
