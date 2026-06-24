@@ -557,6 +557,15 @@ a:hover { text-decoration: underline; }
 .nb-proj-roadmap {
   margin-top: 8px;
 }
+.nb-proj-roadmap-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 6px 0;
+  display: block;
+}
 .nb-proj-roadmap ul {
   list-style: none;
   padding: 0;
