@@ -950,6 +950,64 @@ class TestNowSectionStructure:
         assert "LETTERBOXD-START" not in section, "LETTERBOXD marker reappeared in /07"
 
 
+class TestProjectCardRoadmaps:
+    """Roadmap items are config-driven and must survive cron sync cycles.
+
+    Regression guard: roadmap_items in projects-config.json are read by
+    bin/update-projects.py and rendered into project cards. A cron run
+    should never delete or corrupt these config-driven sections.
+    """
+
+    def test_all_active_projects_have_roadmap_section(self):
+        """Every active project card must have a roadmap div."""
+        _, body = fetch("now/index.html")
+        # Find all project cards in the active section
+        active_match = re.search(
+            r'<!-- ACTIVE-PROJECTS-START -->(.*?)<!-- ACTIVE-PROJECTS-END -->',
+            body, re.DOTALL,
+        )
+        assert active_match, "ACTIVE-PROJECTS markers not found"
+        active = active_match.group(1)
+
+        # Count project cards and roadmap sections
+        cards = re.findall(r'<article class="nb-proj-card">', active)
+        roadmaps = re.findall(r'<div class="nb-proj-roadmap">', active)
+
+        assert len(cards) > 0, "No active project cards found"
+        assert len(roadmaps) == len(cards), (
+            f"Active section has {len(cards)} cards but only {len(roadmaps)} roadmap divs — "
+            "roadmap items were deleted by cron"
+        )
+
+    def test_roadmap_items_are_non_empty(self):
+        """Each roadmap section must contain at least one list item."""
+        _, body = fetch("now/index.html")
+        # Find all roadmap sections
+        roadmaps = re.findall(
+            r'<div class="nb-proj-roadmap">(.*?)</div>',
+            body, re.DOTALL,
+        )
+        assert len(roadmaps) > 0, "No roadmap sections found on /now"
+
+        for i, rm in enumerate(roadmaps):
+            items = re.findall(r'<li>([^<]+)</li>', rm)
+            assert len(items) > 0, (
+                f"Roadmap section {i} has no items — content was deleted"
+            )
+
+    def test_roadmap_label_present(self):
+        """Each roadmap must have the 'upcoming roadmap features' label."""
+        _, body = fetch("now/index.html")
+        roadmaps = re.findall(
+            r'<div class="nb-proj-roadmap">(.*?)</div>',
+            body, re.DOTALL,
+        )
+        for i, rm in enumerate(roadmaps):
+            assert "upcoming roadmap features" in rm, (
+                f"Roadmap section {i} missing label — likely corrupted by cron"
+            )
+
+
 # ── Tests: Multi-file structural parity ──────────────────────────
 #
 # Added 2026-04-28 after /ce:review flagged drift gaps the rest of the
