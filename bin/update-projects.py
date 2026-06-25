@@ -410,6 +410,7 @@ def render_card(project, shipping_events, now_str):
     url_label = escape_html(project.get("url_label", "").strip())
     desc = escape_html(project.get("desc", ""))
     next_up = escape_html(project.get("next_up", ""))
+    roadmap_items = project.get("roadmap_items") or []
     slug = project["slug"]
 
     badge_html = render_badge(project.get("status_badge", ""), project.get("maturity"))
@@ -441,6 +442,19 @@ def render_card(project, shipping_events, now_str):
             '            <span class="nb-proj-next-label">next up</span>',
             f'            {next_up}',
             '          </p>',
+        ]
+    if roadmap_items:
+        lines += [
+            '          <div class="nb-proj-roadmap">',
+            '            <p class="nb-proj-roadmap-label">upcoming roadmap features</p>',
+            '            <ul>',
+        ]
+        for item in roadmap_items:
+            safe_item = escape_html(item)
+            lines.append(f'              <li>{safe_item}</li>')
+        lines += [
+            '            </ul>',
+            '          </div>',
         ]
     lines += [
         f'          <p class="feed-updated">Auto-updated {now_str} via GitHub events.</p>',

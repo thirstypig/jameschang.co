@@ -10,6 +10,11 @@
       "maturity": "beta",
       "desc": "The compliance platform for US importers — CPSIA, Prop 65, PFAS, and FSVP in one place.",
       "next_up": "Onboard the first beta users before pushing to paid conversions.",
+      "roadmap_items": [
+        "Beta user onboarding",
+        "Module override architecture",
+        "Vertical expansion roadmap"
+      ],
       "shipping_repos": [
         "thirstypig/alephco.io-app",
         "thirstypig/alephco.io-www"
@@ -25,6 +30,11 @@
       "maturity": "beta",
       "desc": "AI-powered fantasy baseball for serious keeper leagues — live for OGBA this season.",
       "next_up": "Tighten in-season standings accuracy and daily stat lines.",
+      "roadmap_items": [
+        "Standings accuracy refinement",
+        "FanGraphs API integration",
+        "Sport expansion (NFL, NBA)"
+      ],
       "shipping_repos": [
         "thirstypig/TheFantasticLeagues",
         "thirstypig/thefantasticleagues-www"
@@ -40,6 +50,11 @@
       "maturity": "private",
       "desc": "AI trading experiment — Claude makes buy/sell/hold calls against a paper-trading Alpaca account.",
       "next_up": "6 more paper trades to gate the Phase G live-trading switch.",
+      "roadmap_items": [
+        "Phase G trade completion",
+        "Live trading evaluation",
+        "Risk management refinement"
+      ],
       "shipping_repos": [
         "thirstypig/bahtzang-trader"
       ]
@@ -54,6 +69,11 @@
       "maturity": "alpha",
       "desc": "Digital scoring platform for KCBS BBQ competitions — replaces clipboards and carbon copies.",
       "next_up": "Arranging time with stakeholders to test the product and validate viability.",
+      "roadmap_items": [
+        "Stakeholder testing cycle",
+        "Tabulation UI refinement",
+        "Competition site rollout"
+      ],
       "shipping_repos": [
         "thirstypig/thejudgetool",
         "thirstypig/thejudgetool.com-www"
@@ -69,6 +89,11 @@
       "maturity": "alpha",
       "desc": "Marketplace for hard-to-get Taipei restaurant reservations — scraper + Stripe storefront.",
       "next_up": "Get one full listing-to-purchase flow working with real data.",
+      "roadmap_items": [
+        "End-to-end flow hardening",
+        "Reservation fulfillment system",
+        "Vendor network expansion"
+      ],
       "shipping_repos": [
         "thirstypig/tabledrop"
       ]
@@ -83,6 +108,11 @@
       "maturity": "beta",
       "desc": "Social dining discovery app — Laravel backend live on Railway, iOS/Android clients dormant.",
       "next_up": "Migrate production DB from Namecheap MySQL to Railway.",
+      "roadmap_items": [
+        "Database migration to Railway",
+        "iOS client rebuild",
+        "Social features expansion"
+      ],
       "shipping_repos": [
         "thirstypig/tastemakers-backend",
         "thirstypig/tastemakers-ios",
@@ -101,6 +131,11 @@
       "maturity": "public",
       "desc": "My food blog from 2007–present — 1,639 posts and 1,400+ mapped LA restaurants.",
       "next_up": "Continue venue tag rollout, then launch the Bold Red Poster redesign.",
+      "roadmap_items": [
+        "Venue tag rollout",
+        "Bold Red Poster redesign",
+        "Photo archive organization"
+      ],
       "shipping_repos": [
         "thirstypig/thirstypig-blog"
       ]
@@ -115,6 +150,11 @@
       "maturity": "alpha",
       "desc": "AI-assisted home karaoke system — phones pair with Apple TV over Socket.IO, YouTube-backed queue.",
       "next_up": "Make end-to-end pairing reliable enough for friends without babysitting.",
+      "roadmap_items": [
+        "Pairing reliability hardening",
+        "Song search enhancement",
+        "Multi-device sync"
+      ],
       "shipping_repos": [
         "thirstypig/ktv-singer-app",
         "thirstypig/ktv-singer-tvos",
@@ -131,6 +171,11 @@
       "maturity": "public",
       "desc": "This site — plain HTML/CSS/JS on GitHub Pages, auto-updating from 8 data feeds.",
       "next_up": "Keep shipping features; keep resume.pdf in sync.",
+      "roadmap_items": [
+        "Resume PDF enhancements",
+        "Feed integration expansion",
+        "Deep-dive documentation"
+      ],
       "shipping_repos": [
         "thirstypig/jameschang.co"
       ]
