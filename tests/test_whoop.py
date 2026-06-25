@@ -184,3 +184,34 @@ class TestWhoopBuildHtml:
         recovery = {"recovery_score": 20, "hrv": 15, "resting_hr": 80}
         html = build_html(recovery, None, None)
         assert '<div class="v danger">20%</div>' in html
+
+
+class TestWhoopIdempotency:
+    """WHOOP rendering must be deterministic: same input → same output.
+
+    Guards against the trap where cron runs might accidentally corrupt
+    or delete WHOOP data formatting.
+    """
+
+    def test_build_html_is_deterministic(self):
+        """Same recovery/sleep/cycle → identical HTML output."""
+        recovery = {"recovery_score": 81, "hrv": 30, "resting_hr": 64}
+        sleep = {"hours": 7, "minutes": 30, "efficiency": 94}
+        cycle = {"day_strain": 12.5}
+        html1 = build_html(recovery, sleep, cycle)
+        html2 = build_html(recovery, sleep, cycle)
+        assert html1 == html2
+
+    def test_none_data_is_deterministic(self):
+        """None data must also produce consistent output."""
+        html1 = build_html(None, None, None)
+        html2 = build_html(None, None, None)
+        assert html1 == html2
+
+    def test_partial_data_is_deterministic(self):
+        """Partial data (e.g., recovery + sleep, no cycle) stays consistent."""
+        recovery = {"recovery_score": 75, "hrv": 28, "resting_hr": 62}
+        sleep = {"hours": 6, "minutes": 45, "efficiency": 88}
+        html1 = build_html(recovery, sleep, None)
+        html2 = build_html(recovery, sleep, None)
+        assert html1 == html2

@@ -149,3 +149,40 @@ class TestFetchCurrentPodcast:
     def test_returns_none_on_empty_response(self, monkeypatch):
         monkeypatch.setattr(_spotify, "api_get", lambda token, path, params=None: None)
         assert fetch_current_podcast("fake") is None
+
+
+class TestSpotifyIdempotency:
+    """Spotify rendering must be deterministic: same input → same output.
+
+    Guards against the trap where cron runs might accidentally corrupt
+    or delete Spotify track/podcast formatting.
+    """
+
+    def test_build_html_is_deterministic_with_tracks(self):
+        """Same tracks → identical HTML output."""
+        tracks = [
+            {"name": "Track 1", "artists": "Artist A", "played_at": None, "url": "https://spotify.com/1"},
+            {"name": "Track 2", "artists": "Artist B", "played_at": None, "url": "https://spotify.com/2"},
+        ]
+        html1 = build_html(tracks, None)
+        html2 = build_html(tracks, None)
+        assert html1 == html2
+
+    def test_build_html_is_deterministic_with_podcast(self):
+        """Same podcast data → identical HTML output."""
+        tracks = [{"name": "Song", "artists": "Artist", "played_at": None, "url": ""}]
+        podcast = {
+            "show": "Test Show",
+            "episode": "Episode 1",
+            "url": "https://spotify.com/ep/1",
+            "captured_at": "2026-06-25T12:00:00Z",
+        }
+        html1 = build_html(tracks, podcast)
+        html2 = build_html(tracks, podcast)
+        assert html1 == html2
+
+    def test_build_html_is_deterministic_empty(self):
+        """Empty input must also produce consistent output."""
+        html1 = build_html([], None)
+        html2 = build_html([], None)
+        assert html1 == html2

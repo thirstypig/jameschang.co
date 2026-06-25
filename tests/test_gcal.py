@@ -435,3 +435,26 @@ class TestRender:
 
     def test_build_html_empty_returns_none(self):
         assert gcal.build_html([], date(2026, 6, 1)) is None
+
+
+class TestGcalIdempotency:
+    """Google Calendar rendering must be deterministic: same input → same output.
+
+    Guards against the trap where cron runs might accidentally corrupt
+    or delete calendar event formatting.
+    """
+
+    def test_build_html_is_deterministic(self):
+        """Same events + date → identical HTML output."""
+        from datetime import date as date_type
+        events = gcal.parse_ical(load_fixture())
+        html1 = gcal.build_html(events, date_type(2026, 6, 1))
+        html2 = gcal.build_html(events, date_type(2026, 6, 1))
+        assert html1 == html2
+
+    def test_build_html_empty_is_deterministic(self):
+        """Empty event list must also produce consistent output."""
+        from datetime import date as date_type
+        html1 = gcal.build_html([], date_type(2026, 6, 1))
+        html2 = gcal.build_html([], date_type(2026, 6, 1))
+        assert html1 == html2
