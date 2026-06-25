@@ -202,3 +202,115 @@ class TestPlexFetchHistoryFailure:
         monkeypatch.setattr(_plex, "PLEX_TOKEN", "t")
 
         assert _plex.fetch_history() is None
+
+
+class TestFeedBuildersIdempotency:
+    """Feed builders must be deterministic: same input → same output.
+
+    Guards against the trap where cron runs might accidentally corrupt
+    or change feed rendering, making content appear/disappear.
+    """
+
+    def test_plex_build_html_is_deterministic(self):
+        """Same items → identical HTML."""
+        items = [
+            {
+                "type": "tv",
+                "title": "Breaking Bad",
+                "season": 5,
+                "episode": 14,
+                "episode_title": "Ozymandias",
+                "watched_at": "2026-06-25T12:00:00+00:00",
+            },
+            {
+                "type": "movie",
+                "title": "Inception",
+                "year": 2010,
+                "watched_at": "2026-06-24T18:30:00+00:00",
+            },
+        ]
+        html1 = _plex.build_html(items)
+        html2 = _plex.build_html(items)
+        assert html1 == html2
+
+    def test_plex_empty_is_deterministic(self):
+        """Empty items → consistent fallback."""
+        html1 = _plex.build_html([])
+        html2 = _plex.build_html([])
+        assert html1 == html2
+
+    def test_mlb_block_is_deterministic_with_data(self, monkeypatch):
+        """MLB block with mock data → identical output."""
+        mock_response = {
+            "dates": [
+                {
+                    "games": [
+                        {
+                            "status": {"abstractGameState": "Final"},
+                            "gameDate": "2026-06-25T22:10:00Z",
+                            "teams": {
+                                "home": {
+                                    "team": {"id": 119, "abbreviation": "LAD"},
+                                    "score": 4,
+                                    "leagueRecord": {"wins": 45, "losses": 35},
+                                },
+                                "away": {
+                                    "team": {"id": 108, "abbreviation": "LAA"},
+                                    "score": 2,
+                                },
+                            },
+                        }
+                    ]
+                }
+            ]
+        }
+        monkeypatch.setattr(_public, "fetch_json", lambda *a, **kw: mock_response)
+        html1 = _public.mlb_block()
+        html2 = _public.mlb_block()
+        assert html1 == html2
+
+    def test_goodreads_reading_is_deterministic(self, monkeypatch):
+        """Goodreads reading block with same XML → identical output."""
+        sample_xml = """<?xml version="1.0"?>
+        <rss><channel>
+        <item>
+          <title>The Name of the Wind</title>
+          <link>https://goodreads.com/book/1</link>
+          <author_name>Patrick Rothfuss</author_name>
+        </item>
+        </channel></rss>"""
+        monkeypatch.setattr(_public, "fetch_text", lambda *a, **kw: sample_xml)
+        html1 = _public.goodreads_reading_block()
+        html2 = _public.goodreads_reading_block()
+        assert html1 == html2
+
+    def test_goodreads_block_is_deterministic(self, monkeypatch):
+        """Goodreads recently-read block with same data → identical output."""
+        sample_xml = """<?xml version="1.0"?>
+        <rss><channel>
+        <item>
+          <title>The Way of Kings</title>
+          <link>https://goodreads.com/book/2</link>
+          <author_name>Brandon Sanderson</author_name>
+          <user_rating>5</user_rating>
+        </item>
+        </channel></rss>"""
+        monkeypatch.setattr(_public, "fetch_text", lambda *a, **kw: sample_xml)
+        html1 = _public.goodreads_block()
+        html2 = _public.goodreads_block()
+        assert html1 == html2
+
+    def test_fbst_block_is_deterministic(self, monkeypatch):
+        """FBST standings block with same data → identical output."""
+        mock_response = {
+            "league": {"name": "OGBA", "season": "2026"},
+            "period": {"name": "Regular Season"},
+            "standings": [
+                {"teamName": "Los Doyers", "rank": 1, "points": 850.5},
+                {"teamName": "Other Team", "rank": 2, "points": 820.0},
+            ],
+        }
+        monkeypatch.setattr(_public, "fetch_json", lambda *a, **kw: mock_response)
+        html1 = _public.fbst_block()
+        html2 = _public.fbst_block()
+        assert html1 == html2
