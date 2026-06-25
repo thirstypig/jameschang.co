@@ -682,6 +682,77 @@ class TestReplaceMarkerIn:
 
 
 # ---------------------------------------------------------------------------
+# Idempotency — render functions must be deterministic
+# ---------------------------------------------------------------------------
+
+class TestProjectDocsIdempotency:
+    """Render functions must be deterministic: same input → same output.
+
+    Guards against the trap where re-rendering changes output unexpectedly,
+    causing false diffs and unnecessary commits.
+    """
+
+    def test_render_changelog_is_deterministic(self):
+        """Same releases → identical HTML."""
+        releases = [
+            {
+                "version": "1.0.0",
+                "date": "2026-06-25",
+                "title": "Initial release",
+                "tags": ["major"],
+                "bullets": ["Feature A", "Feature B"],
+            },
+            {
+                "version": "0.9.0",
+                "date": "2026-06-20",
+                "title": "Beta",
+                "tags": ["beta"],
+                "bullets": ["Early access"],
+            },
+        ]
+        html1 = _docs.render_changelog(releases)
+        html2 = _docs.render_changelog(releases)
+        assert html1 == html2
+
+    def test_render_changelog_empty_is_deterministic(self):
+        """Empty releases → consistent output."""
+        html1 = _docs.render_changelog([])
+        html2 = _docs.render_changelog([])
+        assert html1 == html2
+
+    def test_render_roadmap_is_deterministic(self):
+        """Same modules → identical HTML."""
+        modules = [
+            {
+                "name": "Phase 1",
+                "percent": 100,
+                "description": "Initial features",
+                "workflow": None,
+                "features": [
+                    {"title": "Feature A", "icon": None},
+                    {"title": "Feature B", "icon": None},
+                ],
+            },
+            {
+                "name": "Phase 2",
+                "percent": 50,
+                "description": "Expansion",
+                "workflow": None,
+                "features": [{"title": "Feature C", "icon": None}],
+            },
+        ]
+        html1 = _docs.render_roadmap(modules)
+        html2 = _docs.render_roadmap(modules)
+        assert html1 == html2
+
+    def test_render_roadmap_empty_is_deterministic(self):
+        """Empty modules → consistent output."""
+        html1 = _docs.render_roadmap([])
+        html2 = _docs.render_roadmap([])
+        assert html1 == html2
+
+
+# ---------------------------------------------------------------------------
 # Config sanity — PROJECT_DOCS shape + destination bootstrap invariants
 # ---------------------------------------------------------------------------
 
