@@ -469,6 +469,40 @@ class TestRenderCard:
         html = _projects.render_card(bad, [], "May 7, 2026")
         assert "javascript:" not in html
 
+    def test_card_renders_roadmap_items_when_present(self):
+        """Config-driven content: roadmap_items from config must render into HTML."""
+        project = dict(self.PROJECT, roadmap_items=[
+            "Feature A", "Feature B", "Feature C"
+        ])
+        html = _projects.render_card(project, [], "May 7, 2026")
+        assert '<div class="nb-proj-roadmap">' in html
+        assert "upcoming roadmap features" in html
+        assert "<li>Feature A</li>" in html
+        assert "<li>Feature B</li>" in html
+        assert "<li>Feature C</li>" in html
+
+    def test_card_escapes_roadmap_items(self):
+        """Roadmap items must be escaped to prevent XSS."""
+        project = dict(self.PROJECT, roadmap_items=[
+            "Feature <script>alert(1)</script>"
+        ])
+        html = _projects.render_card(project, [], "May 7, 2026")
+        assert "<script>" not in html
+        assert "&lt;script&gt;" in html
+
+    def test_card_omits_roadmap_when_empty(self):
+        """Roadmap section is optional: no div rendered if items are empty."""
+        project = dict(self.PROJECT, roadmap_items=[])
+        html = _projects.render_card(project, [], "May 7, 2026")
+        assert "nb-proj-roadmap" not in html
+
+    def test_card_omits_roadmap_when_absent(self):
+        """Roadmap section is optional: no div rendered if field is missing."""
+        project = self.PROJECT  # No roadmap_items field
+        html = _projects.render_card(project, [], "May 7, 2026")
+        assert "nb-proj-roadmap" not in html
+        assert "nb-proj-desc" in html  # Other content still renders
+
 
 class TestRenderBlock:
     def test_tldr_uses_nb_card_body(self):
@@ -490,3 +524,55 @@ class TestRenderBlock:
         footer_block = html[footer_start:footer_end]
         assert "nb-card-shipped" in footer_block
         assert "feed-updated" in footer_block
+
+
+class TestRenderCardIdempotency:
+    """Config-driven content must survive re-rendering: running the script
+    twice with unchanged config should produce identical output (modulo timestamps).
+
+    This guards against the trap where hand-edits to marker blocks survive the
+    first run but disappear on the second—the script should always regenerate
+    from config, never merge with or preserve existing HTML.
+    """
+
+    def test_render_card_is_deterministic(self):
+        """Same project + events → same HTML."""
+        project = {
+            "slug": "aleph",
+            "name": "Aleph",
+            "url": "https://alephco.io",
+            "url_label": "alephco.io",
+            "status_badge": "shipping",
+            "maturity": "beta",
+            "desc": "Compliance platform.",
+            "next_up": "Onboard beta users.",
+            "roadmap_items": ["Item A", "Item B"],
+        }
+        html1 = _projects.render_card(project, [], "June 25, 2026")
+        html2 = _projects.render_card(project, [], "June 25, 2026")
+        assert html1 == html2
+
+    def test_config_change_affects_output(self):
+        """Verify that config fields DO appear in the rendered output."""
+        project = {
+            "slug": "demo",
+            "name": "Demo",
+            "url": "https://demo.example",
+            "url_label": "demo.example",
+            "status_badge": "live",
+            "maturity": "alpha",
+            "desc": "Original desc",
+            "next_up": "Original next_up",
+            "roadmap_items": ["Original Item"],
+        }
+        html = _projects.render_card(project, [], "June 25, 2026")
+        assert "Original desc" in html
+        assert "Original next_up" in html
+        assert "Original Item" in html
+
+        # Change config: roadmap items should change in output
+        project["roadmap_items"] = ["New Item 1", "New Item 2"]
+        html2 = _projects.render_card(project, [], "June 25, 2026")
+        assert "New Item 1" in html2
+        assert "New Item 2" in html2
+        assert "Original Item" not in html2
