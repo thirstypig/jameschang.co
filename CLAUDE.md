@@ -175,6 +175,19 @@ The `/now` page is assembled from several independent sync scripts that each wri
 
 See `docs/guides/adding-new-feed.md` for the full checklist (8 steps covering markers, CSS, Python fetchers, OAuth setup, heartbeats, and CSP). Also documents the current 8 canonical feeds and their configurations (secrets, cadence, token storage patterns).
 
+### Cron-script architecture & design patterns
+
+See `docs/guides/cron-scripts-architecture.md` for comprehensive guide covering:
+- Architecture overview (fetch → parse → splice → sync → heartbeat)
+- API-driven vs config-driven distinction (why `update-projects.py` is unique)
+- Marker-based HTML templating + bootstrap rule (14 markers, 100% coverage)
+- Content volatility & idempotency testing (preventing false commits)
+- Config-as-source-of-truth pattern (hand-edits inside markers are deleted next run)
+- Debugging scenarios (feed stale, marker missing, sync failed)
+- Common gotchas (silent marker failure, forgetting strip_volatile, hardcoded constants)
+
+Audit result (2026-06-25): All 6 active cron scripts reviewed. No additional config-driven traps found beyond `update-projects.py` (now fixed). All markers verified (14 total, properly paired, 100% script coverage). API-driven scripts safe by design.
+
 ## Third-party fetches on /now/
 
 The Places-I-want-to-try section fetches `https://thirstypig.com/places-hitlist.json` client-side. CORS is locked to `https://jameschang.co`, so the section won't render on `localhost` (expected). Graceful-fail pattern: on fetch error or empty list, the `<section id="wishlist-section">` is `.remove()`'d — no empty shell visible.
