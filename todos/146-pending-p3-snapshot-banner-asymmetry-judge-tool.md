@@ -1,5 +1,5 @@
 ---
-status: pending
+status: complete
 priority: p3
 issue_id: "146"
 tags: [code-review, content, consistency]
@@ -26,7 +26,8 @@ When `thejudgetool.com/tech` is back up, restore the snapshot-banner on tech to 
 Cosmetic asymmetry only. The `test_deep_dive_block_order` test now handles optional banners correctly. No functional impact.
 
 ## Acceptance Criteria
-- [ ] All three judge-tool sub-pages have consistent banner presence (all or none)
+- [x] All three judge-tool sub-pages have consistent banner presence (all or none)
 
 ## Work Log
 - 2026-05-13: Identified during /ce:review. Low priority — no functional or security impact.
+- 2026-06-25: Resolved via Option A. Removed snapshot-banner divs from `projects/judge-tool/roadmap/index.html` and `projects/judge-tool/changelog/index.html` for consistency with tech page (which has no banner). Implementation in commit 5292f04.
