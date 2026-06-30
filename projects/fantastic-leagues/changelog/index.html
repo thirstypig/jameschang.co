@@ -133,6 +133,38 @@
       <!-- CHANGELOG-START -->
       <article class="release">
         <div class="release-head">
+          <span class="release-version">v2.1.2</span>
+          <span class="release-date">2026-06-29</span>
+          <span class="release-tag reliability">reliability</span>
+        </div>
+        <h3 class="release-title">Deploy monitoring + CI/test hardening (internal)</h3>
+        <div class="release-body">
+          <ul>
+            <li><strong>Reliability:</strong> Automated deploy-failure alerting — <code>/api/health</code> now reports the deployed commit, and CI fails (notifying maintainers) if a push doesn&#39;t actually go live. Prevents a recurrence of a silent deploy freeze.</li>
+            <li><strong>Internal:</strong> Hardened the destructive-test database guard (fail-closed); draft integration tests now run in CI against an ephemeral Postgres; fixed an IPv6 rate-limiter boot warning. No user-facing behavior change.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v2.1.1</span>
+          <span class="release-date">2026-06-29</span>
+          <span class="release-tag fix">fix</span>
+        </div>
+        <h3 class="release-title">Deploy pipeline restored; recent features now actually live</h3>
+        <div class="release-body">
+          <ul>
+            <li><strong>Fix:</strong> Production deploys had been failing for 8 days (a failed Prisma migration blocked every Railway boot via P3009). Resolved the migration state and redeployed — the MLB snake draft, NFL/NBA dashboards, and Scoring Settings built over the prior week are now actually live in production.</li>
+            <li><strong>Fix:</strong> Server CI typecheck (red since the standings refactor) restored to green.</li>
+            <li><strong>Verification:</strong> OGBA standings audited against FanGraphs/OnRoto — all 8 teams reconcile exactly.</li>
+            <li><strong>Internal:</strong> Hardened a destructive test-database guard and added regression tests; no user-facing change.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
           <span class="release-version">v2.1.0</span>
           <span class="release-date">2026-06-22</span>
           <span class="release-tag improvement">improvement</span>
