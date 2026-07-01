@@ -469,6 +469,21 @@ class TestRenderCard:
         html = _projects.render_card(bad, [], "May 7, 2026")
         assert "javascript:" not in html
 
+    def test_card_without_url_falls_back_to_hash_and_omits_domain(self):
+        """A project with no live URL yet (blank url + url_label) — Vouch's
+        shape when it was added — must render the name link as href="#" (never
+        an empty href="") and must NOT emit a dangling nb-proj-domain arrow.
+
+        Regression guard: any refactor of the url/url_label branch that starts
+        emitting href="" or a label-less domain span would break every
+        URL-less card. Vouch is the first/only such caller in config today."""
+        urlless = dict(self.PROJECT, url="", url_label="")
+        html = _projects.render_card(urlless, [], "May 7, 2026")
+        assert '<a href="#">' in html      # safe fallback link
+        assert 'href=""' not in html       # never an empty href
+        assert "nb-proj-domain" not in html  # no stray "↗" with no label
+        assert 'class="nb-proj-name"' in html  # name still renders
+
     def test_card_renders_roadmap_items_when_present(self):
         """Config-driven content: roadmap_items from config must render into HTML."""
         project = dict(self.PROJECT, roadmap_items=[
