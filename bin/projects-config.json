@@ -179,6 +179,25 @@
       "shipping_repos": [
         "thirstypig/jameschang.co"
       ]
+    },
+    {
+      "slug": "vouch",
+      "repo": "thirstypig/vouch",
+      "name": "Vouch",
+      "url": "",
+      "url_label": "",
+      "status_badge": "shipping",
+      "maturity": "alpha",
+      "desc": "Trust-first platform where students share the change they want to make, mentors vouch for them, and supporters can back them — safety-first for minors, moderated by default.",
+      "next_up": "Wire real parent accounts and move donations beyond Stripe test mode.",
+      "roadmap_items": [
+        "Parent accounts + profile creation",
+        "Live Stripe checkout (beyond test mode)",
+        "Public launch with real students"
+      ],
+      "shipping_repos": [
+        "thirstypig/vouch"
+      ]
     }
   ]
 }
