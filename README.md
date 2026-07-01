@@ -11,7 +11,7 @@ Personal site for James Chang — founder of Aleph Co. and senior product manage
 | `index.html` | Homepage — hero, about, experience, education, skills, projects, case studies, testimonials |
 | `notebook.css` | Site-wide design system (CSS custom properties, notebook aesthetic) + `@media print` résumé stylesheet |
 | `script.js` | Theme toggle (light/dark, persisted in localStorage) |
-| `now/index.html` | Derek Sivers-style /now page with 8 cron-synced data feeds (incl. Google Calendar) + 9 cron-classified per-project TLDR/shipping cards + client-rendered sections (hitlist, bucket list, quotes) |
+| `now/index.html` | Derek Sivers-style /now page with 8 cron-synced data feeds (incl. Google Calendar) + 10 cron-classified per-project TLDR/shipping cards + client-rendered sections (hitlist, bucket list, quotes) |
 | `projects/` | Deep-dive project pages (Aleph, Fantastic Leagues, Judge Tool) |
 | `projects/projects.css` | Component styles for the 13 deep-dive sub-pages (consumes notebook design tokens) |
 | `privacy/` | Privacy policy (required by WHOOP/Spotify app registrations) |
@@ -42,8 +42,8 @@ kill "$SERVER_PID"
 - Self-hosted Geist Mono + Space Grotesk WOFF2 (homepage + /now); system font stacks elsewhere
 - Dark mode via `prefers-color-scheme` + manual toggle (persisted in localStorage)
 - WCAG 2.2 AA compliant. Lighthouse 100/100/100/100.
-- 8 cron-synced data feeds on /now (WHOOP, Spotify, Plex, MLB Dodgers, FBST standings, Goodreads currently-reading, Goodreads read, Google Calendar) — each with a staleness heartbeat — plus client-rendered sections (Thirsty Pig hitlist, bucket list, quotes) that fetch JSON at runtime with no cron + per-project TLDRs and shipping activity pulled from each project's CLAUDE.md and GitHub events + per-project roadmap content synced from each source repo's native format (Aleph markdown, JT markdown, FL TypeScript) via per-project adapters
-- 313 tests (pytest, across 10 files) with pre-commit hook and CI
+- 8 cron-synced data feeds on /now (WHOOP, Spotify, Plex, MLB Dodgers, FBST standings, Goodreads currently-reading, Goodreads read, Google Calendar) — each with a staleness heartbeat — plus client-rendered sections (Thirsty Pig hitlist, bucket list, quotes) that fetch JSON at runtime with no cron + per-project TLDRs and shipping activity from editorial config (`bin/projects-config.json`) + per-repo GitHub events + per-project roadmap content synced from each source repo's native format (Aleph markdown, JT markdown, FL TypeScript) via per-project adapters
+- 375 tests (pytest, across 11 files) with pre-commit hook and CI
 - Google Analytics 4 + Google Search Console
 
 ## License
