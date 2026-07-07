@@ -133,6 +133,21 @@
       <!-- CHANGELOG-START -->
       <article class="release">
         <div class="release-head">
+          <span class="release-version">v2.2.0</span>
+          <span class="release-date">2026-07-06</span>
+          <span class="release-tag feature">feature</span>
+        </div>
+        <h3 class="release-title">Email signup on the marketing site</h3>
+        <div class="release-body">
+          <ul>
+            <li><strong>Feature:</strong> Visitors can subscribe for updates from the home page at thefantasticleagues.com — a verified <strong>double opt-in</strong> list (confirmation email required, one-click unsubscribe). Only the email address is stored; no names, no tracking scripts.</li>
+            <li><strong>Internal:</strong> New <code>Subscriber</code> table (Row-Level-Security-locked from the public/anon key — writes only via the server); public <code>/api/public/subscribe</code> endpoint with honeypot + per-IP rate limit + per-address cooldown; server-rendered confirm/unsubscribe pages; confirmation email via Resend. Also fixed a rotated/invalid Resend API key that had been silently breaking league-invite emails.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
           <span class="release-version">v2.1.2</span>
           <span class="release-date">2026-06-29</span>
           <span class="release-tag reliability">reliability</span>
