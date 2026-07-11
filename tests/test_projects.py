@@ -591,3 +591,51 @@ class TestRenderCardIdempotency:
         assert "New Item 1" in html2
         assert "New Item 2" in html2
         assert "Original Item" not in html2
+
+
+class TestSystemicEventFailureSkipsHeartbeat:
+    """Regression: a dead TLDR_FETCH_TOKEN 401s EVERY repo events fetch. When all
+    fetches error and none succeed, main() must leave /now untouched and skip the
+    heartbeat so the staleness monitor flags it — instead of silently
+    reclassifying every project as back-burner behind a fresh heartbeat. An
+    ISOLATED single-repo failure must NOT trigger this bail. See
+    docs/solutions/integration-issues/feed-heartbeat-on-noop-path-hides-upstream-api-failure.md."""
+
+    def test_fetch_repo_events_tallies_ok_vs_error(self, monkeypatch):
+        from urllib.error import URLError
+        monkeypatch.setattr(_projects, "_events_ok", 0)
+        monkeypatch.setattr(_projects, "_events_err", 0)
+
+        def fake_fetch_json(url, headers=None, timeout=None):
+            if "broken" in url:
+                raise URLError("boom")
+            return [{"type": "PushEvent", "repo": {"name": "o/ok"}}]
+
+        monkeypatch.setattr(_projects, "fetch_json", fake_fetch_json)
+        _projects.fetch_github_events(token=None, repos=["o/ok", "o/broken"])
+        # One succeeded, one errored → NOT systemic; the bail condition is false.
+        assert _projects._events_ok == 1
+        assert _projects._events_err == 1
+        assert not (_projects._events_ok == 0 and _projects._events_err > 0)
+
+    def test_all_fetches_error_skips_heartbeat_and_leaves_page(self, monkeypatch):
+        calls = {"heartbeat": 0, "write": 0}
+
+        def fake_events(token, repos):
+            # Simulate every repo 401'ing (dead PAT): zero ok, all err.
+            _projects._events_ok = 0
+            _projects._events_err = len(repos) or 1
+            return []
+
+        monkeypatch.setattr(_projects, "fetch_github_events", fake_events)
+        monkeypatch.setattr(_projects, "record_heartbeat",
+                            lambda slug, **kw: calls.__setitem__("heartbeat", calls["heartbeat"] + 1))
+        monkeypatch.setattr(_projects, "write_now_html",
+                            lambda content: calls.__setitem__("write", calls["write"] + 1))
+        monkeypatch.setattr(_projects, "_events_ok", 0)
+        monkeypatch.setattr(_projects, "_events_err", 0)
+
+        _projects.main()
+
+        assert calls["heartbeat"] == 0, "heartbeat must not be recorded when all fetches error"
+        assert calls["write"] == 0, "page must not be rewritten when all fetches error"

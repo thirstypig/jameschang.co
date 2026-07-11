@@ -136,6 +136,15 @@ def shipping_repos_for(projects):
     return seen
 
 
+# Per-run tally of repo-events fetches: a 200 (even empty) counts as _ok, an
+# HTTP/URL error counts as _err. main() uses these to tell an isolated single-repo
+# failure (some ok, some err — expected, stay the course) apart from a SYSTEMIC
+# failure (zero ok, all err — usually a dead TLDR_FETCH_TOKEN, which 401s every
+# request). Only the systemic case skips the heartbeat so the monitor can flag it.
+_events_ok = 0
+_events_err = 0
+
+
 def fetch_repo_events(repo, token):
     """Fetch recent events for ONE repo via /repos/{repo}/events.
 
@@ -149,9 +158,13 @@ def fetch_repo_events(repo, token):
     headers = {"User-Agent": USER_AGENT, "Accept": "application/vnd.github+json"}
     if token:
         headers["Authorization"] = f"Bearer {token}"
+    global _events_ok, _events_err
     try:
-        return fetch_json(url, headers=headers, timeout=15) or []
+        data = fetch_json(url, headers=headers, timeout=15) or []
+        _events_ok += 1  # a 200 (even with an empty list) is a real success
+        return data
     except (HTTPError, URLError) as e:
+        _events_err += 1
         print(f"  events fetch failed for {repo}: {e}", file=sys.stderr)
         return []
 
@@ -496,6 +509,22 @@ def main():
         print("WARNING: TLDR_FETCH_TOKEN not set — GitHub Events for private repos may be missing.")
 
     events_raw = fetch_github_events(token, shipping_repos_for(projects))
+
+    if _events_ok == 0 and _events_err > 0:
+        # EVERY repo events fetch errored — systemic, not isolated. The usual cause
+        # is a revoked/expired TLDR_FETCH_TOKEN (a bad token 401s every request,
+        # public or private). Leaving /now untouched keeps the last-good active/
+        # back-burner classification and skips the heartbeat so the staleness
+        # monitor flags it after 48h — instead of silently reclassifying every
+        # project as back-burner behind a fresh heartbeat. An isolated single-repo
+        # failure (some ok, some err) is NOT this case and proceeds normally.
+        print(
+            "All GitHub event fetches failed — leaving /now unchanged and skipping "
+            "the heartbeat so the staleness monitor can flag it. Check TLDR_FETCH_TOKEN.",
+            file=sys.stderr,
+        )
+        return
+
     events_by_repo = parse_events(events_raw, token)
 
     old_content = read_now_html()

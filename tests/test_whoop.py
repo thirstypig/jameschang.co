@@ -215,3 +215,36 @@ class TestWhoopIdempotency:
         html1 = build_html(recovery, sleep, None)
         html2 = build_html(recovery, sleep, None)
         assert html1 == html2
+
+
+# ── API-error handling (silent-403 regression) ───────────────────
+
+class TestWhoopApiErrorSkipsHeartbeat:
+    """A 403 on the data endpoints (token refresh still succeeds) must NOT refresh
+    the health heartbeat and must leave /now untouched — otherwise a broken feed
+    renders em-dash placeholders behind a fresh heartbeat and the staleness
+    monitor never fires. Same failure class as the July 2026 Spotify outage;
+    see docs/solutions/integration-issues/feed-heartbeat-on-noop-path-hides-upstream-api-failure.md."""
+
+    def test_api_error_skips_heartbeat_and_leaves_page(self, monkeypatch):
+        calls = {"heartbeat": 0, "write": 0}
+        monkeypatch.setattr(_whoop, "require_env", lambda *a, **k: None)
+        monkeypatch.setattr(_whoop, "get_access_token", lambda: ("tok", None))
+
+        def fake_recovery(token):
+            _whoop._api_error = True  # simulate api_get hitting a 403
+            return None
+
+        monkeypatch.setattr(_whoop, "fetch_latest_recovery", fake_recovery)
+        monkeypatch.setattr(_whoop, "fetch_latest_sleep", lambda token: None)
+        monkeypatch.setattr(_whoop, "fetch_latest_cycle", lambda token: None)
+        monkeypatch.setattr(_whoop, "record_heartbeat",
+                            lambda slug, **kw: calls.__setitem__("heartbeat", calls["heartbeat"] + 1))
+        monkeypatch.setattr(_whoop, "write_now_html",
+                            lambda content: calls.__setitem__("write", calls["write"] + 1))
+        monkeypatch.setattr(_whoop, "_api_error", False)
+
+        _whoop.main()
+
+        assert calls["heartbeat"] == 0, "heartbeat must not be recorded on API error"
+        assert calls["write"] == 0, "page must not be rewritten on API error"
