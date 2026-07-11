@@ -11,7 +11,7 @@ Personal site for James Chang — founder of Aleph Co. and senior product manage
 | `index.html` | Homepage — hero, about, experience, education, skills, projects, case studies, testimonials |
 | `notebook.css` | Site-wide design system (CSS custom properties, notebook aesthetic) + `@media print` résumé stylesheet |
 | `script.js` | Theme toggle (light/dark, persisted in localStorage) |
-| `now/index.html` | Derek Sivers-style /now page with 8 cron-synced data feeds (incl. Google Calendar) + 10 cron-classified per-project TLDR/shipping cards + client-rendered sections (hitlist, bucket list, quotes) |
+| `now/index.html` | Derek Sivers-style /now page with 8 cron-synced data feeds (incl. Google Calendar) + 11 cron-classified per-project TLDR/shipping cards + client-rendered sections (hitlist, bucket list, quotes) |
 | `projects/` | Deep-dive project pages (Aleph, Fantastic Leagues, Judge Tool) |
 | `projects/projects.css` | Component styles for the 13 deep-dive sub-pages (consumes notebook design tokens) |
 | `privacy/` | Privacy policy (required by WHOOP/Spotify app registrations) |

@@ -198,6 +198,25 @@
       "shipping_repos": [
         "thirstypig/vouch"
       ]
+    },
+    {
+      "slug": "spar",
+      "repo": "thirstypig/spar",
+      "name": "Spar",
+      "url": "",
+      "url_label": "",
+      "status_badge": "shipping",
+      "maturity": "alpha",
+      "desc": "Voice app where leaders rehearse difficult conversations against an AI counterpart, then get a coached debrief on how they handled it.",
+      "next_up": "Prove the core voice experience feels real in Retell before building any UI around it.",
+      "roadmap_items": [
+        "Voice session live inside the app",
+        "The coaching debrief — the real product",
+        "Scenario library + verbal setup phase"
+      ],
+      "shipping_repos": [
+        "thirstypig/spar"
+      ]
     }
   ]
 }

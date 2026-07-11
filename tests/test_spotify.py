@@ -186,3 +186,60 @@ class TestSpotifyIdempotency:
         html1 = build_html([], None)
         html2 = build_html([], None)
         assert html1 == html2
+
+
+# ── API-error handling (silent-403 regression) ───────────────────
+
+class TestSpotifyApiErrorSkipsHeartbeat:
+    """A 403 (or any HTTP error) on the data endpoints must NOT refresh the health
+    heartbeat, and must leave /now untouched — otherwise a broken feed looks
+    healthy forever and the staleness monitor never fires. Regression guard for
+    the July 2026 outage where recently-played/currently-playing 403'd for weeks
+    while the feed silently showed 'Nothing recent'."""
+
+    def test_api_error_skips_heartbeat_and_leaves_page(self, monkeypatch):
+        calls = {"heartbeat": 0, "write": 0}
+        monkeypatch.setenv("SPOTIFY_CLIENT_ID", "x")
+        monkeypatch.setenv("SPOTIFY_CLIENT_SECRET", "x")
+        monkeypatch.setenv("SPOTIFY_REFRESH_TOKEN", "x")
+        monkeypatch.setattr(_spotify, "get_access_token", lambda: "tok")
+
+        def fake_tracks(token):
+            _spotify._api_error = True  # simulate api_get hitting a 403
+            return []
+
+        monkeypatch.setattr(_spotify, "fetch_recent_tracks", fake_tracks)
+        monkeypatch.setattr(_spotify, "fetch_current_podcast", lambda token: None)
+        monkeypatch.setattr(_spotify, "record_heartbeat",
+                            lambda slug: calls.__setitem__("heartbeat", calls["heartbeat"] + 1))
+        monkeypatch.setattr(_spotify, "write_now_html",
+                            lambda content: calls.__setitem__("write", calls["write"] + 1))
+        monkeypatch.setattr(_spotify, "_api_error", False)
+
+        _spotify.main()
+
+        assert calls["heartbeat"] == 0, "heartbeat must not be recorded on API error"
+        assert calls["write"] == 0, "page must not be rewritten on API error"
+
+    def test_no_api_error_still_records_heartbeat(self, monkeypatch):
+        """The happy path (no HTTP error, nothing new) must still record a heartbeat
+        so a genuinely-quiet feed isn't misreported as stale."""
+        calls = {"heartbeat": 0}
+        monkeypatch.setenv("SPOTIFY_CLIENT_ID", "x")
+        monkeypatch.setenv("SPOTIFY_CLIENT_SECRET", "x")
+        monkeypatch.setenv("SPOTIFY_REFRESH_TOKEN", "x")
+        monkeypatch.setattr(_spotify, "get_access_token", lambda: "tok")
+        monkeypatch.setattr(_spotify, "fetch_recent_tracks", lambda token: [])
+        monkeypatch.setattr(_spotify, "fetch_current_podcast", lambda token: None)
+        monkeypatch.setattr(_spotify, "record_heartbeat",
+                            lambda slug: calls.__setitem__("heartbeat", calls["heartbeat"] + 1))
+        monkeypatch.setattr(_spotify, "_api_error", False)
+        # State whose hash matches the empty-render so main() takes the "unchanged" path.
+        monkeypatch.setattr(_spotify, "load_state", lambda: {
+            "last_tracks_hash": _spotify.hashlib.sha1(
+                _spotify.strip_volatile(build_html([], None)).encode()).hexdigest()[:12]
+        })
+
+        _spotify.main()
+
+        assert calls["heartbeat"] == 1, "quiet-but-healthy feed must still heartbeat"

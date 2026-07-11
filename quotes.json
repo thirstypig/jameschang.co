@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-06-02",
+  "last_updated": "2026-07-10",
   "items": [
     {
       "id": "veritas-inlustrat",
@@ -242,6 +242,33 @@
       "source": "Rikki Rogers",
       "note": "",
       "category": "philosophy"
+    },
+    {
+      "id": "jony-ive",
+      "title": "Jony Ive",
+      "text": "It's very easy to be different, but very difficult to be better.",
+      "source": "17 reflections · interviews, design talks & Apple commentary",
+      "note": "Compiled from Ive's interviews and talks; several lines are widely quoted with slightly varying phrasings, and near-duplicate versions were consolidated here.",
+      "category": "philosophy",
+      "entries": [
+        "True simplicity is, well, you just keep on going and going until you get to the point where you go, 'Yeah, well, of course.' Where there's no rational alternative.",
+        "Simplicity is not the absence of clutter — that's a consequence of simplicity. Simplicity is somehow essentially describing the purpose and place of an object and product. The absence of clutter is just a clutter-free product. That's not simple.",
+        "It's very easy to be different, but very difficult to be better.",
+        "There's no learning without trying lots of ideas and failing lots of times.",
+        "We shouldn't be afraid to fail — if we're not failing, we're not pushing. Eighty percent of the stuff in the studio is not going to work. If something is not good enough, stop doing it.",
+        "There is beauty when something works, and it works intuitively.",
+        "If you are truly innovating, you don't have a prototype you can refer to.",
+        "What we make stands testament to who we are. People can sense care, and they can sense carelessness.",
+        "I believe that when somebody unwrapped that box and took out that cable, they thought, 'Somebody gave a shit about me.' Even though it was a small thing, it really did come genuinely from a place of love and of care.",
+        "Apple's goal isn't to make money. Our goal is to design and develop and bring to market good products.",
+        "What I love about the creative process — and this may sound naive — is this idea that one day there is no idea and no solution, and the next day there is. I find that incredibly exciting, and conceptually remarkable.",
+        "A small change at the beginning of the design process defines an entirely different product at the end.",
+        "When something exceeds your ability to understand how it works, it sort of becomes magical.",
+        "Designing and developing anything of consequence is incredibly challenging.",
+        "Making the solution seem so completely inevitable and obvious, so uncontrived and natural — it's so hard!",
+        "It's a very strange thing for a designer to say, but one of the things that really irritates me in products is when I'm aware of designers wagging their tails in my face.",
+        "The best ideas start as conversations."
+      ]
     }
   ]
 }

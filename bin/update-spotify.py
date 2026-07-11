@@ -69,6 +69,12 @@ def get_access_token():
     return body["access_token"]
 
 
+# Set True whenever a data-endpoint call returns an HTTP error (e.g. a 403 from a
+# revoked or insufficient scope). Lets main() tell "Spotify said no" apart from
+# "nothing playing" so a broken feed doesn't keep refreshing its health heartbeat.
+_api_error = False
+
+
 def api_get(token, path, params=None):
     url = f"{API_BASE}{path}"
     if params:
@@ -84,6 +90,8 @@ def api_get(token, path, params=None):
                 return None
             return json.loads(resp.read())
     except HTTPError as e:
+        global _api_error
+        _api_error = True
         print(f"API {path} failed: {sanitize_error(e)}", file=sys.stderr)
         return None
 
@@ -186,6 +194,20 @@ def main():
 
     tracks = fetch_recent_tracks(token)
     current = fetch_current_podcast(token)
+
+    if _api_error:
+        # A data endpoint returned an HTTP error — most often a 403 after a scope
+        # was revoked (token refresh still succeeds, so this isn't caught upstream).
+        # Leave /now untouched and DON'T record a heartbeat: a transient error self-
+        # heals next run, while a persistent one lets the staleness monitor open a
+        # single issue after 48h instead of the feed degrading to "Nothing recent"
+        # silently for weeks. Fix: re-run ./bin/spotify-auth.sh to re-grant scopes.
+        print(
+            "Spotify API error — leaving /now unchanged and skipping the heartbeat "
+            "so the staleness monitor can flag it. Re-auth with ./bin/spotify-auth.sh.",
+            file=sys.stderr,
+        )
+        return
 
     state = load_state()
     podcast = state.get("last_podcast")
