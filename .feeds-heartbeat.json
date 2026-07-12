@@ -15,6 +15,7 @@
     "last_success_utc": "2026-07-12T03:56:36.460683+00:00"
   },
   "plex": {
+    "last_error": "fetch failed \u2014 preserving last known content",
     "last_success_utc": "2026-07-11T19:50:42.070877+00:00"
   },
   "project-docs": {
