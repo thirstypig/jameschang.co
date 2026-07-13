@@ -204,6 +204,6 @@ For the next time this comes up — building a sync between heterogeneous source
 ## Implementation reference
 
 - Adapter architecture + parsers: `bin/update-project-docs.py` (commit `32085ba`, 2026-05-29)
-- Tests: `tests/test_project_docs.py` (59 tests, including the brace-counter edge cases and the Aleph bounded-section invariant)
-- Workflow: `.github/workflows/project-docs-sync.yml` (14:15 UTC daily, offset 15 min from `projects-sync.yml` to avoid concurrency races)
+- Tests: `tests/test_project_docs.py` (63 tests, including the brace-counter edge cases and the Aleph bounded-section invariant)
+- Workflow: `.github/workflows/project-docs-sync.yml` (13:15 UTC daily, offset 15 min from `projects-sync.yml` at 13:00 UTC to avoid concurrency races)
 - Documented in CLAUDE.md → "Project doc sync (changelog + roadmap)"

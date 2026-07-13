@@ -23,6 +23,8 @@ tags:
 resolved: "2026-06-23"
 ---
 
+> **Audit note (2026-07-13):** this doc records the 2026-06-23 rollout to the then-**9** projects, when the suite had **347** tests. Current state: **11** projects (added `vouch` 2026-07-01, `spar` 2026-07-10) and **381** tests. The "all nine" narrative and the `347` counts below are historical to that date and left as-is; the styling pattern still applies to all cards.
+
 ## Problem Summary
 
 The `/now` page's project cards had inconsistent structure across 9 projects. The new "next up → roadmap features" layout was applied to The Fantastic Leagues first, but then needed distribution across the remaining 8 projects (Aleph, Judge Tool, Tastemakers, Bahtzang Trader, jameschang.co, Thirsty Pig, KTV Singer, TableDrop).

@@ -216,12 +216,18 @@ The Fantastic Leagues —AI fantasy baseball with live auctions, 26 modules, 730
 
 ## Testing
 
-Five e2e tests guard against regressions:
-- `test_print_card_name_font_size` — Verifies 10.5pt (not 20px)
-- `test_print_card_single_line` — Confirms name + description on one line
-- `test_print_no_wrapping_mid_project_name` — Project name doesn't wrap mid-word
-- `test_print_flex_properties_present` — Flexbox properties in stylesheet
-- `test_resume_pdf_project_section_visual` — Visual regression test (SSIM > 0.98)
+The print card-name sizing is guarded by one e2e test in
+`tests/test_site_e2e.py::TestPrintStylesheet`:
+- `test_print_card_name_overrides_screen_size` — asserts the `@media print` block
+  forces the card name back down from its on-screen size.
+
+> **Audit note (2026-07-13):** an earlier draft of this doc listed five test names
+> (`test_print_card_name_font_size`, `test_print_card_single_line`,
+> `test_print_no_wrapping_mid_project_name`, `test_print_flex_properties_present`,
+> `test_resume_pdf_project_section_visual`) as existing guards. **None of those were
+> ever implemented under those names** — only the override test above exists. The
+> single-line / no-mid-word-wrap / flex-property / visual-regression (SSIM) checks
+> are unwritten; treat them as candidate tests, not existing coverage.
 
 See: `tests/test_site_e2e.py::TestPrintStylesheet`
 

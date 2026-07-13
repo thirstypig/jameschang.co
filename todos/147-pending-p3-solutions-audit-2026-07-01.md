@@ -1,5 +1,5 @@
 ---
-status: pending
+status: complete
 priority: p3
 issue_id: "147"
 tags: [code-review, documentation, audit]
@@ -49,3 +49,31 @@ Verified file paths, test class/function names, numeric counts, and cross-refere
 ### Recommendation
 
 Low urgency — all drifted claims are in doc metadata/counts, not in the operational fix itself. The core lessons remain valid. Update the 7 drifted docs to reflect current state; highest priority is the `print-stylesheet-project-card-layout-line-wrapping.md` doc since its claimed test methods simply don't exist (they may have been planned but not implemented under those names).
+
+---
+
+## Re-run + resolution — 2026-07-13
+
+Re-audited **all 21 docs** under `docs/solutions/` (was 19 at the 2026-07-01 pass; `feed-heartbeat-on-noop-path-hides-upstream-api-failure.md` and `spotify-development-mode-lockdown-strands-personal-app-feed.md` were added since). Run via 3 parallel audit agents cross-checked against the live repo (`pytest --collect-only`, file existence, `grep` for test/class names, cross-reference resolution).
+
+**Result: 9 VERIFIED, 10 DRIFTED (all fixed this pass), 2 low-nit-only.** Counts had drifted *further* since 2026-07-01 (projects 10→11 with `spar`; tests 375→381).
+
+Fixed — **surgical** (clean current-state pointer errors):
+- `per-project-adapters…`: `59 tests` → 63; cron `14:15 UTC` → 13:15 UTC.
+- `self-referential…`: "one of the 10 configured projects" → 11.
+- `feed-heartbeat…`: stale inline line refs (WHOOP `:278/:283`→`:301/:306`; projects `:556/:561`→`:585/:590`).
+- `print-stylesheet…`: **5 cited test names never existed** — replaced with the one real guard (`test_print_card_name_overrides_screen_size`) + a note the single-line/no-wrap/flex/SSIM tests are unwritten candidates.
+- `relative-time…`: two cited `test_strip_volatile_*` names don't exist — marked illustrative + pointed to the real `TestContentChanged` guards; `now/now.js` upgrader ref `88-112`→`310-334`.
+
+Fixed — **frontmatter retarget** (retired files):
+- `wcag-contrast…`: `component: styles.css` annotated RETIRED 2026-04-27 (tokens now in `notebook.css`; `--muted` gone).
+- `css-dark-mode…`: `components: work/work.css + styles.css` → `notebook.css` / `projects/projects.css` (both retired in the notebook redesign).
+
+Fixed — **dated audit banner** (historical counts preserved, current state noted rather than falsifying a dated narrative):
+- `csp-unsafe-inline…`: 18→20 HTML pages / 16→18 standard / 15→17 homogeneous.
+- `project-card-…-all-nine`: 9→11 projects, 347→381 tests (the "all nine" narrative is left intact as historical).
+- `cron-script-config-driven…`: 9→11 projects.
+
+Left as historical prose (accurate to the event, low value to change): `plex…` (token sent as header vs the documented query param), `static-site-branding…` (prose says "7 AM PT"; cron is 6 AM PT).
+
+All fixes are doc-metadata/reference corrections — no operational lesson changed. **Resolved.**

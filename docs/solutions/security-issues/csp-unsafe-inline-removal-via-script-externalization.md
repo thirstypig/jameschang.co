@@ -11,6 +11,8 @@ severity: medium
 
 # Removing CSP `'unsafe-inline'` from `script-src` on a static GitHub Pages site
 
+> **Audit note (2026-07-13):** the page counts below are as of the 2026-04-28 fix (16 standard + 2 callbacks = 18). The site has since grown to **18 standard pages + 2 callbacks = 20 HTML pages**, and the CSP-homogeneity invariant now spans **17 non-/now pages** (added `bucketlist/`, FL `ai-insights/`, FL `analytics/`). The externalization pattern and the guard test `test_csp_homogeneous_across_15_pages` (its `HOMOGENEOUS_CSP_PAGES` set is built dynamically, so it stays correct; the `15` in the method name is now a misnomer) are unchanged — only the raw counts drifted.
+
 ## The Problem
 
 `jameschang.co` is a static HTML/CSS/JS portfolio on GitHub Pages with 18 HTML pages (16 standard + 2 OAuth callbacks). All 16 standard pages had a Content-Security-Policy meta tag of the form:

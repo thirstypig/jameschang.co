@@ -3,8 +3,7 @@ category: ui-bugs
 title: Dark mode styles missing [data-theme="dark"] selector, breaking manual toggle
 problem_type: incomplete-implementation
 components:
-  - work/work.css
-  - styles.css
+  - "notebook.css + projects/projects.css (were work/work.css + styles.css — both RETIRED 2026-04-27 in the notebook redesign; work.css was retokenised into projects/projects.css. Body line refs below are historical.)"
   - script.js
 symptoms:
   - Components on /work/ pages retain light-mode colors when user manually toggles dark mode

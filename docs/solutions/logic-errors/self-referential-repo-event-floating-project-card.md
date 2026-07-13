@@ -25,7 +25,7 @@ date: 2026-06-13
 
 ## Problem
 
-The `/now` page's active projects section (`/01`) sorts projects by most-recent GitHub event, descending — so the project you shipped something to yesterday appears first. `jameschang-co` is one of the 10 configured projects, with `shipping_repos: ["thirstypig/jameschang.co"]`.
+The `/now` page's active projects section (`/01`) sorts projects by most-recent GitHub event, descending — so the project you shipped something to yesterday appears first. `jameschang-co` is one of the 11 configured projects, with `shipping_repos: ["thirstypig/jameschang.co"]`.
 
 But every cron workflow on the site commits to this repo: Spotify sync (30m), Google Calendar sync (1h), Plex sync (6h), projects sync (daily), etc. This means `jameschang-co` always had a GitHub event from minutes ago — guaranteeing it sorted first in the active section on every cron run, regardless of whether any real product work had been done on the site.
 

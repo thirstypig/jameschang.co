@@ -4,7 +4,7 @@ slug: wcag-contrast-light-mode-accent-muted
 category: accessibility
 tags: [css, wcag, contrast-ratio, dark-mode, light-mode, color-tokens, sub-agent-verification]
 severity: moderate
-component: "styles.css (CSS token system: --accent, --muted)"
+component: "styles.css — RETIRED 2026-04-27 in the notebook redesign; the token system now lives in notebook.css and the --muted token no longer exists. This doc records the pre-redesign styles.css fix (historical)."
 symptom: "Sub-agent reported dark-mode accent colors failing WCAG contrast at ~1:1 ratio; light-mode contrast failures went undetected"
 root_cause: "Incorrect sRGB linearization in sub-agent contrast calculation; proper calculation showed dark mode passed AAA (7.6:1). Real failures were light-mode --accent (#b44a3e at 3.4:1) and --muted (#576376 at 3.9:1), both below AA 4.5:1 threshold."
 date_solved: 2026-04-16

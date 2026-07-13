@@ -57,7 +57,7 @@ The fact that the page-update was *the only thing changing* between commits made
    ```html
    <time datetime="2026-04-29T01:23:45Z" data-rel>17h ago</time>
    ```
-   The `datetime` attribute is the upstream play time (stable). The visible text is computed from `relative_time(iso_str)` at sync-time. A companion JS upgrader at `now/now.js:88-112` rewrites `textContent` from `datetime` on `DOMContentLoaded` and every 60 s — meaning **the server-rendered text is just a no-JS / first-paint fallback that the client immediately overwrites**.
+   The `datetime` attribute is the upstream play time (stable). The visible text is computed from `relative_time(iso_str)` at sync-time. A companion JS upgrader at `now/now.js:310-334` rewrites `textContent` from `datetime` on `DOMContentLoaded` and every 60 s — meaning **the server-rendered text is just a no-JS / first-paint fallback that the client immediately overwrites**.
 
 4. **The `Auto-updated` line was already getting stripped — why wasn't the relative-time line?** Read `content_changed()` carefully. The `date_pattern` regex covered only the "Auto-updated April 29, 2026 at 10:15 AM PDT" eyebrow. The `<time data-rel>17h ago</time>` text was untouched, so `re.sub(date_pattern, "", …)` did not normalize it away.
 
@@ -145,10 +145,10 @@ git log --since="24 hours ago" --grep="Spotify" --oneline | wc -l
 
 Pre-fix: 40-48. Post-fix: equal to the number of distinct listening sessions in the window (typically 5-15).
 
-The matching test guard:
+The matching test guard (illustrative — see the audit note below for the real method names):
 
 ```python
-# tests/test_shared.py
+# tests/test_shared.py — illustrative shape, not the literal method names in the suite
 def test_strip_volatile_removes_relative_time_text(self):
     """Wall-clock-driven 'Nh ago' inside <time data-rel> must not count
     as a content change between sync runs."""
@@ -167,6 +167,13 @@ def test_strip_volatile_preserves_structural_diffs(self):
     b = '<li>A <time datetime="t1" data-rel>1h</time></li><li>B <time datetime="t2" data-rel>1h</time></li>'
     assert content_changed(a, b) is True
 ```
+
+> **Audit note (2026-07-13):** the two method names above are illustrative and do
+> **not** exist verbatim in `tests/test_shared.py`. The actual `content_changed`
+> guards live in `TestContentChanged` (`test_only_date_changed`,
+> `test_date_plus_real_change`), plus the `strip_volatile` unit tests. No test yet
+> asserts `content_changed(...) is False` for a differing `<time data-rel>` text
+> specifically — that exact assertion is a candidate test, not existing coverage.
 
 ## Cross-references
 

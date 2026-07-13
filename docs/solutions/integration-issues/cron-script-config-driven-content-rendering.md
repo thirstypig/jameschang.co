@@ -22,6 +22,8 @@ tags:
 resolved: "2026-06-25"
 ---
 
+> **Audit note (2026-07-13):** this doc records the 2026-06-25 fix, when `bin/projects-config.json` held **9** projects. It now holds **11** (added `vouch` 2026-07-01, `spar` 2026-07-10), so the "all 9 projects" counts below read as historical — the config-as-source-of-truth pattern applies to all 11 identically.
+
 ## Problem Summary
 
 Project cards on the `/now` page were losing their "upcoming roadmap features" sections during cron syncs. When you manually added roadmap items to `/now/index.html`, they would disappear after `bin/update-projects.py` ran its daily sync.
