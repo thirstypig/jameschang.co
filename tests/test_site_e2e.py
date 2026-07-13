@@ -949,6 +949,35 @@ class TestNowSectionStructure:
         assert "TRAKT-START" not in section, "TRAKT marker reappeared in /07"
         assert "LETTERBOXD-START" not in section, "LETTERBOXD marker reappeared in /07"
 
+    def test_pondering_questions_numbering_is_continuous(self):
+        """The 'questions i'm pondering' list is split into topic groups (baseball,
+        nba, rams & browns), each rendered as a SEPARATE <ol class="nb-feed-questions">
+        with a hand-maintained `start=` attribute so the visible numbers run
+        continuously (1-5, 6-10, 11-13). Those `start` values are a manual invariant:
+        add or remove a question in an earlier group and every later group's `start`
+        must shift too. Regression guard — a drifted `start` yields duplicated or
+        gapped list numbers on the live page (the exact mistake this guards was a
+        real edit: start='9' had to become start='11' when the nba group grew)."""
+        _, body = fetch("now/index.html")
+        blocks = re.findall(
+            r'<ol class="nb-feed-questions"([^>]*)>(.*?)</ol>', body, re.DOTALL
+        )
+        assert len(blocks) >= 2, (
+            "expected multiple grouped <ol class='nb-feed-questions'> in the pondering list"
+        )
+        expected_start = 1
+        for i, (attrs, inner) in enumerate(blocks):
+            m = re.search(r'start="(\d+)"', attrs)
+            actual_start = int(m.group(1)) if m else 1
+            assert actual_start == expected_start, (
+                f"pondering <ol> #{i} has start={actual_start}, expected {expected_start} "
+                f"— list numbering is discontinuous (a group's `start` wasn't bumped "
+                f"after a question was added/removed in an earlier group)"
+            )
+            li_count = len(re.findall(r"<li>", inner))
+            assert li_count > 0, f"pondering <ol> #{i} has no <li> questions"
+            expected_start += li_count
+
 
 class TestProjectCardRoadmaps:
     """Roadmap items are config-driven and must survive cron sync cycles.
