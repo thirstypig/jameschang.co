@@ -491,7 +491,7 @@ class TestRenderCard:
         ])
         html = _projects.render_card(project, [], "May 7, 2026")
         assert '<div class="nb-proj-roadmap">' in html
-        assert "upcoming roadmap features" in html
+        assert "what&#39;s coming next" in html
         assert "<li>Feature A</li>" in html
         assert "<li>Feature B</li>" in html
         assert "<li>Feature C</li>" in html
@@ -639,3 +639,18 @@ class TestSystemicEventFailureSkipsHeartbeat:
 
         assert calls["heartbeat"] == 0, "heartbeat must not be recorded when all fetches error"
         assert calls["write"] == 0, "page must not be rewritten when all fetches error"
+
+
+class TestRoadmapLabelCopy:
+    """The /now roadmap label is reader-facing copy, not a technical term."""
+
+    def test_label_is_plain_english(self):
+        project = {
+            "slug": "demo", "name": "Demo", "url": "https://example.com",
+            "url_label": "example.com", "status_badge": "shipping",
+            "maturity": "beta", "desc": "A demo.", "next_up": "Ship it.",
+            "roadmap_items": ["First thing", "Second thing"],
+        }
+        html = _projects.render_card(project, [], "just now")
+        assert "what&#39;s coming next" in html
+        assert "upcoming roadmap features" not in html

@@ -1025,14 +1025,14 @@ class TestProjectCardRoadmaps:
             )
 
     def test_roadmap_label_present(self):
-        """Each roadmap must have the 'upcoming roadmap features' label."""
+        """Each roadmap must have the 'what's coming next' label."""
         _, body = fetch("now/index.html")
         roadmaps = re.findall(
             r'<div class="nb-proj-roadmap">(.*?)</div>',
             body, re.DOTALL,
         )
         for i, rm in enumerate(roadmaps):
-            assert "upcoming roadmap features" in rm, (
+            assert "what&#39;s coming next" in rm, (
                 f"Roadmap section {i} missing label — likely corrupted by cron"
             )
 

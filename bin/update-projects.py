@@ -459,7 +459,7 @@ def render_card(project, shipping_events, now_str):
     if roadmap_items:
         lines += [
             '          <div class="nb-proj-roadmap">',
-            '            <p class="nb-proj-roadmap-label">upcoming roadmap features</p>',
+            '            <p class="nb-proj-roadmap-label">what&#39;s coming next</p>',
             '            <ul>',
         ]
         for item in roadmap_items:
