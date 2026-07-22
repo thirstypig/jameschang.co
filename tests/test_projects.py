@@ -641,6 +641,31 @@ class TestSystemicEventFailureSkipsHeartbeat:
         assert calls["write"] == 0, "page must not be rewritten when all fetches error"
 
 
+JARGON_MARKERS = [
+    r"`", r"/api/", r"\.(md|tsx?|mjs|py|json)\b", r"session \d+",
+    r"\b(IDOR|JWT|CSRF|XSS|SSE|CORS)\b",
+    r"\b(Redis|PgBouncer|WebSocket|pdf-lib|Laravel|Socket\.IO|Alpaca|Retell)\b",
+    r"\b(middleware|endpoint|schema|migration|backend|repo)\b",
+]
+
+
+class TestCardCopyIsNonTechnical:
+    """Card copy on /now is written for non-technical readers."""
+
+    def test_no_jargon_in_card_copy(self):
+        import re
+        config = _projects.load_config()
+        offenders = []
+        for project in config:
+            fields = [project.get("desc", ""), project.get("next_up", "")]
+            fields += project.get("roadmap_items") or []
+            for text in fields:
+                for pattern in JARGON_MARKERS:
+                    if re.search(pattern, text, re.IGNORECASE):
+                        offenders.append((project["slug"], pattern, text))
+        assert offenders == [], f"technical language in card copy: {offenders}"
+
+
 class TestRoadmapLabelCopy:
     """The /now roadmap label is reader-facing copy, not a technical term."""
 

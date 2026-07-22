@@ -8,12 +8,12 @@
       "url_label": "alephco.io",
       "status_badge": "shipping",
       "maturity": "beta",
-      "desc": "The compliance platform for US importers — CPSIA, Prop 65, PFAS, and FSVP in one place.",
-      "next_up": "Onboard the first beta users before pushing to paid conversions.",
+      "desc": "One place for US importers to handle product compliance — CPSIA, Prop 65, PFAS, and FSVP.",
+      "next_up": "Get the first group of companies using it before we start charging.",
       "roadmap_items": [
-        "Beta user onboarding",
-        "Module override architecture",
-        "Vertical expansion roadmap"
+        "Welcoming the first companies onto the platform",
+        "Letting each company adjust which rules apply to them",
+        "Expanding into more product categories"
       ],
       "shipping_repos": [
         "thirstypig/alephco.io-app",
@@ -28,12 +28,12 @@
       "url_label": "thefantasticleagues.com",
       "status_badge": "shipping",
       "maturity": "beta",
-      "desc": "AI-powered fantasy baseball for serious keeper leagues — live for OGBA this season.",
-      "next_up": "Tighten in-season standings accuracy and daily stat lines.",
+      "desc": "AI-powered fantasy baseball for serious keeper leagues — running live for the OGBA league this season.",
+      "next_up": "Make the standings and daily stat lines more accurate during the season.",
       "roadmap_items": [
-        "Standings accuracy refinement",
-        "FanGraphs API integration",
-        "Sport expansion (NFL, NBA)"
+        "More accurate standings",
+        "Pull in player projections from FanGraphs",
+        "Add football and basketball"
       ],
       "shipping_repos": [
         "thirstypig/TheFantasticLeagues",
@@ -48,12 +48,12 @@
       "url_label": "bahtzang.com",
       "status_badge": "live",
       "maturity": "private",
-      "desc": "AI trading experiment — Claude makes buy/sell/hold calls against a paper-trading Alpaca account.",
-      "next_up": "6 more paper trades to gate the Phase G live-trading switch.",
+      "desc": "A trading experiment — Claude makes buy, sell, and hold calls using a practice account with no real money.",
+      "next_up": "Six more practice trades before deciding whether to trade real money.",
       "roadmap_items": [
-        "Phase G trade completion",
-        "Live trading evaluation",
-        "Risk management refinement"
+        "Finish the current round of practice trades",
+        "Decide whether to trade with real money",
+        "Tighten the rules that limit losses"
       ],
       "shipping_repos": [
         "thirstypig/bahtzang-trader"
@@ -67,12 +67,12 @@
       "url_label": "thejudgetool.com",
       "status_badge": "blocked",
       "maturity": "alpha",
-      "desc": "Digital scoring platform for KCBS BBQ competitions — replaces clipboards and carbon copies.",
-      "next_up": "Arranging time with stakeholders to test the product and validate viability.",
+      "desc": "Digital scoring for KCBS barbecue competitions — replaces clipboards and carbon-copy score sheets.",
+      "next_up": "Setting up time with organizers to test the product and confirm it's worth building out.",
       "roadmap_items": [
-        "Stakeholder testing cycle",
-        "Tabulation UI refinement",
-        "Competition site rollout"
+        "A round of testing with real organizers",
+        "A clearer screen for totaling scores",
+        "Using it at live competitions"
       ],
       "shipping_repos": [
         "thirstypig/thejudgetool",
@@ -87,12 +87,12 @@
       "url_label": "tabledrop.com",
       "status_badge": "blocked",
       "maturity": "alpha",
-      "desc": "Marketplace for hard-to-get Taipei restaurant reservations — scraper + Stripe storefront.",
-      "next_up": "Get one full listing-to-purchase flow working with real data.",
+      "desc": "A marketplace for hard-to-get Taipei restaurant reservations.",
+      "next_up": "Get one reservation working end to end, from listing to purchase.",
       "roadmap_items": [
-        "End-to-end flow hardening",
-        "Reservation fulfillment system",
-        "Vendor network expansion"
+        "Make the full booking process reliable",
+        "Handing off the reservation to the buyer",
+        "Signing up more restaurants"
       ],
       "shipping_repos": [
         "thirstypig/tabledrop"
@@ -106,12 +106,12 @@
       "url_label": "tastemakersapp.com",
       "status_badge": "shipping",
       "maturity": "beta",
-      "desc": "Social dining discovery app — Laravel backend live on Railway, iOS/Android clients dormant.",
-      "next_up": "Migrate production DB from Namecheap MySQL to Railway.",
+      "desc": "A social app for finding places to eat. The server is running; the phone apps are paused.",
+      "next_up": "Move the database to a more reliable host.",
       "roadmap_items": [
-        "Database migration to Railway",
-        "iOS client rebuild",
-        "Social features expansion"
+        "Move the database to a new host",
+        "Rebuild the iPhone app",
+        "More ways to share recommendations with friends"
       ],
       "shipping_repos": [
         "thirstypig/tastemakers-backend",
@@ -129,12 +129,12 @@
       "url_label": "thirstypig.com",
       "status_badge": "live",
       "maturity": "public",
-      "desc": "My food blog from 2007–present — 1,639 posts and 1,400+ mapped LA restaurants.",
-      "next_up": "Continue venue tag rollout, then launch the Bold Red Poster redesign.",
+      "desc": "My food blog from 2007 to today — 1,639 posts and more than 1,400 mapped LA restaurants.",
+      "next_up": "Finish tagging every restaurant, then launch the new design.",
       "roadmap_items": [
-        "Venue tag rollout",
-        "Bold Red Poster redesign",
-        "Photo archive organization"
+        "Tagging every restaurant on the site",
+        "A bold new look for the blog",
+        "Sorting through eighteen years of photos"
       ],
       "shipping_repos": [
         "thirstypig/thirstypig-blog"
@@ -148,12 +148,12 @@
       "url_label": "ktvsinger.com",
       "status_badge": "blocked",
       "maturity": "alpha",
-      "desc": "AI-assisted home karaoke system — phones pair with Apple TV over Socket.IO, YouTube-backed queue.",
-      "next_up": "Make end-to-end pairing reliable enough for friends without babysitting.",
+      "desc": "A home karaoke system — everyone's phone becomes a remote for the Apple TV, and the song list comes from YouTube.",
+      "next_up": "Make it reliable enough that friends can use it without my help.",
       "roadmap_items": [
-        "Pairing reliability hardening",
-        "Song search enhancement",
-        "Multi-device sync"
+        "Connecting phones to the TV without fuss",
+        "Easier song search",
+        "Keeping everyone's phone in sync"
       ],
       "shipping_repos": [
         "thirstypig/ktv-singer-app",
@@ -169,12 +169,12 @@
       "url_label": "jameschang.co",
       "status_badge": "live",
       "maturity": "public",
-      "desc": "This site — plain HTML/CSS/JS on GitHub Pages, auto-updating from 8 data feeds.",
-      "next_up": "Keep shipping features; keep resume.pdf in sync.",
+      "desc": "This site — hand-built with no frameworks, and it updates itself from eight live data feeds.",
+      "next_up": "Keep adding to it, and keep the résumé PDF current.",
       "roadmap_items": [
-        "Resume PDF enhancements",
-        "Feed integration expansion",
-        "Deep-dive documentation"
+        "A better-looking résumé PDF",
+        "More live data feeds",
+        "Fuller write-ups of each project"
       ],
       "shipping_repos": [
         "thirstypig/jameschang.co"
@@ -188,12 +188,12 @@
       "url_label": "",
       "status_badge": "shipping",
       "maturity": "alpha",
-      "desc": "Trust-first platform where students share the change they want to make, mentors vouch for them, and supporters can back them — safety-first for minors, moderated by default.",
-      "next_up": "Wire real parent accounts and move donations beyond Stripe test mode.",
+      "desc": "A platform where students share the change they want to make, mentors vouch for them, and supporters back them — built to keep minors safe, moderated by default.",
+      "next_up": "Set up real parent accounts and turn on live donations.",
       "roadmap_items": [
-        "Parent accounts + profile creation",
-        "Live Stripe checkout (beyond test mode)",
-        "Public launch with real students"
+        "Parent accounts and student profiles",
+        "Real donations, not test payments",
+        "Open it up to real students"
       ],
       "shipping_repos": [
         "thirstypig/vouch"
@@ -207,12 +207,12 @@
       "url_label": "",
       "status_badge": "shipping",
       "maturity": "alpha",
-      "desc": "Voice app where leaders rehearse difficult conversations against an AI counterpart, then get a coached debrief on how they handled it.",
-      "next_up": "Prove the core voice experience feels real in Retell before building any UI around it.",
+      "desc": "A voice app where leaders rehearse difficult conversations against an AI counterpart, then get a coached debrief on how they handled it.",
+      "next_up": "Make sure the conversation feels real before building anything around it.",
       "roadmap_items": [
-        "Voice session live inside the app",
-        "The coaching debrief — the real product",
-        "Scenario library + verbal setup phase"
+        "Hold the conversation inside the app itself",
+        "The coaching feedback afterward — the real product",
+        "A library of situations to practice, set up by voice"
       ],
       "shipping_repos": [
         "thirstypig/spar"
