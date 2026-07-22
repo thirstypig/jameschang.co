@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-07-10",
+  "last_updated": "2026-07-22",
   "items": [
     {
       "id": "veritas-inlustrat",
@@ -269,6 +269,26 @@
         "It's a very strange thing for a designer to say, but one of the things that really irritates me in products is when I'm aware of designers wagging their tails in my face.",
         "The best ideas start as conversations."
       ]
+    },
+    {
+      "id": "collection-of-moments",
+      "text": "Life is a collection of moments. The idea is to have as many good ones as you can.",
+      "original": "",
+      "lang": "",
+      "translation": "",
+      "source": "5 to 7 (2014)",
+      "note": "Written and directed by Victor Levin. Quote Catalog attributes the line to Arielle (Berenice Marlohe); some search listings credit Jane (Olivia Thirlby). The line is confirmed as from the film; the speaking character is single-sourced and not verified against the film itself, so no character is asserted here.",
+      "category": "film"
+    },
+    {
+      "id": "mediocre-life",
+      "text": "If you wanna be a good writer, then you can't have a mediocre life.",
+      "original": "",
+      "lang": "",
+      "translation": "",
+      "source": "Jane, 5 to 7 (2014)",
+      "note": "Trimmed from the full line: \"Look, if you wanna be a good writer then you can't have a mediocre life. I'll give you a baseball metaphor, because Jewish writers love them. Swing from the heels.\" Speaker (Jane, played by Olivia Thirlby) confirmed by two independent sources.",
+      "category": "film"
     }
   ]
 }

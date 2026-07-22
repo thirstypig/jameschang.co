@@ -60,3 +60,11 @@ docs/archive/
 # Root-level junk (catch stray artifacts)
 /*.png
 /*.screenrecord
+
+# Working design docs & SDD scratch — kept local (public repo).
+# The roadmap plan/spec reproduce internal security notes for the JT
+# roadmap-filtering work; they must not be published. See CLAUDE.md.
+.superpowers/
+docs/superpowers/plans/
+docs/superpowers/specs/2026-07-21-non-technical-roadmap-copy-design.md
+docs/superpowers/specs/2026-07-22-admin-registry-and-expiry-alerts-design.md
