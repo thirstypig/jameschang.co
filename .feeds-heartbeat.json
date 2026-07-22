@@ -18,18 +18,23 @@
     "last_success_utc": "2026-07-22T14:46:07.908459+00:00"
   },
   "project-docs": {
+    "last_error": "all docs skipped: aleph/changelog, aleph/roadmap, fantastic-leagues/changelog, fantastic-leagues/roadmap, judge-tool/changelog, judge-tool/roadmap",
     "last_success_utc": "2026-07-21T15:15:54.065731+00:00"
   },
   "project-docs:aleph-roadmap": {
+    "last_error": "source missing: thirstypig/alephco.io-app/docs/plans/roadmap.md",
     "last_success_utc": "2026-07-21T15:15:52.654952+00:00"
   },
   "project-docs:fantastic-leagues-changelog": {
+    "last_error": "source missing: thirstypig/TheFantasticLeagues/docs/changelog.md",
     "last_success_utc": "2026-07-21T15:15:53.120269+00:00"
   },
   "project-docs:fantastic-leagues-roadmap": {
+    "last_error": "source missing: thirstypig/TheFantasticLeagues/client/src/pages/Roadmap.tsx",
     "last_success_utc": "2026-07-21T15:15:53.526329+00:00"
   },
   "project-docs:judge-tool-roadmap": {
+    "last_error": "source missing: thirstypig/thejudgetool/docs/PRODUCTION_ROADMAP.md",
     "last_success_utc": "2026-07-21T15:15:54.065538+00:00"
   },
   "projects": {
