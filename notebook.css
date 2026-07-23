@@ -2152,6 +2152,12 @@ a:hover { text-decoration: underline; }
   font-size: 0.75rem;
   color: var(--dim);
 }
+.nb-portfolio-summary {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--dim);
+  margin: 0 0 1rem;
+}
 .nb-portfolio {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));

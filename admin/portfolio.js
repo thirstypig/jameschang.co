@@ -35,9 +35,12 @@
     if (!board) return;
     let cfg, pf;
     try {
+      // no-store: GitHub Pages caches static assets for 10 min, but this is an
+      // admin view of hand-edited data — always fetch the latest so edits to
+      // portfolio.json show on the next load, not 10 minutes later.
       [cfg, pf] = await Promise.all([
-        fetch("/bin/projects-config.json").then((r) => r.json()),
-        fetch("/admin/portfolio.json").then((r) => r.json()),
+        fetch("/bin/projects-config.json", { cache: "no-store" }).then((r) => r.json()),
+        fetch("/admin/portfolio.json", { cache: "no-store" }).then((r) => r.json()),
       ]);
     } catch (e) {
       board.replaceChildren(
@@ -46,9 +49,11 @@
     }
     const notes = Object.fromEntries(pf.projects.map((p) => [p.slug, p]));
     const cards = [];
+    const counts = {};
     for (const proj of cfg.projects) {
       const pm = notes[proj.slug];
       if (!pm) continue;
+      counts[pm.pm_status] = (counts[pm.pm_status] || 0) + 1;
       const card = el("article", "nb-portfolio-card");
 
       const head = el("div", "nb-portfolio-head");
@@ -75,6 +80,17 @@
       cards.push(card);
     }
     board.replaceChildren(...cards);
+
+    // At-a-glance status summary strip.
+    const summary = document.getElementById("portfolio-summary");
+    if (summary) {
+      const order = ["on-track", "exploring", "stalled", "blocked", "shipped"];
+      const parts = [`${cards.length} projects`];
+      for (const s of order) {
+        if (counts[s]) parts.push(`${counts[s]} ${STATUS_LABEL[s]}`);
+      }
+      summary.textContent = parts.join("  ·  ");
+    }
   };
 
   if (document.readyState === "loading")
