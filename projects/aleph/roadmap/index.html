@@ -124,176 +124,176 @@
       <!-- ROADMAP-START -->
       <div class="module">
         <div class="module-head">
-          <h3 class="module-name">CPSIA / CPC</h3>
+          <h3 class="module-name">Children&#39;s product safety (CPSIA and CPC)</h3>
           <span class="module-progress">Progress: 100%</span>
         </div>
-        <p class="module-desc">Children&#39;s Product Safety Improvement Act — generate Children&#39;s Product Certificates (CPC) for products intended for children 12 and under.</p>
+        <p class="module-desc">Generate the Children&#39;s Product Certificate (CPC) required under CPSIA for any product made for kids 12 and under.</p>
         <div class="module-workflow">
           <strong>Workflow</strong>
           <ol>
-            <li><strong>Add Product</strong> — Register the children&#39;s product with SKU, manufacturer, country of origin, and intended age group.</li>
-            <li><strong>Upload Lab Test Report</strong> — Attach the test report PDF from a CPSC-accepted laboratory. Link it to the product record.</li>
-            <li><strong>Complete CPC Form</strong> — Fill in all 7 required CPC fields: product description, applicable standards, lab info, test date/location, manufacture date/location, importer info, and tracking label.</li>
-            <li><strong>Preview &amp; Generate PDF</strong> — Review the completed certificate data, then generate a formatted CPC PDF ready for filing or sharing with customs.</li>
+            <li>Add the product: SKU, manufacturer, country of origin, and the age group it&#39;s made for.</li>
+            <li>Upload the test report from a CPSC-accepted lab and attach it to the product.</li>
+            <li>Fill in the certificate: product description, the safety standards it meets, lab details, test and manufacture dates and locations, importer info, and the tracking label.</li>
+            <li>Review the finished certificate, then generate it as a PDF ready to file or share with customs.</li>
           </ol>
         </div>
         <ul class="feature-list">
-          <li class="done">Product creation (children&#39;s product type)</li>
-          <li class="done">CPC 7-field data entry form</li>
-          <li class="done">CPC preview (read-only view)</li>
-          <li class="done">CPC PDF generation (pdf-lib)</li>
-          <li class="done">Lab test document upload + linking</li>
-          <li class="done">CPC status tracking (draft -&gt; issued -&gt; superseded)</li>
-          <li class="done">CPSIA product list with CPC status badges</li>
-          <li class="done">Pre-populated CPSC safety standards (ASTM F963, etc.)</li>
-          <li class="done">Importer info pre-fill from business profile</li>
-          <li class="done">Server-side cohort enforcement (<code>requireModule(&quot;cpsia&quot;)</code> middleware) — session 19</li>
-          <li class="done">Ownership checks on CPC endpoints (IDOR 404 fix) — session 19</li>
-          <li class="done">CPSC e-Filing CSV export (<code>GET /api/cpsia/efiling-export</code>) — session 17</li>
-          <li class="done">Consumer goods product creation form (cohort-aware) — session 16</li>
-          <li class="planned">CPSC e-Filing live submission to ACE *(deferred — pending July 2026 mandate)*</li>
-          <li class="done">CPC version history / supersession chain — explicit <code>supersedePreviousCpcId</code> flow with atomic transaction, <code>GET /api/cpsia/products/:productId/cpc-history</code> endpoint, vertical timeline UI on CPC preview, audit log on supersession (session 21)</li>
+          <li class="done">Add a children&#39;s product to the system</li>
+          <li class="done">Fill out the certificate&#39;s required fields</li>
+          <li class="done">Preview the certificate before it&#39;s finalized</li>
+          <li class="done">Generate the finished certificate as a PDF</li>
+          <li class="done">Upload the lab&#39;s test report and attach it to the product</li>
+          <li class="done">Track whether a certificate is a draft, issued, or replaced by a newer one</li>
+          <li class="done">See every CPSIA product and its certificate status at a glance</li>
+          <li class="done">Choose from a built-in list of CPSC safety standards, including ASTM F963</li>
+          <li class="done">Importer details fill in automatically from the company&#39;s profile</li>
+          <li class="done">Only show each company the rules that apply to what they import</li>
+          <li class="done">Make sure each company can only see its own certificates</li>
+          <li class="done">Export certificate data in the format CPSC e-Filing expects</li>
+          <li class="done">Add a general consumer product and only see the compliance rules relevant to it</li>
+          <li class="planned">Submit e-Filing data directly to CPSC&#39;s system once the July 2026 mandate takes effect</li>
+          <li class="done">See the full history of a certificate, including every earlier version it replaced</li>
         </ul>
       </div>
 
       <div class="module">
         <div class="module-head">
-          <h3 class="module-name">Prop 65</h3>
+          <h3 class="module-name">Chemical warning labels (California Prop 65)</h3>
           <span class="module-progress">Progress: 100%</span>
         </div>
-        <p class="module-desc">California Proposition 65 — assess products for listed chemicals, generate compliant warning labels (short-form and long-form).</p>
+        <p class="module-desc">Check products against California&#39;s Prop 65 chemical list and generate the required warning label.</p>
         <div class="module-workflow">
           <strong>Workflow</strong>
           <ol>
-            <li><strong>Add Product</strong> — Register the consumer product with materials, manufacturer, and country of origin.</li>
-            <li><strong>Chemical Assessment</strong> — Answer: does this product require a Prop 65 warning? Select Yes / No / Not Sure. If No, record the negative assessment.</li>
-            <li><strong>Identify Chemicals &amp; Warning Type</strong> — Select chemicals present from the pre-populated list (Lead, DEHP, Cadmium, etc.), exposure routes, and warning type (cancer / reproductive / both).</li>
-            <li><strong>Generate Warning Label</strong> — Choose short-form or long-form label format. Preview the label in packaging and shelf-tag sizes, then download as PDF.</li>
+            <li>Add the product: materials, manufacturer, and country of origin.</li>
+            <li>Answer whether the product needs a Prop 65 warning — yes, no, or not sure. A &quot;no&quot; answer is recorded as the official assessment.</li>
+            <li>Pick the chemicals present from a built-in list, how a person could be exposed to them, and whether the warning is for cancer, reproductive harm, or both.</li>
+            <li>Choose a short-form or long-form label, preview it at packaging and shelf-tag size, then download it as a PDF.</li>
           </ol>
         </div>
         <ul class="feature-list">
-          <li class="done">Product creation for Prop 65 module</li>
-          <li class="done">Yes/No/Not Sure assessment flow</li>
-          <li class="done">Chemical multi-select with CAS numbers and tooltips</li>
-          <li class="done">Warning type selection (cancer / reproductive / both)</li>
-          <li class="done">Exposure route checkboxes</li>
-          <li class="done">Safe harbor compliance checkbox with explanation</li>
-          <li class="done">Short-form and long-form label text generation</li>
-          <li class="done">Label preview (packaging + shelf tag sizes)</li>
-          <li class="done">Label PDF generation</li>
-          <li class="done">Server-side chemicals list endpoint (/api/prop65/chemicals)</li>
-          <li class="done">Prop 65 product list with disclosure status badges</li>
-          <li class="done">Server-side cohort enforcement (<code>requireModule(&quot;prop65&quot;)</code> middleware) — session 19</li>
-          <li class="done">Ownership checks on disclosure endpoints (IDOR 404 fix) — session 19</li>
-          <li class="done">Consumer goods product creation form (cohort-aware) — session 16</li>
-          <li class="done">Prop 65 60-day notice CRUD with cure-deadline tracking (<code>/api/prop65/notices</code>) — session 17</li>
-          <li class="done">OEHHA list auto-update — weekly cron syncs <code>prop65_chemicals_master</code>, diffs added/toxicity_changed/delisted into <code>prop65_list_changes</code>, fans out as 7th source in Compliance Alerts when a user disclosure references a changed chemical (admin sees cross-tenant)</li>
-          <li class="planned">Tailored warning label format *(deferred)*</li>
+          <li class="done">Add a product for a Prop 65 review</li>
+          <li class="done">Record a yes / no / not-sure warning assessment</li>
+          <li class="done">Pick from a built-in list of chemicals, with reference numbers and explanations</li>
+          <li class="done">Choose whether the warning covers cancer, reproductive harm, or both</li>
+          <li class="done">Note how a person could be exposed to the chemical</li>
+          <li class="done">A checkbox confirming the product meets the safe-harbor exposure limit, with an explanation</li>
+          <li class="done">Generate the wording for a short-form or long-form warning label</li>
+          <li class="done">Preview the label at packaging and shelf-tag size</li>
+          <li class="done">Generate the warning label as a PDF</li>
+          <li class="done">Look up the current list of Prop 65 chemicals</li>
+          <li class="done">See every Prop 65 product and its warning status at a glance</li>
+          <li class="done">Only show each company the rules that apply to what they import</li>
+          <li class="done">Make sure each company can only see its own disclosure records</li>
+          <li class="done">Add a general consumer product and only see the compliance rules relevant to it</li>
+          <li class="done">Track a 60-day notice of violation and its cure deadline</li>
+          <li class="done">The list of regulated chemicals updates automatically each week, and flags any of a company&#39;s disclosures affected by a change</li>
+          <li class="planned">Warning labels tailored to the specific product</li>
         </ul>
       </div>
 
       <div class="module">
         <div class="module-head">
-          <h3 class="module-name">PFAS</h3>
+          <h3 class="module-name">PFAS (&#39;forever chemical&#39;) disclosure</h3>
           <span class="module-progress">Progress: 100%</span>
         </div>
-        <p class="module-desc">Per- and polyfluoroalkyl substances — structured material disclosure questionnaire and multi-state regulatory mapping.</p>
+        <p class="module-desc">Answer a guided questionnaire about PFAS chemicals in a product and see which state regulations apply.</p>
         <div class="module-workflow">
           <strong>Workflow</strong>
           <ol>
-            <li><strong>Add Product</strong> — Register the product with category, materials, and manufacturer details.</li>
-            <li><strong>PFAS Assessment</strong> — Answer: does this product contain PFAS? Yes / No / Unknown. If No, certify and complete. If Unknown, guidance is provided.</li>
-            <li><strong>Component Disclosure</strong> — For each PFAS-containing component: name, substance (PTFE, PFOS, GenX), concentration in ppm, and function (water resistance, non-stick, etc.).</li>
-            <li><strong>Regulatory Scope</strong> — Select states where the product is sold. Auto-identify applicable regulations (CA SB 1249, ME LD 1503, NY A4978, WA HB 2658, etc.).</li>
-            <li><strong>Generate Disclosure Report</strong> — Generate a formatted PDF report with component table, applicable regulations, and company certification.</li>
+            <li>Add the product: category, materials, and manufacturer details.</li>
+            <li>Answer whether the product contains PFAS — yes, no, or unknown. A &quot;no&quot; answer completes a certification; an &quot;unknown&quot; answer comes with guidance.</li>
+            <li>For each PFAS-containing part: its name, the specific substance, how much it contains, and what it&#39;s used for (such as water resistance or non-stick coating).</li>
+            <li>Select which states the product is sold in, and the applicable state regulations are identified automatically.</li>
+            <li>Generate a PDF disclosure report with the component list, applicable regulations, and the company&#39;s certification.</li>
           </ol>
         </div>
         <ul class="feature-list">
-          <li class="done">Product creation for PFAS module</li>
-          <li class="done">3-step questionnaire wizard (assessment -&gt; components -&gt; regulations)</li>
-          <li class="done">Yes/No/Unknown assessment with guidance</li>
-          <li class="done">Dynamic component entry (add/remove rows)</li>
-          <li class="done">8-state regulation database (CA, ME, NY, WA, MN, VT, CO, MD)</li>
-          <li class="done">Auto-populate regulatory basis from selected states</li>
-          <li class="done">Disclosure report preview (HTML)</li>
-          <li class="done">Disclosure report PDF generation</li>
-          <li class="done">PFAS product list with status badges</li>
-          <li class="done">Server-side cohort enforcement (<code>requireModule(&quot;pfas&quot;)</code> middleware) — session 19</li>
-          <li class="done">Ownership checks on disclosure endpoints (IDOR 404 fix) — session 19</li>
-          <li class="done">Consumer goods product creation form (cohort-aware) — session 16</li>
-          <li class="done">PFAS state-report PDF for 6 states (<code>/api/pfas/state-report/:stateCode</code>) — session 17</li>
-          <li class="done">Maine DEP annual report CSV export (<code>/api/pfas/maine-dep-report</code>) — session 17</li>
-          <li class="done">Expanded PFAS substance database (EPA CompTox PFASMASTER, ~8,380 chemicals) — <code>pfas_substances</code> table + <code>/api/pfas/substances/search</code> autocomplete in component disclosure — session 21</li>
-          <li class="done">Manufacturer PFAS declaration request flow — B2B tokenized supplier questionnaire, anon-allowed public surface, response writes a <code>pfas_disclosures</code> row on the requester&#39;s product — session 21</li>
+          <li class="done">Add a product for a PFAS review</li>
+          <li class="done">A guided, step-by-step questionnaire: assessment, then components, then regulations</li>
+          <li class="done">Record a yes / no / unknown assessment, with guidance for unknown cases</li>
+          <li class="done">Add or remove PFAS-containing components as needed</li>
+          <li class="done">A built-in database of state PFAS regulations across eight states</li>
+          <li class="done">Applicable regulations fill in automatically based on the states selected</li>
+          <li class="done">Preview the disclosure report before generating it</li>
+          <li class="done">Generate the disclosure report as a PDF</li>
+          <li class="done">See every PFAS product and its disclosure status at a glance</li>
+          <li class="done">Only show each company the rules that apply to what they import</li>
+          <li class="done">Make sure each company can only see its own disclosure records</li>
+          <li class="done">Add a general consumer product and only see the compliance rules relevant to it</li>
+          <li class="done">Generate a state-specific disclosure report for six states</li>
+          <li class="done">Export the annual report Maine&#39;s environmental agency requires</li>
+          <li class="done">Search a database of roughly 8,380 known PFAS substances while filling out a disclosure</li>
+          <li class="done">Ask a supplier to fill out their own PFAS questionnaire, and their answers attach directly to the requesting company&#39;s product</li>
         </ul>
       </div>
 
       <div class="module">
         <div class="module-head">
-          <h3 class="module-name">FSVP</h3>
+          <h3 class="module-name">Foreign supplier verification (FSVP, for food importers)</h3>
           <span class="module-progress">Progress: 100%</span>
         </div>
-        <p class="module-desc">Foreign Supplier Verification Program (21 CFR Part 1, Subpart L) — required for US food importers. Verify foreign suppliers produce food meeting US safety standards.</p>
+        <p class="module-desc">Required for US food importers: verify that foreign suppliers produce food that meets US safety standards.</p>
         <div class="module-workflow">
           <strong>Workflow</strong>
           <ol>
-            <li><strong>Add Food Product</strong> — Register the imported food with supplier, country of origin, food category.</li>
-            <li><strong>Hazard Analysis</strong> — Identify known or reasonably foreseeable hazards (biological, chemical, physical, radiological) with severity + probability assessments per food.</li>
-            <li><strong>Supplier Verification Activity</strong> — Choose onsite audit, sampling/testing, or records review based on hazard severity. Set frequency (typically annual for severe hazards).</li>
-            <li><strong>Qualified Individual</strong> — Assign a QI (in-house with documented training, or third-party firm) to perform verification activities.</li>
-            <li><strong>Inspection Bundle</strong> — Generate a per-supplier ZIP package with all FSVP records for FDA inspection or customs entry.</li>
+            <li>Add the imported food: supplier, country of origin, and food category.</li>
+            <li>Identify possible hazards — biological, chemical, physical, or radiological — and rate how severe and how likely each one is.</li>
+            <li>Based on how severe the hazard is, choose how the supplier will be verified: an onsite audit, sampling and testing, or a records review, and how often.</li>
+            <li>Assign a Qualified Individual — someone trained in-house, or an outside firm — to carry out the verification.</li>
+            <li>Generate a complete package of FSVP records for a supplier, ready for an FDA inspection or a customs entry.</li>
           </ol>
         </div>
         <ul class="feature-list">
-          <li class="done">Food-cohort product creation</li>
-          <li class="done">FSVP module page (<code>/fsvp</code>) — split-pane shell — session 19</li>
-          <li class="done">FDA proxy (enforcement + adverse events) gated by <code>requireModule(&quot;fsvp&quot;)</code> — session 19</li>
-          <li class="done">Per-supplier FSVP inspection package export (<code>/api/compliance/fsvp/inspection-package</code>) — session 17</li>
-          <li class="done">FDA registration wizard</li>
-          <li class="done">Hazard analysis CRUD (per-product, 4 hazard categories) — session 20</li>
-          <li class="done">Supplier verification activity scheduling + tracking — session 20</li>
-          <li class="done">Qualified Individual roster + assignment — session 20</li>
-          <li class="done">FSVP record CRUD with ownership scoping (<code>/api/fsvp/*</code> — 17 endpoints, IDOR 404, requireModule, mass-assignment guards, audit log) — session 20</li>
-          <li class="done">Compliance Alerts integration for overdue verifications (6th alerts source) — session 20</li>
-          <li class="done">Hazard analysis / verification / QI form UIs (3 dialogs, Manifest design, mobile-stacked) — session 20</li>
-          <li class="done">Product-detail Compliance tab integration — FSVP section with hazards, supplier verifications, assigned QIs (consistency with CPSIA/Prop65/PFAS access pattern) — session 21</li>
-          <li class="done">FSVP inspection prep checklist (per-product red/yellow/green readiness rollup) — <code>GET /api/fsvp/products/:productId/readiness</code> + <code>&lt;InspectionReadinessCard&gt;</code> on <code>/fsvp</code>, 4 checks (hazard analysis / supplier verification / QI / supporting docs), pure rules in <code>server/lib/fsvp-readiness.ts</code> — session 21</li>
-          <li class="planned">Foreign supplier directory with reusable supplier entities *(deferred — currently free-text supplier name)*</li>
-          <li class="planned">Concurrent-edit handling / optimistic locking *(deferred — single-user use today)*</li>
+          <li class="done">Add a food product for an FSVP review</li>
+          <li class="done">A dedicated FSVP workspace</li>
+          <li class="done">Look up FDA enforcement actions and adverse-event reports</li>
+          <li class="done">Export a complete FSVP inspection package for a single supplier</li>
+          <li class="done">A guided FDA registration setup</li>
+          <li class="done">Record a hazard analysis for a product across four hazard categories</li>
+          <li class="done">Schedule and track supplier verification activities</li>
+          <li class="done">Maintain a roster of Qualified Individuals and who&#39;s assigned where</li>
+          <li class="done">Each company can only see and manage its own FSVP records</li>
+          <li class="done">Overdue verifications show up alongside a company&#39;s other compliance alerts</li>
+          <li class="done">Simple forms for recording a hazard analysis, a supplier verification, or a Qualified Individual</li>
+          <li class="done">See a product&#39;s FSVP status — hazards, supplier verifications, assigned Qualified Individuals — right on the product page</li>
+          <li class="done">A readiness checklist for each product showing whether it&#39;s ready for inspection, with red/yellow/green status across hazard analysis, supplier verification, assigned Qualified Individual, and supporting documents</li>
+          <li class="planned">A directory of foreign suppliers that can be reused across products</li>
+          <li class="planned">Support for more than one person editing FSVP records at the same time</li>
         </ul>
       </div>
 
       <div class="module">
         <div class="module-head">
-          <h3 class="module-name">EU Compliance</h3>
+          <h3 class="module-name">EU product compliance (REACH, SVHC, RoHS)</h3>
         </div>
-        <p class="module-desc">European Union product safety &amp; chemical regulations — REACH, SVHC, RoHS, GPS. <strong>Customer Driver:</strong> Jason customer exporting products to EU (demand-driven, session 54). <strong>Regulatory Scope:</strong> - REACH Regulation (EC 1907/2006) — chemical substance safety - SVHC (Substances of Very High Concern) declaration — &lt;0.1% threshold per component - General Product Safety Regulation (EU 2023/988) — safe materials, proper labeling, batch traceability - RoHS Directive 2011/65/EU — if electrical components included <strong>Documentation Required:</strong> - REACH compliance declaration (per material / supplier) - SVHC assertion (candidate list review) - Material Safety Data Sheets (MSDS) — supplier chemical documentation - Bill of Materials (BOM) — optional (Jason feedback) - Electroplating / surface finish specifications - Material sourcing certification (plastic virgin-material traceability)</p>
+        <p class="module-desc">Compliance for products sold in the European Union: REACH chemical safety, SVHC high-concern substance declarations, RoHS for products with electrical components, and general EU product safety rules.</p>
         <div class="module-workflow">
           <strong>Workflow</strong>
           <ol>
-            <li><strong>Add Product</strong> — Register EU-export product with materials, manufacturer, country origin</li>
-            <li><strong>Material Declaration</strong> — List all materials: plastics, paints, adhesives, electroplating solutions, coatings</li>
-            <li><strong>REACH Assessment</strong> — Confirm REACH compliance per material; upload SVHC declarations</li>
-            <li><strong>Supply Chain Documentation</strong> — Upload MSDS for each chemical treatment; optionally track BOM</li>
-            <li><strong>Compliance Readiness</strong> — Generate REACH certificate + SVHC summary for customs/compliance audit</li>
+            <li>Add the product being exported to the EU: materials, manufacturer, and country of origin.</li>
+            <li>List every material used — plastics, paints, adhesives, plating solutions, coatings.</li>
+            <li>Confirm REACH compliance for each material and upload the required SVHC declarations.</li>
+            <li>Upload a Material Safety Data Sheet for each chemical treatment, and optionally track a bill of materials.</li>
+            <li>Generate the REACH certificate and SVHC summary for a customs or compliance audit.</li>
           </ol>
         </div>
         <ul class="feature-list">
-          <li class="planned"><code>eu_products</code> category or category extension with EU flag</li>
-          <li class="planned"><code>eu_compliance</code> module (cohort enforcement via <code>requireModule(&quot;eu&quot;)</code>)</li>
-          <li class="planned">Schema: <code>eu_reach_declarations</code>, <code>eu_svhc_assertions</code>, <code>eu_material_components</code></li>
-          <li class="planned">EuComplianceService (CRUD, ownership, module enforcement)</li>
-          <li class="planned"><code>/api/eu/*</code> routes (6-10 endpoints: products, declarations, SVHC, materials CRUD)</li>
-          <li class="planned"><code>/eu-compliance</code> page (product list + status badges; detail panes per product)</li>
-          <li class="planned">REACH compliance PDF generation (declaration + SVHC summary + material list)</li>
-          <li class="planned">Compliance alerts: overdue declarations, missing SVHC assertions, material sourcing gaps</li>
-          <li class="planned">Cross-linking: product detail ↔ EU compliance page (following Option B document scoping)</li>
-          <li class="planned">MSDS document type support (Prop65 + PFAS already have MSDS; EU adds MSDS as required doc)</li>
-          <li class="planned">Multi-country product support (same product, different regional reqs: US, Canada, AU, etc.)</li>
-          <li class="planned">International framework: country-scoped module eligibility + document requirement mapping</li>
-          <li class="planned">Canada CCPSA compliance (similar to US CPSC, different reqs)</li>
-          <li class="planned">Australia ACCC compliance</li>
-          <li class="planned">Tiered rollout: v1 = EU only, v2 = country-selection UI, v3 = auto-derive per shipping destination</li>
+          <li class="planned">Flag a product as an EU export</li>
+          <li class="planned">Only show each company the EU rules that apply to what they export</li>
+          <li class="planned">Store REACH declarations, SVHC assertions, and material components for each product</li>
+          <li class="planned">Manage EU compliance records for a product</li>
+          <li class="planned">Manage EU products, declarations, SVHC assertions, and materials</li>
+          <li class="planned">A dedicated EU compliance page listing products and their status</li>
+          <li class="planned">Generate a REACH certificate and SVHC summary as a PDF</li>
+          <li class="planned">Get alerted to overdue declarations, missing SVHC assertions, or gaps in material sourcing info</li>
+          <li class="planned">Jump between a product&#39;s page and its EU compliance record</li>
+          <li class="planned">Attach a Material Safety Data Sheet to a product, the same way Prop 65 and PFAS already support</li>
+          <li class="planned">Support products sold in more than one country, each with its own regional requirements</li>
+          <li class="planned">A general framework for matching a product to the right rules and paperwork by country</li>
+          <li class="planned">Compliance support for Canada, similar to the US CPSC process</li>
+          <li class="planned">Compliance support for Australia</li>
+          <li class="planned">Roll out gradually: EU first, then let a company choose its countries, then match countries to where the product actually ships</li>
         </ul>
       </div>
       <!-- ROADMAP-END -->
