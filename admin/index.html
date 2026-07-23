@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+
+  <title>admin — james chang</title>
+  <meta name="description" content="Private admin area.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; form-action 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
+
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/notebook.css">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-B3HW5VBDB3"></script>
+  <script src="/assets/js/gtag-init.js" defer></script>
+</head>
+<body>
+  <!-- Hidden until admin.js confirms the sessionStorage unlock flag. A visitor
+       without the flag is bounced to / before this ever renders. -->
+  <main class="nb-main nb-admin" id="admin-root" hidden>
+    <p class="eyebrow">// private area · curtain, not a lock</p>
+    <h1 class="nb-admin-title">admin</h1>
+    <p>you're in.</p>
+
+    <section class="nb-admin-section">
+      <h2>coming soon</h2>
+      <ul>
+        <li>project status across the portfolio</li>
+        <li>integration &amp; expiry monitoring (via the encrypted registry)</li>
+        <li>PM / staff-PM portfolio review</li>
+      </ul>
+    </section>
+
+    <p><button type="button" class="nb-admin-signout">sign out</button></p>
+    <p><a href="/">← back to the site</a></p>
+  </main>
+
+  <script src="/admin/admin.js" defer></script>
+  <script src="/script.js" defer></script>
+</body>
+</html>

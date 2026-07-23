@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
 
 # LLM / AI search crawlers — welcome
 User-agent: GPTBot

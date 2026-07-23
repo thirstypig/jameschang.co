@@ -2051,3 +2051,90 @@ a:hover { text-decoration: underline; }
     text-transform: none !important;
   }
 }
+
+/* ── Footer login curtain + gated /admin/ page ─────────────────── */
+.nb-footer-login {
+  font-family: var(--mono);
+  font-size: inherit;
+  color: var(--dim);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.nb-footer-login:hover { color: var(--accent); }
+
+.nb-login-modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: min(20rem, 80vw);
+}
+.nb-login-label {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--dim);
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+}
+.nb-login-input {
+  font-family: var(--mono);
+  font-size: 1rem;
+  padding: 0.6rem 0.7rem;
+  background: var(--surface-2);
+  color: var(--ink);
+  border: var(--border-w) solid var(--rule);
+  border-radius: 0;
+}
+.nb-login-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.nb-login-submit {
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: var(--border-w) solid var(--ink);
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--ink);
+  cursor: pointer;
+  align-self: flex-start;
+}
+.nb-login-submit:active { box-shadow: none; transform: translate(2px, 2px); }
+.nb-login-error {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--danger);
+  margin: 0;
+}
+@keyframes nb-login-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+.nb-login-shake { animation: nb-login-shake 0.3s; }
+@media (prefers-reduced-motion: reduce) {
+  .nb-login-shake { animation: none; }
+}
+
+.nb-admin-signout {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--dim);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.nb-admin-signout:hover { color: var(--accent); }
+
+/* /admin/ has no top nav — give the shell breathing room. */
+.nb-admin { padding-top: 48px; padding-bottom: 64px; }
+.nb-admin-title { margin: 0.2rem 0 0.8rem; }
+.nb-admin-section { margin-top: 2rem; }
+.nb-admin-section h2 { font-size: 1rem; }

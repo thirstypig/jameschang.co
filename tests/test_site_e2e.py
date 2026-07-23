@@ -30,6 +30,13 @@ HTML_FILES = sorted(
 # Pages that should have CSP (exclude callback pages which use a different pattern)
 STANDARD_PAGES = [f for f in HTML_FILES if "callback" not in f]
 
+# Full-chrome pages carry the marketing top-nav (brand, [/now], [projects ▾]
+# dropdown), theme toggle, and skip link. The gated /admin/ page is a minimal
+# private utility that intentionally omits all of that — like the callback
+# pages — so nav/chrome parity tests run over NAV_PAGES, not STANDARD_PAGES.
+# /admin/ still gets the CSP/viewport/security checks via STANDARD_PAGES.
+NAV_PAGES = [f for f in STANDARD_PAGES if not f.startswith("admin/")]
+
 # Expected feed markers in now/index.html
 EXPECTED_MARKERS = [
     "WHOOP", "SPOTIFY", "MLB", "GOODREADS-READING", "GOODREADS", "FBST", "PLEX",
@@ -234,7 +241,7 @@ class TestAccessibility:
 
     def test_skip_link_on_standard_pages(self):
         failures = []
-        for f in STANDARD_PAGES:
+        for f in NAV_PAGES:
             _, body = fetch(f)
             p = parse_page(body)
             if not p.has_skip_link:
@@ -243,7 +250,7 @@ class TestAccessibility:
 
     def test_aria_pressed_on_theme_toggle(self):
         failures = []
-        for f in STANDARD_PAGES:
+        for f in NAV_PAGES:
             _, body = fetch(f)
             p = parse_page(body)
             if p.theme_toggle_aria_pressed is None:
@@ -653,7 +660,7 @@ class TestNavConsistency:
     def test_brand_text_is_jameschang_co(self):
         """Brand reads jameschang.co with the dot in an accent span — set in cede613."""
         failures = []
-        for f in STANDARD_PAGES:
+        for f in NAV_PAGES:
             _, body = fetch(f)
             if 'class="nb-brand">jameschang<span class="dot">.</span>co</a>' not in body:
                 failures.append(f"{f}: brand drifted from jameschang.co")
@@ -673,7 +680,7 @@ class TestNavConsistency:
     def test_now_link_uses_slash_prefix(self):
         """[now] was renamed to [/now] in cede613 to match path convention."""
         failures = []
-        for f in STANDARD_PAGES:
+        for f in NAV_PAGES:
             _, body = fetch(f)
             # Exactly one [/now] nav link; zero [now] nav links
             if re.search(r'class="nb-link"[^>]*>\[now\]</a>', body):
@@ -1088,7 +1095,7 @@ class TestStructuralParity:
         across all 16 pages — a single-file edit reordering or dropping
         a project would otherwise drift silently."""
         menus = {}
-        for f in STANDARD_PAGES:
+        for f in NAV_PAGES:
             _, body = fetch(f)
             m = self.DROPDOWN_MENU_RE.search(body)
             assert m, f"{f}: no dropdown menu block found"
@@ -1606,3 +1613,62 @@ class TestMemberOfJsonLD:
         assert url.startswith("https://www."), (
             f"Aquarium memberOf url must use https://www. canonical form, got: {url!r}"
         )
+
+
+# ── Footer login → gated /admin/ page ─────────────────────────────
+# A client-side "curtain" (NOT real auth — the repo is public and GitHub Pages
+# can't authenticate). The password is stored as a SHA-256 hash so the plaintext
+# never lands in the repo; /admin/ may only ever hold public-safe content.
+
+# SHA-256 of the admin password. Only the hash is committed (public repo) — the
+# plaintext is never named here, so there is no "plaintext-absent" grep test:
+# such a test would have to contain the password to search for it. The positive
+# check below (hash constant present + SHA-256 used) is the guarantee instead.
+_ADMIN_PW_SHA256 = "7781113a99f177280ad3e89bcf631f03acb8fa8e626082dd9158eeee0bdd5674"
+
+
+def _read(relpath):
+    with open(os.path.join(REPO_ROOT, relpath), encoding="utf-8") as f:
+        return f.read()
+
+
+class TestFooterLoginAndAdminGate:
+    def test_admin_page_exists(self):
+        status, body = fetch("admin/index.html")
+        assert status == 200, "/admin/index.html should exist"
+        assert "nav" in body.lower() or "admin" in body.lower()
+
+    def test_admin_is_noindex(self):
+        _, body = fetch("admin/index.html")
+        assert 'name="robots"' in body and "noindex" in body, \
+            "/admin/ must be noindex — don't advertise the gate"
+
+    def test_admin_not_in_sitemap(self):
+        _, sitemap = fetch("sitemap.xml")
+        assert "/admin" not in sitemap, "the gated page must not be in the sitemap"
+
+    def test_admin_loads_its_gate_script(self):
+        _, body = fetch("admin/index.html")
+        assert "/admin/admin.js" in body, "/admin/ must load its gate-check script"
+
+    def test_admin_js_guards_on_session_flag(self):
+        js = _read("admin/admin.js")
+        assert "jc-admin" in js, "admin.js must check the sessionStorage unlock flag"
+        assert "location" in js, "admin.js must redirect when the flag is absent"
+
+    def test_every_footer_page_loads_script_js(self):
+        """script.js is the login injection vector — a footer page without it
+        silently loses the login link."""
+        missing = []
+        for page in STANDARD_PAGES:
+            body = _read(page)
+            if "nb-footer" in body and 'src="/script.js"' not in body:
+                missing.append(page)
+        assert missing == [], f"footer pages missing /script.js: {missing}"
+
+    def test_login_module_present_in_script_js(self):
+        js = _read("script.js")
+        assert "nb-footer-login" in js, "script.js must inject the footer login button"
+        assert "login-modal" in js, "script.js must create the login dialog"
+        assert _ADMIN_PW_SHA256 in js, "script.js must embed the SHA-256 hash constant"
+        assert "SHA-256" in js, "script.js must hash the input, not compare plaintext"
