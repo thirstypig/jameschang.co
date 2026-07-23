@@ -801,3 +801,33 @@ class TestProjectDocsConfig:
             marker = doctype.upper()
             assert f"<!-- {marker}-START -->" in body, f"{dest} missing {marker}-START"
             assert f"<!-- {marker}-END -->" in body, f"{dest} missing {marker}-END"
+
+
+def _module(name, features=None, description="", workflow=None):
+    return {
+        "name": name, "percent": None, "description": description,
+        "workflow": workflow or [], "features": features or [],
+    }
+
+
+class TestApplyPublicCopyPhaseAllowlist:
+    def test_unlisted_phase_is_dropped(self):
+        config = {"judge-tool": {"public_phases": ["Nice-to-Haves"]}}
+        modules = [_module("Security Hardening (Do First)"), _module("Nice-to-Haves")]
+        kept, dropped = _docs.apply_public_copy(
+            "judge-tool", modules, config)
+        assert [m["name"] for m in kept] == ["Nice-to-Haves"]
+        assert any("Security Hardening" in d for d in dropped)
+
+    def test_project_absent_from_config_passes_through(self):
+        modules = [_module("CPSIA / CPC"), _module("Prop 65")]
+        kept, dropped = _docs.apply_public_copy(
+            "fantastic-leagues", modules, {})
+        assert [m["name"] for m in kept] == ["CPSIA / CPC", "Prop 65"]
+        assert dropped == []
+
+    def test_no_public_phases_key_keeps_all_phases(self):
+        config = {"aleph": {"plain_english": {}}}
+        modules = [_module("CPSIA / CPC"), _module("Prop 65")]
+        kept, dropped = _docs.apply_public_copy("aleph", modules, config)
+        assert len(kept) == 2

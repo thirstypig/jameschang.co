@@ -655,6 +655,60 @@ def _ts_extract_string(block, field):
 
 
 # ---------------------------------------------------------------------------
+# Reader-facing copy layer
+# ---------------------------------------------------------------------------
+#
+# Roadmap sources are written for engineers; these pages are read by everyone
+# else. Two rules, both fail-closed, translate one into the other WITHOUT
+# modifying the source repos:
+#
+#   Rule 1  public_phases  — which phases may be published at all
+#   Rule 2  plain_english  — how each surviving line reads
+#
+# An item must clear both. Anything dropped is returned to the caller, which
+# reports it via record_heartbeat(partial_success=True) so upstream drift shows
+# up in .feeds-heartbeat.json instead of leaking raw engineering text onto the
+# site. See docs/superpowers/specs/2026-07-21-non-technical-roadmap-copy-design.md
+
+ROADMAP_COPY_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                 "roadmap-copy.json")
+
+
+def load_roadmap_copy():
+    """Load bin/roadmap-copy.json. Missing or malformed file → {} (passthrough)."""
+    try:
+        with open(ROADMAP_COPY_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
+def apply_public_copy(slug, modules, config=None):
+    """Filter and translate parsed roadmap modules for a non-technical audience.
+
+    Returns (modules, dropped) where `dropped` is a list of short strings
+    describing what was removed. A project absent from the config passes
+    through unchanged with no drops.
+    """
+    if config is None:
+        config = load_roadmap_copy()
+    rules = config.get(slug)
+    if not rules:
+        return modules, []
+
+    dropped = []
+    public_phases = rules.get("public_phases")
+
+    kept = []
+    for mod in modules:
+        if public_phases is not None and mod["name"] not in public_phases:
+            dropped.append(f"phase not allowlisted: {mod['name']}")
+            continue
+        kept.append(mod)
+    return kept, dropped
+
+
+# ---------------------------------------------------------------------------
 # Renderer (shared across all roadmap adapters)
 # ---------------------------------------------------------------------------
 
