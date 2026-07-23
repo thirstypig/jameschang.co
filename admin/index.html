@@ -27,12 +27,13 @@
     <p>you're in.</p>
 
     <section class="nb-admin-section">
-      <h2>coming soon</h2>
-      <ul>
-        <li>project status across the portfolio</li>
-        <li>integration &amp; expiry monitoring (via the encrypted registry)</li>
-        <li>PM / staff-PM portfolio review</li>
-      </ul>
+      <div class="nb-portfolio-head-row">
+        <h2>portfolio</h2>
+        <span class="nb-portfolio-count">// the operator's view · edit admin/portfolio.json</span>
+      </div>
+      <div id="portfolio-board" class="nb-portfolio">
+        <p class="nb-portfolio-loading">loading…</p>
+      </div>
     </section>
 
     <p><button type="button" class="nb-admin-signout">sign out</button></p>
@@ -40,6 +41,7 @@
   </main>
 
   <script src="/admin/admin.js" defer></script>
+  <script src="/admin/portfolio.js" defer></script>
   <script src="/script.js" defer></script>
 </body>
 </html>

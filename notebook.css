@@ -2138,3 +2138,83 @@ a:hover { text-decoration: underline; }
 .nb-admin-title { margin: 0.2rem 0 0.8rem; }
 .nb-admin-section { margin-top: 2rem; }
 .nb-admin-section h2 { font-size: 1rem; }
+
+/* /admin/ portfolio board */
+.nb-portfolio-head-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.nb-portfolio-count {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--dim);
+}
+.nb-portfolio {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
+  gap: 1rem;
+}
+.nb-portfolio-card {
+  border: var(--border-w) solid var(--rule);
+  background: var(--surface);
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--rule);
+  padding: 1rem 1.1rem;
+}
+.nb-portfolio-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+.nb-portfolio-name { margin: 0; font-size: 1.05rem; }
+.nb-portfolio-name a { color: var(--ink); text-decoration: none; }
+.nb-portfolio-name a:hover { color: var(--accent); }
+.nb-portfolio-badge {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  text-transform: lowercase;
+  letter-spacing: 0.03em;
+  padding: 0.15rem 0.45rem;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.nb-portfolio-badge--on-track { color: var(--pos); }
+.nb-portfolio-badge--exploring { color: var(--accent); }
+.nb-portfolio-badge--stalled { color: var(--warn); }
+.nb-portfolio-badge--blocked { color: var(--danger); }
+.nb-portfolio-badge--shipped { color: var(--dim); }
+.nb-portfolio-row {
+  margin: 0.4rem 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.nb-portfolio-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--dim);
+}
+.nb-portfolio-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.7rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed var(--rule);
+}
+.nb-portfolio-link {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--accent);
+}
+.nb-portfolio-loading, .nb-portfolio-error {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--dim);
+}

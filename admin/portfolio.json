@@ -1,0 +1,71 @@
+{
+  "last_updated": "2026-07-23",
+  "projects": [
+    {
+      "slug": "aleph",
+      "pm_status": "on-track",
+      "bet": "Compliance is painful, recurring, and regulated — and my supply-chain background makes this a domain play, not a random SaaS bet.",
+      "notes": "The clearest commercial path in the portfolio. Real modules are shipping; the open question is conversion, not capability. Get beta users to paid before adding verticals."
+    },
+    {
+      "slug": "fantastic-leagues",
+      "pm_status": "on-track",
+      "bet": "Serious keeper leagues are underserved by the big fantasy platforms — go deep for the hardcore, not wide for casuals.",
+      "notes": "Live and in-season, which is the hard part. Value now comes from accuracy and daily polish, not new features. Watch that in-season engagement holds."
+    },
+    {
+      "slug": "bahtzang-trader",
+      "pm_status": "exploring",
+      "bet": "Can a disciplined LLM make consistent trading calls? A learning experiment with real guardrails, not a product yet.",
+      "notes": "Deliberately paper-only. The value is the discipline and the harness, not the P&L. Don't let it graduate to real money until the gate criteria are actually met."
+    },
+    {
+      "slug": "judge-tool",
+      "pm_status": "blocked",
+      "bet": "Replace clipboards and carbon copies at KCBS BBQ competitions with something judges actually prefer.",
+      "notes": "Blocked on external validation, not code — it needs real organizers to test before more building. The right next move is stakeholder time, not more features."
+    },
+    {
+      "slug": "tabledrop",
+      "pm_status": "blocked",
+      "bet": "Hard-to-get Taipei reservations, turned into a marketplace with a real storefront.",
+      "notes": "Furthest from a working loop. Prove one listing-to-purchase flow end to end before anything else — breadth is premature until that exists."
+    },
+    {
+      "slug": "tastemakers",
+      "pm_status": "stalled",
+      "bet": "A social layer on dining discovery — who you trust, not just star ratings.",
+      "notes": "Backend is live but the clients are paused, so it's effectively stalled. Decide whether to reignite the apps or let it rest — don't leave it half-lit."
+    },
+    {
+      "slug": "thirsty-pig",
+      "pm_status": "on-track",
+      "bet": "Eighteen years of LA and SGV food coverage as a durable authority and a mapped archive.",
+      "notes": "The steady long-term asset — a compounding bet, not a growth one. Finish the venue tagging and the redesign, then let it run."
+    },
+    {
+      "slug": "ktv-singer",
+      "pm_status": "blocked",
+      "bet": "Home karaoke that just works — phones as remotes, no fuss.",
+      "notes": "Blocked on reliability: pairing has to be friend-proof before it's worth showing anyone. Nail the core connection before adding song features."
+    },
+    {
+      "slug": "jameschang-co",
+      "pm_status": "on-track",
+      "bet": "A living portfolio that proves the AI-assisted-operator thesis by simply existing and updating itself.",
+      "notes": "Doing its job. The meta-project — every feature here is also a demonstration. Keep it current; resist over-building."
+    },
+    {
+      "slug": "vouch",
+      "pm_status": "exploring",
+      "bet": "Students share the change they want to make, mentors vouch for them, supporters back them — trust and safety first, built for minors.",
+      "notes": "Earliest stage and the most values-driven. Pre-launch; the gating work is trust, safety, and real payments, not features. Move carefully given the audience."
+    },
+    {
+      "slug": "spar",
+      "pm_status": "exploring",
+      "bet": "Leaders rehearse difficult conversations against an AI counterpart, then get a coached debrief on how they handled it.",
+      "notes": "The real product is the coaching debrief, not the chat. Prove the voice experience feels real before building UI around it — right sequencing."
+    }
+  ]
+}

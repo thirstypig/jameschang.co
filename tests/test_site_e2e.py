@@ -1672,3 +1672,63 @@ class TestFooterLoginAndAdminGate:
         assert "login-modal" in js, "script.js must create the login dialog"
         assert _ADMIN_PW_SHA256 in js, "script.js must embed the SHA-256 hash constant"
         assert "SHA-256" in js, "script.js must hash the input, not compare plaintext"
+
+
+# ── /admin/ portfolio board ───────────────────────────────────────
+# Public-safe editorial layer keyed by slug, merged client-side with
+# bin/projects-config.json. No secrets / attack-map content (public repo).
+
+class TestAdminPortfolio:
+    PM_STATUSES = {"on-track", "exploring", "stalled", "blocked", "shipped"}
+    REQUIRED = {"slug", "pm_status", "bet", "notes"}
+
+    def _portfolio(self):
+        return json.loads(_read("admin/portfolio.json"))
+
+    def _config_slugs(self):
+        cfg = json.loads(_read("bin/projects-config.json"))
+        return [p["slug"] for p in cfg["projects"]]
+
+    def test_portfolio_parses_and_shaped(self):
+        data = self._portfolio()
+        assert "projects" in data and isinstance(data["projects"], list)
+        assert "last_updated" in data
+
+    def test_every_entry_has_valid_schema(self):
+        failures = []
+        for i, p in enumerate(self._portfolio()["projects"]):
+            missing = self.REQUIRED - set(p.keys())
+            if missing:
+                failures.append(f"[{i}] missing {missing}")
+            extra = set(p.keys()) - self.REQUIRED
+            if extra:
+                failures.append(f"[{i}] unknown keys {extra}")
+            if p.get("pm_status") not in self.PM_STATUSES:
+                failures.append(f"[{i}] bad pm_status {p.get('pm_status')!r}")
+            for k in ("bet", "notes"):
+                if not isinstance(p.get(k), str) or not p.get(k).strip():
+                    failures.append(f"[{i}] empty {k}")
+        assert failures == [], failures
+
+    def test_every_config_project_has_a_portfolio_entry(self):
+        """A new project in projects-config.json must not silently drop off
+        the board."""
+        pf = {p["slug"] for p in self._portfolio()["projects"]}
+        missing = [s for s in self._config_slugs() if s not in pf]
+        assert missing == [], f"projects with no portfolio entry: {missing}"
+
+    def test_admin_page_hosts_the_board(self):
+        body = _read("admin/index.html")
+        assert 'id="portfolio-board"' in body
+        assert "/admin/portfolio.js" in body
+
+    def test_portfolio_is_public_safe(self):
+        """No secret / attack-map content behind the public-repo curtain."""
+        blob = _read("admin/portfolio.json")
+        low = blob.lower()
+        for bad in ["secret", "token", "password", "/api/", ".env", "api_key",
+                    "client_secret", "private_key"]:
+            assert bad not in low, f"portfolio.json contains sensitive marker: {bad!r}"
+        # env-var-name shapes (ALL_CAPS_WITH_UNDERSCORES)
+        assert not re.search(r"\b[A-Z]{2,}_[A-Z0-9_]+\b", blob), \
+            "portfolio.json contains an env-var-shaped identifier"
