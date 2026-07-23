@@ -832,7 +832,7 @@ PROJECT_DOCS = [
     ("aleph",             "changelog",
         make_adapter("thirstypig/alephco.io-app", "docs/changelog.md", parse_changelog)),
     ("aleph",             "roadmap",
-        make_adapter("thirstypig/alephco.io-app", "docs/plans/roadmap.md", parse_aleph_roadmap)),
+        make_adapter("thirstypig/alephco.io-app", "docs/product/roadmap.md", parse_aleph_roadmap)),
     ("fantastic-leagues", "changelog",
         make_adapter("thirstypig/TheFantasticLeagues", "docs/changelog.md", parse_changelog)),
     ("fantastic-leagues", "roadmap",

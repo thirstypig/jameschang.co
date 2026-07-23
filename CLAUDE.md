@@ -101,7 +101,7 @@ The adapter pattern lets us sync from heterogeneous sources (plain markdown, cus
 | Adapter | Source | Doctype | Notes |
 |---|---|---|---|
 | `parse_changelog` | `docs/changelog.md` | changelog | heading-line convention (see spec below); used by all 3 changelog entries |
-| `parse_aleph_roadmap` | `docs/plans/roadmap.md` | roadmap | `### Module` H3s, `**Workflow:**` + `**Features:**` bold markers, percent from `## Project Health` table |
+| `parse_aleph_roadmap` | `docs/product/roadmap.md` | roadmap | `### Module` H3s, `**Workflow:**` + `**Features:**` bold markers, percent from `## Project Health` table |
 | `parse_jt_roadmap` | `docs/PRODUCTION_ROADMAP.md` | roadmap | `## PHASE N: Name` H2s, task-list body, no per-phase percent (renderer omits the badge) |
 | `parse_fl_roadmap` | `client/src/pages/Roadmap.tsx` | roadmap | extracts `productRoadmap` TypeScript data array via brace-counted slicing; phases → modules, items → features |
 
@@ -128,7 +128,7 @@ Source repos are never modified. Design:
 | Slug | Doctype | Source | Destination |
 |------|---------|--------|-------------|
 | `aleph` | changelog | `thirstypig/alephco.io-app:docs/changelog.md` | `/projects/aleph/changelog/` |
-| `aleph` | roadmap | `thirstypig/alephco.io-app:docs/plans/roadmap.md` | `/projects/aleph/roadmap/` |
+| `aleph` | roadmap | `thirstypig/alephco.io-app:docs/product/roadmap.md` | `/projects/aleph/roadmap/` |
 | `fantastic-leagues` | changelog | `thirstypig/TheFantasticLeagues:docs/changelog.md` | `/projects/fantastic-leagues/changelog/` |
 | `fantastic-leagues` | roadmap | `thirstypig/TheFantasticLeagues:client/src/pages/Roadmap.tsx` | `/projects/fantastic-leagues/roadmap/` |
 | `judge-tool` | changelog | `thirstypig/thejudgetool:docs/changelog.md` | `/projects/judge-tool/changelog/` |
