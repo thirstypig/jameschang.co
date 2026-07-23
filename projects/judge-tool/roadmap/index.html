@@ -158,107 +158,48 @@
       <!-- ROADMAP-START -->
       <div class="module">
         <div class="module-head">
-          <h3 class="module-name">Security Hardening (Do First)</h3>
+          <h3 class="module-name">Paid plans and billing</h3>
         </div>
         <ul class="feature-list">
-          <li class="done">Add Content Security Policy (CSP) headers in next.config.js or middleware — shipped in <code>next.config.mjs</code> (code-review todos #040, #042)</li>
-          <li class="planned">Add rate limiting to all API routes (currently only on login)</li>
-          <li class="planned">Add per-user PINs instead of shared competition PIN — shared PIN means any judge can log in as any other judge</li>
-          <li class="planned">Re-validate JWT role against database on each request — currently a stale role persists until token expires (24h)</li>
-          <li class="planned">Add CSRF protection to server actions</li>
-          <li class="planned">Set secure cookie flags (httpOnly, sameSite, secure) — verify next-auth config</li>
-          <li class="planned">Add input sanitization on all user-facing text fields to prevent XSS</li>
-          <li class="planned">Add request size limits to prevent abuse</li>
-          <li class="planned">Set up environment variable validation on startup (fail fast if missing)</li>
-          <li class="planned">Add audit logging for admin actions (delete competition, modify scores, etc.)</li>
-          <li class="planned">Move from in-memory rate limiting to Redis-based (in-memory resets on every deploy)</li>
+          <li class="planned">Let organizers sign up with just their email</li>
+          <li class="planned">Offer a few different paid plans through Stripe</li>
+          <li class="planned">Let organizers pay for a single event, or subscribe for the season</li>
+          <li class="planned">Keep billing status accurate automatically</li>
+          <li class="planned">Let organizers view invoices and manage their subscription</li>
+          <li class="planned">Track how much organizers are using the app</li>
+          <li class="planned">A guided setup: create an account, pick a plan, pay, and run your first competition</li>
         </ul>
       </div>
 
       <div class="module">
         <div class="module-head">
-          <h3 class="module-name">Reliability &amp; Error Handling</h3>
+          <h3 class="module-name">Website and customer support</h3>
         </div>
         <ul class="feature-list">
-          <li class="planned">Add global error boundary with user-friendly error pages</li>
-          <li class="done">Add health check endpoint (/api/health) for uptime monitoring — <code>src/app/api/health/route.ts</code> returns DB latency + service status; surfaced on public <code>/status</code> page</li>
-          <li class="planned">Set up error tracking service (Sentry or similar) — catch production errors before users report them</li>
-          <li class="planned">Add database connection pooling (PgBouncer or Supabase connection pooler)</li>
-          <li class="planned">Add retry logic for database operations that can transiently fail</li>
-          <li class="planned">Add proper logging (structured JSON logs) instead of console.log</li>
-          <li class="planned">Add database backups schedule on Supabase (verify it&#39;s enabled)</li>
-          <li class="planned">Write integration tests for critical flows (login, score submission, tabulation) — plan drafted at [docs/plans/integration-tests.md](plans/integration-tests.md); execution blocked on one-time Supabase test-project provisioning (plan §6)</li>
-          <li class="planned">Add end-to-end tests with Playwright for the judge and organizer flows</li>
+          <li class="planned">A public website explaining what the app does, pricing, and stories from real customers</li>
+          <li class="planned">Let people try the app before signing up</li>
+          <li class="planned">A help center that walks organizers through setting up a competition and adding judges</li>
+          <li class="planned">A way to reach support directly from the app</li>
+          <li class="planned">Terms of service and a privacy policy</li>
+          <li class="planned">A status page so organizers can check the app is working during events</li>
+          <li class="planned">Automatic emails for welcome messages, password resets, and competition reminders</li>
+          <li class="planned">Real stories from competitions that used the app</li>
+          <li class="deferred">Make the app easier to find in search results</li>
         </ul>
       </div>
 
       <div class="module">
         <div class="module-head">
-          <h3 class="module-name">Scaling &amp; Performance</h3>
+          <h3 class="module-name">Ideas for later</h3>
         </div>
         <ul class="feature-list">
-          <li class="done">Move off Render free tier — app is on Vercel (auto-deploys from <code>main</code>, <code>app.thejudgetool.com</code>)</li>
-          <li class="planned">Add Redis for caching (session data, competition state, leaderboards)</li>
-          <li class="planned">Add CDN for static assets (Cloudflare or similar)</li>
-          <li class="planned">Optimize database queries — add indexes on frequently queried columns (competitionId, judgeId, categoryRoundId)</li>
-          <li class="planned">Add database query logging to identify slow queries</li>
-          <li class="planned">Consider read replicas if you get heavy traffic during live competitions</li>
-          <li class="planned">Add WebSocket or SSE for real-time score updates instead of 15s polling</li>
-          <li class="planned">Load test the app to find breaking points (how many concurrent judges?)</li>
-        </ul>
-      </div>
-
-      <div class="module">
-        <div class="module-head">
-          <h3 class="module-name">Multi-Tenancy &amp; Monetization (Stripe)</h3>
-        </div>
-        <ul class="feature-list">
-          <li class="planned">Design multi-tenant architecture — each organizer gets isolated data (right now everything is in one pool)</li>
-          <li class="planned">Add organizer self-registration (sign up with email, verify email)</li>
-          <li class="planned">Integrate Stripe for payments — tiered plans:</li>
-          <li class="planned">Add Stripe Checkout for one-time competition purchases or subscriptions</li>
-          <li class="planned">Add Stripe webhook handler for payment confirmations, subscription changes, failed payments</li>
-          <li class="planned">Add billing dashboard for organizers (view invoices, manage subscription)</li>
-          <li class="planned">Add usage tracking (number of competitions, judges, active events)</li>
-          <li class="planned">Add organizer onboarding flow (create account → pick plan → pay → create first competition)</li>
-        </ul>
-      </div>
-
-      <div class="module">
-        <div class="module-head">
-          <h3 class="module-name">Marketing Website &amp; Support</h3>
-        </div>
-        <ul class="feature-list">
-          <li class="planned">Build a landing page (separate from the app) — what it does, pricing, testimonials</li>
-          <li class="planned">Add demo mode — let potential customers try the app without signing up</li>
-          <li class="planned">Add documentation / help center for organizers (how to set up a competition, import judges, etc.)</li>
-          <li class="planned">Add in-app support chat or contact form (Intercom, Crisp, or simple email form)</li>
-          <li class="planned">Add Terms of Service and Privacy Policy pages (required for Stripe and for trust)</li>
-          <li class="planned">Add status page (upptime or similar) so organizers know if the system is up during events</li>
-          <li class="planned">Set up transactional email (welcome email, password reset, competition reminders) via Resend or SendGrid</li>
-          <li class="planned">Add social proof — case studies from real competitions</li>
-          <li class="deferred">SEO basics — meta tags ✓, sitemap ✓ (submitted to GSC on both domains), Open Graph still pending (no per-page <code>openGraph: {...}</code> exports yet) — tracked as ST-7 in /roadmap</li>
-        </ul>
-      </div>
-
-      <div class="module">
-        <div class="module-head">
-          <h3 class="module-name">Analytics &amp; Observability</h3>
-        </div>
-      </div>
-
-      <div class="module">
-        <div class="module-head">
-          <h3 class="module-name">Nice-to-Haves</h3>
-        </div>
-        <ul class="feature-list">
-          <li class="planned">Mobile app or PWA (installable on judge phones, works offline)</li>
-          <li class="planned">PDF export for final results and score sheets</li>
-          <li class="planned">White-label option (organizer&#39;s logo and branding)</li>
-          <li class="planned">API access for integrations with other competition management tools</li>
-          <li class="planned">Multi-language support if expanding beyond US</li>
-          <li class="planned">Judge reputation/history tracking across competitions</li>
-          <li class="planned">Automated competition setup wizard (walk organizers through step by step)</li>
+          <li class="planned">An app judges can install on their phones that works without a signal</li>
+          <li class="planned">Export final results and score sheets as a PDF</li>
+          <li class="planned">Let organizers use their own logo and branding</li>
+          <li class="planned">Connect with other competition management tools organizers already use</li>
+          <li class="planned">Support for other languages as the app grows beyond the US</li>
+          <li class="planned">Track a judge&#39;s history and reputation across competitions</li>
+          <li class="planned">A step-by-step wizard that walks organizers through setting up a competition</li>
         </ul>
       </div>
       <!-- ROADMAP-END -->

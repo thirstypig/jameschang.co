@@ -981,3 +981,49 @@ class TestApplyPublicCopyPlainEnglish:
         second, _ = _docs.apply_public_copy(
             "aleph", [dict(m) for m in modules], config)
         assert first == second
+
+
+class TestJudgeToolCopyLayerIsFailClosed:
+    """Only author-written plain_english values may survive the copy layer.
+
+    Proven on SYNTHETIC input so no real source text or disclosure string is
+    committed to this public repo. Real-source completeness is enforced at
+    authoring time and at cron time (heartbeat drift), not here.
+    """
+
+    def test_only_authored_strings_survive(self):
+        config = _docs.load_roadmap_copy()
+        jt = config["judge-tool"]
+        allow = jt["public_phases"]
+        pe = jt["plain_english"]
+        authored = set(pe.values())
+
+        # A real feature map key (mapped, in an allowlisted phase) — survives.
+        real_key = next(k for k in pe if k not in set(allow))
+
+        modules = [
+            # non-allowlisted phase → whole module dropped, canary must vanish
+            _module("Security Hardening (Do First)",
+                    features=[("planned", "CANARY-A-must-not-leak")]),
+            # allowlisted phase → mapped item survives (renamed), unmapped canary dropped
+            _module(allow[0],
+                    features=[("planned", real_key),
+                              ("planned", "CANARY-B-must-not-leak")]),
+        ]
+
+        kept, dropped = _docs.apply_public_copy("judge-tool", modules, config)
+
+        # 1. Every string in the surviving structure is one we authored.
+        for m in kept:
+            assert m["name"] in authored, f"unauthored module name: {m['name']!r}"
+            for _state, text in m["features"]:
+                assert text in authored, f"unauthored feature reached output: {text!r}"
+            for step in m["workflow"]:
+                assert step in authored, f"unauthored workflow step: {step!r}"
+
+        # 2. Canaries were dropped, never carried through.
+        flat = " ".join(m["name"] + " " + " ".join(t for _s, t in m["features"])
+                        for m in kept)
+        assert "CANARY-A" not in flat
+        assert "CANARY-B" not in flat
+        assert any("CANARY-B" in d for d in dropped)  # reported, not silent

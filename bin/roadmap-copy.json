@@ -4,6 +4,60 @@
       "Multi-Tenancy & Monetization (Stripe)",
       "Marketing Website & Support",
       "Nice-to-Haves"
-    ]
+    ],
+    "plain_english": {
+      "Multi-Tenancy & Monetization (Stripe)": "Paid plans and billing",
+      "Marketing Website & Support": "Website and customer support",
+      "Nice-to-Haves": "Ideas for later",
+
+      "Add organizer self-registration (sign up with email, verify email)":
+        "Let organizers sign up with just their email",
+      "Integrate Stripe for payments — tiered plans:":
+        "Offer a few different paid plans through Stripe",
+      "Add Stripe Checkout for one-time competition purchases or subscriptions":
+        "Let organizers pay for a single event, or subscribe for the season",
+      "Add Stripe webhook handler for payment confirmations, subscription changes, failed payments":
+        "Keep billing status accurate automatically",
+      "Add billing dashboard for organizers (view invoices, manage subscription)":
+        "Let organizers view invoices and manage their subscription",
+      "Add usage tracking (number of competitions, judges, active events)":
+        "Track how much organizers are using the app",
+      "Add organizer onboarding flow (create account → pick plan → pay → create first competition)":
+        "A guided setup: create an account, pick a plan, pay, and run your first competition",
+
+      "Build a landing page (separate from the app) — what it does, pricing, testimonials":
+        "A public website explaining what the app does, pricing, and stories from real customers",
+      "Add demo mode — let potential customers try the app without signing up":
+        "Let people try the app before signing up",
+      "Add documentation / help center for organizers (how to set up a competition, import judges, etc.)":
+        "A help center that walks organizers through setting up a competition and adding judges",
+      "Add in-app support chat or contact form (Intercom, Crisp, or simple email form)":
+        "A way to reach support directly from the app",
+      "Add Terms of Service and Privacy Policy pages (required for Stripe and for trust)":
+        "Terms of service and a privacy policy",
+      "Add status page (upptime or similar) so organizers know if the system is up during events":
+        "A status page so organizers can check the app is working during events",
+      "Set up transactional email (welcome email, password reset, competition reminders) via Resend or SendGrid":
+        "Automatic emails for welcome messages, password resets, and competition reminders",
+      "Add social proof — case studies from real competitions":
+        "Real stories from competitions that used the app",
+      "SEO basics — meta tags ✓, sitemap ✓ (submitted to GSC on both domains), Open Graph still pending (no per-page `openGraph: {...}` exports yet) — tracked as ST-7 in /roadmap":
+        "Make the app easier to find in search results",
+
+      "Mobile app or PWA (installable on judge phones, works offline)":
+        "An app judges can install on their phones that works without a signal",
+      "PDF export for final results and score sheets":
+        "Export final results and score sheets as a PDF",
+      "White-label option (organizer's logo and branding)":
+        "Let organizers use their own logo and branding",
+      "API access for integrations with other competition management tools":
+        "Connect with other competition management tools organizers already use",
+      "Multi-language support if expanding beyond US":
+        "Support for other languages as the app grows beyond the US",
+      "Judge reputation/history tracking across competitions":
+        "Track a judge's history and reputation across competitions",
+      "Automated competition setup wizard (walk organizers through step by step)":
+        "A step-by-step wizard that walks organizers through setting up a competition"
+    }
   }
 }
