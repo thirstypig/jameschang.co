@@ -653,6 +653,88 @@ class TestSyncOneFailSafe:
                 os.unlink(path)
 
 
+class TestSyncOneAppliesPublicCopy:
+    """Roadmap docs pass through the copy layer; drops become a non-fatal note."""
+
+    def _isolated_heartbeat(self):
+        fd, path = tempfile.mkstemp(suffix=".json")
+        os.close(fd)
+        os.unlink(path)
+        return path
+
+    def test_roadmap_drops_are_recorded_as_partial_success(self, tmp_path):
+        hb = self._isolated_heartbeat()
+        dest = tmp_path / "index.html"
+        dest.write_text(
+            "<html><!-- ROADMAP-START -->old<!-- ROADMAP-END --></html>",
+            encoding="utf-8")
+        modules = [_module("Security Hardening (Do First)"), _module("Nice-to-Haves")]
+
+        def adapter(token):
+            return modules, None
+
+        try:
+            with patch("_shared.HEARTBEAT_FILE", hb), \
+                 patch.object(_docs, "load_roadmap_copy",
+                              return_value={"judge-tool":
+                                            {"public_phases": ["Nice-to-Haves"]}}), \
+                 patch.object(_docs, "dest_path", return_value=str(dest)):
+                result = _docs.sync_one("judge-tool", "roadmap", adapter, token=None)
+
+            assert result == "ok"
+            with open(hb, encoding="utf-8") as f:
+                entry = json.load(f)["project-docs:judge-tool-roadmap"]
+            # partial_success → BOTH fields present
+            assert "last_success_utc" in entry
+            assert "Security Hardening" in entry["last_error"]
+            assert "Security Hardening" not in dest.read_text(encoding="utf-8")
+        finally:
+            if os.path.exists(hb):
+                os.unlink(hb)
+
+    def test_clean_roadmap_records_no_error(self, tmp_path):
+        hb = self._isolated_heartbeat()
+        dest = tmp_path / "index.html"
+        dest.write_text(
+            "<html><!-- ROADMAP-START -->old<!-- ROADMAP-END --></html>",
+            encoding="utf-8")
+
+        def adapter(token):
+            return [_module("Nice-to-Haves")], None
+
+        try:
+            with patch("_shared.HEARTBEAT_FILE", hb), \
+                 patch.object(_docs, "load_roadmap_copy", return_value={}), \
+                 patch.object(_docs, "dest_path", return_value=str(dest)):
+                _docs.sync_one("judge-tool", "roadmap", adapter, token=None)
+            with open(hb, encoding="utf-8") as f:
+                entry = json.load(f)["project-docs:judge-tool-roadmap"]
+            assert "last_error" not in entry
+        finally:
+            if os.path.exists(hb):
+                os.unlink(hb)
+
+    def test_changelog_never_enters_the_copy_layer(self, tmp_path):
+        hb = self._isolated_heartbeat()
+        dest = tmp_path / "index.html"
+        dest.write_text(
+            "<html><!-- CHANGELOG-START -->x<!-- CHANGELOG-END --></html>",
+            encoding="utf-8")
+
+        def adapter(token):
+            return [], None
+
+        try:
+            with patch("_shared.HEARTBEAT_FILE", hb), \
+                 patch.object(_docs, "apply_public_copy") as spy, \
+                 patch.object(_docs, "dest_path", return_value=str(dest)):
+                _docs.sync_one("aleph", "changelog", adapter, token=None)
+            spy.assert_not_called()
+        finally:
+            if os.path.exists(hb):
+                os.unlink(hb)
+
+
 # ---------------------------------------------------------------------------
 # Replace marker (variant)
 # ---------------------------------------------------------------------------

@@ -870,6 +870,23 @@ def replace_marker_in(content, marker, html, source_label):
     return new_content, True
 
 
+def _record_sync_heartbeat(feed_slug, dropped):
+    """Clean success, or success-with-drops recorded as a non-fatal note.
+
+    partial_success=True refreshes last_success_utc (so the 48h staleness
+    monitor stays quiet — the page did render) while surfacing what was
+    dropped in last_error, which lands in .feeds-heartbeat.json on every
+    cron commit.
+    """
+    if not dropped:
+        record_heartbeat(feed_slug)
+        return
+    sample = "; ".join(dropped[:3])
+    record_heartbeat(feed_slug,
+                     error=f"{len(dropped)} item(s) dropped: {sample}",
+                     partial_success=True)
+
+
 def sync_one(slug, doctype, adapter, token):
     """Sync one (slug, doctype) via its adapter. Returns 'ok'/'skipped'/'error'."""
     feed_slug = f"project-docs:{slug}-{doctype}"
@@ -884,9 +901,11 @@ def sync_one(slug, doctype, adapter, token):
         print(f"    skipped ({error})")
         return "skipped"
 
+    dropped = []
     if doctype == "changelog":
         rendered = render_changelog(parsed)
     elif doctype == "roadmap":
+        parsed, dropped = apply_public_copy(slug, parsed)
         rendered = render_roadmap(parsed)
     else:
         record_error_if_known(feed_slug, f"unknown doctype: {doctype}")
@@ -907,13 +926,13 @@ def sync_one(slug, doctype, adapter, token):
         return "error"
 
     if not content_changed(old_content, new_content):
-        record_heartbeat(feed_slug)
+        _record_sync_heartbeat(feed_slug, dropped)
         print(f"    no changes ({len(parsed)} entries)")
         return "ok"
 
     with open(dest, "w", encoding="utf-8") as f:
         f.write(new_content)
-    record_heartbeat(feed_slug)
+    _record_sync_heartbeat(feed_slug, dropped)
     print(f"    updated ({len(parsed)} entries)")
     return "ok"
 
