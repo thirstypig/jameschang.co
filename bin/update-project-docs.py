@@ -704,7 +704,45 @@ def apply_public_copy(slug, modules, config=None):
         if public_phases is not None and mod["name"] not in public_phases:
             dropped.append(f"phase not allowlisted: {mod['name']}")
             continue
-        kept.append(mod)
+
+        copy_map = rules.get("plain_english")
+        if copy_map is None:
+            kept.append(mod)
+            continue
+
+        # Rule 1 matched the SOURCE name; Rule 2 now renames what survived.
+        # Ordering matters — renaming must never affect filtering.
+        if mod["name"] not in copy_map:
+            dropped.append(f"module not translated: {mod['name']}")
+            continue
+
+        new_mod = dict(mod)
+        new_mod["name"] = copy_map[mod["name"]]
+
+        description = mod.get("description", "")
+        if description and description not in copy_map:
+            dropped.append(f"description not translated: {mod['name']}")
+            new_mod["description"] = ""
+        elif description:
+            new_mod["description"] = copy_map[description]
+
+        new_workflow = []
+        for step in mod.get("workflow", []):
+            if step in copy_map:
+                new_workflow.append(copy_map[step])
+            else:
+                dropped.append(f"workflow step not translated: {step[:60]}")
+        new_mod["workflow"] = new_workflow
+
+        new_features = []
+        for state, text in mod.get("features", []):
+            if text in copy_map:
+                new_features.append((state, copy_map[text]))
+            else:
+                dropped.append(f"feature not translated: {text[:60]}")
+        new_mod["features"] = new_features
+
+        kept.append(new_mod)
     return kept, dropped
 
 

@@ -827,7 +827,75 @@ class TestApplyPublicCopyPhaseAllowlist:
         assert dropped == []
 
     def test_no_public_phases_key_keeps_all_phases(self):
-        config = {"aleph": {"plain_english": {}}}
+        # Rules present for the slug but empty: no public_phases key (Rule 1
+        # off) and no plain_english key (Rule 2 off, distinct from Rule 2
+        # being ON with an empty map — see TestApplyPublicCopyPlainEnglish
+        # .test_unmapped_module_name_drops_whole_module, which fail-closes).
+        config = {"aleph": {}}
         modules = [_module("CPSIA / CPC"), _module("Prop 65")]
         kept, dropped = _docs.apply_public_copy("aleph", modules, config)
         assert len(kept) == 2
+
+
+class TestApplyPublicCopyPlainEnglish:
+    def test_mapped_feature_is_replaced_and_state_preserved(self):
+        config = {"aleph": {"plain_english": {
+            "CPSIA / CPC": "Children's product safety",
+            "CPC PDF generation (pdf-lib)": "Generate the certificate as a PDF",
+        }}}
+        modules = [_module("CPSIA / CPC",
+                           features=[("planned", "CPC PDF generation (pdf-lib)")])]
+        kept, dropped = _docs.apply_public_copy("aleph", modules, config)
+        assert kept[0]["name"] == "Children's product safety"
+        assert kept[0]["features"] == [("planned", "Generate the certificate as a PDF")]
+        assert dropped == []
+
+    def test_unmapped_feature_is_dropped_and_reported(self):
+        config = {"aleph": {"plain_english": {"CPSIA / CPC": "Children's product safety"}}}
+        modules = [_module("CPSIA / CPC",
+                           features=[("planned", "Server-side cohort enforcement")])]
+        kept, dropped = _docs.apply_public_copy("aleph", modules, config)
+        assert kept[0]["features"] == []
+        assert any("Server-side cohort enforcement" in d for d in dropped)
+
+    def test_unmapped_module_name_drops_whole_module(self):
+        config = {"aleph": {"plain_english": {}}}
+        modules = [_module("CPSIA / CPC", features=[("planned", "x")])]
+        kept, dropped = _docs.apply_public_copy("aleph", modules, config)
+        assert kept == []
+        assert any("CPSIA / CPC" in d for d in dropped)
+
+    def test_description_and_workflow_are_translated(self):
+        config = {"aleph": {"plain_english": {
+            "CPSIA / CPC": "Children's product safety",
+            "Raw description.": "Plain description.",
+            "Add Product": "Add the product",
+        }}}
+        modules = [_module("CPSIA / CPC", description="Raw description.",
+                           workflow=["Add Product"])]
+        kept, _ = _docs.apply_public_copy("aleph", modules, config)
+        assert kept[0]["description"] == "Plain description."
+        assert kept[0]["workflow"] == ["Add the product"]
+
+    def test_public_phases_without_plain_english_filters_only(self):
+        """A project may opt into Rule 1 without Rule 2 — surviving phases
+        then render their source text unchanged."""
+        config = {"judge-tool": {"public_phases": ["Nice-to-Haves"]}}
+        modules = [_module("Security Hardening (Do First)"),
+                   _module("Nice-to-Haves", features=[("planned", "Raw item text")])]
+        kept, dropped = _docs.apply_public_copy("judge-tool", modules, config)
+        assert [m["name"] for m in kept] == ["Nice-to-Haves"]
+        assert kept[0]["features"] == [("planned", "Raw item text")]
+        assert not any("not translated" in d for d in dropped)
+
+    def test_idempotent(self):
+        config = {"aleph": {"plain_english": {
+            "CPSIA / CPC": "Children's product safety",
+            "CPC PDF generation (pdf-lib)": "Generate the certificate as a PDF",
+        }}}
+        modules = [_module("CPSIA / CPC",
+                           features=[("planned", "CPC PDF generation (pdf-lib)")])]
+        first, _ = _docs.apply_public_copy("aleph", modules, config)
+        second, _ = _docs.apply_public_copy(
+            "aleph", [dict(m) for m in modules], config)
+        assert first == second
