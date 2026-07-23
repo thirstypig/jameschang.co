@@ -8,6 +8,8 @@ import sys
 import tempfile
 from unittest.mock import patch
 
+import pytest
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "bin"))
 
 _docs = importlib.import_module("update-project-docs")
@@ -1027,3 +1029,76 @@ class TestJudgeToolCopyLayerIsFailClosed:
         assert "CANARY-A" not in flat
         assert "CANARY-B" not in flat
         assert any("CANARY-B" in d for d in dropped)  # reported, not silent
+
+
+# ---------------------------------------------------------------------------
+# Copy-map coverage (Task 12) — two layers, both leak-safe
+# ---------------------------------------------------------------------------
+
+class TestCopyMapMechanism:
+    """apply_public_copy REPORTS an unmapped surviving item (never silently
+    keeps it). Synthetic input — always runs, no real source committed."""
+
+    def test_unmapped_surviving_item_is_reported(self):
+        config = {"demo": {"public_phases": ["Keep"],
+                           "plain_english": {"Keep": "Kept phase"}}}
+        modules = [_module("Keep", features=[("planned", "unmapped item")])]
+        kept, dropped = _docs.apply_public_copy("demo", modules, config)
+        assert kept[0]["features"] == []  # unmapped → dropped
+        assert any("not translated" in d for d in dropped)  # and reported
+
+
+class TestCopyMapCompletenessLocal:
+    """When the gitignored real-source fixtures are present (author's machine),
+    assert every item surviving Rule 1 has a Rule 2 entry — catching drift
+    before deploy. Absent (CI/public runner) → skip; cron heartbeat covers it.
+
+    Aleph note (Task 12): `alephco.io-app:docs/plans/roadmap.md` 404s upstream
+    as of this writing (pre-existing, out of scope for this plan) — so only
+    the Judge Tool fixture is ever populated locally. This loop already
+    `continue`s past any fixture path that doesn't exist, so with only the JT
+    fixture present it checks JT and skips Aleph — that's the correct,
+    expected outcome, not a gap. Aleph's completeness was already verified
+    during Tasks 7–11 (apply_public_copy returned dropped:[] for the full
+    Aleph map at authoring time).
+    """
+
+    FIXTURES = {
+        "judge-tool": ("tests/fixtures/jt_production_roadmap.md", "parse_jt_roadmap"),
+        "aleph": ("tests/fixtures/aleph_roadmap.md", "parse_aleph_roadmap"),
+    }
+
+    # Some items survive Rule 1 (they sit in an allowlisted phase) but are
+    # DELIBERATELY left unmapped so Rule 2 drops them — because translating
+    # them would republish a security-sensitive line onto the public page.
+    # Judge Tool has exactly one such item. We assert the drop COUNT, never
+    # the strings, so no sensitive text is committed to this public repo, and
+    # a NEW accidental drop still trips the test (count exceeds the expected
+    # deliberate-drop budget). The specific item is recorded only in the
+    # gitignored source fixture and the private design notes, never here.
+    EXPECTED_INTENTIONAL_DROPS = {"judge-tool": 1, "aleph": 0}
+
+    def test_no_untranslated_items_survive_rule_one(self):
+        config = _docs.load_roadmap_copy()
+        checked = 0
+        for slug, (path, parser_name) in self.FIXTURES.items():
+            if not os.path.exists(path):
+                continue
+            parser = getattr(_docs, parser_name)
+            with open(path, encoding="utf-8") as f:
+                modules = parser(f.read())
+            assert modules, f"fixture for {slug} parsed to zero modules"
+            _, dropped = _docs.apply_public_copy(slug, modules, config)
+            untranslated = [d for d in dropped if "not translated" in d]
+            budget = self.EXPECTED_INTENTIONAL_DROPS.get(slug, 0)
+            # Report only the COUNT — never the raw strings (they may be the
+            # very disclosure we are keeping off the public page).
+            assert len(untranslated) <= budget, (
+                f"{slug}: {len(untranslated)} untranslated item(s) survived "
+                f"Rule 1 but budget is {budget}. A new item was likely added "
+                f"upstream and needs a plain_english entry (or, if it is a "
+                f"deliberate security drop, raise this slug's budget).")
+            checked += 1
+        if checked == 0:
+            pytest.skip("real-source fixtures absent (expected in CI); "
+                        "completeness enforced at cron time via heartbeat")

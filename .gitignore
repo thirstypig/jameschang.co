@@ -68,3 +68,6 @@ docs/archive/
 docs/superpowers/plans/
 docs/superpowers/specs/2026-07-21-non-technical-roadmap-copy-design.md
 docs/superpowers/specs/2026-07-22-admin-registry-and-expiry-alerts-design.md
+
+# Raw source roadmaps for local completeness checks — NEVER commit (public repo, contains disclosure)
+tests/fixtures/*roadmap*.md

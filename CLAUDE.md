@@ -105,6 +105,24 @@ The adapter pattern lets us sync from heterogeneous sources (plain markdown, cus
 | `parse_jt_roadmap` | `docs/PRODUCTION_ROADMAP.md` | roadmap | `## PHASE N: Name` H2s, task-list body, no per-phase percent (renderer omits the badge) |
 | `parse_fl_roadmap` | `client/src/pages/Roadmap.tsx` | roadmap | extracts `productRoadmap` TypeScript data array via brace-counted slicing; phases → modules, items → features |
 
+**Reader-facing copy layer.** Roadmap sources are written for engineers; the
+published pages are not. `bin/roadmap-copy.json` holds two per-project rules
+applied by `apply_public_copy()` between the adapter and the renderer:
+`public_phases` (which phases may be published) and `plain_english` (how each
+line reads). Both **fail closed** — an unlisted phase or untranslated item is
+dropped, never rendered raw — and drops are reported via
+`record_heartbeat(partial_success=True)`, surfacing in `.feeds-heartbeat.json`
+as `last_error` without tripping the 48h staleness monitor. A project absent
+from the file passes through unchanged (`fantastic-leagues` — its source is
+already user-facing). Coverage is enforced two ways, both leak-safe for this
+public repo: `TestCopyMapMechanism` (synthetic input, always runs in CI —
+proves an unmapped surviving item is reported, never silently kept) and
+`TestCopyMapCompletenessLocal` (author-machine-only — reads gitignored
+`tests/fixtures/*roadmap*.md` real-source fixtures and fails on any
+untranslated item; skips cleanly when the fixtures are absent, e.g. in CI).
+Source repos are never modified. Design:
+`docs/superpowers/specs/2026-07-21-non-technical-roadmap-copy-design.md`.
+
 **Currently wired (6 (slug, doctype) entries)** — see `PROJECT_DOCS` in the script:
 
 | Slug | Doctype | Source | Destination |
@@ -277,7 +295,7 @@ All code-review findings from four reviews (initial, 2026-04-18 full-repo audit,
 
 ## Testing
 
-**381 tests** across 11 files: 300 unit tests (10 files) + 81 E2E tests (1 file). Run locally with `python3 -m pytest tests/ -v` (requires `pytest`).
+**398 tests** across 11 files: 317 unit tests (10 files) + 81 E2E tests (1 file). Run locally with `python3 -m pytest tests/ -v` (requires `pytest`).
 
 See `docs/test-plan.md` for the full testing strategy, inventory by file, and CI cadence. Unit tests cover individual feed sync scripts + the shared `_shared.py` utilities. E2E tests cover all pages: meta tags, CSP, feed markers, print stylesheet, sitemap, top-nav consistency, cross-project nav, detail cards, quotes section, and more.
 
