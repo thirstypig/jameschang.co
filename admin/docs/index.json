@@ -1,0 +1,237 @@
+{
+  "generated": "2026-07-23T19:00:39+00:00",
+  "sections": [
+    {
+      "key": "product",
+      "label": "Product",
+      "blurb": "what & why — specs, roadmap, intake"
+    },
+    {
+      "key": "engineering",
+      "label": "Engineering",
+      "blurb": "how it's built — decisions, APIs, tests"
+    },
+    {
+      "key": "operations",
+      "label": "Operations",
+      "blurb": "under the hood — stats, costs, changelog, runbook"
+    },
+    {
+      "key": "security",
+      "label": "Security & risk",
+      "blurb": "risks, privacy, open questions"
+    },
+    {
+      "key": "foundations",
+      "label": "Foundations",
+      "blurb": "glossary, rules, conventions"
+    },
+    {
+      "key": "notes",
+      "label": "Notes",
+      "blurb": "scratchpad & inbox"
+    }
+  ],
+  "docs": [
+    {
+      "id": "ADR-001",
+      "type": "adr",
+      "status": "draft",
+      "project": "aleph",
+      "tags": [
+        "infra"
+      ],
+      "title": "ADR-001: Aleph's core stack",
+      "path": "projects/aleph/adrs/ADR-001-stack-choice.md",
+      "section": "engineering",
+      "html": "<h1>ADR-001: Aleph's core stack</h1>\n<h2>Context</h2>\n<p>[unknown] What did Aleph need at the start — speed to ship, PDF generation, auth, per-tenant data, payments? The requirements that drove the stack choice aren't recorded here. <strong>← fill from the repo / your memory.</strong></p>\n<h2>Decision</h2>\n<p>[unknown] The actual framework / DB / auth / hosting choices. <strong>← fill.</strong></p>\n<h2>Consequences</h2>\n<p>[unknown] What the choice made easy vs. hard, and what Aleph is now locked into.</p>"
+    },
+    {
+      "id": "DOC-004",
+      "type": "api-docs",
+      "status": "draft",
+      "project": "aleph",
+      "tags": [],
+      "title": "Aleph — API docs",
+      "path": "projects/aleph/api-docs.md",
+      "section": "engineering",
+      "html": "<h1>Aleph — API docs</h1>"
+    },
+    {
+      "id": "DOC-008",
+      "type": "changelog",
+      "status": "active",
+      "project": "aleph",
+      "tags": [],
+      "title": "Aleph — changelog",
+      "path": "projects/aleph/changelog.md",
+      "section": "operations",
+      "html": "<h1>Aleph — changelog</h1>\n<p>What shipped, when. Newest first. Appendable from phase/feature completions.</p>\n<table><thead><tr><th>date</th><th>what shipped</th><th>links</th></tr></thead><tbody><tr><td></td><td></td><td></td></tr></tbody></table>"
+    },
+    {
+      "id": "DOC-007",
+      "type": "component-lib",
+      "status": "draft",
+      "project": "aleph",
+      "tags": [],
+      "title": "Aleph — component library",
+      "path": "projects/aleph/component-library.md",
+      "section": "engineering",
+      "html": "<h1>Aleph — component library</h1>"
+    },
+    {
+      "id": "PRD-001",
+      "type": "prd",
+      "status": "active",
+      "project": "aleph",
+      "tags": [
+        "compliance"
+      ],
+      "title": "Aleph — CPC certificate generation",
+      "path": "projects/aleph/prds/PRD-001-cpc-certificate.md",
+      "section": "product",
+      "html": "<h1>Aleph — CPC certificate generation</h1>\n<h2>1. Problem statement</h2>\n<p>[inferred] US importers of children's products (age 12 and under) must issue a Children's Product Certificate (CPC) under CPSIA. Doing it by hand — collating lab results, standards, and importer data into a compliant PDF — is error-prone and slow.</p>\n<h2>2. Strategic rationale</h2>\n<p>[unknown] Why CPC first among Aleph's modules (vs. Prop 65, PFAS, FSVP)? Likely a beachhead choice, but the ordering rationale isn't recorded. <strong>← James to confirm.</strong></p>\n<h2>3. User story</h2>\n<p>[inferred] As an importer, I want to generate a filing-ready CPC from my product + lab data so that I can clear customs without hand-building the certificate.</p>\n<h2>4. Hypothesis / assumptions</h2>\n<ul><li>[inferred] Importers will trust a generated CPC enough to file it.</li><li>[unknown] The bet on <em>what</em> makes them switch from spreadsheets/consultants. <strong>← confirm.</strong></li></ul>\n<h2>5. Impact &amp; KPIs</h2>\n<ul><li>(a) SHOULD measure: [unknown] certificates generated, time-to-first-CPC, activation→paid.</li><li>(b) TODAY: [unknown] — is any of this instrumented? Not visible from public docs. <strong>← confirm.</strong></li></ul>\n<h2>6. Technical notes</h2>\n<p>[inferred] Workflow: add product → upload lab test report → complete the 7-field CPC form → preview → generate a formatted PDF. PDF generation via <code>pdf-lib</code>. (Details from the public roadmap; verify against the app repo when we do the archaeology pass.)</p>\n<h2>7. AI implementation notes</h2>\n<p>[unknown] Does CPC use any AI (e.g. extracting fields from the lab PDF), or is it pure form-fill? Public docs don't say. <strong>← confirm.</strong></p>\n<h2>8. Testing plan</h2>\n<p>[unknown] What tests cover CPC generation today? Fill from the <code>alephco.io-app</code> repo.</p>\n<h2>9. Deferred / what we'd do differently</h2>\n<p>[unknown] Reserved for the hindsight pass — fill once we read the code.</p>"
+    },
+    {
+      "id": "DOC-005",
+      "type": "decision-log",
+      "status": "draft",
+      "project": "aleph",
+      "tags": [],
+      "title": "Aleph — decision log",
+      "path": "projects/aleph/decision-log.md",
+      "section": "engineering",
+      "html": "<h1>Aleph — decision log</h1>"
+    },
+    {
+      "id": "DOC-010",
+      "type": "experiment",
+      "status": "active",
+      "project": "aleph",
+      "tags": [],
+      "title": "Aleph — experiment log",
+      "path": "projects/aleph/experiment-log.md",
+      "section": "operations",
+      "html": "<h1>Aleph — experiment log</h1>\n<p>Closes the loop on PRD hypotheses: what we bet, what happened. One example linked to PRD-001; add real experiments as you run them.</p>\n<table><thead><tr><th>id</th><th>hypothesis (from PRD)</th><th>metric</th><th>result</th><th>links</th></tr></thead><tbody><tr><td>EXP-001</td><td>Importers will trust a generated CPC enough to file it (PRD-001 §4).</td><td>[unknown — not instrumented]</td><td>pending</td><td>PRD-001</td></tr></tbody></table>"
+    },
+    {
+      "id": "DOC-011",
+      "type": "privacy",
+      "status": "active",
+      "project": "aleph",
+      "tags": [
+        "compliance",
+        "data-model"
+      ],
+      "title": "Aleph — privacy & data handling",
+      "path": "projects/aleph/privacy-data-handling.md",
+      "section": "security",
+      "html": "<h1>Aleph — privacy &amp; data handling</h1>\n<blockquote><strong>Important — this product handles sensitive business data</strong> (importer identities, product/supplier records, lab test reports). Treat this doc as load-bearing, not boilerplate. (Portfolio note: the single most sensitive privacy case is <strong>Vouch</strong>, which handles data about <strong>minors</strong> — give its version extra care.)</blockquote>\n<ul><li><strong>What's recorded:</strong> [unknown] — enumerate the personal/business data collected.</li><li><strong>Where it's stored:</strong> [unknown] — database, file storage for lab PDFs, etc.</li><li><strong>How long it's kept:</strong> [unknown] — retention policy per data type.</li><li><strong>What's deleted, and when:</strong> [unknown] — on account close? on request?</li><li><strong>Who can access it:</strong> [unknown] — per-tenant isolation, admin access.</li></ul>"
+    },
+    {
+      "id": "DOC-009",
+      "type": "risk",
+      "status": "active",
+      "project": "aleph",
+      "tags": [
+        "compliance"
+      ],
+      "title": "Aleph — risks & open questions",
+      "path": "projects/aleph/risks-register.md",
+      "section": "security",
+      "html": "<h1>Aleph — risks &amp; open questions</h1>\n<p>Running list. Each risk has a stable <code>RISK-###</code>, a status, and an owner. Two examples to show the shape — replace with Aleph's real risks.</p>\n<table><thead><tr><th>id</th><th>risk / open question</th><th>likelihood·impact</th><th>status</th><th>owner</th></tr></thead><tbody><tr><td>RISK-001</td><td>An importer files a generated CPC that a regulator later rejects — liability + trust hit.</td><td>[unknown]</td><td>open</td><td>james</td></tr><tr><td>RISK-002</td><td>Regulatory formats change (CPSC e-filing mandate) and generated docs go stale.</td><td>[unknown]</td><td>open</td><td>james</td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr></tbody></table>"
+    },
+    {
+      "id": "DOC-012",
+      "type": "runbook",
+      "status": "active",
+      "project": "aleph",
+      "tags": [
+        "infra"
+      ],
+      "title": "Aleph — runbook",
+      "path": "projects/aleph/runbook.md",
+      "section": "operations",
+      "html": "<h1>Aleph — runbook</h1>\n<p>How to operate Aleph. Fill from how it's actually deployed.</p>\n<ul><li><strong>Deploy:</strong> [unknown] — how a change reaches production.</li><li><strong>Rotate keys / secrets:</strong> [unknown] — which secrets, where, how often.</li><li><strong>When a key service breaks:</strong> [unknown] — DB down? PDF service down? payments down?</li></ul>\n<p>What the user sees and the first thing to check.</p>\n<ul><li><strong>Backups / restore:</strong> [unknown].</li></ul>"
+    },
+    {
+      "id": "DOC-003",
+      "type": "tech-spec",
+      "status": "draft",
+      "project": "aleph",
+      "tags": [],
+      "title": "Aleph — tech spec",
+      "path": "projects/aleph/tech-spec.md",
+      "section": "engineering",
+      "html": "<h1>Aleph — tech spec</h1>"
+    },
+    {
+      "id": "DOC-006",
+      "type": "testing",
+      "status": "draft",
+      "project": "aleph",
+      "tags": [],
+      "title": "Aleph — testing strategy",
+      "path": "projects/aleph/testing-strategy.md",
+      "section": "engineering",
+      "html": "<h1>Aleph — testing strategy</h1>"
+    },
+    {
+      "id": "DOC-COSTS-aleph",
+      "type": "costs",
+      "status": "draft",
+      "project": "aleph",
+      "tags": [
+        "payments"
+      ],
+      "title": "aleph — unit economics",
+      "path": "projects/aleph/costs.md",
+      "section": "operations",
+      "html": "<h1>aleph — unit economics</h1>\n<p>_Numbers flagged <strong>(VERIFY)</strong> are unconfirmed inputs — never present them as fact until confirmed and removed from <code>_verify</code> in costs.config.json._</p>\n<h2>Assumptions</h2>\n<ul><li>Plan price: $0.00/user/month  <strong>(VERIFY)</strong></li><li>Usage: 0 certificates/user/month  <strong>(VERIFY)</strong>, avg 0 pages  <strong>(VERIFY)</strong></li><li>Primary variable: $0.00/certificates  <strong>(VERIFY)</strong></li><li>Auth: $0.00/user/mo  <strong>(VERIFY)</strong> · DB: $0.00/user/mo  <strong>(VERIFY)</strong> · Hosting: $0.00/mo flat  <strong>(VERIFY)</strong></li><li>Payments: 2.9% + $0.30 per charge</li></ul>\n<h2>Margin by tier</h2>\n<table><thead><tr><th>users</th><th>var/user/mo</th><th>total var</th><th>hosting</th><th>pay fees</th><th>revenue</th><th>gross margin $</th><th>margin %</th></tr></thead><tbody><tr><td>10</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>0%</td></tr><tr><td>100</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>0%</td></tr><tr><td>1,000</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>0%</td></tr></tbody></table>"
+    },
+    {
+      "id": "DOC-001",
+      "type": "intake-rules",
+      "status": "active",
+      "project": "portfolio",
+      "tags": [],
+      "title": "Feature intake rules — the gate before a PRD",
+      "path": "foundations/feature-intake-rules.md",
+      "section": "foundations",
+      "html": "<h1>Feature intake rules — the gate before a PRD</h1>\n<p>Across the portfolio, a new feature idea does <strong>not</strong> get a PRD (and does not enter a project's locked scope) until it can answer all five questions below. This is the filter that keeps periphery from crowding out core.</p>\n<p>1. <strong>What problem, for whom?</strong> — a real user and a real pain, not \"it'd be cool.\" 2. <strong>Which KPI does it move, and the target?</strong> — name the metric and the number. 3. <strong>Core or periphery?</strong> — does it strengthen this project's core value, or is it a nice-to-have on the edge? 4. <strong>What does it cost?</strong> — build effort <em>and</em> ongoing run cost (infra, per-use, LLM). 5. <strong>What are we deferring to fit it?</strong> — nothing is free; name the trade.</p>\n<p><strong>Rule:</strong> nothing enters a project's <code>launch-spec</code> (locked scope) without a PRD that clears this gate. The default answer to a new mid-cycle idea is <strong>\"not yet — log it in the roadmap\"</strong>, not \"let's build it.\"</p>"
+    },
+    {
+      "id": "DOC-002",
+      "type": "glossary",
+      "status": "active",
+      "project": "portfolio",
+      "tags": [],
+      "title": "Glossary",
+      "path": "foundations/glossary.md",
+      "section": "foundations",
+      "html": "<h1>Glossary</h1>\n<p>Define every project-specific term, acronym, and persona here — so a doc can use a term once and link to its definition. A few examples to show the shape; fill in the rest.</p>\n<table><thead><tr><th>term</th><th>project(s)</th><th>meaning</th></tr></thead><tbody><tr><td>CPC</td><td>aleph</td><td>Children's Product Certificate — the CPSIA filing Aleph generates.</td></tr><tr><td>keeper league</td><td>fantastic-leagues</td><td>A fantasy format where managers retain players season-to-season.</td></tr><tr><td>counterpart</td><td>spar</td><td>The AI persona a user rehearses a difficult conversation against.</td></tr><tr><td></td><td></td><td></td></tr></tbody></table>"
+    },
+    {
+      "id": "DOC-INBOX",
+      "type": "note",
+      "status": "active",
+      "project": "portfolio",
+      "tags": [],
+      "title": "Inbox",
+      "path": "INBOX.md",
+      "section": "notes",
+      "html": "<h1>Inbox</h1>\n<p>_3 open · 1 resolved · regenerated 2026-07-23 16:33 UTC_</p>\n<p>Start each session here: act on <strong>change requests</strong>, answer <strong>questions</strong>, then resolve them (status → resolved, with a note) so they clear.</p>\n<h2>Change requests (1)</h2>\n<ul><li><strong>[PRD-001]</strong> (C-001 · 2026-07-23) — Fill the strategic rationale — why CPC was Aleph's beachhead module (currently [unknown]).</li></ul>\n<h2>Questions (1)</h2>\n<ul><li><strong>[PRD-001]</strong> (C-002 · 2026-07-22) — Is CPC generation instrumented at all? Need to know before writing KPIs.</li></ul>\n<h2>Notes (1)</h2>\n<ul><li><strong>[DOC-002]</strong> (C-003 · 2026-07-21) — Add FSVP, Prop 65, PFAS, roto, cohort, debrief to the glossary.</li></ul>\n<h2>Recently resolved (1)</h2>\n<ul><li><del>[ADR-001] C-004</del> — One ADR for the core stack; split later only if a layer changes. → ADR-001</li></ul>"
+    },
+    {
+      "id": "DOC-STATS",
+      "type": "stats",
+      "status": "active",
+      "project": "portfolio",
+      "tags": [],
+      "title": "Stats",
+      "path": "under-the-hood/stats.md",
+      "section": "operations",
+      "html": "<h1>Stats</h1>\n<p>_Regenerated 2026-07-23 19:00 UTC. LOC is a rough vanity signal, tracked for reference — real progress is features/phases shipped._</p>\n<h2>Docs hub</h2>\n<ul><li><strong>15</strong> authored docs · <strong>1</strong> of <strong>11</strong> projects have at least one PRD</li></ul>\n<p><strong>By type</strong></p>\n<table><thead><tr><th>type</th><th>count</th></tr></thead><tbody><tr><td>adr</td><td>1</td></tr><tr><td>api-docs</td><td>1</td></tr><tr><td>changelog</td><td>1</td></tr><tr><td>component-lib</td><td>1</td></tr><tr><td>costs</td><td>1</td></tr><tr><td>decision-log</td><td>1</td></tr><tr><td>experiment</td><td>1</td></tr><tr><td>glossary</td><td>1</td></tr><tr><td>intake-rules</td><td>1</td></tr><tr><td>prd</td><td>1</td></tr><tr><td>privacy</td><td>1</td></tr><tr><td>risk</td><td>1</td></tr><tr><td>runbook</td><td>1</td></tr><tr><td>tech-spec</td><td>1</td></tr><tr><td>testing</td><td>1</td></tr></tbody></table>\n<p><strong>By status</strong></p>\n<table><thead><tr><th>status</th><th>count</th></tr></thead><tbody><tr><td>active</td><td>8</td></tr><tr><td>draft</td><td>7</td></tr></tbody></table>\n<p><strong>By project</strong></p>\n<table><thead><tr><th>project</th><th>docs</th></tr></thead><tbody><tr><td>aleph</td><td>13</td></tr><tr><td>portfolio</td><td>2</td></tr></tbody></table>\n<h2>Portfolio</h2>\n<ul><li><strong>11</strong> projects on the board</li></ul>\n<table><thead><tr><th>pm-status</th><th>count</th></tr></thead><tbody><tr><td>blocked</td><td>3</td></tr><tr><td>exploring</td><td>3</td></tr><tr><td>on-track</td><td>4</td></tr><tr><td>stalled</td><td>1</td></tr></tbody></table>\n<h2>Repo (jameschang.co)</h2>\n<ul><li><strong>326</strong> tracked files · <strong>54,284</strong> total lines</li></ul>\n<p><strong>Lines by file type (top 8)</strong></p>\n<table><thead><tr><th>ext</th><th>lines</th></tr></thead><tbody><tr><td>.md</td><td>12,396</td></tr><tr><td>.py</td><td>9,385</td></tr><tr><td>.pdf</td><td>8,429</td></tr><tr><td>.html</td><td>6,575</td></tr><tr><td>.webp</td><td>6,275</td></tr><tr><td>.avif</td><td>3,346</td></tr><tr><td>.css</td><td>3,044</td></tr><tr><td>.png</td><td>1,643</td></tr></tbody></table>"
+    }
+  ]
+}

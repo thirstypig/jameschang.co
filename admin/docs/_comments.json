@@ -1,0 +1,42 @@
+{
+  "_comment": "Local stub for the docs-board comment inbox. bin/sync-inbox.py reads this and regenerates INBOX.md. TODO: point at the real comment store (per project stack) when the board writes comments live.",
+  "comments": [
+    {
+      "id": "C-001",
+      "doc": "PRD-001",
+      "kind": "change_request",
+      "author": "james",
+      "status": "open",
+      "created": "2026-07-23T10:00:00Z",
+      "body": "Fill the strategic rationale — why CPC was Aleph's beachhead module (currently [unknown])."
+    },
+    {
+      "id": "C-002",
+      "doc": "PRD-001",
+      "kind": "question",
+      "author": "james",
+      "status": "open",
+      "created": "2026-07-22T18:30:00Z",
+      "body": "Is CPC generation instrumented at all? Need to know before writing KPIs."
+    },
+    {
+      "id": "C-003",
+      "doc": "DOC-002",
+      "kind": "note",
+      "author": "james",
+      "status": "open",
+      "created": "2026-07-21T09:00:00Z",
+      "body": "Add FSVP, Prop 65, PFAS, roto, cohort, debrief to the glossary."
+    },
+    {
+      "id": "C-004",
+      "doc": "ADR-001",
+      "kind": "question",
+      "author": "james",
+      "status": "resolved",
+      "created": "2026-07-20T12:00:00Z",
+      "body": "Should the stack ADR be one doc or split per layer?",
+      "resolution": { "note": "One ADR for the core stack; split later only if a layer changes.", "link": "ADR-001" }
+    }
+  ]
+}

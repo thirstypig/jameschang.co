@@ -1,0 +1,20 @@
+{
+  "_note": "Per-project unit-economics inputs. refresh-docs.py turns this into costs.md. Fill real numbers and remove each field from _verify as you confirm it. Anything still in _verify prints as VERIFY so a guess is never shown as fact.",
+  "assumptions": {
+    "unitsPerUserPerMonth": 0, "unitLabel": "certificates",
+    "avgUnitSize": 0, "unitSizeLabel": "pages",
+    "planPriceUsd": 0
+  },
+  "unitCosts": {
+    "primaryVariablePerUnit": 0,
+    "perUserMonthAuth": 0,
+    "perUserMonthDb": 0,
+    "hostingFlatMonth": 0,
+    "paymentPctFee": 0.029,
+    "paymentFlatFee": 0.30
+  },
+  "tiers": [10, 100, 1000],
+  "_verify": ["unitsPerUserPerMonth", "avgUnitSize", "planPriceUsd",
+              "primaryVariablePerUnit", "perUserMonthAuth", "perUserMonthDb",
+              "hostingFlatMonth"]
+}

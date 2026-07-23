@@ -293,6 +293,24 @@ Performance: 100 | Accessibility: 100 | Best Practices: 100 | SEO: 100. Total pa
 
 All code-review findings from four reviews (initial, 2026-04-18 full-repo audit, 2026-04-29 whole-repo audit, 2026-05-05 cross-repo-admin sweep) have been resolved or deferred with a documented work log. See `todos/*` for the full history — **147 files: 145 resolved (57 `complete` + 88 `done`), 2 discarded, 0 pending**. As of 2026-07-13 all code-review + audit items are resolved: the last open item `todos/147` (the quarterly `docs/solutions/` audit) was re-run across all 21 solution docs and its drift fixed this session. (`todos/146` — snapshot-banner asymmetry on the JT `roadmap/` + `changelog/` sub-pages — was resolved 2026-06-25 via commit `5292f04`.) The former long-pending item (`todos/129`) — admin-side CSP for the Tina shell on thirstypig.com — was resolved via Vercel HTTP headers in `vercel.json` (CSP + X-Frame-Options on `/admin/*`), which survives `tinacms build` unlike a meta tag approach. The 2026-04-29 sweep is captured in `todos/089-120`; the 2026-05-05 sweep in `todos/121-136`. Matching solution docs: `docs/solutions/integration-issues/relative-time-html-defeats-content-changed-cache.md`, `docs/solutions/integration-issues/cross-repo-admin-via-github-contents-api.md`, `docs/solutions/integration-issues/marker-boundary-content-staleness.md`, `docs/solutions/integration-issues/per-project-adapters-for-heterogeneous-roadmap-sources.md`.
 
+## Admin area + portfolio docs hub
+
+A private-ish `/admin/` area (footer "login" curtain → gated page). **It is a curtain, not a lock** — the repo is public and GitHub Pages can't authenticate, so the password is stored only as a SHA-256 hash and everything on `/admin/` is effectively public. **Binding rule: `/admin/` holds public-safe content ONLY** — no secrets, tokens, env-var names, or expiry dates (those belong in the encrypted/local registry track, never a public page). The portfolio board (`admin/portfolio.js` + `admin/portfolio.json`) is the first panel.
+
+**Portfolio docs hub** lives under `admin/docs/` (module-isolated with the admin feature). It's a browsable, read-only knowledge base for **all portfolio projects** (not jameschang.co's own code — that stays in `docs/solutions/` + `docs/guides/`). Full spec: `admin/docs/README-DOCS.md`. Key conventions:
+
+- **Frontmatter** — every authored doc opens with YAML: `id`, `type`, `project` (slug from `bin/projects-config.json`, or `portfolio`), `status` (`draft|active|locked|done|deprecated`), `owner`, `tags`, `links`, `updated`. The board indexes this block, never the filename. No frontmatter → invisible to the board.
+- **IDs** — stable, never reused: `PRD-###` · `ADR-###` · `DOC-###` · `RISK-###` · `EXP-###`.
+- **Tags** — a CLOSED controlled vocab (see README-DOCS.md); never invent a one-off tag.
+- **Structure** — `projects/<slug>/` (per-project: prds, adrs, roadmap, tech-spec, api-docs, changelog, risks, experiments, privacy, runbook, notes, costs), `foundations/` (glossary, intake-rules), `under-the-hood/` (generated stats), `_templates/`. Aleph is the fully-worked reference project.
+- **"done" is a status, not a move** — a finished doc gets `status: done` and surfaces under a filter; it is NOT relocated.
+
+**Two scripts (Python, no Node):**
+- `python3 bin/sync-inbox.py` — regenerates `admin/docs/INBOX.md` from `admin/docs/_comments.json` (change-requests first, newest first; resolved drop to a tail).
+- `python3 bin/refresh-docs.py` — regenerates the living docs (`under-the-hood/stats.md`, per-project `costs.md` from `costs.config.json`, the README status block). **Run before every push** so counts/costs never go stale. Idempotent.
+
+**Comment-inbox ritual (do this at session start when working the hub):** read `admin/docs/INBOX.md`; act on change-requests, answer questions; then resolve each in `_comments.json` (status → `resolved` + a one-line note/link) and re-run `sync-inbox.py` so it clears.
+
 ## Testing
 
 **398 tests** across 11 files: 317 unit tests (10 files) + 81 E2E tests (1 file). Run locally with `python3 -m pytest tests/ -v` (requires `pytest`).

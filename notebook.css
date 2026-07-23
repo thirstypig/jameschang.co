@@ -2224,3 +2224,71 @@ a:hover { text-decoration: underline; }
   font-size: 0.85rem;
   color: var(--dim);
 }
+
+/* /admin/docs/ — docs board viewer */
+.nb-docs-head {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 1rem; flex-wrap: wrap;
+}
+.nb-docs-head-links { font-family: var(--mono); font-size: 0.85rem; color: var(--dim); }
+.nb-docs-head-links a { color: var(--accent); }
+.nb-docs-search {
+  width: 100%; box-sizing: border-box; margin: 0.5rem 0 1.25rem;
+  font-family: var(--mono); font-size: 0.9rem; padding: 0.6rem 0.75rem;
+  background: var(--surface-2); color: var(--ink);
+  border: var(--border-w) solid var(--rule);
+}
+.nb-docs-search:focus { outline: none; border-color: var(--accent); }
+.nb-docs-layout { display: grid; grid-template-columns: minmax(15rem, 20rem) 1fr; gap: 1.5rem; }
+@media (max-width: 720px) { .nb-docs-layout { grid-template-columns: 1fr; } }
+
+.nb-docs-sidebar { align-self: start; }
+.nb-docs-section-head { margin: 1.1rem 0 0.4rem; }
+.nb-docs-section-head:first-child { margin-top: 0; }
+.nb-docs-section-title {
+  font-family: var(--mono); font-size: 0.7rem; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--ink); margin: 0;
+}
+.nb-docs-section-blurb { font-size: 0.72rem; color: var(--dim); margin: 0.1rem 0 0.4rem; }
+.nb-docs-row {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem;
+  width: 100%; text-align: left; background: none; border: none; cursor: pointer;
+  padding: 0.3rem 0.4rem; color: var(--ink); font-size: 0.85rem;
+  border-left: 2px solid transparent;
+}
+.nb-docs-row:hover { background: var(--surface-2); }
+.nb-docs-row.is-active { border-left-color: var(--accent); background: var(--surface-2); }
+.nb-docs-row-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nb-docs-badge {
+  font-family: var(--mono); font-size: 0.6rem; text-transform: lowercase;
+  padding: 0.05rem 0.35rem; border: 1px solid currentColor; flex-shrink: 0;
+}
+.nb-docs-badge--draft { color: var(--dim); }
+.nb-docs-badge--active { color: var(--pos); }
+.nb-docs-badge--locked { color: var(--warn); }
+.nb-docs-badge--done { color: var(--accent); }
+.nb-docs-badge--deprecated { color: var(--danger); }
+
+.nb-docs-content { min-width: 0; border-left: var(--border-w) solid var(--rule); padding-left: 1.5rem; }
+@media (max-width: 720px) { .nb-docs-content { border-left: none; padding-left: 0; border-top: var(--border-w) solid var(--rule); padding-top: 1rem; } }
+.nb-docs-meta { font-family: var(--mono); font-size: 0.72rem; color: var(--dim); margin: 0 0 0.5rem; }
+.nb-docs-meta-id { color: var(--accent); }
+.nb-docs-path { font-family: var(--mono); font-size: 0.7rem; color: var(--dim); margin-top: 1.5rem; padding-top: 0.5rem; border-top: 1px dashed var(--rule); }
+.nb-docs-empty { color: var(--dim); font-size: 0.9rem; }
+
+/* rendered markdown inside a doc */
+.nb-doc-content { min-width: 0; overflow-x: auto; }
+.nb-doc-content h1 { font-size: 1.4rem; margin: 0 0 0.6rem; }
+.nb-doc-content h2 { font-size: 1.1rem; margin: 1.4rem 0 0.5rem; }
+.nb-doc-content h3 { font-size: 0.95rem; margin: 1.1rem 0 0.4rem; }
+.nb-doc-content h4 { font-size: 0.85rem; margin: 1rem 0 0.3rem; color: var(--dim); }
+.nb-doc-content p, .nb-doc-content li { font-size: 0.9rem; line-height: 1.6; }
+.nb-doc-content a { color: var(--accent); }
+.nb-doc-content code { font-family: var(--mono); font-size: 0.82em; background: var(--surface-2); padding: 0.05rem 0.3rem; }
+.nb-doc-content pre { background: var(--surface-2); padding: 0.75rem; overflow-x: auto; border: 1px solid var(--rule); }
+.nb-doc-content pre code { background: none; padding: 0; font-size: 0.8rem; }
+.nb-doc-content blockquote { border-left: 3px solid var(--accent); margin: 0.75rem 0; padding: 0.2rem 0 0.2rem 0.9rem; color: var(--dim); }
+.nb-doc-content table { border-collapse: collapse; font-size: 0.82rem; margin: 0.6rem 0; display: block; overflow-x: auto; }
+.nb-doc-content th, .nb-doc-content td { border: 1px solid var(--rule); padding: 0.35rem 0.55rem; text-align: left; vertical-align: top; }
+.nb-doc-content th { background: var(--surface-2); font-family: var(--mono); font-size: 0.72rem; }
+.nb-doc-content hr { border: none; border-top: 1px dashed var(--rule); margin: 1rem 0; }
