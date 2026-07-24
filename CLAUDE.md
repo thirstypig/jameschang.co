@@ -295,7 +295,7 @@ All code-review findings from four reviews (initial, 2026-04-18 full-repo audit,
 
 ## Admin area + portfolio docs hub
 
-A private-ish `/admin/` area (footer "login" curtain → gated page). **It is a curtain, not a lock** — the repo is public and GitHub Pages can't authenticate, so the password is stored only as a SHA-256 hash and everything on `/admin/` is effectively public. **Binding rule: `/admin/` holds public-safe content ONLY** — no secrets, tokens, env-var names, or expiry dates (those belong in the encrypted/local registry track, never a public page). The portfolio board (`admin/portfolio.js` + `admin/portfolio.json`) is the first panel.
+A private-ish `/admin/` area (footer "login" curtain → gated page). **It is a curtain, not a lock** — the repo is public and GitHub Pages can't authenticate, so the password is stored only as a SHA-256 hash and everything on `/admin/` is effectively public. **Binding rule: `/admin/` holds public-safe content ONLY** — nothing that isn't already public in this repo, and never secret *values*, expiry dates, or the encrypted registry (those belong in the encrypted/local registry track, never a public page). Env-var *names* that already appear in committed docs are fine; the guard test matches assigned values, not mentions. The portfolio board (`admin/portfolio.js` + `admin/portfolio.json`) is the first panel.
 
 **Portfolio docs hub** lives under `admin/docs/` (module-isolated with the admin feature). It's a browsable, read-only knowledge base for **all portfolio projects** (not jameschang.co's own code — that stays in `docs/solutions/` + `docs/guides/`). Full spec: `admin/docs/README-DOCS.md`. Key conventions:
 
