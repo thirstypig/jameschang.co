@@ -248,6 +248,7 @@ def build_index():
             "id": fm.get("id", ""),
             "type": fm.get("type", ""),
             "status": fm.get("status", ""),
+            "stage": fm.get("stage", ""),
             "project": fm.get("project", ""),
             "tags": fm.get("tags", []) if isinstance(fm.get("tags"), list) else [],
             "title": extract_title(body, rel),

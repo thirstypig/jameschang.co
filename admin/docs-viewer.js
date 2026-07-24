@@ -25,13 +25,42 @@
     return hay.includes(q);
   };
 
+  const PINNED_ID = "DOC-PM-REVIEW"; // the cockpit — pinned on top, landing view
+
+  const makeRow = (d) => {
+    const row = el("button", "nb-docs-row");
+    row.type = "button";
+    if (d.id === currentId) row.classList.add("is-active");
+    const t = el("span", "nb-docs-row-title", d.title);
+    t.title = `${d.title} · ${d.project}`;
+    row.append(t);
+    if (d.status) {
+      row.append(el("span", `nb-docs-badge nb-docs-badge--${d.status}`, d.status));
+    }
+    row.addEventListener("click", () => showDoc(d.id));
+    return row;
+  };
+
   const renderSidebar = (q) => {
     const sidebar = document.getElementById("docs-sidebar");
     sidebar.replaceChildren();
     let shown = 0;
+
+    // Pinned cockpit at the very top.
+    const pinned = INDEX.docs.find((d) => d.id === PINNED_ID);
+    if (pinned && matches(pinned, q)) {
+      const head = el("div", "nb-docs-section-head");
+      head.append(el("h2", "nb-docs-section-title", "★ Cockpit"));
+      head.append(el("p", "nb-docs-section-blurb",
+        "what needs your decision, across every project"));
+      sidebar.append(head);
+      sidebar.append(makeRow(pinned));
+      shown++;
+    }
+
     for (const section of INDEX.sections) {
       const docs = INDEX.docs
-        .filter((d) => d.section === section.key && matches(d, q))
+        .filter((d) => d.section === section.key && d.id !== PINNED_ID && matches(d, q))
         .sort((a, b) => a.title.localeCompare(b.title));
       if (!docs.length) continue;
 
@@ -42,18 +71,7 @@
 
       for (const d of docs) {
         shown++;
-        const row = el("button", "nb-docs-row");
-        row.type = "button";
-        if (d.id === currentId) row.classList.add("is-active");
-        const t = el("span", "nb-docs-row-title", d.title);
-        t.title = `${d.title} · ${d.project}`; // hover tooltip for long titles
-        row.append(t);
-        if (d.status) {
-          row.append(el("span",
-            `nb-docs-badge nb-docs-badge--${d.status}`, d.status));
-        }
-        row.addEventListener("click", () => showDoc(d.id));
-        sidebar.append(row);
+        sidebar.append(makeRow(d));
       }
     }
     if (!shown) {
@@ -100,6 +118,9 @@
     // Stable section order per the manifest; docs within already sorted server-side.
     void STATUS_ORDER;
     renderSidebar("");
+
+    // Land on the cockpit — the PM review — so the board opens on "what needs me".
+    if (INDEX.docs.some((d) => d.id === PINNED_ID)) showDoc(PINNED_ID);
 
     const search = document.getElementById("docs-search");
     search.addEventListener("input", () =>

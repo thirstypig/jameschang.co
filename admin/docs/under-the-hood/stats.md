@@ -13,11 +13,11 @@ updated: 2026-07-24
 
 # Stats
 
-_Regenerated 2026-07-24 06:06 UTC. LOC is a rough vanity signal, tracked for reference — real progress is features/phases shipped._
+_Regenerated 2026-07-24 08:01 UTC. LOC is a rough vanity signal, tracked for reference — real progress is features/phases shipped._
 
 ## Docs hub
 
-- **35** authored docs · **11** of **11** projects have at least one PRD
+- **41** authored docs · **11** of **11** projects have at least one PRD
 
 **By type**
 | type | count |
@@ -31,19 +31,20 @@ _Regenerated 2026-07-24 06:06 UTC. LOC is a rough vanity signal, tracked for ref
 | experiment | 1 |
 | glossary | 1 |
 | intake-rules | 1 |
-| prd | 11 |
-| privacy | 1 |
+| prd | 15 |
+| privacy | 2 |
 | risk | 1 |
 | roadmap | 10 |
 | runbook | 1 |
+| status | 1 |
 | tech-spec | 1 |
 | testing | 1 |
 
 **By status**
 | status | count |
 |---|---|
-| active | 24 |
-| draft | 11 |
+| active | 28 |
+| draft | 13 |
 
 **By project**
 | project | docs |
@@ -51,15 +52,15 @@ _Regenerated 2026-07-24 06:06 UTC. LOC is a rough vanity signal, tracked for ref
 | aleph | 13 |
 | bahtzang-trader | 2 |
 | fantastic-leagues | 2 |
-| jameschang-co | 2 |
+| jameschang-co | 6 |
 | judge-tool | 2 |
 | ktv-singer | 2 |
-| portfolio | 2 |
+| portfolio | 3 |
 | spar | 2 |
 | tabledrop | 2 |
 | tastemakers | 2 |
 | thirsty-pig | 2 |
-| vouch | 2 |
+| vouch | 3 |
 
 ## Portfolio
 
@@ -73,15 +74,15 @@ _Regenerated 2026-07-24 06:06 UTC. LOC is a rough vanity signal, tracked for ref
 
 ## Repo (jameschang.co)
 
-- **360** tracked files · **56,306** total lines
+- **381** tracked files · **57,604** total lines
 
 **Lines by file type (top 8)**
 | ext | lines |
 |---|---|
-| .md | 13,093 |
-| .py | 10,207 |
+| .md | 13,893 |
+| .py | 10,346 |
 | .pdf | 8,429 |
-| .html | 6,632 |
+| .html | 6,622 |
 | .webp | 6,275 |
 | .avif | 3,346 |
 | .css | 3,044 |

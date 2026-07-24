@@ -117,3 +117,17 @@ class TestExclusionsAndRealIndex:
         blob = open(path, encoding="utf-8").read().lower()
         for bad in ["client_secret", "private_key", "api_key", "password", "-----begin"]:
             assert bad not in blob, f"index.json contains sensitive marker: {bad!r}"
+
+
+class TestStageAndCockpit:
+    def test_stage_is_captured(self):
+        index = idx.build_index()
+        staged = [d for d in index["docs"] if d.get("stage")]
+        assert staged, "expected at least one stage-tagged PRD"
+        assert {"mvp", "shipped", "planned"} & {d["stage"] for d in staged}
+
+    def test_pm_review_cockpit_indexed(self):
+        index = idx.build_index()
+        pm = [d for d in index["docs"] if d["id"] == "DOC-PM-REVIEW"]
+        assert pm, "the generated PM-review cockpit should be indexed"
+        assert "portfolio cockpit" in pm[0]["html"].lower()

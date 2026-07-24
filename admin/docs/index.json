@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-24T07:49:25+00:00",
+  "generated": "2026-07-24T08:01:56+00:00",
   "sections": [
     {
       "key": "product",
@@ -37,6 +37,7 @@
       "id": "ADR-001",
       "type": "adr",
       "status": "draft",
+      "stage": "",
       "project": "aleph",
       "tags": [
         "infra"
@@ -50,6 +51,7 @@
       "id": "DOC-004",
       "type": "api-docs",
       "status": "draft",
+      "stage": "",
       "project": "aleph",
       "tags": [],
       "title": "Aleph — API docs",
@@ -61,6 +63,7 @@
       "id": "DOC-008",
       "type": "changelog",
       "status": "active",
+      "stage": "",
       "project": "aleph",
       "tags": [],
       "title": "Aleph — changelog",
@@ -72,6 +75,7 @@
       "id": "DOC-007",
       "type": "component-lib",
       "status": "draft",
+      "stage": "",
       "project": "aleph",
       "tags": [],
       "title": "Aleph — component library",
@@ -83,6 +87,7 @@
       "id": "PRD-001",
       "type": "prd",
       "status": "active",
+      "stage": "",
       "project": "aleph",
       "tags": [
         "compliance"
@@ -96,6 +101,7 @@
       "id": "DOC-005",
       "type": "decision-log",
       "status": "draft",
+      "stage": "",
       "project": "aleph",
       "tags": [],
       "title": "Aleph — decision log",
@@ -107,6 +113,7 @@
       "id": "DOC-010",
       "type": "experiment",
       "status": "active",
+      "stage": "",
       "project": "aleph",
       "tags": [],
       "title": "Aleph — experiment log",
@@ -118,6 +125,7 @@
       "id": "DOC-011",
       "type": "privacy",
       "status": "active",
+      "stage": "",
       "project": "aleph",
       "tags": [
         "compliance",
@@ -132,6 +140,7 @@
       "id": "DOC-009",
       "type": "risk",
       "status": "active",
+      "stage": "",
       "project": "aleph",
       "tags": [
         "compliance"
@@ -145,6 +154,7 @@
       "id": "DOC-012",
       "type": "runbook",
       "status": "active",
+      "stage": "",
       "project": "aleph",
       "tags": [
         "infra"
@@ -158,6 +168,7 @@
       "id": "DOC-003",
       "type": "tech-spec",
       "status": "draft",
+      "stage": "",
       "project": "aleph",
       "tags": [],
       "title": "Aleph — tech spec",
@@ -169,6 +180,7 @@
       "id": "DOC-006",
       "type": "testing",
       "status": "draft",
+      "stage": "",
       "project": "aleph",
       "tags": [],
       "title": "Aleph — testing strategy",
@@ -180,6 +192,7 @@
       "id": "DOC-COSTS-aleph",
       "type": "costs",
       "status": "draft",
+      "stage": "",
       "project": "aleph",
       "tags": [
         "payments"
@@ -193,6 +206,7 @@
       "id": "PRD-BT-001",
       "type": "prd",
       "status": "active",
+      "stage": "",
       "project": "bahtzang-trader",
       "tags": [
         "ai"
@@ -206,6 +220,7 @@
       "id": "DOC-BT-ROADMAP",
       "type": "roadmap",
       "status": "active",
+      "stage": "",
       "project": "bahtzang-trader",
       "tags": [],
       "title": "Bahtzang Trader — roadmap",
@@ -217,6 +232,7 @@
       "id": "PRD-FL-001",
       "type": "prd",
       "status": "active",
+      "stage": "",
       "project": "fantastic-leagues",
       "tags": [
         "ai",
@@ -231,6 +247,7 @@
       "id": "DOC-FL-ROADMAP",
       "type": "roadmap",
       "status": "active",
+      "stage": "",
       "project": "fantastic-leagues",
       "tags": [],
       "title": "Fantastic Leagues — roadmap",
@@ -239,9 +256,39 @@
       "html": "<h1>Fantastic Leagues — roadmap</h1>\n<p><strong>The live, detailed roadmap is public and auto-synced</strong> from the product: <a href=\"/projects/fantastic-leagues/roadmap/\" rel=\"noopener\">/projects/fantastic-leagues/roadmap/</a>. This is the strategic summary.</p>\n<ul><li><strong>Now (in-season):</strong> accuracy — standings + daily stat lines (portfolio \"next up\").</li><li><strong>Near:</strong> engagement (chat, notifications), paid data feeds (FanGraphs, Statcast).</li><li><strong>Later:</strong> scoring-format expansion (H2H categories, points, snake draft, pre-trade</li></ul>\n<p>AI advisor).</p>\n<ul><li><strong>2027:</strong> monetization (seasonal pricing, Stripe), growth (SEO, Yahoo import).</li></ul>"
     },
     {
+      "id": "PRD-JC-003",
+      "type": "prd",
+      "status": "active",
+      "stage": "shipped",
+      "project": "jameschang-co",
+      "tags": [
+        "ui-ux",
+        "ai"
+      ],
+      "title": "jameschang.co — internal admin area + docs hub",
+      "path": "projects/jameschang-co/prds/PRD-JC-003-admin-and-docs.md",
+      "section": "product",
+      "html": "<h1>jameschang.co — internal admin area + docs hub</h1>\n<h2>1. Problem statement</h2>\n<p>[inferred] Managing 11 projects, James had no single private place to see portfolio status or hold PRDs/roadmaps/decisions — and the sensitive parts can't be public.</p>\n<h2>2. Strategic rationale</h2>\n<p>[intended] A private-ish operator layer on the public site: a portfolio board (the operator's read) + a docs hub (PRDs/roadmaps per project) — turning the portfolio site into a place he can actually run the portfolio from.</p>\n<h2>3. User story</h2>\n<p>[inferred] As the operator, I want a gated view of every project's status + docs so I can review the whole portfolio in one place.</p>\n<h2>4. Hypothesis / assumptions</h2>\n<ul><li>[intended] Public-safe content only behind a curtain; secrets stay in the private/local track.</li><li>[intended] Same no-build-step stack (Python generates data, thin JS displays it).</li></ul>\n<h2>5. Impact &amp; KPIs</h2>\n<ul><li>(a) SHOULD measure: [unknown] whether the operator actually uses it weekly.</li><li>(b) TODAY: n/a — internal tool, pre-habit.</li></ul>\n<h2>6. Technical notes</h2>\n<p>[inferred] Footer login curtain (SHA-256, not real auth) → gated /admin/ portfolio board + /admin/docs/ viewer; a Python indexer builds the docs manifest the viewer reads.</p>\n<h2>7. AI implementation notes</h2>\n<p>[intended] Built entirely AI-assisted; the docs' retroactive PRDs were reconstructed with honest [intended]/[inferred]/[unknown] tagging.</p>\n<h2>8. Testing plan</h2>\n<p>[inferred] Login/gate, portfolio schema, and the docs indexer are unit + E2E tested.</p>\n<h2>9. Deferred / what we'd do differently</h2>\n<p>[inferred] Content is honest scaffolding; the archaeology (filling real PRDs) and the PM review cockpit are the next steps (PRD-JC-004).</p>"
+    },
+    {
+      "id": "PRD-JC-004",
+      "type": "prd",
+      "status": "draft",
+      "stage": "planned",
+      "project": "jameschang-co",
+      "tags": [
+        "ui-ux"
+      ],
+      "title": "jameschang.co — PM review cockpit",
+      "path": "projects/jameschang-co/prds/PRD-JC-004-pm-review-cockpit.md",
+      "section": "product",
+      "html": "<h1>jameschang.co — PM review cockpit</h1>\n<h2>1. Problem statement</h2>\n<p>[inferred] The docs hub is a library — you read one doc at a time. There's no view that answers the PM's actual question: <em>\"across all my projects, what needs my decision?\"</em> Open questions, launch blockers, and risks are scattered and invisible.</p>\n<h2>2. Strategic rationale</h2>\n<p>[intended] Turn the docs from storage into a cockpit: one generated rollup — a \"PM conference\" view — showing every project's MVP→shipped→planned features, open decisions, blockers, risks, and PRD maturity.</p>\n<h2>3. User story</h2>\n<p>[inferred] As the operator, I want one page that surfaces every open decision and blocker across the portfolio so I run reviews from it instead of opening 38 docs.</p>\n<h2>4. Hypothesis / assumptions</h2>\n<ul><li>[intended] Aggregating the signals already in the docs ([unknown], unchecked [ ],</li></ul>\n<p>RISK-###, stage, status) is enough — no new data entry.</p>\n<h2>5. Impact &amp; KPIs</h2>\n<ul><li>(a) SHOULD measure: does it become the weekly-review starting point?</li><li>(b) TODAY: being built now.</li></ul>\n<h2>6. Technical notes</h2>\n<p>[intended] refresh-docs.py generates a pm-review doc from a scan of all docs; the docs board shows it as the landing view.</p>\n<h2>7. AI implementation notes</h2>\n<p>n/a.</p>\n<h2>8. Testing plan</h2>\n<p>[intended] Unit-test the rollup extraction (unknown counts, blockers, stage grouping).</p>\n<h2>9. Deferred / what we'd do differently</h2>\n<p>[intended] Start read-only (generated). A future version could let you resolve a decision inline. Once shipped, this PRD flips stage planned → shipped.</p>"
+    },
+    {
       "id": "DOC-JC-ROADMAP",
       "type": "roadmap",
       "status": "active",
+      "stage": "",
       "project": "jameschang-co",
       "tags": [],
       "title": "jameschang.co — roadmap",
@@ -250,9 +297,39 @@
       "html": "<h1>jameschang.co — roadmap</h1>\n<ul><li><strong>Now:</strong> keep shipping features; keep résumé.pdf in sync (portfolio \"next up\").</li><li><strong>Recent:</strong> /admin area (login + portfolio board) + this portfolio docs hub.</li><li><strong>Next:</strong> fill the docs hub (this archaeology pass), keep the 8 feeds healthy.</li></ul>"
     },
     {
+      "id": "PRD-JC-MVP",
+      "type": "prd",
+      "status": "active",
+      "stage": "mvp",
+      "project": "jameschang-co",
+      "tags": [
+        "ui-ux"
+      ],
+      "title": "jameschang.co — static portfolio site (the MVP)",
+      "path": "projects/jameschang-co/prds/PRD-JC-MVP-static-site.md",
+      "section": "product",
+      "html": "<h1>jameschang.co — static portfolio site (the MVP)</h1>\n<h2>1. Problem statement</h2>\n<p>[inferred] The old builder-based site (Wix/Weebly-style) was dated and high-maintenance. The minimum needed: a fast, hand-owned single-page portfolio + résumé on free hosting.</p>\n<h2>2. Strategic rationale</h2>\n<p>[intended] Own the stack (plain HTML/CSS/JS on GitHub Pages, no build step) so it's cheap, fast, and fully under control — and let the <em>craft</em> of it be part of the pitch.</p>\n<h2>3. User story</h2>\n<p>[inferred] As a visitor (recruiter/partner), I want a fast, credible one-page view of who James is and his work so that I can size him up in a minute.</p>\n<h2>4. Hypothesis / assumptions</h2>\n<ul><li>[intended] A hand-rolled site signals more than a template ever could.</li><li>[intended] Plain HTML is enough — no framework needed for one page of content.</li></ul>\n<h2>5. Impact &amp; KPIs</h2>\n<ul><li>(a) SHOULD measure: [unknown] résumé downloads, contact clicks.</li><li>(b) TODAY: [inferred] GA4 installed; specific funnels [unknown].</li></ul>\n<h2>6. Technical notes</h2>\n<p>[inferred] Single-page: hero → experience → education → skills → projects → contact; résumé.pdf generated from the print stylesheet; dark/light theme toggle. No build step.</p>\n<h2>7. AI implementation notes</h2>\n<p>[intended] Built AI-assisted (Claude Code et al.); no runtime AI.</p>\n<h2>8. Testing plan</h2>\n<p>[inferred] Grew from zero to the current E2E + unit suite as the site expanded.</p>\n<h2>9. Deferred / what we'd do differently</h2>\n<p>[inferred] The MVP was intentionally minimal; everything below (feeds, deep-dives, admin, docs hub) is a POST-MVP addition — see the shipped PRDs.</p>"
+    },
+    {
+      "id": "PRD-JC-002",
+      "type": "prd",
+      "status": "active",
+      "stage": "shipped",
+      "project": "jameschang-co",
+      "tags": [
+        "integration",
+        "infra"
+      ],
+      "title": "jameschang.co — the self-updating /now page",
+      "path": "projects/jameschang-co/prds/PRD-JC-002-now-feeds.md",
+      "section": "product",
+      "html": "<h1>jameschang.co — the self-updating /now page</h1>\n<h2>1. Problem statement</h2>\n<p>[inferred] A static portfolio reads as archival. To prove \"an operator who ships,\" the site needed to visibly stay current on its own — without manual updates.</p>\n<h2>2. Strategic rationale</h2>\n<p>[intended] The /now page + live feeds ARE the demonstration: the site updates itself, so it argues the thesis by existing. Post-MVP, this is the flagship differentiator.</p>\n<h2>3. User story</h2>\n<p>[inferred] As a visitor, I want to see what James is doing right now (health, music, reading, projects shipping) so the portfolio feels alive.</p>\n<h2>4. Hypothesis / assumptions</h2>\n<ul><li>[intended] A living /now page beats prose at signaling \"ships continuously.\"</li><li>[unknown] Whether visitors value the feeds vs. the case studies. <strong>← confirm.</strong></li></ul>\n<h2>5. Impact &amp; KPIs</h2>\n<ul><li>(a) SHOULD measure: [unknown] /now engagement, return visits.</li><li>(b) TODAY: [unknown] — not broken out. <strong>← confirm.</strong></li></ul>\n<h2>6. Technical notes</h2>\n<p>[inferred] 8 cron-synced feeds (WHOOP, Spotify, Plex, MLB, FBST, Goodreads×2, GCal) + per-project activity cards; Python <code>bin/*.py</code> sync scripts commit to the repo; a staleness monitor opens a GitHub issue when a feed goes quiet.</p>\n<h2>7. AI implementation notes</h2>\n<p>n/a — data plumbing, not AI.</p>\n<h2>8. Testing plan</h2>\n<p>[inferred] Feed builders + idempotency + heartbeat-correctness are unit-tested; markers/CSP are E2E-tested.</p>\n<h2>9. Deferred / what we'd do differently</h2>\n<p>[inferred] Spotify feed is deferred (Feb-2026 Dev Mode lockdown). Lesson learned: heartbeat must reflect real upstream success, not just \"script didn't crash.\"</p>"
+    },
+    {
       "id": "PRD-JC-001",
       "type": "prd",
       "status": "active",
+      "stage": "",
       "project": "jameschang-co",
       "tags": [
         "integration",
@@ -267,6 +344,7 @@
       "id": "PRD-JT-001",
       "type": "prd",
       "status": "active",
+      "stage": "",
       "project": "judge-tool",
       "tags": [
         "ui-ux"
@@ -280,6 +358,7 @@
       "id": "DOC-JT-ROADMAP",
       "type": "roadmap",
       "status": "active",
+      "stage": "",
       "project": "judge-tool",
       "tags": [],
       "title": "The Judge Tool — roadmap",
@@ -291,6 +370,7 @@
       "id": "PRD-KTV-001",
       "type": "prd",
       "status": "active",
+      "stage": "",
       "project": "ktv-singer",
       "tags": [
         "ui-ux",
@@ -305,6 +385,7 @@
       "id": "DOC-KTV-ROADMAP",
       "type": "roadmap",
       "status": "active",
+      "stage": "",
       "project": "ktv-singer",
       "tags": [],
       "title": "KTV Singer — roadmap",
@@ -316,6 +397,7 @@
       "id": "DOC-001",
       "type": "intake-rules",
       "status": "active",
+      "stage": "",
       "project": "portfolio",
       "tags": [],
       "title": "Feature intake rules — the gate before a PRD",
@@ -327,6 +409,7 @@
       "id": "DOC-002",
       "type": "glossary",
       "status": "active",
+      "stage": "",
       "project": "portfolio",
       "tags": [],
       "title": "Glossary",
@@ -338,6 +421,7 @@
       "id": "DOC-INBOX",
       "type": "note",
       "status": "active",
+      "stage": "",
       "project": "portfolio",
       "tags": [],
       "title": "Inbox",
@@ -346,20 +430,34 @@
       "html": "<h1>Inbox</h1>\n<p>_3 open · 1 resolved · regenerated 2026-07-23 16:33 UTC_</p>\n<p>Start each session here: act on <strong>change requests</strong>, answer <strong>questions</strong>, then resolve them (status → resolved, with a note) so they clear.</p>\n<h2>Change requests (1)</h2>\n<ul><li><strong>[PRD-001]</strong> (C-001 · 2026-07-23) — Fill the strategic rationale — why CPC was Aleph's beachhead module (currently [unknown]).</li></ul>\n<h2>Questions (1)</h2>\n<ul><li><strong>[PRD-001]</strong> (C-002 · 2026-07-22) — Is CPC generation instrumented at all? Need to know before writing KPIs.</li></ul>\n<h2>Notes (1)</h2>\n<ul><li><strong>[DOC-002]</strong> (C-003 · 2026-07-21) — Add FSVP, Prop 65, PFAS, roto, cohort, debrief to the glossary.</li></ul>\n<h2>Recently resolved (1)</h2>\n<ul><li><del>[ADR-001] C-004</del> — One ADR for the core stack; split later only if a layer changes. → ADR-001</li></ul>"
     },
     {
+      "id": "DOC-PM-REVIEW",
+      "type": "status",
+      "status": "active",
+      "stage": "",
+      "project": "portfolio",
+      "tags": [],
+      "title": "PM review — the portfolio cockpit",
+      "path": "under-the-hood/pm-review.md",
+      "section": "operations",
+      "html": "<h1>PM review — the portfolio cockpit</h1>\n<p>_Regenerated 2026-07-24 08:01 UTC. What needs your decision, across every project — so you run reviews from here, not from 38 separate docs._</p>\n<h2>At a glance</h2>\n<ul><li><strong>11</strong> projects · <strong>92</strong> open questions · <strong>3</strong> launch blockers · <strong>2</strong> open risks</li></ul>\n<h2>⚠ Launch blockers (decide before shipping)</h2>\n<ul><li><strong>vouch</strong> — Data retention + deletion policy</li><li><strong>vouch</strong> — Moderation model + safety-report SLA</li><li><strong>vouch</strong> — Minimum-data audit (drop every field not strictly needed on a minor)</li></ul>\n<h2>Features by stage (MVP → shipped → planned)</h2>\n<p><strong>jameschang-co</strong></p>\n<ul><li>_mvp_: jameschang.co — static portfolio site (the MVP)</li><li>_shipped_: jameschang.co — internal admin area + docs hub · jameschang.co — the self-updating /now page</li><li>_planned_: jameschang.co — PM review cockpit</li></ul>\n<h2>Open questions by project</h2>\n<table><thead><tr><th>project</th><th>open [unknown]s</th><th>pm-status</th></tr></thead><tbody><tr><td>aleph</td><td>23</td><td>on-track</td></tr><tr><td>bahtzang-trader</td><td>6</td><td>exploring</td></tr><tr><td>fantastic-leagues</td><td>7</td><td>on-track</td></tr><tr><td>jameschang-co</td><td>12</td><td>on-track</td></tr><tr><td>judge-tool</td><td>5</td><td>blocked</td></tr><tr><td>ktv-singer</td><td>6</td><td>blocked</td></tr><tr><td>spar</td><td>6</td><td>exploring</td></tr><tr><td>tabledrop</td><td>6</td><td>blocked</td></tr><tr><td>tastemakers</td><td>6</td><td>stalled</td></tr><tr><td>thirsty-pig</td><td>6</td><td>on-track</td></tr><tr><td>vouch</td><td>6</td><td>exploring</td></tr></tbody></table>\n<h2>Open risks</h2>\n<ul><li><strong>aleph</strong> RISK-001 — An importer files a generated CPC that a regulator later rejects — liability + trust hit.</li><li><strong>aleph</strong> RISK-002 — Regulatory formats change (CPSC e-filing mandate) and generated docs go stale.</li></ul>\n<h2>Per-project scorecard</h2>\n<table><thead><tr><th>project</th><th>pm-status</th><th>PRDs</th><th>open [unknown]s</th></tr></thead><tbody><tr><td>aleph</td><td>on-track</td><td>1</td><td>23</td></tr><tr><td>bahtzang-trader</td><td>exploring</td><td>1</td><td>6</td></tr><tr><td>fantastic-leagues</td><td>on-track</td><td>1</td><td>7</td></tr><tr><td>jameschang-co</td><td>on-track</td><td>5</td><td>12</td></tr><tr><td>judge-tool</td><td>blocked</td><td>1</td><td>5</td></tr><tr><td>ktv-singer</td><td>blocked</td><td>1</td><td>6</td></tr><tr><td>spar</td><td>exploring</td><td>1</td><td>6</td></tr><tr><td>tabledrop</td><td>blocked</td><td>1</td><td>6</td></tr><tr><td>tastemakers</td><td>stalled</td><td>1</td><td>6</td></tr><tr><td>thirsty-pig</td><td>on-track</td><td>1</td><td>6</td></tr><tr><td>vouch</td><td>exploring</td><td>1</td><td>6</td></tr></tbody></table>"
+    },
+    {
       "id": "DOC-STATS",
       "type": "stats",
       "status": "active",
+      "stage": "",
       "project": "portfolio",
       "tags": [],
       "title": "Stats",
       "path": "under-the-hood/stats.md",
       "section": "operations",
-      "html": "<h1>Stats</h1>\n<p>_Regenerated 2026-07-24 06:06 UTC. LOC is a rough vanity signal, tracked for reference — real progress is features/phases shipped._</p>\n<h2>Docs hub</h2>\n<ul><li><strong>35</strong> authored docs · <strong>11</strong> of <strong>11</strong> projects have at least one PRD</li></ul>\n<p><strong>By type</strong></p>\n<table><thead><tr><th>type</th><th>count</th></tr></thead><tbody><tr><td>adr</td><td>1</td></tr><tr><td>api-docs</td><td>1</td></tr><tr><td>changelog</td><td>1</td></tr><tr><td>component-lib</td><td>1</td></tr><tr><td>costs</td><td>1</td></tr><tr><td>decision-log</td><td>1</td></tr><tr><td>experiment</td><td>1</td></tr><tr><td>glossary</td><td>1</td></tr><tr><td>intake-rules</td><td>1</td></tr><tr><td>prd</td><td>11</td></tr><tr><td>privacy</td><td>1</td></tr><tr><td>risk</td><td>1</td></tr><tr><td>roadmap</td><td>10</td></tr><tr><td>runbook</td><td>1</td></tr><tr><td>tech-spec</td><td>1</td></tr><tr><td>testing</td><td>1</td></tr></tbody></table>\n<p><strong>By status</strong></p>\n<table><thead><tr><th>status</th><th>count</th></tr></thead><tbody><tr><td>active</td><td>24</td></tr><tr><td>draft</td><td>11</td></tr></tbody></table>\n<p><strong>By project</strong></p>\n<table><thead><tr><th>project</th><th>docs</th></tr></thead><tbody><tr><td>aleph</td><td>13</td></tr><tr><td>bahtzang-trader</td><td>2</td></tr><tr><td>fantastic-leagues</td><td>2</td></tr><tr><td>jameschang-co</td><td>2</td></tr><tr><td>judge-tool</td><td>2</td></tr><tr><td>ktv-singer</td><td>2</td></tr><tr><td>portfolio</td><td>2</td></tr><tr><td>spar</td><td>2</td></tr><tr><td>tabledrop</td><td>2</td></tr><tr><td>tastemakers</td><td>2</td></tr><tr><td>thirsty-pig</td><td>2</td></tr><tr><td>vouch</td><td>2</td></tr></tbody></table>\n<h2>Portfolio</h2>\n<ul><li><strong>11</strong> projects on the board</li></ul>\n<table><thead><tr><th>pm-status</th><th>count</th></tr></thead><tbody><tr><td>blocked</td><td>3</td></tr><tr><td>exploring</td><td>3</td></tr><tr><td>on-track</td><td>4</td></tr><tr><td>stalled</td><td>1</td></tr></tbody></table>\n<h2>Repo (jameschang.co)</h2>\n<ul><li><strong>360</strong> tracked files · <strong>56,306</strong> total lines</li></ul>\n<p><strong>Lines by file type (top 8)</strong></p>\n<table><thead><tr><th>ext</th><th>lines</th></tr></thead><tbody><tr><td>.md</td><td>13,093</td></tr><tr><td>.py</td><td>10,207</td></tr><tr><td>.pdf</td><td>8,429</td></tr><tr><td>.html</td><td>6,632</td></tr><tr><td>.webp</td><td>6,275</td></tr><tr><td>.avif</td><td>3,346</td></tr><tr><td>.css</td><td>3,044</td></tr><tr><td>.png</td><td>1,643</td></tr></tbody></table>"
+      "html": "<h1>Stats</h1>\n<p>_Regenerated 2026-07-24 08:01 UTC. LOC is a rough vanity signal, tracked for reference — real progress is features/phases shipped._</p>\n<h2>Docs hub</h2>\n<ul><li><strong>41</strong> authored docs · <strong>11</strong> of <strong>11</strong> projects have at least one PRD</li></ul>\n<p><strong>By type</strong></p>\n<table><thead><tr><th>type</th><th>count</th></tr></thead><tbody><tr><td>adr</td><td>1</td></tr><tr><td>api-docs</td><td>1</td></tr><tr><td>changelog</td><td>1</td></tr><tr><td>component-lib</td><td>1</td></tr><tr><td>costs</td><td>1</td></tr><tr><td>decision-log</td><td>1</td></tr><tr><td>experiment</td><td>1</td></tr><tr><td>glossary</td><td>1</td></tr><tr><td>intake-rules</td><td>1</td></tr><tr><td>prd</td><td>15</td></tr><tr><td>privacy</td><td>2</td></tr><tr><td>risk</td><td>1</td></tr><tr><td>roadmap</td><td>10</td></tr><tr><td>runbook</td><td>1</td></tr><tr><td>status</td><td>1</td></tr><tr><td>tech-spec</td><td>1</td></tr><tr><td>testing</td><td>1</td></tr></tbody></table>\n<p><strong>By status</strong></p>\n<table><thead><tr><th>status</th><th>count</th></tr></thead><tbody><tr><td>active</td><td>28</td></tr><tr><td>draft</td><td>13</td></tr></tbody></table>\n<p><strong>By project</strong></p>\n<table><thead><tr><th>project</th><th>docs</th></tr></thead><tbody><tr><td>aleph</td><td>13</td></tr><tr><td>bahtzang-trader</td><td>2</td></tr><tr><td>fantastic-leagues</td><td>2</td></tr><tr><td>jameschang-co</td><td>6</td></tr><tr><td>judge-tool</td><td>2</td></tr><tr><td>ktv-singer</td><td>2</td></tr><tr><td>portfolio</td><td>3</td></tr><tr><td>spar</td><td>2</td></tr><tr><td>tabledrop</td><td>2</td></tr><tr><td>tastemakers</td><td>2</td></tr><tr><td>thirsty-pig</td><td>2</td></tr><tr><td>vouch</td><td>3</td></tr></tbody></table>\n<h2>Portfolio</h2>\n<ul><li><strong>11</strong> projects on the board</li></ul>\n<table><thead><tr><th>pm-status</th><th>count</th></tr></thead><tbody><tr><td>blocked</td><td>3</td></tr><tr><td>exploring</td><td>3</td></tr><tr><td>on-track</td><td>4</td></tr><tr><td>stalled</td><td>1</td></tr></tbody></table>\n<h2>Repo (jameschang.co)</h2>\n<ul><li><strong>381</strong> tracked files · <strong>57,604</strong> total lines</li></ul>\n<p><strong>Lines by file type (top 8)</strong></p>\n<table><thead><tr><th>ext</th><th>lines</th></tr></thead><tbody><tr><td>.md</td><td>13,893</td></tr><tr><td>.py</td><td>10,346</td></tr><tr><td>.pdf</td><td>8,429</td></tr><tr><td>.html</td><td>6,622</td></tr><tr><td>.webp</td><td>6,275</td></tr><tr><td>.avif</td><td>3,346</td></tr><tr><td>.css</td><td>3,044</td></tr><tr><td>.png</td><td>1,643</td></tr></tbody></table>"
     },
     {
       "id": "DOC-SPAR-ROADMAP",
       "type": "roadmap",
       "status": "draft",
+      "stage": "",
       "project": "spar",
       "tags": [
         "ai",
@@ -374,6 +472,7 @@
       "id": "PRD-SPAR-001",
       "type": "prd",
       "status": "draft",
+      "stage": "",
       "project": "spar",
       "tags": [
         "ai",
@@ -388,6 +487,7 @@
       "id": "PRD-TD-001",
       "type": "prd",
       "status": "active",
+      "stage": "",
       "project": "tabledrop",
       "tags": [
         "payments"
@@ -401,6 +501,7 @@
       "id": "DOC-TD-ROADMAP",
       "type": "roadmap",
       "status": "active",
+      "stage": "",
       "project": "tabledrop",
       "tags": [],
       "title": "TableDrop — roadmap",
@@ -412,6 +513,7 @@
       "id": "DOC-TM-ROADMAP",
       "type": "roadmap",
       "status": "active",
+      "stage": "",
       "project": "tastemakers",
       "tags": [],
       "title": "Tastemakers — roadmap",
@@ -423,6 +525,7 @@
       "id": "PRD-TM-001",
       "type": "prd",
       "status": "active",
+      "stage": "",
       "project": "tastemakers",
       "tags": [
         "mobile",
@@ -437,6 +540,7 @@
       "id": "DOC-TP-ROADMAP",
       "type": "roadmap",
       "status": "active",
+      "stage": "",
       "project": "thirsty-pig",
       "tags": [],
       "title": "The Thirsty Pig — roadmap",
@@ -448,6 +552,7 @@
       "id": "PRD-TP-001",
       "type": "prd",
       "status": "active",
+      "stage": "",
       "project": "thirsty-pig",
       "tags": [
         "content"
@@ -461,6 +566,7 @@
       "id": "DOC-VOUCH-PRIVACY",
       "type": "privacy",
       "status": "draft",
+      "stage": "",
       "project": "vouch",
       "tags": [
         "compliance"
@@ -474,6 +580,7 @@
       "id": "DOC-VOUCH-ROADMAP",
       "type": "roadmap",
       "status": "draft",
+      "stage": "",
       "project": "vouch",
       "tags": [
         "compliance"
@@ -487,6 +594,7 @@
       "id": "PRD-VOUCH-001",
       "type": "prd",
       "status": "draft",
+      "stage": "",
       "project": "vouch",
       "tags": [
         "compliance",
