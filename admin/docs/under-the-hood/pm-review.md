@@ -13,11 +13,11 @@ updated: 2026-07-24
 
 # PM review — the portfolio cockpit
 
-_Regenerated 2026-07-24 08:01 UTC. What needs your decision, across every project — so you run reviews from here, not from 38 separate docs._
+_Regenerated 2026-07-24 08:10 UTC. What needs your decision, across every project — so you run reviews from here, not from 38 separate docs._
 
 ## At a glance
 
-- **11** projects · **92** open questions · **3** launch blockers · **2** open risks
+- **11** projects · **93** open questions · **3** launch blockers · **2** open risks
 
 ## ⚠ Launch blockers (decide before shipping)
 
@@ -29,8 +29,7 @@ _Regenerated 2026-07-24 08:01 UTC. What needs your decision, across every projec
 
 **jameschang-co**
 - _mvp_: jameschang.co — static portfolio site (the MVP)
-- _shipped_: jameschang.co — internal admin area + docs hub · jameschang.co — the self-updating /now page
-- _planned_: jameschang.co — PM review cockpit
+- _shipped_: jameschang.co — internal admin area + docs hub · jameschang.co — PM review cockpit · jameschang.co — the self-updating /now page
 
 ## Open questions by project
 
@@ -39,7 +38,7 @@ _Regenerated 2026-07-24 08:01 UTC. What needs your decision, across every projec
 | aleph | 23 | on-track |
 | bahtzang-trader | 6 | exploring |
 | fantastic-leagues | 7 | on-track |
-| jameschang-co | 12 | on-track |
+| jameschang-co | 13 | on-track |
 | judge-tool | 5 | blocked |
 | ktv-singer | 6 | blocked |
 | spar | 6 | exploring |
@@ -60,7 +59,7 @@ _Regenerated 2026-07-24 08:01 UTC. What needs your decision, across every projec
 | aleph | on-track | 1 | 23 |
 | bahtzang-trader | exploring | 1 | 6 |
 | fantastic-leagues | on-track | 1 | 7 |
-| jameschang-co | on-track | 5 | 12 |
+| jameschang-co | on-track | 5 | 13 |
 | judge-tool | blocked | 1 | 5 |
 | ktv-singer | blocked | 1 | 6 |
 | spar | exploring | 1 | 6 |
