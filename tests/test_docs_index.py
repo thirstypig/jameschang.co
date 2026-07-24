@@ -158,11 +158,14 @@ MUST_CATCH = [
     ("compound *_CLIENT_SECRET", 'WHOOP_CLIENT_SECRET="a1b2c3d4e5f6g7h8i9j0k1l2"'),
     ("bare *_PASSWORD", "DB_PASSWORD=Sup3rSecretPassw0rd!!"),
     ("bare *_CREDENTIAL", "API_CREDENTIAL=abcdefghijklmnop1234"),
+    ("bare *_PASSPHRASE", "APP_PASSPHRASE=abcdef0123456789ghijklmn"),
     ("github_pat_ literal (name-independent)",
      "leaked: github_pat_abcdefghijklmnopqrstuvwxyz0123456789ABCD"),
     ("PEM header (name-independent)", "-----BEGIN RSA PRIVATE KEY-----"),
     ("*_URL secret (full-URL secrecy, not opaque token)",
      "GCAL_ICAL_URL=https://calendar.google.com/ical/abc0123456789/basic.ics"),
+    ("*_WEBHOOK_URL secret", "SLACK_WEBHOOK_URL=https://hooks.slack.com/services/T00000000/B00000000/abcdefghijklmnopqrst"),
+    ("bare *_URI secret", "DATABASE_URI=https://user:pass@db.example.com/abcdefghijklmnopqrst"),
 ]
 
 MUST_PASS = [
