@@ -47,6 +47,26 @@ class TestFrontmatter:
         fm, body = idx.parse_frontmatter("# Just a heading\n")
         assert fm == {}
 
+    def test_block_style_list_parses_to_real_list(self):
+        content = ('---\nid: SOL-1\ntags:\n  - "projects-sync"\n  - cron\n'
+                   '---\n\n# Title\nbody\n')
+        fm, _ = idx.parse_frontmatter(content)
+        assert fm["tags"] == ["projects-sync", "cron"]
+        assert isinstance(fm["tags"], list)
+
+    def test_quotes_stripped_from_scalar_and_list_items(self):
+        content = ('---\ncategory: "logic-errors"\ntitle: \'Single Quoted\'\n'
+                   'tags:\n  - "a"\n  - \'b\'\n  - c\n---\n\n# T\nbody\n')
+        fm, _ = idx.parse_frontmatter(content)
+        assert fm["category"] == "logic-errors"
+        assert fm["title"] == "Single Quoted"
+        assert fm["tags"] == ["a", "b", "c"]
+
+    def test_inline_array_still_parses(self):
+        content = "---\ntags: [ai, \"compliance\", 'x']\n---\n\n# T\nbody\n"
+        fm, _ = idx.parse_frontmatter(content)
+        assert fm["tags"] == ["ai", "compliance", "x"]
+
 
 class TestSectionGrouping:
     def test_types_map_to_expected_sections(self):
@@ -295,7 +315,9 @@ class TestRootsAndAdapters:
 
     def test_solution_adapter_maps_its_own_vocabulary(self):
         fm = {
-            "title": '"Generating an ATS-friendly resume PDF"',
+            # Realistic post-parse input: parse_frontmatter() already strips
+            # quotes, so the adapter receives an unquoted title.
+            "title": "Generating an ATS-friendly resume PDF",
             "slug": "resume-pdf-pipeline",
             "category": "tooling",
             "tags": ["print-stylesheet", "ats"],
@@ -321,6 +343,22 @@ class TestRootsAndAdapters:
         sols = [d for d in index["docs"] if d["type"] == "solution"]
         assert len(sols) == 21, [d["path"] for d in sols]
         assert all(d["path"].startswith("docs/solutions/") for d in sols)
+
+    def test_no_indexed_tag_contains_a_quote_character(self):
+        index = idx.build_index()
+        offenders = [(d["path"], t) for d in index["docs"] for t in d["tags"]
+                     if '"' in t]
+        assert not offenders, offenders
+
+    def test_all_21_solutions_have_at_least_two_tags(self):
+        # Every docs/solutions/**/*.md carries `category` plus a real `tags`
+        # list (verified against the source frontmatter, not assumed) — so
+        # the merged tag list on each indexed solution should be >= 2.
+        index = idx.build_index()
+        sols = [d for d in index["docs"] if d["type"] == "solution"]
+        assert len(sols) == 21
+        thin = [(d["path"], d["tags"]) for d in sols if len(d["tags"]) < 2]
+        assert not thin, thin
 
 
 class TestStageAndCockpit:

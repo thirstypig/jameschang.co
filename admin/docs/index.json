@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-24T18:37:45+00:00",
+  "generated": "2026-07-24T18:45:09+00:00",
   "sections": [
     {
       "key": "product",
@@ -512,7 +512,12 @@
       "stage": "",
       "project": "jameschang-co-eng",
       "tags": [
-        "integration-issues"
+        "integration-issues",
+        "cron-sync",
+        "marker-based-templating",
+        "config-driven-output",
+        "content-persistence",
+        "/now-page-architecture"
       ],
       "title": "Solution — Cron Script Config-Driven Content: Hand-Edits Don't Survive Sync Cycles",
       "path": "docs/solutions/integration-issues/cron-script-config-driven-content-rendering.md",
@@ -526,7 +531,13 @@
       "stage": "",
       "project": "jameschang-co-eng",
       "tags": [
-        "integration-issues"
+        "integration-issues",
+        "github-pages",
+        "github-contents-api",
+        "cms-alternative",
+        "cross-repo",
+        "static-site",
+        "admin-pattern"
       ],
       "title": "Solution — Cross-repo admin via GitHub Contents API on plain GitHub Pages",
       "path": "docs/solutions/integration-issues/cross-repo-admin-via-github-contents-api.md",
@@ -540,7 +551,13 @@
       "stage": "",
       "project": "jameschang-co-eng",
       "tags": [
-        "ui-bugs"
+        "ui-bugs",
+        "print-stylesheet",
+        "css",
+        "media-query",
+        "flex-layout",
+        "typography",
+        "pdf-formatting"
       ],
       "title": "Solution — CSS Print Layout: Force Project Names and Descriptions to Stay on Single Line",
       "path": "docs/solutions/ui-bugs/print-stylesheet-project-card-layout-line-wrapping.md",
@@ -554,7 +571,14 @@
       "stage": "",
       "project": "jameschang-co-eng",
       "tags": [
-        "ui-bugs"
+        "ui-bugs",
+        "css",
+        "dark-mode",
+        "prefers-color-scheme",
+        "data-theme",
+        "selector-parity",
+        "manual-toggle",
+        "visual-regression"
       ],
       "title": "Solution — Dark mode styles missing [data-theme=\"dark\"] selector, breaking manual toggle",
       "path": "docs/solutions/ui-bugs/css-dark-mode-dual-selector-consistency.md",
@@ -610,7 +634,14 @@
       "stage": "",
       "project": "jameschang-co-eng",
       "tags": [
-        "integration-issues"
+        "integration-issues",
+        "openssl",
+        "pbkdf2",
+        "aes-256-cbc",
+        "iteration-count",
+        "subprocess",
+        "whoop",
+        "token-rotation"
       ],
       "title": "Solution — OpenSSL PBKDF2 iteration count mismatch between shell and Python callers",
       "path": "docs/solutions/integration-issues/openssl-pbkdf2-iteration-count-mismatch.md",
@@ -645,7 +676,13 @@
       "stage": "",
       "project": "jameschang-co-eng",
       "tags": [
-        "integration-issues"
+        "integration-issues",
+        "plex",
+        "relay",
+        "home-server",
+        "github-actions",
+        "network",
+        "api"
       ],
       "title": "Solution — Plex home server API via relay for GitHub Actions",
       "path": "docs/solutions/integration-issues/plex-home-server-api-via-relay-for-github-actions.md",
@@ -659,7 +696,12 @@
       "stage": "",
       "project": "jameschang-co-eng",
       "tags": [
-        "ui-bugs"
+        "ui-bugs",
+        "css",
+        "styling",
+        "consistency",
+        "test-maintenance",
+        "layout"
       ],
       "title": "Solution — Project Card Styling Consistency Rollout To All Nine",
       "path": "docs/solutions/ui-bugs/project-card-styling-consistency-rollout-to-all-nine.md",
@@ -689,13 +731,19 @@
       "html": "<h1>Removing CSP <code>'unsafe-inline'</code> from <code>script-src</code> on a static GitHub Pages site</h1>\n<blockquote><strong>Audit note (2026-07-13):</strong> the page counts below are as of the 2026-04-28 fix (16 standard + 2 callbacks = 18). The site has since grown to <strong>18 standard pages + 2 callbacks = 20 HTML pages</strong>, and the CSP-homogeneity invariant now spans <strong>17 non-/now pages</strong> (added <code>bucketlist/</code>, FL <code>ai-insights/</code>, FL <code>analytics/</code>). The externalization pattern and the guard test <code>test_csp_homogeneous_across_15_pages</code> (its <code>HOMOGENEOUS_CSP_PAGES</code> set is built dynamically, so it stays correct; the <code>15</code> in the method name is now a misnomer) are unchanged — only the raw counts drifted.</blockquote>\n<h2>The Problem</h2>\n<p><code>jameschang.co</code> is a static HTML/CSS/JS portfolio on GitHub Pages with 18 HTML pages (16 standard + 2 OAuth callbacks). All 16 standard pages had a Content-Security-Policy meta tag of the form:</p>\n<pre><code>default-src 'self';\nscript-src 'self' 'unsafe-inline' https://www.googletagmanager.com;\nstyle-src 'self' 'unsafe-inline';\nimg-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com;\n…</code></pre>\n<p>The <code>script-src 'unsafe-inline'</code> clause meant <em>any</em> inline <code>&lt;script&gt;</code> block in the page source — including, hypothetically, ones injected via a successful XSS — would execute. Combined with <code>connect-src</code> allowing <code>*.google-analytics.com</code> and <code>*.analytics.google.com</code>, an attacker who could land arbitrary HTML on the page could exfiltrate to those hosts. The img-src <code>googletagmanager.com</code> widening (added 2026-04-28 to fix silently-blocked GA4 measurement pixels — see <em>related docs</em>) gave them another exfiltration channel.</p>\n<p>No live exploit existed. The site has no auth, no user input, no database. But the CSP's defense-in-depth posture was nominal: any successful HTML injection would have full inline-script execution.</p>\n<p>A multi-agent code review (<code>/ce:review</code>) flagged this as a P3 hardening opportunity. This doc captures the migration pattern.</p>\n<h2>Why the inline scripts existed</h2>\n<p>Three categories of inline <code>&lt;script&gt;</code> content existed across the 16 standard pages:</p>\n<p>1. <strong>GA4 init</strong> (present on all 16, byte-identical, ~131 chars):</p>\n<pre><code>   &lt;script&gt;window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-B3HW5VBDB3')&lt;/script&gt;</code></pre>\n<p>Inline because Google's gtag.js setup docs (https://developers.google.com/analytics/devguides/collection/ga4) show inline init as the default.</p>\n<p>2. <strong>Page-specific IIFEs on <code>/now</code></strong> (2 blocks, ~3.6KB and ~970 chars):</p>\n<ul><li>Thirsty Pig hitlist fetch (CORS-locked to jameschang.co; silent-fail on fetch error)</li><li>Live-relative time upgrader (rewrites <code>&lt;time data-rel&gt;</code> elements every 60s)</li></ul>\n<p>3. <strong>JSON-LD structured-data blocks</strong> (<code>&lt;script type=\"application/ld+json\"&gt;…&lt;/script&gt;</code>):</p>\n<ul><li>These look like inline scripts but <strong>CSP <code>script-src</code> does not apply to <code>application/ld+json</code></strong> because browsers don't execute them. They are data, not code. No CSP change needed for these.</li></ul>\n<p>The OAuth callback pages (<code>/whoop/callback/</code>, <code>/spotify/callback/</code>) have a tighter <code>default-src 'none'</code> CSP with their own inline OAuth-code-display logic. They're out of scope for this fix — they're utility pages used once per OAuth flow and refactoring them would mean adding <code>'self'</code> to their <code>script-src</code> (loosening their <code>default-src 'none'</code> posture) for marginal real-world benefit.</p>\n<h2>Root cause</h2>\n<p>Inline scripts existed because the friction to externalize was <em>structural</em>, not technical:</p>\n<ul><li>16 HTML pages with no templating layer — every change to <code>&lt;head&gt;</code> had to be replicated 16 times.</li><li>The GA4 init was inherited verbatim from Google's docs.</li><li>The two <code>/now</code>-specific scripts were \"obvious-where-they-go\" inline — they refer to DOM elements on that one page, so externalizing them meant making them path-aware or using <code>defer</code> to ensure DOM-ready timing.</li></ul>\n<p>None of these were hard problems. They were just <em>small piles of tedium that prevented a nice-to-have hardening from getting done.</em> A scoped pass with a small Python script flattened all of it.</p>\n<h2>Working solution</h2>\n<h3>Step 1 — Inventory inline scripts</h3>\n<p>Audit which pages have inline blocks and what they contain:</p>\n<pre><code>for f in $(find . -maxdepth 4 -name \"*.html\" | grep -v \".git\\|callback\\|.playwright\"); do\n  count=$(python3 -c \"\nimport re\nwith open('$f') as fh: s = fh.read()\nmatches = re.findall(r'&lt;script(?![^&gt;]*\\bsrc=)[^&gt;]*&gt;(.*?)&lt;/script&gt;', s, re.DOTALL)\nprint(len(matches))\n\")\n  [ \"$count\" != \"0\" ] &amp;&amp; echo \"$f: $count\"\ndone</code></pre>\n<p>Categorize each block as: GA4 init / page-specific JS / JSON-LD (skip). For the hashing-vs-externalization decision, <strong>prefer externalization</strong> — externalized scripts are cacheable, easier to audit, and don't bloat the HTML. Hashes are a fallback when externalization isn't feasible (e.g., third-party widgets that require inline init).</p>\n<h3>Step 2 — Externalize the universal GA4 init</h3>\n<pre><code>mkdir -p assets/js\ncat &gt; assets/js/gtag-init.js &lt;&lt;'JSEOF'\n// GA4 init — externalized from inline to allow CSP `script-src 'self'` without 'unsafe-inline'.\n// Loaded as `&lt;script src=\"/assets/js/gtag-init.js\"&gt;&lt;/script&gt;` on all 16 standard pages.\nwindow.dataLayer = window.dataLayer || [];\nfunction gtag() { dataLayer.push(arguments); }\ngtag('js', new Date());\ngtag('config', 'G-B3HW5VBDB3');\nJSEOF</code></pre>\n<p>Note GA4's <code>gtag.js</code> script (<code>&lt;script async src=\"https://www.googletagmanager.com/gtag/js?id=…\"&gt;&lt;/script&gt;</code>) <strong>must remain</strong> — it's the GA4 library itself. The CSP already allows <code>https://www.googletagmanager.com</code> in <code>script-src</code>, so this works without <code>'unsafe-inline'</code>.</p>\n<h3>Step 3 — Externalize page-specific IIFEs</h3>\n<p>For <code>/now</code>, combine the two IIFEs into <code>now/now.js</code>:</p>\n<pre><code>// now/now.js — externalized from inline so the page CSP can drop 'unsafe-inline'.\n// Two IIFEs: hitlist fetch + live-relative time upgrader.\n\n(async function () {\n  const container = document.getElementById('hitlist-section');\n  if (!container) return;\n  // … hitlist fetch logic …\n})();\n\n(function () {\n  function fmt(ms) { /* … */ }\n  // … relative-time upgrader …\n})();</code></pre>\n<p>Both IIFEs already self-bootstrap via <code>getElementById</code> — they exit early if the target isn't on the page, so the file is safe to load on any page that imports it.</p>\n<h3>Step 4 — Bulk-replace across all standard pages</h3>\n<p>Python script for the 16-file find-replace (one pass, atomic):</p>\n<pre><code>import re\nfrom pathlib import Path\n\nROOT = Path('.')\nGTAG_INLINE_RE = re.compile(\n    r\"&lt;script&gt;window\\.dataLayer=window\\.dataLayer\\|\\|\\[\\];function gtag\\(\\)\\{dataLayer\\.push\\(arguments\\)\\}\"\n    r\"gtag\\('js',new Date\\(\\)\\);gtag\\('config','G-B3HW5VBDB3'\\)&lt;/script&gt;\"\n)\nGTAG_REPLACEMENT = '&lt;script src=\"/assets/js/gtag-init.js\"&gt;&lt;/script&gt;'\n\nCSP_OLD = \"script-src 'self' 'unsafe-inline' https://www.googletagmanager.com;\"\nCSP_NEW = \"script-src 'self' https://www.googletagmanager.com;\"\n\nfor f in ROOT.rglob('*.html'):\n    rel = str(f.relative_to(ROOT))\n    if any(skip in rel for skip in ['.git/', 'callback/', 'node_modules/', '.playwright-mcp/']):\n        continue\n    text = f.read_text()\n    new = GTAG_INLINE_RE.sub(GTAG_REPLACEMENT, text)\n    new = new.replace(CSP_OLD, CSP_NEW)\n    if new != text:\n        f.write_text(new)</code></pre>\n<p>For <code>/now</code> specifically, also drop the two IIFE inline blocks and add <code>&lt;script src=\"/now/now.js\" defer&gt;&lt;/script&gt;</code> before <code>&lt;/body&gt;</code>.</p>\n<h3>Step 5 — Verify</h3>\n<p>1. <strong>HTTP-level smoke test</strong>: <code>curl -sI http://localhost:8787/assets/js/gtag-init.js</code> → 200 OK. 2. <strong>Browser-level CSP check</strong>: load each affected page in headless Chrome via Playwright; assert <code>console.errors.length === 0</code> (or only the documented localhost-only CORS errors). 3. <strong>E2E test addition</strong> — pin the new CSP so it can't drift back. See <em>Prevention</em> below.</p>\n<h2>Prevention strategies</h2>\n<h3>Test 1: assert <code>'unsafe-inline'</code> is not in script-src on standard pages</h3>\n<p>Already added in this session as <code>TestStructuralParity::test_csp_homogeneous_across_15_pages</code> (which asserts byte-equality of CSP across the 15 non-<code>/now</code> pages). To make the <em>specific</em> <code>'unsafe-inline'</code> removal a sticky invariant, extend the test:</p>\n<pre><code>def test_no_unsafe_inline_in_script_src_on_standard_pages(self):\n    \"\"\"Standard pages externalize all inline JS so script-src can drop\n    'unsafe-inline'. Callback pages are intentionally exempt — they have\n    a stricter default-src 'none' CSP with their own inline OAuth logic.\"\"\"\n    failures = []\n    for f in self.HOMOGENEOUS_CSP_PAGES:  # 15 non-/now pages\n        _, body = fetch(f)\n        m = re.search(r'script-src ([^;]+);', body)\n        if m and \"'unsafe-inline'\" in m.group(1):\n            failures.append(f)\n    assert not failures, \"'unsafe-inline' reappeared in script-src:\\n\" + \"\\n\".join(failures)</code></pre>\n<h3>Test 2: assert no inline <code>&lt;script&gt;</code> blocks (other than JSON-LD) on standard pages</h3>\n<p>Catches the <em>cause</em> of the regression rather than just the symptom:</p>\n<pre><code>def test_no_executable_inline_scripts_on_standard_pages(self):\n    failures = []\n    for f in STANDARD_PAGES:\n        _, body = fetch(f)\n        # Find &lt;script&gt; tags WITHOUT src= AND WITHOUT type=\"application/ld+json\"\n        bare = re.findall(\n            r'&lt;script(?![^&gt;]*\\bsrc=)(?![^&gt;]*type=\"application/ld\\+json\")[^&gt;]*&gt;',\n            body,\n        )\n        if bare:\n            failures.append(f\"{f}: {len(bare)} inline executable script(s)\")\n    assert not failures, \"Inline JS reappeared:\\n\" + \"\\n\".join(failures)</code></pre>\n<h3>Guideline: when adding new client-side JS</h3>\n<p>Document in <code>CLAUDE.md</code>:</p>\n<blockquote><strong>No new inline <code>&lt;script&gt;</code> blocks on standard pages.</strong> Externalize to <code>assets/js/</code> (site-wide) or <code>&lt;page&gt;/&lt;page&gt;.js</code> (page-specific). The CSP forbids <code>'unsafe-inline'</code> for <code>script-src</code> on the 16 standard pages and the e2e suite enforces this. JSON-LD <code>&lt;script type=\"application/ld+json\"&gt;</code> is fine — CSP doesn't apply to non-executable scripts.</blockquote>\n<h3>Why callback pages are intentionally exempt</h3>\n<p><code>/whoop/callback/</code> and <code>/spotify/callback/</code> have <code>default-src 'none'</code> (stricter than the standard <code>default-src 'self'</code>) plus their own per-callback inline OAuth-code-display logic. Externalizing would require:</p>\n<ul><li>Loosening <code>default-src 'none'</code> → adding <code>'self'</code> to script-src.</li><li>Per-callback <code>.js</code> files (the OAuth code-display logic varies by callback).</li></ul>\n<p>For utility pages used once per OAuth flow with no real-world XSS surface, this is more invasive than the marginal hardening warrants. The exemption is documented inline in each callback page's CSP rationale.</p>\n<h2>Investigation steps that didn't apply</h2>\n<ul><li><strong>Subresource Integrity (SRI)</strong>: SRI hashes the <em>bundled</em> <code>&lt;script src=…&gt;</code> content, useful for CDN-delivered scripts. Not relevant for <code>'self'</code>-served files where the path itself is the trust boundary.</li></ul>\n<ul><li><strong>Nonce-based CSP</strong> (<code>script-src 'self' 'nonce-…';</code>): would let inline scripts stay inline by stamping each block with a server-generated nonce. Requires HTTP response headers to deliver the nonce per-request, which <strong>GitHub Pages does not support</strong> (CSP is meta-tag-only there; nonces would have to be statically embedded, defeating their purpose).</li></ul>\n<ul><li><strong><code>script-src 'sha256-…';</code></strong> (hash-based CSP): the static-site equivalent of nonces. Each unique inline block's sha256 hash gets added to the directive. Works on GitHub Pages (meta-tag CSP supports hash sources) but creates a maintenance burden — every inline script edit means recomputing the hash and updating the CSP across 16 files. Externalization is cleaner for this use case.</li></ul>\n<h2>Related docs</h2>\n<ul><li><strong><code>docs/solutions/integration-issues/silent-fetch-failure-csp-graceful-fail-debugging.md</code></strong> (2026-04-16) — same project, prior CSP issue: <code>connect-src</code> was missing <code>thirstypig.com</code> and the failure was silently swallowed by a graceful-fail <code>try/catch</code>. The debugging technique there (<code>chrome --headless --enable-logging=stderr</code> and grep <code>csp|cors|blocked|refused</code>) applies to this work too — the GA4 <code>img-src</code> widening that immediately preceded this hardening was found via that exact pattern.</li></ul>\n<ul><li><strong><code>todos/006-complete-p2-add-content-security-policy.md</code></strong> (initial CSP injection across 12 pages, defining the <code>default-src 'self'</code> baseline)</li><li><strong><code>todos/072-complete-p3-csp-hardening.md</code></strong> (defense-in-depth: added <code>object-src 'none'</code> site-wide)</li><li><strong><code>todos/082-complete-p2-csp-byte-equality-e2e-test.md</code></strong> (the e2e parity test that locks current CSP)</li><li><strong><code>todos/086-complete-p3-unsafe-inline-replace-with-hashes.md</code></strong> (the todo this work resolves)</li></ul>\n<h2>Lessons</h2>\n<p>1. <strong>Prefer externalization over hashes for static sites.</strong> Hashes work but every inline-script edit triggers a CSP recomputation. Externalization is cleaner and gives you HTTP-level caching for free.</p>\n<p>2. <strong>Don't migrate utility/callback pages just for CSP parity.</strong> Their attack surface is fundamentally different (used once per OAuth, not public-facing). Document the exemption and move on.</p>\n<p>3. <strong>JSON-LD <code>&lt;script&gt;</code> blocks are not subject to <code>script-src</code>.</strong> <code>application/ld+json</code> is data, not executable. Don't conflate them when auditing inline content.</p>\n<p>4. <strong>Add an e2e regression test the same day.</strong> With 16 duplicated HTML files and no templating layer, <em>anything not enforced by a test will drift on the next edit.</em> The session also added <code>TestStructuralParity::test_csp_homogeneous_across_15_pages</code> and would benefit from the two additional asserts in <em>Prevention</em> above.</p>\n<p>5. <strong>The friction to externalize was 100% tedium, not engineering.</strong> A 30-line Python script + <code>mkdir -p assets/js</code> + <code>cat &gt; assets/js/gtag-init.js</code> was the entire fix. When a hardening keeps not getting done, ask whether the obstacle is structural — and if it is, write the small script.</p>"
     },
     {
-      "id": "SOL-\"self-referential-repo-event-floating-project-card\"",
+      "id": "SOL-self-referential-repo-event-floating-project-card",
       "type": "solution",
       "status": "done",
       "stage": "",
       "project": "jameschang-co-eng",
       "tags": [
-        "\"logic-errors\""
+        "logic-errors",
+        "projects-sync",
+        "activity-sorting",
+        "cron-side-effects",
+        "self-referential-repo",
+        "github-events",
+        "pin-order"
       ],
       "title": "Solution — Self-repo always sorts first in active projects due to cron-generated GitHub events",
       "path": "docs/solutions/logic-errors/self-referential-repo-event-floating-project-card.md",

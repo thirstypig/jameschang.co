@@ -49,6 +49,7 @@ PATH_OVERRIDES = {}
 _FENCE = re.compile(r"```.*?```", re.DOTALL)
 _H1 = re.compile(r"^#\s+(.+?)\s*$", re.MULTILINE)
 _FM_LINE = re.compile(r"^(\w+):\s*(.*)$")
+_FM_LIST_ITEM = re.compile(r"^\s*-\s*(.*)$")
 
 # A secret VALUE looks like `name = <16+ opaque chars>`. A bare mention of an
 # env-var NAME is public-safe — those names are already public in this repo
@@ -135,8 +136,24 @@ def section_for(doc_type, rel_path):
     return TYPE_SECTION.get(doc_type, "notes")
 
 
+def _unquote(s):
+    """Strip one layer of surrounding matching quotes (single or double)."""
+    s = s.strip()
+    if len(s) >= 2 and s[0] == s[-1] and s[0] in ("'", '"'):
+        return s[1:-1]
+    return s
+
+
 def parse_frontmatter(content):
-    """Return (frontmatter_dict, body). Empty dict if no frontmatter block."""
+    """Return (frontmatter_dict, body). Empty dict if no frontmatter block.
+
+    Supports scalars, inline arrays (`tags: [a, b]`), and block-style YAML
+    lists (a key with an empty value followed by indented `- item` lines).
+    Scalar values and every list item (inline or block) have surrounding
+    quotes stripped. Anything fancier (nested maps, multi-line `>-` blocks,
+    etc.) is intentionally out of scope — this is a hand-rolled parser for
+    this repo's own frontmatter conventions, not a YAML implementation.
+    """
     if not content.startswith("---"):
         return {}, content
     end = content.find("\n---", 3)
@@ -144,15 +161,39 @@ def parse_frontmatter(content):
         return {}, content
     block = content[3:end]
     body = content[end + 4:]
+    lines = block.splitlines()
     fm = {}
-    for line in block.splitlines():
-        m = _FM_LINE.match(line)
+    i, n = 0, len(lines)
+    while i < n:
+        m = _FM_LINE.match(lines[i])
         if not m:
+            i += 1
             continue
         key, val = m.group(1), m.group(2).strip()
+        if not val:
+            # Empty value: check for a block-style list on the following
+            # indented `- item` lines.
+            items = []
+            j = i + 1
+            while j < n:
+                item_m = _FM_LIST_ITEM.match(lines[j])
+                if not item_m:
+                    break
+                items.append(_unquote(item_m.group(1)))
+                j += 1
+            if items:
+                fm[key] = items
+                i = j
+                continue
+            fm[key] = ""
+            i += 1
+            continue
         if val.startswith("[") and val.endswith("]"):
-            val = [x.strip() for x in val[1:-1].split(",") if x.strip()]
+            val = [_unquote(x.strip()) for x in val[1:-1].split(",") if x.strip()]
+        else:
+            val = _unquote(val)
         fm[key] = val
+        i += 1
     return fm, body
 
 
@@ -399,7 +440,7 @@ def adapt_solution(fm, body, rel):
     root_cause, date_solved. That schema is load-bearing for /ce:compound and
     the learnings-researcher agent, so it is read, never rewritten.
     """
-    title = (fm.get("title") or "").strip().strip('"').strip()
+    title = (fm.get("title") or "").strip()
     if not title:
         title = extract_title(body, rel)
     tags = fm.get("tags", [])
