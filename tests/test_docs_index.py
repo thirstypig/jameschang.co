@@ -131,9 +131,13 @@ class TestExclusionsAndRealIndex:
             assert d["section"] in {s["key"] for s in index["sections"]}
 
     def test_committed_index_is_public_safe(self):
+        # The single most load-bearing invariant: the committed, PUBLIC index.json
+        # must carry no secret VALUE. index.json is always committed, so its absence
+        # means the gate has nothing to guard — fail loud rather than silently no-op.
         path = os.path.join(REPO_ROOT, "admin", "docs", "index.json")
-        if not os.path.exists(path):
-            return
+        assert os.path.exists(path), (
+            "admin/docs/index.json is missing — the public-safe guard has nothing "
+            "to check; regenerate with `python3 bin/refresh-docs.py`")
         blob = open(path, encoding="utf-8").read()
         leaks = idx.find_secret_values(blob)
         assert not leaks, f"index.json contains secret value(s): {leaks[:3]}"
@@ -282,6 +286,22 @@ class TestRootsAndAdapters:
         forbidden = ("docs/superpowers/", "docs/archive/", "docs/screenshots/")
         for d in index["docs"]:
             assert not d["path"].startswith(forbidden), d["path"]
+
+    def test_roots_cannot_reach_local_only_dirs(self):
+        # The data check above can't fail while ROOTS points only at safe subtrees —
+        # so guard the real invariant at its source: no Root may be the bare `docs`
+        # dir or any ancestor of a local-only dir, which is how a future edit would
+        # start sweeping gitignored specs into the committed, public index.
+        local_only = ("docs/superpowers", "docs/archive", "docs/screenshots")
+        for root in idx.ROOTS:
+            p = root.path.rstrip("/")
+            assert p != "docs", (
+                f"Root({root.path!r}) would recurse the whole docs/ tree and could "
+                "index gitignored local specs into the public index.json")
+            for local in local_only:
+                assert not (local == p or local.startswith(p + "/")), (
+                    f"Root({root.path!r}) is an ancestor of {local}/ — it must never "
+                    "be indexed into the public index.json")
 
     def test_index_is_idempotent(self):
         a = idx.build_index()
