@@ -27,6 +27,8 @@ SECTIONS = [
     ("engineering", "Engineering", "how it's built — decisions, APIs, tests"),
     ("operations", "Operations", "under the hood — stats, costs, changelog, runbook"),
     ("security", "Security & risk", "risks, privacy, open questions"),
+    ("site-engineering", "Site engineering",
+     "how this site is built — guides & solved problems"),
     ("foundations", "Foundations", "glossary, rules, conventions"),
     ("notes", "Notes", "scratchpad & inbox"),
 ]
@@ -37,6 +39,7 @@ TYPE_SECTION = {
     "stats": "operations", "costs": "operations", "status": "operations",
     "changelog": "operations", "runbook": "operations", "experiment": "operations",
     "risk": "security", "privacy": "security",
+    "guide": "site-engineering", "solution": "site-engineering",
     "glossary": "foundations", "intake-rules": "foundations",
     "note": "notes",
 }
@@ -87,6 +90,10 @@ _PEM_HEADER = re.compile(r"-----BEGIN [A-Z ]*(PRIVATE KEY|CERTIFICATE)-----")
 _FILENAME_LIKE_VALUE = re.compile(
     r"\.(?:enc|json|md|py|js|ics|txt|ya?ml|sh)$", re.IGNORECASE
 )
+# A value made of lowercase-alpha words joined by - or _, with at least one
+# separator and NO digits, is a slug/identifier (section keys, project slugs,
+# doc filenames), not a secret. Real secrets carry digits or mixed case.
+_SLUG_LIKE_VALUE = re.compile(r"^[a-z]+(?:[-_][a-z]+)+$")
 
 
 def find_secret_values(text):
@@ -99,6 +106,7 @@ def find_secret_values(text):
         m.group(0)
         for m in _SECRET_ASSIGNMENT.finditer(text)
         if not _FILENAME_LIKE_VALUE.search(m.group(1))
+        and not _SLUG_LIKE_VALUE.match(m.group(1))
     ]
     hits += [m.group(0) for m in _SECRET_URL.finditer(text)]
     hits += [m.group(0) for m in _GITHUB_PAT.finditer(text)]
@@ -348,10 +356,34 @@ def adapt_hub(fm, body, rel):
     )
 
 
+SITE_ENG_PROJECT = "jameschang-co-eng"
+
+
+def _slug_id(prefix, rel):
+    """Slug-based ID for adapter-synthesized docs (never hand-assigned)."""
+    base = os.path.splitext(os.path.basename(rel))[0]
+    return f"{prefix}-{base}"
+
+
+def adapt_guide(fm, body, rel):
+    """docs/guides/** + docs/test-plan.md — no frontmatter at all."""
+    return _doc(
+        rel, body,
+        doc_id=_slug_id("GUIDE", rel),
+        doc_type="guide",
+        status="active",
+        project=SITE_ENG_PROJECT,
+        title="Guide — " + extract_title(body, rel),
+        tags=[],
+    )
+
+
 # Hardcoded allowlist. NEVER glob docs/** — docs/superpowers/ holds gitignored
 # local design specs and index.json is committed and public.
 ROOTS = [
     Root("admin/docs", adapt_hub, True),
+    Root("docs/guides", adapt_guide, False),
+    Root("docs/test-plan.md", adapt_guide, False),
 ]
 
 

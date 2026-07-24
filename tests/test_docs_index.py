@@ -186,6 +186,10 @@ MUST_PASS = [
      'TOKEN_ENC = ".whoop-token.enc"'),
     ("public OAuth endpoint URL, not a secret",
      'TOKEN_URL = "https://api.prod.whoop.com/oauth/oauth2/token"'),
+    ("docs-index section key, a slug not a secret",
+     '"key": "site-engineering"'),
+    ("docs-index project slug, a slug not a secret",
+     '"project": "jameschang-co-eng"'),
 ]
 
 
@@ -258,6 +262,30 @@ class TestRootsAndAdapters:
         b = idx.build_index()
         a.pop("generated"), b.pop("generated")
         assert a == b, "two consecutive builds must agree"
+
+    def test_guide_adapter_synthesizes_everything(self):
+        body = "# Adding a new data feed\n\nSteps follow.\n"
+        doc = idx.adapt_guide({}, body, "docs/guides/adding-new-feed.md")
+        assert doc["type"] == "guide"
+        assert doc["status"] == "active"
+        assert doc["project"] == "jameschang-co-eng"
+        assert doc["section"] == "site-engineering"
+        assert doc["title"] == "Guide — Adding a new data feed"
+        assert doc["id"] == "GUIDE-adding-new-feed"
+        assert doc["tags"] == []
+
+    def test_guide_title_ignores_h1_in_code_fence(self):
+        body = "```bash\n# not the title\n```\n\n# Real Guide\n"
+        doc = idx.adapt_guide({}, body, "docs/guides/x.md")
+        assert doc["title"] == "Guide — Real Guide"
+
+    def test_all_seven_guides_and_test_plan_are_indexed(self):
+        index = idx.build_index()
+        guides = [d for d in index["docs"] if d["type"] == "guide"]
+        assert len(guides) == 8, [d["path"] for d in guides]
+        paths = {d["path"] for d in guides}
+        assert "docs/test-plan.md" in paths
+        assert "docs/guides/cron-scripts-architecture.md" in paths
 
 
 class TestStageAndCockpit:
