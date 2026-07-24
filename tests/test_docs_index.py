@@ -293,6 +293,35 @@ class TestRootsAndAdapters:
         assert "docs/test-plan.md" in paths
         assert "docs/guides/cron-scripts-architecture.md" in paths
 
+    def test_solution_adapter_maps_its_own_vocabulary(self):
+        fm = {
+            "title": '"Generating an ATS-friendly resume PDF"',
+            "slug": "resume-pdf-pipeline",
+            "category": "tooling",
+            "tags": ["print-stylesheet", "ats"],
+            "date_solved": "2026-04-29",
+        }
+        doc = idx.adapt_solution(fm, "# Heading\nbody\n",
+                                 "docs/solutions/tooling/resume-pdf.md")
+        assert doc["type"] == "solution"
+        assert doc["status"] == "done"
+        assert doc["project"] == "jameschang-co-eng"
+        assert doc["section"] == "site-engineering"
+        assert doc["title"] == "Solution — Generating an ATS-friendly resume PDF"
+        assert doc["id"] == "SOL-resume-pdf-pipeline"
+        assert doc["tags"] == ["tooling", "print-stylesheet", "ats"]
+
+    def test_solution_falls_back_to_h1_when_title_missing(self):
+        doc = idx.adapt_solution({}, "# Fallback Title\n",
+                                 "docs/solutions/x/y.md")
+        assert doc["title"] == "Solution — Fallback Title"
+
+    def test_all_21_solutions_are_indexed(self):
+        index = idx.build_index()
+        sols = [d for d in index["docs"] if d["type"] == "solution"]
+        assert len(sols) == 21, [d["path"] for d in sols]
+        assert all(d["path"].startswith("docs/solutions/") for d in sols)
+
 
 class TestStageAndCockpit:
     def test_stage_is_captured(self):

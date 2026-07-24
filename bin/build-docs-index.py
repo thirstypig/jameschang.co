@@ -392,11 +392,38 @@ def adapt_guide(fm, body, rel):
     )
 
 
+def adapt_solution(fm, body, rel):
+    """docs/solutions/** — its own frontmatter vocabulary, translated here.
+
+    Source schema: title, slug, category, tags, severity, component, symptom,
+    root_cause, date_solved. That schema is load-bearing for /ce:compound and
+    the learnings-researcher agent, so it is read, never rewritten.
+    """
+    title = (fm.get("title") or "").strip().strip('"').strip()
+    if not title:
+        title = extract_title(body, rel)
+    tags = fm.get("tags", [])
+    tags = list(tags) if isinstance(tags, list) else []
+    category = fm.get("category", "")
+    if category and category not in tags:
+        tags = [category] + tags
+    return _doc(
+        rel, body,
+        doc_id=_slug_id("SOL", fm.get("slug") or rel),
+        doc_type="solution",
+        status="done",
+        project=SITE_ENG_PROJECT,
+        title="Solution — " + title,
+        tags=tags,
+    )
+
+
 # Hardcoded allowlist. NEVER glob docs/** — docs/superpowers/ holds gitignored
 # local design specs and index.json is committed and public.
 ROOTS = [
     Root("admin/docs", adapt_hub, True),
     Root("docs/guides", adapt_guide, False),
+    Root("docs/solutions", adapt_solution, True),
     Root("docs/test-plan.md", adapt_guide, False),
 ]
 
