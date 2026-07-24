@@ -69,7 +69,7 @@ _SECRET_KEYWORD = (
     r"[a-z0-9_]*(?:secret|token|key|password|passphrase|credential)[a-z0-9_]*"
 )
 _SECRET_ASSIGNMENT = re.compile(
-    _SECRET_KEYWORD + r"[\"']?\s*[:=]\s*[\"']?([A-Za-z0-9_\-./+]{16,})",
+    r"(" + _SECRET_KEYWORD + r")[\"']?\s*[:=]\s*[\"']?([A-Za-z0-9_\-./+]{16,})",
     re.IGNORECASE,
 )
 # Some secrets are whole URLs (e.g. a Google Calendar "secret address in iCal
@@ -92,8 +92,19 @@ _FILENAME_LIKE_VALUE = re.compile(
 )
 # A value made of lowercase-alpha words joined by - or _, with at least one
 # separator and NO digits, is a slug/identifier (section keys, project slugs,
-# doc filenames), not a secret. Real secrets carry digits or mixed case.
+# doc filenames), not a secret. Real secrets carry digits or mixed case. BUT
+# a diceware-style passphrase (e.g. WHOOP_TOKEN_KEY=correct-horse-battery-
+# staple, an AES passphrase in this repo) is exactly this shape too, so this
+# exemption must never apply just because the value looks slug-like — it
+# must also require the matched KEYWORD to be a bare stem ("key", "secret",
+# ...) with no prefix/suffix, i.e. a structural JSON/YAML field name like
+# `"key": "site-engineering"`. A compound name like APP_SECRET or
+# WHOOP_TOKEN_KEY is a real secret identifier and must never be exempt, no
+# matter how slug-like its value looks.
 _SLUG_LIKE_VALUE = re.compile(r"^[a-z]+(?:[-_][a-z]+)+$")
+_BARE_STEM_KEYWORD = re.compile(
+    r"^(?:secret|token|key|password|passphrase|credential)$", re.IGNORECASE
+)
 
 
 def find_secret_values(text):
@@ -105,8 +116,11 @@ def find_secret_values(text):
     hits = [
         m.group(0)
         for m in _SECRET_ASSIGNMENT.finditer(text)
-        if not _FILENAME_LIKE_VALUE.search(m.group(1))
-        and not _SLUG_LIKE_VALUE.match(m.group(1))
+        if not _FILENAME_LIKE_VALUE.search(m.group(2))
+        and not (
+            _BARE_STEM_KEYWORD.match(m.group(1))
+            and _SLUG_LIKE_VALUE.match(m.group(2))
+        )
     ]
     hits += [m.group(0) for m in _SECRET_URL.finditer(text)]
     hits += [m.group(0) for m in _GITHUB_PAT.finditer(text)]

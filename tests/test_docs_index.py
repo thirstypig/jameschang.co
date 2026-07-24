@@ -176,6 +176,12 @@ MUST_CATCH = [
      "GCAL_ICAL_URL=https://calendar.google.com/ical/abc0123456789/basic.ics"),
     ("*_WEBHOOK_URL secret", "SLACK_WEBHOOK_URL=https://hooks.slack.com/services/T00000000/B00000000/abcdefghijklmnopqrst"),
     ("bare *_URI secret", "DATABASE_URI=https://user:pass@db.example.com/abcdefghijklmnopqrst"),
+    ("diceware passphrase, compound *_SECRET (must not slip through the bare-stem slug exemption)",
+     "APP_SECRET=correct-horse-battery-staple"),
+    ("diceware passphrase, compound *_SECRET, different words",
+     "SESSION_SECRET=forest-green-clay-accent"),
+    ("diceware passphrase, compound *_TOKEN_KEY (this repo's real WHOOP_TOKEN_KEY shape)",
+     "WHOOP_TOKEN_KEY=correct-horse-battery-staple"),
 ]
 
 MUST_PASS = [
