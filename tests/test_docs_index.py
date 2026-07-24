@@ -130,6 +130,34 @@ class TestExclusionsAndRealIndex:
         assert idx.find_secret_values(leaked)
         assert idx.find_secret_values("-----BEGIN RSA PRIVATE KEY-----")
 
+    def test_guard_catches_bare_star_token_assignment(self):
+        # A plain `*_TOKEN` var (no client_secret/api_key/etc in the name) is
+        # still a real secret vocabulary word and must be caught when assigned.
+        assert idx.find_secret_values("PLEX_TOKEN=abcdef0123456789ghijk")
+
+    def test_guard_catches_github_pat_prefixed_token(self):
+        leaked = "TLDR_FETCH_TOKEN=ghp_abcdefghijklmnopqrstuvwxyz012345"
+        assert idx.find_secret_values(leaked)
+
+    def test_guard_catches_token_key_passphrase(self):
+        assert idx.find_secret_values("WHOOP_TOKEN_KEY=s3cr3tpassphrase0000")
+
+    def test_guard_catches_url_shaped_secret(self):
+        leaked = ("GCAL_ICAL_URL=https://calendar.google.com/ical/"
+                   "abc0123456789/basic.ics")
+        assert idx.find_secret_values(leaked)
+
+    def test_guard_allows_filename_that_looks_like_assignment(self):
+        # A documented filename constant (e.g. TOKEN_ENC = ".whoop-token.enc"
+        # from docs/solutions/.../oauth2-refresh-token-rotation...md) is not
+        # a secret value — it's a path ending in a known non-secret extension.
+        assert idx.find_secret_values('TOKEN_ENC = ".whoop-token.enc"') == []
+
+    def test_guard_allows_bare_token_and_url_var_mentions(self):
+        prose = ("Required secrets: `PLEX_TOKEN`, `GCAL_ICAL_URL`. "
+                  "See the setup guide for details.")
+        assert idx.find_secret_values(prose) == []
+
 
 class TestStageAndCockpit:
     def test_stage_is_captured(self):

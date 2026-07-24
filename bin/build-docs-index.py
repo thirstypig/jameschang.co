@@ -48,13 +48,37 @@ _FM_LINE = re.compile(r"^(\w+):\s*(.*)$")
 
 # A secret VALUE looks like `name = <16+ opaque chars>`. A bare mention of an
 # env-var NAME is public-safe — those names are already public in this repo
-# (see the /admin/ binding rule in CLAUDE.md). PEM headers are always a value.
+# (see the /admin/ binding rule in CLAUDE.md). The keyword class is broad
+# (any identifier containing client_secret/secret_key/private_key/api_key/
+# token/passphrase/password) so it also catches bare `*_TOKEN` vars like
+# PLEX_TOKEN / TLDR_FETCH_TOKEN / WHOOP_TOKEN_KEY — narrower lists missed
+# those. PEM headers are always a value.
+_SECRET_KEYWORD = (
+    r"[a-z0-9_]*(?:client_secret|secret_key|private_key|api_key|token|"
+    r"passphrase|password)[a-z0-9_]*"
+)
 _SECRET_ASSIGNMENT = re.compile(
-    r"(client_secret|private_key|api_key|secret_key|refresh_token|password)"
-    r"[\"']?\s*[:=]\s*[\"']?[A-Za-z0-9_\-./+]{16,}",
+    _SECRET_KEYWORD + r"[\"']?\s*[:=]\s*[\"']?([A-Za-z0-9_\-./+]{16,})",
     re.IGNORECASE,
 )
+# Some secrets are whole URLs (e.g. a Google Calendar "secret address in iCal
+# format") rather than opaque tokens — the secrecy is the full path, not one
+# assigned value.
+_SECRET_URL = re.compile(
+    r"[a-z0-9_]*(?:ical_url|webhook_url|_uri)[a-z0-9_]*"
+    r"[\"']?\s*[:=]\s*[\"']?(https?://\S{20,})",
+    re.IGNORECASE,
+)
+# GitHub PAT prefixes are self-identifying as secret-shaped regardless of the
+# variable name they're assigned to.
+_GITHUB_PAT = re.compile(r"\b(?:gh[pousr]_[A-Za-z0-9]{16,}|github_pat_[A-Za-z0-9_]{20,})")
 _PEM_HEADER = re.compile(r"-----BEGIN [A-Z ]*(PRIVATE KEY|CERTIFICATE)-----")
+# A matched assignment value that's plainly a filename/path (e.g.
+# `TOKEN_ENC = ".whoop-token.enc"`) is documentation, not a leak — these
+# extensions never appear inside a real secret value.
+_FILENAME_LIKE_VALUE = re.compile(
+    r"\.(?:enc|json|md|py|js|ics|txt|ya?ml|sh)$", re.IGNORECASE
+)
 
 
 def find_secret_values(text):
@@ -63,7 +87,13 @@ def find_secret_values(text):
     Empty list means the text is publishable. Used by the guard test against
     the committed index.json.
     """
-    hits = [m.group(0) for m in _SECRET_ASSIGNMENT.finditer(text)]
+    hits = [
+        m.group(0)
+        for m in _SECRET_ASSIGNMENT.finditer(text)
+        if not _FILENAME_LIKE_VALUE.search(m.group(1))
+    ]
+    hits += [m.group(0) for m in _SECRET_URL.finditer(text)]
+    hits += [m.group(0) for m in _GITHUB_PAT.finditer(text)]
     hits += [m.group(0) for m in _PEM_HEADER.finditer(text)]
     return hits
 
