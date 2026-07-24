@@ -19,6 +19,7 @@ Operational notes for Claude Code (and any other agent) working on this repo. Fo
 /now/                   Derek Sivers-style /now page (reads notebook.css)
 /projects/              Deep-dive project pages (Aleph, Fantastic Leagues, Judge Tool) — each has sub-pages + dashboard prompt showcase. Loads notebook.css + projects/projects.css.
 /privacy/               Privacy policy (required by WHOOP app registration). Loads notebook.css.
+/admin/                 Gated operator area (footer login curtain — a curtain, not a lock). Portfolio review board (portfolio.js/.json) + browsable docs hub (admin/docs/: portfolio PRDs/ADRs + jameschang.co's own guides/solutions/test-plan, indexed by bin/build-docs-index.py). Public-safe content ONLY; noindex + robots-Disallowed. See "Admin area + portfolio docs hub".
 /whoop/callback/        OAuth2 redirect target (static page that reads ?code= from URL). Inline-styled utility page, no shared CSS.
 /spotify/callback/      OAuth2 redirect target for the Spotify auth flow. Same shape as /whoop/callback/.
 /assets/                Images (AVIF/WebP responsive pairs), favicons, OG image, apple-touch-icon

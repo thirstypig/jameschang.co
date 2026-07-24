@@ -15,6 +15,7 @@ Personal site for James Chang — founder of Aleph Co. and senior product manage
 | `projects/` | Deep-dive project pages (Aleph, Fantastic Leagues, Judge Tool) |
 | `projects/projects.css` | Component styles for the 13 deep-dive sub-pages (consumes notebook design tokens) |
 | `privacy/` | Privacy policy (required by WHOOP/Spotify app registrations) |
+| `admin/` | Gated operator area (footer login curtain — public-safe content only, `noindex`): portfolio review board + browsable docs hub (`admin/docs/`) |
 | `bin/` | Python sync scripts (WHOOP, Spotify, Plex, public feeds, per-project TLDRs) |
 | `.github/workflows/` | GitHub Actions for automated feed updates + staleness monitoring |
 
