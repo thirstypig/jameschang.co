@@ -98,7 +98,7 @@ class TestMarkdownRender:
 
 class TestExclusionsAndRealIndex:
     def test_templates_and_underscore_files_excluded(self):
-        paths = list(idx.iter_doc_files())
+        paths = [p for r in idx.ROOTS for p in idx.iter_root_files(r)]
         assert not any("_templates/" in p for p in paths)
         assert not any(os.path.basename(p).startswith("_") for p in paths)
 
@@ -202,6 +202,62 @@ class TestSecretKeywordClass:
             if idx.find_secret_values(text)
         ]
         assert not false_positives, f"find_secret_values() false-positived: {false_positives}"
+
+
+class TestRootsAndAdapters:
+    def test_hub_adapter_skips_docs_without_type(self):
+        assert idx.adapt_hub({}, "# No frontmatter\n", "admin/docs/x.md") is None
+        assert idx.adapt_hub({"id": "X"}, "# T\n", "admin/docs/x.md") is None
+
+    def test_hub_adapter_maps_fields(self):
+        fm = {"id": "PRD-9", "type": "prd", "status": "active",
+              "project": "aleph", "stage": "shipped", "tags": ["ai"]}
+        doc = idx.adapt_hub(fm, "# Widget\nbody\n", "admin/docs/p/PRD-9.md")
+        assert doc["id"] == "PRD-9"
+        assert doc["type"] == "prd"
+        assert doc["section"] == "product"
+        assert doc["title"] == "Widget"
+        assert doc["tags"] == ["ai"]
+        assert doc["path"] == "admin/docs/p/PRD-9.md"
+
+    def test_missing_root_is_skipped_not_fatal(self):
+        ghost = idx.Root("docs/does-not-exist", idx.adapt_hub, False)
+        assert list(idx.iter_root_files(ghost)) == []
+
+    def test_single_file_root_yields_that_file(self):
+        r = idx.Root("docs/test-plan.md", idx.adapt_hub, False)
+        got = list(idx.iter_root_files(r))
+        assert len(got) == 1 and got[0].endswith("docs/test-plan.md")
+
+    def test_unparseable_file_is_skipped_not_fatal(self, tmp_path, monkeypatch):
+        # A file that explodes on read must not take down the whole build.
+        def boom(*a, **k):
+            raise UnicodeDecodeError("utf-8", b"", 0, 1, "synthetic")
+        real_open = open
+        calls = {"n": 0}
+
+        def flaky(path, *a, **k):
+            calls["n"] += 1
+            if calls["n"] == 1:
+                boom()
+            return real_open(path, *a, **k)
+
+        monkeypatch.setattr("builtins.open", flaky)
+        index = idx.build_index()          # must not raise
+        assert index["docs"], "one bad file must not empty the index"
+
+    def test_no_local_only_dirs_are_indexed(self):
+        # docs/superpowers holds gitignored design specs; index.json is public.
+        index = idx.build_index()
+        forbidden = ("docs/superpowers/", "docs/archive/", "docs/screenshots/")
+        for d in index["docs"]:
+            assert not d["path"].startswith(forbidden), d["path"]
+
+    def test_index_is_idempotent(self):
+        a = idx.build_index()
+        b = idx.build_index()
+        a.pop("generated"), b.pop("generated")
+        assert a == b, "two consecutive builds must agree"
 
 
 class TestStageAndCockpit:

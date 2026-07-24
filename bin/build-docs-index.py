@@ -10,6 +10,7 @@ tree (impossible on a static host).
 Run standalone, or via `python3 bin/refresh-docs.py` (which calls this last).
 Python 3 stdlib only.
 """
+import collections
 import html as _html
 import json
 import os
@@ -284,36 +285,95 @@ def md_to_html(md):
 
 # ── walk + build ──────────────────────────────────────────────────────────
 
-def iter_doc_files():
-    for root, dirs, files in os.walk(HUB):
-        dirs[:] = [d for d in dirs if d != "_templates"]
+Root = collections.namedtuple("Root", "path adapter recurse")
+
+
+def iter_root_files(root):
+    """Yield absolute paths of indexable .md files under one root.
+
+    A root may be a single file or a directory. A missing root logs and yields
+    nothing — a rename must never break the build for every other doc.
+    """
+    abs_root = os.path.join(REPO_ROOT, root.path)
+    if os.path.isfile(abs_root):
+        yield abs_root
+        return
+    if not os.path.isdir(abs_root):
+        print(f"  ! root missing, skipped: {root.path}")
+        return
+    if not root.recurse:
+        for fn in sorted(os.listdir(abs_root)):
+            full = os.path.join(abs_root, fn)
+            if fn.endswith(".md") and not fn.startswith("_") and os.path.isfile(full):
+                yield full
+        return
+    for dirpath, dirnames, files in os.walk(abs_root):
+        dirnames[:] = sorted(d for d in dirnames if d != "_templates")
         for fn in sorted(files):
             if not fn.endswith(".md") or fn.startswith("_"):
                 continue
-            yield os.path.join(root, fn)
+            yield os.path.join(dirpath, fn)
+
+
+def _doc(rel, body, *, doc_id, doc_type, status, project, title, tags, stage=""):
+    """Assemble one index entry. `rel` is repo-relative."""
+    return {
+        "id": doc_id,
+        "type": doc_type,
+        "status": status,
+        "stage": stage,
+        "project": project,
+        "tags": tags,
+        "title": title,
+        "path": rel,
+        "section": section_for(doc_type, rel),
+        "html": md_to_html(body),
+    }
+
+
+def adapt_hub(fm, body, rel):
+    """admin/docs/** — already hub schema. No `type` means not an authored doc."""
+    if not fm.get("type"):
+        return None
+    tags = fm.get("tags", [])
+    return _doc(
+        rel, body,
+        doc_id=fm.get("id", ""),
+        doc_type=fm.get("type", ""),
+        status=fm.get("status", ""),
+        stage=fm.get("stage", ""),
+        project=fm.get("project", ""),
+        title=extract_title(body, rel),
+        tags=tags if isinstance(tags, list) else [],
+    )
+
+
+# Hardcoded allowlist. NEVER glob docs/** — docs/superpowers/ holds gitignored
+# local design specs and index.json is committed and public.
+ROOTS = [
+    Root("admin/docs", adapt_hub, True),
+]
 
 
 def build_index():
     docs = []
-    for path in iter_doc_files():
-        rel = os.path.relpath(path, REPO_ROOT)
-        with open(path, encoding="utf-8") as f:
-            content = f.read()
-        fm, body = parse_frontmatter(content)
-        if not fm.get("type"):
-            continue  # not an indexable authored doc
-        docs.append({
-            "id": fm.get("id", ""),
-            "type": fm.get("type", ""),
-            "status": fm.get("status", ""),
-            "stage": fm.get("stage", ""),
-            "project": fm.get("project", ""),
-            "tags": fm.get("tags", []) if isinstance(fm.get("tags"), list) else [],
-            "title": extract_title(body, rel),
-            "path": rel,
-            "section": section_for(fm.get("type", ""), rel),
-            "html": md_to_html(body),
-        })
+    for root in ROOTS:
+        count = 0
+        for path in iter_root_files(root):
+            rel = os.path.relpath(path, REPO_ROOT)
+            try:
+                with open(path, encoding="utf-8") as f:
+                    content = f.read()
+                fm, body = parse_frontmatter(content)
+                doc = root.adapter(fm, body, rel)
+            except Exception as exc:  # one bad file must not kill the build
+                print(f"  ! skipped {rel}: {exc.__class__.__name__}")
+                continue
+            if doc is None:
+                continue
+            docs.append(doc)
+            count += 1
+        print(f"  {root.path}: {count} doc(s)")
     docs.sort(key=lambda d: (d["project"], d["title"].lower()))
     present = {d["section"] for d in docs}
     sections = [{"key": k, "label": lbl, "blurb": bl2}
