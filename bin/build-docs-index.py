@@ -48,14 +48,21 @@ _FM_LINE = re.compile(r"^(\w+):\s*(.*)$")
 
 # A secret VALUE looks like `name = <16+ opaque chars>`. A bare mention of an
 # env-var NAME is public-safe — those names are already public in this repo
-# (see the /admin/ binding rule in CLAUDE.md). The keyword class is broad
-# (any identifier containing client_secret/secret_key/private_key/api_key/
-# token/passphrase/password) so it also catches bare `*_TOKEN` vars like
-# PLEX_TOKEN / TLDR_FETCH_TOKEN / WHOOP_TOKEN_KEY — narrower lists missed
-# those. PEM headers are always a value.
+# (see the /admin/ binding rule in CLAUDE.md).
+#
+# The keyword list is BARE STEMS ONLY (secret, token, key, password,
+# passphrase, credential) — not compounds like client_secret/secret_key/
+# api_key. Every compound tried across three prior review rounds is subsumed
+# by one of these stems, so enumerating compounds was pure redundancy — and
+# redundant enumeration is exactly what let three different bare keywords
+# (token, then key, then secret) slip through undetected across those three
+# rounds. Matching on stems instead of the compounds built from them closes
+# the whole class at once: any identifier containing one of these stems
+# anywhere (PLEX_TOKEN, WHOOP_TOKEN_KEY, APP_SECRET, SIGNING_KEY,
+# DB_PASSWORD, API_CREDENTIAL, client_secret, api_key, ...) is caught. PEM
+# headers are always a value regardless of the assigned name.
 _SECRET_KEYWORD = (
-    r"[a-z0-9_]*(?:client_secret|secret_key|private_key|api_key|token|"
-    r"passphrase|password|key)[a-z0-9_]*"
+    r"[a-z0-9_]*(?:secret|token|key|password|passphrase|credential)[a-z0-9_]*"
 )
 _SECRET_ASSIGNMENT = re.compile(
     _SECRET_KEYWORD + r"[\"']?\s*[:=]\s*[\"']?([A-Za-z0-9_\-./+]{16,})",

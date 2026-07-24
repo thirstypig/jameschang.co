@@ -125,44 +125,70 @@ class TestExclusionsAndRealIndex:
                  "`SPOTIFY_REFRESH_TOKEN`. Store the password in 1Password.")
         assert idx.find_secret_values(prose) == []
 
-    def test_guard_catches_actual_assigned_values(self):
-        leaked = 'WHOOP_CLIENT_SECRET="a1b2c3d4e5f6g7h8i9j0k1l2"'
-        assert idx.find_secret_values(leaked)
-        assert idx.find_secret_values("-----BEGIN RSA PRIVATE KEY-----")
-
-    def test_guard_catches_bare_star_token_assignment(self):
-        # A plain `*_TOKEN` var (no client_secret/api_key/etc in the name) is
-        # still a real secret vocabulary word and must be caught when assigned.
-        assert idx.find_secret_values("PLEX_TOKEN=abcdef0123456789ghijk")
-
-    def test_guard_catches_github_pat_prefixed_token(self):
-        leaked = "TLDR_FETCH_TOKEN=ghp_abcdefghijklmnopqrstuvwxyz012345"
-        assert idx.find_secret_values(leaked)
-
-    def test_guard_catches_token_key_passphrase(self):
-        assert idx.find_secret_values("WHOOP_TOKEN_KEY=s3cr3tpassphrase0000")
-
-    def test_guard_catches_url_shaped_secret(self):
-        leaked = ("GCAL_ICAL_URL=https://calendar.google.com/ical/"
-                   "abc0123456789/basic.ics")
-        assert idx.find_secret_values(leaked)
-
-    def test_guard_allows_filename_that_looks_like_assignment(self):
-        # A documented filename constant (e.g. TOKEN_ENC = ".whoop-token.enc"
-        # from docs/solutions/.../oauth2-refresh-token-rotation...md) is not
-        # a secret value — it's a path ending in a known non-secret extension.
-        assert idx.find_secret_values('TOKEN_ENC = ".whoop-token.enc"') == []
-
     def test_guard_allows_bare_token_and_url_var_mentions(self):
         prose = ("Required secrets: `PLEX_TOKEN`, `GCAL_ICAL_URL`. "
                   "See the setup guide for details.")
         assert idx.find_secret_values(prose) == []
 
-    def test_guard_catches_bare_key_assignments(self):
-        # Bare `*_KEY` patterns must be caught when assigned a value.
-        assert idx.find_secret_values("SIGNING_KEY=1234567890abcdef1234")
-        assert idx.find_secret_values('ENCRYPTION_KEY="1234567890abcdef1234"')
-        assert idx.find_secret_values("MASTER_KEY: 1234567890abcdef1234")
+
+# --- Class-level regression guard -------------------------------------------
+#
+# Three prior review rounds each added ONE missing bare keyword (token, then
+# key, then secret) to _SECRET_KEYWORD — a compound-enumeration approach that
+# guarantees a fourth miss eventually. `find_secret_values()` was generalized
+# to match bare STEMS (secret/token/key/password/passphrase/credential)
+# instead of compounds built from them.
+#
+# This table is the guard against round 4: it doesn't test one keyword at a
+# time, it tests the CLASS — every representative secret-name *shape* that
+# must be caught, and every representative safe shape that must pass. To add
+# coverage for a new secret-name pattern, add one line to MUST_CATCH (or
+# MUST_PASS for a new safe shape) — no new test function needed.
+MUST_CATCH = [
+    ("bare *_SECRET, unquoted", "APP_SECRET=abcdefghijklmnopqrstuvwxyz"),
+    ("bare *_SECRET, double-quoted", 'JWT_SECRET="abcdefghijklmnopqrstuvwxyz"'),
+    ("bare *_SECRET, colon-style", "SESSION_SECRET: abcdefghijklmnopqrstuvwxyz"),
+    ("bare *_TOKEN", "PLEX_TOKEN=abcdef0123456789ghijk"),
+    ("*_TOKEN with a github_pat-shaped value",
+     "TLDR_FETCH_TOKEN=ghp_abcdefghijklmnopqrstuvwxyz012345"),
+    ("compound *_TOKEN_KEY", "WHOOP_TOKEN_KEY=s3cr3tpassphrase0000"),
+    ("bare *_KEY", "SIGNING_KEY=1234567890abcdef1234"),
+    ("bare *_KEY, double-quoted", 'ENCRYPTION_KEY="1234567890abcdef1234"'),
+    ("bare *_KEY, colon-style", "MASTER_KEY: 1234567890abcdef1234"),
+    ("compound *_CLIENT_SECRET", 'WHOOP_CLIENT_SECRET="a1b2c3d4e5f6g7h8i9j0k1l2"'),
+    ("bare *_PASSWORD", "DB_PASSWORD=Sup3rSecretPassw0rd!!"),
+    ("bare *_CREDENTIAL", "API_CREDENTIAL=abcdefghijklmnop1234"),
+    ("github_pat_ literal (name-independent)",
+     "leaked: github_pat_abcdefghijklmnopqrstuvwxyz0123456789ABCD"),
+    ("PEM header (name-independent)", "-----BEGIN RSA PRIVATE KEY-----"),
+    ("*_URL secret (full-URL secrecy, not opaque token)",
+     "GCAL_ICAL_URL=https://calendar.google.com/ical/abc0123456789/basic.ics"),
+]
+
+MUST_PASS = [
+    ("prose naming vars in backticks, no assignment",
+     "Required secrets: `PLEX_TOKEN`, `GCAL_ICAL_URL`, `WHOOP_CLIENT_SECRET`. "
+     "See the setup guide for details."),
+    ("filename constant, not a secret value",
+     'TOKEN_ENC = ".whoop-token.enc"'),
+    ("public OAuth endpoint URL, not a secret",
+     'TOKEN_URL = "https://api.prod.whoop.com/oauth/oauth2/token"'),
+]
+
+
+class TestSecretKeywordClass:
+    """Table-driven guard against a 4th round of one-keyword-at-a-time patches."""
+
+    def test_must_catch_every_representative_secret_shape(self):
+        misses = [label for label, text in MUST_CATCH if not idx.find_secret_values(text)]
+        assert not misses, f"find_secret_values() missed: {misses}"
+
+    def test_must_pass_every_representative_safe_shape(self):
+        false_positives = [
+            (label, idx.find_secret_values(text)) for label, text in MUST_PASS
+            if idx.find_secret_values(text)
+        ]
+        assert not false_positives, f"find_secret_values() false-positived: {false_positives}"
 
 
 class TestStageAndCockpit:
