@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-24T08:10:13+00:00",
+  "generated": "2026-07-24T16:45:14+00:00",
   "sections": [
     {
       "key": "product",
@@ -43,7 +43,7 @@
         "infra"
       ],
       "title": "ADR-001: Aleph's core stack",
-      "path": "projects/aleph/adrs/ADR-001-stack-choice.md",
+      "path": "admin/docs/projects/aleph/adrs/ADR-001-stack-choice.md",
       "section": "engineering",
       "html": "<h1>ADR-001: Aleph's core stack</h1>\n<h2>Context</h2>\n<p>[unknown] What did Aleph need at the start — speed to ship, PDF generation, auth, per-tenant data, payments? The requirements that drove the stack choice aren't recorded here. <strong>← fill from the repo / your memory.</strong></p>\n<h2>Decision</h2>\n<p>[unknown] The actual framework / DB / auth / hosting choices. <strong>← fill.</strong></p>\n<h2>Consequences</h2>\n<p>[unknown] What the choice made easy vs. hard, and what Aleph is now locked into.</p>"
     },
@@ -55,7 +55,7 @@
       "project": "aleph",
       "tags": [],
       "title": "Aleph — API docs",
-      "path": "projects/aleph/api-docs.md",
+      "path": "admin/docs/projects/aleph/api-docs.md",
       "section": "engineering",
       "html": "<h1>Aleph — API docs</h1>"
     },
@@ -67,7 +67,7 @@
       "project": "aleph",
       "tags": [],
       "title": "Aleph — changelog",
-      "path": "projects/aleph/changelog.md",
+      "path": "admin/docs/projects/aleph/changelog.md",
       "section": "operations",
       "html": "<h1>Aleph — changelog</h1>\n<p>What shipped, when. Newest first. Appendable from phase/feature completions.</p>\n<table><thead><tr><th>date</th><th>what shipped</th><th>links</th></tr></thead><tbody><tr><td></td><td></td><td></td></tr></tbody></table>"
     },
@@ -79,7 +79,7 @@
       "project": "aleph",
       "tags": [],
       "title": "Aleph — component library",
-      "path": "projects/aleph/component-library.md",
+      "path": "admin/docs/projects/aleph/component-library.md",
       "section": "engineering",
       "html": "<h1>Aleph — component library</h1>"
     },
@@ -93,7 +93,7 @@
         "compliance"
       ],
       "title": "Aleph — CPC certificate generation",
-      "path": "projects/aleph/prds/PRD-001-cpc-certificate.md",
+      "path": "admin/docs/projects/aleph/prds/PRD-001-cpc-certificate.md",
       "section": "product",
       "html": "<h1>Aleph — CPC certificate generation</h1>\n<h2>1. Problem statement</h2>\n<p>[inferred] US importers of children's products (age 12 and under) must issue a Children's Product Certificate (CPC) under CPSIA. Doing it by hand — collating lab results, standards, and importer data into a compliant PDF — is error-prone and slow.</p>\n<h2>2. Strategic rationale</h2>\n<p>[unknown] Why CPC first among Aleph's modules (vs. Prop 65, PFAS, FSVP)? Likely a beachhead choice, but the ordering rationale isn't recorded. <strong>← James to confirm.</strong></p>\n<h2>3. User story</h2>\n<p>[inferred] As an importer, I want to generate a filing-ready CPC from my product + lab data so that I can clear customs without hand-building the certificate.</p>\n<h2>4. Hypothesis / assumptions</h2>\n<ul><li>[inferred] Importers will trust a generated CPC enough to file it.</li><li>[unknown] The bet on <em>what</em> makes them switch from spreadsheets/consultants. <strong>← confirm.</strong></li></ul>\n<h2>5. Impact &amp; KPIs</h2>\n<ul><li>(a) SHOULD measure: [unknown] certificates generated, time-to-first-CPC, activation→paid.</li><li>(b) TODAY: [unknown] — is any of this instrumented? Not visible from public docs. <strong>← confirm.</strong></li></ul>\n<h2>6. Technical notes</h2>\n<p>[inferred] Workflow: add product → upload lab test report → complete the 7-field CPC form → preview → generate a formatted PDF. PDF generation via <code>pdf-lib</code>. (Details from the public roadmap; verify against the app repo when we do the archaeology pass.)</p>\n<h2>7. AI implementation notes</h2>\n<p>[unknown] Does CPC use any AI (e.g. extracting fields from the lab PDF), or is it pure form-fill? Public docs don't say. <strong>← confirm.</strong></p>\n<h2>8. Testing plan</h2>\n<p>[unknown] What tests cover CPC generation today? Fill from the <code>alephco.io-app</code> repo.</p>\n<h2>9. Deferred / what we'd do differently</h2>\n<p>[unknown] Reserved for the hindsight pass — fill once we read the code.</p>"
     },
@@ -105,7 +105,7 @@
       "project": "aleph",
       "tags": [],
       "title": "Aleph — decision log",
-      "path": "projects/aleph/decision-log.md",
+      "path": "admin/docs/projects/aleph/decision-log.md",
       "section": "engineering",
       "html": "<h1>Aleph — decision log</h1>"
     },
@@ -117,7 +117,7 @@
       "project": "aleph",
       "tags": [],
       "title": "Aleph — experiment log",
-      "path": "projects/aleph/experiment-log.md",
+      "path": "admin/docs/projects/aleph/experiment-log.md",
       "section": "operations",
       "html": "<h1>Aleph — experiment log</h1>\n<p>Closes the loop on PRD hypotheses: what we bet, what happened. One example linked to PRD-001; add real experiments as you run them.</p>\n<table><thead><tr><th>id</th><th>hypothesis (from PRD)</th><th>metric</th><th>result</th><th>links</th></tr></thead><tbody><tr><td>EXP-001</td><td>Importers will trust a generated CPC enough to file it (PRD-001 §4).</td><td>[unknown — not instrumented]</td><td>pending</td><td>PRD-001</td></tr></tbody></table>"
     },
@@ -132,7 +132,7 @@
         "data-model"
       ],
       "title": "Aleph — privacy & data handling",
-      "path": "projects/aleph/privacy-data-handling.md",
+      "path": "admin/docs/projects/aleph/privacy-data-handling.md",
       "section": "security",
       "html": "<h1>Aleph — privacy &amp; data handling</h1>\n<blockquote><strong>Important — this product handles sensitive business data</strong> (importer identities, product/supplier records, lab test reports). Treat this doc as load-bearing, not boilerplate. (Portfolio note: the single most sensitive privacy case is <strong>Vouch</strong>, which handles data about <strong>minors</strong> — give its version extra care.)</blockquote>\n<ul><li><strong>What's recorded:</strong> [unknown] — enumerate the personal/business data collected.</li><li><strong>Where it's stored:</strong> [unknown] — database, file storage for lab PDFs, etc.</li><li><strong>How long it's kept:</strong> [unknown] — retention policy per data type.</li><li><strong>What's deleted, and when:</strong> [unknown] — on account close? on request?</li><li><strong>Who can access it:</strong> [unknown] — per-tenant isolation, admin access.</li></ul>"
     },
@@ -146,7 +146,7 @@
         "compliance"
       ],
       "title": "Aleph — risks & open questions",
-      "path": "projects/aleph/risks-register.md",
+      "path": "admin/docs/projects/aleph/risks-register.md",
       "section": "security",
       "html": "<h1>Aleph — risks &amp; open questions</h1>\n<p>Running list. Each risk has a stable <code>RISK-###</code>, a status, and an owner. Two examples to show the shape — replace with Aleph's real risks.</p>\n<table><thead><tr><th>id</th><th>risk / open question</th><th>likelihood·impact</th><th>status</th><th>owner</th></tr></thead><tbody><tr><td>RISK-001</td><td>An importer files a generated CPC that a regulator later rejects — liability + trust hit.</td><td>[unknown]</td><td>open</td><td>james</td></tr><tr><td>RISK-002</td><td>Regulatory formats change (CPSC e-filing mandate) and generated docs go stale.</td><td>[unknown]</td><td>open</td><td>james</td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr></tbody></table>"
     },
@@ -160,7 +160,7 @@
         "infra"
       ],
       "title": "Aleph — runbook",
-      "path": "projects/aleph/runbook.md",
+      "path": "admin/docs/projects/aleph/runbook.md",
       "section": "operations",
       "html": "<h1>Aleph — runbook</h1>\n<p>How to operate Aleph. Fill from how it's actually deployed.</p>\n<ul><li><strong>Deploy:</strong> [unknown] — how a change reaches production.</li><li><strong>Rotate keys / secrets:</strong> [unknown] — which secrets, where, how often.</li><li><strong>When a key service breaks:</strong> [unknown] — DB down? PDF service down? payments down?</li></ul>\n<p>What the user sees and the first thing to check.</p>\n<ul><li><strong>Backups / restore:</strong> [unknown].</li></ul>"
     },
@@ -172,7 +172,7 @@
       "project": "aleph",
       "tags": [],
       "title": "Aleph — tech spec",
-      "path": "projects/aleph/tech-spec.md",
+      "path": "admin/docs/projects/aleph/tech-spec.md",
       "section": "engineering",
       "html": "<h1>Aleph — tech spec</h1>"
     },
@@ -184,7 +184,7 @@
       "project": "aleph",
       "tags": [],
       "title": "Aleph — testing strategy",
-      "path": "projects/aleph/testing-strategy.md",
+      "path": "admin/docs/projects/aleph/testing-strategy.md",
       "section": "engineering",
       "html": "<h1>Aleph — testing strategy</h1>"
     },
@@ -198,7 +198,7 @@
         "payments"
       ],
       "title": "aleph — unit economics",
-      "path": "projects/aleph/costs.md",
+      "path": "admin/docs/projects/aleph/costs.md",
       "section": "operations",
       "html": "<h1>aleph — unit economics</h1>\n<p>_Numbers flagged <strong>(VERIFY)</strong> are unconfirmed inputs — never present them as fact until confirmed and removed from <code>_verify</code> in costs.config.json._</p>\n<h2>Assumptions</h2>\n<ul><li>Plan price: $0.00/user/month  <strong>(VERIFY)</strong></li><li>Usage: 0 certificates/user/month  <strong>(VERIFY)</strong>, avg 0 pages  <strong>(VERIFY)</strong></li><li>Primary variable: $0.00/certificates  <strong>(VERIFY)</strong></li><li>Auth: $0.00/user/mo  <strong>(VERIFY)</strong> · DB: $0.00/user/mo  <strong>(VERIFY)</strong> · Hosting: $0.00/mo flat  <strong>(VERIFY)</strong></li><li>Payments: 2.9% + $0.30 per charge</li></ul>\n<h2>Margin by tier</h2>\n<table><thead><tr><th>users</th><th>var/user/mo</th><th>total var</th><th>hosting</th><th>pay fees</th><th>revenue</th><th>gross margin $</th><th>margin %</th></tr></thead><tbody><tr><td>10</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>0%</td></tr><tr><td>100</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>0%</td></tr><tr><td>1,000</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>0%</td></tr></tbody></table>"
     },
@@ -212,7 +212,7 @@
         "ai"
       ],
       "title": "Bahtzang Trader — AI trading decision loop",
-      "path": "projects/bahtzang-trader/prds/PRD-BT-001-ai-trading-loop.md",
+      "path": "admin/docs/projects/bahtzang-trader/prds/PRD-BT-001-ai-trading-loop.md",
       "section": "product",
       "html": "<h1>Bahtzang Trader — AI trading decision loop</h1>\n<h2>1. Problem statement</h2>\n<p>[inferred] Can an LLM make disciplined, repeatable trading calls under real market conditions? There's no safe, honest way to find out without risking money — so this builds a guard-railed harness to test it on paper first.</p>\n<h2>2. Strategic rationale</h2>\n<p>[intended] The bet (portfolio board): <em>\"a learning experiment with real guardrails, not a product yet.\"</em> The value is the discipline and the harness, not the P&amp;L.</p>\n<h2>3. User story</h2>\n<p>[inferred] As the operator, I want Claude to issue buy/sell/hold calls against a paper account under fixed rules so that I can evaluate the strategy before any real capital is at stake.</p>\n<h2>4. Hypothesis / assumptions</h2>\n<ul><li>[intended] An LLM + explicit guardrails can trade with discipline a human might lack.</li><li>[unknown] The actual gate criteria that would justify going live. <strong>← confirm.</strong></li></ul>\n<h2>5. Impact &amp; KPIs</h2>\n<ul><li>(a) SHOULD measure: [unknown] paper P&amp;L vs. a benchmark, rule adherence, drawdown.</li><li>(b) TODAY: [unknown] — what's tracked across the paper trades? <strong>← confirm.</strong></li></ul>\n<h2>6. Technical notes</h2>\n<p>[inferred] Executes against a paper-trading brokerage account (public: Alpaca). The decision logic, prompts, and risk rules live in the <strong>private</strong> repo — not reproduced here.</p>\n<h2>7. AI implementation notes</h2>\n<p>[inferred] Claude drives the calls. [unknown] prompt/decision framework, cost per run — private.</p>\n<h2>8. Testing plan</h2>\n<p>[unknown] What proves a call obeyed the rules before it's placed? — private.</p>\n<h2>9. Deferred / what we'd do differently</h2>\n<p>[intended] Live trading is explicitly deferred — gated behind completing the paper run (portfolio \"next up\": ~6 more trades) and meeting the (to-be-confirmed) criteria. This is a PROHIBITED-until-proven boundary, deliberately.</p>"
     },
@@ -224,7 +224,7 @@
       "project": "bahtzang-trader",
       "tags": [],
       "title": "Bahtzang Trader — roadmap",
-      "path": "projects/bahtzang-trader/roadmap.md",
+      "path": "admin/docs/projects/bahtzang-trader/roadmap.md",
       "section": "product",
       "html": "<h1>Bahtzang Trader — roadmap</h1>\n<ul><li><strong>Now:</strong> finish the paper-trade run (portfolio \"next up\": ~6 more trades).</li><li><strong>Gate:</strong> decide whether to trade real money — only if the (to-confirm) criteria are met.</li><li><strong>Then:</strong> tighten the risk/loss-limit rules.</li></ul>"
     },
@@ -239,7 +239,7 @@
         "integration"
       ],
       "title": "Fantastic Leagues — AI-assisted analysis",
-      "path": "projects/fantastic-leagues/prds/PRD-001-ai-insights.md",
+      "path": "admin/docs/projects/fantastic-leagues/prds/PRD-001-ai-insights.md",
       "section": "product",
       "html": "<h1>Fantastic Leagues — AI-assisted analysis</h1>\n<h2>1. Problem statement</h2>\n<p>[inferred] Serious keeper-league managers want deeper, faster analysis than the big fantasy platforms give — projections, matchup/trade reads, in-season decisions — and the mass-market tools optimize for casual players, not the hardcore.</p>\n<h2>2. Strategic rationale</h2>\n<p>[intended] The bet (portfolio board): <em>\"serious keeper leagues are underserved by the big platforms — go deep for the hardcore, not wide for casuals.\"</em> AI analysis is the wedge that a two-person operation can offer that the incumbents won't bother to.</p>\n<h2>3. User story</h2>\n<p>[inferred] As a keeper-league manager, I want AI-assisted reads on my roster and moves so that I make better in-season and trade decisions without doing the analysis by hand.</p>\n<h2>4. Hypothesis / assumptions</h2>\n<ul><li>[intended] Hardcore managers will pay for depth the free platforms don't offer.</li><li>[unknown] Which specific AI outputs actually change a manager's decision (and get</li></ul>\n<p>used weekly) vs. which are nice-to-look-at. <strong>← James to confirm from usage.</strong></p>\n<h2>5. Impact &amp; KPIs</h2>\n<ul><li>(a) SHOULD measure: [unknown] weekly active managers, AI-feature engagement,</li></ul>\n<p>free→paid conversion, retention across a season.</p>\n<ul><li>(b) TODAY: [unknown] — is any of this instrumented? <strong>← confirm.</strong></li></ul>\n<h2>6. Technical notes</h2>\n<p>[inferred] AI features are powered by LLMs (public: the product uses Gemini + Claude). Detailed architecture/prompts/costs live in the <strong>private</strong> <code>TheFantasticLeagues</code> repo and are intentionally NOT reproduced on this public hub.</p>\n<h2>7. AI implementation notes</h2>\n<p>[inferred] Multi-model (Gemini + Claude). [unknown] model routing, prompt strategy, and per-call cost — private; fill in the product's own repo, not here.</p>\n<h2>8. Testing plan</h2>\n<p>[unknown] What guards the AI outputs (accuracy, hallucination, cost caps)? — private.</p>\n<h2>9. Deferred / what we'd do differently</h2>\n<p>[unknown] Hindsight — reserved. Public roadmap shows the forward path (FanGraphs/Statcast data, scoring-format expansion, a pre-trade AI advisor).</p>"
     },
@@ -251,7 +251,7 @@
       "project": "fantastic-leagues",
       "tags": [],
       "title": "Fantastic Leagues — roadmap",
-      "path": "projects/fantastic-leagues/roadmap.md",
+      "path": "admin/docs/projects/fantastic-leagues/roadmap.md",
       "section": "product",
       "html": "<h1>Fantastic Leagues — roadmap</h1>\n<p><strong>The live, detailed roadmap is public and auto-synced</strong> from the product: <a href=\"/projects/fantastic-leagues/roadmap/\" rel=\"noopener\">/projects/fantastic-leagues/roadmap/</a>. This is the strategic summary.</p>\n<ul><li><strong>Now (in-season):</strong> accuracy — standings + daily stat lines (portfolio \"next up\").</li><li><strong>Near:</strong> engagement (chat, notifications), paid data feeds (FanGraphs, Statcast).</li><li><strong>Later:</strong> scoring-format expansion (H2H categories, points, snake draft, pre-trade</li></ul>\n<p>AI advisor).</p>\n<ul><li><strong>2027:</strong> monetization (seasonal pricing, Stripe), growth (SEO, Yahoo import).</li></ul>"
     },
@@ -266,7 +266,7 @@
         "ai"
       ],
       "title": "jameschang.co — internal admin area + docs hub",
-      "path": "projects/jameschang-co/prds/PRD-JC-003-admin-and-docs.md",
+      "path": "admin/docs/projects/jameschang-co/prds/PRD-JC-003-admin-and-docs.md",
       "section": "product",
       "html": "<h1>jameschang.co — internal admin area + docs hub</h1>\n<h2>1. Problem statement</h2>\n<p>[inferred] Managing 11 projects, James had no single private place to see portfolio status or hold PRDs/roadmaps/decisions — and the sensitive parts can't be public.</p>\n<h2>2. Strategic rationale</h2>\n<p>[intended] A private-ish operator layer on the public site: a portfolio board (the operator's read) + a docs hub (PRDs/roadmaps per project) — turning the portfolio site into a place he can actually run the portfolio from.</p>\n<h2>3. User story</h2>\n<p>[inferred] As the operator, I want a gated view of every project's status + docs so I can review the whole portfolio in one place.</p>\n<h2>4. Hypothesis / assumptions</h2>\n<ul><li>[intended] Public-safe content only behind a curtain; secrets stay in the private/local track.</li><li>[intended] Same no-build-step stack (Python generates data, thin JS displays it).</li></ul>\n<h2>5. Impact &amp; KPIs</h2>\n<ul><li>(a) SHOULD measure: [unknown] whether the operator actually uses it weekly.</li><li>(b) TODAY: n/a — internal tool, pre-habit.</li></ul>\n<h2>6. Technical notes</h2>\n<p>[inferred] Footer login curtain (SHA-256, not real auth) → gated /admin/ portfolio board + /admin/docs/ viewer; a Python indexer builds the docs manifest the viewer reads.</p>\n<h2>7. AI implementation notes</h2>\n<p>[intended] Built entirely AI-assisted; the docs' retroactive PRDs were reconstructed with honest [intended]/[inferred]/[unknown] tagging.</p>\n<h2>8. Testing plan</h2>\n<p>[inferred] Login/gate, portfolio schema, and the docs indexer are unit + E2E tested.</p>\n<h2>9. Deferred / what we'd do differently</h2>\n<p>[inferred] Content is honest scaffolding; the archaeology (filling real PRDs) and the PM review cockpit are the next steps (PRD-JC-004).</p>"
     },
@@ -280,7 +280,7 @@
         "ui-ux"
       ],
       "title": "jameschang.co — PM review cockpit",
-      "path": "projects/jameschang-co/prds/PRD-JC-004-pm-review-cockpit.md",
+      "path": "admin/docs/projects/jameschang-co/prds/PRD-JC-004-pm-review-cockpit.md",
       "section": "product",
       "html": "<h1>jameschang.co — PM review cockpit</h1>\n<h2>1. Problem statement</h2>\n<p>[inferred] The docs hub is a library — you read one doc at a time. There's no view that answers the PM's actual question: <em>\"across all my projects, what needs my decision?\"</em> Open questions, launch blockers, and risks are scattered and invisible.</p>\n<h2>2. Strategic rationale</h2>\n<p>[intended] Turn the docs from storage into a cockpit: one generated rollup — a \"PM conference\" view — showing every project's MVP→shipped→planned features, open decisions, blockers, risks, and PRD maturity.</p>\n<h2>3. User story</h2>\n<p>[inferred] As the operator, I want one page that surfaces every open decision and blocker across the portfolio so I run reviews from it instead of opening 38 docs.</p>\n<h2>4. Hypothesis / assumptions</h2>\n<ul><li>[intended] Aggregating the signals already in the docs ([unknown], unchecked [ ],</li></ul>\n<p>RISK-###, stage, status) is enough — no new data entry.</p>\n<h2>5. Impact &amp; KPIs</h2>\n<ul><li>(a) SHOULD measure: does it become the weekly-review starting point?</li><li>(b) TODAY: shipped 2026-07-24 (commit <code>059c941</code>) — generated by <code>bin/refresh-docs.py</code></li></ul>\n<p>into <code>under-the-hood/pm-review.md</code> and served as the docs-board landing view. Whether it actually becomes the weekly-review starting point is still [unknown].</p>\n<h2>6. Technical notes</h2>\n<p>[intended] refresh-docs.py generates a pm-review doc from a scan of all docs; the docs board shows it as the landing view.</p>\n<h2>7. AI implementation notes</h2>\n<p>n/a.</p>\n<h2>8. Testing plan</h2>\n<p>[intended] Unit-test the rollup extraction (unknown counts, blockers, stage grouping).</p>\n<h2>9. Deferred / what we'd do differently</h2>\n<p>[intended] Start read-only (generated). A future version could let you resolve a decision inline. Once shipped, this PRD flips stage planned → shipped.</p>"
     },
@@ -292,7 +292,7 @@
       "project": "jameschang-co",
       "tags": [],
       "title": "jameschang.co — roadmap",
-      "path": "projects/jameschang-co/roadmap.md",
+      "path": "admin/docs/projects/jameschang-co/roadmap.md",
       "section": "product",
       "html": "<h1>jameschang.co — roadmap</h1>\n<ul><li><strong>Now:</strong> keep shipping features; keep résumé.pdf in sync (portfolio \"next up\").</li><li><strong>Recent:</strong> /admin area (login + portfolio board) + this portfolio docs hub.</li><li><strong>Next:</strong> fill the docs hub (this archaeology pass), keep the 8 feeds healthy.</li></ul>"
     },
@@ -306,7 +306,7 @@
         "ui-ux"
       ],
       "title": "jameschang.co — static portfolio site (the MVP)",
-      "path": "projects/jameschang-co/prds/PRD-JC-MVP-static-site.md",
+      "path": "admin/docs/projects/jameschang-co/prds/PRD-JC-MVP-static-site.md",
       "section": "product",
       "html": "<h1>jameschang.co — static portfolio site (the MVP)</h1>\n<h2>1. Problem statement</h2>\n<p>[inferred] The old builder-based site (Wix/Weebly-style) was dated and high-maintenance. The minimum needed: a fast, hand-owned single-page portfolio + résumé on free hosting.</p>\n<h2>2. Strategic rationale</h2>\n<p>[intended] Own the stack (plain HTML/CSS/JS on GitHub Pages, no build step) so it's cheap, fast, and fully under control — and let the <em>craft</em> of it be part of the pitch.</p>\n<h2>3. User story</h2>\n<p>[inferred] As a visitor (recruiter/partner), I want a fast, credible one-page view of who James is and his work so that I can size him up in a minute.</p>\n<h2>4. Hypothesis / assumptions</h2>\n<ul><li>[intended] A hand-rolled site signals more than a template ever could.</li><li>[intended] Plain HTML is enough — no framework needed for one page of content.</li></ul>\n<h2>5. Impact &amp; KPIs</h2>\n<ul><li>(a) SHOULD measure: [unknown] résumé downloads, contact clicks.</li><li>(b) TODAY: [inferred] GA4 installed; specific funnels [unknown].</li></ul>\n<h2>6. Technical notes</h2>\n<p>[inferred] Single-page: hero → experience → education → skills → projects → contact; résumé.pdf generated from the print stylesheet; dark/light theme toggle. No build step.</p>\n<h2>7. AI implementation notes</h2>\n<p>[intended] Built AI-assisted (Claude Code et al.); no runtime AI.</p>\n<h2>8. Testing plan</h2>\n<p>[inferred] Grew from zero to the current E2E + unit suite as the site expanded.</p>\n<h2>9. Deferred / what we'd do differently</h2>\n<p>[inferred] The MVP was intentionally minimal; everything below (feeds, deep-dives, admin, docs hub) is a POST-MVP addition — see the shipped PRDs.</p>"
     },
@@ -321,7 +321,7 @@
         "infra"
       ],
       "title": "jameschang.co — the self-updating /now page",
-      "path": "projects/jameschang-co/prds/PRD-JC-002-now-feeds.md",
+      "path": "admin/docs/projects/jameschang-co/prds/PRD-JC-002-now-feeds.md",
       "section": "product",
       "html": "<h1>jameschang.co — the self-updating /now page</h1>\n<h2>1. Problem statement</h2>\n<p>[inferred] A static portfolio reads as archival. To prove \"an operator who ships,\" the site needed to visibly stay current on its own — without manual updates.</p>\n<h2>2. Strategic rationale</h2>\n<p>[intended] The /now page + live feeds ARE the demonstration: the site updates itself, so it argues the thesis by existing. Post-MVP, this is the flagship differentiator.</p>\n<h2>3. User story</h2>\n<p>[inferred] As a visitor, I want to see what James is doing right now (health, music, reading, projects shipping) so the portfolio feels alive.</p>\n<h2>4. Hypothesis / assumptions</h2>\n<ul><li>[intended] A living /now page beats prose at signaling \"ships continuously.\"</li><li>[unknown] Whether visitors value the feeds vs. the case studies. <strong>← confirm.</strong></li></ul>\n<h2>5. Impact &amp; KPIs</h2>\n<ul><li>(a) SHOULD measure: [unknown] /now engagement, return visits.</li><li>(b) TODAY: [unknown] — not broken out. <strong>← confirm.</strong></li></ul>\n<h2>6. Technical notes</h2>\n<p>[inferred] 8 cron-synced feeds (WHOOP, Spotify, Plex, MLB, FBST, Goodreads×2, GCal) + per-project activity cards; Python <code>bin/*.py</code> sync scripts commit to the repo; a staleness monitor opens a GitHub issue when a feed goes quiet.</p>\n<h2>7. AI implementation notes</h2>\n<p>n/a — data plumbing, not AI.</p>\n<h2>8. Testing plan</h2>\n<p>[inferred] Feed builders + idempotency + heartbeat-correctness are unit-tested; markers/CSP are E2E-tested.</p>\n<h2>9. Deferred / what we'd do differently</h2>\n<p>[inferred] Spotify feed is deferred (Feb-2026 Dev Mode lockdown). Lesson learned: heartbeat must reflect real upstream success, not just \"script didn't crash.\"</p>"
     },
@@ -336,7 +336,7 @@
         "ai"
       ],
       "title": "jameschang.co — the self-updating living portfolio",
-      "path": "projects/jameschang-co/prds/PRD-JC-001-living-portfolio.md",
+      "path": "admin/docs/projects/jameschang-co/prds/PRD-JC-001-living-portfolio.md",
       "section": "product",
       "html": "<h1>jameschang.co — the self-updating living portfolio</h1>\n<h2>1. Problem statement</h2>\n<p>[inferred] A static résumé site goes stale the day it ships. A portfolio meant to prove an \"AI-assisted operator\" can build and ship should itself demonstrate that — by staying current on its own.</p>\n<h2>2. Strategic rationale</h2>\n<p>[intended] The bet (portfolio board): <em>\"prove the thesis by simply existing and updating itself.\"</em> Every feature here is also a demonstration; the site is the argument.</p>\n<h2>3. User story</h2>\n<p>[inferred] As a visitor, I want to see what James is actually doing right now (health, music, reading, projects shipping) so that the portfolio reads as alive, not archival.</p>\n<h2>4. Hypothesis / assumptions</h2>\n<ul><li>[intended] A self-updating /now page signals \"operator who ships\" better than prose.</li><li>[unknown] Whether visitors (recruiters, partners) actually value the /now feeds vs.</li></ul>\n<p>the case studies. <strong>← confirm.</strong></p>\n<h2>5. Impact &amp; KPIs</h2>\n<ul><li>(a) SHOULD measure: [unknown] which sections visitors engage with, résumé downloads.</li><li>(b) TODAY: [inferred] GA4 is installed (measurement ID in the head); specific funnels</li></ul>\n<p>[unknown]. <strong>← confirm what you actually watch.</strong></p>\n<h2>6. Technical notes</h2>\n<p>[inferred] Plain HTML/CSS/JS on GitHub Pages, no build step; 8 cron-synced feeds + per-project cards on /now; Python <code>bin/*.py</code> sync scripts; ~78 KB page weight, Lighthouse 100s. (This is the public repo — full detail is in CLAUDE.md.)</p>\n<h2>7. AI implementation notes</h2>\n<p>[intended] The whole site is \"AI-assisted engineering\" — built with Claude Code et al. No runtime AI feature; the AI is in the building, not the product.</p>\n<h2>8. Testing plan</h2>\n<p>[inferred] 427 tests (unit + E2E) with CI on every push — the most-tested project in the portfolio, by far.</p>\n<h2>9. Deferred / what we'd do differently</h2>\n<p>[inferred] Ongoing meta-project. Recent adds: the /admin area + this docs hub. Risk is over-building the site vs. the products it's meant to showcase — keep it current, resist scope creep (portfolio \"next up\": keep shipping, keep résumé in sync).</p>"
     },
@@ -350,7 +350,7 @@
         "ui-ux"
       ],
       "title": "The Judge Tool — digital competition scoring",
-      "path": "projects/judge-tool/prds/PRD-JT-001-digital-scoring.md",
+      "path": "admin/docs/projects/judge-tool/prds/PRD-JT-001-digital-scoring.md",
       "section": "product",
       "html": "<h1>The Judge Tool — digital competition scoring</h1>\n<h2>1. Problem statement</h2>\n<p>[inferred] KCBS BBQ competitions score on paper — clipboards and carbon copies — which is slow, error-prone, and hard to tabulate live. Judges and organizers want something that just works at the table.</p>\n<h2>2. Strategic rationale</h2>\n<p>[intended] The bet (portfolio board): <em>\"replace clipboards and carbon copies with something judges actually prefer.\"</em> A narrow, real, underserved workflow.</p>\n<h2>3. User story</h2>\n<p>[inferred] As a judge, I want to enter scores on a device at the table so that results tabulate instantly and correctly, without paper.</p>\n<h2>4. Hypothesis / assumptions</h2>\n<ul><li>[intended] Organizers will adopt if it's clearly better than paper at a live event.</li><li>[unknown] The real blocker to adoption — trust, hardware, connectivity? <strong>← confirm.</strong></li></ul>\n<h2>5. Impact &amp; KPIs</h2>\n<ul><li>(a) SHOULD measure: [unknown] competitions run on it, judge error rate vs. paper,</li></ul>\n<p>time-to-final-results.</p>\n<ul><li>(b) TODAY: [unknown] — instrumented? Product is pre-validation. <strong>← confirm.</strong></li></ul>\n<h2>6. Technical notes</h2>\n<p>[inferred] A web app judges use at the table; results tabulate server-side. Security posture, routes, and stack are in the <strong>private</strong> repo — NOT reproduced here (that detail is exactly what the public roadmap-filtering work kept off the public site).</p>\n<h2>7. AI implementation notes</h2>\n<p>n/a — [inferred] no AI in the core scoring flow.</p>\n<h2>8. Testing plan</h2>\n<p>[unknown] Coverage of the scoring/tabulation flows — private.</p>\n<h2>9. Deferred / what we'd do differently</h2>\n<p>[intended] Blocked on external validation, not code (portfolio \"next up\": stakeholder testing). The honest next move is organizer time, not more features. Public roadmap: <a href=\"/projects/judge-tool/roadmap/\" rel=\"noopener\">/projects/judge-tool/roadmap/</a>.</p>"
     },
@@ -362,7 +362,7 @@
       "project": "judge-tool",
       "tags": [],
       "title": "The Judge Tool — roadmap",
-      "path": "projects/judge-tool/roadmap.md",
+      "path": "admin/docs/projects/judge-tool/roadmap.md",
       "section": "product",
       "html": "<h1>The Judge Tool — roadmap</h1>\n<p><strong>Public roadmap (auto-synced, reader-facing):</strong> <a href=\"/projects/judge-tool/roadmap/\" rel=\"noopener\">/projects/judge-tool/roadmap/</a>. Strategic summary:</p>\n<ul><li><strong>Now:</strong> validate with real organizers (portfolio \"next up\") — this is the gate.</li><li><strong>Near:</strong> a clearer tabulation UI; run it at live competitions.</li><li><strong>Later:</strong> business build-out (only the reader-facing phases are published; the</li></ul>\n<p>security/reliability hardening is tracked privately, not on the public page).</p>"
     },
@@ -377,7 +377,7 @@
         "mobile"
       ],
       "title": "KTV Singer — phone-as-remote pairing + queue",
-      "path": "projects/ktv-singer/prds/PRD-KTV-001-phone-pairing.md",
+      "path": "admin/docs/projects/ktv-singer/prds/PRD-KTV-001-phone-pairing.md",
       "section": "product",
       "html": "<h1>KTV Singer — phone-as-remote pairing + queue</h1>\n<h2>1. Problem statement</h2>\n<p>[inferred] Home karaoke is clunky — picking songs and managing a queue on a TV is awkward, and everyone wants to add songs from their own phone without fuss.</p>\n<h2>2. Strategic rationale</h2>\n<p>[intended] The bet (portfolio board): <em>\"home karaoke that just works — phones as remotes, no fuss.\"</em> The whole product lives or dies on the pairing being effortless.</p>\n<h2>3. User story</h2>\n<p>[inferred] As a guest, I want to add and control songs from my phone on the shared TV so that everyone participates without passing a remote around.</p>\n<h2>4. Hypothesis / assumptions</h2>\n<ul><li>[intended] Effortless phone→TV pairing is the make-or-break; song features are secondary.</li><li>[unknown] The specific failure modes that break \"effortless\" today. <strong>← confirm.</strong></li></ul>\n<h2>5. Impact &amp; KPIs</h2>\n<ul><li>(a) SHOULD measure: [unknown] successful pairings without help, songs queued per session,</li></ul>\n<p>drop-offs during setup.</p>\n<ul><li>(b) TODAY: [unknown] — pre-reliability. <strong>← confirm.</strong></li></ul>\n<h2>6. Technical notes</h2>\n<p>[inferred] Phones pair with an Apple TV app; the song list is YouTube-backed (public: real-time pairing over Socket.IO). App/server internals are in the <strong>private</strong> repos — not reproduced here.</p>\n<h2>7. AI implementation notes</h2>\n<p>[inferred] \"AI-assisted\" per the portfolio; [unknown] where AI actually appears — private.</p>\n<h2>8. Testing plan</h2>\n<p>[unknown] What proves pairing is friend-proof? — private.</p>\n<h2>9. Deferred / what we'd do differently</h2>\n<p>[intended] BLOCKED on reliability (portfolio note): pairing has to be friend-proof before showing anyone. Nail the connection before adding song-search features (portfolio \"next up\").</p>"
     },
@@ -389,7 +389,7 @@
       "project": "ktv-singer",
       "tags": [],
       "title": "KTV Singer — roadmap",
-      "path": "projects/ktv-singer/roadmap.md",
+      "path": "admin/docs/projects/ktv-singer/roadmap.md",
       "section": "product",
       "html": "<h1>KTV Singer — roadmap</h1>\n<ul><li><strong>Now:</strong> make phone↔TV pairing friend-proof — reliable without babysitting</li></ul>\n<p>(portfolio \"next up\").</p>\n<ul><li><strong>Next:</strong> easier song search.</li><li><strong>Later:</strong> keep multiple devices in sync.</li></ul>"
     },
@@ -401,7 +401,7 @@
       "project": "portfolio",
       "tags": [],
       "title": "Feature intake rules — the gate before a PRD",
-      "path": "foundations/feature-intake-rules.md",
+      "path": "admin/docs/foundations/feature-intake-rules.md",
       "section": "foundations",
       "html": "<h1>Feature intake rules — the gate before a PRD</h1>\n<p>Across the portfolio, a new feature idea does <strong>not</strong> get a PRD (and does not enter a project's locked scope) until it can answer all five questions below. This is the filter that keeps periphery from crowding out core.</p>\n<p>1. <strong>What problem, for whom?</strong> — a real user and a real pain, not \"it'd be cool.\" 2. <strong>Which KPI does it move, and the target?</strong> — name the metric and the number. 3. <strong>Core or periphery?</strong> — does it strengthen this project's core value, or is it a nice-to-have on the edge? 4. <strong>What does it cost?</strong> — build effort <em>and</em> ongoing run cost (infra, per-use, LLM). 5. <strong>What are we deferring to fit it?</strong> — nothing is free; name the trade.</p>\n<p><strong>Rule:</strong> nothing enters a project's <code>launch-spec</code> (locked scope) without a PRD that clears this gate. The default answer to a new mid-cycle idea is <strong>\"not yet — log it in the roadmap\"</strong>, not \"let's build it.\"</p>"
     },
@@ -413,7 +413,7 @@
       "project": "portfolio",
       "tags": [],
       "title": "Glossary",
-      "path": "foundations/glossary.md",
+      "path": "admin/docs/foundations/glossary.md",
       "section": "foundations",
       "html": "<h1>Glossary</h1>\n<p>Define every project-specific term, acronym, and persona here — so a doc can use a term once and link to its definition. A few examples to show the shape; fill in the rest.</p>\n<table><thead><tr><th>term</th><th>project(s)</th><th>meaning</th></tr></thead><tbody><tr><td>CPC</td><td>aleph</td><td>Children's Product Certificate — the CPSIA filing Aleph generates.</td></tr><tr><td>keeper league</td><td>fantastic-leagues</td><td>A fantasy format where managers retain players season-to-season.</td></tr><tr><td>counterpart</td><td>spar</td><td>The AI persona a user rehearses a difficult conversation against.</td></tr><tr><td></td><td></td><td></td></tr></tbody></table>"
     },
@@ -425,7 +425,7 @@
       "project": "portfolio",
       "tags": [],
       "title": "Inbox",
-      "path": "INBOX.md",
+      "path": "admin/docs/INBOX.md",
       "section": "notes",
       "html": "<h1>Inbox</h1>\n<p>_3 open · 1 resolved · regenerated 2026-07-23 16:33 UTC_</p>\n<p>Start each session here: act on <strong>change requests</strong>, answer <strong>questions</strong>, then resolve them (status → resolved, with a note) so they clear.</p>\n<h2>Change requests (1)</h2>\n<ul><li><strong>[PRD-001]</strong> (C-001 · 2026-07-23) — Fill the strategic rationale — why CPC was Aleph's beachhead module (currently [unknown]).</li></ul>\n<h2>Questions (1)</h2>\n<ul><li><strong>[PRD-001]</strong> (C-002 · 2026-07-22) — Is CPC generation instrumented at all? Need to know before writing KPIs.</li></ul>\n<h2>Notes (1)</h2>\n<ul><li><strong>[DOC-002]</strong> (C-003 · 2026-07-21) — Add FSVP, Prop 65, PFAS, roto, cohort, debrief to the glossary.</li></ul>\n<h2>Recently resolved (1)</h2>\n<ul><li><del>[ADR-001] C-004</del> — One ADR for the core stack; split later only if a layer changes. → ADR-001</li></ul>"
     },
@@ -437,9 +437,9 @@
       "project": "portfolio",
       "tags": [],
       "title": "PM review — the portfolio cockpit",
-      "path": "under-the-hood/pm-review.md",
+      "path": "admin/docs/under-the-hood/pm-review.md",
       "section": "operations",
-      "html": "<h1>PM review — the portfolio cockpit</h1>\n<p>_Regenerated 2026-07-24 08:10 UTC. What needs your decision, across every project — so you run reviews from here, not from 38 separate docs._</p>\n<h2>At a glance</h2>\n<ul><li><strong>11</strong> projects · <strong>93</strong> open questions · <strong>3</strong> launch blockers · <strong>2</strong> open risks</li></ul>\n<h2>⚠ Launch blockers (decide before shipping)</h2>\n<ul><li><strong>vouch</strong> — Data retention + deletion policy</li><li><strong>vouch</strong> — Moderation model + safety-report SLA</li><li><strong>vouch</strong> — Minimum-data audit (drop every field not strictly needed on a minor)</li></ul>\n<h2>Features by stage (MVP → shipped → planned)</h2>\n<p><strong>jameschang-co</strong></p>\n<ul><li>_mvp_: jameschang.co — static portfolio site (the MVP)</li><li>_shipped_: jameschang.co — internal admin area + docs hub · jameschang.co — PM review cockpit · jameschang.co — the self-updating /now page</li></ul>\n<h2>Open questions by project</h2>\n<table><thead><tr><th>project</th><th>open [unknown]s</th><th>pm-status</th></tr></thead><tbody><tr><td>aleph</td><td>23</td><td>on-track</td></tr><tr><td>bahtzang-trader</td><td>6</td><td>exploring</td></tr><tr><td>fantastic-leagues</td><td>7</td><td>on-track</td></tr><tr><td>jameschang-co</td><td>13</td><td>on-track</td></tr><tr><td>judge-tool</td><td>5</td><td>blocked</td></tr><tr><td>ktv-singer</td><td>6</td><td>blocked</td></tr><tr><td>spar</td><td>6</td><td>exploring</td></tr><tr><td>tabledrop</td><td>6</td><td>blocked</td></tr><tr><td>tastemakers</td><td>6</td><td>stalled</td></tr><tr><td>thirsty-pig</td><td>6</td><td>on-track</td></tr><tr><td>vouch</td><td>6</td><td>exploring</td></tr></tbody></table>\n<h2>Open risks</h2>\n<ul><li><strong>aleph</strong> RISK-001 — An importer files a generated CPC that a regulator later rejects — liability + trust hit.</li><li><strong>aleph</strong> RISK-002 — Regulatory formats change (CPSC e-filing mandate) and generated docs go stale.</li></ul>\n<h2>Per-project scorecard</h2>\n<table><thead><tr><th>project</th><th>pm-status</th><th>PRDs</th><th>open [unknown]s</th></tr></thead><tbody><tr><td>aleph</td><td>on-track</td><td>1</td><td>23</td></tr><tr><td>bahtzang-trader</td><td>exploring</td><td>1</td><td>6</td></tr><tr><td>fantastic-leagues</td><td>on-track</td><td>1</td><td>7</td></tr><tr><td>jameschang-co</td><td>on-track</td><td>5</td><td>13</td></tr><tr><td>judge-tool</td><td>blocked</td><td>1</td><td>5</td></tr><tr><td>ktv-singer</td><td>blocked</td><td>1</td><td>6</td></tr><tr><td>spar</td><td>exploring</td><td>1</td><td>6</td></tr><tr><td>tabledrop</td><td>blocked</td><td>1</td><td>6</td></tr><tr><td>tastemakers</td><td>stalled</td><td>1</td><td>6</td></tr><tr><td>thirsty-pig</td><td>on-track</td><td>1</td><td>6</td></tr><tr><td>vouch</td><td>exploring</td><td>1</td><td>6</td></tr></tbody></table>"
+      "html": "<h1>PM review — the portfolio cockpit</h1>\n<p>_Regenerated 2026-07-24 16:45 UTC. What needs your decision, across every project — so you run reviews from here, not from 38 separate docs._</p>\n<h2>At a glance</h2>\n<ul><li><strong>11</strong> projects · <strong>93</strong> open questions · <strong>3</strong> launch blockers · <strong>2</strong> open risks</li></ul>\n<h2>⚠ Launch blockers (decide before shipping)</h2>\n<ul><li><strong>vouch</strong> — Data retention + deletion policy</li><li><strong>vouch</strong> — Moderation model + safety-report SLA</li><li><strong>vouch</strong> — Minimum-data audit (drop every field not strictly needed on a minor)</li></ul>\n<h2>Features by stage (MVP → shipped → planned)</h2>\n<p><strong>jameschang-co</strong></p>\n<ul><li>_mvp_: jameschang.co — static portfolio site (the MVP)</li><li>_shipped_: jameschang.co — internal admin area + docs hub · jameschang.co — PM review cockpit · jameschang.co — the self-updating /now page</li></ul>\n<h2>Open questions by project</h2>\n<table><thead><tr><th>project</th><th>open [unknown]s</th><th>pm-status</th></tr></thead><tbody><tr><td>aleph</td><td>23</td><td>on-track</td></tr><tr><td>bahtzang-trader</td><td>6</td><td>exploring</td></tr><tr><td>fantastic-leagues</td><td>7</td><td>on-track</td></tr><tr><td>jameschang-co</td><td>13</td><td>on-track</td></tr><tr><td>judge-tool</td><td>5</td><td>blocked</td></tr><tr><td>ktv-singer</td><td>6</td><td>blocked</td></tr><tr><td>spar</td><td>6</td><td>exploring</td></tr><tr><td>tabledrop</td><td>6</td><td>blocked</td></tr><tr><td>tastemakers</td><td>6</td><td>stalled</td></tr><tr><td>thirsty-pig</td><td>6</td><td>on-track</td></tr><tr><td>vouch</td><td>6</td><td>exploring</td></tr></tbody></table>\n<h2>Open risks</h2>\n<ul><li><strong>aleph</strong> RISK-001 — An importer files a generated CPC that a regulator later rejects — liability + trust hit.</li><li><strong>aleph</strong> RISK-002 — Regulatory formats change (CPSC e-filing mandate) and generated docs go stale.</li></ul>\n<h2>Per-project scorecard</h2>\n<table><thead><tr><th>project</th><th>pm-status</th><th>PRDs</th><th>open [unknown]s</th></tr></thead><tbody><tr><td>aleph</td><td>on-track</td><td>1</td><td>23</td></tr><tr><td>bahtzang-trader</td><td>exploring</td><td>1</td><td>6</td></tr><tr><td>fantastic-leagues</td><td>on-track</td><td>1</td><td>7</td></tr><tr><td>jameschang-co</td><td>on-track</td><td>5</td><td>13</td></tr><tr><td>judge-tool</td><td>blocked</td><td>1</td><td>5</td></tr><tr><td>ktv-singer</td><td>blocked</td><td>1</td><td>6</td></tr><tr><td>spar</td><td>exploring</td><td>1</td><td>6</td></tr><tr><td>tabledrop</td><td>blocked</td><td>1</td><td>6</td></tr><tr><td>tastemakers</td><td>stalled</td><td>1</td><td>6</td></tr><tr><td>thirsty-pig</td><td>on-track</td><td>1</td><td>6</td></tr><tr><td>vouch</td><td>exploring</td><td>1</td><td>6</td></tr></tbody></table>"
     },
     {
       "id": "DOC-STATS",
@@ -449,9 +449,9 @@
       "project": "portfolio",
       "tags": [],
       "title": "Stats",
-      "path": "under-the-hood/stats.md",
+      "path": "admin/docs/under-the-hood/stats.md",
       "section": "operations",
-      "html": "<h1>Stats</h1>\n<p>_Regenerated 2026-07-24 08:10 UTC. LOC is a rough vanity signal, tracked for reference — real progress is features/phases shipped._</p>\n<h2>Docs hub</h2>\n<ul><li><strong>41</strong> authored docs · <strong>11</strong> of <strong>11</strong> projects have at least one PRD</li></ul>\n<p><strong>By type</strong></p>\n<table><thead><tr><th>type</th><th>count</th></tr></thead><tbody><tr><td>adr</td><td>1</td></tr><tr><td>api-docs</td><td>1</td></tr><tr><td>changelog</td><td>1</td></tr><tr><td>component-lib</td><td>1</td></tr><tr><td>costs</td><td>1</td></tr><tr><td>decision-log</td><td>1</td></tr><tr><td>experiment</td><td>1</td></tr><tr><td>glossary</td><td>1</td></tr><tr><td>intake-rules</td><td>1</td></tr><tr><td>prd</td><td>15</td></tr><tr><td>privacy</td><td>2</td></tr><tr><td>risk</td><td>1</td></tr><tr><td>roadmap</td><td>10</td></tr><tr><td>runbook</td><td>1</td></tr><tr><td>status</td><td>1</td></tr><tr><td>tech-spec</td><td>1</td></tr><tr><td>testing</td><td>1</td></tr></tbody></table>\n<p><strong>By status</strong></p>\n<table><thead><tr><th>status</th><th>count</th></tr></thead><tbody><tr><td>active</td><td>29</td></tr><tr><td>draft</td><td>12</td></tr></tbody></table>\n<p><strong>By project</strong></p>\n<table><thead><tr><th>project</th><th>docs</th></tr></thead><tbody><tr><td>aleph</td><td>13</td></tr><tr><td>bahtzang-trader</td><td>2</td></tr><tr><td>fantastic-leagues</td><td>2</td></tr><tr><td>jameschang-co</td><td>6</td></tr><tr><td>judge-tool</td><td>2</td></tr><tr><td>ktv-singer</td><td>2</td></tr><tr><td>portfolio</td><td>3</td></tr><tr><td>spar</td><td>2</td></tr><tr><td>tabledrop</td><td>2</td></tr><tr><td>tastemakers</td><td>2</td></tr><tr><td>thirsty-pig</td><td>2</td></tr><tr><td>vouch</td><td>3</td></tr></tbody></table>\n<h2>Portfolio</h2>\n<ul><li><strong>11</strong> projects on the board</li></ul>\n<table><thead><tr><th>pm-status</th><th>count</th></tr></thead><tbody><tr><td>blocked</td><td>3</td></tr><tr><td>exploring</td><td>3</td></tr><tr><td>on-track</td><td>4</td></tr><tr><td>stalled</td><td>1</td></tr></tbody></table>\n<h2>Repo (jameschang.co)</h2>\n<ul><li><strong>386</strong> tracked files · <strong>57,872</strong> total lines</li></ul>\n<p><strong>Lines by file type (top 8)</strong></p>\n<table><thead><tr><th>ext</th><th>lines</th></tr></thead><tbody><tr><td>.md</td><td>14,161</td></tr><tr><td>.py</td><td>10,346</td></tr><tr><td>.pdf</td><td>8,429</td></tr><tr><td>.html</td><td>6,622</td></tr><tr><td>.webp</td><td>6,275</td></tr><tr><td>.avif</td><td>3,346</td></tr><tr><td>.css</td><td>3,044</td></tr><tr><td>.png</td><td>1,643</td></tr></tbody></table>"
+      "html": "<h1>Stats</h1>\n<p>_Regenerated 2026-07-24 16:45 UTC. LOC is a rough vanity signal, tracked for reference — real progress is features/phases shipped._</p>\n<h2>Docs hub</h2>\n<ul><li><strong>41</strong> authored docs · <strong>11</strong> of <strong>11</strong> projects have at least one PRD</li></ul>\n<p><strong>By type</strong></p>\n<table><thead><tr><th>type</th><th>count</th></tr></thead><tbody><tr><td>adr</td><td>1</td></tr><tr><td>api-docs</td><td>1</td></tr><tr><td>changelog</td><td>1</td></tr><tr><td>component-lib</td><td>1</td></tr><tr><td>costs</td><td>1</td></tr><tr><td>decision-log</td><td>1</td></tr><tr><td>experiment</td><td>1</td></tr><tr><td>glossary</td><td>1</td></tr><tr><td>intake-rules</td><td>1</td></tr><tr><td>prd</td><td>15</td></tr><tr><td>privacy</td><td>2</td></tr><tr><td>risk</td><td>1</td></tr><tr><td>roadmap</td><td>10</td></tr><tr><td>runbook</td><td>1</td></tr><tr><td>status</td><td>1</td></tr><tr><td>tech-spec</td><td>1</td></tr><tr><td>testing</td><td>1</td></tr></tbody></table>\n<p><strong>By status</strong></p>\n<table><thead><tr><th>status</th><th>count</th></tr></thead><tbody><tr><td>active</td><td>29</td></tr><tr><td>draft</td><td>12</td></tr></tbody></table>\n<p><strong>By project</strong></p>\n<table><thead><tr><th>project</th><th>docs</th></tr></thead><tbody><tr><td>aleph</td><td>13</td></tr><tr><td>bahtzang-trader</td><td>2</td></tr><tr><td>fantastic-leagues</td><td>2</td></tr><tr><td>jameschang-co</td><td>6</td></tr><tr><td>judge-tool</td><td>2</td></tr><tr><td>ktv-singer</td><td>2</td></tr><tr><td>portfolio</td><td>3</td></tr><tr><td>spar</td><td>2</td></tr><tr><td>tabledrop</td><td>2</td></tr><tr><td>tastemakers</td><td>2</td></tr><tr><td>thirsty-pig</td><td>2</td></tr><tr><td>vouch</td><td>3</td></tr></tbody></table>\n<h2>Portfolio</h2>\n<ul><li><strong>11</strong> projects on the board</li></ul>\n<table><thead><tr><th>pm-status</th><th>count</th></tr></thead><tbody><tr><td>blocked</td><td>3</td></tr><tr><td>exploring</td><td>3</td></tr><tr><td>on-track</td><td>4</td></tr><tr><td>stalled</td><td>1</td></tr></tbody></table>\n<h2>Repo (jameschang.co)</h2>\n<ul><li><strong>386</strong> tracked files · <strong>58,015</strong> total lines</li></ul>\n<p><strong>Lines by file type (top 8)</strong></p>\n<table><thead><tr><th>ext</th><th>lines</th></tr></thead><tbody><tr><td>.md</td><td>14,160</td></tr><tr><td>.py</td><td>10,489</td></tr><tr><td>.pdf</td><td>8,429</td></tr><tr><td>.html</td><td>6,622</td></tr><tr><td>.webp</td><td>6,275</td></tr><tr><td>.avif</td><td>3,346</td></tr><tr><td>.css</td><td>3,044</td></tr><tr><td>.png</td><td>1,643</td></tr></tbody></table>"
     },
     {
       "id": "DOC-SPAR-ROADMAP",
@@ -464,7 +464,7 @@
         "voice"
       ],
       "title": "Spar — roadmap",
-      "path": "projects/spar/roadmap.md",
+      "path": "admin/docs/projects/spar/roadmap.md",
       "section": "product",
       "html": "<h1>Spar — roadmap</h1>\n<ul><li><strong>Now:</strong> prove the voice conversation feels real inside the app (portfolio \"next up\").</li><li><strong>Then:</strong> the coaching debrief — the real product.</li><li><strong>Later:</strong> a scenario library + a verbal setup phase.</li></ul>"
     },
@@ -479,7 +479,7 @@
         "voice"
       ],
       "title": "Spar — voice rehearsal + coached debrief",
-      "path": "projects/spar/prds/PRD-SPAR-001-voice-rehearsal-debrief.md",
+      "path": "admin/docs/projects/spar/prds/PRD-SPAR-001-voice-rehearsal-debrief.md",
       "section": "product",
       "html": "<h1>Spar — voice rehearsal + coached debrief</h1>\n<h2>1. Problem statement</h2>\n<p>[inferred] Leaders face hard conversations (feedback, conflict, bad news) with no safe way to practice. Reading about it doesn't build the muscle; you only get one live shot.</p>\n<h2>2. Strategic rationale</h2>\n<p>[intended] The bet (portfolio board): <em>\"rehearse difficult conversations against an AI counterpart, then get a coached debrief on how you handled it.\"</em> The real product is the debrief, not the chat.</p>\n<h2>3. User story</h2>\n<p>[inferred] As a leader, I want to rehearse a specific hard conversation out loud against an AI counterpart and then get coached feedback so that I go into the real one prepared.</p>\n<h2>4. Hypothesis / assumptions</h2>\n<ul><li>[intended] Voice rehearsal + a coached debrief changes real-world behavior more than</li></ul>\n<p>reading advice.</p>\n<ul><li>[unknown] Whether the voice experience feels real enough to matter — the gating</li></ul>\n<p>question (portfolio \"next up\"). <strong>← confirm.</strong></p>\n<h2>5. Impact &amp; KPIs</h2>\n<ul><li>(a) SHOULD measure: [unknown] completed rehearsals, debrief engagement, self-reported</li></ul>\n<p>readiness, repeat use before real conversations.</p>\n<ul><li>(b) TODAY: [unknown] — pre-launch. <strong>← confirm.</strong></li></ul>\n<h2>6. Technical notes</h2>\n<p>[inferred] A voice app (public: staging at spar.bahtzang.com; uses a voice platform — Retell). Model/prompt/voice-pipeline internals are in the <strong>private</strong> <code>thirstypig/spar</code> repo — not reproduced here.</p>\n<h2>7. AI implementation notes</h2>\n<p>[inferred] LLM-driven counterpart + coaching; [unknown] models, prompt strategy, and per-session cost — private. (Voice + LLM per session is likely the main cost driver.)</p>\n<h2>8. Testing plan</h2>\n<p>[unknown] How is \"feels real\" evaluated? — private.</p>\n<h2>9. Deferred / what we'd do differently</h2>\n<p>[intended] Right sequencing: prove the core voice experience feels real BEFORE building UI around it (portfolio \"next up\"). The coaching debrief — the actual product — comes after the conversation loop lands.</p>"
     },
@@ -493,7 +493,7 @@
         "payments"
       ],
       "title": "TableDrop — reservation marketplace",
-      "path": "projects/tabledrop/prds/PRD-TD-001-reservation-marketplace.md",
+      "path": "admin/docs/projects/tabledrop/prds/PRD-TD-001-reservation-marketplace.md",
       "section": "product",
       "html": "<h1>TableDrop — reservation marketplace</h1>\n<h2>1. Problem statement</h2>\n<p>[inferred] Some Taipei restaurants are effectively impossible to book — demand far exceeds a fair way to get a table. A marketplace could match scarce reservations to people willing to pay for them.</p>\n<h2>2. Strategic rationale</h2>\n<p>[intended] The bet (portfolio board): <em>\"hard-to-get Taipei reservations, turned into a marketplace with a real storefront.\"</em> A concrete scarcity + a real payment loop.</p>\n<h2>3. User story</h2>\n<p>[inferred] As a diner, I want to buy a confirmed reservation at a hard-to-book Taipei restaurant so that I can get a table I otherwise couldn't.</p>\n<h2>4. Hypothesis / assumptions</h2>\n<ul><li>[intended] There's willingness-to-pay for scarce reservations, and supply can be sourced.</li><li>[unknown] The supply side — how reservations are legitimately obtained/fulfilled, and</li></ul>\n<p>whether that's durable. <strong>← confirm; this is the crux.</strong></p>\n<h2>5. Impact &amp; KPIs</h2>\n<ul><li>(a) SHOULD measure: [unknown] completed listing→purchase flows, fill rate, GMV.</li><li>(b) TODAY: [unknown] — pre-first-working-loop. <strong>← confirm.</strong></li></ul>\n<h2>6. Technical notes</h2>\n<p>[inferred] A storefront with payments (public: Stripe) plus a sourcing/scraper layer. Internals are in the <strong>private</strong> repo — not reproduced here.</p>\n<h2>7. AI implementation notes</h2>\n<p>[unknown] Any AI in sourcing/matching? — private, if present.</p>\n<h2>8. Testing plan</h2>\n<p>[unknown] End-to-end booking/payment coverage — private.</p>\n<h2>9. Deferred / what we'd do differently</h2>\n<p>[intended] Furthest from a working loop (portfolio note). The honest next step is ONE listing→purchase flow end to end (portfolio \"next up\") before any breadth.</p>"
     },
@@ -505,7 +505,7 @@
       "project": "tabledrop",
       "tags": [],
       "title": "TableDrop — roadmap",
-      "path": "projects/tabledrop/roadmap.md",
+      "path": "admin/docs/projects/tabledrop/roadmap.md",
       "section": "product",
       "html": "<h1>TableDrop — roadmap</h1>\n<ul><li><strong>Now:</strong> one reservation working end to end — listing → purchase (portfolio \"next up\").</li><li><strong>Next:</strong> reliable reservation fulfillment (hand-off to the buyer).</li><li><strong>Later:</strong> grow the vendor/restaurant network.</li></ul>"
     },
@@ -517,7 +517,7 @@
       "project": "tastemakers",
       "tags": [],
       "title": "Tastemakers — roadmap",
-      "path": "projects/tastemakers/roadmap.md",
+      "path": "admin/docs/projects/tastemakers/roadmap.md",
       "section": "product",
       "html": "<h1>Tastemakers — roadmap</h1>\n<ul><li><strong>Now:</strong> keep-alive — migrate the database to a more reliable host (portfolio \"next up\").</li><li><strong>Decision point:</strong> reignite the iOS/Android clients, or formally pause the project.</li><li><strong>If revived:</strong> more ways to share and act on trusted recommendations.</li></ul>"
     },
@@ -532,7 +532,7 @@
         "integration"
       ],
       "title": "Tastemakers — trust-based dining discovery",
-      "path": "projects/tastemakers/prds/PRD-TM-001-trust-based-discovery.md",
+      "path": "admin/docs/projects/tastemakers/prds/PRD-TM-001-trust-based-discovery.md",
       "section": "product",
       "html": "<h1>Tastemakers — trust-based dining discovery</h1>\n<h2>1. Problem statement</h2>\n<p>[inferred] Star-rating apps average away taste — you don't know <em>whose</em> opinion a rating reflects. People trust specific friends' picks more than an aggregate score.</p>\n<h2>2. Strategic rationale</h2>\n<p>[intended] The bet (portfolio board): <em>\"a social layer on dining discovery — who you trust, not just star ratings.\"</em> Differentiates from Yelp/Google on the social graph.</p>\n<h2>3. User story</h2>\n<p>[inferred] As a diner, I want recommendations from people whose taste I trust so that I find places I'll actually like, not just popular ones.</p>\n<h2>4. Hypothesis / assumptions</h2>\n<ul><li>[intended] Trust-weighted recommendations beat aggregate ratings for real decisions.</li><li>[unknown] Whether the social graph reaches critical mass to be useful. <strong>← confirm.</strong></li></ul>\n<h2>5. Impact &amp; KPIs</h2>\n<ul><li>(a) SHOULD measure: [unknown] recommendations acted on, social connections per user,</li></ul>\n<p>retention.</p>\n<ul><li>(b) TODAY: [unknown] — backend is live but clients are paused, so likely not measured</li></ul>\n<p>actively. <strong>← confirm.</strong></p>\n<h2>6. Technical notes</h2>\n<p>[inferred] A server backend (public: Laravel on Railway) with iOS/Android clients that are currently paused. Internals live in the <strong>private</strong> repos — not reproduced here.</p>\n<h2>7. AI implementation notes</h2>\n<p>[unknown] Any recommendation model? — private, if present.</p>\n<h2>8. Testing plan</h2>\n<p>[unknown] — private.</p>\n<h2>9. Deferred / what we'd do differently</h2>\n<p>[intended] Effectively STALLED (portfolio note): backend up, apps paused. The real decision isn't a feature — it's whether to reignite the clients or let it rest (portfolio \"next up\" is a DB migration, i.e. keeping the lights on). Don't leave it half-lit.</p>"
     },
@@ -544,7 +544,7 @@
       "project": "thirsty-pig",
       "tags": [],
       "title": "The Thirsty Pig — roadmap",
-      "path": "projects/thirsty-pig/roadmap.md",
+      "path": "admin/docs/projects/thirsty-pig/roadmap.md",
       "section": "product",
       "html": "<h1>The Thirsty Pig — roadmap</h1>\n<ul><li><strong>Now:</strong> finish tagging every restaurant (portfolio \"next up\").</li><li><strong>Next:</strong> launch the \"Bold Red Poster\" redesign.</li><li><strong>Later:</strong> organize eighteen years of the photo archive.</li></ul>"
     },
@@ -558,7 +558,7 @@
         "content"
       ],
       "title": "The Thirsty Pig — the mapped LA/SGV food archive",
-      "path": "projects/thirsty-pig/prds/PRD-TP-001-mapped-archive.md",
+      "path": "admin/docs/projects/thirsty-pig/prds/PRD-TP-001-mapped-archive.md",
       "section": "product",
       "html": "<h1>The Thirsty Pig — the mapped LA/SGV food archive</h1>\n<h2>1. Problem statement</h2>\n<p>[inferred] Eighteen years of first-hand LA/SGV food coverage is only as useful as it is findable. Posts alone don't answer \"where should I eat near here\" — a mapped, tagged archive does.</p>\n<h2>2. Strategic rationale</h2>\n<p>[intended] The bet (portfolio board): <em>\"eighteen years of coverage as a durable authority and a mapped archive.\"</em> A compounding asset, not a growth play.</p>\n<h2>3. User story</h2>\n<p>[inferred] As a reader, I want to browse the coverage by place and category (a map + venue tags) so that I can decide where to eat, not just read reviews.</p>\n<h2>4. Hypothesis / assumptions</h2>\n<ul><li>[intended] The archive's value is durability + coverage depth, not virality.</li><li>[unknown] What readers actually use most — map, tags, or posts. <strong>← confirm.</strong></li></ul>\n<h2>5. Impact &amp; KPIs</h2>\n<ul><li>(a) SHOULD measure: [unknown] map/tag usage, returning readers, coverage completeness.</li><li>(b) TODAY: [inferred] traffic history exists (peaked ~16k monthly pageviews in 2013);</li></ul>\n<p>current instrumentation [unknown]. <strong>← confirm.</strong></p>\n<h2>6. Technical notes</h2>\n<p>[inferred] A blog (public: thirstypig.com) with ~1,639 posts and 1,400+ mapped restaurants; the admin/edit tooling lives in the <strong>private</strong> <code>thirstypig-blog</code> repo (shares the cross-repo PAT with this site's bucket-list admin).</p>\n<h2>7. AI implementation notes</h2>\n<p>[unknown] Any AI assist in tagging/mapping? — private, if present.</p>\n<h2>8. Testing plan</h2>\n<p>[unknown] — private.</p>\n<h2>9. Deferred / what we'd do differently</h2>\n<p>[intended] Steady, compounding. Finish the venue-tag rollout, then ship the \"Bold Red Poster\" redesign (portfolio \"next up\"), then let it run. Not a growth bet.</p>"
     },
@@ -572,7 +572,7 @@
         "compliance"
       ],
       "title": "Vouch — privacy & data handling",
-      "path": "projects/vouch/privacy-data-handling.md",
+      "path": "admin/docs/projects/vouch/privacy-data-handling.md",
       "section": "security",
       "html": "<h1>Vouch — privacy &amp; data handling</h1>\n<blockquote><strong>⚠️ Load-bearing, not boilerplate.</strong> Vouch handles data about <strong>minors</strong>. This is the most important doc in the hub. Treat every unresolved item as a <strong>launch blocker</strong>.</blockquote>\n<p><strong>Public / private boundary (public repo):</strong> this doc records public-facing <em>commitments</em> (what we promise users) — those are safe to publish. It must NOT record internal security <em>specifics</em> — where minor data physically lives, exact access-control implementation, credentials. Those are an attack map and stay in the private repo / local notes.</p>\n<p><code>[inferred]</code> = read from the product's stated intent (PRD-VOUCH-001) · <code>[DECIDE]</code> = a decision required before launch (James) · <code>[private]</code> = kept off this page.</p>\n<h2>Who's on the platform</h2>\n<ul><li><strong>Students</strong> — [inferred] minors (under 18); the protected class this whole doc exists for.</li><li><strong>Mentors</strong> — [inferred] adults who vouch for students.</li><li><strong>Supporters</strong> — [inferred] adults who back students financially.</li></ul>\n<h2>What data we collect</h2>\n<ul><li>Students: [DECIDE] name, age/DOB, school, the goal/change they share, photos?, contact?</li></ul>\n<p>Collect the <strong>minimum</strong> needed; every extra field on a minor is added risk.</p>\n<ul><li>Mentors / supporters: [DECIDE] identity + (for supporters) payment details.</li></ul>\n<h2>Parental consent</h2>\n<ul><li>[confirmed 2026-07-24] **A verified parent/guardian must consent before a minor can</li></ul>\n<p>create a live profile** — no live student profile exists without it. (Portfolio \"next up\" already includes wiring real parent accounts.) Effectively table stakes for a minor-facing product (COPPA/analogous norms).</p>\n<h2>Visibility — who can see a student</h2>\n<ul><li>[inferred] \"safety-first, moderated by default.\"</li><li>[confirmed 2026-07-24] <strong>Default: private until approved.</strong> A student's profile is not</li></ul>\n<p>visible to anyone until reviewed/approved; visibility is opened deliberately, never by default. The most protective option — matches the safety-first stance.</p>\n<h2>Money &amp; minors</h2>\n<ul><li>[inferred] supporters back students; donations currently in Stripe test mode.</li><li>[confirmed 2026-07-24] **Funds route through a verified parent/guardian — never directly</li></ul>\n<p>to the minor.** Removes the money-directly-to-a-child risk (a compounded-risk combination).</p>\n<h2>Retention &amp; deletion</h2>\n<ul><li>[DECIDE] How long is student data kept? Deleted on request? On account close? On aging out?</li><li>[DECIDE] Right-to-be-forgotten flow for a minor (and a parent acting for them).</li></ul>\n<h2>Moderation &amp; safety</h2>\n<ul><li>[inferred] moderated by default.</li><li>[DECIDE] What's moderated (profiles, messages, media), by whom (human/automated/both),</li></ul>\n<p>and the response time / escalation path for a safety report.</p>\n<h2>Access control</h2>\n<ul><li>[private] Who internally can access student data, and how it's protected — kept OFF this</li></ul>\n<p>public page. Record in the private repo.</p>\n<h2>Decisions required before launch (the gate)</h2>\n<ul><li>[x] Parental consent — <strong>yes, verified, before any live profile</strong> (2026-07-24)</li><li>[x] Default student-profile visibility — <strong>private until approved</strong> (2026-07-24)</li><li>[x] Money flow re: minors — <strong>through a verified parent/guardian</strong> (2026-07-24)</li><li>[ ] Data retention + deletion policy</li><li>[ ] Moderation model + safety-report SLA</li><li>[ ] Minimum-data audit (drop every field not strictly needed on a minor)</li></ul>"
     },
@@ -586,7 +586,7 @@
         "compliance"
       ],
       "title": "Vouch — roadmap",
-      "path": "projects/vouch/roadmap.md",
+      "path": "admin/docs/projects/vouch/roadmap.md",
       "section": "product",
       "html": "<h1>Vouch — roadmap</h1>\n<ul><li><strong>Now (pre-launch):</strong> parent accounts + profile creation; move donations beyond</li></ul>\n<p>Stripe test mode (portfolio \"next up\").</p>\n<ul><li><strong>Gate:</strong> the minor-safety model has to clear before any public exposure.</li><li><strong>Then:</strong> open to real students.</li></ul>"
     },
@@ -601,7 +601,7 @@
         "payments"
       ],
       "title": "Vouch — the trust loop (students · mentors · supporters)",
-      "path": "projects/vouch/prds/PRD-VOUCH-001-trust-loop.md",
+      "path": "admin/docs/projects/vouch/prds/PRD-VOUCH-001-trust-loop.md",
       "section": "product",
       "html": "<h1>Vouch — the trust loop (students · mentors · supporters)</h1>\n<h2>1. Problem statement</h2>\n<p>[inferred] Young people with a change they want to make lack both credible backing and a safe way to be seen and supported by adults who aren't already in their circle.</p>\n<h2>2. Strategic rationale</h2>\n<p>[intended] The bet (portfolio board): <em>\"students share the change they want to make, mentors vouch, supporters back them — trust and safety first, built for minors.\"</em> The differentiator and the hardest part are the same thing: safety.</p>\n<h2>3. User story</h2>\n<p>[inferred] As a student, I want to share my goal and have a mentor vouch for me so that supporters can back me — inside a moderated, safe space.</p>\n<h2>4. Hypothesis / assumptions</h2>\n<ul><li>[intended] A trust chain (mentor vouch) unlocks support that raw crowdfunding can't.</li><li>[unknown] Whether the safety model can satisfy the bar for a minor-facing product AND</li></ul>\n<p>stay usable. <strong>← this is the whole game; confirm.</strong></p>\n<h2>5. Impact &amp; KPIs</h2>\n<ul><li>(a) SHOULD measure: [unknown] verified vouches, safe interactions, funds routed to</li></ul>\n<p>students, and above all safety-incident rate (target: zero).</p>\n<ul><li>(b) TODAY: [unknown] — pre-launch, not yet live. <strong>← confirm.</strong></li></ul>\n<h2>6. Technical notes</h2>\n<p>[inferred] Pre-launch; moderated-by-default, safety-first for minors. Payments via Stripe (currently test mode per portfolio \"next up\"). Internals in the <strong>private</strong> <code>thirstypig/vouch</code> repo — not reproduced here.</p>\n<h2>7. AI implementation notes</h2>\n<p>[unknown] Any AI in moderation/safety? — private, if present. (If used for minor-safety, this deserves its own careful review.)</p>\n<h2>8. Testing plan</h2>\n<p>[unknown] Safety/moderation coverage is the critical test surface — private.</p>\n<h2>9. Deferred / what we'd do differently</h2>\n<p>[intended] Earliest stage, most values-driven. Gating work is trust, safety, and real payments — NOT features (portfolio \"next up\": parent accounts + live Stripe). Move carefully given the audience. <strong>Privacy/data-handling for minors is the single most important doc to write here.</strong></p>"
     }

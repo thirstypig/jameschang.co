@@ -99,7 +99,7 @@
     // text before assembling tags — safe to inject as our own trusted markup.
     bodyWrap.innerHTML = doc.html;
 
-    const path = el("p", "nb-docs-path", `admin/docs/${doc.path}`);
+    const path = el("p", "nb-docs-path", doc.path);
 
     pane.replaceChildren(meta, bodyWrap, path);
     pane.scrollTop = 0;

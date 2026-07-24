@@ -296,7 +296,7 @@ def iter_doc_files():
 def build_index():
     docs = []
     for path in iter_doc_files():
-        rel = os.path.relpath(path, HUB)
+        rel = os.path.relpath(path, REPO_ROOT)
         with open(path, encoding="utf-8") as f:
             content = f.read()
         fm, body = parse_frontmatter(content)

@@ -130,6 +130,16 @@ class TestExclusionsAndRealIndex:
                   "See the setup guide for details.")
         assert idx.find_secret_values(prose) == []
 
+    def test_paths_are_repo_relative(self):
+        index = idx.build_index()
+        hub = [d for d in index["docs"] if "/projects/aleph/" in d["path"]]
+        assert hub, "expected at least one Aleph doc"
+        for d in hub:
+            assert d["path"].startswith("admin/docs/"), d["path"]
+        for d in index["docs"]:
+            assert not d["path"].startswith("/"), "must be relative, not absolute"
+            assert os.path.exists(os.path.join(REPO_ROOT, d["path"])), d["path"]
+
 
 # --- Class-level regression guard -------------------------------------------
 #
