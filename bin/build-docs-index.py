@@ -55,7 +55,7 @@ _FM_LINE = re.compile(r"^(\w+):\s*(.*)$")
 # those. PEM headers are always a value.
 _SECRET_KEYWORD = (
     r"[a-z0-9_]*(?:client_secret|secret_key|private_key|api_key|token|"
-    r"passphrase|password)[a-z0-9_]*"
+    r"passphrase|password|key)[a-z0-9_]*"
 )
 _SECRET_ASSIGNMENT = re.compile(
     _SECRET_KEYWORD + r"[\"']?\s*[:=]\s*[\"']?([A-Za-z0-9_\-./+]{16,})",

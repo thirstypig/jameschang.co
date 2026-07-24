@@ -158,6 +158,12 @@ class TestExclusionsAndRealIndex:
                   "See the setup guide for details.")
         assert idx.find_secret_values(prose) == []
 
+    def test_guard_catches_bare_key_assignments(self):
+        # Bare `*_KEY` patterns must be caught when assigned a value.
+        assert idx.find_secret_values("SIGNING_KEY=1234567890abcdef1234")
+        assert idx.find_secret_values('ENCRYPTION_KEY="1234567890abcdef1234"')
+        assert idx.find_secret_values("MASTER_KEY: 1234567890abcdef1234")
+
 
 class TestStageAndCockpit:
     def test_stage_is_captured(self):
