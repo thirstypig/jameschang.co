@@ -46,6 +46,27 @@ _FENCE = re.compile(r"```.*?```", re.DOTALL)
 _H1 = re.compile(r"^#\s+(.+?)\s*$", re.MULTILINE)
 _FM_LINE = re.compile(r"^(\w+):\s*(.*)$")
 
+# A secret VALUE looks like `name = <16+ opaque chars>`. A bare mention of an
+# env-var NAME is public-safe — those names are already public in this repo
+# (see the /admin/ binding rule in CLAUDE.md). PEM headers are always a value.
+_SECRET_ASSIGNMENT = re.compile(
+    r"(client_secret|private_key|api_key|secret_key|refresh_token|password)"
+    r"[\"']?\s*[:=]\s*[\"']?[A-Za-z0-9_\-./+]{16,}",
+    re.IGNORECASE,
+)
+_PEM_HEADER = re.compile(r"-----BEGIN [A-Z ]*(PRIVATE KEY|CERTIFICATE)-----")
+
+
+def find_secret_values(text):
+    """Return a list of substrings that look like leaked secret VALUES.
+
+    Empty list means the text is publishable. Used by the guard test against
+    the committed index.json.
+    """
+    hits = [m.group(0) for m in _SECRET_ASSIGNMENT.finditer(text)]
+    hits += [m.group(0) for m in _PEM_HEADER.finditer(text)]
+    return hits
+
 
 def section_for(doc_type, rel_path):
     for needle, key in PATH_OVERRIDES.items():

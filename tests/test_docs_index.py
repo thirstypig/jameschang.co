@@ -114,9 +114,21 @@ class TestExclusionsAndRealIndex:
         path = os.path.join(REPO_ROOT, "admin", "docs", "index.json")
         if not os.path.exists(path):
             return
-        blob = open(path, encoding="utf-8").read().lower()
-        for bad in ["client_secret", "private_key", "api_key", "password", "-----begin"]:
-            assert bad not in blob, f"index.json contains sensitive marker: {bad!r}"
+        blob = open(path, encoding="utf-8").read()
+        leaks = idx.find_secret_values(blob)
+        assert not leaks, f"index.json contains secret value(s): {leaks[:3]}"
+
+    def test_guard_allows_bare_env_var_mentions(self):
+        # Naming an env var in prose is public-safe — the names are already
+        # public in this repo. Only VALUES are forbidden.
+        prose = ("Required GitHub Secrets: `WHOOP_CLIENT_SECRET`, "
+                 "`SPOTIFY_REFRESH_TOKEN`. Store the password in 1Password.")
+        assert idx.find_secret_values(prose) == []
+
+    def test_guard_catches_actual_assigned_values(self):
+        leaked = 'WHOOP_CLIENT_SECRET="a1b2c3d4e5f6g7h8i9j0k1l2"'
+        assert idx.find_secret_values(leaked)
+        assert idx.find_secret_values("-----BEGIN RSA PRIVATE KEY-----")
 
 
 class TestStageAndCockpit:
