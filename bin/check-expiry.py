@@ -69,7 +69,9 @@ def validate_registry(reg):
         seen.add(entry["id"])
         exp = entry.get("expires")
         if exp != "UNKNOWN":
-            date.fromisoformat(exp)  # raises ValueError if malformed / missing
+            if not isinstance(exp, str):
+                raise ValueError(f"entry {entry['id']} has a missing or non-string 'expires'")
+            date.fromisoformat(exp)  # raises ValueError if malformed
     return reg["integrations"]
 
 

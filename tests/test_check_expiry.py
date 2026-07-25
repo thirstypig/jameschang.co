@@ -106,6 +106,16 @@ class TestValidateRegistry:
         out = m.validate_registry({"integrations": [{"id": "x", "expires": "UNKNOWN"}]})
         assert out == [{"id": "x", "expires": "UNKNOWN"}]
 
+    def test_missing_expires_key_raises_valueerror(self):
+        m = _load_module()
+        with pytest.raises(ValueError, match="expires"):
+            m.validate_registry({"integrations": [{"id": "x"}]})
+
+    def test_non_string_expires_raises_valueerror(self):
+        m = _load_module()
+        with pytest.raises(ValueError, match="expires"):
+            m.validate_registry({"integrations": [{"id": "x", "expires": 20260101}]})
+
 
 class TestLoadRegistry:
     def test_reads_env_var(self):
