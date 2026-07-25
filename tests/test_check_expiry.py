@@ -132,6 +132,23 @@ class TestLoadRegistry:
                 m.load_registry()
             assert exc.value.code == 1
 
+    def test_empty_env_exits_zero(self):
+        """An unset EXPIRY_REGISTRY secret arrives as an empty string; that is a
+        clean no-op (nothing tracked yet), not an error, and must not fall
+        through to issue management."""
+        m = _load_module()
+        with patch.dict(os.environ, {"EXPIRY_REGISTRY": ""}):
+            with pytest.raises(SystemExit) as exc:
+                m.load_registry()
+            assert exc.value.code == 0
+
+    def test_whitespace_only_env_exits_zero(self):
+        m = _load_module()
+        with patch.dict(os.environ, {"EXPIRY_REGISTRY": "   \n"}):
+            with pytest.raises(SystemExit) as exc:
+                m.load_registry()
+            assert exc.value.code == 0
+
 
 def _run_main(integrations, open_issues, today):
     """Run main() with load_registry / open_expiry_issues / _today / gh mocked.

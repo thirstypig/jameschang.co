@@ -76,7 +76,13 @@ def validate_registry(reg):
 
 
 def load_registry():
-    """Load + validate the registry from EXPIRY_REGISTRY env, else the local file."""
+    """Load + validate the registry from EXPIRY_REGISTRY env, else the local file.
+
+    An empty / unset value exits cleanly (code 0): this is the state of the
+    EXPIRY_REGISTRY secret before it's first populated, and it means "no
+    credentials tracked yet" — a no-op, not an error. It MUST short-circuit
+    here so main() never reaches orphan-cleanup with an empty registry (which
+    would close every open expiry issue)."""
     raw = os.environ.get("EXPIRY_REGISTRY")
     if raw is None:
         try:
@@ -86,6 +92,9 @@ def load_registry():
             print("::error::EXPIRY_REGISTRY not set and admin/registry.local.json missing",
                   file=sys.stderr)
             sys.exit(1)
+    if not raw.strip():
+        print("EXPIRY_REGISTRY is empty — no credentials tracked yet; nothing to check.")
+        sys.exit(0)
     return validate_registry(json.loads(raw))
 
 
