@@ -75,3 +75,7 @@ docs/superpowers/specs/2026-07-23-footer-login-admin-gate-design.md
 docs/superpowers/specs/2026-07-23-admin-portfolio-board-design.md
 docs/superpowers/specs/2026-07-23-docs-board-viewer-design.md
 docs/superpowers/specs/2026-07-24-site-engineering-docs-in-hub-design.md
+docs/superpowers/specs/2026-07-24-admin-cockpit-design.md
+
+# Credential expiry registry — the attack map (names + expiry dates). NEVER commit (public repo).
+admin/registry.local.json
