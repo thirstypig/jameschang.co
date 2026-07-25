@@ -2194,6 +2194,25 @@ a:hover { text-decoration: underline; }
 .nb-portfolio-badge--stalled { color: var(--warn); }
 .nb-portfolio-badge--blocked { color: var(--danger); }
 .nb-portfolio-badge--shipped { color: var(--dim); }
+/* Lifecycle stage chip — filled (vs the outlined pm_status badge) to read as a
+   distinct axis: where the project sits in its build, not its health. */
+.nb-portfolio-stage {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  text-transform: lowercase;
+  letter-spacing: 0.03em;
+  padding: 0.15rem 0.45rem;
+  background: var(--surface-2);
+  color: var(--dim);
+  border: 1px solid var(--rule);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.nb-portfolio-stage--idea { color: var(--accent); }
+.nb-portfolio-stage--building { color: var(--warn); }
+.nb-portfolio-stage--shipping { color: var(--pos); }
+.nb-portfolio-stage--back-burner { color: var(--dim); }
+.nb-portfolio-stage--done { color: var(--pos); border-color: var(--pos); }
 .nb-portfolio-row {
   margin: 0.4rem 0;
   font-size: 0.9rem;

@@ -64,6 +64,9 @@
       head.append(el("span",
         `nb-portfolio-badge nb-portfolio-badge--${pm.pm_status}`,
         STATUS_LABEL[pm.pm_status] || pm.pm_status));
+      // Lifecycle stage chip (idea → building → shipping → back-burner → done).
+      if (pm.stage)
+        head.append(el("span", `nb-portfolio-stage nb-portfolio-stage--${pm.stage}`, pm.stage));
       card.append(head);
 
       card.append(labelled("bet", pm.bet));

@@ -1680,7 +1680,8 @@ class TestFooterLoginAndAdminGate:
 
 class TestAdminPortfolio:
     PM_STATUSES = {"on-track", "exploring", "stalled", "blocked", "shipped"}
-    REQUIRED = {"slug", "pm_status", "bet", "notes"}
+    STAGES = {"idea", "building", "shipping", "back-burner", "done"}
+    REQUIRED = {"slug", "pm_status", "stage", "bet", "notes"}
 
     def _portfolio(self):
         return json.loads(_read("admin/portfolio.json"))
@@ -1705,6 +1706,8 @@ class TestAdminPortfolio:
                 failures.append(f"[{i}] unknown keys {extra}")
             if p.get("pm_status") not in self.PM_STATUSES:
                 failures.append(f"[{i}] bad pm_status {p.get('pm_status')!r}")
+            if p.get("stage") not in self.STAGES:
+                failures.append(f"[{i}] bad stage {p.get('stage')!r}")
             for k in ("bet", "notes"):
                 if not isinstance(p.get(k), str) or not p.get(k).strip():
                     failures.append(f"[{i}] empty {k}")
@@ -1732,6 +1735,11 @@ class TestAdminPortfolio:
         # env-var-name shapes (ALL_CAPS_WITH_UNDERSCORES)
         assert not re.search(r"\b[A-Z]{2,}_[A-Z0-9_]+\b", blob), \
             "portfolio.json contains an env-var-shaped identifier"
+
+    def test_stage_chip_is_wired(self):
+        """The lifecycle stage chip is emitted by portfolio.js and styled in CSS."""
+        assert "nb-portfolio-stage" in _read("admin/portfolio.js")
+        assert ".nb-portfolio-stage" in _read("notebook.css")
 
 
 class TestHealthStrip:
