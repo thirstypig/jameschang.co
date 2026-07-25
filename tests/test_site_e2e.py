@@ -1732,3 +1732,23 @@ class TestAdminPortfolio:
         # env-var-name shapes (ALL_CAPS_WITH_UNDERSCORES)
         assert not re.search(r"\b[A-Z]{2,}_[A-Z0-9_]+\b", blob), \
             "portfolio.json contains an env-var-shaped identifier"
+
+
+class TestHealthStrip:
+    def test_admin_index_has_health_section(self):
+        html = _read("admin/index.html")
+        assert 'id="health-strip"' in html
+        assert 'id="health-doorbell"' in html
+        assert "/admin/health.js" in html
+
+    def test_health_js_is_gated_and_fetches_both_sources(self):
+        js = _read("admin/health.js")
+        assert 'sessionStorage.getItem("jc-admin")' in js
+        assert "/.feeds-heartbeat.json" in js
+        assert "/admin/status.json" in js
+        # XSS-safe: no innerHTML assignment
+        assert ".innerHTML" not in js
+
+    def test_health_js_thresholds_are_named_constants(self):
+        js = _read("admin/health.js")
+        assert "FRESH_H" in js and "STALE_H" in js

@@ -2225,6 +2225,36 @@ a:hover { text-decoration: underline; }
   color: var(--dim);
 }
 
+/* /admin/ health strip — feed freshness + expiry doorbell (Phase 2) */
+.nb-health-doorbell {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  padding: 0.5rem 0.75rem;
+  border: var(--border-w) solid var(--rule);
+  border-radius: 4px;
+  margin: 0 0 1rem;
+}
+.nb-health-doorbell--ok { color: var(--pos); border-color: var(--pos); }
+.nb-health-doorbell--warn { color: var(--warn); border-color: var(--warn); }
+.nb-health-doorbell--danger { color: var(--danger); border-color: var(--danger); }
+.nb-health-strip { display: flex; flex-direction: column; gap: 0.35rem; }
+.nb-health-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+}
+.nb-health-dot {
+  width: 0.6rem; height: 0.6rem; border-radius: 50%;
+  flex: 0 0 auto; background: var(--dim);
+}
+.nb-health-dot--ok { background: var(--pos); }
+.nb-health-dot--warn { background: var(--warn); }
+.nb-health-dot--danger { background: var(--danger); }
+.nb-health-slug { flex: 1 1 auto; color: var(--ink); }
+.nb-health-age { color: var(--dim); }
+
 /* /admin/docs/ — docs board viewer */
 .nb-docs-head {
   display: flex; align-items: flex-start; justify-content: space-between;
