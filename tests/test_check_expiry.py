@@ -131,3 +131,108 @@ class TestLoadRegistry:
             with pytest.raises(SystemExit) as exc:
                 m.load_registry()
             assert exc.value.code == 1
+
+
+def _run_main(integrations, open_issues, today):
+    """Run main() with load_registry / open_expiry_issues / _today / gh mocked.
+    Returns the mocked gh so callers can assert on the calls it received."""
+    m = _load_module()
+    gh_mock = MagicMock(return_value="")
+    with (
+        patch.object(m, "load_registry", return_value=integrations),
+        patch.object(m, "ensure_label", return_value=None),
+        patch.object(m, "open_expiry_issues", return_value=open_issues),
+        patch.object(m, "_today", return_value=today),
+        patch.object(m, "gh", gh_mock),
+    ):
+        m.main()
+    return gh_mock
+
+
+def _subcommands(gh_mock):
+    """The gh subcommand pairs actually invoked, e.g. ('issue','create')."""
+    return [(c.args[0], c.args[1]) for c in gh_mock.call_args_list
+            if len(c.args) >= 2 and c.args[0] == "issue"]
+
+
+class TestExpiryLifecycle:
+    def test_opens_issue_when_within_band_and_none_exists(self):
+        entry = {"id": "x", "expires": "2026-01-20"}
+        gh = _run_main([entry], {}, date(2026, 1, 1))  # 19 days out → band 30
+        assert ("issue", "create") in _subcommands(gh)
+
+    def test_no_issue_when_outside_all_thresholds(self):
+        entry = {"id": "x", "expires": "2026-06-01"}
+        gh = _run_main([entry], {}, date(2026, 1, 1))  # ~150 days out
+        assert _subcommands(gh) == []
+
+    def test_skips_unknown_dates(self):
+        entry = {"id": "x", "expires": "UNKNOWN"}
+        gh = _run_main([entry], {}, date(2026, 1, 1))
+        assert _subcommands(gh) == []
+
+    def test_escalates_when_band_tightens(self):
+        entry = {"id": "x", "expires": "2026-01-06"}  # 5 days out → band 7
+        gh = _run_main([entry], {"x": {"number": 12, "band": 30}}, date(2026, 1, 1))
+        subs = _subcommands(gh)
+        assert ("issue", "edit") in subs
+        assert ("issue", "comment") in subs
+
+    def test_no_escalation_when_band_unchanged(self):
+        entry = {"id": "x", "expires": "2026-01-06"}  # band 7
+        gh = _run_main([entry], {"x": {"number": 12, "band": 7}}, date(2026, 1, 1))
+        assert _subcommands(gh) == []
+
+    def test_closes_when_renewed_past_all_thresholds(self):
+        entry = {"id": "x", "expires": "2026-06-01"}  # far out now
+        gh = _run_main([entry], {"x": {"number": 12, "band": 7}}, date(2026, 1, 1))
+        assert ("issue", "close") in _subcommands(gh)
+
+    def test_orphan_issue_is_closed(self):
+        gh = _run_main([], {"gone": {"number": 9, "band": 14}}, date(2026, 1, 1))
+        assert ("issue", "close") in _subcommands(gh)
+
+
+class TestTransientErrorHandling:
+    def _run_with_open_error(self, msg):
+        m = _load_module()
+        with (
+            patch.object(m, "load_registry", return_value=[{"id": "x", "expires": "UNKNOWN"}]),
+            patch.object(m, "ensure_label", return_value=None),
+            patch.object(m, "open_expiry_issues", side_effect=RuntimeError(msg)),
+        ):
+            with pytest.raises(SystemExit) as exc:
+                m.main()
+            return exc.value.code
+
+    def test_504_exits_zero(self):
+        assert self._run_with_open_error("HTTP 504: Gateway Timeout") == 0
+
+    def test_auth_error_propagates(self):
+        m = _load_module()
+        with (
+            patch.object(m, "load_registry", return_value=[{"id": "x", "expires": "UNKNOWN"}]),
+            patch.object(m, "ensure_label", return_value=None),
+            patch.object(m, "open_expiry_issues", side_effect=RuntimeError("HTTP 401: Unauthorized")),
+        ):
+            with pytest.raises(RuntimeError, match="Unauthorized"):
+                m.main()
+
+
+class TestOpenExpiryIssuesParsing:
+    def test_parses_band_marker_from_body(self):
+        m = _load_module()
+        listing = json.dumps([
+            {"number": 3, "title": "Credential expiring: x", "body": "blah <!-- expiry-band:7 -->"},
+            {"number": 4, "title": "Unrelated issue", "body": ""},
+        ])
+        with patch.object(m, "gh", return_value=listing):
+            out = m.open_expiry_issues()
+        assert out == {"x": {"number": 3, "band": 7}}
+
+    def test_missing_marker_defaults_to_widest_band(self):
+        m = _load_module()
+        listing = json.dumps([{"number": 5, "title": "Credential expiring: y", "body": "no marker"}])
+        with patch.object(m, "gh", return_value=listing):
+            out = m.open_expiry_issues()
+        assert out == {"y": {"number": 5, "band": 30}}
