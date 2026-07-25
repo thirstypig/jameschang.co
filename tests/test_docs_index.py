@@ -358,11 +358,22 @@ class TestRootsAndAdapters:
                                  "docs/solutions/x/y.md")
         assert doc["title"] == "Solution — Fallback Title"
 
-    def test_all_21_solutions_are_indexed(self):
+    def test_all_solutions_on_disk_are_indexed(self):
+        # Count-from-disk, not a magic number: every docs/solutions/**/*.md must
+        # be indexed. Self-updates as the KB grows, still catches a silent drop.
+        import glob
+        on_disk = {os.path.relpath(p, REPO_ROOT)
+                   for p in glob.glob(
+                       os.path.join(REPO_ROOT, "docs", "solutions", "**", "*.md"),
+                       recursive=True)
+                   if not os.path.basename(p).startswith("_")}
         index = idx.build_index()
-        sols = [d for d in index["docs"] if d["type"] == "solution"]
-        assert len(sols) == 21, [d["path"] for d in sols]
-        assert all(d["path"].startswith("docs/solutions/") for d in sols)
+        indexed = {d["path"] for d in index["docs"] if d["type"] == "solution"}
+        assert indexed == on_disk, {
+            "missing_from_index": sorted(on_disk - indexed),
+            "indexed_but_not_on_disk": sorted(indexed - on_disk),
+        }
+        assert all(p.startswith("docs/solutions/") for p in indexed)
 
     def test_no_indexed_tag_contains_a_quote_character(self):
         index = idx.build_index()
@@ -370,13 +381,13 @@ class TestRootsAndAdapters:
                      if '"' in t]
         assert not offenders, offenders
 
-    def test_all_21_solutions_have_at_least_two_tags(self):
+    def test_all_solutions_have_at_least_two_tags(self):
         # Every docs/solutions/**/*.md carries `category` plus a real `tags`
         # list (verified against the source frontmatter, not assumed) — so
         # the merged tag list on each indexed solution should be >= 2.
         index = idx.build_index()
         sols = [d for d in index["docs"] if d["type"] == "solution"]
-        assert len(sols) == 21
+        assert sols, "expected solution docs to be indexed"
         thin = [(d["path"], d["tags"]) for d in sols if len(d["tags"]) < 2]
         assert not thin, thin
 
