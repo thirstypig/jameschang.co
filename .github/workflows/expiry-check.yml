@@ -6,8 +6,12 @@ on:
   workflow_dispatch: {}
 
 permissions:
-  contents: read
+  contents: write
   issues: write
+
+concurrency:
+  group: expiry-writer
+  cancel-in-progress: false
 
 jobs:
   check-expiry:
@@ -24,3 +28,16 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           EXPIRY_REGISTRY: ${{ secrets.EXPIRY_REGISTRY }}
         run: python3 bin/check-expiry.py
+
+      - name: Commit doorbell counts if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add admin/status.json
+          if git diff --cached --quiet; then
+            echo "No doorbell change."
+          else
+            git commit -m "chore(admin): refresh expiry doorbell counts"
+            git pull --rebase origin main
+            git push
+          fi
