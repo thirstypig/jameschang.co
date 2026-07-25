@@ -9,9 +9,9 @@ FILE="$ROOT/admin/registry.local.json"
 
 [ -f "$FILE" ] || { echo "error: $FILE not found" >&2; exit 1; }
 
-# Fail before pushing if the JSON is malformed.
-python3 -c "import json; json.load(open('$FILE'))" \
-  || { echo "error: $FILE is not valid JSON" >&2; exit 1; }
+# Fail before pushing if the JSON is malformed or missing the integrations list.
+python3 -c "import json,sys; d=json.load(open('$FILE')); sys.exit(0 if isinstance(d.get('integrations'), list) else 1)" \
+  || { echo "error: $FILE is not valid JSON or is missing an 'integrations' list" >&2; exit 1; }
 
 gh secret set EXPIRY_REGISTRY --repo thirstypig/jameschang.co < "$FILE"
 

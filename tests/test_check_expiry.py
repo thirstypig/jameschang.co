@@ -192,6 +192,11 @@ class TestExpiryLifecycle:
         gh = _run_main([], {"gone": {"number": 9, "band": 14}}, date(2026, 1, 1))
         assert ("issue", "close") in _subcommands(gh)
 
+    def test_unknown_with_open_issue_is_closed(self):
+        entry = {"id": "x", "expires": "UNKNOWN"}
+        gh = _run_main([entry], {"x": {"number": 12, "band": 7}}, date(2026, 1, 1))
+        assert ("issue", "close") in _subcommands(gh)
+
 
 class TestTransientErrorHandling:
     def _run_with_open_error(self, msg):
@@ -236,3 +241,22 @@ class TestOpenExpiryIssuesParsing:
         with patch.object(m, "gh", return_value=listing):
             out = m.open_expiry_issues()
         assert out == {"y": {"number": 5, "band": 30}}
+
+
+class TestDryRunWriteGuard:
+    def test_write_subcommands_short_circuit_under_dry_run(self):
+        m = _load_module()
+        for sub in ("create", "close", "comment", "edit"):
+            with patch.object(m, "DRY_RUN", True), \
+                 patch.object(m.subprocess, "run") as run_mock:
+                out = m.gh("issue", sub, "1", "--body", "x")
+                assert out == "", f"{sub} did not short-circuit under DRY_RUN"
+                run_mock.assert_not_called()
+
+    def test_read_subcommand_still_runs_under_dry_run(self):
+        m = _load_module()
+        with patch.object(m, "DRY_RUN", True), \
+             patch.object(m.subprocess, "run") as run_mock:
+            run_mock.return_value = MagicMock(returncode=0, stdout="[]", stderr="")
+            m.gh("issue", "list", "--json", "number")
+            run_mock.assert_called_once()

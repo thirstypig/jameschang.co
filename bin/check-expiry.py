@@ -19,7 +19,7 @@ import os
 import re
 import subprocess
 import sys
-from datetime import date, datetime
+from datetime import date
 
 EXPIRY_THRESHOLDS = (30, 14, 7, 1)
 ALLOWED_KEYS = {
@@ -190,7 +190,15 @@ def main():
         cid = entry["id"]
         active_ids.add(cid)
         if entry.get("expires") == "UNKNOWN":
-            print(f"SKIP (no date): {cid}")
+            existing = open_issues.get(cid)
+            if existing is not None:
+                gh("issue", "close", str(existing["number"]),
+                   "--comment", f"`{cid}` no longer has a tracked expiry date (set to UNKNOWN). "
+                                f"Auto-closed by `bin/check-expiry.py`.")
+                print(f"CLOSE #{existing['number']}: {cid} (expiry cleared to UNKNOWN)")
+                closed += 1
+            else:
+                print(f"SKIP (no date): {cid}")
             continue
 
         days = days_until(entry["expires"], today)
@@ -212,6 +220,10 @@ def main():
                 print(f"ESCALATE #{existing['number']}: {cid} → band {band}")
                 escalated += 1
             else:
+                # No 'widen' branch by design: if a credential is partially renewed
+                # (band widens but is still within a threshold) the body may go stale
+                # until it re-tightens or fully renews (which closes it). Fail-safe:
+                # this over-warns, never under-warns.
                 print(f"OPEN-ISSUE (no change): {cid} ({days}d, band {band})")
         elif band is None and existing is not None:
             gh("issue", "close", str(existing["number"]),
