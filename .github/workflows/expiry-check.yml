@@ -1,0 +1,26 @@
+name: Check credential expiry
+
+on:
+  schedule:
+    - cron: '0 13 * * *'  # daily 13:00 UTC = 6 AM PT (PDT; 5 AM PST in winter)
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check-expiry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Check credential registry & manage issues
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EXPIRY_REGISTRY: ${{ secrets.EXPIRY_REGISTRY }}
+        run: python3 bin/check-expiry.py
