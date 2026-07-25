@@ -27,6 +27,7 @@ ALLOWED_KEYS = {
     "type", "expires", "rotation_days", "renew_url", "notes",
 }
 REGISTRY_FILE = os.path.join(os.path.dirname(__file__), "..", "admin", "registry.local.json")
+STATUS_FILE = os.path.join(os.path.dirname(__file__), "..", "admin", "status.json")
 DRY_RUN = bool(os.environ.get("DRY_RUN"))
 TITLE_PREFIX = "Credential expiring: "
 _BAND_RE = re.compile(r"<!--\s*expiry-band:(\d+)\s*-->")
@@ -176,6 +177,41 @@ def build_body(entry, days, band):
     return "\n".join(lines)
 
 
+def compute_status(integrations, today=None):
+    """Bare urgency counts for the public `/admin/` doorbell — NO ids, NO dates.
+
+    Disjoint bands. Expired (days < 0) folds into within_7 (most urgent).
+    `expires:"UNKNOWN"` -> needs_date. Entries >30 days out are uncounted."""
+    today = today or _today()
+    within_7 = within_14 = within_30 = needs_date = 0
+    for entry in integrations:
+        exp = entry.get("expires")
+        if exp == "UNKNOWN":
+            needs_date += 1
+            continue
+        days = days_until(exp, today)
+        if days <= 7:
+            within_7 += 1
+        elif days <= 14:
+            within_14 += 1
+        elif days <= 30:
+            within_30 += 1
+    return {"expiry": {"within_7": within_7, "within_14": within_14,
+                       "within_30": within_30, "needs_date": needs_date}}
+
+
+def write_status_json(integrations, today=None):
+    """Write the public doorbell file (counts only). Prints under DRY_RUN
+    instead of touching the tree."""
+    status = compute_status(integrations, today)
+    if DRY_RUN:
+        print(f"[dry-run] status.json would be: {json.dumps(status['expiry'], sort_keys=True)}")
+        return
+    with open(STATUS_FILE, "w", encoding="utf-8") as f:
+        json.dump(status, f, indent=2, sort_keys=True)
+        f.write("\n")
+
+
 def main():
     integrations = load_registry()
     ensure_label("expiry-warning", "D93F0B", "A tracked credential is approaching expiry")
@@ -251,6 +287,8 @@ def main():
                             f"Auto-closed by `bin/check-expiry.py`.")
             print(f"CLOSE #{meta['number']}: {cid} (orphan)")
             closed += 1
+
+    write_status_json(integrations, today)
 
     tag = "[dry-run] " if DRY_RUN else ""
     print(f"\n{tag}Summary: {opened} opened, {escalated} escalated, {closed} closed.")

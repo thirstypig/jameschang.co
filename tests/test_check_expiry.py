@@ -277,3 +277,66 @@ class TestDryRunWriteGuard:
             run_mock.return_value = MagicMock(returncode=0, stdout="[]", stderr="")
             m.gh("issue", "list", "--json", "number")
             run_mock.assert_called_once()
+
+
+class TestComputeStatus:
+    def test_disjoint_bands_and_needs_date(self):
+        m = _load_module()
+        integrations = [
+            {"id": "a", "expires": "2026-01-06"},   # 5 days  -> within_7
+            {"id": "b", "expires": "2026-01-12"},   # 11 days -> within_14
+            {"id": "c", "expires": "2026-01-25"},   # 24 days -> within_30
+            {"id": "d", "expires": "2026-03-01"},   # far     -> uncounted
+            {"id": "e", "expires": "UNKNOWN"},      #         -> needs_date
+        ]
+        out = m.compute_status(integrations, date(2026, 1, 1))
+        assert out == {"expiry": {"within_7": 1, "within_14": 1,
+                                  "within_30": 1, "needs_date": 1}}
+
+    def test_expired_counts_as_within_7(self):
+        m = _load_module()
+        out = m.compute_status([{"id": "x", "expires": "2025-12-20"}], date(2026, 1, 1))
+        assert out["expiry"]["within_7"] == 1
+
+    def test_output_has_only_count_keys(self):
+        """The doorbell must never emit ids or dates — only the four counts."""
+        m = _load_module()
+        out = m.compute_status(
+            [{"id": "super-secret-cred", "expires": "2026-01-02",
+              "renew_url": "https://example.com"}],
+            date(2026, 1, 1))
+        assert set(out) == {"expiry"}
+        assert set(out["expiry"]) == {"within_7", "within_14", "within_30", "needs_date"}
+        assert all(isinstance(v, int) for v in out["expiry"].values())
+
+
+class TestWriteStatusJson:
+    def test_dry_run_does_not_write(self, tmp_path, capsys):
+        m = _load_module()
+        target = tmp_path / "status.json"
+        with patch.object(m, "STATUS_FILE", str(target)), \
+             patch.object(m, "DRY_RUN", True):
+            m.write_status_json([{"id": "x", "expires": "UNKNOWN"}], date(2026, 1, 1))
+        assert not target.exists()
+        assert "status.json would be" in capsys.readouterr().out
+
+    def test_real_run_writes_counts(self, tmp_path):
+        m = _load_module()
+        target = tmp_path / "status.json"
+        with patch.object(m, "STATUS_FILE", str(target)), \
+             patch.object(m, "DRY_RUN", False):
+            m.write_status_json([{"id": "x", "expires": "UNKNOWN"}], date(2026, 1, 1))
+        written = json.loads(target.read_text())
+        assert written == {"expiry": {"within_7": 0, "within_14": 0,
+                                      "within_30": 0, "needs_date": 1}}
+
+
+class TestStatusJsonIsPublicSafe:
+    def test_committed_status_json_has_no_secrets(self):
+        """admin/status.json is committed to a PUBLIC repo — counts only."""
+        _idx = importlib.import_module("build-docs-index")
+        path = os.path.join(ROOT, "admin", "status.json")
+        data = json.loads(open(path, encoding="utf-8").read())
+        assert set(data) == {"expiry"}
+        assert set(data["expiry"]) == {"within_7", "within_14", "within_30", "needs_date"}
+        assert _idx.find_secret_values(open(path, encoding="utf-8").read()) == []
