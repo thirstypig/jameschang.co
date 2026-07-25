@@ -67,6 +67,22 @@ class TestFrontmatter:
         fm, _ = idx.parse_frontmatter(content)
         assert fm["tags"] == ["ai", "compliance", "x"]
 
+    def test_block_list_stops_at_the_next_key(self):
+        # Real solutions frontmatter interleaves a block list with scalar keys:
+        #   symptoms:
+        #     - ...
+        #   root_cause: ...
+        # The list loop must halt at the next `key:` line, not swallow it — 8 of
+        # the repo's solution docs would lose their category/tags otherwise.
+        content = ("---\nsymptoms:\n  - first observed thing\n  - second thing\n"
+                   "root_cause: the real cause\ncategory: tooling\n"
+                   "tags:\n  - alpha\n  - beta\n---\n\n# T\nbody\n")
+        fm, _ = idx.parse_frontmatter(content)
+        assert fm["symptoms"] == ["first observed thing", "second thing"]
+        assert fm["root_cause"] == "the real cause", "block list swallowed a scalar key"
+        assert fm["category"] == "tooling"
+        assert fm["tags"] == ["alpha", "beta"]
+
 
 class TestSectionGrouping:
     def test_types_map_to_expected_sections(self):
@@ -141,6 +157,22 @@ class TestExclusionsAndRealIndex:
         blob = open(path, encoding="utf-8").read()
         leaks = idx.find_secret_values(blob)
         assert not leaks, f"index.json contains secret value(s): {leaks[:3]}"
+
+    def test_committed_index_matches_a_fresh_rebuild(self):
+        # The committed index.json embeds the rendered HTML of every source doc.
+        # If someone edits a hub doc (a PRD, a solution, a guide) and forgets to
+        # run `refresh-docs.py`, the committed board silently goes stale — the
+        # exact non-reproducibility class that shipped once this session.
+        # `generated` is a volatile timestamp; everything else must match a
+        # rebuild from the same tracked sources.
+        path = os.path.join(REPO_ROOT, "admin", "docs", "index.json")
+        assert os.path.exists(path), "admin/docs/index.json is missing"
+        committed = json.load(open(path, encoding="utf-8"))
+        fresh = idx.build_index()
+        assert fresh["docs"] == committed["docs"], (
+            "admin/docs/index.json is stale — a source doc changed without a "
+            "rebuild. Run `python3 bin/refresh-docs.py` and commit the result.")
+        assert fresh["sections"] == committed["sections"]
 
     def test_guard_allows_bare_env_var_mentions(self):
         # Naming an env var in prose is public-safe — the names are already
