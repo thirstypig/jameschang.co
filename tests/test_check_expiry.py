@@ -161,6 +161,9 @@ def _run_main(integrations, open_issues, today):
         patch.object(m, "open_expiry_issues", return_value=open_issues),
         patch.object(m, "_today", return_value=today),
         patch.object(m, "gh", gh_mock),
+        # Stub the doorbell writer: these tests assert on gh issue calls, and
+        # main() must not touch the real committed admin/status.json on disk.
+        patch.object(m, "write_status_json", MagicMock()),
     ):
         m.main()
     return gh_mock
@@ -340,3 +343,15 @@ class TestStatusJsonIsPublicSafe:
         assert set(data) == {"expiry"}
         assert set(data["expiry"]) == {"within_7", "within_14", "within_30", "needs_date"}
         assert _idx.find_secret_values(open(path, encoding="utf-8").read()) == []
+
+
+class TestMainDoesNotDirtyCommittedStatus:
+    def test_run_main_leaves_committed_status_json_untouched(self):
+        """Regression guard: running main() (with mocked I/O) must never write
+        the real committed admin/status.json. Without the write_status_json
+        stub in _run_main, the suite mutates a tracked file."""
+        m = _load_module()
+        before = open(m.STATUS_FILE, encoding="utf-8").read()
+        _run_main([{"id": "x", "expires": "UNKNOWN"}], {}, date(2026, 1, 1))
+        after = open(m.STATUS_FILE, encoding="utf-8").read()
+        assert before == after, "main() wrote the real admin/status.json during a test"
