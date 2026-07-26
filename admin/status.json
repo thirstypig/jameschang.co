@@ -1,8 +1,8 @@
 {
   "expiry": {
-    "needs_date": 5,
-    "within_14": 0,
+    "needs_date": 0,
+    "within_14": 1,
     "within_30": 0,
-    "within_7": 0
+    "within_7": 2
   }
 }
