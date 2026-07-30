@@ -28,6 +28,7 @@ Copies of this file live in each active project root (e.g., `~/Projects/bahtzang
 | **cooper-stack3**                     | —        | 4100 | —         | —          | —     | —     | Express server (rarely run) |
 | **vouch**                             | 3020     | —    | —         | (Supabase) | —     | —     | Next.js 16 (App Router); Supabase cloud DB |
 | **spar**                              | 3110     | —    | —         | (cloud)    | —     | —     | Next.js 16 (App Router); Retell voice + Stripe later; DB TBD (Supabase/Vercel PG); staging spar.bahtzang.com |
+| **shengchangmd**                      | 3120     | —    | —         | —          | —     | —     | Astro 5 static, trilingual; no backend; GitHub Pages at shengchangmd.bahtzang.com |
 
 ---
 
@@ -49,12 +50,12 @@ Each product owns a 10-port block (3XX0–3XX9 frontend, 4XX0–4XX9 API). Sub-s
 | 4100 – 4109    | —           | —    | —     | cooper-stack3                        |
 | 4321           | —           | —    | —     | thirstypig (Astro default)           |
 | 3110 – 3119    | 4110 – 4119 | 5449 | 6388  | spar (Next.js; Retell voice + Stripe; cloud DB — local PG/Redis unused) |
-| 3120 – 3129    | 4120 – 4129 | 5450 | 6389  | **AVAILABLE** — reserved for future  |
+| 3120 – 3129    | 4120 – 4129 | 5450 | 6389  | shengchangmd (Astro static; no API/PG/Redis in use) |
 | 3130 – 3139    | 4130 – 4139 | 5451 | 6390  | **AVAILABLE** — reserved for future  |
 | 8040 – 8049    | —           | —    | —     | ktv-singer (WebSocket)               |
 | 24680 – 24689  | —           | —    | —     | Vite HMR (per-project, pick any)     |
 
-**Free capacity:** 2 full product slots (2 reserved blocks remain: 3120–3129, 3130–3139).
+**Free capacity:** 1 full product slot (1 reserved block remains: 3130–3139).
 
 ---
 
@@ -80,6 +81,7 @@ thirstypig               → FE: 4321 (Astro default)
 cooper-stack3            → API: 4100
 vouch                    → FE: 3020 (Supabase cloud DB)
 spar                     → FE: 3110 (Retell voice + Stripe; cloud DB, TBD)
+shengchangmd             → FE: 3120 (Astro static; GitHub Pages)
 
 Never cross-assign ports between projects. Each product owns its 10-port block
 (e.g., thefantasticleagues owns 3010-3019 and 4010-4019). If a new service
@@ -93,7 +95,7 @@ the AVAILABLE rows in MASTER-PORTS.md before creating any new product.
 Run this anytime to see what's actually listening:
 
 ```bash
-lsof -i -P -n | grep LISTEN | grep -E '3010|3011|3020|3030|3031|3040|3050|3060|3070|3080|3090|3110|4010|4030|4040|4050|4051|4060|4070|4100|4321|5442|5444|5445|5446|5448|6381|6383|6384|6385|6387|8040|24680|24681'
+lsof -i -P -n | grep LISTEN | grep -E '3010|3011|3020|3030|3031|3040|3050|3060|3070|3080|3090|3110|3120|4010|4030|4040|4050|4051|4060|4070|4100|4321|5442|5444|5445|5446|5448|6381|6383|6384|6385|6387|8040|24680|24681'
 ```
 
 ---
@@ -111,6 +113,7 @@ lsof -i -P -n | grep LISTEN | grep -E '3010|3011|3020|3030|3031|3040|3050|3060|3
 
 ## 📝 Changelog
 
+- **2026-07-30** — Added **shengchangmd** (Astro 5 static site for Sheng Chang, M.D.; trilingual en/zh-hant/zh-hans) on **FE 3120**, claiming the FUTURE-2 block (3120–3129 / 4120–4129). Static only — no API, PostgreSQL or Redis in use, so 4120/5450/6389 stay unassigned within the block. Deployed to GitHub Pages at shengchangmd.bahtzang.com. Registry was retroactive: the project had been running on 3120 before the block was claimed.
 - **2026-07-09** — Added **spar** (Next.js 16 App Router; Retell voice + Stripe later; staging spar.bahtzang.com) on **FE 3110**, claiming the FUTURE-1 block (3110–3119 / 4110–4119). Mirrored MASTER-PORTS.md + PORTS.md into the spar folder. Also removed a stray empty `package-lock.json` from `~/Projects` that was confusing Next.js's workspace-root detection.
 - **2026-06-30** — Added **vouch** (Next.js 16 + Supabase cloud) on **FE 3020**, claiming the reclaimed fsvppro block (3020–3029). Mirrored MASTER-PORTS.md + PORTS.md into the vouch folder and re-synced all project copies; also added the missing PORTS.md to alephco.io. Vouch dev server pinned to `-p 3020`.
 - **2026-05-11** — Full sync: updated date, added top-level MASTER-PORTS.md + PORTS.md to all project folders (alephco.io, bbq-judge, thefantasticleagues). Created root PORTS.md quick-reference and README.md for Projects folder.

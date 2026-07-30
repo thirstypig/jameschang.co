@@ -1,6 +1,6 @@
 # Port Quick-Reference — All Projects
 > Full registry with reserved blocks, conventions, and conflict-check: **[MASTER-PORTS.md](./MASTER-PORTS.md)**
-> Last Updated: 2026-07-09
+> Last Updated: 2026-07-30
 
 | Project                     | Frontend | API  | WebSocket | PG   | Redis |
 |-----------------------------|----------|------|-----------|------|-------|
@@ -21,5 +21,5 @@
 | cooper-stack3               | —        | 4100 | —         | —    | —     |
 | vouch                       | 3020     | —    | —         | —    | —     |
 | spar                        | 3110     | —    | —         | —    | —     |
-| **FUTURE-2**                | 3120     | 4120 | —         | 5450 | 6389  |
+| shengchangmd                | 3120     | —    | —         | —    | —     |
 | **FUTURE-3**                | 3130     | 4130 | —         | 5451 | 6390  |
