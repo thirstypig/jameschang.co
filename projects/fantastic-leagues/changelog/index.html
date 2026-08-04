@@ -133,6 +133,23 @@
       <!-- CHANGELOG-START -->
       <article class="release">
         <div class="release-head">
+          <span class="release-version">v2.2.1</span>
+          <span class="release-date">2026-08-03</span>
+          <span class="release-tag fix">fix</span>
+        </div>
+        <h3 class="release-title">Traded players&#39; stats were being silently dropped</h3>
+        <div class="release-body">
+          <ul>
+            <li><strong>Fix:</strong> When a player was traded between MLB teams in the middle of a scoring period, FBST recorded only his <strong>first</strong> team&#39;s partial line — sometimes zero. Curtis Mead&#39;s entire Period 5 was stored as zeros while he actually played 15 games (11 R, 3 HR, 9 RBI, 2 SB). Two players were affected across the season; both periods have been re-synced. Demolition Lumber Co.&#39;s totals gained 11 R / 3 HR / 9 RBI / 2 SB and now match OnRoto exactly. <strong>Standings moved</strong>: Demolition 66.0 → 68.0 roto points, RGing Sluggers 45.0 → 44.0, Diamond Kings 37.0 → 36.0.</li>
+            <li><strong>Internal:</strong> MLB statsapi returns one split per team plus an aggregate row; the sync took <code>splits[0]</code>. It now selects the aggregate (<code>sport.id === 0</code>). The two tempting alternatives are both wrong and are pinned by tests — summing double-counts single-team players, and keying off a missing <code>team</code> field fails because the aggregate carries <code>team</code> when only one club is involved.</li>
+            <li><strong>Known gap:</strong> the period reconciler shares its fetch path with the syncer by design (ADR-014), so it reported &quot;0 mismatches&quot; while this was live — it was comparing the pipeline against itself. Giving it an independent source is filed as follow-up.</li>
+            <li><strong>Internal:</strong> Regenerated stale living docs (CI had been red on <code>refresh-docs</code> for ~10 days, blocking unrelated merges) and made the two DB integration suites run sequentially, fixing an intermittent foreign-key flake caused by <code>RESTART IDENTITY</code> colliding ids across concurrently-executing test files.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
           <span class="release-version">v2.2.0</span>
           <span class="release-date">2026-07-06</span>
           <span class="release-tag feature">feature</span>
