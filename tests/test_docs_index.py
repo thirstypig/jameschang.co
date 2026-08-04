@@ -436,3 +436,49 @@ class TestStageAndCockpit:
         pm = [d for d in index["docs"] if d["id"] == "DOC-PM-REVIEW"]
         assert pm, "the generated PM-review cockpit should be indexed"
         assert "portfolio cockpit" in pm[0]["html"].lower()
+
+
+class TestProjectSlugCoherence:
+    """The docs hub keys every doc to a project by slug, but nothing in the
+    build pipeline validates that slug against `bin/projects-config.json` —
+    `adapt_hub` passes `project` through verbatim.
+
+    So a project rename that updates the config but misses the hub leaves
+    docs filed under a slug that no longer exists. They don't error; they
+    render under a phantom project on the /admin board and quietly detach
+    from the real one. Renaming `spar` -> `tip` (2026-08-04) touched four
+    separate places by hand — config, portfolio.json, the hub folder, and the
+    hub frontmatter — and only these assertions would have caught a miss.
+    """
+
+    ALLOWED_NON_PROJECT = {"portfolio", idx.SITE_ENG_PROJECT}
+
+    def _config_slugs(self):
+        path = os.path.join(REPO_ROOT, "bin", "projects-config.json")
+        return {p["slug"] for p in json.load(open(path, encoding="utf-8"))["projects"]}
+
+    def test_indexed_docs_reference_a_real_project_slug(self):
+        valid = self._config_slugs() | self.ALLOWED_NON_PROJECT
+        orphans = [
+            (d["path"], d["project"])
+            for d in idx.build_index()["docs"]
+            if d.get("project") and d["project"] not in valid
+        ]
+        assert not orphans, (
+            "docs filed under a project slug absent from bin/projects-config.json "
+            f"(rename drift): {orphans}"
+        )
+
+    def test_project_folders_are_real_project_slugs(self):
+        """`admin/docs/projects/<slug>/` folder names are the hub's on-disk
+        grouping. A stale folder survives a rename silently — the frontmatter
+        can be correct while the directory still carries the old name."""
+        base = os.path.join(REPO_ROOT, "admin", "docs", "projects")
+        folders = {
+            e for e in os.listdir(base)
+            if os.path.isdir(os.path.join(base, e)) and not e.startswith("_")
+        }
+        stale = sorted(folders - self._config_slugs())
+        assert not stale, (
+            f"admin/docs/projects/ folders with no matching config slug: {stale}"
+        )

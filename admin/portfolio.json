@@ -72,11 +72,11 @@
       "notes": "Earliest stage and the most values-driven. Pre-launch; the gating work is trust, safety, and real payments, not features. Move carefully given the audience."
     },
     {
-      "slug": "spar",
-      "pm_status": "exploring",
+      "slug": "tip",
+      "pm_status": "on-track",
       "stage": "building",
-      "bet": "Leaders rehearse difficult conversations against an AI counterpart, then get a coached debrief on how they handled it.",
-      "notes": "The real product is the coaching debrief, not the chat. Prove the voice experience feels real before building UI around it — right sequencing."
+      "bet": "People will practice a dreaded conversation out loud against an AI that pushes back — and the scored debrief afterward, not the conversation itself, is what they come back for.",
+      "notes": "The sequencing bet paid off: voice, the scored debrief, and the persona builder all shipped before any surrounding UI. Renamed Spar → TIP in July. The gate is no longer 'does the voice feel real' — that's answered — it's the launch cluster: accounts, then saved sessions, then a score trend. Those are a strict dependency chain, so the risk is starting them out of order."
     }
   ]
 }

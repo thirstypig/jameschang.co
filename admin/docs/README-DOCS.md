@@ -6,7 +6,7 @@ rendered by the `/admin/` docs board. This file is the map.
 
 ## What this is (and isn't)
 
-- **Is:** PRDs, roadmaps, decisions, and notes for each project (Aleph, Spar,
+- **Is:** PRDs, roadmaps, decisions, and notes for each project (Aleph, TIP,
   Fantastic Leagues, …), organized so future-me (and the board) can find things.
 - **Also is:** documentation of jameschang.co's own code — `docs/guides/`,
   `docs/solutions/`, and `docs/test-plan.md` are indexed in place (never copied)
@@ -45,7 +45,7 @@ and cross-link. No frontmatter → the board can't see the doc.
 id: PRD-001          # stable ID, never reused. PRD-### | ADR-### | DOC-### |
                      #   RISK-### | EXP-###  (numbers run per type)
 type: prd            # see the type list below
-project: aleph       # slug from bin/projects-config.json (aleph, spar, …),
+project: aleph       # slug from bin/projects-config.json (aleph, tip, …),
                      #   OR "portfolio" for cross-project docs,
                      #   OR "jameschang-co" for this site itself
 status: draft        # draft | active | locked | done | deprecated
@@ -82,8 +82,8 @@ this list deliberately — never invent a one-off, or search rots into noise.
 
 | tag | use it for |
 |---|---|
-| `ai` | AI / LLM-powered features (Aleph checks, Spar counterpart, FL insights) |
-| `voice` | voice / audio experiences (Spar, KTV Singer) |
+| `ai` | AI / LLM-powered features (Aleph checks, TIP counterpart, FL insights) |
+| `voice` | voice / audio experiences (TIP, KTV Singer) |
 | `payments` | Stripe, billing, monetization |
 | `auth` | login, accounts, permissions |
 | `onboarding` | first-run, activation, setup flows |
@@ -147,5 +147,5 @@ is recorded in `CLAUDE.md` (Step 8) so every future session follows it.
 <!-- STATUS: Steps 1–5 done. Steps 6–8 fill in refresh script, extras, CLAUDE.md. -->
 
 <!-- DOCS:STATUS:START -->
-**Hub status** (auto · 2026-07-25): 41 docs · 11 projects — 3 blocked · 3 exploring · 4 on-track · 1 stalled. Regenerate with `python3 bin/refresh-docs.py`.
+**Hub status** (auto · 2026-08-04): 41 docs · 11 projects — 3 blocked · 2 exploring · 5 on-track · 1 stalled. Regenerate with `python3 bin/refresh-docs.py`.
 <!-- DOCS:STATUS:END -->

@@ -78,7 +78,7 @@ class TestLoadConfig:
         assert slugs == {
             "aleph", "fantastic-leagues", "bahtzang-trader", "judge-tool",
             "tabledrop", "tastemakers", "thirsty-pig", "jameschang-co",
-            "ktv-singer", "vouch", "spar",
+            "ktv-singer", "vouch", "tip",
         }
 
     def test_all_projects_have_editorial_fields(self):

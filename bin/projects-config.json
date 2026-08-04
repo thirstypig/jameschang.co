@@ -200,22 +200,22 @@
       ]
     },
     {
-      "slug": "spar",
-      "repo": "thirstypig/spar",
-      "name": "Spar",
-      "url": "",
-      "url_label": "",
+      "slug": "tip",
+      "repo": "thirstypig/TIP",
+      "name": "TIP",
+      "url": "https://tip.bahtzang.com",
+      "url_label": "tip.bahtzang.com",
       "status_badge": "shipping",
       "maturity": "alpha",
-      "desc": "A voice app where leaders rehearse difficult conversations against an AI counterpart, then get a coached debrief on how they handled it.",
-      "next_up": "Make sure the conversation feels real before building anything around it.",
+      "desc": "A private practice room where you rehearse the conversation you're dreading — out loud, against an AI that pushes back — then get scored on how you steered it.",
+      "next_up": "Personal logins, so your sessions and the people you practice against are your own.",
       "roadmap_items": [
-        "Hold the conversation inside the app itself",
-        "The coaching feedback afterward — the real product",
-        "A library of situations to practice, set up by voice"
+        "Personal logins and your own saved counterparts",
+        "Saved sessions you can replay and review",
+        "A score that tracks how you're improving over time"
       ],
       "shipping_repos": [
-        "thirstypig/spar"
+        "thirstypig/TIP"
       ]
     }
   ]

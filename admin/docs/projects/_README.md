@@ -2,7 +2,7 @@
 # Projects
 
 Each project in the portfolio gets a folder here (slug matches `bin/projects-config.json`
-and the `/admin/` portfolio board): `aleph/`, `spar/`, `fantastic-leagues/`, …
+and the `/admin/` portfolio board): `aleph/`, `tip/`, `fantastic-leagues/`, …
 
 Inside each project folder:
 - `prds/` — one file per feature (`PRD-###-<slug>.md`)

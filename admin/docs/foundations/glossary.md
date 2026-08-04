@@ -18,5 +18,5 @@ once and link to its definition. A few examples to show the shape; fill in the r
 |---|---|---|
 | CPC | aleph | Children's Product Certificate — the CPSIA filing Aleph generates. |
 | keeper league | fantastic-leagues | A fantasy format where managers retain players season-to-season. |
-| counterpart | spar | The AI persona a user rehearses a difficult conversation against. |
+| counterpart | tip | The AI persona a user rehearses a difficult conversation against. |
 | <!-- add: FSVP, Prop 65, PFAS, roto, cohort, debrief, … --> | | |

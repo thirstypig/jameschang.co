@@ -1464,7 +1464,7 @@ class TestDetailCards:
         cards = body.count('class="nb-detail-card"')
         triggers = body.count('class="nb-detail-trigger"')
         templates = body.count('<template>')
-        assert cards == 14, f"expected 14 detail cards (7 people + 7 off-the-clock), got {cards}"
+        assert cards == 15, f"expected 15 detail cards (7 people + 8 off-the-clock), got {cards}"
         assert triggers == cards, f"{triggers} triggers vs {cards} cards — each card needs exactly one"
         assert templates == cards, f"{templates} <template>s vs {cards} cards — each card needs exactly one"
 
@@ -1478,8 +1478,8 @@ class TestDetailCards:
         assert people and people.group(1).count('class="nb-detail-card"') == 7, (
             "expected 7 detail cards in /09 people i follow"
         )
-        assert clock and clock.group(1).count('class="nb-detail-card"') == 7, (
-            "expected 7 detail cards in /06 off the clock (top list)"
+        assert clock and clock.group(1).count('class="nb-detail-card"') == 8, (
+            "expected 8 detail cards in /06 off the clock (top list)"
         )
 
     def test_now_js_wires_detail_modal_via_clone(self):
@@ -1719,6 +1719,20 @@ class TestAdminPortfolio:
         pf = {p["slug"] for p in self._portfolio()["projects"]}
         missing = [s for s in self._config_slugs() if s not in pf]
         assert missing == [], f"projects with no portfolio entry: {missing}"
+
+    def test_no_orphan_portfolio_entries(self):
+        """The reverse direction of the check above, which a rename needs.
+
+        Renaming a project by ADDING the new slug and forgetting to remove
+        the old one leaves an orphan entry: the board renders a card for a
+        project that no longer exists in config, with a stale bet and stale
+        notes. The sibling test only catches config entries missing from the
+        board, so nothing else guards this direction."""
+        cfg = set(self._config_slugs())
+        orphans = [p["slug"] for p in self._portfolio()["projects"] if p["slug"] not in cfg]
+        assert orphans == [], (
+            f"portfolio entries with no matching config slug: {orphans}"
+        )
 
     def test_admin_page_hosts_the_board(self):
         body = _read("admin/index.html")
