@@ -340,6 +340,46 @@ GOODREADS_USER_ID = "33966778"  # Hard to change without editing code
 # Otherwise, leave as hardcoded constant — it's fine for single-user site
 ```
 
+### Gotcha 4: HTTP 200 With Semantically Shifted Data
+
+The hardest failures are not the ones that raise. An upstream API can return a
+perfectly valid **200 whose meaning has moved** — a redirect, a renamed field, a
+schema version bump — and every `try/except HTTPError` in the pipeline will wave
+it through.
+
+The live case (2026-08-04): a source repo was renamed on GitHub. GitHub redirects
+`/repos/{old}/events`, so the fetch succeeded with real data and the success
+counter incremented — but the response stamped each event with the **new** repo
+name, while the lookup used the **old** configured one. The exact-string dict
+miss read as "no events", the project silently fell to back-burner, and the
+heartbeat stayed green for as long as the config stayed stale.
+
+```python
+# ❌ Trusting that a 200 means the identifier you sent is still valid
+data = fetch_json(f"https://api.github.com/repos/{repo}/events") or []
+_events_ok += 1
+return data
+
+# ✅ Verify the response still agrees with the identifier you sent
+data = fetch_json(f"https://api.github.com/repos/{repo}/events") or []
+_events_ok += 1
+if data:
+    returned = data[0].get("repo", {}).get("name", "")
+    if returned and returned.lower() != repo.lower():
+        _renamed_repos.append((repo, returned))   # surface the drift
+return data
+```
+
+**The rule:** whenever a local identifier is used *both* to build a request *and*
+to key its response, check that the response still agrees. Applies anywhere config
+and an upstream service each hold a name — repo names, Goodreads shelf IDs, Plex
+library names, calendar feed IDs.
+
+Note that error-handling guards cannot catch this class, including the
+systemic-failure gate in `update-projects.py` (`_events_ok == 0 and
+_events_err > 0`) — there is no error to catch. Full write-up:
+`docs/solutions/integration-issues/github-repo-rename-redirect-silently-orphans-project-events.md`.
+
 ## Monitoring & Alerting
 
 **Feed staleness monitor** (`bin/check-feed-health.py`):

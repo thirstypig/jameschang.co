@@ -14,6 +14,34 @@ The `/now` page syncs changelogs and roadmaps from source repositories. To add a
 
 5. Author `docs/{doctype}.md` in the source repo following the heading-line convention (see **Markdown conventions** below). The sync will pick it up on the next 13:15 UTC cron tick (or trigger via `workflow_dispatch`).
 
+## Renaming a source repo
+
+**If a source repo is renamed on GitHub, update every reference to it here in the
+same change** — `repo` and all `shipping_repos[]` entries in
+`bin/projects-config.json`, plus the `PROJECT_DOCS` tuple above. Do not rely on
+GitHub's redirect.
+
+The redirect is exactly what makes this dangerous: `/repos/{old}/events` keeps
+returning **HTTP 200 with real data**, so nothing fails — but the response stamps
+events with the *new* name while lookups use the *old* configured one. The project
+silently drops to back-burner on `/now` and the heartbeat stays green, so no
+monitor ever fires. Verified against a real rename 2026-08-04; see
+`docs/solutions/integration-issues/github-repo-rename-redirect-silently-orphans-project-events.md`.
+
+A rename also touches four other places that are **not** the sync. `TestProjectSlugCoherence`
+(`tests/test_docs_index.py`) and `test_no_orphan_portfolio_entries`
+(`tests/test_site_e2e.py`) guard these — run the suite after any slug change:
+
+| What | Where |
+|---|---|
+| Project slug + repo | `bin/projects-config.json` |
+| Board entry | `admin/portfolio.json` |
+| Docs-hub folder | `admin/docs/projects/<slug>/` |
+| Docs-hub frontmatter | `project:` in every doc under that folder |
+
+The PAT needs no attention — fine-grained tokens select repositories by **ID**, so
+access survives a rename untouched.
+
 ## Markdown conventions
 
 The sync uses small dedicated parsers, not a general markdown library. Authors of source-repo `docs/*.md` files must follow these rules — anything outside the contract is ignored, malformed entries are skipped silently. Supported inline: `**bold**` → `<strong>`, `` `code` `` → `<code>`. HTML in source is escaped.

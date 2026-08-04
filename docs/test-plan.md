@@ -4,7 +4,7 @@ Testing strategy, inventory, and execution cadence for the site and its automati
 
 ## Test Types
 
-### Unit Tests (11 files)
+### Unit Tests (12 files)
 
 **What they test:** Individual Python functions in isolation — the pure logic that transforms data, escapes HTML, formats time, and replaces content markers.
 
