@@ -19,20 +19,20 @@
     "last_success_utc": "2026-08-05T09:23:12.100237+00:00"
   },
   "project-docs": {
-    "last_success_utc": "2026-08-04T15:33:19.569299+00:00"
+    "last_success_utc": "2026-08-05T15:24:44.711917+00:00"
   },
   "project-docs:aleph-roadmap": {
-    "last_success_utc": "2026-08-04T15:33:18.652367+00:00"
+    "last_success_utc": "2026-08-05T15:24:43.586899+00:00"
   },
   "project-docs:fantastic-leagues-changelog": {
-    "last_success_utc": "2026-08-04T15:33:18.868392+00:00"
+    "last_success_utc": "2026-08-05T15:24:43.961029+00:00"
   },
   "project-docs:fantastic-leagues-roadmap": {
-    "last_success_utc": "2026-08-04T15:33:19.125673+00:00"
+    "last_success_utc": "2026-08-05T15:24:44.207662+00:00"
   },
   "project-docs:judge-tool-roadmap": {
     "last_error": "5 item(s) dropped: phase not allowlisted: Security Hardening (Do First); phase not allowlisted: Reliability & Error Handling; phase not allowlisted: Scaling & Performance",
-    "last_success_utc": "2026-08-04T15:33:19.568994+00:00"
+    "last_success_utc": "2026-08-05T15:24:44.711680+00:00"
   },
   "projects": {
     "last_success_utc": "2026-08-05T15:10:33.873802+00:00"
