@@ -3,9 +3,14 @@ name: Tests
 on:
   push:
     branches: [main]
+    # Only skip CI for paths no test reads. `docs/**` and root `*.md` were
+    # removed 2026-08-05: test_docs_index.py asserts the committed
+    # admin/docs/index.json matches a fresh rebuild, and its whole purpose is
+    # catching a doc edited without re-running bin/build-docs-index.py — a
+    # docs-only commit is exactly when that happens, so ignoring it disabled
+    # the guard precisely when it was needed. todos/ stays ignored (no test
+    # reads it; it appears only in docstrings).
     paths-ignore:
-      - '*.md'
-      - 'docs/**'
       - 'todos/**'
       - '.feeds-heartbeat.json'
       - '.spotify-state.json'
@@ -25,8 +30,12 @@ jobs:
       - name: Install pytest
         run: pip install pytest
 
+      # Run the WHOLE unit suite, never a hand-listed subset. A named list
+      # goes stale silently: adding tests/test_foo.py and forgetting to list
+      # it here produces a green check that proves nothing. This was the
+      # actual state until 2026-08-05 — 368 of 525 tests never ran in CI.
       - name: Run unit tests
-        run: python -m pytest tests/test_shared.py tests/test_feeds.py -v
+        run: python -m pytest tests/ --ignore=tests/test_site_e2e.py -v
 
       - name: Run E2E tests
         run: python -m pytest tests/test_site_e2e.py -v
