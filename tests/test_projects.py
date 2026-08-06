@@ -81,6 +81,39 @@ class TestLoadConfig:
             "ktv-singer", "vouch", "tip", "family-sites",
         }
 
+    def test_shipping_and_shipped_do_not_render_the_same_icon(self):
+        """The two most confusable values in the vocabulary must look different.
+
+        `shipping` (actively building) and `shipped` (done) differ by one
+        letter and mean opposite things. render_badge's icon chain ends in a
+        bare `else: icon = _SVG_CODE`, so every unhandled status inherits the
+        code glyph that signifies active development — marking a finished
+        project `shipped` advertised it as still being built.
+
+        Note what is NOT asserted here: `shipped` has no
+        `.nb-proj-badge--shipped` CSS rule, and that is deliberate —
+        notebook.css comments the base rule as "base (neutral/shipped), then
+        semantic modifiers", so shipped is meant to fall through to neutral.
+        Only the icon was wrong.
+        """
+        import re as _re
+        icon = lambda html: _re.search(r"<svg.*?</svg>", html, _re.S).group(0)
+        assert icon(_projects.render_badge("shipped", "public")) != \
+               icon(_projects.render_badge("shipping", "beta")), (
+            "a finished project renders the same icon as one still shipping")
+
+    def test_neutral_base_badge_is_documented_in_css(self):
+        """Guards the design decision the test above leans on: if someone adds
+        semantic colors for every status and drops the neutral base comment,
+        the fall-through for `shipped` becomes accidental rather than chosen."""
+        css_path = os.path.join(os.path.dirname(__file__), "..", "notebook.css")
+        with open(css_path, encoding="utf-8") as f:
+            css = f.read()
+        assert "base (neutral/shipped)" in css, (
+            "the neutral-base intent for `shipped` is no longer documented in "
+            "notebook.css — either restore the comment or give shipped a "
+            "semantic modifier")
+
     def test_config_pin_values_are_all_recognized(self):
         """At runtime an unrecognized `pin` degrades to activity
         classification with only a log line — which nobody reads on a green
@@ -516,6 +549,165 @@ class TestProjectPinning:
                     "pin_down": _projects.PIN_BACKBURNER})
         assert sorted(active + back) == sorted(events), "a slug went missing"
         assert not (set(active) & set(back)), "a slug rendered in both sections"
+
+
+class TestRenderCardLinks:
+    """Optional `links[]` — for a card representing more than one live site.
+
+    render_card supports exactly one link (the project name), which is fine
+    for a single-product card. The grouped family-sites card breaks that
+    assumption: five live domains, and before this the only way to name them
+    was unclickable prose in `desc`.
+    """
+
+    BASE = {
+        "slug": "demo", "name": "Demo", "url": "", "url_label": "",
+        "status_badge": "live", "maturity": "public",
+        "desc": "A demo.", "next_up": "Ship it.",
+    }
+
+    def test_renders_each_link_with_its_label(self):
+        project = dict(self.BASE, links=[
+            {"label": "one.com", "url": "https://one.com"},
+            {"label": "two.com", "url": "https://two.com"}])
+        html = _projects.render_card(project, [], "Aug 5, 2026")
+        assert 'class="nb-proj-links"' in html
+        assert '<a href="https://one.com"' in html
+        assert ">one.com</a>" in html
+        assert ">two.com</a>" in html
+
+    def test_links_open_in_a_new_tab_safely(self):
+        project = dict(self.BASE, links=[{"label": "x", "url": "https://x.com"}])
+        html = _projects.render_card(project, [], "Aug 5, 2026")
+        assert 'rel="noopener"' in html and 'target="_blank"' in html
+
+    def test_no_links_row_when_absent_or_empty(self):
+        """Every other card in config has no links[] and must be unchanged."""
+        for project in (self.BASE, dict(self.BASE, links=[])):
+            assert "nb-proj-links" not in _projects.render_card(
+                project, [], "Aug 5, 2026")
+
+    def test_unsafe_link_url_is_neutralized(self):
+        """Same safe_url discipline as the project name — config is authored
+        by hand today, but the renderer must not be the weak link."""
+        project = dict(self.BASE, links=[
+            {"label": "evil", "url": "javascript:alert(1)"}])
+        html = _projects.render_card(project, [], "Aug 5, 2026")
+        assert "javascript:" not in html
+
+    def test_link_label_is_escaped(self):
+        project = dict(self.BASE, links=[
+            {"label": "<script>x</script>", "url": "https://x.com"}])
+        html = _projects.render_card(project, [], "Aug 5, 2026")
+        assert "<script>" not in html
+        assert "&lt;script&gt;" in html
+
+    def test_entry_missing_a_url_is_skipped_not_rendered_dead(self):
+        project = dict(self.BASE, links=[
+            {"label": "no-url"}, {"label": "ok.com", "url": "https://ok.com"}])
+        html = _projects.render_card(project, [], "Aug 5, 2026")
+        assert "no-url" not in html
+        assert ">ok.com</a>" in html
+
+    def test_family_sites_config_links_all_five_domains(self):
+        """The card exists to point at five live sites; if the links row ever
+        drops one, the site it names becomes unreachable from /now."""
+        config = {p["slug"]: p for p in _projects.load_config()}
+        links = config["family-sites"].get("links") or []
+        assert len(links) == 5, f"expected 5 family-site links, got {len(links)}"
+        html = _projects.render_card(config["family-sites"], [], "Aug 5, 2026")
+        for entry in links:
+            assert entry["url"] in html, f"{entry['label']} missing from the card"
+
+
+class TestPinsFromConfig:
+    """Building the {slug: pin} map is its own step, so it can be tested.
+
+    It was previously an inline `if p.get("pin")` comprehension in main(),
+    which silently dropped a present-but-falsy value: `"pin": ""` never
+    reached classify_projects, so the documented fail-loudly contract quietly
+    did not apply to it. Presence in the config is what matters, not
+    truthiness — validation is classify_projects's job, not this function's.
+    """
+
+    def test_includes_recognized_pins(self):
+        projects = [{"slug": "a", "pin": "backburner"}, {"slug": "b", "pin": "active"}]
+        assert _projects.pins_from_config(projects) == {
+            "a": "backburner", "b": "active"}
+
+    def test_omits_projects_with_no_pin_key(self):
+        assert _projects.pins_from_config([{"slug": "a"}]) == {}
+
+    def test_keeps_an_empty_string_so_it_can_be_reported(self):
+        """The bug this function was extracted to fix."""
+        assert _projects.pins_from_config([{"slug": "a", "pin": ""}]) == {"a": ""}
+
+    def test_keeps_an_explicit_null_so_it_can_be_reported(self):
+        assert _projects.pins_from_config([{"slug": "a", "pin": None}]) == {"a": None}
+
+    def test_a_falsy_pin_survives_into_a_warning(self, capsys):
+        """End to end: config -> map -> classifier warning, the path that
+        was broken. A blank pin must be reported, then fall back to recency."""
+        from datetime import datetime, timedelta, timezone
+        pinned = _projects.pins_from_config([{"slug": "blank", "pin": ""}])
+        recent = datetime.now(timezone.utc) - timedelta(days=1)
+        active, back = _projects.classify_projects(
+            {"blank": recent}, threshold_days=7, pinned=pinned)
+        assert active == ["blank"]                      # fell back to recency
+        assert "unrecognized pin" in capsys.readouterr().out
+
+
+class TestPinBackburnerLast:
+    """A project pinned to back-burner sorts to the BOTTOM of that section.
+
+    _backburner_key ranks projects that have events by recency, newest first.
+    That is the right ranking for a project that landed there organically —
+    its recency is meaningful. For a pinned project it is meaningless: the
+    pin exists precisely because recency does not describe it. Left alone,
+    the most frequently pushed pinned project wins the most prominent slot in
+    the section, which inverts the intent (observed live: family-sites, in
+    permanent maintenance mode, sorted ahead of Tastemakers and Judge Tool).
+
+    Post-sort mutation rather than a sort-key sentinel, matching
+    pin_self_last() and for the same reasons — see
+    docs/solutions/logic-errors/self-referential-repo-event-floating-project-card.md.
+    """
+
+    def test_pinned_project_moves_below_organic_backburner(self):
+        back = ["family-sites", "tastemakers", "ktv-singer", "judge-tool"]
+        _projects.pin_backburner_last({"family-sites": _projects.PIN_BACKBURNER}, back)
+        assert back == ["tastemakers", "ktv-singer", "judge-tool", "family-sites"]
+
+    def test_relative_order_of_unpinned_projects_is_preserved(self):
+        back = ["a", "pinned", "b", "c"]
+        _projects.pin_backburner_last({"pinned": _projects.PIN_BACKBURNER}, back)
+        assert back == ["a", "b", "c", "pinned"]
+
+    def test_multiple_pins_keep_their_relative_order_at_the_bottom(self):
+        back = ["p1", "organic", "p2"]
+        _projects.pin_backburner_last(
+            {"p1": _projects.PIN_BACKBURNER, "p2": _projects.PIN_BACKBURNER}, back)
+        assert back == ["organic", "p1", "p2"]
+
+    def test_pin_active_entries_are_ignored(self):
+        """Only back-burner pins sink; an active pin has no business here."""
+        back = ["a", "b"]
+        _projects.pin_backburner_last({"a": _projects.PIN_ACTIVE}, back)
+        assert back == ["a", "b"]
+
+    def test_noop_with_no_pins(self):
+        back = ["a", "b", "c"]
+        _projects.pin_backburner_last({}, back)
+        assert back == ["a", "b", "c"]
+
+    def test_self_slug_still_wins_the_last_position(self):
+        """pin_self_last runs after this, so jameschang-co stays absolutely
+        last even when a pinned project is also sinking."""
+        back = ["jameschang-co", "family-sites", "tastemakers"]
+        _projects.pin_backburner_last({"family-sites": _projects.PIN_BACKBURNER}, back)
+        _projects.pin_self_last(_projects.SELF_SLUG, back)
+        assert back[-1] == "jameschang-co"
+        assert back == ["tastemakers", "family-sites", "jameschang-co"]
 
 
 class TestPinDoesNotAlterRenderedEvidence:

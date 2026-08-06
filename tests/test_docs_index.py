@@ -357,10 +357,20 @@ class TestRootsAndAdapters:
         doc = idx.adapt_guide({}, body, "docs/guides/x.md")
         assert doc["title"] == "Guide — Real Guide"
 
-    def test_all_seven_guides_and_test_plan_are_indexed(self):
+    def test_every_guide_on_disk_and_the_test_plan_are_indexed(self):
+        """Count from disk, not a magic number — matches the sibling
+        test_all_solutions_on_disk_are_indexed. The old version asserted a
+        hardcoded 8 under the name "all_seven_guides", which had already
+        drifted once (name said 7, assertion said 8) and would have needed a
+        hand-edit for every new guide."""
+        import glob
+        on_disk = {os.path.relpath(p, idx.REPO_ROOT)
+                   for p in glob.glob(os.path.join(idx.REPO_ROOT, "docs/guides/*.md"))}
+        on_disk.add("docs/test-plan.md")
         index = idx.build_index()
         guides = [d for d in index["docs"] if d["type"] == "guide"]
-        assert len(guides) == 8, [d["path"] for d in guides]
+        assert {d["path"] for d in guides} == on_disk, (
+            f"indexed={sorted(d['path'] for d in guides)} disk={sorted(on_disk)}")
         paths = {d["path"] for d in guides}
         assert "docs/test-plan.md" in paths
         assert "docs/guides/cron-scripts-architecture.md" in paths

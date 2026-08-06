@@ -318,6 +318,37 @@ class TestFeedMarkers:
                 failures.append(f"Missing <!-- {marker}-END -->")
         assert not failures, f"Feed marker issues:\n" + "\n".join(failures)
 
+    def test_no_marker_on_the_page_is_unguarded(self):
+        """The reverse direction — the one an allowlist forgets.
+
+        test_all_markers_present checks EXPECTED_MARKERS is a subset of the
+        page. It cannot notice a marker pair that exists on the page but was
+        never registered here, so adding a feed and forgetting to list its
+        marker yields a green check on an unguarded pair. That matters more
+        than it sounds: a missing marker pair makes replace_marker() skip its
+        feed silently and forever (see the bootstrap rule in
+        docs/guides/cron-scripts-architecture.md), which is exactly what this
+        class exists to prevent.
+
+        Same enumeration-decay shape as the CI subset bug — see
+        docs/solutions/integration-issues/hand-listed-ci-test-files-silently-exclude-new-tests.md.
+        Asserting set EQUALITY makes the list self-checking: it can no longer
+        rot quietly in either direction.
+
+        TLDR-{slug} markers are excluded — those are generated per project
+        inside the project cards by render_card(), not hand-placed bootstraps,
+        so they legitimately come and go with bin/projects-config.json.
+        """
+        _, body = fetch("now/index.html")
+        on_page = {
+            m for m in re.findall(r"<!-- ([A-Z][A-Z0-9-]*)-START -->", body)
+            if not m.startswith("TLDR-")
+        }
+        unguarded = on_page - set(EXPECTED_MARKERS)
+        assert not unguarded, (
+            f"marker pair(s) on the page but absent from EXPECTED_MARKERS: "
+            f"{sorted(unguarded)} — register them so a future deletion is caught")
+
 # ── Tests: OpenSSL parity ────────────────────────────────────────
 
 class TestOpenSSLParity:
@@ -401,6 +432,41 @@ class TestPrivacyPolicy:
         required = ["GitHub", "MLB", "Goodreads", "Fantastic Leagues", "Plex", "hitlist"]
         missing = [src for src in required if src not in body]
         assert not missing, f"Privacy policy missing feed sources: {missing}"
+
+    def test_every_live_feed_is_disclosed(self):
+        """Derive the feed set from EXPECTED_MARKERS instead of hand-picking.
+
+        test_lists_all_feed_sources checks 6 hand-chosen strings, which leaves
+        the three most sensitive sources — WHOOP (biometric health data),
+        Spotify, and Google Calendar — entirely unguarded: all three are
+        disclosed today and could be deleted from the policy without a single
+        test failing. The WHOOP developer-app registration points at this page
+        as its required privacy policy, so a dropped disclosure there is a
+        vendor-agreement problem, not a cosmetic one.
+
+        Deriving from the marker list means adding a 9th feed forces a
+        disclosure decision rather than defaulting to undisclosed.
+        """
+        NON_FEED_MARKERS = {
+            "PAGE-UPDATED", "ACTIVE-PROJECTS", "BACKBURNER-PROJECTS",
+            "ACTIVE-EYEBROW", "BACKBURNER-EYEBROW", "GCAL-EYEBROW",
+        }
+        # marker → the phrase the policy uses to disclose that feed
+        DISCLOSURES = {
+            "WHOOP": "WHOOP", "SPOTIFY": "Spotify", "PLEX": "Plex",
+            "GCAL": "Google Calendar", "MLB": "MLB",
+            "GOODREADS": "Goodreads", "GOODREADS-READING": "Goodreads",
+            "FBST": "Fantastic Leagues",
+        }
+        feeds = set(EXPECTED_MARKERS) - NON_FEED_MARKERS
+        unmapped = sorted(feeds - set(DISCLOSURES))
+        assert not unmapped, (
+            f"feed marker(s) with no disclosure mapping: {unmapped} — add the "
+            f"phrase the privacy policy uses for them to DISCLOSURES")
+        _, body = fetch("privacy/index.html")
+        undisclosed = sorted(m for m in feeds if DISCLOSURES[m] not in body)
+        assert not undisclosed, (
+            f"live feed(s) absent from the privacy policy: {undisclosed}")
 
     def test_mentions_ga4(self):
         _, body = fetch("privacy/index.html")
@@ -610,6 +676,36 @@ class TestSitemap:
             if not os.path.exists(full):
                 failures.append(f"sitemap lists /{url_path} but file not found")
         assert not failures, f"Sitemap drift:\n" + "\n".join(failures)
+
+    def test_every_public_page_is_in_the_sitemap(self):
+        """The reverse direction: a new public page silently missing from the
+        sitemap. test_sitemap_urls_resolve only catches the opposite (a listed
+        URL with no file), so today a genuinely new page ships unlisted with
+        CI green — the same enumeration-decay shape documented in
+        docs/solutions/integration-issues/hand-listed-ci-test-files-silently-exclude-new-tests.md.
+
+        DELIBERATE_OMISSIONS is an allowlist, so adding a page forces a
+        decision here rather than defaulting to invisible.
+        """
+        DELIBERATE_OMISSIONS = {
+            "admin/index.html",            # noindex + robots-Disallowed gated area
+            "admin/docs/index.html",       # ditto
+            "spotify/callback/index.html",  # OAuth redirect target, not content
+            "whoop/callback/index.html",    # ditto
+        }
+        sitemap_path = os.path.join(REPO_ROOT, "sitemap.xml")
+        if not os.path.exists(sitemap_path):
+            return
+        with open(sitemap_path) as f:
+            urls = re.findall(r"<loc>https://jameschang\.co/([^<]*)</loc>", f.read())
+        listed = set()
+        for u in urls:
+            listed.add("index.html" if not u
+                       else (u + "index.html" if u.endswith("/") else u))
+        missing = sorted(set(HTML_FILES) - listed - DELIBERATE_OMISSIONS)
+        assert not missing, (
+            f"public page(s) absent from sitemap.xml: {missing} — add them, or "
+            f"add to DELIBERATE_OMISSIONS with a reason")
 
     def test_robots_txt_references_sitemap(self):
         robots_path = os.path.join(REPO_ROOT, "robots.txt")
@@ -1578,14 +1674,50 @@ class TestMemberOfJsonLD:
         assert person, "No Person node in @graph"
         return person
 
-    def test_memberof_contains_five_organizations(self):
-        """Five orgs expected: Chinese American Museum, KCBS, USC Marching Band,
-        USC Alumni Club of Shanghai, Aquarium of the Pacific."""
-        person = self._person_node()
-        orgs = person.get("memberOf", [])
-        assert len(orgs) == 5, (
-            f"expected 5 memberOf entries, got {len(orgs)}: {[o.get('name') for o in orgs]}"
-        )
+    def test_every_membership_card_has_a_memberof_entry(self):
+        """Joins the two halves that were only ever counted separately.
+
+        test_memberof_contains_five_organizations pins a magic 5 and
+        TestMinorMemberships pins a magic 6; nothing tied them together, so a
+        membership card added without a JSON-LD entry shipped green — which is
+        exactly what happened to the Lucas Museum card. Structured data is
+        invisible to manual inspection, so a test is the only thing that can
+        catch it, and the two tests that existed could not.
+
+        Join on the org URL, not the name: the card reads "USC Marching Band
+        Alumni" while the schema reads "...Alumni Association", but every
+        entry's url matches its card href byte-for-byte.
+        """
+        DELIBERATE_OMISSIONS = set()  # add a url + a reason to exempt a card
+        _, body = fetch("index.html")
+        section = re.search(r'<section id="memberships".*?</section>', body, re.DOTALL)
+        assert section, "#memberships section not found"
+        carded = set(re.findall(
+            r'<div class="nb-membership-head">\s*<strong><a href="([^"]+)"',
+            section.group(0)))
+        assert carded, "no membership cards parsed — the markup shape changed"
+        declared = {o.get("url") for o in self._person_node().get("memberOf", [])}
+        missing = sorted(carded - declared - DELIBERATE_OMISSIONS)
+        assert not missing, (
+            f"membership card(s) with no memberOf entry: {missing} — add them to "
+            f"the Person JSON-LD, or to DELIBERATE_OMISSIONS with a reason")
+        orphans = sorted(declared - carded)
+        assert not orphans, f"memberOf entries with no visible card: {orphans}"
+
+    def test_every_memberof_entry_is_complete(self):
+        """Shape check on each entry. The count is deliberately NOT asserted
+        here — it was `len(orgs) == 5`, a magic number that sat green while
+        the page grew to six cards, because nothing joined the two sides.
+        Cardinality is now the join test's job (it derives the expected set
+        from the rendered cards); this one only checks each entry is usable.
+        """
+        orgs = self._person_node().get("memberOf", [])
+        assert orgs, "Person node declares no memberOf entries"
+        bad = [o for o in orgs
+               if o.get("@type") != "Organization"
+               or not (o.get("name") or "").strip()
+               or not (o.get("url") or "").startswith("http")]
+        assert not bad, f"malformed memberOf entries: {bad}"
 
     def test_tmbaa_memberof_entry_has_url(self):
         """TMBAA entry must carry a url field — added as a review fix since the HTML
