@@ -76,6 +76,10 @@ _SVG_LOCK  = (f'<svg {_ICON_ATTRS}>'
               '<circle cx="12" cy="16" r="1"/><path d="M8 13V7a4 4 0 0 1 8 0v6"/></svg>')
 _SVG_CLOCK = (f'<svg {_ICON_ATTRS}>'
               '<circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>')
+# `shipped` (done) must not reuse _SVG_CODE — that glyph means "actively
+# shipping", and the two statuses differ by one letter with opposite meanings.
+_SVG_CHECK = (f'<svg {_ICON_ATTRS}>'
+              '<circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>')
 
 
 def load_config():
@@ -372,7 +376,7 @@ def render_badge(status, maturity=None):
     """Return badge span: inline SVG icon + 'Status · Maturity' label.
 
     Icon selection: shipping → code, live+public → globe, live+private → lock,
-    blocked → clock. CSS modifier (nb-proj-badge--{status}) drives border/icon
+    blocked → clock, shipped → check. CSS modifier (nb-proj-badge--{status}) drives border/icon
     color via notebook.css color tokens. Returns '' if status is falsy.
     """
     if not status:
@@ -387,6 +391,8 @@ def render_badge(status, maturity=None):
         icon = _SVG_GLOBE
     elif safe == "blocked":
         icon = _SVG_CLOCK
+    elif safe == "shipped":
+        icon = _SVG_CHECK
     else:
         icon = _SVG_CODE
     label = escape_html(status.capitalize())
@@ -473,11 +479,51 @@ def classify_projects(events_by_slug, threshold_days=ACTIVE_THRESHOLD_DAYS,
     return active, backburner
 
 
+def pins_from_config(projects):
+    """Build the {slug: pin} map classify_projects() consumes.
+
+    Keyed on PRESENCE of the "pin" key, not truthiness. A present-but-falsy
+    value (`""`, `null`) is a config mistake that must reach
+    classify_projects() so it gets reported — filtering it out here would
+    silently exempt exactly those values from the fail-loudly contract.
+    Validating the value is classify_projects()'s job, not this one's.
+    """
+    return {p["slug"]: p["pin"] for p in projects if "pin" in p}
+
+
+def pin_backburner_last(pinned, backburner_slugs):
+    """Sink explicitly back-burner-pinned projects to the bottom of the list.
+
+    `_backburner_key` ranks projects that have events by recency, newest
+    first — correct for a project that landed in back-burner organically,
+    because its recency is a meaningful signal. For a PINNED project recency
+    is meaningless by definition: the pin exists precisely because activity
+    does not describe what the project is. Without this, the most frequently
+    pushed pinned project takes the most prominent slot in the section, which
+    inverts the intent behind pinning it.
+
+    Observed live 2026-08-05: family-sites, in permanent maintenance mode,
+    sorted ahead of Tastemakers, KTV Singer and Judge Tool.
+
+    Post-sort mutation rather than a sort-key sentinel, matching
+    pin_self_last() — same reasoning as
+    docs/solutions/logic-errors/self-referential-repo-event-floating-project-card.md:
+    it keeps the exception readable, separately testable, and immune to a
+    change in sort direction. Relative order among the sunk projects is
+    preserved.
+    """
+    sunk = [s for s in backburner_slugs if pinned.get(s) == PIN_BACKBURNER]
+    for slug in sunk:
+        backburner_slugs.remove(slug)
+        backburner_slugs.append(slug)
+
+
 def pin_self_last(slug, *lists):
     """Move `slug` to the end of whichever list it appears in.
 
     jameschang.co gets cron commits constantly, so without this it floats
-    to the top of the active section on every run.
+    to the top of the active section on every run. Runs AFTER
+    pin_backburner_last() so the self slug keeps the absolute last position.
     """
     for lst in lists:
         if slug in lst:
@@ -525,6 +571,23 @@ def render_card(project, shipping_events, now_str):
     lines.append(activity_html)
     if desc:
         lines.append(f'          <p class="nb-proj-desc">{desc}</p>')
+    # Optional links[] — for a card standing in for more than one live site
+    # (the grouped family-sites entry). The name link above handles the
+    # single-product case; without this a multi-site card can only name its
+    # domains as unclickable prose in desc. Entries without a usable http(s)
+    # URL are dropped rather than rendered as dead links.
+    link_html = []
+    for entry in (project.get("links") or []):
+        href = safe_url((entry or {}).get("url"), fallback="")
+        label = escape_html((entry or {}).get("label", "").strip())
+        if href and label:
+            link_html.append(
+                f'<a href="{escape_html(href)}" rel="noopener" target="_blank">{label}</a>')
+    if link_html:
+        lines.append(
+            '          <p class="nb-proj-links">'
+            + ' <span aria-hidden="true">&middot;</span> '.join(link_html)
+            + '</p>')
     if next_up:
         lines += [
             '          <p class="nb-proj-next">',
@@ -617,7 +680,7 @@ def main():
         print(f"  {slug}: {len(shipping_events)} event{'s' if len(shipping_events) != 1 else ''}")
 
     events_by_slug = {slug: data[2] for slug, data in rendered.items()}
-    pinned = {p["slug"]: p["pin"] for p in projects if p.get("pin")}
+    pinned = pins_from_config(projects)
     active_slugs, backburner_slugs = classify_projects(events_by_slug, pinned=pinned)
 
     def _active_key(s):
@@ -632,6 +695,7 @@ def main():
 
     active_slugs.sort(key=_active_key, reverse=True)
     backburner_slugs.sort(key=_backburner_key)
+    pin_backburner_last(pinned, backburner_slugs)
     pin_self_last(SELF_SLUG, active_slugs, backburner_slugs)
 
     active_cards = "\n".join(

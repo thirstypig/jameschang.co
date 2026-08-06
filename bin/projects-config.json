@@ -227,7 +227,29 @@
       "status_badge": "live",
       "maturity": "public",
       "pin": "backburner",
-      "desc": "Five small personal sites I built for family — shengchangmd.com, minmeychang.com, jarrenchang.com, tobinchang.com, and rhyschang.com.",
+      "desc": "Five small personal sites I built for family.",
+      "links": [
+        {
+          "label": "shengchangmd.com",
+          "url": "https://shengchangmd.com"
+        },
+        {
+          "label": "minmeychang.com",
+          "url": "https://minmeychang.com"
+        },
+        {
+          "label": "jarrenchang.com",
+          "url": "https://jarrenchang.com"
+        },
+        {
+          "label": "tobinchang.com",
+          "url": "https://tobinchang.com"
+        },
+        {
+          "label": "rhyschang.com",
+          "url": "https://rhyschang.com"
+        }
+      ],
       "next_up": "Keeping the details current. No plans to grow these into anything bigger.",
       "roadmap_items": [],
       "shipping_repos": [

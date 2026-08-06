@@ -493,6 +493,21 @@ a:hover { text-decoration: underline; }
   margin: 0;
 }
 
+/* Multi-site link row — for a card that stands in for several live sites
+   (grouped family-sites entry). Same mono/11px/accent treatment as
+   .nb-proj-domain so one card can't invent a second visual language. */
+.nb-proj-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  margin: 0;
+}
+.nb-proj-links a { color: var(--accent); }
+.nb-proj-links a:hover { text-decoration: none; border-bottom: 1px solid var(--accent); }
+.nb-proj-links span { color: var(--rule); }
+
 /* Shipped activity inset */
 .nb-proj-activity {
   background: var(--surface-2);
