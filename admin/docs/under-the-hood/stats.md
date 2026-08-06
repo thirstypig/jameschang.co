@@ -13,7 +13,7 @@ updated: 2026-08-06
 
 # Stats
 
-_Regenerated 2026-08-06 03:16 UTC. LOC is a rough vanity signal, tracked for reference — real progress is features/phases shipped._
+_Regenerated 2026-08-06 03:26 UTC. LOC is a rough vanity signal, tracked for reference — real progress is features/phases shipped._
 
 ## Docs hub
 
@@ -75,12 +75,12 @@ _Regenerated 2026-08-06 03:16 UTC. LOC is a rough vanity signal, tracked for ref
 
 ## Repo (jameschang.co)
 
-- **397** tracked files · **62,336** total lines
+- **399** tracked files · **62,806** total lines
 
 **Lines by file type (top 8)**
 | ext | lines |
 |---|---|
-| .md | 15,372 |
+| .md | 15,842 |
 | .py | 12,547 |
 | .pdf | 8,429 |
 | .html | 6,725 |
