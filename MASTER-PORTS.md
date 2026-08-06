@@ -1,6 +1,6 @@
 # 🗂️ Master Port Registry — All Projects
 > 📍 Canonical location: `~/Projects/MASTER-PORTS.md`
-> 🗓️ Last Updated: 2026-07-31
+> 🗓️ Last Updated: 2026-08-05
 > ⚠️ This is the single source of truth. Update this file first, then mirror to each project's local copy.
 
 Copies of this file live in each active project root (e.g., `~/Projects/bahtzang-trader/MASTER-PORTS.md`). They must stay byte-identical to the root copy.
@@ -32,6 +32,8 @@ Copies of this file live in each active project root (e.g., `~/Projects/bahtzang
 | **tobinchang**                        | 3130     | —    | —         | —          | —     | —     | Static site; GitHub Pages at tobinchang.com |
 | **jarrenchang**                       | 3140     | —    | —         | —          | —     | —     | Static site; GitHub Pages at jarrenchang.com (apex, Squarespace DNS) |
 | **rhyschang**                         | 3150     | —    | —         | —          | —     | —     | Static site; GitHub Pages at rhyschang.com |
+| **theresewhite.com**                  | 3160     | —    | —         | —          | —     | —     | Next.js 16 static export; GitHub Pages at theresewhite.bahtzang.com; replaces a Wix site at theresewhite.com |
+| **minmeychang**                       | 3170     | —    | —         | —          | —     | —     | Astro 7 static, bilingual en/zh-hant; GitHub Pages at minmeychang.com (apex, Squarespace DNS) |
 
 ---
 
@@ -57,11 +59,13 @@ Each product owns a 10-port block (3XX0–3XX9 frontend, 4XX0–4XX9 API). Sub-s
 | 3130 – 3139    | 4130 – 4139 | 5451 | 6390  | tobinchang (static site; no API/PG/Redis in use) |
 | 3140 – 3149    | 4140 – 4149 | 5452 | 6391  | jarrenchang (static site; no API/PG/Redis in use) |
 | 3150 – 3159    | 4150 – 4159 | 5453 | 6392  | rhyschang (static site; no API/PG/Redis in use) |
-| 3160 – 3169    | 4160 – 4169 | 5454 | 6393  | **AVAILABLE** — reserved for future  |
+| 3160 – 3169    | 4160 – 4169 | 5454 | 6393  | theresewhite.com (Next.js static export; no API/PG/Redis in use) |
+| 3170 – 3179    | 4170 – 4179 | 5455 | 6394  | minmeychang (Astro static; no API/PG/Redis in use) |
+| 3180 – 3189    | 4180 – 4189 | 5456 | 6395  | **AVAILABLE** — reserved for future  |
 | 8040 – 8049    | —           | —    | —     | ktv-singer (WebSocket)               |
 | 24680 – 24689  | —           | —    | —     | Vite HMR (per-project, pick any)     |
 
-**Free capacity:** 1 full product slot (1 reserved block remains: 3160–3169).
+**Free capacity:** 1 full product slot (1 reserved block remains: 3180–3189).
 
 ---
 
@@ -91,6 +95,8 @@ shengchangmd             → FE: 3120 (Astro static; GitHub Pages)
 tobinchang               → FE: 3130 (static; GitHub Pages, tobinchang.com)
 jarrenchang              → FE: 3140 (static; GitHub Pages, jarrenchang.com)
 rhyschang                → FE: 3150 (static; GitHub Pages, rhyschang.com)
+theresewhite.com         → FE: 3160 (Next.js static export; GitHub Pages, theresewhite.bahtzang.com)
+minmeychang              → FE: 3170 (Astro static, bilingual; GitHub Pages, minmeychang.com)
 
 Never cross-assign ports between projects. Each product owns its 10-port block
 (e.g., thefantasticleagues owns 3010-3019 and 4010-4019). If a new service
@@ -104,7 +110,7 @@ the AVAILABLE rows in MASTER-PORTS.md before creating any new product.
 Run this anytime to see what's actually listening:
 
 ```bash
-lsof -i -P -n | grep LISTEN | grep -E '3010|3011|3020|3030|3031|3040|3050|3060|3070|3080|3090|3110|3120|3130|3140|3150|4010|4030|4040|4050|4051|4060|4070|4100|4321|5442|5444|5445|5446|5448|6381|6383|6384|6385|6387|8040|24680|24681'
+lsof -i -P -n | grep LISTEN | grep -E '3010|3011|3020|3030|3031|3040|3050|3060|3070|3080|3090|3110|3120|3130|3140|3150|3160|3170|4010|4030|4040|4050|4051|4060|4070|4100|4321|5442|5444|5445|5446|5448|6381|6383|6384|6385|6387|8040|24680|24681'
 ```
 
 ---
@@ -122,6 +128,17 @@ lsof -i -P -n | grep LISTEN | grep -E '3010|3011|3020|3030|3031|3040|3050|3060|3
 
 ## 📝 Changelog
 
+- **2026-08-05** — Added **minmeychang** (Astro static, bilingual en/zh-hant; family tribute site for Min Mey Chang) on **FE 3170**, claiming the FUTURE-5 block (3170–3179 / 4170–4179). Static only, so 4170/5455/6394 stay unassigned within the block. Live on GitHub Pages at **minmeychang.com**, an apex domain on Squarespace DNS. Opened a fresh **FUTURE-6** block (3180–3189 / 4180–4189, PG 5456, Redis 6395) to hold the "always one slot free" invariant.
+  - **Claimed before `npm run dev` was ever run** — second time in five entries this happened in the right order. `npm run build` was run during scaffolding, but that binds no port. Dev is pinned to `-p 3170` in `package.json`.
+  - **Squarespace emits an `HTTPS` (RFC 9460) record that silently defeats an apex migration.** The registrar's "Squarespace Defaults" preset bundles the four parking `A` records, the `www` CNAME **and** an `HTTPS` record at `@` whose `ipv4hint` lists the parking IPs. Browsers query HTTPS records in parallel with `A` and prefer those hints, so Chrome and Safari keep reaching Squarespace even with perfect GitHub `A` records — while `dig +short A` reports success. Deleting the preset removes all three together. **This will bite the `shengchangmd.com` migration** once that zone lands on Squarespace; the runbook does not mention it, because GoDaddy did not emit the record.
+  - **`dig` 9.10.6 (macOS system dig) cannot query `HTTPS`/`SVCB`.** It silently downgrades the unknown type to an `A` query — the QUESTION SECTION comes back `IN A` — and returns a confident, wrong answer. Use `dig -t TYPE65` instead. An earlier check in this session reported an HTTPS record present that it had never asked about.
+  - **A `200` proves nothing about which server answered.** After DNS was correct at 8.8.8.8 and 1.1.1.1, `curl https://minmeychang.com/` still returned `200` with a valid certificate — from Squarespace's parking page, because the local macOS resolver held the old IPs on their original 4-hour TTL. The tells were `%{remote_ip}` and the `server:` header. Verify migrations with `curl --resolve <host>:443:<target-ip>`, never against whatever the local resolver believes.
+  - **New Pages repos default to `build_type: legacy`, which inverts the `CNAME` rule.** On legacy branch builds the `CNAME` file in the branch is authoritative and overwrites the repo's custom-domain setting on every deploy; on `workflow` builds it is inert and the setting rules. Left on `legacy`, GitHub would also try to Jekyll-build the Astro source. Switch with `gh api -X PUT repos/<owner>/<repo>/pages -f build_type=workflow` before the first deploy.
+  - **The custom-domain field 404s until Pages has built once.** The repo had zero commits, so `main` did not exist and there was no site to attach a domain to. Order is: push → first successful deploy → set `cname` → enable `https_enforced`.
+- **2026-08-04** — Added **theresewhite.com** (Next.js 16 static export; rebuild of L. Therese White's Wix site) on **FE 3160**, claiming the FUTURE-4 block (3160–3169 / 4160–4169). Static export to GitHub Pages at theresewhite.bahtzang.com, so 4160/5454/6393 stay unassigned within the block. Opened a fresh **FUTURE-5** block (3170–3179 / 4170–4179, PG 5455, Redis 6394) to hold the "always one slot free" invariant.
+  - **Claimed before the dev server was ever run**, which is the first time in four entries this happened in the right order (see tobinchang 2026-07-31 and shengchangmd 2026-07-30, both retroactive). `npm run dev` is pinned to `-p 3160` in `package.json` rather than left on Next's default 3000.
+  - **Corrected a stale DNS assumption.** `bahtzang.com`'s nameservers are `ns-cloud-*.googledomains.com` with a `cloud-dns-hostmaster.google.com` SOA, which reads as Google Cloud DNS. It isn't a separate console: Squarespace acquired Google Domains and migrated domains kept those nameservers, so Squarespace's DNS panel is the correct place to add records. The live `shengchangmd.bahtzang.com → thirstypig.github.io.` CNAME is the proof.
+  - **Found one drifted mirror:** `thefantasticleagues/thefantasticleagues-app/MASTER-PORTS.md` was still on 2026-04-20 — the same file called out as "on a version of its own" in the 2026-07-31 sync. It had drifted again within four days. Re-synced with the rest.
 - **2026-07-31** — Added the three personal-site projects **tobinchang** (FE 3130), **jarrenchang** (FE 3140) and **rhyschang** (FE 3150), extending the registry with two new blocks (3140–3149, 3150–3159) and a fresh **FUTURE** block (3160–3169) so the "always one slot free" invariant holds. All three are static sites bound for GitHub Pages on their own apex domains, so API/PG/Redis in each block stay unassigned.
   - **Block order was set by what was already running, not alphabetically.** `tobinchang` had a `python3 -m http.server 3130` live at assignment time, so it kept 3130 rather than being moved; reassigning would have broken a running dev server mid-session. This is the failure the "claim before you run" rule exists to prevent — the claim happened after the fact for the second time in three entries (see shengchangmd, 2026-07-30).
   - **Corrected a stale row:** `spar` was renamed to **TIP** in commit `283e8bd` ("refactor: rename the product Spar → TIP across code, copy and docs"). Same 3110–3119 block, now deployed on Railway at tip.bahtzang.com. There is no `spar` folder on disk; the registry had been pointing at a product name that no longer existed.
