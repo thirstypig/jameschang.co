@@ -655,6 +655,107 @@ class TestSyncOneFailSafe:
                 os.unlink(path)
 
 
+class TestEveryWiredDocCanActuallySync:
+    """Derived from PROJECT_DOCS — not a parallel hand-written list.
+
+    Two separate literals mirrored PROJECT_DOCS by hand
+    (TestProjectDocsConfig.WIRED_DESTINATIONS here, TestProjectDocSyncMarkers.
+    EXPECTED in test_site_e2e.py), and both iterate the literal — so they can
+    only catch a REMOVAL. Add a (slug, doctype) to PROJECT_DOCS whose
+    destination page has no marker pair and nothing notices: replace_marker_in
+    returns False, sync_one returns "error", and because that feed has never
+    succeeded, record_error_if_known writes NO heartbeat (the deliberate day-1
+    false-positive suppression). No heartbeat means no last_success_utc, which
+    means the 48h staleness monitor has no entry to age out.
+
+    Net effect: the page never syncs, forever, with green CI and a silent
+    monitor. Deriving the loop from PROJECT_DOCS closes that.
+    """
+
+    def test_every_entry_has_its_destination_marker_pair(self):
+        repo_root = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
+        failures = []
+        for slug, doctype, _adapter in _docs.PROJECT_DOCS:
+            dest = os.path.join(repo_root, "projects", slug, doctype, "index.html")
+            if not os.path.exists(dest):
+                failures.append(f"{slug}/{doctype}: no destination page")
+                continue
+            with open(dest, encoding="utf-8") as f:
+                body = f.read()
+            for tag in (f"<!-- {doctype.upper()}-START -->",
+                        f"<!-- {doctype.upper()}-END -->"):
+                if tag not in body:
+                    failures.append(f"{slug}/{doctype}: missing {tag}")
+        assert not failures, (
+            "PROJECT_DOCS entries whose destination can never sync:\n"
+            + "\n".join(failures))
+
+
+class TestDropSummaryRedactsSourceText:
+    """The heartbeat note must carry counts and reasons, never source text.
+
+    `.feeds-heartbeat.json` is TRACKED and committed to this PUBLIC repo by
+    every sync workflow, and check-feed-health.py renders `last_error` into a
+    public GitHub issue body. The copy layer's entire purpose is keeping
+    untranslated upstream strings off public surfaces — so echoing the dropped
+    lines into the heartbeat leaked them straight back out through the error
+    channel. Found 2026-08-05 with real phase names live in the committed file.
+
+    All inputs here are synthetic. This test must never reference real
+    upstream content, or it becomes the leak it guards against.
+    """
+
+    SYNTHETIC = [
+        "phase not allowlisted: ZZTOPSECRETPHASE",
+        "phase not allowlisted: QQCONFIDENTIALPHASE",
+        "no plain_english mapping: XXPRIVATEFEATURELINE",
+    ]
+
+    def test_summary_contains_no_dropped_source_text(self):
+        summary = _docs._drop_summary(self.SYNTHETIC)
+        for entry in self.SYNTHETIC:
+            leaked = entry.split(": ", 1)[1]
+            assert leaked not in summary, (
+                f"dropped source text {leaked!r} leaked into the heartbeat note")
+
+    def test_summary_reports_count_and_reason_breakdown(self):
+        summary = _docs._drop_summary(self.SYNTHETIC)
+        assert "3 item(s) dropped" in summary
+        assert "2 phase not allowlisted" in summary
+        assert "1 no plain_english mapping" in summary
+
+    def test_unrecognized_reason_degrades_to_other_rather_than_passing_through(self):
+        """Fail closed: an entry whose prefix we don't recognize must not have
+        its text forwarded on the assumption that it's safe."""
+        summary = _docs._drop_summary(["WWUNEXPECTEDRAWLINE"])
+        assert "WWUNEXPECTEDRAWLINE" not in summary
+        assert "other" in summary
+
+    def test_heartbeat_records_the_redacted_summary(self, monkeypatch):
+        captured = {}
+        monkeypatch.setattr(_docs, "record_heartbeat",
+                            lambda slug, **kw: captured.update(kw))
+        _docs._record_sync_heartbeat("project-docs:demo-roadmap", self.SYNTHETIC)
+        assert captured.get("partial_success") is True
+        for entry in self.SYNTHETIC:
+            assert entry.split(": ", 1)[1] not in captured["error"]
+
+    def test_committed_heartbeat_file_carries_no_dropped_source_text(self):
+        """Belt and braces on the artifact itself: the shipped file must not
+        contain a drop note with a colon-suffixed payload."""
+        import json
+        path = os.path.join(os.path.dirname(__file__), "..", ".feeds-heartbeat.json")
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+        offenders = [
+            slug for slug, v in data.items()
+            if "item(s) dropped:" in (v.get("last_error") or "")
+        ]
+        assert offenders == [], (
+            f"{offenders} carry a legacy 'dropped: <source text>' note — the "
+            f"format was redacted 2026-08-05; scrub the value")
+
+
 class TestSyncOneAppliesPublicCopy:
     """Roadmap docs pass through the copy layer; drops become a non-fatal note."""
 
@@ -670,7 +771,10 @@ class TestSyncOneAppliesPublicCopy:
         dest.write_text(
             "<html><!-- ROADMAP-START -->old<!-- ROADMAP-END --></html>",
             encoding="utf-8")
-        modules = [_module("Security Hardening (Do First)"), _module("Nice-to-Haves")]
+        # Synthetic phase names. This file is committed to a PUBLIC repo, so it
+        # must not name real upstream phases — the earlier version of this test
+        # used one, which is the same disclosure class it was meant to guard.
+        modules = [_module("ZZSyntheticGatedPhase"), _module("Nice-to-Haves")]
 
         def adapter(token):
             return modules, None
@@ -688,8 +792,13 @@ class TestSyncOneAppliesPublicCopy:
                 entry = json.load(f)["project-docs:judge-tool-roadmap"]
             # partial_success → BOTH fields present
             assert "last_success_utc" in entry
-            assert "Security Hardening" in entry["last_error"]
-            assert "Security Hardening" not in dest.read_text(encoding="utf-8")
+            # The note reports the COUNT and REASON only. This assertion used
+            # to require the dropped phase NAME to appear here — encoding the
+            # leak as the contract. .feeds-heartbeat.json is tracked and public.
+            assert "1 item(s) dropped" in entry["last_error"]
+            assert "phase not allowlisted" in entry["last_error"]
+            assert "ZZSyntheticGatedPhase" not in entry["last_error"]
+            assert "ZZSyntheticGatedPhase" not in dest.read_text(encoding="utf-8")
         finally:
             if os.path.exists(hb):
                 os.unlink(hb)

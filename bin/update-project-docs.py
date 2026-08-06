@@ -870,20 +870,50 @@ def replace_marker_in(content, marker, html, source_label):
     return new_content, True
 
 
+def _drop_summary(dropped):
+    """Summarize drops by REASON and COUNT only — never the source text.
+
+    `.feeds-heartbeat.json` is tracked and committed to this PUBLIC repo by
+    every sync workflow, and `bin/check-feed-health.py` renders `last_error`
+    into a public GitHub issue body. The copy layer exists precisely to keep
+    untranslated upstream strings off public surfaces, so echoing the dropped
+    lines into the heartbeat leaked them right back out through the error
+    channel — the guard defeating itself. Found 2026-08-05 with real Judge
+    Tool phase names live in the committed file.
+
+    Reasons are the authored prefixes from apply_public_copy() ("phase not
+    allowlisted", "no plain_english mapping"), which are our own vocabulary,
+    not upstream content. Anything unrecognized degrades to "other" rather
+    than being passed through.
+    """
+    KNOWN_REASONS = ("phase not allowlisted", "no plain_english mapping")
+    counts = {}
+    for entry in dropped:
+        reason = next((r for r in KNOWN_REASONS if entry.startswith(r)), "other")
+        counts[reason] = counts.get(reason, 0) + 1
+    breakdown = ", ".join(f"{n} {r}" for r, n in sorted(counts.items()))
+    return f"{len(dropped)} item(s) dropped ({breakdown})"
+
+
 def _record_sync_heartbeat(feed_slug, dropped):
     """Clean success, or success-with-drops recorded as a non-fatal note.
 
     partial_success=True refreshes last_success_utc (so the 48h staleness
-    monitor stays quiet — the page did render) while surfacing what was
-    dropped in last_error, which lands in .feeds-heartbeat.json on every
-    cron commit.
+    monitor stays quiet — the page did render) while recording a redacted
+    summary in last_error, which lands in .feeds-heartbeat.json on every
+    cron commit. The full dropped lines go to stdout (the workflow log,
+    which is not a committed artifact) — see _drop_summary for why.
+
+    Note this note is PASSIVE: check-feed-health.py gates only on
+    last_success_utc age, and partial_success refreshes it, so nothing
+    notifies. It is visible by reading the JSON, nothing more.
     """
     if not dropped:
         record_heartbeat(feed_slug)
         return
-    sample = "; ".join(dropped[:3])
-    record_heartbeat(feed_slug,
-                     error=f"{len(dropped)} item(s) dropped: {sample}",
+    for entry in dropped:
+        print(f"    dropped: {entry}")
+    record_heartbeat(feed_slug, error=_drop_summary(dropped),
                      partial_success=True)
 
 
