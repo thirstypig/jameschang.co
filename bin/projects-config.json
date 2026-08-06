@@ -217,6 +217,26 @@
       "shipping_repos": [
         "thirstypig/TIP"
       ]
+    },
+    {
+      "slug": "family-sites",
+      "repo": "thirstypig/shengchangmd",
+      "name": "Family sites",
+      "url": "",
+      "url_label": "",
+      "status_badge": "live",
+      "maturity": "public",
+      "pin": "backburner",
+      "desc": "Five small personal sites I built for family — shengchangmd.com, minmeychang.com, jarrenchang.com, tobinchang.com, and rhyschang.com.",
+      "next_up": "Keeping the details current. No plans to grow these into anything bigger.",
+      "roadmap_items": [],
+      "shipping_repos": [
+        "thirstypig/shengchangmd",
+        "thirstypig/minmeychang",
+        "thirstypig/jarrenchang",
+        "thirstypig/tobinchang",
+        "thirstypig/rhyschang"
+      ]
     }
   ]
 }

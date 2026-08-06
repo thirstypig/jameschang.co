@@ -77,6 +77,13 @@
       "stage": "building",
       "bet": "People will practice a dreaded conversation out loud against an AI that pushes back — and the scored debrief afterward, not the conversation itself, is what they come back for.",
       "notes": "The sequencing bet paid off: voice, the scored debrief, and the persona builder all shipped before any surrounding UI. Renamed Spar → TIP in July. The gate is no longer 'does the voice feel real' — that's answered — it's the launch cluster: accounts, then saved sessions, then a score trend. Those are a strict dependency chain, so the risk is starting them out of order."
+    },
+    {
+      "slug": "family-sites",
+      "pm_status": "shipped",
+      "stage": "back-burner",
+      "bet": "A family member who needs one findable, permanent page is better served by a small site they own than by a social profile — and once the pattern is repeatable, the cost of the next one is close to zero.",
+      "notes": "Five live sites (shengchangmd, minmeychang, jarrenchang, tobinchang, rhyschang) grouped as a single card on /now because they are one repeatable pattern, not five products. Deliberately pinned to back-burner in the project config: content edits land often enough to keep them inside the 7-day activity window, so the recency rule alone would keep promoting them to active and crowd out real product work. The pin is the first use of that override."
     }
   ]
 }

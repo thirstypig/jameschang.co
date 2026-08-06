@@ -71,15 +71,51 @@ class TestLoadConfig:
     VALID_MATURITY = {"alpha", "beta", "public", "private"}
     VALID_STATUS = {"shipping", "live", "blocked", "shipped"}
 
-    def test_loads_eleven_projects(self):
+    def test_loads_twelve_projects(self):
         config = _projects.load_config()
-        assert len(config) == 11
+        assert len(config) == 12
         slugs = {p["slug"] for p in config}
         assert slugs == {
             "aleph", "fantastic-leagues", "bahtzang-trader", "judge-tool",
             "tabledrop", "tastemakers", "thirsty-pig", "jameschang-co",
-            "ktv-singer", "vouch", "tip",
+            "ktv-singer", "vouch", "tip", "family-sites",
         }
+
+    def test_config_pin_values_are_all_recognized(self):
+        """At runtime an unrecognized `pin` degrades to activity
+        classification with only a log line — which nobody reads on a green
+        run. Catch the typo in CI, where it is loud."""
+        bad = [(p["slug"], p["pin"]) for p in _projects.load_config()
+               if p.get("pin") is not None and p["pin"] not in _projects.VALID_PINS]
+        assert bad == [], f"unrecognized pin values in config: {bad}"
+
+    def test_no_project_fakes_a_pin_by_emptying_shipping_repos(self):
+        """Guards the alternative that was considered and rejected.
+
+        Clearing shipping_repos[] also forces back-burner — but by starving
+        the classifier of input rather than overriding its output. It blanks
+        the card's rendered "shipped" line (stating something false), stops
+        those repos being fetched at all, and blinds repo_key_mismatch() on
+        exactly those repos. Section intent belongs in `pin`.
+
+        Absence of the key is fine — shipping_repos_for() falls back to
+        `repo`. An explicitly empty list is the smell.
+        """
+        offenders = [p["slug"] for p in _projects.load_config()
+                     if "shipping_repos" in p and not p["shipping_repos"]]
+        assert offenders == [], (
+            f'{offenders} declare an empty shipping_repos[] — use "pin" to '
+            f"force a section; never starve the classifier of its input")
+
+    def test_family_sites_is_pinned_to_backburner(self):
+        """The five family sites get frequent content edits, so the 7-day
+        recency rule would keep promoting them to active. The pin is what
+        holds them in back-burner; losing it is a silent regression that only
+        shows up as a wrong-looking /now page."""
+        config = {p["slug"]: p for p in _projects.load_config()}
+        fam = config["family-sites"]
+        assert fam["pin"] == _projects.PIN_BACKBURNER
+        assert len(fam["shipping_repos"]) == 5
 
     def test_all_projects_have_editorial_fields(self):
         """Every project must have desc + next_up to render the activity-first card."""
@@ -310,6 +346,205 @@ class TestProjectClassification:
         active, back = _projects.classify_projects({"x": latest}, threshold_days=threshold)
         assert active == []
         assert back == ["x"]
+
+
+class TestRepoKeyMismatch:
+    """todos/149: a renamed source repo silently demotes its project.
+
+    GitHub redirects /repos/{old}/events to the new name, so the fetch returns
+    a normal 200 with real data — but every event is stamped with the NEW
+    name, while most_recent_event_time() looks events up by the CONFIG string.
+    The key misses, the project reads as "no events", and it falls to
+    back-burner behind a green heartbeat.
+
+    The invariant being guarded is narrower than "was it renamed": it is
+    "does the configured string equal the key parse_events will file these
+    events under". That is why the comparison is exact — a case-only drift
+    breaks attribution just as completely as a rename.
+    """
+
+    def test_returns_new_name_when_events_are_attributed_elsewhere(self):
+        events = [{"type": "PushEvent", "repo": {"name": "thirstypig/TIP"}}]
+        assert _projects.repo_key_mismatch("thirstypig/spar", events) == "thirstypig/TIP"
+
+    def test_returns_none_when_names_agree(self):
+        events = [{"type": "PushEvent", "repo": {"name": "o/app"}}]
+        assert _projects.repo_key_mismatch("o/app", events) is None
+
+    def test_returns_none_for_empty_events(self):
+        """A repo with no events carries no name to compare, so a rename on a
+        genuinely quiet repo is undetectable. That is acceptable: with no
+        activity, the classification (back-burner) is correct anyway."""
+        assert _projects.repo_key_mismatch("o/app", []) is None
+
+    def test_case_only_difference_is_reported(self):
+        """Not a rename, but it breaks the dict lookup identically."""
+        events = [{"type": "PushEvent", "repo": {"name": "o/MyApp"}}]
+        assert _projects.repo_key_mismatch("o/myapp", events) == "o/MyApp"
+
+    def test_malformed_events_are_skipped_not_crashed(self):
+        events = [{"type": "PushEvent"}, {"repo": {}}, {"repo": {"name": ""}}]
+        assert _projects.repo_key_mismatch("o/app", events) is None
+
+    def test_fetch_records_mismatch_and_still_returns_the_data(self, monkeypatch):
+        """Report-only, deliberately NOT self-healing: re-keying to the
+        returned name would keep the card correct and thereby remove the only
+        pressure to fix the config — masking the drift the warning exists to
+        surface."""
+        monkeypatch.setattr(_projects, "_repo_key_mismatches", [])
+        monkeypatch.setattr(_projects, "fetch_json",
+                            lambda url, headers=None, timeout=None:
+                            [{"type": "PushEvent", "repo": {"name": "o/new"}}])
+        out = _projects.fetch_repo_events("o/old", token=None)
+        assert out == [{"type": "PushEvent", "repo": {"name": "o/new"}}]  # data untouched
+        assert _projects._repo_key_mismatches == [("o/old", "o/new")]
+
+    def test_heartbeat_is_clean_when_no_mismatches(self, monkeypatch):
+        monkeypatch.setattr(_projects, "_repo_key_mismatches", [])
+        assert _projects.mismatch_heartbeat_kwargs() == {}
+
+    def test_events_keyed_under_new_name_are_lost_by_both_lookups(self):
+        """The raw damage the detector warns about, asserted directly.
+
+        Every other test in this class proves the WARNING fires. None proves
+        the underlying loss is real, so a future refactor that normalizes keys
+        (and thereby fixes the bug) would leave eight tests guarding a problem
+        that no longer exists. This one fails loudly in that case.
+        """
+        project = {"slug": "tip", "repo": "thirstypig/spar",
+                   "shipping_repos": ["thirstypig/spar"]}
+        events_by_repo = {"thirstypig/TIP": [{
+            "summary": "Pushed to main", "url": "https://github.com/x",
+            "time": "2026-08-04T12:00:00Z", "_repo": "thirstypig/TIP"}]}
+        assert _projects.events_for_project(project, events_by_repo) == []
+        assert _projects.most_recent_event_time(project, events_by_repo) is None
+
+    def test_heartbeat_is_partial_success_when_mismatched(self, monkeypatch):
+        """partial_success=True refreshes last_success_utc AND records the
+        note — so the 48h staleness monitor does not false-trip, but the
+        mismatch becomes visible in .feeds-heartbeat.json instead of nowhere."""
+        monkeypatch.setattr(_projects, "_repo_key_mismatches",
+                            [("thirstypig/spar", "thirstypig/TIP")])
+        kwargs = _projects.mismatch_heartbeat_kwargs()
+        assert kwargs["partial_success"] is True
+        assert "thirstypig/spar" in kwargs["error"]
+        assert "thirstypig/TIP" in kwargs["error"]
+
+
+class TestProjectPinning:
+    """`pin` in projects-config.json overrides the activity-recency rule.
+
+    The recency rule answers "was this touched recently?" — but the section
+    headings claim something stronger: "am I still building this?" Those
+    diverge for a maintenance-mode project (edited often, not being expanded).
+    `pin` is the explicit, named escape hatch for that divergence.
+    """
+
+    @staticmethod
+    def _ago(days):
+        from datetime import datetime, timedelta, timezone
+        return datetime.now(timezone.utc) - timedelta(days=days)
+
+    def test_pin_backburner_overrides_recent_activity(self):
+        """The motivating case: family-sites is pushed to constantly but is
+        explicitly maintenance-only. Recency alone would call it active."""
+        events = {"family-sites": self._ago(0), "real": self._ago(1)}
+        active, back = _projects.classify_projects(
+            events, threshold_days=7, pinned={"family-sites": "backburner"})
+        assert active == ["real"]
+        assert back == ["family-sites"]
+
+    def test_pin_active_overrides_stale_activity(self):
+        """Inverse direction: a project being actively worked somewhere the
+        GitHub events don't show (design, research, a private mirror)."""
+        events = {"quiet": self._ago(90)}
+        active, back = _projects.classify_projects(
+            events, threshold_days=7, pinned={"quiet": "active"})
+        assert active == ["quiet"]
+        assert back == []
+
+    def test_pin_active_promotes_project_with_no_events_at_all(self):
+        events = {"nothing": None}
+        active, back = _projects.classify_projects(
+            events, threshold_days=7, pinned={"nothing": "active"})
+        assert active == ["nothing"]
+        assert back == []
+
+    def test_unpinned_projects_still_follow_recency_rule(self):
+        """A pin must be surgical — it changes only the slug it names."""
+        events = {"pinned": self._ago(0), "fresh": self._ago(1), "stale": self._ago(30)}
+        active, back = _projects.classify_projects(
+            events, threshold_days=7, pinned={"pinned": "backburner"})
+        assert active == ["fresh"]
+        assert set(back) == {"pinned", "stale"}
+
+    def test_omitting_pinned_argument_preserves_legacy_behavior(self):
+        """Backward compatibility: every existing caller passes no `pinned`."""
+        events = {"a": self._ago(1), "b": self._ago(30)}
+        assert (_projects.classify_projects(events, threshold_days=7)
+                == _projects.classify_projects(events, threshold_days=7, pinned={}))
+
+    def test_unknown_pin_value_falls_back_to_recency_and_warns(self, capsys):
+        """A typo ("back-burner", "backburnner") must not silently vanish into
+        the recency default — that is exactly the silent-misclassification
+        failure class documented in todos/149. Fail loudly in the cron log,
+        but never crash the sync over a config typo."""
+        events = {"typo": self._ago(0)}
+        active, back = _projects.classify_projects(
+            events, threshold_days=7, pinned={"typo": "back-burner"})
+        assert active == ["typo"]        # fell through to the recency rule
+        assert back == []
+        assert "back-burner" in capsys.readouterr().out  # but it was reported
+
+    def test_pin_constants_are_the_only_accepted_values(self):
+        assert _projects.VALID_PINS == frozenset(
+            {_projects.PIN_ACTIVE, _projects.PIN_BACKBURNER})
+
+    def test_every_slug_lands_in_exactly_one_section(self):
+        """Coverage, not just placement.
+
+        The pin branches are new code on the ONLY path that decides section
+        membership. A slug that falls out of both lists disappears from /now
+        silently — the page renders, the workflow is green, the heartbeat is
+        clean, and the card is simply gone. Nothing else asserts totality.
+        """
+        events = {"pin_up": self._ago(30), "pin_down": self._ago(0),
+                  "fresh": self._ago(1), "stale": self._ago(30), "silent": None}
+        active, back = _projects.classify_projects(
+            events, threshold_days=7,
+            pinned={"pin_up": _projects.PIN_ACTIVE,
+                    "pin_down": _projects.PIN_BACKBURNER})
+        assert sorted(active + back) == sorted(events), "a slug went missing"
+        assert not (set(active) & set(back)), "a slug rendered in both sections"
+
+
+class TestPinDoesNotAlterRenderedEvidence:
+    """A pin overrides the DECISION, downstream of measurement.
+
+    The card must still render the project's real most-recent commit, so a
+    reader sees the raw signal and can disagree with the label. This is the
+    property that separates an honest override from a lie, and it is exactly
+    what the rejected `shipping_repos: []` approach destroys. The concrete
+    regression: someone "optimizes" the sync by skipping event fetches for
+    pinned projects, and every pinned card silently starts claiming
+    "no recent activity" for work that shipped this morning.
+    """
+
+    EVENT = [{"summary": "Update the bio photo",
+              "url": "https://github.com/thirstypig/rhyschang/commit/abc123",
+              "time": "2026-08-04T18:00:00Z",
+              "_repo": "thirstypig/rhyschang"}]
+
+    def test_pinned_backburner_project_still_renders_its_real_activity(self):
+        pinned_down = [p for p in _projects.load_config()
+                       if p.get("pin") == _projects.PIN_BACKBURNER]
+        assert pinned_down, "no back-burner-pinned project in config to exercise"
+        for project in pinned_down:
+            html = _projects.render_card(project, self.EVENT, "Aug 5, 2026")
+            assert "nb-proj-activity--empty" not in html, (
+                f"{project['slug']} is pinned but its evidence was suppressed")
+            assert "Update the bio photo" in html
+            assert "github.com" in html
 
 
 class TestPinSelfLast:
@@ -639,6 +874,76 @@ class TestSystemicEventFailureSkipsHeartbeat:
 
         assert calls["heartbeat"] == 0, "heartbeat must not be recorded when all fetches error"
         assert calls["write"] == 0, "page must not be rewritten when all fetches error"
+
+
+class TestConfigPinsReachTheClassifier:
+    """The config -> classifier seam, which nothing else covers.
+
+    main() builds the `pinned` mapping with a one-line dict comprehension:
+
+        pinned = {p["slug"]: p["pin"] for p in projects if p.get("pin")}
+
+    TestProjectPinning proves classify_projects() honors a pin.
+    TestLoadConfig proves the config declares one. Neither touches the wire
+    between them — delete that line and every one of those tests still
+    passes while /now silently renders the pinned projects in the wrong
+    section. That is the regression this prevents.
+    """
+
+    def test_backburner_pins_survive_a_full_render(self, monkeypatch):
+        from datetime import datetime, timezone
+        from urllib.error import URLError
+
+        captured = {}
+        config = _projects.load_config()
+        now_iso = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+        repos = _projects.shipping_repos_for(config)
+
+        # Give EVERY repo a push from just now. Under the recency rule alone
+        # all twelve projects would be active, so any project still landing in
+        # back-burner got there via its pin and nothing else.
+        monkeypatch.setattr(_projects, "fetch_github_events", lambda token, rs: [
+            {"type": "PushEvent", "created_at": now_iso, "repo": {"name": r},
+             "payload": {"ref": "refs/heads/main", "head": "deadbeef"}}
+            for r in rs])
+        monkeypatch.setattr(_projects, "_events_ok", len(repos))
+        monkeypatch.setattr(_projects, "_events_err", 0)
+        monkeypatch.setattr(_projects, "_repo_key_mismatches", [])
+
+        def _offline(*a, **kw):        # skip the /commits/{sha} enrichment
+            raise URLError("offline")
+        monkeypatch.setattr(_projects, "fetch_json", _offline)
+        monkeypatch.setattr(_projects, "content_changed", lambda old, new: True)
+        monkeypatch.setattr(_projects, "record_heartbeat", lambda slug, **kw: None)
+        monkeypatch.setattr(_projects, "write_now_html",
+                            lambda c: captured.__setitem__("html", c))
+
+        _projects.main()
+
+        assert "html" in captured, "main() never reached write_now_html"
+        html = captured["html"]
+
+        def block(name):
+            return html.split(f"<!-- {name}-START -->")[1] \
+                       .split(f"<!-- {name}-END -->")[0]
+
+        active_block, back_block = block("ACTIVE-PROJECTS"), block("BACKBURNER-PROJECTS")
+        pinned_seen = 0
+        for project in config:
+            marker = f"<!-- TLDR-{project['slug']}-START -->"
+            pin = project.get("pin")
+            if pin == _projects.PIN_BACKBURNER:
+                pinned_seen += 1
+                assert marker in back_block, f"{project['slug']} pin was dropped"
+                assert marker not in active_block
+            elif pin == _projects.PIN_ACTIVE:
+                pinned_seen += 1
+                assert marker in active_block, f"{project['slug']} pin was dropped"
+            else:
+                assert marker in active_block, (
+                    f"{project['slug']} has a fresh event and no pin, so it "
+                    f"should be active — the fixture may have drifted")
+        assert pinned_seen, "config declares no pins; this test proves nothing"
 
 
 JARGON_MARKERS = [

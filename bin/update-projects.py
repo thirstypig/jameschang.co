@@ -50,6 +50,16 @@ MAX_COMMIT_ENRICHMENTS = 15  # hard cap on per-run GitHub /commits/{sha} fetches
 ACTIVE_THRESHOLD_DAYS = 7  # most-recent shipping event within this window → active
 SELF_SLUG = "jameschang-co"  # always pinned to the bottom of its section
 
+# Explicit section overrides, set per-project via "pin" in projects-config.json.
+# The recency rule answers "was this touched recently?", but the section
+# headings claim something stronger — "am I still building this?" Those two
+# questions diverge for a maintenance-mode project (edited often, not being
+# expanded), so intent gets its own field rather than being faked by
+# withholding shipping_repos[].
+PIN_ACTIVE = "active"
+PIN_BACKBURNER = "backburner"
+VALID_PINS = frozenset({PIN_ACTIVE, PIN_BACKBURNER})
+
 _BADGE_SAFE_RE = re.compile(r"[^a-z0-9-]")
 
 # Tabler outline icon SVG strings (MIT) — inlined to avoid CDN dependency.
@@ -143,6 +153,47 @@ def shipping_repos_for(projects):
 # request). Only the systemic case skips the heartbeat so the monitor can flag it.
 _events_ok = 0
 _events_err = 0
+# (configured_repo, name_github_actually_attributed_events_to) pairs — see
+# repo_key_mismatch(). Reported via the heartbeat, never auto-corrected.
+_repo_key_mismatches = []
+
+
+def repo_key_mismatch(configured_repo, events):
+    """Return the repo name GitHub filed these events under, if it differs
+    from the configured string; otherwise None.
+
+    Guards todos/149: renaming a source repo makes GitHub redirect
+    /repos/{old}/events to the new name, so the fetch succeeds with real data
+    — but every event is stamped `repo.name = <new name>`, which is the key
+    parse_events() files it under, while most_recent_event_time() looks it up
+    by the config string. The miss reads as "no events" and silently demotes
+    the project to back-burner behind a green heartbeat.
+
+    The comparison is exact on purpose. The invariant is not "was this
+    renamed" but "will the config string match the key these events land
+    under" — so a case-only drift, which breaks the lookup just as completely,
+    is reported too.
+    """
+    for ev in events:
+        name = ((ev.get("repo") or {}).get("name") or "").strip()
+        if name and name != configured_repo:
+            return name
+    return None
+
+
+def mismatch_heartbeat_kwargs():
+    """Heartbeat kwargs carrying any repo-key mismatches seen this run.
+
+    `partial_success=True` refreshes `last_success_utc` *and* records the note:
+    the sync really did run and produce a page, so freezing last_success would
+    false-trip the 48h staleness monitor — but the mismatch still needs to be
+    visible somewhere other than a log line nobody reads on a green run.
+    """
+    if not _repo_key_mismatches:
+        return {}
+    pairs = "; ".join(f"{cfg} -> {actual}" for cfg, actual in _repo_key_mismatches)
+    return {"error": f"repo renamed? events attributed elsewhere: {pairs}",
+            "partial_success": True}
 
 
 def fetch_repo_events(repo, token):
@@ -162,6 +213,13 @@ def fetch_repo_events(repo, token):
     try:
         data = fetch_json(url, headers=headers, timeout=15) or []
         _events_ok += 1  # a 200 (even with an empty list) is a real success
+        actual = repo_key_mismatch(repo, data)
+        if actual:
+            _repo_key_mismatches.append((repo, actual))
+            print(f"  WARNING: {repo} events are attributed to {actual} — the repo "
+                  f"was probably renamed. Until `repo` + `shipping_repos[]` in "
+                  f"bin/projects-config.json are updated, this project's activity "
+                  f"is invisible and it will render as back-burner.", file=sys.stderr)
         return data
     except (HTTPError, URLError) as e:
         _events_err += 1
@@ -377,7 +435,8 @@ def most_recent_event_time(project, events_by_repo):
     return latest
 
 
-def classify_projects(events_by_slug, threshold_days=ACTIVE_THRESHOLD_DAYS):
+def classify_projects(events_by_slug, threshold_days=ACTIVE_THRESHOLD_DAYS,
+                      pinned=None):
     """Split projects into (active_slugs, backburner_slugs) by recency.
 
     `events_by_slug` is a mapping {slug: most_recent_event_datetime_or_None}.
@@ -386,11 +445,28 @@ def classify_projects(events_by_slug, threshold_days=ACTIVE_THRESHOLD_DAYS):
 
     Edge case pinned: an event exactly `threshold_days` old (delta ==
     threshold) is back-burner — the comparison is strict less-than.
+
+    `pinned` is an optional {slug: PIN_ACTIVE | PIN_BACKBURNER} mapping built
+    from the "pin" field in projects-config.json. A pinned slug skips the
+    recency rule entirely and lands in the named section. An unrecognized pin
+    value is reported to stdout (which is the cron log) and then ignored, so a
+    config typo degrades to the recency default loudly rather than silently.
     """
+    pinned = pinned or {}
     cutoff = datetime.now(timezone.utc) - timedelta(days=threshold_days)
     active, backburner = [], []
     for slug, latest in events_by_slug.items():
-        if latest is not None and latest > cutoff:
+        pin = pinned.get(slug)
+        if pin is not None and pin not in VALID_PINS:
+            print(f"  WARNING: {slug} has unrecognized pin {pin!r} "
+                  f"(expected one of {sorted(VALID_PINS)}) — "
+                  f"falling back to activity classification")
+            pin = None
+        if pin == PIN_BACKBURNER:
+            backburner.append(slug)
+        elif pin == PIN_ACTIVE:
+            active.append(slug)
+        elif latest is not None and latest > cutoff:
             active.append(slug)
         else:
             backburner.append(slug)
@@ -541,7 +617,8 @@ def main():
         print(f"  {slug}: {len(shipping_events)} event{'s' if len(shipping_events) != 1 else ''}")
 
     events_by_slug = {slug: data[2] for slug, data in rendered.items()}
-    active_slugs, backburner_slugs = classify_projects(events_by_slug)
+    pinned = {p["slug"]: p["pin"] for p in projects if p.get("pin")}
+    active_slugs, backburner_slugs = classify_projects(events_by_slug, pinned=pinned)
 
     def _active_key(s):
         dt = events_by_slug.get(s)
@@ -582,12 +659,12 @@ def main():
         return
 
     if not content_changed(old_content, new_content):
-        record_heartbeat("projects")
+        record_heartbeat("projects", **mismatch_heartbeat_kwargs())
         print("No meaningful changes.")
         return
 
     write_now_html(new_content)
-    record_heartbeat("projects")
+    record_heartbeat("projects", **mismatch_heartbeat_kwargs())
     print(
         f"Updated now/index.html. Active: {len(active_slugs)} "
         f"({', '.join(active_slugs) or 'none'}); back-burner: {len(backburner_slugs)} "
