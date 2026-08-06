@@ -1,5 +1,5 @@
 ---
-status: pending
+status: complete
 priority: p2
 issue_id: "149"
 tags: [cron, classification, now-page, monitoring, reliability]
@@ -51,16 +51,32 @@ access survives a rename — the token is not the failure point and needs no re-
 `shipping_repos[]`; slug renamed `spar` → `tip` across config, portfolio, docs hub,
 and tests. TIP now classifies as active.
 
-## Proposed hardening (not yet built)
-In `fetch_repo_events()`, compare the configured repo string against the `repo.name`
-returned in the response payload; on mismatch, log a warning and record it via
-`record_heartbeat(partial_success=True)` so it surfaces in `.feeds-heartbeat.json`
-as `last_error` without tripping the 48h monitor. Cheap — the data is already in
-hand — and it converts a silent, indefinite misclassification into a visible signal.
+## Hardening (built 2026-08-05)
+`repo_key_mismatch(configured_repo, events)` in `bin/update-projects.py` returns the
+name GitHub actually filed the events under when it differs from the configured
+string. `fetch_repo_events()` calls it on every successful fetch, appends any hit to
+`_repo_key_mismatches`, and logs a warning naming the fix. `mismatch_heartbeat_kwargs()`
+turns the accumulated pairs into `record_heartbeat("projects", error=…,
+partial_success=True)` at both success exits in `main()` — so the mismatch lands in
+`.feeds-heartbeat.json` as `last_error` while `last_success_utc` still refreshes and
+the 48h staleness monitor does not false-trip.
 
-Optionally: have the mismatch *self-heal* by re-keying to the returned name, so the
-card stays correct until the config is updated. Decide whether self-healing is
-desirable or whether it would mask the drift it is meant to report.
+Three decisions worth recording:
+
+- **Exact comparison, not rename-detection.** The invariant is "does the config
+  string equal the key `parse_events()` files these events under" — so a case-only
+  drift, which breaks the dict lookup just as completely, is reported too.
+- **Report-only; explicitly NOT self-healing.** Re-keying to the returned name would
+  keep the card correct and thereby remove the only pressure to fix the config,
+  masking the very drift the warning exists to surface. Reporting a wrong answer
+  loudly beats silently producing a right one from stale config.
+- **Known blind spot.** A repo with zero events carries no name to compare, so a
+  rename on a genuinely quiet repo stays undetectable. Acceptable: with no activity,
+  back-burner is the correct classification regardless.
+
+Verified against the live config — no false positives across the public repos,
+including the mixed-case `thirstypig/TheFantasticLeagues`. Tests:
+`tests/test_projects.py::TestRepoKeyMismatch` (8).
 
 ## Convention added
 `CLAUDE.md` now states the rule: **when a source repo is renamed, update `repo` +

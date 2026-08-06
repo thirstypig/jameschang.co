@@ -64,3 +64,25 @@ becomes frequent enough to keep `/now` persistently wrong.
 
 If revisited, option 2 or 3 — as a **named, tunable, tested rule**, not a silent
 heuristic buried in `classify_projects`.
+
+## Re-review 2026-08-05 — still deferred, but cheaper to live with
+
+Reviewed again while adding the five family sites to `/now`. Decision unchanged:
+**do nothing.** Two things shifted the cost/benefit further toward deferral.
+
+1. **A manual override now exists.** `pin: "active" | "backburner"` in
+   `bin/projects-config.json` (see `classify_projects(pinned=…)` and
+   `tests/test_projects.py::TestProjectPinning`) lets a persistently
+   misclassified project be corrected with one config line. That is the cheap
+   90% of what option 2 would buy, without the per-candidate
+   `/repos/{repo}/commits/{sha}` fetches or the `MAX_COMMIT_ENRICHMENTS` raise.
+2. **The family-site case was the next likely trigger, and the pin absorbed it.**
+   `jarrenchang`, `tobinchang`, and `rhyschang` were all pushed within ~25 minutes
+   of each other on 2026-08-01 (00:29 / 00:51 / 00:54) — a textbook fan-out. Under
+   the recency rule alone all three would have been promoted to active. They are
+   pinned to back-burner instead, so the fan-out is a non-event for them.
+
+What would change the decision: a fan-out that promotes a project James
+*doesn't* want pinned — i.e. one whose active/back-burner state should still
+track real activity. Only then is automatic detection (option 3, which is free
+to compute from data already fetched) worth building over another pin.

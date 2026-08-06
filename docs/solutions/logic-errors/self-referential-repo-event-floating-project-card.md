@@ -25,7 +25,7 @@ date: 2026-06-13
 
 ## Problem
 
-The `/now` page's active projects section (`/01`) sorts projects by most-recent GitHub event, descending — so the project you shipped something to yesterday appears first. `jameschang-co` is one of the 11 configured projects, with `shipping_repos: ["thirstypig/jameschang.co"]`.
+The `/now` page's active projects section (`/01`) sorts projects by most-recent GitHub event, descending — so the project you shipped something to yesterday appears first. `jameschang-co` is one of the 12 configured projects, with `shipping_repos: ["thirstypig/jameschang.co"]`.
 
 But every cron workflow on the site commits to this repo: Spotify sync (30m), Google Calendar sync (1h), Plex sync (6h), projects sync (daily), etc. This means `jameschang-co` always had a GitHub event from minutes ago — guaranteeing it sorted first in the active section on every cron run, regardless of whether any real product work had been done on the site.
 
@@ -143,12 +143,17 @@ The current approach hardcodes `SELF_SLUG`. If a second project's `shipping_repo
 
 **Config flag (recommended for scale):** Add `"pin_last": true` to `projects-config.json` for any self-referential project. `update-projects.py` reads the flag and builds the pin list from config rather than a hardcoded constant. Zero code changes to add a second case.
 
+> **Status note (2026-08-05): this upgrade path has NOT shipped.** A config flag named `pin` now exists and *is* read by `update-projects.py` — but it is a different axis. `pin` controls **section membership** (active vs back-burner); the proposal above concerns **ordering within** a section. `SELF_SLUG` + `pin_self_last()` remain hardcoded and untouched. Do not read the existence of `pin` as this item being done. See [`activity-recency-misreads-maintenance-mode-as-active-work.md`](./activity-recency-misreads-maintenance-mode-as-active-work.md).
+
 **Event-type filtering (principled but overkill):** Filter each project's events to exclude pushes where the committer is `github-actions[bot]`. Distinguishes real product work from automated maintenance across all projects. Requires parsing `payload.commits[].author` — more code, more brittle. Worth revisiting if this grows to dozens of projects.
 
 **Empty `shipping_repos` (simplest):** If `jameschang-co` had `shipping_repos: []`, it would always have zero events and always fall to back-burner by the existing threshold logic — no special-case code needed. Trade-off: loses any genuine activity signal if real feature work is added to the site later. Reasonable for a personal site, but `pin_self_last` preserves the option to show real activity while still deprioritizing the project.
 
+> **Decided against, 2026-08-05.** This option was reconsidered for the `family-sites` entry and rejected on the record. `shipping_repos[]` has five consumers, not one — emptying it also blanks the card's rendered "shipped" line (stating something false), stops those repos being fetched at all, and blinds `repo_key_mismatch()`, the rename detector, on exactly those repos. The general rule adopted: **overrides go downstream of measurement, never upstream of it.** Reasoning in [`activity-recency-misreads-maintenance-mode-as-active-work.md`](./activity-recency-misreads-maintenance-mode-as-active-work.md).
+
 ## See Also
 
+- [`activity-recency-misreads-maintenance-mode-as-active-work.md`](./activity-recency-misreads-maintenance-mode-as-active-work.md) — the sibling failure in the same `classify_projects()` machinery: there the activity signal is real and correctly attributed, but means something other than what the section heading claims. Introduces the `pin` override and the "overrides go downstream of measurement" rule that settled the empty-`shipping_repos` question above
 - [`integration-issues/marker-boundary-content-staleness.md`](../integration-issues/marker-boundary-content-staleness.md) — the broader principle that sync scripts should only act on their declared contract surface; unexpected content outside markers freezes silently
 - [`integration-issues/relative-time-html-defeats-content-changed-cache.md`](../integration-issues/relative-time-html-defeats-content-changed-cache.md) — another cron side-effect: wall-clock strings in `<time data-rel>` elements defeat the `content_changed()` no-op cache, causing spurious commits
 - [`integration-issues/per-project-adapters-for-heterogeneous-roadmap-sources.md`](../integration-issues/per-project-adapters-for-heterogeneous-roadmap-sources.md) — bootstrap-aware heartbeat gating (don't alert on feeds that have never succeeded); a related pattern in the same cron pipeline

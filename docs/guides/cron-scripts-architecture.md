@@ -58,13 +58,32 @@ Store configuration in a JSON file; render function outputs config values. **Use
 3. ✅ Tests verify all fields render (config-drives-output tests)
 4. ✅ Idempotency tests: same config → same output
 
-**If you add a field to config, you MUST:**
+**Two kinds of config field.** The checklist below assumed every field is *content*
+— something the render function prints. Since 2026-08-05 there is a second kind:
+*behavior* fields, consumed before rendering, which change what the script **does**
+rather than what it **says**. `pin` is the first: `classify_projects()` reads it to
+decide a project's section, and it is never rendered anywhere.
+
+**If you add a CONTENT field to config, you MUST:**
 1. Add it to the config schema (e.g., `projects-config.json`)
 2. Update the render function to output it
 3. Add unit test: change config field, run script, verify output
 4. Add idempotency test: same input → same output
 
-**Example:** `bin/projects-config.json` + `render_card()` in `update-projects.py`
+**If you add a BEHAVIOR field to config, you MUST:**
+1. Add it to the config schema, with a **closed vocabulary** as a module constant
+   (e.g. `VALID_PINS`) — never a free-form string
+2. Consume it in the function that acts on it, not in the render path
+3. Make an unrecognized value **fail loudly, then fail open** — log a warning and
+   fall back to the default rule. A cron must not crash over a config typo, and it
+   must not silently ignore one either
+4. Add a CI assertion that every value in the committed config is recognized. A
+   warning printed on an otherwise-green scheduled run is a warning nobody reads
+5. Add a test for the config → consumer **seam**. Testing the function and testing
+   the config separately leaves the wiring between them uncovered
+
+**Examples:** content → `bin/projects-config.json` + `render_card()`;
+behavior → `pin` + `classify_projects(..., pinned=)`, both in `update-projects.py`.
 
 See `docs/solutions/integration-issues/cron-script-config-driven-content-rendering.md` for the full trap + prevention guide.
 
@@ -363,21 +382,40 @@ return data
 # ✅ Verify the response still agrees with the identifier you sent
 data = fetch_json(f"https://api.github.com/repos/{repo}/events") or []
 _events_ok += 1
-if data:
-    returned = data[0].get("repo", {}).get("name", "")
-    if returned and returned.lower() != repo.lower():
-        _renamed_repos.append((repo, returned))   # surface the drift
+actual = repo_key_mismatch(repo, data)   # exact compare, scans all events
+if actual:
+    _repo_key_mismatches.append((repo, actual))   # surface the drift
 return data
 ```
 
-**The rule:** whenever a local identifier is used *both* to build a request *and*
-to key its response, check that the response still agrees. Applies anywhere config
-and an upstream service each hold a name — repo names, Goodreads shelf IDs, Plex
-library names, calendar feed IDs.
+**Compare exactly — do not normalize case.** An earlier version of this guide
+suggested `returned.lower() != repo.lower()`. That is wrong, and shipping it would
+build a permanent blind spot. The invariant is not *"was this renamed"* — it is
+*"will the configured string equal the dict key this response lands under"*. Python
+dict keys hash case-sensitively and `.get()` never invokes `defaultdict.__missing__`,
+so a case-only difference misses the lookup exactly as completely as a rename does,
+returns `None`, and misclassifies the project. Normalizing case suppresses the
+warning for a drift that still breaks the page. There is no false-positive cost to
+being exact, because the string you compare is the same string later used as the
+lookup key.
 
-Note that error-handling guards cannot catch this class, including the
-systemic-failure gate in `update-projects.py` (`_events_ok == 0 and
-_events_err > 0`) — there is no error to catch. Full write-up:
+Also scan **every** item, not just `data[0]` — one leading malformed entry with a
+missing name would otherwise produce a false negative.
+
+**The rule:** whenever a local identifier is used *both* to build a request *and*
+to key its response, check that the response still agrees — byte for byte, in
+whatever form the lookup will actually use. Applies anywhere config and an upstream
+service each hold a name: repo names, Goodreads shelf IDs, Plex library names,
+calendar feed IDs.
+
+Error-handling guards cannot catch this class, including the systemic-failure gate
+in `update-projects.py` (`_events_ok == 0 and _events_err > 0`) — there is no error
+to catch. It needs a **content-level** guard, which `update-projects.py` now has:
+`repo_key_mismatch()` + `mismatch_heartbeat_kwargs()`, reporting through
+`record_heartbeat(partial_success=True)` so the drift lands in
+`.feeds-heartbeat.json` as `last_error` without false-tripping the 48h monitor. It
+is deliberately **report-only** — self-healing by re-keying would remove the only
+pressure to fix the config. Full write-up:
 `docs/solutions/integration-issues/github-repo-rename-redirect-silently-orphans-project-events.md`.
 
 ## Monitoring & Alerting

@@ -22,7 +22,7 @@ tags:
 resolved: "2026-06-25"
 ---
 
-> **Audit note (2026-07-13):** this doc records the 2026-06-25 fix, when `bin/projects-config.json` held **9** projects. It now holds **11** (added `vouch` 2026-07-01, `spar` 2026-07-10), so the "all 9 projects" counts below read as historical — the config-as-source-of-truth pattern applies to all 11 identically.
+> **Audit note (2026-07-13):** this doc records the 2026-06-25 fix, when `bin/projects-config.json` held **9** projects. It now holds **12** (added `vouch` 2026-07-01; `spar` 2026-07-10, renamed `tip` 2026-08-04; `family-sites` 2026-08-05), so the "all 9 projects" counts below read as historical — the config-as-source-of-truth pattern applies to all 12 identically. **New shape since 2026-08-05:** `pin` is the first config field consumed by `classify_projects()` rather than `render_card()` — a field that changes *placement* rather than *content*, so the "update the render function" rule below does not apply to it. See [`../logic-errors/activity-recency-misreads-maintenance-mode-as-active-work.md`](../logic-errors/activity-recency-misreads-maintenance-mode-as-active-work.md).
 
 ## Problem Summary
 
