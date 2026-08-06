@@ -10,7 +10,9 @@ still broken (e.g., Plex fetch returns None yet the script exits cleanly).
 
 Issue management:
 - New stale feed: open issue with label `feed-stale`, title "Feed stale: {slug}".
-- Already-open issue for this feed: add a comment if >6h since last comment.
+- Already-open issue for this feed: log only. (NOT implemented: this line used to
+  claim "add a comment if >6h since last comment" — there is no comment call and no
+  timestamp is read. One issue is the whole signal; there is no escalation.)
 - Feed recovered: close any open `feed-stale` issue for that feed.
 
 Requires GH_TOKEN env var (provided by github.token in the workflow).

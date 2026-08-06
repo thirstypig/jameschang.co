@@ -147,12 +147,19 @@ def classify_projects(events_by_slug, threshold_days=ACTIVE_THRESHOLD_DAYS,
             backburner.append(slug)
 ```
 
-`main()` builds the mapping from config:
+`main()` builds the mapping via a named helper:
 
 ```python
-pinned = {p["slug"]: p["pin"] for p in projects if p.get("pin")}
+pinned = pins_from_config(projects)
 active_slugs, backburner_slugs = classify_projects(events_by_slug, pinned=pinned)
 ```
+
+`pins_from_config()` keys on **presence** of the `pin` key, not truthiness. The
+first version of this was an inline `{... if p.get("pin")}` comprehension, which
+silently dropped a present-but-falsy value — `"pin": ""` never reached
+`classify_projects()`, so the fail-loudly contract below quietly did not apply to
+exactly the values most likely to be typos. Extracting it made the seam testable
+(`TestPinsFromConfig`); validating the value stays `classify_projects()`'s job.
 
 Four properties that make this an override rather than a lie:
 
@@ -167,9 +174,13 @@ Four properties that make this an override rather than a lie:
 - **Surgical.** A pin changes only the slug it names; everything else still follows
   recency.
 
-Note this is a *different axis* from the pre-existing `SELF_SLUG` / `pin_self_last()`
-mechanism, which controls **ordering within** a section. `pin` controls **section
-membership**. They do not interact, and `pin_self_last()` remains hardcoded.
+Note this began as a *different axis* from the pre-existing `SELF_SLUG` /
+`pin_self_last()` mechanism, which controls **ordering within** a section, where
+`pin` decides **section membership**. The two turned out not to be independent —
+see "The emergent behavior the pin created" below, where the pin had to be extended
+into ordering as well. `pin_backburner_last()` is therefore sequenced *before*
+`pin_self_last()` so the self slug keeps the absolute last position. `SELF_SLUG`
+itself remains hardcoded.
 
 ## Prevention
 
@@ -219,41 +230,72 @@ Papering-over tells:
 
 ## Regression tests
 
-`tests/test_projects.py::TestProjectPinning` (7) covers the override semantics: both
+`tests/test_projects.py::TestProjectPinning` (8) covers the override semantics: both
 directions, promotion of a project with no events at all, surgicality, backward
 compatibility when `pinned` is omitted, warn-and-fall-open on an unrecognized value,
-and the constants themselves.
+the constants themselves, and the partition invariant.
 
-`TestLoadConfig` adds the two config-side guards:
-`test_config_pin_values_are_all_recognized` (the CI half of prevention #4) and
-`test_family_sites_is_pinned_to_backburner`.
+`TestLoadConfig` adds three config-side guards:
+`test_config_pin_values_are_all_recognized` (the CI half of prevention #4),
+`test_family_sites_is_pinned_to_backburner`, and
+`test_no_project_fakes_a_pin_by_emptying_shipping_repos`.
 
-**Gaps worth closing.** Three are not covered today:
+Four further classes were added the same day:
 
-1. **The partition invariant.** The pin branch is new code on the only path deciding
-   section membership. A slug falling out of *both* lists would vanish from `/now`
-   with no error and no heartbeat complaint. Assert
-   `sorted(active + back) == sorted(events)` and that the two sets are disjoint.
-2. **The config → classifier seam.** `main()` builds `pinned` with an inline dict
-   comprehension that nothing tests. Delete that one line and every existing pin test
-   still passes while `/now` silently goes wrong.
-3. **The rejected alternative, enforced repo-wide.** A test asserting no project
-   declares an explicitly empty `shipping_repos[]` would stop the anti-pattern in
-   §"The rejected fix" from being reintroduced by someone who never read this doc.
-   (Absence of the key is fine — `shipping_repos_for()` falls back to `repo`. An
-   explicitly empty list is the smell.)
+| Class | Guards |
+|---|---|
+| `TestPinsFromConfig` (5) | the map is keyed on key *presence*, so a falsy `"pin": ""` reaches the warning instead of being dropped |
+| `TestPinBackburnerLast` (6) | pinned projects sink to the bottom; relative order preserved; `PIN_ACTIVE` ignored; `SELF_SLUG` still wins the last slot |
+| `TestPinDoesNotAlterRenderedEvidence` (1) | a pinned card still renders its real most-recent commit — the first property in §"The fix" |
+| `TestRenderCardLinks` (7) | the optional multi-site `links[]` row: labels escaped, `javascript:` URLs dropped, URL-less entries skipped |
 
-## One emergent behavior nobody chose
+**The three gaps this section originally listed are now closed:**
 
-`_backburner_key` sorts slugs that have events ahead of those that don't, newest
-first. `family-sites` is among the most frequently pushed entries in the config, so
-it renders as the **first** card under "shipping but not daily". Defensible, but it
-is an interaction between the pin and the sort that was not designed. If the ordering
-matters, assert it; if not, at least know it exists.
+1. **Partition invariant** → `TestProjectPinning::test_every_slug_lands_in_exactly_one_section`.
+2. **Config → classifier seam** → `TestConfigPinsReachTheClassifier::test_backburner_pins_survive_a_full_render`, which runs the whole of `main()` with every repo given a just-now push, so only a pin can produce a back-burner card. **Mutation-verified**: severing `pinned=pinned` in `main()` fails this test and nothing else. Plus `TestPinsFromConfig` unit-testing the extracted builder.
+3. **Repo-wide empty-`shipping_repos[]` guard** → `TestLoadConfig::test_no_project_fakes_a_pin_by_emptying_shipping_repos`.
+
+One process note worth keeping. The first attempt at the gap-2 test **passed
+immediately**, because it exercised `classify_projects` (already correct) rather than
+`main()`'s map construction, where the defect actually lived. A test that passes the
+moment you write it has proven nothing about the code you meant to guard. That is what
+prompted extracting `pins_from_config()` — the seam had to become reachable before it
+could be tested.
+
+## The emergent behavior the pin created, and the second fix
+
+Shipping the pin surfaced a consequence nobody chose. `_backburner_key` ranks
+back-burner projects by recency, newest first — correct for a project that landed
+there organically, because its recency is a meaningful signal. For a *pinned* project
+recency is meaningless by construction: the pin exists precisely because activity
+does not describe what the project is.
+
+So `family-sites`, among the most frequently pushed entries in the config, took the
+**first** slot under "shipping but not daily" — ahead of Tastemakers, KTV Singer and
+Judge Tool. The override worked, and then handed the deliberately demoted project the
+most prominent card in its section. It was only caught by looking at the rendered
+page; every test passed.
+
+`pin_backburner_last(pinned, backburner_slugs)` sinks back-burner-pinned slugs to the
+bottom after the sort, preserving their relative order. Post-sort mutation rather than
+a sort-key sentinel, matching `pin_self_last()` and for the same reasons: the
+exception stays readable, separately testable, and immune to a change in sort
+direction. `pin_self_last()` runs after it, so `jameschang-co` keeps the absolute last
+position.
+
+**The general lesson: an override has to reach every consumer of the decision it
+overrides, not just the branch that makes it.** A pin that changes section membership
+but leaves ranking to the signal it just declared meaningless is half-applied — and
+the half that leaks is the half a reader sees first. When you add an override,
+enumerate everything downstream that still consults the raw signal and decide, for
+each, whether the override applies. **Ordering is the consumer easiest to forget,
+because it is expressed as a sort key rather than an `if`.**
 
 ## See also
 
-- [`self-referential-repo-event-floating-project-card.md`](./self-referential-repo-event-floating-project-card.md) — same file, same classification machinery, the closest sibling. Its "Generalization" section proposes a `pin_last: true` config flag; a config flag named `pin` now exists but controls section membership, **not** ordering, and `SELF_SLUG` is still hardcoded. That upgrade path has not shipped.
+- [`../integration-issues/hand-listed-ci-test-files-silently-exclude-new-tests.md`](../integration-issues/hand-listed-ci-test-files-silently-exclude-new-tests.md) — the same epistemology from the other end: here a signal was real but meant something other than the label claimed; there a check was green but proved nothing. A test that cannot fail and a test that never runs are both non-evidence.
+
+- [`self-referential-repo-event-floating-project-card.md`](./self-referential-repo-event-floating-project-card.md) — same file, same classification machinery, the closest sibling. Its "Generalization" section proposes a `pin_last: true` config flag; a config flag named `pin` now exists and reaches ordering too (`pin_backburner_last`), but only to sink *pinned* projects within back-burner — the sibling's proposal is ordering for **self-referential** projects, which is still hardcoded `SELF_SLUG`. That upgrade path has not shipped.
 - [`../integration-issues/github-repo-rename-redirect-silently-orphans-project-events.md`](../integration-issues/github-repo-rename-redirect-silently-orphans-project-events.md) — the inverse failure on this same path: the machinery losing a real signal rather than misreading one. Check its heartbeat `last_error` before reaching for a pin.
 - [`../integration-issues/cron-script-config-driven-content-rendering.md`](../integration-issues/cron-script-config-driven-content-rendering.md) — the canonical config-as-source-of-truth write-up. `pin` is the first config field consumed by `classify_projects()` rather than `render_card()`: a field that changes *placement* rather than *content*.
 - [`../../guides/cron-scripts-architecture.md`](../../guides/cron-scripts-architecture.md) — where the config-driven pattern is taught.

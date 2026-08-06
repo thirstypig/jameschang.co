@@ -110,7 +110,7 @@ Example: A developer accidentally deletes `<!-- WHOOP-START -->` from `now/index
 
 **Guards:**
 - `tests/test_site_e2e.py::TestFeedMarkers` verifies all `EXPECTED_MARKERS` are present
-- Any marker deletion fails CI, blocks the PR
+- Any marker deletion fails CI (`tests/test_site_e2e.py::TestFeedMarkers`). Note it does **not** block anything — this repo pushes directly to `main` with no PR gate, so CI is a notification, not a gate.
 
 **Current markers (14 total):**
 ```

@@ -70,6 +70,8 @@ Three guardrails for future work on the `/now` sync pipeline and the feed-health
 
 ## Cross-references
 
+- **Sibling solution doc:** `docs/solutions/integration-issues/hand-listed-ci-test-files-silently-exclude-new-tests.md` — the same principle applied to CI rather than a feed monitor. The "declared contract surface" was a hand-listed set of pytest arguments; everything outside it was invisible, and the invisibility rendered as a green check.
+
 - **Fix commits:** `454c4f4` (WHOOP eyebrow brought inside markers), `248afd2` (orphan feed-stale issue cleanup).
 - **Sibling solution doc:** `docs/solutions/integration-issues/relative-time-html-defeats-content-changed-cache.md` — same family (content-cache contract was also incomplete on its surface). The two together describe the full "stuff the sync pipeline can fail to see" problem space: relative-time text *defeating* the no-op cache (false positive — looks changed when it isn't) and out-of-marker chrome *bypassing* the sync entirely (false negative — looks updated when it isn't).
 - **Touched code:** `bin/_shared.py::replace_marker`, `bin/check-feed-health.py` (orphan cleanup loop), `now/index.html` (WHOOP marker boundary).

@@ -250,7 +250,7 @@ git push
 
 - Runs every 6 hours via `.github/workflows/feeds-staleness-check.yml`
 - Opens GitHub issue if feed > 48h stale
-- Adds comment on subsequent failures
+- Does NOT comment on subsequent failures — the already-open branch only logs (verified 2026-08-05; no `gh issue comment` call exists). One issue is the whole signal.
 - Auto-closes when feed recovers
 
 **Check status:**

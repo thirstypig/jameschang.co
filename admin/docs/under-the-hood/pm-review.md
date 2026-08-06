@@ -13,7 +13,7 @@ updated: 2026-08-06
 
 # PM review — the portfolio cockpit
 
-_Regenerated 2026-08-06 01:33 UTC. What needs your decision, across every project — so you run reviews from here, not from 38 separate docs._
+_Regenerated 2026-08-06 03:16 UTC. What needs your decision, across every project — so you run reviews from here, not from 38 separate docs._
 
 ## At a glance
 

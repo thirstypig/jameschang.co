@@ -206,6 +206,9 @@ PY
 
 ## Related
 
+- [[error-notes-leak-the-content-a-redaction-guard-suppressed]] — the sibling case, same core insight (a *generated, committed* file is a public surface) on a surface this guard does not scan: `.feeds-heartbeat.json`. There the redaction boundary was drawn around the rendered page while the error/telemetry path went around it.
+- [[hand-listed-ci-test-files-silently-exclude-new-tests]] — this guard was doubly dark until 2026-08-05: `tests/test_docs_index.py` was absent from CI's hand-listed pytest args, *and* `paths-ignore: docs/**` skipped CI on exactly the docs-only commits where an unrebuilt `index.json` is the mistake it exists to catch.
+
 - [[oauth2-refresh-token-rotation-encrypted-committed-file]] — the `.enc` pattern
   the guard's filename exemption references; the values themselves live encrypted,
   never in the index.
