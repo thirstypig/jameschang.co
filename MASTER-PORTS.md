@@ -1,6 +1,6 @@
 # 🗂️ Master Port Registry — All Projects
 > 📍 Canonical location: `~/Projects/MASTER-PORTS.md`
-> 🗓️ Last Updated: 2026-08-05
+> 🗓️ Last Updated: 2026-08-07
 > ⚠️ This is the single source of truth. Update this file first, then mirror to each project's local copy.
 
 Copies of this file live in each active project root (e.g., `~/Projects/bahtzang-trader/MASTER-PORTS.md`). They must stay byte-identical to the root copy.
@@ -28,7 +28,7 @@ Copies of this file live in each active project root (e.g., `~/Projects/bahtzang
 | **cooper-stack3**                     | —        | 4100 | —         | —          | —     | —     | Express server (rarely run) |
 | **vouch**                             | 3020     | —    | —         | (Supabase) | —     | —     | Next.js 16 (App Router); Supabase cloud DB |
 | **TIP** (was: spar)                   | 3110     | —    | —         | (Supabase) | —     | —     | Next.js 16 (App Router); Retell voice + Stripe later; renamed from Spar 2026-07; Railway at tip.bahtzang.com |
-| **shengchangmd**                      | 3120     | —    | —         | —          | —     | —     | Astro 5 static, trilingual; no backend; GitHub Pages at shengchangmd.bahtzang.com |
+| **shengchangmd**                      | 3120     | —    | —         | —          | —     | —     | Astro 5 static, trilingual; no backend; GitHub Pages at shengchangmd.com (apex, Squarespace DNS) |
 | **tobinchang**                        | 3130     | —    | —         | —          | —     | —     | Static site; GitHub Pages at tobinchang.com |
 | **jarrenchang**                       | 3140     | —    | —         | —          | —     | —     | Static site; GitHub Pages at jarrenchang.com (apex, Squarespace DNS) |
 | **rhyschang**                         | 3150     | —    | —         | —          | —     | —     | Static site; GitHub Pages at rhyschang.com |
@@ -128,6 +128,10 @@ lsof -i -P -n | grep LISTEN | grep -E '3010|3011|3020|3030|3031|3040|3050|3060|3
 
 ## 📝 Changelog
 
+- **2026-08-07** — **Corrected the shengchangmd row, which named a dead host in all 37 copies of this file.** The registry said `shengchangmd.bahtzang.com`; that host has 404'd since the migration to **shengchangmd.com** completed on 2026-08-05 (apex on Squarespace nameservers, four GitHub Pages A records, `www` redirecting to apex, one Let's Encrypt certificate covering both). Ports are unchanged at FE 3120.
+  - **The mirroring worked and the correctness did not.** The 2026-08-05 minmeychang sync propagated cleanly to every copy — all 37 were byte-identical when this was found — and not one of them was right. Mirroring guarantees the copies agree with each other; it guarantees nothing about whether they agree with reality, and a fact nobody is looking at goes stale in every copy simultaneously.
+  - **Nothing pointed at the stale row, because nothing was broken.** The migration was completed, verified and documented inside the `shengchangmd` repo, whose own `CLAUDE.md` and runbook were updated the same day. This registry sits outside that repo, so it was never in view. Cross-repo facts have no owner unless one is named.
+  - **Historical entries below are deliberately left naming the old host.** The 2026-07-30 and 2026-08-04 entries record what was true when written; rewriting them would destroy the record rather than correct it. Only live claims were changed.
 - **2026-08-05** — Added **minmeychang** (Astro static, bilingual en/zh-hant; family tribute site for Min Mey Chang) on **FE 3170**, claiming the FUTURE-5 block (3170–3179 / 4170–4179). Static only, so 4170/5455/6394 stay unassigned within the block. Live on GitHub Pages at **minmeychang.com**, an apex domain on Squarespace DNS. Opened a fresh **FUTURE-6** block (3180–3189 / 4180–4189, PG 5456, Redis 6395) to hold the "always one slot free" invariant.
   - **Claimed before `npm run dev` was ever run** — second time in five entries this happened in the right order. `npm run build` was run during scaffolding, but that binds no port. Dev is pinned to `-p 3170` in `package.json`.
   - **Squarespace emits an `HTTPS` (RFC 9460) record that silently defeats an apex migration.** The registrar's "Squarespace Defaults" preset bundles the four parking `A` records, the `www` CNAME **and** an `HTTPS` record at `@` whose `ipv4hint` lists the parking IPs. Browsers query HTTPS records in parallel with `A` and prefer those hints, so Chrome and Safari keep reaching Squarespace even with perfect GitHub `A` records — while `dig +short A` reports success. Deleting the preset removes all three together. **This will bite the `shengchangmd.com` migration** once that zone lands on Squarespace; the runbook does not mention it, because GoDaddy did not emit the record.
