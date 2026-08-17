@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-07-22",
+  "last_updated": "2026-08-17",
   "items": [
     {
       "id": "veritas-inlustrat",
@@ -308,6 +308,16 @@
       "translation": "",
       "source": "Brian, 5 to 7 (2014)",
       "note": "Speaker (Brian Bloom, played by Anton Yelchin) confirmed by two independent sources (Quote Catalog, quotes.net). Verified transcripts read \"your passions need to go somewhere\"; some renderings say \"have to.\"",
+      "category": "film"
+    },
+    {
+      "id": "good-mentor-great-mentor",
+      "text": "A good mentor hopes you will move on. A great mentor knows you will.",
+      "original": "",
+      "lang": "",
+      "translation": "",
+      "source": "Leslie Higgins, Ted Lasso, S2E12 \"Inverting the Pyramid of Success\" (2021)",
+      "note": "Written for the show rather than quoted from an older source: when Keeley says she likes the line, Higgins replies \"Just made it up.\" A search for a pre-2021 origin found none — every trail leads back to this episode. Some circulating versions drop the \"will\" from the first sentence; the transcript reads \"hopes you will move on.\"",
       "category": "film"
     }
   ]
