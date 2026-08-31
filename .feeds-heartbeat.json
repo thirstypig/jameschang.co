@@ -19,21 +19,21 @@
     "last_success_utc": "2026-08-31T06:10:40.240830+00:00"
   },
   "project-docs": {
-    "last_success_utc": "2026-08-30T17:25:46.805198+00:00"
+    "last_success_utc": "2026-08-31T19:29:21.524312+00:00"
   },
   "project-docs:aleph-roadmap": {
     "last_error": "4 item(s) dropped (4 other)",
-    "last_success_utc": "2026-08-30T17:25:46.298891+00:00"
+    "last_success_utc": "2026-08-31T19:29:20.890793+00:00"
   },
   "project-docs:fantastic-leagues-changelog": {
-    "last_success_utc": "2026-08-30T17:25:46.419558+00:00"
+    "last_success_utc": "2026-08-31T19:29:21.033778+00:00"
   },
   "project-docs:fantastic-leagues-roadmap": {
-    "last_success_utc": "2026-08-30T17:25:46.548475+00:00"
+    "last_success_utc": "2026-08-31T19:29:21.188401+00:00"
   },
   "project-docs:judge-tool-roadmap": {
     "last_error": "5 item(s) dropped (1 other, 4 phase not allowlisted)",
-    "last_success_utc": "2026-08-30T17:25:46.804916+00:00"
+    "last_success_utc": "2026-08-31T19:29:21.524008+00:00"
   },
   "projects": {
     "last_error": "repo renamed? events attributed elsewhere: thirstypig/tastemakers-wordpress -> thirstypig/tastemakers-marketing",
