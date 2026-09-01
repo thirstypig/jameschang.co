@@ -133,6 +133,46 @@
       <!-- CHANGELOG-START -->
       <article class="release">
         <div class="release-head">
+          <span class="release-version">v2.4.0</span>
+          <span class="release-date">2026-08-31</span>
+          <span class="release-tag feature">feature</span>
+        </div>
+        <h3 class="release-title">Commissioner balances, and the last of the IL-fee correctness work</h3>
+        <div class="release-body">
+          <ul>
+            <li><strong>Feature — Commissioner → Finances → Balances shows real numbers.</strong> The tab read *&quot;coming soon&quot;*; it now lists every team&#39;s net ledger balance, including teams with no charges at $0. Ledger and Payouts remain stubs and now say so accurately instead of hiding behind a shared placeholder.</li>
+            <li><strong>Money — a bug that would have under-billed the next IL stash.</strong> The 3-way move (add + stash to IL + drop, all in one transaction) recorded the stash in the activity log but not in the log fees are billed from, so that stint would never have been charged. Nothing was mis-billed because nobody had used that path yet; the fix closes it before anyone does.</li>
+            <li><strong>Fix — the IL drift alarm stopped crying wolf.</strong> It flagged one player forever: a drop taken while on IL closes the stint, but the two logs name that event differently (<code>DROP</code> vs <code>IL_RELEASE</code>). A permanent false alarm on a money check is how the next real one gets ignored. Prod drift is now zero.</li>
+            <li><strong>Verified, not assumed — nothing is owed.</strong> A new read-only preview re-ran the fee reconcile across all six closed periods: <strong>0 charges to add, 0 to void, $0 net</strong>. The IL log repair from the previous session had already been applied in full; the ledger matches it.</li>
+            <li><strong>Internal:</strong> the standings audit no longer disagrees with production about who counts as a pitcher, and no longer credits a mid-period-traded player&#39;s full line to *both* teams. Both were instrument bugs — production always scored correctly. Verified against prod: the first moved zero numbers across 6 periods × 8 teams, and the second moves none on closed periods (the affected trade sits in the still-open Period 7, which is where it will matter).</li>
+            <li><strong>Internal:</strong> todo status lived in two places that disagreed on 87 of 308 files. Deleted the second source rather than syncing it; a test now fails if it grows back.</li>
+            <li><strong>Internal:</strong> a CI check failed on the clock rather than on staleness — the generated docs block embeds a UTC date, so a branch refreshed before UTC midnight and tested after failed with the *same error text* as a genuine staleness failure. Written up at <code>docs/solutions/test-failures/generated-doc-date-stamp-fails-ci-across-utc-midnight.md</code>.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
+          <span class="release-version">v2.3.0</span>
+          <span class="release-date">2026-08-31</span>
+          <span class="release-tag fix">fix</span>
+        </div>
+        <h3 class="release-title">IL fees are now billed, and two traded hitters came off the bench</h3>
+        <div class="release-body">
+          <ul>
+            <li><strong>Fix — traded players landed on the bench.</strong> A commissioner-executed trade wrote the receiving roster row with no lineup slot. The app falls back to the player&#39;s primary position, but <code>&quot;LF&quot;</code> and <code>&quot;RF&quot;</code> are positions, not slot codes, so the client showed them as <code>BN</code>. Pitchers looked fine (<code>&quot;P&quot;</code> *is* a slot), which is why it read as intermittent. Teoscar Hernández and Dylan Crews were affected and have been restored to <code>OF</code>. Both trade paths now share one rule, so they cannot drift apart again.</li>
+            <li><strong>Fix — commissioner &quot;assign player to team&quot; had the same defect</strong> and would have benched every hitter assigned that way.</li>
+            <li><strong>Money — IL fees are billed for the first time.</strong> They had never been assessed: a Postgres type mismatch killed the reconcile in April, and the two queued jobs exhausted their retries before the July fix landed, with no way to reset them. Periods 2–6 are now settled at <strong>$200</strong> across seven teams. Four teams&#39; balances went <strong>down</strong> — Dodger Dawgs and Demolition −$20 each, Diamond Kings and Skunk Dogs −$10 — and The Show&#39;s went up $35. Every correction is an auditable void plus reversal; nothing was edited in place.</li>
+            <li><strong>Rules — a stint that ends on a period&#39;s first day no longer owes that period.</strong> Backdated IL activations are stamped at 00:00 on a period&#39;s first day, and the old &quot;any overlap bills the period&quot; rule charged a full fee for <strong>zero days</strong> of occupancy. Commissioner decision; worth $120 across the league.</li>
+            <li><strong>Fix — two players stashed in the same transaction were both charged the $15 second-slot rate.</strong> Simultaneous stashes now correctly take one $10 slot and one $15 slot. Los Doyers were refunded $5.</li>
+            <li><strong>Internal:</strong> four billing defects were only reachable by actually writing — a repricing reported success while writing nothing, three times, because reversal rows are indistinguishable from charges in the query, the unique index, and the return value. Written up at <code>docs/solutions/logic-errors/repricing-reports-success-and-writes-nothing.md</code>.</li>
+            <li><strong>Internal:</strong> new safety nets — a nightly audit of every closed period against MLB, an hourly dead-man&#39;s switch for ingestion jobs, an alarm for outbox events that have exhausted their retries, and a drift check between the two IL logs that found 9 discrepancies on its first run.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="release">
+        <div class="release-head">
           <span class="release-version">v2.2.1</span>
           <span class="release-date">2026-08-03</span>
           <span class="release-tag fix">fix</span>
