@@ -76,10 +76,46 @@ actually emits. It had used `"no plain_english mapping"` — **a string it
 invented** — which is why the suite stayed green while production degraded.
 *A fixture that invents its subject can only ever test itself.*
 
-## Still open
+## Blast radius (measured 2026-09-01, after the fix)
 
-**The fix is forward-only.** Roughly 90 days of EXISTING public Actions logs
-still contain the leaked text. Purging requires `gh run delete` on the affected
-`project-docs-sync` runs — destructive, irreversible, and destroys the audit
-trail, so it is deliberately left as the owner's call rather than done as part
-of this fix.
+The fix is forward-only. The historical exposure turned out to be **differently
+shaped than first assumed** — the initial framing said "~90 days of Actions
+logs," which understated the durable half and overstated the transient one.
+
+| sink | span | volume | lifetime |
+|---|---|---|---|
+| Public Actions logs | 2026-08-05 → 09-01 | 28 runs | expire ~2026-12-01 |
+| **Committed `.feeds-heartbeat.json`** | 2026-07-23 → 08-05 | **273 commits** | **permanent** |
+
+**The git-history half is the real one, and it predates the sink this todo is
+named for.** The `print()` to stdout was *introduced by* the 2026-08-05 fix
+(`5446ff0f`); before that, the raw text went into the committed heartbeat
+instead (`53acb275`, 2026-07-23). So the 8/05 commit did not create the leak —
+it **relocated** it from a permanent public artifact to a transient one, which
+is a real improvement that was described as a fix.
+
+**What is actually exposed:** 3 distinct strings, all `phase not allowlisted`,
+44–52 characters each, all from `project-docs:judge-tool-roadmap` — i.e. phase
+names from the private `thirstypig/thejudgetool` roadmap. The pre-8/05 code
+sampled `dropped[:3]`, which capped it. Scanned for credential patterns and
+high-entropy tokens: **none**. Read them with
+
+```bash
+git show 5446ff0f~1:.feeds-heartbeat.json | python3 -c \
+  "import json,sys; print(json.load(sys.stdin)['project-docs:judge-tool-roadmap']['last_error'])"
+```
+
+## Decision: no purge
+
+Deliberately doing nothing destructive.
+
+- **Git history rewrite** (`filter-repo` + force push) would rewrite 273
+  commits, break every clone and fork, and still not retract what GitHub has
+  already cached or what anyone has already cloned. Wildly disproportionate to
+  three roadmap phase names.
+- **Deleting the 28 Actions runs** is cheap but pointless: they expire on their
+  own by December, and deleting them destroys the audit trail that proved the
+  leak was live.
+
+Revisit only if the three strings turn out to be genuinely sensitive — that is
+the owner's call, and the command above shows them.
