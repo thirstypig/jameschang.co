@@ -219,6 +219,26 @@
       ]
     },
     {
+      "slug": "pasadenaworks",
+      "repo": "thirstypig/pasadenaworks",
+      "name": "Pasadena Works",
+      "url": "https://pasadenaworks.com",
+      "url_label": "pasadenaworks.com",
+      "status_badge": "live",
+      "maturity": "public",
+      "desc": "A consultancy site for small businesses around Pasadena — websites, local search, and ads for shops that don't have a marketing department. Written in four languages, because the San Gabriel Valley isn't monolingual.",
+      "next_up": "The article schedule publishes itself through November. Next is finding out whether any of it brings in a real lead.",
+      "roadmap_items": [
+        "See whether the articles actually bring in work",
+        "Turn the contact form into a real pipeline, not just an inbox",
+        "Add the fourth service line once the first three are earning"
+      ],
+      "shipping_repos": [
+        "thirstypig/pasadenaworks",
+        "thirstypig/property-page"
+      ]
+    },
+    {
       "slug": "family-sites",
       "repo": "thirstypig/shengchangmd",
       "name": "Family sites",

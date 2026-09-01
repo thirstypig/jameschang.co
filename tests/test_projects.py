@@ -71,14 +71,14 @@ class TestLoadConfig:
     VALID_MATURITY = {"alpha", "beta", "public", "private"}
     VALID_STATUS = {"shipping", "live", "blocked", "shipped"}
 
-    def test_loads_twelve_projects(self):
+    def test_loads_thirteen_projects(self):
         config = _projects.load_config()
-        assert len(config) == 12
+        assert len(config) == 13
         slugs = {p["slug"] for p in config}
         assert slugs == {
             "aleph", "fantastic-leagues", "bahtzang-trader", "judge-tool",
             "tabledrop", "tastemakers", "thirsty-pig", "jameschang-co",
-            "ktv-singer", "vouch", "tip", "family-sites",
+            "ktv-singer", "vouch", "tip", "pasadenaworks", "family-sites",
         }
 
     def test_shipping_and_shipped_do_not_render_the_same_icon(self):
@@ -1092,7 +1092,7 @@ class TestConfigPinsReachTheClassifier:
         repos = _projects.shipping_repos_for(config)
 
         # Give EVERY repo a push from just now. Under the recency rule alone
-        # all twelve projects would be active, so any project still landing in
+        # every project would be active, so any project still landing in
         # back-burner got there via its pin and nothing else.
         monkeypatch.setattr(_projects, "fetch_github_events", lambda token, rs: [
             {"type": "PushEvent", "created_at": now_iso, "repo": {"name": r},

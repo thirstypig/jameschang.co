@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-07-25",
+  "last_updated": "2026-09-01",
   "projects": [
     {
       "slug": "aleph",
@@ -77,6 +77,13 @@
       "stage": "building",
       "bet": "People will practice a dreaded conversation out loud against an AI that pushes back — and the scored debrief afterward, not the conversation itself, is what they come back for.",
       "notes": "The sequencing bet paid off: voice, the scored debrief, and the persona builder all shipped before any surrounding UI. Renamed Spar → TIP in July. The gate is no longer 'does the voice feel real' — that's answered — it's the launch cluster: accounts, then saved sessions, then a score trend. Those are a strict dependency chain, so the risk is starting them out of order."
+    },
+    {
+      "slug": "pasadenaworks",
+      "pm_status": "on-track",
+      "stage": "shipping",
+      "bet": "Small businesses in the San Gabriel Valley are underserved by agencies that talk in jargon and lock them into contracts — and a site that answers their actual questions, in the language they actually speak, earns the lead before a sales call ever happens.",
+      "notes": "The only project in the portfolio where the build is finished and the open question is purely commercial. Twenty posts are written in four languages and scheduled out through November, so content ships without me. That makes the next milestone a demand test, not a feature: does organic search actually produce an inbound lead? Resist adding a fifth service line or more city pages until one real customer arrives through the front door — more surface area is the easy way to avoid finding out."
     },
     {
       "slug": "family-sites",
