@@ -417,6 +417,79 @@ class TestRootsAndAdapters:
         }
         assert all(p.startswith("docs/solutions/") for p in indexed)
 
+    def test_every_admin_doc_on_disk_is_indexed(self):
+        """The third parity check — admin/docs is the LARGEST root and was the
+        only one without one (todos/150 #1).
+
+        The regression this catches: adapt_hub() returns None for any doc whose
+        frontmatter lacks `type:`. Drop that one line while reformatting a PRD
+        and the doc vanishes from the /admin board — no error, no log anyone
+        reads, green suite.
+
+        test_committed_index_matches_a_fresh_rebuild CANNOT catch it: both
+        sides come from the same builder, so a doc missing from the index is
+        missing from both. Parity has to be against DISK.
+
+        Disk is walked here with the documented discovery rule rather than by
+        calling iter_root_files(), so a bug in that function surfaces as a
+        failure instead of being mirrored into the expectation.
+        """
+        import glob
+
+        # Exempt by ADAPTER, not by discovery: iter_root_files() yields these,
+        # then adapt_hub() drops them for having no `type:` frontmatter. That
+        # is correct for all three, so they are allowlisted individually —
+        # adding a doc without frontmatter forces a deliberate edit here.
+        DELIBERATE_OMISSIONS = {
+            "admin/docs/README-DOCS.md",             # the system's own map
+            "admin/docs/projects/aleph/notes.md",    # stub, no frontmatter yet
+            "admin/docs/projects/aleph/roadmap.md",  # stub, no frontmatter yet
+        }
+
+        on_disk = set()
+        for path in glob.glob(os.path.join(REPO_ROOT, "admin", "docs", "**", "*.md"),
+                              recursive=True):
+            rel = os.path.relpath(path, REPO_ROOT).replace(os.sep, "/")
+            parts = rel.split("/")
+            # Discovery rule, mirrored from iter_root_files()'s docstring:
+            # _templates/ is skipped wholesale, and _-prefixed files are
+            # scaffolding (section READMEs), not indexable docs.
+            if "_templates" in parts or parts[-1].startswith("_"):
+                continue
+            on_disk.add(rel)
+
+        index = idx.build_index()
+        indexed = {d["path"] for d in index["docs"]
+                   if d["path"].startswith("admin/docs/")}
+
+        assert on_disk - DELIBERATE_OMISSIONS == indexed, {
+            "on_disk_but_not_indexed": sorted(on_disk - DELIBERATE_OMISSIONS - indexed),
+            "indexed_but_not_on_disk": sorted(indexed - on_disk),
+            "hint": "a doc missing from the index usually lost its `type:` "
+                    "frontmatter; add it back, or allowlist with a reason",
+        }
+
+    def test_admin_doc_omission_allowlist_has_no_stale_entries(self):
+        """An allowlist that outlives its files silently stops guarding.
+
+        If an exempt stub later gains frontmatter (or is deleted), its entry
+        here becomes dead weight that would also mask a real regression at
+        that exact path.
+        """
+        allowlist = {
+            "admin/docs/README-DOCS.md",
+            "admin/docs/projects/aleph/notes.md",
+            "admin/docs/projects/aleph/roadmap.md",
+        }
+        index = idx.build_index()
+        indexed = {d["path"] for d in index["docs"]}
+        stale = sorted(p for p in allowlist
+                       if not os.path.exists(os.path.join(REPO_ROOT, p))
+                       or p in indexed)
+        assert stale == [], (
+            f"{stale} are allowlisted but are now indexed or gone — "
+            f"drop them from DELIBERATE_OMISSIONS")
+
     def test_no_indexed_tag_contains_a_quote_character(self):
         index = idx.build_index()
         offenders = [(d["path"], t) for d in index["docs"] for t in d["tags"]

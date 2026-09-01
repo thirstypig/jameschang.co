@@ -147,5 +147,5 @@ is recorded in `CLAUDE.md` (Step 8) so every future session follows it.
 <!-- STATUS: Steps 1–5 done. Steps 6–8 fill in refresh script, extras, CLAUDE.md. -->
 
 <!-- DOCS:STATUS:START -->
-**Hub status** (auto · 2026-08-06): 41 docs · 12 projects — 3 blocked · 2 exploring · 5 on-track · 1 shipped · 1 stalled. Regenerate with `python3 bin/refresh-docs.py`.
+**Hub status** (auto · 2026-09-01): 41 docs · 13 projects — 3 blocked · 2 exploring · 6 on-track · 1 shipped · 1 stalled. Regenerate with `python3 bin/refresh-docs.py`.
 <!-- DOCS:STATUS:END -->

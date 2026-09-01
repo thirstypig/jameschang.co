@@ -1,5 +1,5 @@
 ---
-status: pending
+status: complete
 priority: p3
 issue_id: "150"
 tags: [testing, docs-index, now-page, enumeration-decay, audit]
@@ -56,3 +56,41 @@ it was added.
 Neither breaks a live page today. #1 is board-only; #2 is behind a commented-out
 line. Both were found during a documentation pass, and closing them was outside the
 scope of that pass. Recorded here so the audit's tail doesn't evaporate.
+
+## Resolution — 2026-09-01
+
+**#1 — parity test added.** `test_every_admin_doc_on_disk_is_indexed` in
+`tests/test_docs_index.py`, the third such check after guides and solutions;
+`admin/docs` was the largest root and the only one without one.
+
+The discovery rule turned out to be already encoded in `iter_root_files()`
+(skip `_templates/`, skip `_`-prefixed filenames), so of 8 unindexed files 5
+are excluded *by rule* and only the 3 predicted frontmatter-free stubs needed
+allowlisting. The test walks disk applying that rule itself rather than calling
+`iter_root_files()` — otherwise a bug in discovery would be mirrored into the
+expectation instead of failing. A sibling test
+(`test_admin_doc_omission_allowlist_has_no_stale_entries`) fails if an
+allowlisted stub later gains frontmatter or is deleted, so the exemption list
+cannot quietly outlive its files and mask a real regression at that path.
+
+Verified by stripping `type:` from a real PRD
+(`admin/docs/projects/aleph/prds/PRD-001-cpc-certificate.md`) and confirming
+the test goes red, then restoring it — not by watching a green run.
+
+**#2 — `now/project-cards.js` deleted** (option (a)). By 2026-09-01 the file
+was referenced by **zero HTML and zero JS**, its auto-render had been commented
+out for ~3 months, and its array carried a phantom `wcrn` while missing four
+real projects (`family-sites`, `pasadenaworks`, `tip`, `vouch`) — the drift had
+widened, not held.
+
+The case for keeping it was that it's a fallback if the cron dies. The evidence
+killed that: activating it the documented way would have rendered a project that
+has never existed and silently dropped four that do. **It was not a fallback, it
+was a trap with instructions attached** — and CLAUDE.md carried the
+instructions. Both the file and that paragraph are gone, along with its line in
+`docs/guides/cron-scripts-operations.md`'s file tree.
+
+**General lesson.** A mirror survives on the assumption that someone will notice
+when it drifts. Nobody does, because a mirror nothing renders produces no signal
+at all — the drift here was found by an audit, not by use. So a mirror needs a
+test at birth or it needs deleting; there is no stable third state.

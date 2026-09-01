@@ -366,7 +366,6 @@ bin/
 now/
   index.html                ← All 14 marker pairs live here
   now.js                    ← Client-side logic (relative times, modals)
-  project-cards.js          ← Opt-in JS data layer
 
 .feeds-heartbeat.json       ← Last success timestamp per feed
 
