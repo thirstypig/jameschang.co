@@ -901,8 +901,19 @@ def _record_sync_heartbeat(feed_slug, dropped):
     partial_success=True refreshes last_success_utc (so the 48h staleness
     monitor stays quiet — the page did render) while recording a redacted
     summary in last_error, which lands in .feeds-heartbeat.json on every
-    cron commit. The full dropped lines go to stdout (the workflow log,
-    which is not a committed artifact) — see _drop_summary for why.
+    cron commit.
+
+    The SAME redacted summary goes to stdout. Until 2026-09-01 the full
+    dropped lines were printed here, justified as "the workflow log, which
+    is not a committed artifact" — but this repo is PUBLIC, and Actions
+    logs on a public repo are anonymously readable for ~90 days. Not
+    committed is not the same as not public. The 2026-08-05 fix moved the
+    taint from one sink to another rather than closing it; verified live on
+    2026-09-01 with real private phase names in the run log.
+
+    Rule for anyone extending this: the dropped entries carry upstream text
+    by construction, so they may reach NO output channel. Route everything
+    through _drop_summary().
 
     Note this note is PASSIVE: check-feed-health.py gates only on
     last_success_utc age, and partial_success refreshes it, so nothing
@@ -911,10 +922,9 @@ def _record_sync_heartbeat(feed_slug, dropped):
     if not dropped:
         record_heartbeat(feed_slug)
         return
-    for entry in dropped:
-        print(f"    dropped: {entry}")
-    record_heartbeat(feed_slug, error=_drop_summary(dropped),
-                     partial_success=True)
+    summary = _drop_summary(dropped)
+    print(f"    {summary}")
+    record_heartbeat(feed_slug, error=summary, partial_success=True)
 
 
 def sync_one(slug, doctype, adapter, token):

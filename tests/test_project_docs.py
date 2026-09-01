@@ -740,6 +740,30 @@ class TestDropSummaryRedactsSourceText:
         for entry in self.SYNTHETIC:
             assert entry.split(": ", 1)[1] not in captured["error"]
 
+    def test_stdout_carries_no_dropped_source_text(self, monkeypatch, capsys):
+        """stdout is a PUBLIC sink, not a private one.
+
+        This repo is public, and Actions logs on a public repo are
+        anonymously readable for ~90 days. Until 2026-09-01 this path
+        printed every dropped entry in full, justified as "the workflow log
+        ... is not a committed artifact" — which is true and irrelevant.
+        Verified live that day: real private phase names sat in the run log.
+
+        The 2026-08-05 fix redacted the heartbeat and left stdout alone, so
+        the taint moved sinks instead of being closed. This test pins the
+        remaining sink shut.
+        """
+        monkeypatch.setattr(_docs, "record_heartbeat", lambda slug, **kw: None)
+        _docs._record_sync_heartbeat("project-docs:demo-roadmap", self.SYNTHETIC)
+        out = capsys.readouterr().out
+        for entry in self.SYNTHETIC:
+            payload = entry.split(": ", 1)[1]
+            assert payload not in out, (
+                f"dropped source text {payload!r} leaked to stdout, which on "
+                f"this PUBLIC repo means a world-readable Actions log")
+        assert "item(s) dropped" in out, (
+            "the redacted summary should still be logged — redaction, not silence")
+
     def test_committed_heartbeat_file_carries_no_dropped_source_text(self):
         """Belt and braces on the artifact itself: the shipped file must not
         contain a drop note with a colon-suffixed payload."""
