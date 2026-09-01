@@ -124,6 +124,25 @@ untranslated item; skips cleanly when the fixtures are absent, e.g. in CI).
 Source repos are never modified. Design:
 `docs/superpowers/specs/2026-07-21-non-technical-roadmap-copy-design.md`.
 
+**A dropped entry may reach NO output channel (hardened 2026-09-01, `todos/151`).**
+Dropped entries carry upstream text *by construction* — suppressing it is the copy
+layer's whole purpose — and this repo is PUBLIC, so **Actions logs are anonymously
+readable for ~90 days**. Route every report through `_drop_summary()`, which emits
+counts and reason prefixes only. The 2026-08-05 fix redacted the committed heartbeat
+but left a `print()` of the full lines, justified as "the workflow log … isn't
+committed" — true, irrelevant, and live until 2026-09-01: **not committed is not the
+same as not public**. Same rule governs exceptions: `main()`'s catch-all records
+`type(e).__name__` plus `(slug, doctype)`, never `str(e)`, because a `KeyError` from
+`apply_public_copy()` embeds the offending phase name and `check-feed-health.py`
+renders `last_error` verbatim into a **public issue body**. Cost accepted: that path
+needs a local repro to diagnose. The five drop-reason prefixes are module constants
+(`DROP_REASONS` in `bin/update-project-docs.py`) that the emitters *and*
+`_drop_summary()`'s classifier both read — they were two hand-kept lists and had
+already drifted, leaving four of five reasons reported as `"other"`. **Adding a drop
+reason means adding it to `DROP_REASONS`**; `test_every_reason_apply_public_copy_emits_is_classified`
+fails otherwise. Note the fix is forward-only — logs already published still hold the
+text.
+
 **Currently wired (6 (slug, doctype) entries)** — see `PROJECT_DOCS` in the script:
 
 | Slug | Doctype | Source | Destination |
