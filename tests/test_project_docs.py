@@ -705,10 +705,16 @@ class TestDropSummaryRedactsSourceText:
     upstream content, or it becomes the leak it guards against.
     """
 
+    # Prefixes production ACTUALLY emits. The payloads are invented; the
+    # prefixes must not be. This fixture previously used "no plain_english
+    # mapping", a string apply_public_copy() emits nowhere, so the breakdown
+    # test below went green on a case that cannot occur while four of the
+    # five real reasons silently degraded to "other" in production. A fixture
+    # that invents its subject can only ever test itself.
     SYNTHETIC = [
-        "phase not allowlisted: ZZTOPSECRETPHASE",
-        "phase not allowlisted: QQCONFIDENTIALPHASE",
-        "no plain_english mapping: XXPRIVATEFEATURELINE",
+        f"{_docs.DROP_PHASE_NOT_ALLOWLISTED}: ZZTOPSECRETPHASE",
+        f"{_docs.DROP_PHASE_NOT_ALLOWLISTED}: QQCONFIDENTIALPHASE",
+        f"{_docs.DROP_FEATURE_NOT_TRANSLATED}: XXPRIVATEFEATURELINE",
     ]
 
     def test_summary_contains_no_dropped_source_text(self):
@@ -721,8 +727,11 @@ class TestDropSummaryRedactsSourceText:
     def test_summary_reports_count_and_reason_breakdown(self):
         summary = _docs._drop_summary(self.SYNTHETIC)
         assert "3 item(s) dropped" in summary
-        assert "2 phase not allowlisted" in summary
-        assert "1 no plain_english mapping" in summary
+        assert f"2 {_docs.DROP_PHASE_NOT_ALLOWLISTED}" in summary
+        assert f"1 {_docs.DROP_FEATURE_NOT_TRANSLATED}" in summary
+        assert "other" not in summary, (
+            "every prefix here is one production emits, so none should fall "
+            "through to the catch-all")
 
     def test_unrecognized_reason_degrades_to_other_rather_than_passing_through(self):
         """Fail closed: an entry whose prefix we don't recognize must not have
@@ -763,6 +772,70 @@ class TestDropSummaryRedactsSourceText:
                 f"this PUBLIC repo means a world-readable Actions log")
         assert "item(s) dropped" in out, (
             "the redacted summary should still be logged — redaction, not silence")
+
+    def test_every_reason_apply_public_copy_emits_is_classified(self):
+        """The emitters and the classifier must not drift apart.
+
+        This is the test that was missing. The old fixture asserted against
+        strings IT chose, so KNOWN_REASONS could name a reason nothing emits
+        while four real ones degraded to "other" — and the suite stayed
+        green for weeks. This one drives apply_public_copy() with input that
+        triggers all five drops and asserts the summary names every one, so
+        a new emit site added without a DROP_REASONS entry fails here.
+        """
+        modules = [
+            {"name": "ZZNOTALLOWLISTED", "description": "",
+             "workflow": [], "features": []},
+            {"name": "ZZUNMAPPEDMODULE", "description": "",
+             "workflow": [], "features": []},
+            {"name": "ZZMAPPEDMODULE", "description": "ZZRAWDESCRIPTION",
+             "workflow": ["ZZRAWWORKFLOWSTEP"],
+             "features": [("planned", "ZZRAWFEATURETEXT")]},
+        ]
+        config = {"demo": {
+            "public_phases": ["ZZUNMAPPEDMODULE", "ZZMAPPEDMODULE"],
+            "plain_english": {"ZZMAPPEDMODULE": "A mapped module"},
+        }}
+        _kept, dropped = _docs.apply_public_copy("demo", modules, config)
+
+        emitted = {e.split(": ", 1)[0] for e in dropped}
+        assert emitted == set(_docs.DROP_REASONS), (
+            f"prefixes emitted {emitted} do not match DROP_REASONS "
+            f"{set(_docs.DROP_REASONS)} — the two lists have drifted")
+
+        summary = _docs._drop_summary(dropped)
+        assert "other" not in summary, (
+            f"a reason production emits fell through to the catch-all: {summary}")
+        for entry in dropped:
+            payload = entry.split(": ", 1)[1]
+            assert payload not in summary, f"{payload!r} leaked into the summary"
+
+    def test_unexpected_exception_records_type_not_message(self, monkeypatch, capsys):
+        """A raised exception's MESSAGE may not reach a public sink.
+
+        str(e) went to stderr (the Actions log) and to .feeds-heartbeat.json,
+        which check-feed-health.py renders verbatim into a public GitHub issue
+        body. A KeyError raised inside apply_public_copy() carries the
+        offending phase name by construction, so the message is tainted by
+        default. Only the type and the (slug, doctype) may be published.
+        """
+        secret = "ZZPRIVATEPHASENAME"
+        captured = {}
+        monkeypatch.setattr(_docs, "PROJECT_DOCS",
+                            [("demo", "roadmap", lambda token: (None, None))])
+        monkeypatch.setattr(_docs, "sync_one",
+                            lambda *a, **kw: (_ for _ in ()).throw(KeyError(secret)))
+        monkeypatch.setattr(_docs, "record_error_if_known",
+                            lambda slug, err: captured.setdefault(slug, err))
+        monkeypatch.setattr(_docs, "record_heartbeat", lambda *a, **kw: None)
+        _docs.main()
+
+        err = captured.get("project-docs:demo-roadmap", "")
+        assert "KeyError" in err and "demo/roadmap" in err
+        assert secret not in err, "exception message leaked into the heartbeat"
+        streams = capsys.readouterr()
+        assert secret not in streams.out + streams.err, (
+            "exception message leaked into the Actions log")
 
     def test_committed_heartbeat_file_carries_no_dropped_source_text(self):
         """Belt and braces on the artifact itself: the shipped file must not

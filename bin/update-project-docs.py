@@ -683,6 +683,32 @@ def load_roadmap_copy():
         return {}
 
 
+# Drop reasons emitted by apply_public_copy(). These prefixes are OUR OWN
+# vocabulary, never upstream content, which is what makes them the only part
+# of a dropped entry safe to publish — _drop_summary() reports them and
+# discards the rest.
+#
+# The emitters below and _drop_summary()'s classifier both read this one
+# tuple ON PURPOSE. They were two hand-kept lists until 2026-09-01, and they
+# had already drifted: KNOWN_REASONS named "no plain_english mapping", which
+# nothing emits, while four of the five real reasons fell through to "other".
+# The breakdown is the entire value of a redacted summary, and it was blank
+# for the most common drift class. Adding a reason means adding it here.
+DROP_PHASE_NOT_ALLOWLISTED = "phase not allowlisted"
+DROP_MODULE_NOT_TRANSLATED = "module not translated"
+DROP_DESCRIPTION_NOT_TRANSLATED = "description not translated"
+DROP_WORKFLOW_STEP_NOT_TRANSLATED = "workflow step not translated"
+DROP_FEATURE_NOT_TRANSLATED = "feature not translated"
+
+DROP_REASONS = (
+    DROP_PHASE_NOT_ALLOWLISTED,
+    DROP_MODULE_NOT_TRANSLATED,
+    DROP_DESCRIPTION_NOT_TRANSLATED,
+    DROP_WORKFLOW_STEP_NOT_TRANSLATED,
+    DROP_FEATURE_NOT_TRANSLATED,
+)
+
+
 def apply_public_copy(slug, modules, config=None):
     """Filter and translate parsed roadmap modules for a non-technical audience.
 
@@ -702,7 +728,7 @@ def apply_public_copy(slug, modules, config=None):
     kept = []
     for mod in modules:
         if public_phases is not None and mod["name"] not in public_phases:
-            dropped.append(f"phase not allowlisted: {mod['name']}")
+            dropped.append(f"{DROP_PHASE_NOT_ALLOWLISTED}: {mod['name']}")
             continue
 
         copy_map = rules.get("plain_english")
@@ -713,7 +739,7 @@ def apply_public_copy(slug, modules, config=None):
         # Rule 1 matched the SOURCE name; Rule 2 now renames what survived.
         # Ordering matters — renaming must never affect filtering.
         if mod["name"] not in copy_map:
-            dropped.append(f"module not translated: {mod['name']}")
+            dropped.append(f"{DROP_MODULE_NOT_TRANSLATED}: {mod['name']}")
             continue
 
         new_mod = dict(mod)
@@ -721,7 +747,7 @@ def apply_public_copy(slug, modules, config=None):
 
         description = mod.get("description", "")
         if description and description not in copy_map:
-            dropped.append(f"description not translated: {mod['name']}")
+            dropped.append(f"{DROP_DESCRIPTION_NOT_TRANSLATED}: {mod['name']}")
             new_mod["description"] = ""
         elif description:
             new_mod["description"] = copy_map[description]
@@ -731,7 +757,7 @@ def apply_public_copy(slug, modules, config=None):
             if step in copy_map:
                 new_workflow.append(copy_map[step])
             else:
-                dropped.append(f"workflow step not translated: {step[:60]}")
+                dropped.append(f"{DROP_WORKFLOW_STEP_NOT_TRANSLATED}: {step[:60]}")
         new_mod["workflow"] = new_workflow
 
         new_features = []
@@ -739,7 +765,7 @@ def apply_public_copy(slug, modules, config=None):
             if text in copy_map:
                 new_features.append((state, copy_map[text]))
             else:
-                dropped.append(f"feature not translated: {text[:60]}")
+                dropped.append(f"{DROP_FEATURE_NOT_TRANSLATED}: {text[:60]}")
         new_mod["features"] = new_features
 
         kept.append(new_mod)
@@ -881,15 +907,15 @@ def _drop_summary(dropped):
     channel — the guard defeating itself. Found 2026-08-05 with real Judge
     Tool phase names live in the committed file.
 
-    Reasons are the authored prefixes from apply_public_copy() ("phase not
-    allowlisted", "no plain_english mapping"), which are our own vocabulary,
-    not upstream content. Anything unrecognized degrades to "other" rather
-    than being passed through.
+    Reasons are the authored prefixes in DROP_REASONS, which apply_public_copy()
+    also emits from — one list, so the two cannot drift. They are our own
+    vocabulary, not upstream content. Anything unrecognized still degrades to
+    "other" rather than being passed through: an unfamiliar prefix might not
+    be ours, so it fails closed.
     """
-    KNOWN_REASONS = ("phase not allowlisted", "no plain_english mapping")
     counts = {}
     for entry in dropped:
-        reason = next((r for r in KNOWN_REASONS if entry.startswith(r)), "other")
+        reason = next((r for r in DROP_REASONS if entry.startswith(r)), "other")
         counts[reason] = counts.get(reason, 0) + 1
     breakdown = ", ".join(f"{n} {r}" for r, n in sorted(counts.items()))
     return f"{len(dropped)} item(s) dropped ({breakdown})"
@@ -986,8 +1012,20 @@ def main():
         try:
             status = sync_one(slug, doctype, adapter, token)
         except Exception as e:
-            print(f"  unexpected error syncing {slug}/{doctype}: {e}", file=sys.stderr)
-            record_error_if_known(f"project-docs:{slug}-{doctype}", str(e))
+            # Exception TYPE only, never str(e). This repo is PUBLIC and the
+            # message would reach two world-readable sinks: stderr, which is
+            # the Actions log, and .feeds-heartbeat.json, which
+            # check-feed-health.py renders verbatim into a public issue body
+            # ("- **Last error:** `{last_error}`"). A KeyError raised inside
+            # apply_public_copy() carries the offending phase name BY
+            # CONSTRUCTION, so this is not a hypothetical path.
+            #
+            # Accepted cost: you get "KeyError in aleph/roadmap" and nothing
+            # more, so diagnosing means a local repro. That is the right
+            # trade for a rare path with no private channel to send detail to.
+            detail = f"{type(e).__name__} in {slug}/{doctype}"
+            print(f"  unexpected error syncing {detail}", file=sys.stderr)
+            record_error_if_known(f"project-docs:{slug}-{doctype}", detail)
             status = "error"
         statuses[status].append(f"{slug}/{doctype}")
 
