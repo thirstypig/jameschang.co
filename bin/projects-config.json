@@ -169,6 +169,7 @@
       "url_label": "jameschang.co",
       "status_badge": "live",
       "maturity": "public",
+      "pin": "active",
       "desc": "This site — hand-built with no frameworks, and it updates itself from eight live data feeds.",
       "next_up": "Keep adding to it, and keep the résumé PDF current.",
       "roadmap_items": [

@@ -194,6 +194,147 @@ class TestLoadConfig:
         )
 
 
+class TestHousekeepingRules:
+    """todos/148 — a housekeeping commit must not promote a project to active.
+
+    Two named rules, both applied to classification AND to the rendered line
+    through the same code path in parse_events(), so a card can never read
+    back-burner while displaying a recent commit.
+    """
+
+    @staticmethod
+    def _now_iso():
+        from datetime import datetime, timezone
+        return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    def _push(self, *, sha="abc123", actor="thirstypig", repo="o/app", when=None):
+        return {
+            "type": "PushEvent",
+            "created_at": when or self._now_iso(),
+            "repo": {"name": repo},
+            "actor": {"login": actor},
+            "payload": {"head": sha, "ref": "refs/heads/main"},
+        }
+
+    # -- rule 2: the message patterns ---------------------------------------
+
+    def test_matches_the_real_fan_out_shapes(self):
+        """Both message shapes observed in the wild, from todos/148's table."""
+        for subject in (
+            "chore: sync port registry — pasadenaworks claims block 3180",
+            "docs(ports): sync port registry — add vouch (3020) and spar (3110)",
+            "Merge pull request #13 from thirstypig/chore/port-registry-3120",
+            "chore: sync PORT REGISTRY",              # case-insensitive
+            "chore: sync port  registry",             # \s* tolerates spacing
+        ):
+            assert _projects.is_chore_summary(subject), subject
+
+    def test_does_not_match_real_work_that_looks_like_a_chore(self):
+        """The whole reason a `chore:` prefix filter was rejected: these are
+        genuine commits that share the prefix or the branch shape."""
+        for subject in (
+            "Merge pull request #12 from thirstypig/chore/test-coverage-and-doc-sync",
+            "chore(docs): refresh generated stats after #20 (#21)",
+            "chore: sync Google Calendar feed on /now page",  # bot rule's job, not this one
+            "feat: add the roadmap adapter",
+        ):
+            assert not _projects.is_chore_summary(subject), subject
+
+    def test_unenriched_summary_fails_open(self):
+        """An event we could not enrich carries the generic summary and must
+        count as real work — hiding shipping is worse than missing a chore."""
+        assert not _projects.is_chore_summary("Pushed to main")
+        assert not _projects.is_chore_summary("")
+        assert not _projects.is_chore_summary(None)
+
+    # -- rule 1: bot actors --------------------------------------------------
+
+    def test_bot_pushes_are_dropped(self):
+        events = [self._push(actor="github-actions[bot]")]
+        assert _projects.parse_events(events, token=None)["o/app"] == []
+
+    def test_bot_rule_needs_no_enrichment(self, monkeypatch):
+        """The actor is already in the payload, so a bot push must be dropped
+        without spending a /commits/{sha} fetch."""
+        calls = []
+        monkeypatch.setattr(_projects, "fetch_json",
+                            lambda url, **kw: calls.append(url) or {})
+        _projects.parse_events([self._push(actor="github-actions[bot]")], token="t")
+        assert calls == [], f"spent {len(calls)} fetch(es) on a bot push"
+
+    def test_human_pushes_survive(self):
+        assert len(_projects.parse_events([self._push()], token=None)["o/app"]) == 1
+
+    # -- the walk ------------------------------------------------------------
+
+    def test_walks_past_a_chore_to_the_next_real_commit(self, monkeypatch):
+        msgs = {"sha_chore": "chore: sync port registry — block 3180",
+                "sha_real": "feat: the actual work"}
+        monkeypatch.setattr(_projects, "fetch_json",
+                            lambda url, **kw: {"commit": {"message": msgs[url.rsplit("/", 1)[1]]}})
+        events = [self._push(sha="sha_chore", when="2026-08-30T12:00:00Z"),
+                  self._push(sha="sha_real", when="2026-08-30T11:00:00Z")]
+        kept = _projects.parse_events(events, token="t")["o/app"]
+        assert [e["summary"] for e in kept] == ["feat: the actual work"]
+
+    def test_all_chores_leaves_nothing(self, monkeypatch):
+        monkeypatch.setattr(_projects, "fetch_json",
+                            lambda url, **kw: {"commit": {"message": "chore: sync port registry"}})
+        events = [self._push(sha="a", when="2026-08-30T12:00:00Z"),
+                  self._push(sha="b", when="2026-08-30T11:00:00Z")]
+        assert _projects.parse_events(events, token="t")["o/app"] == []
+
+    def test_classification_and_rendering_cannot_disagree(self, monkeypatch):
+        """The trap todos/148 names explicitly: a card reading 'back-burner'
+        while displaying a recent commit. Both readers take the same dict, so
+        an event filtered from one is filtered from both."""
+        monkeypatch.setattr(_projects, "fetch_json",
+                            lambda url, **kw: {"commit": {"message": "chore: sync port registry"}})
+        by_repo = _projects.parse_events([self._push(sha="a")], token="t")
+        project = {"slug": "demo", "repo": "o/app", "shipping_repos": ["o/app"]}
+        assert _projects.most_recent_event_time(project, by_repo) is None
+        assert _projects.events_for_project(project, by_repo) == []
+
+    def test_enrichment_cap_is_respected_while_walking(self, monkeypatch):
+        calls = []
+        monkeypatch.setattr(_projects, "fetch_json", lambda url, **kw: (
+            calls.append(url), {"commit": {"message": "chore: sync port registry"}})[1])
+        monkeypatch.setattr(_projects, "MAX_COMMIT_ENRICHMENTS", 3)
+        events = [self._push(sha=f"s{i}", when=f"2026-08-30T1{i}:00:00Z") for i in range(6)]
+        _projects.parse_events(events, token="t")
+        assert len(calls) <= 3, f"walk spent {len(calls)} fetches against a cap of 3"
+
+
+class TestSelfRepoPin:
+    """jameschang-co is pinned active because its own cron floods its feed.
+
+    The bot rule (BOT_ACTORS) affects exactly ONE repo — jameschang.co is the
+    only one github-actions[bot] pushes to. Filtering those leaves a feed where
+    29 of 30 events are gone and human pushes have been buried past the API
+    window, so recency stops describing the project. That is precisely the
+    divergence `pin` exists for.
+    """
+
+    def test_self_slug_is_pinned_active(self):
+        config = _projects.load_config()
+        jc = [p for p in config if p["slug"] == _projects.SELF_SLUG][0]
+        assert jc.get("pin") == _projects.PIN_ACTIVE, (
+            "jameschang-co must stay pinned active — without it the bot rule "
+            "drops its whole feed and the card reads back-burner on days real "
+            "work shipped")
+
+    def test_pinned_active_self_still_sorts_last_in_its_section(self):
+        """The pin must not defeat pin_self_last(): the site should be active,
+        but never the most prominent card on its own page."""
+        config = _projects.load_config()
+        pins = _projects.pins_from_config(config)
+        active, backburner = _projects.classify_projects(
+            {p["slug"]: None for p in config}, pinned=pins)
+        assert _projects.SELF_SLUG in active
+        assert active[-1] == _projects.SELF_SLUG, (
+            f"expected {_projects.SELF_SLUG} last in active, got {active}")
+
+
 class TestParseEventsPullRequest:
     """PR events with stripped payloads (private-repo sanitization) must be
     dropped so readers never see 'PR opened: (untitled)' linking to '#'."""

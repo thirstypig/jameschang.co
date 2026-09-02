@@ -1,5 +1,5 @@
 ---
-status: pending
+status: complete
 priority: p3
 issue_id: "148"
 tags: [cron, content, classification, now-page]
@@ -86,3 +86,58 @@ What would change the decision: a fan-out that promotes a project James
 *doesn't* want pinned — i.e. one whose active/back-burner state should still
 track real activity. Only then is automatic detection (option 3, which is free
 to compute from data already fetched) worth building over another pin.
+
+
+## Resolution — 2026-09-01
+
+Built as **option 2**, a named + tunable rule, after rejecting option 3
+(fan-out timestamp detection) on its failure mode: it misfires exactly when a
+genuine coordinated multi-repo release happens, i.e. the moment you most want
+the card to read active. Option 2 fails to a silent no-op instead.
+
+Real commit data across all 27 shipping repos then showed **two** noise
+classes, not one:
+
+**Rule 1 — `BOT_ACTORS`.** `actor.login` is already in the events payload, so
+this costs no fetch and cannot misfire: a bot push is never human shipping
+work. Bots are dropped BEFORE enrichment, leaving the whole
+`MAX_COMMIT_ENRICHMENTS` budget for real commits. It affects exactly **one**
+repo — `jameschang.co` is the only one `github-actions[bot]` pushes to (29 of
+its last 30 events), so everywhere else it is a no-op.
+
+**Rule 2 — `CHORE_PATTERNS`.** Narrow by design: `port[\s\-_]*registry`. The
+separator class is not cosmetic — a test written from this todo's own table
+caught that the chore appears as "port registry" in a subject and
+"port-registry" in a merge branch name, and the first pattern missed the
+second. A `chore:` prefix filter stays rejected for the reason recorded above.
+
+Both rules run inside `parse_events()`, so `most_recent_event_time()` and
+`events_for_project()` read the same filtered dict and **cannot disagree** —
+closing the "card reads back-burner while displaying a recent commit" trap this
+todo called out. Enrichment is lazy, so the extra fetches happen only on runs
+where a chore is actually in front.
+
+### The consequence that needed a decision
+
+Filtering bots left `jameschang-co` with a feed that is 29/30 bot noise and
+human pushes buried past the API window, so the card read back-burner on a day
+nine real commits shipped — the "hides real work" failure this todo warned
+about, arriving from the other direction. Resolved with `"pin": "active"` in
+`bin/projects-config.json`: the pin exists for exactly this divergence, and
+`family-sites` was already its first user in the opposite direction. The site
+is genuinely always being worked on, so the pin is honest rather than a patch.
+
+### Known limit, accepted
+
+A push is judged by its **head commit alone** — `payload.commits[]` returns
+empty from the events API even for public repos. A push that shipped real work
+and *ended* with a chore therefore reads as a chore. The fan-out this targets
+arrives as its own single-commit push, where head is the right verdict, so this
+was accepted rather than fixed with per-push commit-range fetches.
+
+**General lesson: a push is not a unit of intent.** The classifier assumed one
+push means one kind of work and took the head commit as the verdict on all of
+it. The same assumption at feed level is why 29 meaningless pushes can crowd
+out the one that mattered.
+
+Tests: `TestHousekeepingRules` (9), `TestSelfRepoPin` (2).

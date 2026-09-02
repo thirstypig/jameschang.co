@@ -48,6 +48,41 @@ EVENT_WINDOW = timedelta(days=14)  # how far back to look for shipping events
 EVENTS_PER_PROJECT = 1
 MAX_COMMIT_ENRICHMENTS = 15  # hard cap on per-run GitHub /commits/{sha} fetches
 ACTIVE_THRESHOLD_DAYS = 7  # most-recent shipping event within this window → active
+
+# --- Housekeeping rules (todos/148) -----------------------------------------
+# The recency rule counts ANY Push/PR/Release, so a single housekeeping commit
+# mirrored across every repo used to promote four or five projects at once
+# (observed 2026-07-23 and 2026-07-30). These two named, tunable rules say what
+# does NOT count as "am I still building this?".
+#
+# Both are applied to classification AND to the rendered "shipped" line, via the
+# same code path — otherwise a card reads back-burner while displaying a recent
+# commit.
+
+# 1. Automated commits. actor.login arrives in the events payload, so this costs
+#    no extra fetch and cannot misfire: a bot push is never human shipping work.
+#    Catches every cron self-commit on this repo (gcal, WHOOP, Plex, TLDR,
+#    public-feeds, project-docs).
+BOT_ACTORS = ("github-actions[bot]",)
+
+# 2. Human fan-out chores, matched case-insensitively against the commit
+#    SUBJECT. Deliberately narrow: todos/148 established that filtering on a
+#    `chore:` prefix drops real work, because the same logical chore appears
+#    under three message shapes while genuine commits share one of them. The
+#    substring that actually separates them is "port registry". Adding a shape
+#    means adding a pattern here plus a test.
+#    The separator class matters: the same chore appears as "port registry"
+#    (commit subject) and "port-registry" (branch name in a merge subject).
+#
+#    KNOWN LIMIT: a push is judged by its HEAD commit alone. payload.commits[]
+#    comes back empty from the events API even for public repos, so a push that
+#    shipped real work and ENDED with a chore reads as a chore. Accepted: the
+#    fan-out this targets arrives as its own single-commit push, where head is
+#    the right verdict. Fixing it properly means fetching each push's commit
+#    range against the MAX_COMMIT_ENRICHMENTS budget — not worth it for a case
+#    that only arises when a chore is bundled into a real session.
+CHORE_PATTERNS = (r"port[\s\-_]*registry",)
+_CHORE_RE = re.compile("|".join(CHORE_PATTERNS), re.IGNORECASE) if CHORE_PATTERNS else None
 SELF_SLUG = "jameschang-co"  # always pinned to the bottom of its section
 
 # Explicit section overrides, set per-project via "pin" in projects-config.json.
@@ -257,6 +292,19 @@ def _parse_iso(ts):
         return None
 
 
+def is_chore_summary(summary):
+    """True when a commit subject is housekeeping rather than shipping work.
+
+    Fails OPEN by design: an unenriched event whose summary is still the
+    generic "Pushed to main" cannot be judged, matches nothing, and therefore
+    counts as real work. Hiding genuine shipping is the worse error — a missed
+    chore merely reproduces the behaviour this repo lived with for months.
+    """
+    if not summary or _CHORE_RE is None:
+        return False
+    return bool(_CHORE_RE.search(summary))
+
+
 def parse_events(events, token):
     """Group recent events by repo. Returns {repo_name: [event_dict, ...]}.
 
@@ -282,7 +330,8 @@ def parse_events(events, token):
         # entry back to its repo by direct field lookup — avoids the prior
         # O(N²) `if entry in lst` identity-equality scan that broke silently
         # if any future refactor copied the entry dict.
-        entry = {"time": ev["created_at"], "url": None, "summary": None, "_repo": repo}
+        entry = {"time": ev["created_at"], "url": None, "summary": None, "_repo": repo,
+                 "_actor": (ev.get("actor") or {}).get("login", "")}
         if etype == "PushEvent":
             sha = payload.get("head")
             ref = payload.get("ref", "").replace("refs/heads/", "")
@@ -312,26 +361,46 @@ def parse_events(events, token):
     # Enrich the most-recent N push events per repo with the first line of
     # the commit message. Time-sort first so the "first N" we enrich match
     # the "first N" that events_for_project will surface.
+    # Housekeeping rule 1 — drop bot pushes BEFORE enrichment. The actor is
+    # already in hand, so this costs no fetch and leaves the whole enrichment
+    # budget for commits that might actually be shipping work. Keys are
+    # preserved even when a repo empties, so repo_key_mismatch() still sees it.
+    for repo in list(by_repo):
+        by_repo[repo] = [e for e in by_repo[repo] if e.get("_actor") not in BOT_ACTORS]
+
+    # Enrich the most-recent push events with the first line of the commit
+    # message, walking PAST housekeeping commits (rule 2) to the next real one.
+    # Enrichment happens lazily inside the walk, so the extra fetches occur only
+    # on runs where a chore is actually in front — near-zero cost on a normal
+    # day, still bounded by MAX_COMMIT_ENRICHMENTS on a fan-out day.
     enriched = 0
-    for events_list in by_repo.values():
+    for repo in list(by_repo):
+        events_list = by_repo[repo]
         events_list.sort(key=lambda e: _parse_iso(e["time"]) or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
-        for entry in events_list[:EVENTS_PER_PROJECT]:
-            sha = entry.pop("_head_sha", None)
-            if not sha or not entry["summary"].startswith("Pushed"):
-                continue
-            if enriched >= MAX_COMMIT_ENRICHMENTS:
+        kept = []
+        for entry in events_list:
+            if len(kept) >= EVENTS_PER_PROJECT:
                 break
-            try:
-                headers = {"User-Agent": USER_AGENT, "Accept": "application/vnd.github+json"}
-                if token:
-                    headers["Authorization"] = f"Bearer {token}"
-                commit = fetch_json(f"https://api.github.com/repos/{entry['_repo']}/commits/{sha}", headers=headers, timeout=15)
-                first_line = ((commit.get("commit") or {}).get("message") or "").split("\n")[0].strip()
-                if first_line:
-                    entry["summary"] = first_line
-                enriched += 1
-            except (HTTPError, URLError):
-                pass
+            sha = entry.pop("_head_sha", None)
+            if sha and entry["summary"].startswith("Pushed") and enriched < MAX_COMMIT_ENRICHMENTS:
+                try:
+                    headers = {"User-Agent": USER_AGENT, "Accept": "application/vnd.github+json"}
+                    if token:
+                        headers["Authorization"] = f"Bearer {token}"
+                    commit = fetch_json(f"https://api.github.com/repos/{entry['_repo']}/commits/{sha}", headers=headers, timeout=15)
+                    first_line = ((commit.get("commit") or {}).get("message") or "").split("\n")[0].strip()
+                    if first_line:
+                        entry["summary"] = first_line
+                    enriched += 1
+                except (HTTPError, URLError):
+                    pass
+            if is_chore_summary(entry["summary"]):
+                continue  # housekeeping — walk on to the next candidate
+            kept.append(entry)
+        # Truncating here is what makes classification and rendering agree:
+        # most_recent_event_time() and events_for_project() both read this dict,
+        # so neither can see an event the other filtered out.
+        by_repo[repo] = kept
     return by_repo
 
 
