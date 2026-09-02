@@ -1906,3 +1906,43 @@ class TestHealthStrip:
     def test_health_js_thresholds_are_named_constants(self):
         js = _read("admin/health.js")
         assert "FRESH_H" in js and "STALE_H" in js
+
+    def test_health_js_rolls_sub_slug_errors_up_to_their_parent(self):
+        """The strip used to DISCARD every colon-suffixed slug under a comment
+        claiming they rolled up into the parent aggregate. They didn't, and the
+        aggregate's own last_error is null — so a project-docs row read green
+        while two sub-feeds dropped content daily. That green is why a repo
+        rename sat unread for 16 days."""
+        js = _read("admin/health.js")
+        assert "rollUpErrors" in js
+        assert "last_error" in js, "the strip must read last_error, not just age"
+        assert "nb-health-err" in js, "error text needs a render target"
+
+    def test_health_js_has_a_state_for_fresh_but_erroring(self):
+        """Age is not severity. A feed that syncs fine every hour while
+        dropping content is neither ok nor stale, and partial_success=True
+        refreshes the very timestamp the 48h monitor gates on — so age can
+        never surface it."""
+        js = _read("admin/health.js")
+        assert "stateFor" in js and '"note"' in js
+        assert "RANK" in js, "rows must sort by severity, not age alone"
+        css = _read("notebook.css")
+        assert ".nb-health-dot--note" in css
+
+    def test_every_heartbeat_sub_slug_has_a_parent_row(self):
+        """The invariant the rollup depends on, tested against the real file.
+
+        A sub-slug's error is attributed to the text before its first colon. If
+        a feed ever emits `foo:bar` with no top-level `foo` row, the rollup
+        drops it silently — reintroducing, one level down, the exact bug this
+        change fixes. This is the only test here that checks behaviour rather
+        than source text: there is no JS runner in this repo.
+        """
+        import json
+        with open(os.path.join(REPO_ROOT, ".feeds-heartbeat.json"), encoding="utf-8") as f:
+            hb = json.load(f)
+        top = {s for s in hb if ":" not in s}
+        orphans = sorted(s for s in hb if ":" in s and s.split(":", 1)[0] not in top)
+        assert orphans == [], (
+            f"{orphans} would have their errors dropped by rollUpErrors() — "
+            f"every sub-slug needs a top-level parent row to roll up into")

@@ -2286,8 +2286,23 @@ a:hover { text-decoration: underline; }
 .nb-health-dot--ok { background: var(--pos); }
 .nb-health-dot--warn { background: var(--warn); }
 .nb-health-dot--danger { background: var(--danger); }
+/* fresh, but reporting something — a ring rather than a solid fill, so it
+   reads as "look at this" without being mistaken for a dead feed. */
+.nb-health-dot--note {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--warn);
+}
 .nb-health-slug { flex: 1 1 auto; color: var(--ink); }
+.nb-health-sub { color: var(--warn); font-size: 0.9em; }
 .nb-health-age { color: var(--dim); }
+.nb-health-err {
+  margin: 0 0 0.15rem 1.2rem;
+  color: var(--dim);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  line-height: 1.45;
+  word-break: break-word;
+}
 
 /* /admin/docs/ — docs board viewer */
 .nb-docs-head {
