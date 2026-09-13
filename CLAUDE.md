@@ -73,11 +73,11 @@ The print stylesheet forces ATS-friendly system fonts for all elements that use 
 
 Regenerate the PDF with:
 ```bash
-python3 -m http.server 8787 &
+python3 -m http.server 3090 &
 SERVER_PID=$!
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
   --headless --disable-gpu --no-pdf-header-footer \
-  --print-to-pdf=resume.pdf http://127.0.0.1:8787/
+  --print-to-pdf=resume.pdf http://127.0.0.1:3090/
 kill "$SERVER_PID"
 ```
 
@@ -285,8 +285,8 @@ du -sh .
 ## Local preview
 
 ```bash
-python3 -m http.server 8787
-# open http://localhost:8787/
+python3 -m http.server 3090
+# open http://localhost:3090/
 ```
 
 For screenshotting with a forced theme, temporarily write `index.html` with `<html data-theme="light">` or `data-theme="dark">` baked in (OS preference otherwise leaks through to headless Chrome).
