@@ -22,18 +22,18 @@ Personal site for James Chang — founder of Aleph Co. and senior product manage
 ## Local preview
 
 ```bash
-python3 -m http.server 8787
-# open http://localhost:8787/
+python3 -m http.server 3090
+# open http://localhost:3090/
 ```
 
 ## Regenerating the resume PDF
 
 ```bash
-python3 -m http.server 8787 &
+python3 -m http.server 3090 &
 SERVER_PID=$!
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
   --headless --disable-gpu --no-pdf-header-footer \
-  --print-to-pdf=resume.pdf http://127.0.0.1:8787/
+  --print-to-pdf=resume.pdf http://127.0.0.1:3090/
 kill "$SERVER_PID"
 ```
 
