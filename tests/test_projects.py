@@ -207,6 +207,13 @@ class TestHousekeepingRules:
         from datetime import datetime, timezone
         return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
+    @staticmethod
+    def _ago(hours):
+        # Relative to the SAME clock parse_events uses (EVENT_WINDOW = 14 days). Fixed dates here
+        # aged out on ~2026-09-14: one test failed and two passed vacuously on an empty list.
+        from datetime import datetime, timedelta, timezone
+        return (datetime.now(timezone.utc) - timedelta(hours=hours)).strftime("%Y-%m-%dT%H:%M:%SZ")
+
     def _push(self, *, sha="abc123", actor="thirstypig", repo="o/app", when=None):
         return {
             "type": "PushEvent",
@@ -272,16 +279,16 @@ class TestHousekeepingRules:
                 "sha_real": "feat: the actual work"}
         monkeypatch.setattr(_projects, "fetch_json",
                             lambda url, **kw: {"commit": {"message": msgs[url.rsplit("/", 1)[1]]}})
-        events = [self._push(sha="sha_chore", when="2026-08-30T12:00:00Z"),
-                  self._push(sha="sha_real", when="2026-08-30T11:00:00Z")]
+        events = [self._push(sha="sha_chore", when=self._ago(1)),
+                  self._push(sha="sha_real", when=self._ago(2))]
         kept = _projects.parse_events(events, token="t")["o/app"]
         assert [e["summary"] for e in kept] == ["feat: the actual work"]
 
     def test_all_chores_leaves_nothing(self, monkeypatch):
         monkeypatch.setattr(_projects, "fetch_json",
                             lambda url, **kw: {"commit": {"message": "chore: sync port registry"}})
-        events = [self._push(sha="a", when="2026-08-30T12:00:00Z"),
-                  self._push(sha="b", when="2026-08-30T11:00:00Z")]
+        events = [self._push(sha="a", when=self._ago(1)),
+                  self._push(sha="b", when=self._ago(2))]
         assert _projects.parse_events(events, token="t")["o/app"] == []
 
     def test_classification_and_rendering_cannot_disagree(self, monkeypatch):
@@ -300,7 +307,7 @@ class TestHousekeepingRules:
         monkeypatch.setattr(_projects, "fetch_json", lambda url, **kw: (
             calls.append(url), {"commit": {"message": "chore: sync port registry"}})[1])
         monkeypatch.setattr(_projects, "MAX_COMMIT_ENRICHMENTS", 3)
-        events = [self._push(sha=f"s{i}", when=f"2026-08-30T1{i}:00:00Z") for i in range(6)]
+        events = [self._push(sha=f"s{i}", when=self._ago(6 - i)) for i in range(6)]
         _projects.parse_events(events, token="t")
         assert len(calls) <= 3, f"walk spent {len(calls)} fetches against a cap of 3"
 

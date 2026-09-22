@@ -2,7 +2,8 @@ name: Sync Google Calendar feed to /now
 
 on:
   schedule:
-    - cron: '0 * * * *'  # hourly, top of the hour (UTC; PT minutes identical). Cron must be UTC.
+    - cron: '10 */4 * * *'  # every 4h at :10 UTC. Was hourly — 720 billed min/month on the shared Actions
+    # budget. The feed-staleness monitor alerts after 48h, so 4h is well inside it. Cron must be UTC.
   workflow_dispatch: {}
 
 permissions:
