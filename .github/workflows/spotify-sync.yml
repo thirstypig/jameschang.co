@@ -2,7 +2,9 @@ name: Sync Spotify data to /now
 
 on:
   schedule:
-    - cron: '*/30 * * * *'  # every 30 min (interval — no fixed PT time). Cron must be UTC.
+    - cron: '5 */3 * * *'  # every 3h at :05 UTC. Was every 30 min — 1,440 billed min/month on the shared
+    # Actions budget (plus a Pages rebuild per commit). Spotify's recently-played API returns the last 50
+    # tracks, which 3h still covers for normal listening. Cron must be UTC.
   workflow_dispatch:
 
 concurrency:
