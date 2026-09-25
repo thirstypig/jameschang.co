@@ -71,6 +71,8 @@ Current print order values (in `notebook.css`):
 
 The print stylesheet forces ATS-friendly system fonts for all elements that use `var(--mono)` on screen (dates, skill labels, role tags) — Geist Mono / Space Grotesk WOFF2 don't reliably embed in print PDFs. Notebook ornamentation (graph paper, hard shadows, /01–/08 section numbers, terminal block) is fully suppressed.
 
+**Two print traps (found 2026-09-24).** (1) **Memberships print by DOM position**: `.nb-membership:nth-child(n+5) { display: none }` prints the first 4 cards (current roles) and hides the rest (former memberships). Adding a membership at the top silently pushes the last current one out of `resume.pdf` — bump the `n+N` when the count of current roles changes, and keep former memberships last. (2) **Project cards print as inline flow** (`.nb-card.compact` and its `.nb-card-head` are `display: block` / `inline`), not flex — under flex a description that wraps to a second line overprinted the project name. **Always regenerate the PDF and LOOK at it** (`pdftoppm -png`) after homepage edits; both traps passed every test. The print-only contact line (`.print-contact`, 9pt) carries the phone number deliberately — it is hidden on screen but public in the HTML source and PDF.
+
 Regenerate the PDF with:
 ```bash
 python3 -m http.server 3090 &
@@ -339,7 +341,7 @@ A private-ish `/admin/` area (footer "login" curtain → gated page). **It is a 
 
 ## Testing
 
-**555 tests** across 13 files: 453 unit tests (12 files) + 102 E2E tests (1 file). Run locally with `python3 -m pytest tests/ -v` (requires `pytest`).
+**575 tests** across 13 files: 470 unit tests (12 files) + 105 E2E tests (1 file). Run locally with `python3 -m pytest tests/ -v` (requires `pytest`).
 
 See `docs/test-plan.md` for the full testing strategy, inventory by file, and CI cadence. Unit tests cover individual feed sync scripts + the shared `_shared.py` utilities. E2E tests cover all pages: meta tags, CSP, feed markers, print stylesheet, sitemap, top-nav consistency, cross-project nav, detail cards, quotes section, and more.
 
