@@ -1635,13 +1635,13 @@ class TestMinorMemberships:
         updating this test, it fails explicitly."""
         _, body = fetch("index.html")
         count = body.count('class="nb-membership nb-membership--minor"')
-        assert count == 6, (
-            f"expected 6 nb-membership--minor articles on homepage (incl. former memberships), got {count} — "
+        assert count == 7, (
+            f"expected 7 nb-membership--minor articles on homepage (incl. former memberships), got {count} — "
             "update this assertion if intentionally adding/removing a minor membership"
         )
 
     def test_minor_cards_are_inside_grid_wrapper(self):
-        """The six minor cards (incl. former memberships) must stay inside a .nb-grid-3 wrapper
+        """The seven minor cards (incl. former memberships) must stay inside a .nb-grid-3 wrapper
         so they render in a grid rather than stacking like the primary memberships above."""
         _, body = fetch("index.html")
         grid_match = re.search(
@@ -1651,8 +1651,8 @@ class TestMinorMemberships:
         assert grid_match, "No .nb-grid-3 found inside #memberships section"
         grid_content = grid_match.group(1)
         minor_count = grid_content.count('class="nb-membership nb-membership--minor"')
-        assert minor_count == 6, (
-            f"expected all 6 minor cards inside .nb-grid-3, found {minor_count}"
+        assert minor_count == 7, (
+            f"expected all 7 minor cards inside .nb-grid-3, found {minor_count}"
         )
 
 

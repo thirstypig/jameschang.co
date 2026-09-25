@@ -1928,10 +1928,11 @@ a:hover { text-decoration: underline; }
     padding: 0 !important;
     margin-bottom: 0.08rem;
     page-break-inside: avoid;
-    display: flex !important;
-    flex-wrap: nowrap !important;
-    align-items: baseline !important;
+    /* Plain inline flow, not flex: a body that wraps to a second line
+       flows under the name instead of overprinting it. */
+    display: block !important;
   }
+  .nb-card.compact .nb-card-head { display: inline !important; }
   .nb-card-name,
   .nb-card.compact .nb-card-name {
     font-size: 10.5pt !important;
@@ -2019,7 +2020,8 @@ a:hover { text-decoration: underline; }
 
   /* Memberships — bold organization, italic role + date+location line. */
   .nb-membership { margin-bottom: 0.15rem; page-break-inside: avoid; }
-  .nb-membership:nth-child(n+4) { display: none; }
+  /* Current roles print (first 4); former memberships stay screen-only. */
+  .nb-membership:nth-child(n+5) { display: none; }
   .nb-membership-head { display: block; margin-bottom: 0.02rem; }
   .nb-membership-head strong { font-size: 10.5pt; font-weight: 700; color: #000; }
   .nb-membership-role {
