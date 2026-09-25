@@ -1731,7 +1731,7 @@ a:hover { text-decoration: underline; }
     letter-spacing: 0.02em;
   }
   .print-contact {
-    font-size: 9.5pt;
+    font-size: 9pt;
     margin: 0;
     color: #000;
   }
@@ -1742,7 +1742,7 @@ a:hover { text-decoration: underline; }
     text-decoration-thickness: 0.5pt;
   }
   .print-contact .sep {
-    margin: 0 0.4em;
+    margin: 0 0.3em;
     color: #666;
   }
 
