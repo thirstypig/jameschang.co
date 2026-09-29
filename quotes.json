@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-17",
+  "last_updated": "2026-09-28",
   "items": [
     {
       "id": "veritas-inlustrat",
@@ -318,6 +318,16 @@
       "translation": "",
       "source": "Leslie Higgins, Ted Lasso, S2E12 \"Inverting the Pyramid of Success\" (2021)",
       "note": "Written for the show rather than quoted from an older source: when Keeley says she likes the line, Higgins replies \"Just made it up.\" A search for a pre-2021 origin found none — every trail leads back to this episode. Some circulating versions drop the \"will\" from the first sentence; the transcript reads \"hopes you will move on.\"",
+      "category": "film"
+    },
+    {
+      "id": "see-what-no-one-else-sees",
+      "text": "You're focusing on the problem. If you focus on the problem, you can't see the solution. Never focus on the problem! See what no one else sees. See what everyone chooses not to see... out of fear, conformity or laziness. See the whole world anew each day!",
+      "original": "",
+      "lang": "",
+      "translation": "",
+      "source": "Arthur Mendelson, Patch Adams (1998)",
+      "note": "Think differently every day; look past what normal would see. Spoken by Arthur Mendelson (Harold Gould) to Hunter Adams (Robin Williams) in the scene where Adams earns the nickname \"Patch.\" The text joins two passages from that scene; the four-fingers exchange (\"Look beyond the fingers. How many do you see?\") comes between \"Never focus on the problem\" and \"See what no one else sees.\" Wording follows Wikiquote; one subtitle transcript reads \"everyone else chooses\" and \"fear and conformity and laziness.\"",
       "category": "film"
     }
   ]
