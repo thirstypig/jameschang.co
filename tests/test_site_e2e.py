@@ -1756,7 +1756,7 @@ class TestMemberOfJsonLD:
 # plaintext is never named here, so there is no "plaintext-absent" grep test:
 # such a test would have to contain the password to search for it. The positive
 # check below (hash constant present + SHA-256 used) is the guarantee instead.
-_ADMIN_PW_SHA256 = "7781113a99f177280ad3e89bcf631f03acb8fa8e626082dd9158eeee0bdd5674"
+_ADMIN_PW_SHA256 = "e4c271d7aa575e93c0b3944ceb49bf5ad2edafbb29869bd12ffb61d046b5083b"
 
 
 def _read(relpath):

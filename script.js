@@ -44,7 +44,7 @@ window.addEventListener("beforeprint", () => {
   if (!footer || !window.crypto || !crypto.subtle) return;
 
   const PW_HASH =
-    "7781113a99f177280ad3e89bcf631f03acb8fa8e626082dd9158eeee0bdd5674";
+    "e4c271d7aa575e93c0b3944ceb49bf5ad2edafbb29869bd12ffb61d046b5083b";
 
   const sha256hex = async (text) => {
     const buf = await crypto.subtle.digest("SHA-256",
