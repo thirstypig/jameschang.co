@@ -1899,9 +1899,13 @@ class TestAdminCockpit:
 
     def test_admin_page_hosts_every_cockpit_section(self):
         html = _read("admin/index.html")
-        for id_ in ("cockpit-meta", "cockpit-decide", "health-strip", "cockpit-time",
-                    "cockpit-money", "portfolio-board", "cockpit-ideas"):
+        for id_ in ("cockpit-meta", "cockpit-decide", "cockpit-table", "cockpit-goals", "health-strip",
+                    "cockpit-time", "cockpit-money", "portfolio-board", "cockpit-ideas"):
             assert f'id="{id_}"' in html, id_
+        # 2/3 work column + 1/3 status column
+        assert 'class="nb-cockpit-main"' in html and 'class="nb-cockpit-side"' in html
+        main, side = html.split('class="nb-cockpit-side"')
+        assert 'id="cockpit-table"' in main and 'id="health-strip"' in side
         assert "/admin/cockpit.js" in html
 
     def test_cockpit_js_is_gated_and_xss_safe(self):
@@ -1932,6 +1936,16 @@ class TestAdminCockpit:
         for p in d["projects"]:
             assert "paths" not in p and "copy_cmd" not in p, p.get("slug")
         assert "/Users/" not in _read("admin/cockpit.json")
+
+    def test_goals_and_alignment_publish_numbers_not_prompts(self):
+        """Goal text + keywords are James's own and published; the prompts they're
+        scored against never are — only counts reach the snapshot."""
+        for p in self._snap()["projects"]:
+            a = p.get("alignment") or {}
+            assert set(a) <= {"total", "on_goal", "off_goal", "on_goal_pct", "new_scope",
+                              "creep", "creep_pct", "goals"}, p["slug"]
+            for g in a.get("goals", []):
+                assert set(g) == {"id", "prompts"} and isinstance(g["prompts"], int)
 
     def test_snapshot_is_free_of_secret_markers(self):
         blob = _read("admin/cockpit.json")

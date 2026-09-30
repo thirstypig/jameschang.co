@@ -2419,3 +2419,34 @@ a:hover { text-decoration: underline; }
 .nb-cockpit-stat { font-family: var(--mono); font-size: 0.75rem; color: var(--dim); margin: 0 0 0.5rem; }
 .nb-cockpit-stat--active { color: var(--pos); }
 .nb-cockpit-stat--parked { color: var(--warn); }
+
+/* /admin/ cockpit layout — 2/3 work column (decide, portfolio table, goals, notes)
+   + 1/3 status column (health, time, money, ideas); stacks below 960px. */
+.nb-admin { max-width: 1320px; }
+.nb-cockpit-layout { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 0 2.5rem; align-items: start; }
+@media (max-width: 960px) { .nb-cockpit-layout { grid-template-columns: minmax(0, 1fr); } }
+.nb-cockpit-side .nb-admin-section:first-child { margin-top: 2rem; }
+.nb-cockpit-side .nb-cockpit-alloc-row { grid-template-columns: minmax(5rem, 7rem) 1fr auto; }
+.nb-portfolio--two { grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); }
+.nb-cockpit-table-wrap { overflow-x: auto; }
+.nb-cockpit-table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 0.76rem; }
+.nb-cockpit-table th, .nb-cockpit-table td { text-align: left; padding: 0.45rem 0.55rem; border-bottom: 1px dashed var(--rule); vertical-align: top; }
+.nb-cockpit-table thead th { color: var(--dim); font-weight: 400; white-space: nowrap; }
+.nb-cockpit-groups th { color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.66rem; border-bottom: 0; padding-bottom: 0; }
+.nb-cockpit-table td { white-space: nowrap; }
+.nb-cockpit-table tr.nb-cockpit-row td { border-bottom: 0; padding-bottom: 0.15rem; }
+.nb-cockpit-table td.nb-cockpit-next { white-space: normal; color: var(--dim); padding-top: 0; font-size: 0.72rem; }
+.nb-cockpit-row--parked td { color: var(--dim); }
+.nb-cockpit-proj { color: var(--ink); }
+.nb-cockpit-status { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.nb-cockpit-status--active { color: var(--pos); }
+.nb-cockpit-status--parked { color: var(--warn); }
+.nb-cockpit-pm { color: var(--dim); font-size: 0.7rem; }
+.nb-rag-red { color: var(--danger) !important; }
+.nb-rag-amber { color: var(--warn) !important; }
+.nb-rag-green { color: var(--pos) !important; }
+.nb-cockpit-goalset { border: var(--border-w) solid var(--rule); background: var(--surface); padding: 0.75rem 0.9rem; margin-bottom: 0.7rem; }
+.nb-cockpit-goalset-head { margin: 0 0 0.4rem; font-size: 0.9rem; }
+.nb-cockpit-goallist { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.3rem; }
+.nb-cockpit-goallist li { display: flex; gap: 0.6rem; font-size: 0.88rem; align-items: baseline; }
+.nb-cockpit-goal-n { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); min-width: 2.2rem; text-align: right; }

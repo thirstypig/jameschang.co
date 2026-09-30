@@ -1,15 +1,42 @@
 {
- "generated": "2026-09-30T17:36:17.007088+00:00",
+ "generated": "2026-09-30T17:52:07.060866+00:00",
  "window_days": 28,
- "total_hours": 139.9,
- "session_hours": 241.3,
- "decisions": [],
+ "total_hours": 140.2,
+ "session_hours": 241.7,
+ "decisions": [
+  {
+   "id": "G:family-sites",
+   "kind": "G",
+   "reason": "G",
+   "target": "family-sites",
+   "title": "Family sites: 73% of new-scope asks serve no goal",
+   "detail": "8 of 11 asks for new capability in 28 days matched none of: Keep the five family sites current — content and photo updates only",
+   "magnitude": 72.7,
+   "actions": [
+    "set_goal",
+    "accept"
+   ]
+  },
+  {
+   "id": "G:pasadenaworks",
+   "kind": "G",
+   "reason": "G",
+   "target": "pasadenaworks",
+   "title": "Pasadena Works: 66% of new-scope asks serve no goal",
+   "detail": "31 of 47 asks for new capability in 28 days matched none of: Find out whether the site brings in real leads · Deliver client work on time",
+   "magnitude": 66.0,
+   "actions": [
+    "set_goal",
+    "accept"
+   ]
+  }
+ ],
  "allocation": [
   {
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 66.3
+   "actual": 66.2
   },
   {
    "slug": "fantastic-leagues",
@@ -57,7 +84,7 @@
    "slug": "jameschang-co",
    "name": "jameschang.co",
    "target": 5,
-   "actual": 1.1
+   "actual": 1.2
   },
   {
    "slug": "vouch",
@@ -75,7 +102,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 27.8
+   "actual": 27.7
   },
   {
    "slug": "family-sites",
@@ -87,7 +114,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 0.0
+   "actual": 0.1
   }
  ],
  "projects": [
@@ -96,15 +123,100 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 66.3,
+   "actual_share": 66.2,
    "hours": 92.8,
    "spend": 4425.4,
    "fixed_monthly": 0,
-   "last_activity": "2026-09-30T17:35:00+00:00",
+   "last_activity": "2026-09-30T17:37:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
-   "stop_criteria": ""
+   "stop_criteria": "",
+   "goals": [
+    {
+     "id": "g1",
+     "text": "Get companies beyond the two pilots actively using Aleph",
+     "keywords": [
+      "onboard",
+      "onboarding",
+      "beta",
+      "pilot",
+      "pilots",
+      "welcome",
+      "invite",
+      "activation",
+      "activate",
+      "signup",
+      "sign up",
+      "demo",
+      "outreach",
+      "users",
+      "customer",
+      "customers",
+      "feedback",
+      "meeting"
+     ],
+     "set": "2026-09-30"
+    },
+    {
+     "id": "g2",
+     "text": "Decide and ship the path from free beta to paid",
+     "keywords": [
+      "pricing",
+      "payment",
+      "payments",
+      "stripe",
+      "paid",
+      "tier",
+      "tiers",
+      "billing",
+      "conversion",
+      "subscription",
+      "checkout"
+     ],
+     "set": "2026-09-30"
+    },
+    {
+     "id": "g3",
+     "text": "Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
+     "keywords": [
+      "cpsia",
+      "prop 65",
+      "prop65",
+      "pfas",
+      "fsvp",
+      "cpc",
+      "certificate",
+      "compliance",
+      "documents",
+      "document"
+     ],
+     "set": "2026-09-30"
+    }
+   ],
+   "alignment": {
+    "total": 341,
+    "on_goal": 65,
+    "off_goal": 276,
+    "on_goal_pct": 19.1,
+    "new_scope": 33,
+    "creep": 16,
+    "creep_pct": 48.5,
+    "goals": [
+     {
+      "id": "g1",
+      "prompts": 12
+     },
+     {
+      "id": "g2",
+      "prompts": 7
+     },
+     {
+      "id": "g3",
+      "prompts": 51
+     }
+    ]
+   }
   },
   {
    "slug": "fantastic-leagues",
@@ -119,7 +231,18 @@
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
-   "stop_criteria": ""
+   "stop_criteria": "",
+   "goals": [],
+   "alignment": {
+    "total": 0,
+    "on_goal": 0,
+    "off_goal": 0,
+    "on_goal_pct": null,
+    "new_scope": 0,
+    "creep": 0,
+    "creep_pct": null,
+    "goals": []
+   }
   },
   {
    "slug": "bahtzang-trader",
@@ -134,7 +257,18 @@
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
-   "stop_criteria": ""
+   "stop_criteria": "",
+   "goals": [],
+   "alignment": {
+    "total": 0,
+    "on_goal": 0,
+    "off_goal": 0,
+    "on_goal_pct": null,
+    "new_scope": 0,
+    "creep": 0,
+    "creep_pct": null,
+    "goals": []
+   }
   },
   {
    "slug": "judge-tool",
@@ -149,7 +283,18 @@
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
-   "stop_criteria": ""
+   "stop_criteria": "",
+   "goals": [],
+   "alignment": {
+    "total": 0,
+    "on_goal": 0,
+    "off_goal": 0,
+    "on_goal_pct": null,
+    "new_scope": 0,
+    "creep": 0,
+    "creep_pct": null,
+    "goals": []
+   }
   },
   {
    "slug": "tabledrop",
@@ -164,7 +309,18 @@
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
-   "stop_criteria": ""
+   "stop_criteria": "",
+   "goals": [],
+   "alignment": {
+    "total": 4,
+    "on_goal": 0,
+    "off_goal": 4,
+    "on_goal_pct": null,
+    "new_scope": 0,
+    "creep": 0,
+    "creep_pct": null,
+    "goals": []
+   }
   },
   {
    "slug": "tastemakers",
@@ -179,7 +335,18 @@
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
-   "stop_criteria": ""
+   "stop_criteria": "",
+   "goals": [],
+   "alignment": {
+    "total": 0,
+    "on_goal": 0,
+    "off_goal": 0,
+    "on_goal_pct": null,
+    "new_scope": 0,
+    "creep": 0,
+    "creep_pct": null,
+    "goals": []
+   }
   },
   {
    "slug": "thirsty-pig",
@@ -194,7 +361,18 @@
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
-   "stop_criteria": ""
+   "stop_criteria": "",
+   "goals": [],
+   "alignment": {
+    "total": 0,
+    "on_goal": 0,
+    "off_goal": 0,
+    "on_goal_pct": null,
+    "new_scope": 0,
+    "creep": 0,
+    "creep_pct": null,
+    "goals": []
+   }
   },
   {
    "slug": "ktv-singer",
@@ -209,22 +387,85 @@
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
-   "stop_criteria": ""
+   "stop_criteria": "",
+   "goals": [],
+   "alignment": {
+    "total": 0,
+    "on_goal": 0,
+    "off_goal": 0,
+    "on_goal_pct": null,
+    "new_scope": 0,
+    "creep": 0,
+    "creep_pct": null,
+    "goals": []
+   }
   },
   {
    "slug": "jameschang-co",
    "name": "jameschang.co",
    "status": "active",
    "target_share": 5,
-   "actual_share": 1.1,
-   "hours": 1.5,
+   "actual_share": 1.2,
+   "hours": 1.7,
    "spend": 31.22,
    "fixed_monthly": 0,
-   "last_activity": "2026-09-30T10:35:22-07:00",
+   "last_activity": "2026-09-30T17:52:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
-   "stop_criteria": ""
+   "stop_criteria": "",
+   "goals": [
+    {
+     "id": "g1",
+     "text": "Keep /now and the résumé current",
+     "keywords": [
+      "resume",
+      "résumé",
+      "/now",
+      "now page",
+      "feed",
+      "feeds",
+      "quote",
+      "quotes",
+      "card",
+      "cards"
+     ],
+     "set": "2026-09-30"
+    },
+    {
+     "id": "g2",
+     "text": "Run the portfolio from /admin",
+     "keywords": [
+      "admin",
+      "cockpit",
+      "portfolio",
+      "goal",
+      "goals",
+      "scope",
+      "budget"
+     ],
+     "set": "2026-09-30"
+    }
+   ],
+   "alignment": {
+    "total": 38,
+    "on_goal": 13,
+    "off_goal": 25,
+    "on_goal_pct": 34.2,
+    "new_scope": 8,
+    "creep": 2,
+    "creep_pct": 25.0,
+    "goals": [
+     {
+      "id": "g1",
+      "prompts": 3
+     },
+     {
+      "id": "g2",
+      "prompts": 10
+     }
+    ]
+   }
   },
   {
    "slug": "vouch",
@@ -239,7 +480,18 @@
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
-   "stop_criteria": ""
+   "stop_criteria": "",
+   "goals": [],
+   "alignment": {
+    "total": 0,
+    "on_goal": 0,
+    "off_goal": 0,
+    "on_goal_pct": null,
+    "new_scope": 0,
+    "creep": 0,
+    "creep_pct": null,
+    "goals": []
+   }
   },
   {
    "slug": "tip",
@@ -254,14 +506,25 @@
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
-   "stop_criteria": ""
+   "stop_criteria": "",
+   "goals": [],
+   "alignment": {
+    "total": 0,
+    "on_goal": 0,
+    "off_goal": 0,
+    "on_goal_pct": null,
+    "new_scope": 0,
+    "creep": 0,
+    "creep_pct": null,
+    "goals": []
+   }
   },
   {
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 27.8,
+   "actual_share": 27.7,
    "hours": 38.9,
    "spend": 2298.29,
    "fixed_monthly": 0,
@@ -269,7 +532,62 @@
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
-   "stop_criteria": ""
+   "stop_criteria": "",
+   "goals": [
+    {
+     "id": "g1",
+     "text": "Find out whether the site brings in real leads",
+     "keywords": [
+      "lead",
+      "leads",
+      "inquiry",
+      "inquiries",
+      "booking",
+      "bookings",
+      "search console",
+      "gsc",
+      "ga4",
+      "analytics",
+      "traffic",
+      "clicks",
+      "conversion"
+     ],
+     "set": "2026-09-30"
+    },
+    {
+     "id": "g2",
+     "text": "Deliver client work on time",
+     "keywords": [
+      "1234",
+      "vipok",
+      "property",
+      "client",
+      "clients",
+      "patient",
+      "practice"
+     ],
+     "set": "2026-09-30"
+    }
+   ],
+   "alignment": {
+    "total": 342,
+    "on_goal": 38,
+    "off_goal": 304,
+    "on_goal_pct": 11.1,
+    "new_scope": 47,
+    "creep": 31,
+    "creep_pct": 66.0,
+    "goals": [
+     {
+      "id": "g1",
+      "prompts": 7
+     },
+     {
+      "id": "g2",
+      "prompts": 32
+     }
+    ]
+   }
   },
   {
    "slug": "family-sites",
@@ -284,21 +602,54 @@
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
-   "stop_criteria": ""
+   "stop_criteria": "",
+   "goals": [
+    {
+     "id": "g1",
+     "text": "Keep the five family sites current — content and photo updates only",
+     "keywords": [
+      "photo",
+      "photos",
+      "caption",
+      "correct",
+      "correction",
+      "typo",
+      "update",
+      "award",
+      "fix"
+     ],
+     "set": "2026-09-30"
+    }
+   ],
+   "alignment": {
+    "total": 66,
+    "on_goal": 7,
+    "off_goal": 59,
+    "on_goal_pct": 10.6,
+    "new_scope": 11,
+    "creep": 8,
+    "creep_pct": 72.7,
+    "goals": [
+     {
+      "id": "g1",
+      "prompts": 7
+     }
+    ]
+   }
   }
  ],
  "candidates": [],
  "ideas": [],
  "money": {
-  "claude_total": 7182.33,
+  "claude_total": 7183.02,
   "fixed_total": 0
  },
  "health": {
-  "files": 910,
-  "lines": 251496,
+  "files": 913,
+  "lines": 251952,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 1,
+  "changed_files": 3,
   "warning": null
  }
 }
