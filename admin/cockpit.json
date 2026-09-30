@@ -1,8 +1,8 @@
 {
- "generated": "2026-09-30T17:29:33.216995+00:00",
+ "generated": "2026-09-30T17:35:18.840014+00:00",
  "window_days": 28,
- "total_hours": 139.8,
- "session_hours": 241.1,
+ "total_hours": 139.9,
+ "session_hours": 241.3,
  "decisions": [],
  "allocation": [
   {
@@ -97,10 +97,10 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 66.3,
-   "hours": 92.7,
+   "hours": 92.8,
    "spend": 4425.4,
    "fixed_monthly": 0,
-   "last_activity": "2026-09-30T17:29:00+00:00",
+   "last_activity": "2026-09-30T17:35:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -217,10 +217,10 @@
    "status": "active",
    "target_share": 5,
    "actual_share": 1.0,
-   "hours": 1.4,
-   "spend": 30.82,
+   "hours": 1.5,
+   "spend": 31.22,
    "fixed_monthly": 0,
-   "last_activity": "2026-09-30T17:29:00+00:00",
+   "last_activity": "2026-09-30T10:34:01-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -290,15 +290,15 @@
  "candidates": [],
  "ideas": [],
  "money": {
-  "claude_total": 7181.93,
+  "claude_total": 7182.33,
   "fixed_total": 0
  },
  "health": {
-  "files": 908,
-  "lines": 251136,
+  "files": 910,
+  "lines": 251483,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 2,
+  "changed_files": 4,
   "warning": null
  }
 }
