@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-30T17:35:18.840014+00:00",
+ "generated": "2026-09-30T17:36:17.007088+00:00",
  "window_days": 28,
  "total_hours": 139.9,
  "session_hours": 241.3,
@@ -57,7 +57,7 @@
    "slug": "jameschang-co",
    "name": "jameschang.co",
    "target": 5,
-   "actual": 1.0
+   "actual": 1.1
   },
   {
    "slug": "vouch",
@@ -216,11 +216,11 @@
    "name": "jameschang.co",
    "status": "active",
    "target_share": 5,
-   "actual_share": 1.0,
+   "actual_share": 1.1,
    "hours": 1.5,
    "spend": 31.22,
    "fixed_monthly": 0,
-   "last_activity": "2026-09-30T10:34:01-07:00",
+   "last_activity": "2026-09-30T10:35:22-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -295,10 +295,10 @@
  },
  "health": {
   "files": 910,
-  "lines": 251483,
+  "lines": 251496,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 4,
+  "changed_files": 1,
   "warning": null
  }
 }
