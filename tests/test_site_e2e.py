@@ -1966,6 +1966,9 @@ class TestAdminCockpit:
         assert 'const REPO = "thirstypig/jameschang.co"' in js and 'const PATH = "admin/goals.json"' in js
         assert "https://api.github.com/repos/${REPO}/contents/${PATH}" in js
         assert "/admin/goals.js" in _read("admin/index.html")
+        # add, edit (same id — keeps counts/history) and remove are all staged ops
+        for kind in ('op.kind === "add"', 'op.kind === "edit"', 'kind: "rm"'):
+            assert kind in js, kind
 
     def test_goals_file_is_valid_and_public_safe(self):
         doc = json.loads(_read("admin/goals.json"))

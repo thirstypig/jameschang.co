@@ -2470,3 +2470,8 @@ a:hover { text-decoration: underline; }
 }
 .nb-cockpit-goal-bar { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-top: 0.4rem; }
 .nb-cockpit-goal-token { flex: 1 1 18rem; }
+.nb-cockpit-goal-ed { font-family: var(--mono); font-size: 0.72rem; background: transparent; color: var(--accent);
+  border: 1px solid var(--rule); padding: 0.2rem 0.55rem; cursor: pointer; }
+.nb-cockpit-goal-editing { display: block !important; }
+.nb-cockpit-goal-editing .nb-cockpit-goal-form { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr) auto auto; margin-top: 0; }
+@media (max-width: 640px) { .nb-cockpit-goal-editing .nb-cockpit-goal-form { grid-template-columns: minmax(0, 1fr); } }
