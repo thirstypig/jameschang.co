@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
 
-  <title>admin — james chang</title>
+  <title>cockpit — james chang</title>
   <meta name="description" content="Private admin area.">
   <meta name="robots" content="noindex, nofollow">
   <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -23,12 +23,21 @@
        without the flag is bounced to / before this ever renders. -->
   <main class="nb-main nb-admin" id="admin-root" hidden>
     <p class="eyebrow">// private area · curtain, not a lock</p>
-    <h1 class="nb-admin-title">admin</h1>
-    <p>you're in. · <a href="/admin/docs/">docs board →</a></p>
+    <h1 class="nb-admin-title">cockpit</h1>
+    <div id="cockpit-meta"><p class="nb-portfolio-loading">loading…</p></div>
+    <p class="nb-cockpit-links"><a href="/admin/docs/">docs board →</a></p>
 
     <section class="nb-admin-section">
       <div class="nb-portfolio-head-row">
-        <h2>health</h2>
+        <h2><span class="nb-cockpit-num">/01</span> decide</h2>
+        <span class="nb-portfolio-count">// what needs your call, most urgent first</span>
+      </div>
+      <div id="cockpit-decide"></div>
+    </section>
+
+    <section class="nb-admin-section">
+      <div class="nb-portfolio-head-row">
+        <h2><span class="nb-cockpit-num">/02</span> health</h2>
         <span class="nb-portfolio-count">// is anything broken or about to break?</span>
       </div>
       <p id="health-doorbell" class="nb-health-doorbell"></p>
@@ -37,9 +46,24 @@
       </div>
     </section>
 
+    <div class="nb-cockpit-split">
+      <section class="nb-admin-section">
+        <div class="nb-portfolio-head-row">
+          <h2><span class="nb-cockpit-num">/03</span> where your time went</h2>
+        </div>
+        <div id="cockpit-time"></div>
+      </section>
+      <section class="nb-admin-section">
+        <div class="nb-portfolio-head-row">
+          <h2><span class="nb-cockpit-num">/04</span> money</h2>
+        </div>
+        <div id="cockpit-money"></div>
+      </section>
+    </div>
+
     <section class="nb-admin-section">
       <div class="nb-portfolio-head-row">
-        <h2>portfolio</h2>
+        <h2><span class="nb-cockpit-num">/05</span> portfolio</h2>
         <span class="nb-portfolio-count">// the operator's view · edit admin/portfolio.json</span>
       </div>
       <p id="portfolio-summary" class="nb-portfolio-summary"></p>
@@ -48,11 +72,20 @@
       </div>
     </section>
 
+    <section class="nb-admin-section">
+      <div class="nb-portfolio-head-row">
+        <h2><span class="nb-cockpit-num">/06</span> ideas</h2>
+        <span class="nb-portfolio-count">// captured ideas + unregistered work</span>
+      </div>
+      <div id="cockpit-ideas"></div>
+    </section>
+
     <p><button type="button" class="nb-admin-signout">sign out</button></p>
     <p><a href="/">← back to the site</a></p>
   </main>
 
   <script src="/admin/admin.js" defer></script>
+  <script src="/admin/cockpit.js" defer></script>
   <script src="/admin/portfolio.js" defer></script>
   <script src="/admin/health.js" defer></script>
   <script src="/script.js" defer></script>

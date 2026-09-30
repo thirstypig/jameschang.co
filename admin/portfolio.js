@@ -30,17 +30,31 @@
     return row;
   };
 
+  // One mono line of cockpit numbers: status · last activity · hours · share vs target · spend.
+  const statLine = (st) => {
+    const row = el("p", `nb-cockpit-stat nb-cockpit-stat--${st.status}`);
+    const days = st.last_activity
+      ? Math.floor((Date.now() - new Date(st.last_activity).getTime()) / 864e5) : null;
+    const parts = [st.status, days == null ? "no activity" : days === 0 ? "today" : `${days}d ago`,
+      `${st.hours}h / 28d`];
+    if (st.target_share || st.actual_share) parts.push(`${st.actual_share}% of ${st.target_share}%`);
+    if (st.spend) parts.push(st.spend >= 1000 ? `$${(st.spend / 1000).toFixed(1)}k` : `$${Math.round(st.spend)}`);
+    row.textContent = parts.join(" · ");
+    return row;
+  };
+
   const render = async () => {
     const board = document.getElementById("portfolio-board");
     if (!board) return;
-    let cfg, pf;
+    let cfg, pf, cp;
     try {
       // no-store: GitHub Pages caches static assets for 10 min, but this is an
       // admin view of hand-edited data — always fetch the latest so edits to
       // portfolio.json show on the next load, not 10 minutes later.
-      [cfg, pf] = await Promise.all([
+      [cfg, pf, cp] = await Promise.all([
         fetch("/bin/projects-config.json", { cache: "no-store" }).then((r) => r.json()),
         fetch("/admin/portfolio.json", { cache: "no-store" }).then((r) => r.json()),
+        fetch("/admin/cockpit.json", { cache: "no-store" }).then((r) => r.json()).catch(() => null),
       ]);
     } catch (e) {
       board.replaceChildren(
@@ -48,6 +62,7 @@
       return;
     }
     const notes = Object.fromEntries(pf.projects.map((p) => [p.slug, p]));
+    const live = Object.fromEntries(((cp && cp.projects) || []).map((p) => [p.slug, p]));
     const cards = [];
     const counts = {};
     for (const proj of cfg.projects) {
@@ -68,6 +83,9 @@
       if (pm.stage)
         head.append(el("span", `nb-portfolio-stage nb-portfolio-stage--${pm.stage}`, pm.stage));
       card.append(head);
+
+      const st = live[proj.slug];
+      if (st) card.append(statLine(st));
 
       card.append(labelled("bet", pm.bet));
       if (proj.next_up) card.append(labelled("next", proj.next_up));

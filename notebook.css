@@ -2373,3 +2373,49 @@ a:hover { text-decoration: underline; }
 .nb-doc-content th, .nb-doc-content td { border: 1px solid var(--rule); padding: 0.35rem 0.55rem; text-align: left; vertical-align: top; }
 .nb-doc-content th { background: var(--surface-2); font-family: var(--mono); font-size: 0.72rem; }
 .nb-doc-content hr { border: none; border-top: 1px dashed var(--rule); margin: 1rem 0; }
+
+/* /admin/ cockpit — decide / time / money / ideas from admin/cockpit.json
+   (snapshot pushed by the private cockpit on James's Mac) */
+.nb-cockpit-num { font-family: var(--mono); font-size: 0.75rem; color: var(--accent); margin-right: 0.35rem; }
+.nb-cockpit-meta { font-family: var(--mono); font-size: 0.85rem; color: var(--ink); margin: 0 0 0.4rem; }
+.nb-cockpit-meta--stale { color: var(--warn); }
+.nb-cockpit-links { margin: 0; }
+.nb-cockpit-empty {
+  font-family: var(--mono); font-size: 0.85rem; color: var(--dim);
+  border: 1px dashed var(--rule); padding: 0.9rem 1rem; margin: 0;
+}
+.nb-cockpit-note { font-family: var(--mono); font-size: 0.72rem; color: var(--dim); margin: 0 0 0.6rem; }
+.nb-cockpit-decisions { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+.nb-cockpit-decision {
+  display: flex; gap: 0.75rem; align-items: flex-start;
+  border: var(--border-w) solid var(--rule); background: var(--surface); padding: 0.7rem 0.9rem;
+}
+.nb-cockpit-kind {
+  font-family: var(--mono); font-size: 0.72rem; color: var(--accent-ink); background: var(--accent);
+  padding: 0.05rem 0.4rem; flex: 0 0 auto;
+}
+.nb-cockpit-decision-body p { margin: 0 0 0.2rem; }
+.nb-cockpit-decision-title { font-size: 0.95rem; }
+.nb-cockpit-decision-detail, .nb-cockpit-decision-actions { font-family: var(--mono); font-size: 0.75rem; color: var(--dim); }
+.nb-cockpit-split { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 0 2rem; }
+.nb-cockpit-alloc { display: flex; flex-direction: column; gap: 0.45rem; }
+.nb-cockpit-alloc-row {
+  display: grid; grid-template-columns: minmax(6rem, 9rem) 1fr auto; gap: 0.6rem; align-items: center;
+  font-family: var(--mono); font-size: 0.8rem;
+}
+.nb-cockpit-alloc-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nb-cockpit-bars { display: flex; flex-direction: column; gap: 2px; }
+.nb-cockpit-bar { display: block; height: 5px; min-width: 2px; }
+.nb-cockpit-bar--target { background: var(--rule); }
+.nb-cockpit-bar--actual { background: var(--accent); }
+.nb-cockpit-alloc-num { color: var(--dim); font-size: 0.75rem; white-space: nowrap; }
+.nb-cockpit-money { display: flex; flex-direction: column; font-family: var(--mono); font-size: 0.82rem; }
+.nb-cockpit-money-row {
+  display: flex; justify-content: space-between; gap: 1rem;
+  padding: 0.35rem 0; border-bottom: 1px dashed var(--rule);
+}
+.nb-cockpit-money-row--total { font-weight: 600; }
+.nb-cockpit-money-v { white-space: nowrap; }
+.nb-cockpit-stat { font-family: var(--mono); font-size: 0.75rem; color: var(--dim); margin: 0 0 0.5rem; }
+.nb-cockpit-stat--active { color: var(--pos); }
+.nb-cockpit-stat--parked { color: var(--warn); }

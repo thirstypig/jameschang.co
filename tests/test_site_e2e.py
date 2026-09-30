@@ -1888,6 +1888,65 @@ class TestAdminPortfolio:
         assert ".nb-portfolio-stage" in _read("notebook.css")
 
 
+class TestAdminCockpit:
+    """/admin/ is the cockpit: decide/time/money/ideas from admin/cockpit.json, a
+    snapshot the private ~/Projects/cockpit pushes from James's Mac. Published
+    as-is by decision (2026-09-30) EXCEPT session titles and local paths, which
+    cockpit.publish.snapshot() strips — these tests hold that line on this side."""
+
+    def _snap(self):
+        return json.loads(_read("admin/cockpit.json"))
+
+    def test_admin_page_hosts_every_cockpit_section(self):
+        html = _read("admin/index.html")
+        for id_ in ("cockpit-meta", "cockpit-decide", "health-strip", "cockpit-time",
+                    "cockpit-money", "portfolio-board", "cockpit-ideas"):
+            assert f'id="{id_}"' in html, id_
+        assert "/admin/cockpit.js" in html
+
+    def test_cockpit_js_is_gated_and_xss_safe(self):
+        js = _read("admin/cockpit.js")
+        assert 'sessionStorage.getItem("jc-admin")' in js
+        assert "/admin/cockpit.json" in js
+        assert ".innerHTML" not in js
+        assert "STALE_SNAPSHOT_H" in js, "the page must say when the Mac stopped pushing"
+
+    def test_portfolio_cards_merge_cockpit_stats(self):
+        js = _read("admin/portfolio.js")
+        assert "/admin/cockpit.json" in js and "statLine" in js
+        assert ".catch(() => null)" in js, "a missing snapshot must not take the board down"
+        # The third fetch must be bound. It shipped once as `[cfg, pf] = await
+        # Promise.all([...3 fetches])`, so cp stayed undefined and every card
+        # silently rendered without its stats — no error, no failing test.
+        assert "[cfg, pf, cp] = await Promise.all" in js
+
+    def test_snapshot_shape(self):
+        d = self._snap()
+        for k in ("generated", "window_days", "total_hours", "decisions", "allocation",
+                  "projects", "candidates", "ideas", "money"):
+            assert k in d, k
+
+    def test_snapshot_carries_no_session_titles_or_local_paths(self):
+        d = self._snap()
+        assert all("titles" not in c for c in d["candidates"])
+        for p in d["projects"]:
+            assert "paths" not in p and "copy_cmd" not in p, p.get("slug")
+        assert "/Users/" not in _read("admin/cockpit.json")
+
+    def test_snapshot_is_free_of_secret_markers(self):
+        blob = _read("admin/cockpit.json")
+        low = blob.lower()
+        for bad in ["password", "api_key", "client_secret", "private_key", "bearer "]:
+            assert bad not in low, f"cockpit.json contains sensitive marker: {bad!r}"
+        assert not re.search(r"\b[A-Z]{2,}_[A-Z0-9_]+\b", blob), \
+            "cockpit.json contains an env-var-shaped identifier"
+
+    def test_every_snapshot_project_is_on_the_board(self):
+        cfg = {p["slug"] for p in json.loads(_read("bin/projects-config.json"))["projects"]}
+        missing = [p["slug"] for p in self._snap()["projects"] if p["slug"] not in cfg]
+        assert missing == [], f"cockpit projects with no board card: {missing}"
+
+
 class TestHealthStrip:
     def test_admin_index_has_health_section(self):
         html = _read("admin/index.html")
