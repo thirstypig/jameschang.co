@@ -345,7 +345,7 @@ A private-ish `/admin/` area (footer "login" curtain → gated page). **It is a 
 
 ## Testing
 
-**589 tests** across 13 files: 470 unit tests (12 files) + 119 E2E tests (1 file). Run locally with `python3 -m pytest tests/ -v` (requires `pytest`).
+**591 tests** across 13 files: 470 unit tests (12 files) + 121 E2E tests (1 file). Run locally with `python3 -m pytest tests/ -v` (requires `pytest`).
 
 See `docs/test-plan.md` for the full testing strategy, inventory by file, and CI cadence. Unit tests cover individual feed sync scripts + the shared `_shared.py` utilities. E2E tests cover all pages: meta tags, CSP, feed markers, print stylesheet, sitemap, top-nav consistency, cross-project nav, detail cards, quotes section, and more.
 

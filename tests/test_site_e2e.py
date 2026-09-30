@@ -495,6 +495,21 @@ class TestLegalLinks:
         assert 'href="/privacy/"' in footer, "homepage footer lacks privacy link"
         assert 'href="/terms/"' in footer, "homepage footer lacks terms link"
 
+    def test_homepage_footer_links_app_page(self):
+        _, body = fetch("index.html")
+        footer = body[body.index('<footer class="nb-footer">'):]
+        assert 'href="/app/"' in footer, "homepage footer lacks /app/ link"
+
+    def test_app_page_states_purpose_and_ncii_policy(self):
+        """/app/ is the OAuth consent screen's App homepage. Google's review
+        (2026-09-30) rejected the résumé homepage for not outlining the app's
+        purpose and for not ruling out AI-generated NCII — both must stay."""
+        status, body = fetch("app/")
+        assert status == 200
+        assert "Non-Consensual Intimate Imagery" in body
+        assert "Gmail" in body
+        assert 'href="/privacy/"' in body and 'href="/terms/"' in body
+
     def test_terms_page_exists(self):
         status, body = fetch("terms/")
         assert status == 200

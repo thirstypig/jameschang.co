@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; form-action 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
+  <title>jameschang.co App — James Chang</title>
+  <meta name="description" content="The jameschang.co app: a personal tool that connects the site owner's own Gmail account to an AI assistant, for managing the owner's own email.">
+  <link rel="canonical" href="https://jameschang.co/app/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="jameschang.co App — James Chang">
+  <meta property="og:description" content="The jameschang.co app: a personal tool that connects the site owner's own Gmail account to an AI assistant, for managing the owner's own email.">
+  <meta property="og:url" content="https://jameschang.co/app/">
+  <meta property="og:image" content="https://jameschang.co/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="James Chang — Senior Product Manager">
+  <meta property="og:site_name" content="James Chang">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/space-grotesk-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/geist-mono-latin.woff2" crossorigin>
+  <link rel="stylesheet" href="/notebook.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "jameschang.co App — James Chang",
+    "description": "The jameschang.co app: a personal tool that connects the site owner's own Gmail account to an AI assistant, for managing the owner's own email.",
+    "url": "https://jameschang.co/app/",
+    "dateModified": "2026-09-30",
+    "author": {"@type": "Person", "name": "James Chang", "url": "https://jameschang.co"},
+    "isPartOf": {"@type": "WebSite", "url": "https://jameschang.co"}
+  }
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-B3HW5VBDB3"></script>
+  <script src="/assets/js/gtag-init.js" defer></script>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <header class="nb-nav">
+    <div class="nb-nav-inner">
+      <a href="/" class="nb-brand">jameschang<span class="dot">.</span>co</a>
+      <span class="nb-nav-spacer"></span>
+      <a href="/#experience" class="nb-link">[experience]</a>
+      <div class="nb-dropdown-wrap">
+        <a href="/projects/" class="nb-link">[projects&nbsp;▾]</a>
+        <div class="nb-dropdown" role="menu" aria-label="Projects">
+          <a href="/projects/" class="nb-dropdown-all" role="menuitem">all projects&nbsp;↗</a>
+          <a href="/projects/aleph/how-it-works/" role="menuitem">aleph</a>
+          <a href="/projects/fantastic-leagues/ai-insights/" role="menuitem">the fantastic leagues</a>
+          <a href="/projects/judge-tool/tech/" role="menuitem">the judge tool</a>
+        </div>
+      </div>
+      <a href="/now/" class="nb-link">[/now]</a>
+      <span class="nb-divider"></span>
+      <a href="/resume.pdf" class="nb-resume">résumé.pdf ↓</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle light / dark theme" aria-pressed="false">
+        <span class="icon-moon" aria-hidden="true">☾</span>
+        <span class="icon-sun" aria-hidden="true">☀</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" class="nb-main">
+    <p class="nb-crumbs">
+      <a href="/">james chang</a>
+      <span class="sep">/</span>
+      <span class="here">app</span>
+    </p>
+
+    <section class="nb-hero">
+      <p class="nb-hero-meta">
+        <span>// last updated <time datetime="2026-09-30">september 30, 2026</time></span>
+      </p>
+      <h1>The jameschang.co <span class="accent">app</span>.</h1>
+      <p class="nb-hero-sub">
+        A personal tool that lets the site owner manage their own Gmail through an AI assistant. Not a public service.
+      </p>
+    </section>
+
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/01</span>
+        <h2 class="nb-section-title">what it is</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+      <div class="nb-prose">
+        <p>The <strong>jameschang.co</strong> app is a personal productivity tool. It connects the site owner's own Google account to an AI assistant (Anthropic's Claude, running in Claude Code on the owner's computer) so the owner can manage that email by asking in plain language.</p>
+      </div>
+    </section>
+
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/02</span>
+        <h2 class="nb-section-title">what it does</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+      <div class="nb-prose">
+        <p>When the owner asks, the app uses the Gmail API to:</p>
+        <ul>
+          <li>search and read the owner's own email</li>
+          <li>draft replies for the owner to review and send</li>
+          <li>organize messages with labels, and move unwanted messages to spam or trash</li>
+        </ul>
+        <p>Every action is started by the owner. The app does not run on its own and does not send email without the owner's review.</p>
+      </div>
+    </section>
+
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/03</span>
+        <h2 class="nb-section-title">who can use it</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+      <div class="nb-prose">
+        <p>Only the site owner, with the owner's own Google account. The app is not offered to the public, has no sign-up, and does not access anyone else's Google data.</p>
+      </div>
+    </section>
+
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/04</span>
+        <h2 class="nb-section-title">how google data is handled</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+      <div class="nb-prose">
+        <p>Email content is used only to answer the owner's request at that moment. It is not stored by this website, not sold, not used for advertising, and not used to train general-purpose AI models. Use of Google user data follows the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use requirements. Details are in the <a href="/privacy/">privacy policy</a>.</p>
+      </div>
+    </section>
+
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/05</span>
+        <h2 class="nb-section-title">what it never does</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+      <div class="nb-prose">
+        <p>The app does not generate, edit, or distribute images or video of any kind. It is never used to create AI-generated Non-Consensual Intimate Imagery (NCII) or any sexual content, and Google APIs are not used for any such purpose.</p>
+      </div>
+    </section>
+
+    <section class="nb-section">
+      <header class="nb-section-head">
+        <span class="nb-section-num">/06</span>
+        <h2 class="nb-section-title">policies and contact</h2>
+        <span class="nb-section-rule"></span>
+      </header>
+      <div class="nb-prose">
+        <p><a href="/privacy/">Privacy policy</a> · <a href="/terms/">Terms of service</a> · Questions: <a href="mailto:jimmychang316@gmail.com">jimmychang316@gmail.com</a>.</p>
+      </div>
+    </section>
+
+    <footer class="nb-footer">
+      <span>// © 2026 james chang · <a href="/privacy/">privacy</a> · <a href="/terms/">terms</a></span>
+      <span>// built with claude code · <a href="https://github.com/thirstypig/jameschang.co">source on github</a></span>
+    </footer>
+  </main>
+
+  <script src="/script.js" defer></script>
+</body>
+</html>
