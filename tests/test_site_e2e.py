@@ -473,6 +473,33 @@ class TestPrivacyPolicy:
         assert "Google Analytics 4" in body, "Privacy policy does not mention GA4"
         assert "G-B3HW5VBDB3" in body, "Privacy policy does not mention measurement ID"
 
+    def test_discloses_google_limited_use(self):
+        """The "jameschang.co" Google OAuth app (Gmail access for the owner's
+        own tools) points at this page. Publishing it out of Testing requires
+        the Limited Use statement, verbatim in spirit — drop it and the app
+        can be sent back to Testing on review."""
+        _, body = fetch("privacy/index.html")
+        assert "Google API Services User Data Policy" in body
+        assert "Limited Use" in body
+
+
+# ── Tests: Legal links (Google OAuth app publishing) ─────────────
+
+class TestLegalLinks:
+    """Google's OAuth consent screen requires the app's homepage to link to
+    its privacy policy (and terms, when given). The homepage is that URL."""
+
+    def test_homepage_footer_links_privacy_and_terms(self):
+        _, body = fetch("index.html")
+        footer = body[body.index('<footer class="nb-footer">'):]
+        assert 'href="/privacy/"' in footer, "homepage footer lacks privacy link"
+        assert 'href="/terms/"' in footer, "homepage footer lacks terms link"
+
+    def test_terms_page_exists(self):
+        status, body = fetch("terms/")
+        assert status == 200
+        assert "Terms" in body and 'href="/privacy/"' in body
+
 
 # ── Tests: Print stylesheet ──────────────────────────────────────
 
