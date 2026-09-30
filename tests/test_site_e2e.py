@@ -1151,8 +1151,11 @@ class TestProjectCardRoadmaps:
 class TestStructuralParity:
     """Locks duplicated structural blocks across the site so any drift fails fast."""
 
+    # Exempt, each with exactly one documented extra connect-src origin:
+    #   now/index.html   — https://thirstypig.com (client-side hitlist fetch)
+    #   admin/index.html — https://api.github.com (goals editor commits admin/goals.json)
     HOMOGENEOUS_CSP_PAGES = [
-        f for f in STANDARD_PAGES if f != "now/index.html"
+        f for f in STANDARD_PAGES if f not in {"now/index.html", "admin/index.html"}
     ]
     NON_DASHBOARD_DEEP_DIVES = [
         f for f in STANDARD_PAGES
@@ -1946,6 +1949,37 @@ class TestAdminCockpit:
                               "creep", "creep_pct", "goals"}, p["slug"]
             for g in a.get("goals", []):
                 assert set(g) == {"id", "prompts"} and isinstance(g["prompts"], int)
+
+    def test_admin_csp_adds_only_the_github_api(self):
+        """The goals editor needs api.github.com — and nothing else beyond the
+        site-wide policy. Pinned so the exemption can't quietly widen."""
+        admin = re.search(r'Content-Security-Policy" content="([^"]+)"', _read("admin/index.html")).group(1)
+        home = re.search(r'Content-Security-Policy" content="([^"]+)"', _read("index.html")).group(1)
+        assert admin.replace(" https://api.github.com", "", 1) == home
+
+    def test_goals_editor_is_gated_xss_safe_and_keeps_the_token_in_the_tab(self):
+        js = _read("admin/goals.js")
+        assert 'sessionStorage.getItem("jc-admin")' in js
+        assert ".innerHTML" not in js
+        assert "localStorage" not in js, "the token must not outlive the tab"
+        assert "console." not in js, "never log (the token could end up in a log)"
+        assert 'const REPO = "thirstypig/jameschang.co"' in js and 'const PATH = "admin/goals.json"' in js
+        assert "https://api.github.com/repos/${REPO}/contents/${PATH}" in js
+        assert "/admin/goals.js" in _read("admin/index.html")
+
+    def test_goals_file_is_valid_and_public_safe(self):
+        doc = json.loads(_read("admin/goals.json"))
+        cfg = {p["slug"] for p in json.loads(_read("bin/projects-config.json"))["projects"]}
+        for slug, entry in doc["projects"].items():
+            assert slug in cfg, f"goals for unknown project {slug!r}"
+            ids = [g["id"] for g in entry["goals"]]
+            assert len(ids) == len(set(ids)), f"{slug}: duplicate goal ids"
+            for g in entry["goals"]:
+                assert re.fullmatch(r"g\d+", g["id"]) and int(g["id"][1:]) <= entry["seq"], (slug, g["id"])
+                assert g["text"].strip() and g["keywords"], (slug, g["id"])
+        low = _read("admin/goals.json").lower()
+        for bad in ["password", "api_key", "secret", "token"]:
+            assert bad not in low, bad
 
     def test_snapshot_is_free_of_secret_markers(self):
         blob = _read("admin/cockpit.json")

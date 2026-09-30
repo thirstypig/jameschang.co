@@ -52,9 +52,9 @@
       // admin view of hand-edited data — always fetch the latest so edits to
       // portfolio.json show on the next load, not 10 minutes later.
       [cfg, pf, cp] = await Promise.all([
-        fetch("/bin/projects-config.json", { cache: "no-store" }).then((r) => r.json()),
-        fetch("/admin/portfolio.json", { cache: "no-store" }).then((r) => r.json()),
-        fetch("/admin/cockpit.json", { cache: "no-store" }).then((r) => r.json()).catch(() => null),
+        window.jcAdminJSON("/bin/projects-config.json"),
+        window.jcAdminJSON("/admin/portfolio.json"),
+        window.jcAdminJSON("/admin/cockpit.json").catch(() => null),
       ]);
     } catch (e) {
       board.replaceChildren(

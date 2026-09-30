@@ -1,0 +1,214 @@
+// /admin/ goals panel (/03) — read AND write.
+// Goals live in admin/goals.json (the source of truth; the Mac's cockpit reads it on
+// every publish and scores typed prompts against it). Edits here are committed to
+// that file through the GitHub Contents API with a fine-grained token (Contents
+// read/write on this repo) that James pastes once per tab — held in sessionStorage
+// only, never logged. Prompt counts per goal come from the cockpit snapshot and
+// refresh on the Mac's next publish (every 3h).
+// Goal text + keywords are PUBLIC (this repo is public): no customer names.
+// XSS-safe: textContent / DOM nodes, never innerHTML.
+(() => {
+  if (sessionStorage.getItem("jc-admin") !== "1") return;
+
+  const REPO = "thirstypig/jameschang.co";
+  const PATH = "admin/goals.json";
+  const API = `https://api.github.com/repos/${REPO}/contents/${PATH}`;
+  const TOKEN_KEY = "jc-gh-token";
+
+  const el = (tag, cls, text) => {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  };
+
+  let doc = { projects: {} };   // goals.json as last loaded or saved
+  let snap = { projects: [] };  // cockpit.json — names, status, per-goal counts
+  let ops = [];                 // unsaved edits, replayed onto a fresh doc on conflict
+  let status = "";
+
+  // ---- pure edits (mirror cockpit/goals.py: text + ≥1 keyword, ids never reused) ----
+  const today = () => new Date().toLocaleDateString("en-CA", { timeZone: "America/Los_Angeles" });
+  const entryFor = (d, slug) => (d.projects[slug] ||= { seq: 0, goals: [] });
+  const applyOp = (d, op) => {
+    const e = entryFor(d, op.slug);
+    if (op.kind === "add") {
+      const seq = Math.max(e.seq || 0, ...e.goals.map((g) => +(/^g(\d+)$/.exec(g.id) || [0, 0])[1])) + 1;
+      e.seq = seq;
+      e.goals.push({ id: `g${seq}`, text: op.text, keywords: op.keywords, set: today() });
+    } else {
+      e.goals = e.goals.filter((g) => g.id !== op.id);
+    }
+  };
+  const parseKeywords = (raw) =>
+    [...new Set(raw.split(",").map((k) => k.trim().toLowerCase()).filter(Boolean))];
+
+  // ---- GitHub Contents API ----
+  const b64encode = (str) => {
+    const bytes = new TextEncoder().encode(str);
+    let bin = "";
+    for (const b of bytes) bin += String.fromCharCode(b);
+    return btoa(bin);
+  };
+  const b64decode = (b64) =>
+    new TextDecoder().decode(Uint8Array.from(atob(b64.replace(/\n/g, "")), (c) => c.charCodeAt(0)));
+  const gh = (token, opts = {}) => fetch(API + (opts.method ? "" : "?ref=main"), {
+    ...opts,
+    cache: "no-store",
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", ...(opts.headers || {}) },
+  });
+
+  const save = async (token) => {
+    for (let attempt = 0; attempt < 2; attempt++) {
+      const got = await gh(token);
+      if (got.status === 401 || got.status === 403) throw new Error("token rejected — needs Contents read/write on this repo");
+      if (!got.ok) throw new Error(`couldn't read goals.json (${got.status})`);
+      const meta = await got.json();
+      const fresh = JSON.parse(b64decode(meta.content));
+      fresh.projects ||= {};
+      ops.forEach((op) => applyOp(fresh, op));
+      const body = JSON.stringify(fresh, null, 2) + "\n";
+      const put = await gh(token, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: "chore(admin): update goals from /admin/", content: b64encode(body), sha: meta.sha, branch: "main" }),
+      });
+      if (put.ok) { doc = fresh; ops = []; return; }
+      if (put.status !== 409 && put.status !== 422) throw new Error(`save failed (${put.status})`);
+      // 409/422: the file moved under us (e.g. the Mac just published) — refetch and replay
+    }
+    throw new Error("goals.json kept changing — try again");
+  };
+
+  // ---- rendering ----
+  const render = () => {
+    const host = document.getElementById("cockpit-goals");
+    if (!host) return;
+    const view = JSON.parse(JSON.stringify(doc));
+    ops.forEach((op) => applyOp(view, op));
+    const nodes = [];
+
+    for (const p of snap.projects.filter((x) => x.status === "active")) {
+      const box = el("div", "nb-cockpit-goalset");
+      const a = p.alignment || {};
+      const head = el("p", "nb-cockpit-goalset-head");
+      head.append(el("strong", null, p.name));
+      if (a.new_scope)
+        head.append(el("span", "nb-cockpit-note",
+          ` · ${a.creep} of ${a.new_scope} new-scope asks served no goal · ${a.total} typed prompts scored`));
+      box.append(head);
+
+      const counts = Object.fromEntries((a.goals || []).map((g) => [g.id, g.prompts]));
+      const goals = (view.projects[p.slug] || {}).goals || [];
+      const saved = new Set(((doc.projects[p.slug] || {}).goals || []).map((g) => g.id));
+      const list = el("ul", "nb-cockpit-goallist");
+      for (const g of goals) {
+        const li = el("li");
+        // unsaved, or saved but not yet scored by the Mac
+        const label = !saved.has(g.id) ? "new" : g.id in counts ? String(counts[g.id]) : "—";
+        li.append(el("span", "nb-cockpit-goal-n", label));
+        const body = el("span", "nb-cockpit-goal-body");
+        body.append(el("span", null, g.text), el("span", "nb-cockpit-goal-kw", g.keywords.join(", ")));
+        li.append(body);
+        const rm = el("button", "nb-cockpit-goal-rm", "remove");
+        rm.type = "button";
+        rm.addEventListener("click", () => { ops.push({ kind: "rm", slug: p.slug, id: g.id }); render(); });
+        li.append(rm);
+        list.append(li);
+      }
+      if (!goals.length) list.append(el("li", "nb-cockpit-note", "No goals yet."));
+      box.append(list);
+
+      const form = el("form", "nb-cockpit-goal-form");
+      const text = el("input");
+      text.placeholder = "goal — e.g. Get 5 companies beyond the pilots active";
+      text.maxLength = 160;
+      const kws = el("input");
+      kws.placeholder = "keywords that SERVE it, comma separated — public, no names";
+      kws.maxLength = 300;
+      const add = el("button", null, "add goal");
+      add.type = "submit";
+      form.append(text, kws, add);
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const t = text.value.trim(), k = parseKeywords(kws.value);
+        if (!t || !k.length) { status = "A goal needs text and at least one keyword."; render(); return; }
+        ops.push({ kind: "add", slug: p.slug, text: t, keywords: k });
+        status = "";
+        render();
+      });
+      box.append(form);
+      nodes.push(box);
+    }
+    if (nodes.length) {
+      nodes.push(el("p", "nb-cockpit-note",
+        "Keywords mark prompts that serve a goal — phrase goals as what you want, not what to avoid: " +
+        "a \"no more SEO\" goal keyed on \"seo\" would count SEO work as on-goal."));
+    }
+
+    // save bar
+    const bar = el("div", "nb-cockpit-goal-bar");
+    const token = sessionStorage.getItem(TOKEN_KEY);
+    if (ops.length || !token) {
+      if (!token) {
+        const tok = el("input", "nb-cockpit-goal-token");
+        tok.type = "password";
+        tok.autocomplete = "off";
+        tok.placeholder = "GitHub token (Contents read/write) — kept in this tab only";
+        tok.id = "goal-token";
+        bar.append(tok);
+      }
+      const saveBtn = el("button", null, ops.length ? `save ${ops.length} change${ops.length === 1 ? "" : "s"}` : "save");
+      saveBtn.type = "button";
+      saveBtn.disabled = !ops.length;
+      saveBtn.addEventListener("click", async () => {
+        const t = sessionStorage.getItem(TOKEN_KEY) || (document.getElementById("goal-token") || {}).value?.trim();
+        if (!t) { status = "Paste a token first."; render(); return; }
+        sessionStorage.setItem(TOKEN_KEY, t);
+        status = "saving…"; render();
+        try {
+          await save(t);
+          status = "Saved. Prompt counts refresh on the Mac's next publish (within 3h).";
+        } catch (err) {
+          if (/token rejected/.test(err.message)) sessionStorage.removeItem(TOKEN_KEY);
+          status = err.message;
+        }
+        render();
+      });
+      bar.append(saveBtn);
+      if (ops.length) {
+        const discard = el("button", null, "discard");
+        discard.type = "button";
+        discard.addEventListener("click", () => { ops = []; status = ""; render(); });
+        bar.append(discard);
+      }
+    }
+    if (token) {
+      const forget = el("button", "nb-cockpit-goal-forget", "forget token");
+      forget.type = "button";
+      forget.addEventListener("click", () => { sessionStorage.removeItem(TOKEN_KEY); render(); });
+      bar.append(forget);
+    }
+    if (status) bar.append(el("span", "nb-cockpit-note", status));
+    nodes.push(bar);
+    host.replaceChildren(...nodes);
+  };
+
+  const load = async () => {
+    try {
+      [doc, snap] = await Promise.all([
+        window.jcAdminJSON("/admin/goals.json"),
+        window.jcAdminJSON("/admin/cockpit.json"),
+      ]);
+      doc.projects ||= {};
+    } catch (e) {
+      const host = document.getElementById("cockpit-goals");
+      if (host) host.replaceChildren(el("p", "nb-portfolio-error", "couldn't load goals."));
+      return;
+    }
+    render();
+  };
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", load);
+  else load();
+})();

@@ -1,0 +1,166 @@
+{
+  "note": "Edited from /admin/ (goals panel), `python3 -m cockpit.goals`, or the local cockpit. Goal text and keywords are PUBLIC — never put customer names in them.",
+  "projects": {
+    "aleph": {
+      "seq": 3,
+      "goals": [
+        {
+          "id": "g1",
+          "text": "Get companies beyond the two pilots actively using Aleph",
+          "keywords": [
+            "onboard",
+            "onboarding",
+            "beta",
+            "pilot",
+            "pilots",
+            "welcome",
+            "invite",
+            "activation",
+            "activate",
+            "signup",
+            "sign up",
+            "demo",
+            "outreach",
+            "users",
+            "customer",
+            "customers",
+            "feedback",
+            "meeting"
+          ],
+          "set": "2026-09-30"
+        },
+        {
+          "id": "g2",
+          "text": "Decide and ship the path from free beta to paid",
+          "keywords": [
+            "pricing",
+            "payment",
+            "payments",
+            "stripe",
+            "paid",
+            "tier",
+            "tiers",
+            "billing",
+            "conversion",
+            "subscription",
+            "checkout"
+          ],
+          "set": "2026-09-30"
+        },
+        {
+          "id": "g3",
+          "text": "Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
+          "keywords": [
+            "cpsia",
+            "prop 65",
+            "prop65",
+            "pfas",
+            "fsvp",
+            "cpc",
+            "certificate",
+            "compliance",
+            "documents",
+            "document"
+          ],
+          "set": "2026-09-30"
+        }
+      ]
+    },
+    "jameschang-co": {
+      "seq": 2,
+      "goals": [
+        {
+          "id": "g1",
+          "text": "Keep /now and the résumé current",
+          "keywords": [
+            "resume",
+            "résumé",
+            "/now",
+            "now page",
+            "feed",
+            "feeds",
+            "quote",
+            "quotes",
+            "card",
+            "cards"
+          ],
+          "set": "2026-09-30"
+        },
+        {
+          "id": "g2",
+          "text": "Run the portfolio from /admin",
+          "keywords": [
+            "admin",
+            "cockpit",
+            "portfolio",
+            "goal",
+            "goals",
+            "scope",
+            "budget"
+          ],
+          "set": "2026-09-30"
+        }
+      ]
+    },
+    "pasadenaworks": {
+      "seq": 2,
+      "goals": [
+        {
+          "id": "g1",
+          "text": "Find out whether the site brings in real leads",
+          "keywords": [
+            "lead",
+            "leads",
+            "inquiry",
+            "inquiries",
+            "booking",
+            "bookings",
+            "search console",
+            "gsc",
+            "ga4",
+            "analytics",
+            "traffic",
+            "clicks",
+            "conversion"
+          ],
+          "set": "2026-09-30"
+        },
+        {
+          "id": "g2",
+          "text": "Deliver client work on time",
+          "keywords": [
+            "1234",
+            "vipok",
+            "property",
+            "client",
+            "clients",
+            "patient",
+            "practice"
+          ],
+          "set": "2026-09-30"
+        }
+      ]
+    },
+    "family-sites": {
+      "seq": 1,
+      "goals": [
+        {
+          "id": "g1",
+          "text": "Keep the five family sites current — content and photo updates only",
+          "keywords": [
+            "photo",
+            "photos",
+            "caption",
+            "correct",
+            "correction",
+            "typo",
+            "update",
+            "award",
+            "fix"
+          ],
+          "set": "2026-09-30"
+        }
+      ]
+    }
+  }
+}

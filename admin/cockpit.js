@@ -166,35 +166,6 @@
     put("cockpit-table", table, legend);
   };
 
-  // /03 — each project's goals and how many recent prompts served each one.
-  const renderGoals = (d) => {
-    const nodes = [];
-    for (const p of d.projects.filter((x) => x.status === "active")) {
-      const box = el("div", "nb-cockpit-goalset");
-      const a = p.alignment || {};
-      const h = el("p", "nb-cockpit-goalset-head");
-      h.append(el("strong", null, p.name));
-      if (a.new_scope)
-        h.append(el("span", "nb-cockpit-note",
-          ` · ${a.creep} of ${a.new_scope} new-scope asks served no goal · ${a.total} typed prompts scored`));
-      box.append(h);
-      if (!(p.goals || []).length) {
-        box.append(el("p", "nb-cockpit-empty", `No goals set — python3 -m cockpit.goals set ${p.slug} "<goal>" kw1,kw2`));
-      } else {
-        const counts = Object.fromEntries((a.goals || []).map((g) => [g.id, g.prompts]));
-        const list = el("ul", "nb-cockpit-goallist");
-        for (const g of p.goals) {
-          const li = el("li");
-          li.append(el("span", "nb-cockpit-goal-n", String(counts[g.id] ?? 0)), el("span", null, g.text));
-          list.append(li);
-        }
-        box.append(list);
-      }
-      nodes.push(box);
-    }
-    put("cockpit-goals", ...nodes);
-  };
-
   const renderIdeas = (d) => {
     const nodes = [];
     for (const i of d.ideas) nodes.push(el("p", "nb-portfolio-row", i.text || String(i)));
@@ -209,9 +180,9 @@
     try {
       // no-store: Pages caches for 10 min; the snapshot's own age is shown instead.
       [d, cfg, pf] = await Promise.all([
-        fetch("/admin/cockpit.json", { cache: "no-store" }).then((r) => r.json()),
-        fetch("/bin/projects-config.json", { cache: "no-store" }).then((r) => r.json()).catch(() => ({})),
-        fetch("/admin/portfolio.json", { cache: "no-store" }).then((r) => r.json()).catch(() => ({})),
+        window.jcAdminJSON("/admin/cockpit.json"),
+        window.jcAdminJSON("/bin/projects-config.json").catch(() => ({})),
+        window.jcAdminJSON("/admin/portfolio.json").catch(() => ({})),
       ]);
     } catch (e) {
       put("cockpit-meta", el("p", "nb-portfolio-error", "couldn't load the cockpit snapshot."));
@@ -220,7 +191,6 @@
     renderMeta(d);
     renderDecide(d);
     renderTable(d, cfg, pf);
-    renderGoals(d);
     renderTime(d);
     renderMoney(d);
     renderIdeas(d);

@@ -2450,3 +2450,23 @@ a:hover { text-decoration: underline; }
 .nb-cockpit-goallist { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.3rem; }
 .nb-cockpit-goallist li { display: flex; gap: 0.6rem; font-size: 0.88rem; align-items: baseline; }
 .nb-cockpit-goal-n { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); min-width: 2.2rem; text-align: right; }
+
+/* /admin/ goals editor (admin/goals.js) */
+.nb-cockpit-goallist li { align-items: flex-start; }
+.nb-cockpit-goal-body { display: flex; flex-direction: column; flex: 1 1 auto; }
+.nb-cockpit-goal-kw { font-family: var(--mono); font-size: 0.68rem; color: var(--dim); }
+.nb-cockpit-goal-rm, .nb-cockpit-goal-forget, .nb-cockpit-goal-bar button, .nb-cockpit-goal-form button {
+  font-family: var(--mono); font-size: 0.72rem; background: transparent; color: var(--accent);
+  border: 1px solid var(--rule); padding: 0.2rem 0.55rem; cursor: pointer;
+}
+.nb-cockpit-goal-rm { color: var(--dim); }
+.nb-cockpit-goal-rm:hover { color: var(--danger); border-color: var(--danger); }
+.nb-cockpit-goal-bar button:disabled { opacity: 0.45; cursor: default; }
+.nb-cockpit-goal-form { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr) auto; gap: 0.4rem; margin-top: 0.6rem; }
+@media (max-width: 640px) { .nb-cockpit-goal-form { grid-template-columns: minmax(0, 1fr); } }
+.nb-cockpit-goal-form input, .nb-cockpit-goal-token {
+  font-family: var(--mono); font-size: 0.75rem; background: var(--bg); color: var(--ink);
+  border: 1px solid var(--rule); padding: 0.35rem 0.5rem; min-width: 0;
+}
+.nb-cockpit-goal-bar { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-top: 0.4rem; }
+.nb-cockpit-goal-token { flex: 1 1 18rem; }
