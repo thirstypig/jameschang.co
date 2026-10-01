@@ -1,14 +1,16 @@
 // /admin/ money ledger (/06) — revenue and costs per project per month, entered by
 // hand and committed to admin/money.json through the shared GitHub Contents helper
 // (admin/gh.js). The file is PUBLIC (readable without the curtain), so revenue is a
-// number plus a type from a closed vocab — there is no free-text field where a
-// client name could land — and costs carry only a short vendor name.
+// number, a type from a closed vocab and an optional short CODENAME or reason (the
+// field says so — real client names never go here); costs are a type, a short
+// vendor name and an amount.
 // XSS-safe: textContent / DOM nodes, never innerHTML.
 (() => {
   if (sessionStorage.getItem("jc-admin") !== "1") return;
 
   const PATH = "admin/money.json";
   const REVENUE_TYPES = ["client work", "subscription", "one-off", "other"];
+  const COST_TYPES = ["hosting", "domain", "software / subscription", "AI / API", "contractor", "ads / marketing", "other"];
   const MONTHS_SHOWN = 4;          // this month + the 3 before it
   const MAX_USD = 10000000;
   const gh = window.jcGh;
@@ -38,17 +40,19 @@
   let ops = [];
   let status = "";
   const editing = new Map();       // slug -> month being edited
+  let picking = false;             // the "+ add revenue" picker is open
 
   // ---- pure edits, replayed onto a fresh copy on save ----
   const applyOp = (d, op) => {
     d.projects ||= {};
     const entry = (d.projects[op.slug] ||= { months: {} });
     const m = (entry.months[op.month] ||= {});
-    if (op.kind === "rev") (m.revenue ||= []).push({ type: op.type, usd: op.usd });
-    else if (op.kind === "cost") (m.costs ||= []).push({ vendor: op.vendor, usd: op.usd });
+    if (op.kind === "rev") (m.revenue ||= []).push({ type: op.type, usd: op.usd, ...(op.for ? { for: op.for } : {}) });
+    else if (op.kind === "cost") (m.costs ||= []).push({ type: op.type, vendor: op.vendor, usd: op.usd });
     else if (op.kind === "rm") {
       const list = m[op.list] || [];
-      const i = list.findIndex((x) => x.usd === op.usd && (op.list === "revenue" ? x.type === op.label : x.vendor === op.label));
+      const key = JSON.stringify(op.entry);   // remove the first entry identical to the one clicked
+      const i = list.findIndex((x) => JSON.stringify(x) === key);
       if (i >= 0) list.splice(i, 1);
       if (!list.length) delete m[op.list];
     }
@@ -89,13 +93,14 @@
 
     const m = months[month] || {};
     const list = el("ul", "nb-money-entries");
-    for (const [kind, label] of [["revenue", "type"], ["costs", "vendor"]]) {
+    for (const kind of ["revenue", "costs"]) {
       for (const x of m[kind] || []) {
-        const li = el("li", null, `${kind === "revenue" ? "+" : "−"} ${usd(x.usd)} · ${x[label]}`);
+        const words = kind === "revenue" ? [x.type, x.for] : [x.type, x.vendor];
+        const li = el("li", null, `${kind === "revenue" ? "+" : "−"} ${usd(x.usd)} · ${words.filter(Boolean).join(" · ")}`);
         const rm = el("button", "nb-cockpit-goal-rm", "remove");
         rm.type = "button";
         rm.addEventListener("click", () => {
-          ops.push({ kind: "rm", slug, month, list: kind, label: x[label], usd: x.usd });
+          ops.push({ kind: "rm", slug, month, list: kind, entry: x });
           render();
         });
         li.append(rm);
@@ -109,20 +114,28 @@
     const type = el("select");
     type.setAttribute("aria-label", "revenue type");
     for (const t of REVENUE_TYPES) { const o = el("option", null, t); o.value = t; type.append(o); }
+    const who = el("input");
+    who.placeholder = "client codename or reason (public)";
+    who.maxLength = 30;
+    who.setAttribute("aria-label", "client codename or reason");
     const revAmt = amountInput("revenue amount");
     const addRev = el("button", null, "add revenue");
     addRev.type = "submit";
-    revForm.append(type, revAmt, addRev);
+    revForm.append(type, who, revAmt, addRev);
     revForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const n = parseUsd(revAmt.value);
-      if (!n) { status = "Enter an amount above $0."; render(); return; }
-      ops.push({ kind: "rev", slug, month, type: type.value, usd: n });
+      const n = parseUsd(revAmt.value), w = who.value.trim();
+      if (!n) { say("Enter an amount above $0."); return; }
+      if (w.includes("@")) { say("Use a codename, not an email — this is public."); return; }
+      ops.push({ kind: "rev", slug, month, type: type.value, usd: n, for: w });
       status = "";
       render();
     });
 
     const costForm = el("form", "nb-money-form");
+    const ctype = el("select");
+    ctype.setAttribute("aria-label", "cost type");
+    for (const t of COST_TYPES) { const o = el("option", null, t); o.value = t; ctype.append(o); }
     const vendor = el("input");
     vendor.placeholder = "vendor — e.g. Vercel (public, no client names)";
     vendor.maxLength = 40;
@@ -130,17 +143,25 @@
     const costAmt = amountInput("cost amount");
     const addCost = el("button", null, "add cost");
     addCost.type = "submit";
-    costForm.append(vendor, costAmt, addCost);
+    costForm.append(ctype, vendor, costAmt, addCost);
     costForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const v = vendor.value.trim(), n = parseUsd(costAmt.value);
-      if (!v || !n) { status = "A cost needs a vendor and an amount above $0."; render(); return; }
-      ops.push({ kind: "cost", slug, month, vendor: v, usd: n });
+      if (!v || !n) { say("A cost needs a vendor and an amount above $0."); return; }
+      ops.push({ kind: "cost", slug, month, type: ctype.value, vendor: v, usd: n });
       status = "";
       render();
     });
     box.append(revForm, costForm);
     return box;
+  };
+
+  // Validation messages update the status line in place — a full render would
+  // rebuild the forms and wipe what was typed.
+  const say = (msg) => {
+    status = msg;
+    const line = document.getElementById("money-status");
+    if (line) line.textContent = msg; else render();
   };
 
   const render = () => {
@@ -160,6 +181,35 @@
       ? `${now}: revenue ${usd(sum.revenue)} · costs ${usd(sum.costs)} · net ${usd(sum.net)}`
       : `${now}: no revenue or costs entered yet`;
     nodes.push(head);
+
+    // the call to action: a prominent button that opens a project picker
+    const cta = el("div", "nb-money-cta-row");
+    const btn = el("button", "nb-money-cta", picking ? "× cancel" : "+ add revenue or a cost");
+    btn.type = "button";
+    btn.addEventListener("click", () => { picking = !picking; render(); });
+    cta.append(btn);
+    if (picking) {
+      const sel = el("select");
+      sel.setAttribute("aria-label", "which project");
+      const first = el("option", null, "which project?");
+      first.value = "";
+      sel.append(first);
+      for (const p of [...snap.projects].sort((a, b) => (a.status === "active" ? 0 : 1) - (b.status === "active" ? 0 : 1))) {
+        const o = el("option", null, p.name);
+        o.value = p.slug;
+        sel.append(o);
+      }
+      sel.addEventListener("change", () => {
+        if (!sel.value) return;
+        editing.set(sel.value, now);
+        picking = false;
+        status = "";
+        render();
+      });
+      cta.append(sel);
+      setTimeout(() => sel.focus(), 0);
+    }
+    nodes.push(cta);
 
     const hours = Object.fromEntries(snap.projects.map((p) => [p.slug, p.hours]));
     const projects = [...snap.projects].sort((a, b) => (a.status === "active" ? 0 : 1) - (b.status === "active" ? 0 : 1));
@@ -201,23 +251,6 @@
       nodes.push(box);
     }
 
-    // every project is reachable: pick one to start entering money for it
-    const pickRow = el("p", "nb-money-pick");
-    const sel = el("select");
-    sel.setAttribute("aria-label", "add money for a project");
-    const first = el("option", null, "add revenue / costs for…");
-    first.value = "";
-    sel.append(first);
-    for (const p of projects) {
-      if (editing.has(p.slug)) continue;
-      const o = el("option", null, p.name);
-      o.value = p.slug;
-      sel.append(o);
-    }
-    sel.addEventListener("change", () => { if (sel.value) { editing.set(sel.value, now); status = ""; render(); } });
-    pickRow.append(sel);
-    nodes.push(pickRow);
-
     if (ops.length || editing.size) {
       const bar = el("div", "nb-cockpit-goal-bar");
       if (!gh.token()) {
@@ -233,7 +266,7 @@
       saveBtn.disabled = !ops.length;
       saveBtn.addEventListener("click", async () => {
         const t = gh.token() || (document.getElementById("money-token") || {}).value?.trim();
-        if (!t) { status = "Paste a token first."; render(); return; }
+        if (!t) { say("Paste a token first."); return; }
         gh.setToken(t);
         status = "saving…"; render();
         try {
@@ -253,7 +286,9 @@
         discard.addEventListener("click", () => { ops = []; status = ""; render(); });
         bar.append(discard);
       }
-      if (status) bar.append(el("span", "nb-cockpit-note", status));
+      const line = el("span", "nb-cockpit-note", status);
+      line.id = "money-status";
+      bar.append(line);
       nodes.push(bar);
     }
     host.replaceChildren(...nodes);

@@ -2121,6 +2121,8 @@ class TestAdminMoney:
     client name could land."""
 
     REVENUE_TYPES = ["client work", "subscription", "one-off", "other"]
+    COST_TYPES = ["hosting", "domain", "software / subscription", "AI / API", "contractor",
+                  "ads / marketing", "other"]
 
     def _doc(self):
         return json.loads(_read("admin/money.json"))
@@ -2136,10 +2138,13 @@ class TestAdminMoney:
                 assert re.fullmatch(r"20\d\d-(0[1-9]|1[0-2])", month), (slug, month)
                 assert set(m) <= {"revenue", "costs"}, (slug, month)
                 for r in m.get("revenue", []):
-                    assert set(r) == {"type", "usd"} and r["type"] in self.REVENUE_TYPES, (slug, month, r)
+                    assert set(r) <= {"type", "usd", "for"} and r["type"] in self.REVENUE_TYPES, (slug, month, r)
                     assert isinstance(r["usd"], (int, float)) and 0 < r["usd"] <= 10_000_000
+                    if "for" in r:   # client CODENAME or reason — public, so short and no emails
+                        assert isinstance(r["for"], str) and 0 < len(r["for"].strip()) <= 30, r
+                        assert "@" not in r["for"], r
                 for c in m.get("costs", []):
-                    assert set(c) == {"vendor", "usd"}, (slug, month, c)
+                    assert set(c) == {"type", "vendor", "usd"} and c["type"] in self.COST_TYPES, (slug, month, c)
                     assert isinstance(c["vendor"], str) and 0 < len(c["vendor"].strip()) <= 40
                     assert isinstance(c["usd"], (int, float)) and 0 < c["usd"] <= 10_000_000
         low = _read("admin/money.json").lower()
@@ -2162,7 +2167,15 @@ class TestAdminMoney:
         assert "window.jcGh" in js and '"admin/money.json"' in js
         vocab = re.search(r"const REVENUE_TYPES = (\[[^\]]+\]);", js).group(1)
         assert json.loads(vocab) == self.REVENUE_TYPES, "page vocab must match the schema test"
+        costs = re.search(r"const COST_TYPES = (\[[^\]]+\]);", js).group(1)
+        assert json.loads(costs) == self.COST_TYPES, "page cost vocab must match the schema test"
         assert "maxLength = 40" in js, "vendor names are capped like the schema"
+        assert "maxLength = 30" in js and "codename" in js, "the client field asks for a codename"
+
+    def test_revenue_cta_is_prominent(self):
+        js = _read("admin/money.js")
+        assert "nb-money-cta" in js and "+ add revenue" in js
+        assert ".nb-money-cta" in _read("notebook.css")
 
     def test_shared_github_helper_replays_on_conflict(self):
         js = _read("admin/gh.js")
@@ -2180,6 +2193,43 @@ class TestAdminMoney:
         guide = html[html.index('id="cockpit-guide"'):]
         guide = guide[:guide.index("</details>")]
         assert "revenue" in guide and "net" in guide
+
+
+class TestAdminIdeas:
+    """Ideas live in admin/ideas.json (source of truth, like goals), edited on
+    /07 through admin/gh.js; unregistered work from the cockpit can be saved
+    as an idea. PUBLIC — codenames, no client names."""
+
+    STATUSES = ["new", "exploring", "parked", "promoted", "dropped"]
+
+    def test_ideas_file_schema(self):
+        doc = json.loads(_read("admin/ideas.json"))
+        cfg = {p["slug"] for p in json.loads(_read("bin/projects-config.json"))["projects"]}
+        assert set(doc) <= {"note", "seq", "ideas"} and isinstance(doc["ideas"], list)
+        ids = [i["id"] for i in doc["ideas"]]
+        assert len(ids) == len(set(ids))
+        for i in doc["ideas"]:
+            assert set(i) <= {"id", "text", "project", "status", "added", "source"}, i
+            assert re.fullmatch(r"i\d+", i["id"]) and int(i["id"][1:]) <= doc["seq"], i
+            assert isinstance(i["text"], str) and 0 < len(i["text"].strip()) <= 200, i
+            assert i["status"] in self.STATUSES, i
+            assert i.get("project", "") in cfg | {""}, i
+        low = _read("admin/ideas.json").lower()
+        for bad in ["password", "api_key", "secret", "token"]:
+            assert bad not in low, bad
+
+    def test_ideas_editor_is_wired_gated_and_safe(self):
+        html = _read("admin/index.html")
+        scripts = re.findall(r'<script src="(/admin/[a-z-]+\.js)"', html)
+        assert "/admin/ideas.js" in scripts and scripts.index("/admin/gh.js") < scripts.index("/admin/ideas.js")
+        js = _read("admin/ideas.js")
+        assert 'sessionStorage.getItem("jc-admin")' in js
+        assert ".innerHTML" not in js and "console." not in js and "localStorage" not in js
+        assert "window.jcGh" in js and '"admin/ideas.json"' in js
+        vocab = re.search(r"const STATUSES = (\[[^\]]+\]);", js).group(1)
+        assert json.loads(vocab) == self.STATUSES
+        assert "save as idea" in js and "candidates" in js, "unregistered work can become an idea"
+        assert "renderIdeas" not in _read("admin/cockpit.js"), "ideas.js owns /07 now"
 
 
 class TestHealthStrip:

@@ -92,7 +92,7 @@
     form.addEventListener("submit", (e) => {
       e.preventDefault();
       const t = text.value.trim(), k = parseKeywords(kws.value);
-      if (!t || !k.length) { status = "A goal needs text and at least one keyword."; render(); return; }
+      if (!t || !k.length) { say("A goal needs text and at least one keyword."); return; }
       if (t !== g.text || k.join(",") !== g.keywords.join(",") || tier.value !== tierOf(g))
         ops.push({ kind: "edit", slug, id: g.id, text: t, keywords: k, tier: tier.value });
       editing = null;
@@ -102,6 +102,14 @@
     li.append(form);
     setTimeout(() => text.focus(), 0);
     return li;
+  };
+
+  // Validation messages update the status line in place — a full render would
+  // rebuild the forms and wipe what was typed.
+  const say = (msg) => {
+    status = msg;
+    const line = document.getElementById("goals-status");
+    if (line) line.textContent = msg; else render();
   };
 
   const render = () => {
@@ -186,7 +194,7 @@
         form.addEventListener("submit", (e) => {
           e.preventDefault();
           const t = text.value.trim(), k = parseKeywords(kws.value);
-          if (!t || !k.length) { status = "A goal needs text and at least one keyword."; render(); return; }
+          if (!t || !k.length) { say("A goal needs text and at least one keyword."); return; }
           ops.push({ kind: "add", slug: p.slug, text: t, keywords: k, tier: tier.value });
           status = "";
           render();
@@ -220,7 +228,7 @@
       saveBtn.disabled = !ops.length;
       saveBtn.addEventListener("click", async () => {
         const t = gh.token() || (document.getElementById("goal-token") || {}).value?.trim();
-        if (!t) { status = "Paste a token first."; render(); return; }
+        if (!t) { say("Paste a token first."); return; }
         gh.setToken(t);
         status = "saving…"; render();
         try {
@@ -245,7 +253,9 @@
       forget.addEventListener("click", () => { gh.forgetToken(); render(); });
       bar.append(forget);
     }
-    if (status) bar.append(el("span", "nb-cockpit-note", status));
+    const line = el("span", "nb-cockpit-note", status);
+    line.id = "goals-status";
+    bar.append(line);
     nodes.push(bar);
     host.replaceChildren(...nodes);
   };

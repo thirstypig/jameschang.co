@@ -1,4 +1,4 @@
-// /admin/ cockpit sections — decide, time, money, ideas — rendered from
+// /admin/ cockpit sections — decide, portfolio, time, money estimate — rendered from
 // /admin/cockpit.json, a snapshot the private cockpit (~/Projects/cockpit)
 // pushes from James's Mac via `python3 -m cockpit.publish`. The transcripts it
 // is computed from live only on that Mac, so this page is read-only: it shows
@@ -302,15 +302,6 @@
     put("cockpit-table", table);
   };
 
-  const renderIdeas = (d) => {
-    const nodes = [];
-    for (const i of d.ideas) nodes.push(el("p", "nb-portfolio-row", i.text || String(i)));
-    for (const c of d.candidates)
-      nodes.push(el("p", "nb-portfolio-row", `unregistered: ${c.path} — ${c.hours}h · ${c.sessions} sessions`));
-    if (!nodes.length) nodes.push(el("p", "nb-cockpit-empty", "Nothing captured, no unregistered work."));
-    put("cockpit-ideas", ...nodes);
-  };
-
   const render = async () => {
     let d, cfg, pf, ledger;
     try {
@@ -330,7 +321,6 @@
     renderTable(d, cfg, pf, ledger);
     renderTime(d);
     renderMoney(d);
-    renderIdeas(d);
   };
 
   if (document.readyState === "loading")
