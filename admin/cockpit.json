@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-01T14:01:02.464291+00:00",
+ "generated": "2026-10-01T15:46:02.034354+00:00",
  "window_days": 28,
  "total_hours": 140.4,
- "session_hours": 243.6,
+ "session_hours": 243.5,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -126,8 +126,8 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 64.3,
-   "hours": 90.4,
-   "spend": 4265.78,
+   "hours": 90.3,
+   "spend": 4281.03,
    "fixed_monthly": 0,
    "last_activity": "2026-10-01T06:41:00+00:00",
    "review_by": null,
@@ -454,7 +454,7 @@
    "hours": 4.4,
    "spend": 95.82,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-01T04:00:58-07:00",
+   "last_activity": "2026-10-01T07:01:03-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -720,12 +720,12 @@
  "candidates": [],
  "ideas": [],
  "money": {
-  "claude_total": 7091.04,
+  "claude_total": 7106.28,
   "fixed_total": 0
  },
  "health": {
   "files": 897,
-  "lines": 247386,
+  "lines": 247390,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 1,
