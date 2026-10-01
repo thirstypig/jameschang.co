@@ -19,7 +19,7 @@ The instinct was the obvious one: design a single shared markdown convention (`d
 
 That design got built — and then the second-look investigation revealed the assumption underneath it was false:
 
-- **Aleph** maintains roadmap content at `docs/plans/roadmap.md`, but uses `###` for modules (not `##`), bold-text section markers (`**Workflow:**` / `**Features:**`) instead of `### Workflow` / `### Features`, and stores progress percentages in a `## Project Health` table at the top of the file. Close to the convention, but not it.
+- **Aleph** maintains roadmap content at `docs/product/roadmap.md`, but uses `###` for modules (not `##`), bold-text section markers (`**Workflow:**` / `**Features:**`) instead of `### Workflow` / `### Features`, and stores progress percentages in a `## Project Health` table at the top of the file. Close to the convention, but not it.
 - **Judge Tool** maintains roadmap content at `docs/PRODUCTION_ROADMAP.md`, organized as `## PHASE N: Name` sections with task-list bodies. No per-phase percent. Some phases have prose-and-tables inside H3 subsections that aren't task-list-shaped.
 - **The Fantastic Leagues** has no roadmap markdown file. The roadmap is a hardcoded TypeScript data structure (`productRoadmap: RoadmapPhase[]`) inside `client/src/pages/Roadmap.tsx`, rendered live in-app at `app.thefantasticleagues.com/roadmap`.
 - **All 3 changelogs** live in-app (admin-only pages or React components), with NO markdown source.
@@ -50,7 +50,7 @@ PROJECT_DOCS = [
     ("aleph",             "changelog", make_adapter("thirstypig/alephco.io-app",
                                                     "docs/changelog.md", parse_changelog)),
     ("aleph",             "roadmap",   make_adapter("thirstypig/alephco.io-app",
-                                                    "docs/plans/roadmap.md", parse_aleph_roadmap)),
+                                                    "docs/product/roadmap.md", parse_aleph_roadmap)),
     ("fantastic-leagues", "roadmap",   make_adapter("thirstypig/TheFantasticLeagues",
                                                     "client/src/pages/Roadmap.tsx", parse_fl_roadmap)),
     ("judge-tool",        "roadmap",   make_adapter("thirstypig/thejudgetool",
@@ -204,6 +204,6 @@ For the next time this comes up — building a sync between heterogeneous source
 ## Implementation reference
 
 - Adapter architecture + parsers: `bin/update-project-docs.py` (commit `32085ba`, 2026-05-29)
-- Tests: `tests/test_project_docs.py` (63 tests, including the brace-counter edge cases and the Aleph bounded-section invariant)
+- Tests: `tests/test_project_docs.py` (87 tests, including the brace-counter edge cases and the Aleph bounded-section invariant)
 - Workflow: `.github/workflows/project-docs-sync.yml` (13:15 UTC daily, offset 15 min from `projects-sync.yml` at 13:00 UTC to avoid concurrency races)
 - Documented in CLAUDE.md → "Project doc sync (changelog + roadmap)"

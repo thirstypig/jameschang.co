@@ -13,7 +13,7 @@ Adapter pattern lets us sync from heterogeneous sources without forcing every
 project to author a single shared convention. Today's adapters:
 
   - parse_changelog       — heading-line markdown convention (## v X — date — tags)
-  - parse_aleph_roadmap   — docs/plans/roadmap.md (### Module + **Workflow:** + percent table)
+  - parse_aleph_roadmap   — docs/product/roadmap.md (### Module + **Workflow:** + percent table)
   - parse_jt_roadmap      — docs/PRODUCTION_ROADMAP.md (## PHASE N + task list, no percent)
   - parse_fl_roadmap      — client/src/pages/Roadmap.tsx (TypeScript data array extraction)
 
@@ -341,7 +341,7 @@ def _parse_module_body(name, percent, body):
 
 # --- Aleph roadmap parser -------------------------------------------------
 #
-# Source: docs/plans/roadmap.md in thirstypig/alephco.io-app.
+# Source: docs/product/roadmap.md in thirstypig/alephco.io-app.
 # Shape:
 #   ## Project Health         ← markdown table mapping module → percent
 #   ## Compliance Module Roadmaps
@@ -363,7 +363,7 @@ _ALEPH_FEATURES_RE = re.compile(r"\*\*Features:\*\*", re.IGNORECASE)
 
 
 def parse_aleph_roadmap(markdown):
-    """Parse Aleph's `docs/plans/roadmap.md`.
+    """Parse Aleph's `docs/product/roadmap.md`.
 
     Module discovery is anchored to the "## Compliance Module Roadmaps" H2 so
     H3s elsewhere in the document (e.g. inside ## Project Health or a future

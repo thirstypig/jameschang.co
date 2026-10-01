@@ -82,7 +82,7 @@ list was never edited across 108 days and ten new test files.**
 | `test_docs_index.py` | 2026-07-23 | 47 | no |
 | `test_check_expiry.py` | 2026-07-24 | 41 | no |
 
-*(Counts are a snapshot from 2026-08-05, the day of the fix — the suite is 550 today.
+*(Counts are a snapshot from 2026-08-05, the day of the fix — the suite is 609 today (2026-10-01).
 `docs/test-plan.md` is the maintained inventory; this column is history, not a live
 figure. Likewise "503" below is measured at the pre-fix commit `e0dc859`, while the
 fix commit message cites 525 against the working tree of that moment; both are correct
