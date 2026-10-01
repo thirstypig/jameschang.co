@@ -124,8 +124,32 @@ Reach for something else when:
 - **Same-origin fetch only.** Putting the JSON in a different repo than the renderer would force CORS handling and is rarely worth it.
 - **No top-nav link if discovery should be intentional.** A test enforces this so a future "let me just add a link" PR doesn't quietly violate the design choice.
 
+## Same-repo variant: the /admin/ editors (added 2026-09-30)
+
+The pattern now also runs **inside this repo**: `/admin/` edits `admin/goals.json`, `admin/money.json`
+and `admin/ideas.json` from the browser through one shared helper, **`admin/gh.js`** (`window.jcGh`).
+Each editor keeps a list of staged edits as a *pure* `applyOp(doc, op)`; `jcGh.save(path, mutate, message)`
+fetches the current file, replays the edits onto it, and PUTs it — refetching and replaying once on
+**409/422**, which is what happens when the Mac's 3-hourly cockpit publish lands between load and save.
+Only `admin/index.html` adds `https://api.github.com` to `connect-src` (pinned by a test).
+
+Two lessons from building it:
+
+- **A validation error must not re-render the form.** The editors originally did
+  `status = "…"; render(); return;` on a bad input. `render()` rebuilds every form from state, so the
+  rejected entry's *other* fields were wiped — in browser testing, rejecting an email in the money
+  ledger's codename field cleared the amount, and the retry was then rejected for "no amount" with
+  no visible change, so only half the entries were saved. Fix: a `say(msg)` helper writes the status
+  line (`#<editor>-status`) in place and only falls back to `render()` if the line doesn't exist yet.
+  Found only by driving the form in a browser; no static test would have seen it.
+- **Narrow the schema where the file is public.** `money.json` is readable without the curtain, so
+  revenue is `{type from a closed vocab, usd, for?}` where `for` is a ≤30-char client **codename**
+  (emails rejected), and costs are `{type from a closed vocab, vendor ≤40, usd}`. `TestAdminMoney`
+  pins the schema *and* that the page's vocab arrays match it — two hand-kept lists drift otherwise.
+
 ## Cross-references
 
 - `docs/bucketlist-admin-spec.md` — the contract the admin reads from.
 - `docs/solutions/integration-issues/oauth2-refresh-token-rotation-encrypted-committed-file.md` — adjacent pattern: managing API auth on a static site without a backend (encrypted token committed to the repo, decrypted at runtime in CI).
 - thirstypig.com hitlist (`thirstypig.com/places-hitlist.json` + `thirstypig.com/admin/`) — predecessor pattern, single-repo. The bucket list generalizes it to cross-repo.
+- `docs/solutions/integration-issues/google-oauth-brand-review-needs-an-app-purpose-page.md` — why the Gmail route to filling the money ledger is closed for a personal account.
