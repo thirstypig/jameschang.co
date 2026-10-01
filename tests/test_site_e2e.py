@@ -2071,8 +2071,7 @@ class TestAdminCockpit:
         assert ".innerHTML" not in js
         assert "localStorage" not in js, "the token must not outlive the tab"
         assert "console." not in js, "never log (the token could end up in a log)"
-        assert 'const REPO = "thirstypig/jameschang.co"' in js and 'const PATH = "admin/goals.json"' in js
-        assert "https://api.github.com/repos/${REPO}/contents/${PATH}" in js
+        assert 'const PATH = "admin/goals.json"' in js
         assert "/admin/goals.js" in _read("admin/index.html")
         # add, edit (same id — keeps counts/history) and remove are all staged ops
         for kind in ('op.kind === "add"', 'op.kind === "edit"', 'kind: "rm"'):
@@ -2112,6 +2111,75 @@ class TestAdminCockpit:
         cfg = {p["slug"] for p in json.loads(_read("bin/projects-config.json"))["projects"]}
         missing = [p["slug"] for p in self._snap()["projects"] if p["slug"] not in cfg]
         assert missing == [], f"cockpit projects with no board card: {missing}"
+
+
+class TestAdminMoney:
+    """Manual revenue + costs per project per month (part A, 2026-09-30), edited
+    on /06 money and committed to admin/money.json through the shared GitHub
+    Contents helper. The file is PUBLIC (readable without the curtain), so
+    revenue is a number + a type from a closed vocab — no free text where a
+    client name could land."""
+
+    REVENUE_TYPES = ["client work", "subscription", "one-off", "other"]
+
+    def _doc(self):
+        return json.loads(_read("admin/money.json"))
+
+    def test_money_file_schema(self):
+        doc = self._doc()
+        cfg = {p["slug"] for p in json.loads(_read("bin/projects-config.json"))["projects"]}
+        assert set(doc) <= {"note", "projects"} and isinstance(doc["projects"], dict)
+        for slug, entry in doc["projects"].items():
+            assert slug in cfg, f"money for unknown project {slug!r}"
+            assert set(entry) == {"months"}, slug
+            for month, m in entry["months"].items():
+                assert re.fullmatch(r"20\d\d-(0[1-9]|1[0-2])", month), (slug, month)
+                assert set(m) <= {"revenue", "costs"}, (slug, month)
+                for r in m.get("revenue", []):
+                    assert set(r) == {"type", "usd"} and r["type"] in self.REVENUE_TYPES, (slug, month, r)
+                    assert isinstance(r["usd"], (int, float)) and 0 < r["usd"] <= 10_000_000
+                for c in m.get("costs", []):
+                    assert set(c) == {"vendor", "usd"}, (slug, month, c)
+                    assert isinstance(c["vendor"], str) and 0 < len(c["vendor"].strip()) <= 40
+                    assert isinstance(c["usd"], (int, float)) and 0 < c["usd"] <= 10_000_000
+        low = _read("admin/money.json").lower()
+        for bad in ["password", "api_key", "secret", "token", "invoice #", "acct"]:
+            assert bad not in low, bad
+
+    def test_page_hosts_the_ledger_and_loads_the_scripts_in_order(self):
+        html = _read("admin/index.html")
+        assert 'id="money-ledger"' in html
+        sec = html[html.index('id="sec-money"'):]
+        assert sec.index('id="money-ledger"') < sec.index("</section>")
+        scripts = re.findall(r'<script src="(/admin/[a-z-]+\.js)"', html)
+        assert scripts.index("/admin/gh.js") < scripts.index("/admin/goals.js")
+        assert scripts.index("/admin/gh.js") < scripts.index("/admin/money.js")
+
+    def test_money_editor_is_gated_safe_and_uses_the_closed_vocab(self):
+        js = _read("admin/money.js")
+        assert 'sessionStorage.getItem("jc-admin")' in js
+        assert ".innerHTML" not in js and "console." not in js and "localStorage" not in js
+        assert "window.jcGh" in js and '"admin/money.json"' in js
+        vocab = re.search(r"const REVENUE_TYPES = (\[[^\]]+\]);", js).group(1)
+        assert json.loads(vocab) == self.REVENUE_TYPES, "page vocab must match the schema test"
+        assert "maxLength = 40" in js, "vendor names are capped like the schema"
+
+    def test_shared_github_helper_replays_on_conflict(self):
+        js = _read("admin/gh.js")
+        assert "https://api.github.com/repos/${REPO}/contents/${path}" in js
+        assert 'const REPO = "thirstypig/jameschang.co"' in js
+        assert "409" in js and "422" in js, "a moved file is refetched and the edits replayed"
+        assert "localStorage" not in js and "console." not in js, "the token stays in the tab, never logged"
+        assert "sessionStorage" in js
+        g = _read("admin/goals.js")
+        assert "window.jcGh" in g, "goals.js saves through the shared helper"
+
+    def test_portfolio_and_guide_show_net(self):
+        assert "/admin/money.json" in _read("admin/cockpit.js")
+        html = _read("admin/index.html")
+        guide = html[html.index('id="cockpit-guide"'):]
+        guide = guide[:guide.index("</details>")]
+        assert "revenue" in guide and "net" in guide
 
 
 class TestHealthStrip:

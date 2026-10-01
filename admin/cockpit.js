@@ -109,9 +109,9 @@
       r.append(el("span", null, label), el("span", "nb-cockpit-money-v", value));
       return r;
     };
-    list.append(line("real costs / month", d.money.fixed_total ? money(d.money.fixed_total) : "not entered yet"));
-    list.append(line("revenue / month", d.money.revenue_total ? money(d.money.revenue_total) : "not entered yet"));
+    // real revenue + costs are the ledger above (admin/money.js); this is the estimate
     list.append(line(`Claude, API-equivalent — not a bill (${d.window_days}d)`, money(d.money.claude_total), "nb-cockpit-money-row--total"));
+    if (d.money.fixed_total) list.append(line("fixed costs in the cockpit config / month", money(d.money.fixed_total)));
     for (const p of [...d.projects].filter((p) => p.spend > 0).sort((a, b) => b.spend - a.spend)) {
       const rate = p.hours ? ` · $${Math.round(p.spend / p.hours)}/h` : "";
       list.append(line(p.name, money(p.spend) + rate));
@@ -150,7 +150,15 @@
   const sub = (text) => el("span", "nb-cockpit-sub", text);
 
   // /02 — every project: active first, then parked; each row expands to its notes.
-  const renderTable = (d, cfg, pf) => {
+  const PT_MONTH = () => new Date().toLocaleDateString("en-CA", { timeZone: "America/Los_Angeles" }).slice(0, 7);
+  const netThisMonth = (ledger, slug) => {
+    const m = (((ledger.projects || {})[slug] || {}).months || {})[PT_MONTH()];
+    if (!m) return null;
+    const sum = (xs) => (xs || []).reduce((a, x) => a + x.usd, 0);
+    return sum(m.revenue) - sum(m.costs);
+  };
+
+  const renderTable = (d, cfg, pf, ledger) => {
     const conf = Object.fromEntries((cfg.projects || []).map((p) => [p.slug, p]));
     const notes = Object.fromEntries((pf.projects || []).map((p) => [p.slug, p]));
     // worst first — the table answers "what needs me" — then most hours, then most recent
@@ -237,8 +245,10 @@
         tr.append(td("time",
           document.createTextNode(`${p.actual_share}% / ${p.target_share}%`),
           trend(p.actual_share, p.prev && p.prev.share, true), sub(`${p.hours}h`)));
+        const net = netThisMonth(ledger, p.slug);
         tr.append(td("budget", document.createTextNode(
-          p.spend ? `${money(p.spend)} · $${Math.round(p.spend / Math.max(p.hours, 0.1))}/h` : "—")));
+          p.spend ? `${money(p.spend)} · $${Math.round(p.spend / Math.max(p.hours, 0.1))}/h` : "—"),
+          ...(net == null ? [] : [sub(`net ${net < 0 ? "−" : ""}${money(Math.abs(net))} this month`)])));
         body.append(tr);
 
         // details row: the old /04 project notes plus the PM fields
@@ -302,13 +312,14 @@
   };
 
   const render = async () => {
-    let d, cfg, pf;
+    let d, cfg, pf, ledger;
     try {
       // no-store: Pages caches for 10 min; the snapshot's own age is shown instead.
-      [d, cfg, pf] = await Promise.all([
+      [d, cfg, pf, ledger] = await Promise.all([
         window.jcAdminJSON("/admin/cockpit.json"),
         window.jcAdminJSON("/bin/projects-config.json").catch(() => ({})),
         window.jcAdminJSON("/admin/portfolio.json").catch(() => ({})),
+        window.jcAdminJSON("/admin/money.json").catch(() => ({})),
       ]);
     } catch (e) {
       put("cockpit-meta", el("p", "nb-portfolio-error", "couldn't load the cockpit snapshot."));
@@ -316,7 +327,7 @@
     }
     renderMeta(d);
     renderDecide(d);
-    renderTable(d, cfg, pf);
+    renderTable(d, cfg, pf, ledger);
     renderTime(d);
     renderMoney(d);
     renderIdeas(d);

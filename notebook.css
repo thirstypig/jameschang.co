@@ -2514,6 +2514,22 @@ a:hover { text-decoration: underline; }
 .nb-cockpit-goal-tiertag { font-family: var(--mono); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dim); }
 .nb-cockpit-goal-tier { font-family: var(--mono); font-size: 0.75rem; background: var(--bg); color: var(--ink); border: 1px solid var(--rule); }
 .nb-cockpit-goalset--parked { opacity: 0.85; }
+/* money ledger (admin/money.js) */
+.nb-money-total { font-family: var(--mono); font-size: 0.82rem; margin: 0 0 0.6rem; }
+.nb-money-project { border: var(--border-w) solid var(--rule); background: var(--surface); padding: 0.6rem 0.8rem; margin-bottom: 0.6rem; }
+.nb-money-table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 0.74rem; }
+.nb-money-table th { text-align: left; color: var(--dim); font-weight: 400; }
+.nb-money-table td, .nb-money-table th { padding: 0.15rem 0.3rem 0.15rem 0; border-bottom: 1px dashed var(--rule); }
+.nb-money-neg { color: var(--danger); }
+.nb-money-editor { margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.4rem; font-family: var(--mono); font-size: 0.74rem; }
+.nb-money-entries { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.2rem; }
+.nb-money-entries li { display: flex; justify-content: space-between; gap: 0.5rem; }
+.nb-money-form { display: grid; grid-template-columns: minmax(0, 1fr) 5.5rem auto; gap: 0.3rem; }
+.nb-money-editor input, .nb-money-editor select, .nb-money-pick select {
+  font: inherit; font-size: 0.74rem; background: var(--bg); color: var(--ink); border: 1px solid var(--rule); padding: 0.2rem 0.35rem; min-width: 0;
+}
+.nb-money-form button { font-family: var(--mono); font-size: 0.72rem; background: transparent; color: var(--accent); border: 1px solid var(--rule); cursor: pointer; }
+.nb-money-pick { margin: 0.2rem 0 0.6rem; }
 /* cockpit phone order */
 @media (max-width: 960px) {
   .nb-cockpit-layout { display: flex; flex-direction: column; }

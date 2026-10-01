@@ -1,19 +1,16 @@
 // /admin/ goals panel (/03) — read AND write.
 // Goals live in admin/goals.json (the source of truth; the Mac's cockpit reads it on
 // every publish and scores typed prompts against it). Edits here are committed to
-// that file through the GitHub Contents API with a fine-grained token (Contents
-// read/write on this repo) that James pastes once per tab — held in sessionStorage
-// only, never logged. Prompt counts per goal come from the cockpit snapshot and
+// that file through the shared GitHub Contents helper (admin/gh.js — token pasted
+// once per tab, sessionStorage only, never logged). Prompt counts per goal come from the cockpit snapshot and
 // refresh on the Mac's next publish (every 3h).
 // Goal text + keywords are PUBLIC (this repo is public): no customer names.
 // XSS-safe: textContent / DOM nodes, never innerHTML.
 (() => {
   if (sessionStorage.getItem("jc-admin") !== "1") return;
 
-  const REPO = "thirstypig/jameschang.co";
   const PATH = "admin/goals.json";
-  const API = `https://api.github.com/repos/${REPO}/contents/${PATH}`;
-  const TOKEN_KEY = "jc-gh-token";
+  const gh = window.jcGh;
 
   const el = (tag, cls, text) => {
     const n = document.createElement(tag);
@@ -64,41 +61,12 @@
   const parseKeywords = (raw) =>
     [...new Set(raw.split(",").map((k) => k.trim().toLowerCase()).filter(Boolean))];
 
-  // ---- GitHub Contents API ----
-  const b64encode = (str) => {
-    const bytes = new TextEncoder().encode(str);
-    let bin = "";
-    for (const b of bytes) bin += String.fromCharCode(b);
-    return btoa(bin);
-  };
-  const b64decode = (b64) =>
-    new TextDecoder().decode(Uint8Array.from(atob(b64.replace(/\n/g, "")), (c) => c.charCodeAt(0)));
-  const gh = (token, opts = {}) => fetch(API + (opts.method ? "" : "?ref=main"), {
-    ...opts,
-    cache: "no-store",
-    headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", ...(opts.headers || {}) },
-  });
-
-  const save = async (token) => {
-    for (let attempt = 0; attempt < 2; attempt++) {
-      const got = await gh(token);
-      if (got.status === 401 || got.status === 403) throw new Error("token rejected — needs Contents read/write on this repo");
-      if (!got.ok) throw new Error(`couldn't read goals.json (${got.status})`);
-      const meta = await got.json();
-      const fresh = JSON.parse(b64decode(meta.content));
+  const save = async () => {
+    doc = await gh.save(PATH, (fresh) => {
       fresh.projects ||= {};
       ops.forEach((op) => applyOp(fresh, op));
-      const body = JSON.stringify(fresh, null, 2) + "\n";
-      const put = await gh(token, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: "chore(admin): update goals from /admin/", content: b64encode(body), sha: meta.sha, branch: "main" }),
-      });
-      if (put.ok) { doc = fresh; ops = []; return; }
-      if (put.status !== 409 && put.status !== 422) throw new Error(`save failed (${put.status})`);
-      // 409/422: the file moved under us (e.g. the Mac just published) — refetch and replay
-    }
-    throw new Error("goals.json kept changing — try again");
+    }, "chore(admin): update goals from /admin/");
+    ops = [];
   };
 
   // ---- rendering ----
@@ -236,7 +204,7 @@
 
     // save bar
     const bar = el("div", "nb-cockpit-goal-bar");
-    const token = sessionStorage.getItem(TOKEN_KEY);
+    const token = gh.token();
     const wantsBar = ops.length || editingProjects.size;  // read-only view stays clean
     if (wantsBar && (ops.length || !token)) {
       if (!token) {
@@ -251,15 +219,14 @@
       saveBtn.type = "button";
       saveBtn.disabled = !ops.length;
       saveBtn.addEventListener("click", async () => {
-        const t = sessionStorage.getItem(TOKEN_KEY) || (document.getElementById("goal-token") || {}).value?.trim();
+        const t = gh.token() || (document.getElementById("goal-token") || {}).value?.trim();
         if (!t) { status = "Paste a token first."; render(); return; }
-        sessionStorage.setItem(TOKEN_KEY, t);
+        gh.setToken(t);
         status = "saving…"; render();
         try {
-          await save(t);
+          await save();
           status = "Saved. Prompt counts refresh on the Mac's next publish (within 3h).";
         } catch (err) {
-          if (/token rejected/.test(err.message)) sessionStorage.removeItem(TOKEN_KEY);
           status = err.message;
         }
         render();
@@ -275,7 +242,7 @@
     if (token && wantsBar) {
       const forget = el("button", "nb-cockpit-goal-forget", "forget token");
       forget.type = "button";
-      forget.addEventListener("click", () => { sessionStorage.removeItem(TOKEN_KEY); render(); });
+      forget.addEventListener("click", () => { gh.forgetToken(); render(); });
       bar.append(forget);
     }
     if (status) bar.append(el("span", "nb-cockpit-note", status));

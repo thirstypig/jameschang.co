@@ -38,6 +38,7 @@
         <dt>share / target</dt><dd>Your hours on a project as a share of all project hours, against the share you intended.</dd>
         <dt>wall-clock vs session hours</dt><dd>Wall-clock counts overlapping sessions once (real time spent); session hours add them up, so they run higher.</dd>
         <dt>API-equivalent</dt><dd>What your Claude usage would cost at API prices. Not a bill; real costs and revenue are under money.</dd>
+        <dt>revenue · costs · net</dt><dd>Entered by hand under money, per project per month (net = revenue − costs). The portfolio's budget column shows this month's net. "≈ $/h" divides this month's net by the last 28 days' hours — a rough guide, the windows don't line up.</dd>
         <dt>▲ ▼</dt><dd>Change against a week ago. Colour says good or bad: creep going up is red, on-goal going up is green. "–" means no change or no history yet.</dd>
         <dt>freshness</dt><dd>Computed on the Mac every 3h; the header turns amber when a snapshot is over a day old. The page is read-only except goals.</dd>
       </dl>
@@ -100,6 +101,7 @@
             <summary class="nb-portfolio-head-row">
               <h2><span class="nb-cockpit-num">/06</span> money</h2>
             </summary>
+            <div id="money-ledger"></div>
             <div id="cockpit-money"></div>
           </details>
         </section>
@@ -120,7 +122,9 @@
   <script src="/admin/admin.js" defer></script>
   <script src="/admin/data.js" defer></script>
   <script src="/admin/cockpit.js" defer></script>
+  <script src="/admin/gh.js" defer></script>
   <script src="/admin/goals.js" defer></script>
+  <script src="/admin/money.js" defer></script>
   <script src="/admin/health.js" defer></script>
   <script src="/script.js" defer></script>
 </body>
