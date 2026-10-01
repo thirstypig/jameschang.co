@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-01T03:45:21.004952+00:00",
+ "generated": "2026-10-01T06:45:26.221770+00:00",
  "window_days": 28,
- "total_hours": 140.9,
- "session_hours": 244.1,
+ "total_hours": 141.0,
+ "session_hours": 244.2,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -127,9 +127,9 @@
    "target_share": 60,
    "actual_share": 64.5,
    "hours": 90.9,
-   "spend": 4264.02,
+   "spend": 4265.78,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-01T00:19:00+00:00",
+   "last_activity": "2026-10-01T06:41:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -200,11 +200,11 @@
     }
    ],
    "alignment": {
-    "total": 331,
+    "total": 333,
     "on_goal": 57,
-    "off_goal": 274,
-    "on_goal_pct": 17.2,
-    "on_goal_major_pct": 17.2,
+    "off_goal": 276,
+    "on_goal_pct": 17.1,
+    "on_goal_major_pct": 17.1,
     "on_goal_minor_pct": 0.0,
     "new_scope": 33,
     "creep": 16,
@@ -451,10 +451,10 @@
    "status": "active",
    "target_share": 5,
    "actual_share": 3.1,
-   "hours": 4.3,
-   "spend": 67.2,
+   "hours": 4.4,
+   "spend": 95.82,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-01T02:55:00+00:00",
+   "last_activity": "2026-10-01T04:17:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -720,15 +720,15 @@
  "candidates": [],
  "ideas": [],
  "money": {
-  "claude_total": 7060.67,
+  "claude_total": 7091.04,
   "fixed_total": 0
  },
  "health": {
-  "files": 893,
-  "lines": 246406,
+  "files": 897,
+  "lines": 247386,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 3,
+  "changed_files": 6,
   "warning": null
  }
 }
