@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-01T06:45:26.221770+00:00",
+ "generated": "2026-10-01T11:00:57.355835+00:00",
  "window_days": 28,
- "total_hours": 141.0,
- "session_hours": 244.2,
+ "total_hours": 140.4,
+ "session_hours": 243.6,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -38,7 +38,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 64.5
+   "actual": 64.3
   },
   {
    "slug": "fantastic-leagues",
@@ -104,7 +104,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 27.6
+   "actual": 27.7
   },
   {
    "slug": "family-sites",
@@ -125,8 +125,8 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 64.5,
-   "hours": 90.9,
+   "actual_share": 64.3,
+   "hours": 90.4,
    "spend": 4265.78,
    "fixed_monthly": 0,
    "last_activity": "2026-10-01T06:41:00+00:00",
@@ -454,7 +454,7 @@
    "hours": 4.4,
    "spend": 95.82,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-01T04:17:00+00:00",
+   "last_activity": "2026-09-30T23:45:27-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -586,7 +586,7 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 27.6,
+   "actual_share": 27.7,
    "hours": 38.9,
    "spend": 2298.29,
    "fixed_monthly": 0,
@@ -728,7 +728,7 @@
   "lines": 247386,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 6,
+  "changed_files": 1,
   "warning": null
  }
 }
