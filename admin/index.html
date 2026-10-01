@@ -27,78 +27,92 @@
     <div id="cockpit-meta"><p class="nb-portfolio-loading">loading…</p></div>
     <p class="nb-cockpit-links"><a href="/admin/docs/">docs board →</a></p>
 
+    <details class="nb-cockpit-guide" id="cockpit-guide">
+      <summary>How to read this page</summary>
+      <dl>
+        <dt>decide</dt><dd>Things only you can call, most urgent first. Each links to where you act on it.</dd>
+        <dt>red / amber / green</dt><dd>Per active project. Red: creep at or above 70%, or blocked. Amber: creep at or above 50%, time share 10+ points off target, or a review date within 14 days. Otherwise green. The reason prints under the dot. Parked projects show grey unless their review is near.</dd>
+        <dt>goals · major / minor</dt><dd>What each project is for. Major = the point of the project; minor = worth doing, not the point. A prompt serves a goal when it contains one of that goal's keywords.</dd>
+        <dt>on-goal</dt><dd>Share of your typed prompts on a project that served a goal, split into major and minor. A prompt that serves both counts as major.</dd>
+        <dt>creep</dt><dd>Of your asks for <em>new</em> capability, the share that served no goal. High creep means building things you didn't set out to build.</dd>
+        <dt>share / target</dt><dd>Your hours on a project as a share of all project hours, against the share you intended.</dd>
+        <dt>wall-clock vs session hours</dt><dd>Wall-clock counts overlapping sessions once (real time spent); session hours add them up, so they run higher.</dd>
+        <dt>API-equivalent</dt><dd>What your Claude usage would cost at API prices. Not a bill; real costs and revenue are under money.</dd>
+        <dt>▲ ▼</dt><dd>Change against a week ago. Colour says good or bad: creep going up is red, on-goal going up is green. "–" means no change or no history yet.</dd>
+        <dt>freshness</dt><dd>Computed on the Mac every 3h; the header turns amber when a snapshot is over a day old. The page is read-only except goals.</dd>
+      </dl>
+    </details>
+
     <div class="nb-cockpit-layout">
       <div class="nb-cockpit-main">
-        <section class="nb-admin-section">
-          <div class="nb-portfolio-head-row">
-            <h2><span class="nb-cockpit-num">/01</span> decide</h2>
-            <span class="nb-portfolio-count">// what needs your call, most urgent first</span>
-          </div>
-          <div id="cockpit-decide"></div>
+        <section class="nb-admin-section" id="sec-decide">
+          <details class="nb-cockpit-sec" data-sec="decide" open>
+            <summary class="nb-portfolio-head-row">
+              <h2><span class="nb-cockpit-num">/01</span> decide</h2>
+              <span class="nb-portfolio-count">// what needs your call, most urgent first</span>
+            </summary>
+            <div id="cockpit-decide"></div>
+          </details>
         </section>
-
-        <section class="nb-admin-section">
-          <div class="nb-portfolio-head-row">
-            <h2><span class="nb-cockpit-num">/02</span> portfolio</h2>
-            <span class="nb-portfolio-count">// scope · time · budget, last 28 days</span>
-          </div>
-          <div id="cockpit-table" class="nb-cockpit-table-wrap"></div>
+        <section class="nb-admin-section" id="sec-portfolio">
+          <details class="nb-cockpit-sec" data-sec="portfolio" open>
+            <summary class="nb-portfolio-head-row">
+              <h2><span class="nb-cockpit-num">/02</span> portfolio</h2>
+              <span class="nb-portfolio-count">// every project · scope · time · budget, last 28 days</span>
+            </summary>
+            <div id="cockpit-table" class="nb-cockpit-table-wrap"></div>
+          </details>
         </section>
-
-        <section class="nb-admin-section">
-          <div class="nb-portfolio-head-row">
-            <h2><span class="nb-cockpit-num">/03</span> goals</h2>
-            <span class="nb-portfolio-count">// are the prompts aimed at them? edit here · public — no customer names</span>
-          </div>
-          <div id="cockpit-goals"></div>
-        </section>
-
-        <section class="nb-admin-section">
-          <div class="nb-portfolio-head-row">
-            <h2><span class="nb-cockpit-num">/04</span> project notes</h2>
-            <span class="nb-portfolio-count">// bet · next · notes · edit admin/portfolio.json</span>
-          </div>
-          <p id="portfolio-summary" class="nb-portfolio-summary"></p>
-          <div id="portfolio-board" class="nb-portfolio nb-portfolio--two">
-            <p class="nb-portfolio-loading">loading…</p>
-          </div>
+        <section class="nb-admin-section" id="sec-goals">
+          <details class="nb-cockpit-sec" data-sec="goals" open>
+            <summary class="nb-portfolio-head-row">
+              <h2><span class="nb-cockpit-num">/03</span> goals</h2>
+              <span class="nb-portfolio-count">// major + minor per project · prompt counts · public — no customer names</span>
+            </summary>
+            <div id="cockpit-goals"></div>
+          </details>
         </section>
       </div>
-
       <aside class="nb-cockpit-side">
-        <section class="nb-admin-section">
-          <div class="nb-portfolio-head-row">
-            <h2><span class="nb-cockpit-num">/05</span> health</h2>
-          </div>
-          <p id="health-doorbell" class="nb-health-doorbell"></p>
-          <div id="health-strip" class="nb-health-strip">
-            <p class="nb-portfolio-loading">loading…</p>
-          </div>
+        <section class="nb-admin-section" id="sec-health">
+          <details class="nb-cockpit-sec" data-sec="health" open>
+            <summary class="nb-portfolio-head-row">
+              <h2><span class="nb-cockpit-num">/04</span> health</h2>
+              <span class="nb-portfolio-count">// is anything broken?</span>
+            </summary>
+            <p id="health-doorbell" class="nb-health-doorbell"></p>
+            <div id="health-strip" class="nb-health-strip">
+              <p class="nb-portfolio-loading">loading…</p>
+            </div>
+          </details>
         </section>
-
-        <section class="nb-admin-section">
-          <div class="nb-portfolio-head-row">
-            <h2><span class="nb-cockpit-num">/06</span> time</h2>
-          </div>
-          <div id="cockpit-time"></div>
+        <section class="nb-admin-section" id="sec-time">
+          <details class="nb-cockpit-sec" data-sec="time" open>
+            <summary class="nb-portfolio-head-row">
+              <h2><span class="nb-cockpit-num">/05</span> time</h2>
+              <span class="nb-portfolio-count">// grey = target · green = actual</span>
+            </summary>
+            <div id="cockpit-time"></div>
+          </details>
         </section>
-
-        <section class="nb-admin-section">
-          <div class="nb-portfolio-head-row">
-            <h2><span class="nb-cockpit-num">/07</span> money</h2>
-          </div>
-          <div id="cockpit-money"></div>
+        <section class="nb-admin-section" id="sec-money">
+          <details class="nb-cockpit-sec" data-sec="money" open>
+            <summary class="nb-portfolio-head-row">
+              <h2><span class="nb-cockpit-num">/06</span> money</h2>
+            </summary>
+            <div id="cockpit-money"></div>
+          </details>
         </section>
-
-        <section class="nb-admin-section">
-          <div class="nb-portfolio-head-row">
-            <h2><span class="nb-cockpit-num">/08</span> ideas</h2>
-          </div>
-          <div id="cockpit-ideas"></div>
+        <section class="nb-admin-section" id="sec-ideas">
+          <details class="nb-cockpit-sec" data-sec="ideas" open>
+            <summary class="nb-portfolio-head-row">
+              <h2><span class="nb-cockpit-num">/07</span> ideas</h2>
+            </summary>
+            <div id="cockpit-ideas"></div>
+          </details>
         </section>
       </aside>
     </div>
-
     <p><button type="button" class="nb-admin-signout">sign out</button></p>
     <p><a href="/">← back to the site</a></p>
   </main>
@@ -107,7 +121,6 @@
   <script src="/admin/data.js" defer></script>
   <script src="/admin/cockpit.js" defer></script>
   <script src="/admin/goals.js" defer></script>
-  <script src="/admin/portfolio.js" defer></script>
   <script src="/admin/health.js" defer></script>
   <script src="/script.js" defer></script>
 </body>

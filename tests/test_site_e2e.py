@@ -1911,10 +1911,15 @@ class TestAdminPortfolio:
             f"portfolio entries with no matching config slug: {orphans}"
         )
 
-    def test_admin_page_hosts_the_board(self):
+    def test_project_notes_live_in_the_portfolio_rows(self):
+        """/04 project notes was folded into /02's row details (2026-09-30): bet,
+        notes and stage render from cockpit.js; portfolio.js is gone."""
         body = _read("admin/index.html")
-        assert 'id="portfolio-board"' in body
-        assert "/admin/portfolio.js" in body
+        assert 'id="portfolio-board"' not in body and "/admin/portfolio.js" not in body
+        assert not os.path.exists(os.path.join(REPO_ROOT, "admin", "portfolio.js"))
+        js = _read("admin/cockpit.js")
+        for label in ('"bet"', '"notes"', '"stage"', '"next decision"', '"stop criteria"', '"review by"'):
+            assert label in js, label
 
     def test_portfolio_is_public_safe(self):
         """No secret / attack-map content behind the public-repo curtain."""
@@ -1928,8 +1933,8 @@ class TestAdminPortfolio:
             "portfolio.json contains an env-var-shaped identifier"
 
     def test_stage_chip_is_wired(self):
-        """The lifecycle stage chip is emitted by portfolio.js and styled in CSS."""
-        assert "nb-portfolio-stage" in _read("admin/portfolio.js")
+        """The lifecycle stage chip is emitted by cockpit.js and styled in CSS."""
+        assert "nb-portfolio-stage" in _read("admin/cockpit.js")
         assert ".nb-portfolio-stage" in _read("notebook.css")
 
 
@@ -1964,10 +1969,44 @@ class TestAdminCockpit:
     def _snap(self):
         return json.loads(_read("admin/cockpit.json"))
 
+    SECTIONS = [("01", "decide"), ("02", "portfolio"), ("03", "goals"), ("04", "health"),
+                ("05", "time"), ("06", "money"), ("07", "ideas")]
+
+    def test_sections_are_numbered_in_reading_order(self):
+        html = _read("admin/index.html")
+        found = re.findall(r'nb-cockpit-num">/(\d\d)</span>\s*([a-z]+)', html)
+        assert found == self.SECTIONS, found
+
+    def test_every_section_is_collapsible_and_open_by_default(self):
+        html = _read("admin/index.html")
+        for _, name in self.SECTIONS:
+            assert re.search(rf'<details class="nb-cockpit-sec" data-sec="{name}" open>', html), name
+        js = _read("admin/admin.js")
+        assert "data-sec" in js or "nb-cockpit-sec" in js
+        for m in re.finditer(r"localStorage\.(getItem|setItem)", js):
+            assert "try" in js[max(0, m.start() - 120):m.start()], "storage must be try/catch-guarded"
+
+    def test_phone_layout_puts_health_second(self):
+        css = _read("notebook.css")
+        block = css[css.index("/* cockpit phone order */"):]
+        block = block[:block.index("}\n}") + 3]
+        order = {name: int(n) for name, n in re.findall(r"#sec-([a-z]+) \{ order: (\d) \}", block)}
+        assert order == {"decide": 1, "health": 2, "portfolio": 3, "goals": 4, "time": 5,
+                         "money": 6, "ideas": 7}, order
+        assert "display: contents" in block
+
+    def test_how_to_read_guide_explains_every_number(self):
+        html = _read("admin/index.html")
+        guide = html[html.index('id="cockpit-guide"'):]
+        guide = guide[:guide.index("</details>")]
+        for term in ("decide", "red / amber / green", "major / minor", "on-goal", "creep",
+                     "share / target", "wall-clock", "API-equivalent", "▲ ▼", "read-only"):
+            assert term in guide, term
+
     def test_admin_page_hosts_every_cockpit_section(self):
         html = _read("admin/index.html")
-        for id_ in ("cockpit-meta", "cockpit-decide", "cockpit-table", "cockpit-goals", "health-strip",
-                    "cockpit-time", "cockpit-money", "portfolio-board", "cockpit-ideas"):
+        for id_ in ("cockpit-meta", "cockpit-guide", "cockpit-decide", "cockpit-table", "cockpit-goals",
+                    "health-strip", "cockpit-time", "cockpit-money", "cockpit-ideas"):
             assert f'id="{id_}"' in html, id_
         # 2/3 work column + 1/3 status column
         assert 'class="nb-cockpit-main"' in html and 'class="nb-cockpit-side"' in html
@@ -1982,14 +2021,19 @@ class TestAdminCockpit:
         assert ".innerHTML" not in js
         assert "STALE_SNAPSHOT_H" in js, "the page must say when the Mac stopped pushing"
 
-    def test_portfolio_cards_merge_cockpit_stats(self):
-        js = _read("admin/portfolio.js")
-        assert "/admin/cockpit.json" in js and "statLine" in js
-        assert ".catch(() => null)" in js, "a missing snapshot must not take the board down"
-        # The third fetch must be bound. It shipped once as `[cfg, pf] = await
-        # Promise.all([...3 fetches])`, so cp stayed undefined and every card
-        # silently rendered without its stats — no error, no failing test.
-        assert "[cfg, pf, cp] = await Promise.all" in js
+    def test_portfolio_shows_every_project_with_rag_and_trend(self):
+        js = _read("admin/cockpit.js")
+        assert '"active"' in js and '"parked"' in js, "active + parked groups"
+        assert "rag_reasons" in js and "p.prev" in js
+        # an older snapshot (no rag/prev/tier split) must still render, not throw
+        assert 'p.rag || "none"' in js
+        assert "on_goal_major_pct" in js
+        assert ".innerHTML" not in js
+
+    def test_decide_cards_are_graded_and_link_to_goals(self):
+        js = _read("admin/cockpit.js")
+        assert "severity" in js and '"scope creep"' in js
+        assert "#goals-" in js, "a G decision links to that project's goals"
 
     def test_snapshot_shape(self):
         d = self._snap()
@@ -2009,8 +2053,8 @@ class TestAdminCockpit:
         scored against never are — only counts reach the snapshot."""
         for p in self._snap()["projects"]:
             a = p.get("alignment") or {}
-            assert set(a) <= {"total", "on_goal", "off_goal", "on_goal_pct", "new_scope",
-                              "creep", "creep_pct", "goals"}, p["slug"]
+            assert set(a) <= {"total", "on_goal", "off_goal", "on_goal_pct", "on_goal_major_pct",
+                              "on_goal_minor_pct", "new_scope", "creep", "creep_pct", "goals"}, p["slug"]
             for g in a.get("goals", []):
                 assert set(g) == {"id", "prompts"} and isinstance(g["prompts"], int)
 
@@ -2034,6 +2078,13 @@ class TestAdminCockpit:
         for kind in ('op.kind === "add"', 'op.kind === "edit"', 'kind: "rm"'):
             assert kind in js, kind
 
+    def test_goals_editor_covers_every_project_with_tiers(self):
+        js = _read("admin/goals.js")
+        assert 'x.status === "active")) {' not in js, "goals must be editable for every project"
+        assert "goals-${" in js, "each project block is an anchor target for /01"
+        assert "tier" in js and '"major"' in js and '"minor"' in js
+        assert "editingProjects" in js, "read-only until a project's edit toggle is on"
+
     def test_goals_file_is_valid_and_public_safe(self):
         doc = json.loads(_read("admin/goals.json"))
         cfg = {p["slug"] for p in json.loads(_read("bin/projects-config.json"))["projects"]}
@@ -2044,6 +2095,7 @@ class TestAdminCockpit:
             for g in entry["goals"]:
                 assert re.fullmatch(r"g\d+", g["id"]) and int(g["id"][1:]) <= entry["seq"], (slug, g["id"])
                 assert g["text"].strip() and g["keywords"], (slug, g["id"])
+                assert g.get("tier", "major") in ("major", "minor"), (slug, g["id"], g.get("tier"))
         low = _read("admin/goals.json").lower()
         for bad in ["password", "api_key", "secret", "token"]:
             assert bad not in low, bad
@@ -2076,6 +2128,12 @@ class TestHealthStrip:
         assert "/admin/status.json" in js
         # XSS-safe: no innerHTML assignment
         assert ".innerHTML" not in js
+
+    def test_known_down_feeds_are_expected_not_alarming(self):
+        js = _read("admin/health.js")
+        assert "KNOWN_DOWN" in js and "spotify:" in js
+        assert '"down"' in js
+        assert ".nb-health-dot--down" in _read("notebook.css")
 
     def test_health_js_thresholds_are_named_constants(self):
         js = _read("admin/health.js")

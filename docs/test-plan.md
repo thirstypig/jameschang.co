@@ -71,7 +71,7 @@ All HTML pages: meta tags, CSP, aria-pressed, JSON-LD, images, internal links, f
 
 Tests run in CI via `.github/workflows/ci-tests.yml`. Results are visible in the GitHub Actions tab. Failures block nothing (this is a single-contributor repo with direct push), but they surface regressions early.
 
-**594 tests total:** 471 unit tests (12 files) + 123 E2E tests (1 file).
+**601 tests total:** 471 unit tests (12 files) + 130 E2E tests (1 file).
 
 **Idempotency testing** (new pattern as of 2026-06-25): All major cron scripts now have determinism tests to guard against the trap where re-rendering unexpectedly changes output, causing false diffs. Pattern: same input → identical output (verified across 2+ calls). Coverage:
 - projects (2 tests): render_card determinism, config-drives-output

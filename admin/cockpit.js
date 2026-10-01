@@ -31,12 +31,24 @@
   const renderMeta = (d) => {
     const h = (Date.now() - new Date(d.generated).getTime()) / 36e5;
     const meta = el("p", "nb-cockpit-meta" + (h > STALE_SNAPSHOT_H ? " nb-cockpit-meta--stale" : ""));
+    const reds = d.projects.filter((p) => p.rag === "red").length;
+    const ambers = d.projects.filter((p) => p.rag === "amber").length;
     meta.textContent =
       `${d.decisions.length} decision${d.decisions.length === 1 ? "" : "s"} · ` +
-      `${d.total_hours}h wall-clock · ${money(d.money.claude_total)} API-eq · ` +
+      (reds || ambers ? `${reds} red, ${ambers} amber · ` : "") +
+      `${d.total_hours}h wall-clock · ${money(d.money.claude_total)} API-equivalent (not a bill) · ` +
       `last ${d.window_days} days · snapshot ${ago(d.generated)}` +
       (h > STALE_SNAPSHOT_H ? " — the Mac hasn't pushed since" : "");
     put("cockpit-meta", meta);
+  };
+
+  // Decision kinds in words — the letters meant nothing to a reader.
+  const KIND = { G: "scope creep", A: "time allocation", B: "keep / park / kill", C: "unregistered work", D: "money" };
+
+  // Open a collapsed section before jumping into it (the goals link from /01).
+  const openSection = (key) => {
+    const sec = document.querySelector(`details.nb-cockpit-sec[data-sec="${key}"]`);
+    if (sec && !sec.open) sec.open = true;
   };
 
   const renderDecide = (d) => {
@@ -46,13 +58,23 @@
     }
     const list = el("ol", "nb-cockpit-decisions");
     for (const x of d.decisions) {
-      const li = el("li", "nb-cockpit-decision");
-      li.append(el("span", "nb-cockpit-kind", x.kind));
+      const sev = x.severity === "high" ? "high" : "medium";
+      const li = el("li", `nb-cockpit-decision nb-cockpit-decision--${sev}`);
       const body = el("div", "nb-cockpit-decision-body");
-      body.append(el("p", "nb-cockpit-decision-title", x.title));
+      const title = el("p", "nb-cockpit-decision-title");
+      title.append(el("span", "nb-cockpit-kind", `${KIND[x.kind] || x.kind} · ${sev}`), document.createTextNode(x.title));
+      body.append(title);
       if (x.detail) body.append(el("p", "nb-cockpit-decision-detail", x.detail));
-      body.append(el("p", "nb-cockpit-decision-actions",
-        x.actions.map((a) => a.replace(/_/g, " ")).join(" · ") + " — decide in the local cockpit"));
+      const act = el("p", "nb-cockpit-decision-actions");
+      if (x.kind === "G") {
+        const a = el("a", null, "review goals →");
+        a.href = `#goals-${x.target}`;
+        a.addEventListener("click", () => openSection("goals"));
+        act.append(a, document.createTextNode(" · or accept it in the local cockpit"));
+      } else {
+        act.textContent = x.actions.map((a) => a.replace(/_/g, " ")).join(" · ") + " — decide in the local cockpit";
+      }
+      body.append(act);
       li.append(body);
       list.append(li);
     }
@@ -76,7 +98,7 @@
       table.append(row);
     }
     const note = el("p", "nb-cockpit-note",
-      `${d.total_hours}h wall-clock · ${d.session_hours} session-hours · grey = target, colored = actual`);
+      `${d.total_hours}h wall-clock · ${d.session_hours} session-hours (overlaps counted twice)`);
     put("cockpit-time", note, table);
   };
 
@@ -87,8 +109,9 @@
       r.append(el("span", null, label), el("span", "nb-cockpit-money-v", value));
       return r;
     };
-    list.append(line(`Claude, API-equivalent (${d.window_days}d)`, money(d.money.claude_total), "nb-cockpit-money-row--total"));
-    list.append(line("fixed costs / month", d.money.fixed_total ? money(d.money.fixed_total) : "not entered"));
+    list.append(line("real costs / month", d.money.fixed_total ? money(d.money.fixed_total) : "not entered yet"));
+    list.append(line("revenue / month", d.money.revenue_total ? money(d.money.revenue_total) : "not entered yet"));
+    list.append(line(`Claude, API-equivalent — not a bill (${d.window_days}d)`, money(d.money.claude_total), "nb-cockpit-money-row--total"));
     for (const p of [...d.projects].filter((p) => p.spend > 0).sort((a, b) => b.spend - a.spend)) {
       const rate = p.hours ? ` · $${Math.round(p.spend / p.hours)}/h` : "";
       list.append(line(p.name, money(p.spend) + rate));
@@ -97,73 +120,176 @@
     put("cockpit-money", list, note);
   };
 
-  // RAG thresholds for the portfolio table — mirror the cockpit's own rules.
-  const CREEP_RED = 50, CREEP_AMBER = 25, SHARE_GAP_AMBER = 10;
   const idleDays = (iso) => (iso ? Math.floor((Date.now() - new Date(iso).getTime()) / 864e5) : null);
-  const cell = (text, cls) => el("td", cls, text);
+  const DEEP_DIVES = new Set(["aleph", "fantastic-leagues", "judge-tool"]);
 
-  // /02 — one row per project: who it is, then scope, time and budget side by side.
+  // Which portfolio groups the viewer collapsed — convenience only, may throw.
+  const GROUPS_KEY = "jc-cockpit-groups-closed";
+  let closedGroups = [];
+  try { closedGroups = JSON.parse(localStorage.getItem(GROUPS_KEY) || "[]"); } catch (e) { closedGroups = []; }
+  const saveGroups = () => {
+    try { localStorage.setItem(GROUPS_KEY, JSON.stringify(closedGroups)); } catch (e) { /* convenience only */ }
+  };
+
+  // ▲/▼ against a week ago. upIsGood says which direction is green.
+  const trend = (cur, prev, upIsGood) => {
+    if (cur == null || prev == null) return el("span", "nb-trend nb-trend--flat", " –");
+    const delta = Math.round(cur - prev);
+    if (!delta) return el("span", "nb-trend nb-trend--flat", " –");
+    const good = (delta > 0) === upIsGood;
+    const t = el("span", `nb-trend nb-trend--${good ? "good" : "bad"}`, ` ${delta > 0 ? "▲" : "▼"} ${Math.abs(delta)}`);
+    t.title = "change vs a week ago (points)";
+    return t;
+  };
+  const td = (label, ...kids) => {
+    const c = el("td");
+    c.dataset.l = label;
+    c.append(...kids);
+    return c;
+  };
+  const sub = (text) => el("span", "nb-cockpit-sub", text);
+
+  // /02 — every project: active first, then parked; each row expands to its notes.
   const renderTable = (d, cfg, pf) => {
-    const next = Object.fromEntries((cfg.projects || []).map((p) => [p.slug, p.next_up || ""]));
-    const pm = Object.fromEntries((pf.projects || []).map((p) => [p.slug, p.pm_status]));
-    const order = { active: 0, idea: 1, parked: 2, killed: 3 };
-    const rows = [...d.projects].sort((a, b) =>
-      (order[a.status] ?? 9) - (order[b.status] ?? 9) || b.hours - a.hours ||
-      (idleDays(a.last_activity) ?? 1e9) - (idleDays(b.last_activity) ?? 1e9));
+    const conf = Object.fromEntries((cfg.projects || []).map((p) => [p.slug, p]));
+    const notes = Object.fromEntries((pf.projects || []).map((p) => [p.slug, p]));
+    // worst first — the table answers "what needs me" — then most hours, then most recent
+    const RAG_RANK = { red: 0, amber: 1, green: 2, parked: 3, none: 4 };
+    const byActivity = (a, b) => (RAG_RANK[a.rag || "none"] - RAG_RANK[b.rag || "none"]) || b.hours - a.hours ||
+      (idleDays(a.last_activity) ?? 1e9) - (idleDays(b.last_activity) ?? 1e9);
+    const groups = [
+      ["active", d.projects.filter((p) => p.status === "active").sort(byActivity)],
+      ["parked", d.projects.filter((p) => p.status !== "active").sort(byActivity)],
+    ];
 
     const table = el("table", "nb-cockpit-table");
     const head = el("thead");
-    const groups = el("tr", "nb-cockpit-groups");
-    for (const [label, span] of [["", 1], ["scope", 1], ["time", 2], ["budget", 1]]) {
-      const th = el("th", null, label);
-      th.colSpan = span;
-      groups.append(th);
-    }
     const cols = el("tr");
-    for (const h of ["project", "goals · creep", "28d · share / target", "last", "spend · $/h"])
-      cols.append(el("th", null, h));
-    head.append(groups, cols);
-    const body = el("tbody");
-
-    for (const p of rows) {
-      const tr = el("tr", `nb-cockpit-row nb-cockpit-row--${p.status}`);
-      const name = el("td", "nb-cockpit-proj");
-      name.append(el("span", `nb-cockpit-status nb-cockpit-status--${p.status}`, p.status), el("span", null, " " + p.name));
-      if (pm[p.slug]) name.append(el("span", "nb-cockpit-pm", ` · ${pm[p.slug].replace("-", " ")}`));
-      tr.append(name);
-
-      const a = p.alignment || {};
-      const goalsN = (p.goals || []).length;
-      let scope = goalsN ? `${goalsN} goal${goalsN === 1 ? "" : "s"}` : "no goals";
-      let scopeCls = goalsN ? "" : "nb-rag-amber";
-      if (goalsN && a.new_scope) {
-        scope += ` · ${a.creep_pct}% creep (${a.creep}/${a.new_scope})`;
-        scopeCls = a.creep_pct >= CREEP_RED ? "nb-rag-red" : a.creep_pct >= CREEP_AMBER ? "nb-rag-amber" : "nb-rag-green";
-      }
-      if (p.status !== "active" && !goalsN) scopeCls = "";
-      tr.append(cell(scope, scopeCls));
-
-      const gap = Math.abs((p.actual_share || 0) - (p.target_share || 0));
-      tr.append(cell(`${p.hours}h · ${p.actual_share}% / ${p.target_share}%`, gap >= SHARE_GAP_AMBER ? "nb-rag-amber" : ""));
-      const idle = idleDays(p.last_activity);
-      tr.append(cell(idle == null ? "—" : idle === 0 ? "today" : `${idle}d`));
-      tr.append(cell(p.spend ? `${money(p.spend)} · $${Math.round(p.spend / Math.max(p.hours, 0.1))}/h` : "—"));
-      body.append(tr);
-      // next-up on its own full-width line: prose doesn't fit a 2/3-width column
-      if (next[p.slug]) {
-        const sub = el("tr", `nb-cockpit-subrow nb-cockpit-row--${p.status}`);
-        const td = el("td", "nb-cockpit-next");
-        td.colSpan = 5;
-        td.append(el("span", "nb-portfolio-label", "next "), document.createTextNode(next[p.slug]));
-        sub.append(td);
-        body.append(sub);
-      }
+    for (const [h, small, tip] of [
+      ["project", "status · last touched", "Dot: red / amber / green — reason underneath"],
+      ["on-goal", "prompts serving a goal", "Share of typed prompts that served a goal · how much of it major"],
+      ["creep", "new asks off-goal", "Asks for new capability that served no goal"],
+      ["time", "share / target", "Your hours here as a share of all project hours, vs the share you intended"],
+      ["budget", "API-equivalent · $/h", "What the Claude usage would cost on the API — not a bill"],
+    ]) {
+      const th = el("th", null, h);
+      th.title = tip;
+      th.append(el("small", null, small));
+      cols.append(th);
     }
-    table.append(head, body);
-    const legend = el("p", "nb-cockpit-note",
-      `creep = new-scope asks that serve no goal · red ≥ ${CREEP_RED}% · amber ≥ ${CREEP_AMBER}% · ` +
-      `time amber when share is ${SHARE_GAP_AMBER}+ pts off target · budget = Claude API-equivalent`);
-    put("cockpit-table", table, legend);
+    head.append(cols);
+    table.append(head);
+
+    for (const [group, rows] of groups) {
+      if (!rows.length) continue;
+      const body = el("tbody", `nb-cockpit-group nb-cockpit-group--${group}`);
+      const gRow = el("tr", "nb-cockpit-grouprow");
+      const gCell = el("td");
+      gCell.colSpan = 5;
+      const gBtn = el("button", "nb-cockpit-grouptoggle");
+      gBtn.type = "button";
+      const label = group === "active" ? "active" : "parked";
+      const isOpen = () => !closedGroups.includes(group);
+      const paint = () => {
+        gBtn.textContent = `${isOpen() ? "▾" : "▸"} ${label} · ${rows.length}`;
+        gBtn.setAttribute("aria-expanded", String(isOpen()));
+        body.classList.toggle("is-collapsed", !isOpen());
+      };
+      gBtn.addEventListener("click", () => {
+        closedGroups = isOpen() ? [...closedGroups, group] : closedGroups.filter((g) => g !== group);
+        saveGroups();
+        paint();
+      });
+      gCell.append(gBtn);
+      gRow.append(gCell);
+      body.append(gRow);
+
+      for (const p of rows) {
+        const a = p.alignment || {};
+        const rag = p.rag || "none";  // an older snapshot has no rag — render a neutral dot
+        const tr = el("tr", `nb-cockpit-row nb-cockpit-row--${p.status}`);
+
+        const name = el("td", "nb-cockpit-proj");
+        name.dataset.l = "";
+        const dot = el("span", `nb-rag-dot nb-rag-dot--${rag}`);
+        dot.title = rag;
+        const idle = idleDays(p.last_activity);
+        name.append(dot, el("strong", null, p.name),
+          el("span", "nb-cockpit-pm", ` · ${p.status} · ${idle == null ? "no activity" : idle === 0 ? "today" : `${idle}d`}`));
+        const reasons = p.rag_reasons || [];
+        if (rag !== "none" && rag !== "parked")
+          name.append(sub(reasons.length ? `${rag}: ${reasons.join("; ")}` : rag));
+        const more = el("button", "nb-cockpit-more", "details ▸");
+        more.type = "button";
+        name.append(more);
+        tr.append(name);
+
+        const goalsN = (p.goals || []).length;
+        const on = a.on_goal_pct;
+        tr.append(td("on-goal",
+          document.createTextNode(on == null ? (goalsN ? "—" : "no goals") : `${on}%`),
+          trend(on, p.prev && p.prev.on_goal_pct, true),
+          ...(on != null && a.on_goal_major_pct != null ? [sub(`${a.on_goal_major_pct}% major`)] : [])));
+        tr.append(td("creep",
+          document.createTextNode(a.creep_pct == null ? "—" : `${a.creep_pct}%`),
+          trend(a.creep_pct, p.prev && p.prev.creep_pct, false),
+          ...(a.new_scope ? [sub(`${a.creep} of ${a.new_scope}`)] : [])));
+        tr.append(td("time",
+          document.createTextNode(`${p.actual_share}% / ${p.target_share}%`),
+          trend(p.actual_share, p.prev && p.prev.share, true), sub(`${p.hours}h`)));
+        tr.append(td("budget", document.createTextNode(
+          p.spend ? `${money(p.spend)} · $${Math.round(p.spend / Math.max(p.hours, 0.1))}/h` : "—")));
+        body.append(tr);
+
+        // details row: the old /04 project notes plus the PM fields
+        const det = el("tr", "nb-cockpit-detail");
+        det.hidden = true;
+        const dc = el("td");
+        dc.colSpan = 5;
+        const dl = el("dl", "nb-cockpit-dl");
+        const pm = notes[p.slug] || {}, c = conf[p.slug] || {};
+        const item = (k, v, unsetOk) => {
+          dl.append(el("dt", null, k));
+          const dd = el("dd", v ? null : unsetOk ? "nb-cockpit-dim" : "nb-cockpit-unset", v || (unsetOk ? "—" : "not set"));
+          dl.append(dd);
+          return dd;
+        };
+        item("next", c.next_up, true);
+        item("bet", pm.bet, true);
+        item("notes", pm.notes, true);
+        const st = item("stage", "", true);
+        if (pm.stage) st.replaceChildren(el("span", `nb-portfolio-stage nb-portfolio-stage--${pm.stage}`, pm.stage));
+        item("health", pm.pm_status ? pm.pm_status.replace("-", " ") : "", true);
+        item("next decision", p.next_decision);
+        item("stop criteria", p.stop_criteria);
+        item("review by", p.review_by);
+        const repo = (c.shipping_repos && c.shipping_repos[0]) || c.repo;
+        const links = item("links", "", true);
+        const ls = [];
+        if (repo) ls.push(["repo", `https://github.com/${repo}`]);
+        if (DEEP_DIVES.has(p.slug)) ls.push(["deep-dive", `/projects/${p.slug}/`]);
+        if (c.url) ls.push(["site", c.url]);
+        if (ls.length) {
+          links.className = "";
+          links.replaceChildren(...ls.flatMap(([t, href], i) => {
+            const l = el("a", null, t);
+            l.href = href;
+            if (/^https?:/.test(href)) { l.target = "_blank"; l.rel = "noopener"; }
+            return i ? [document.createTextNode(" · "), l] : [l];
+          }));
+        }
+        dc.append(dl);
+        det.append(dc);
+        body.append(det);
+        more.addEventListener("click", () => {
+          det.hidden = !det.hidden;
+          more.textContent = det.hidden ? "details ▸" : "details ▾";
+        });
+      }
+      paint();
+      table.append(body);
+    }
+    put("cockpit-table", table);
   };
 
   const renderIdeas = (d) => {

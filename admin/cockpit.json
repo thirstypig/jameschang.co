@@ -1,8 +1,8 @@
 {
- "generated": "2026-09-30T20:36:24.456912+00:00",
+ "generated": "2026-10-01T00:13:59.773304+00:00",
  "window_days": 28,
- "total_hours": 139.8,
- "session_hours": 242.1,
+ "total_hours": 140.7,
+ "session_hours": 243.5,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -15,7 +15,8 @@
    "actions": [
     "set_goal",
     "accept"
-   ]
+   ],
+   "severity": "high"
   },
   {
    "id": "G:pasadenaworks",
@@ -28,7 +29,8 @@
    "actions": [
     "set_goal",
     "accept"
-   ]
+   ],
+   "severity": "medium"
   }
  ],
  "allocation": [
@@ -36,7 +38,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 66.0
+   "actual": 65.0
   },
   {
    "slug": "fantastic-leagues",
@@ -84,7 +86,7 @@
    "slug": "jameschang-co",
    "name": "jameschang.co",
    "target": 5,
-   "actual": 1.3
+   "actual": 2.6
   },
   {
    "slug": "vouch",
@@ -102,7 +104,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 27.8
+   "actual": 27.6
   },
   {
    "slug": "family-sites",
@@ -123,11 +125,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 66.0,
-   "hours": 92.3,
-   "spend": 4175.22,
+   "actual_share": 65.0,
+   "hours": 91.4,
+   "spend": 4264.02,
    "fixed_monthly": 0,
-   "last_activity": "2026-09-30T18:46:00+00:00",
+   "last_activity": "2026-10-01T00:05:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -156,7 +158,8 @@
       "feedback",
       "meeting"
      ],
-     "set": "2026-09-30"
+     "set": "2026-09-30",
+     "tier": "major"
     },
     {
      "id": "g2",
@@ -174,7 +177,8 @@
       "subscription",
       "checkout"
      ],
-     "set": "2026-09-30"
+     "set": "2026-09-30",
+     "tier": "major"
     },
     {
      "id": "g3",
@@ -191,14 +195,17 @@
       "documents",
       "document"
      ],
-     "set": "2026-09-30"
+     "set": "2026-09-30",
+     "tier": "major"
     }
    ],
    "alignment": {
-    "total": 328,
+    "total": 331,
     "on_goal": 57,
-    "off_goal": 271,
-    "on_goal_pct": 17.4,
+    "off_goal": 274,
+    "on_goal_pct": 17.2,
+    "on_goal_major_pct": 17.2,
+    "on_goal_minor_pct": 0.0,
     "new_scope": 33,
     "creep": 16,
     "creep_pct": 48.5,
@@ -216,7 +223,10 @@
       "prompts": 45
      }
     ]
-   }
+   },
+   "rag": "green",
+   "rag_reasons": [],
+   "prev": null
   },
   {
    "slug": "fantastic-leagues",
@@ -238,11 +248,16 @@
     "on_goal": 0,
     "off_goal": 0,
     "on_goal_pct": null,
+    "on_goal_major_pct": null,
+    "on_goal_minor_pct": null,
     "new_scope": 0,
     "creep": 0,
     "creep_pct": null,
     "goals": []
-   }
+   },
+   "rag": "parked",
+   "rag_reasons": [],
+   "prev": null
   },
   {
    "slug": "bahtzang-trader",
@@ -264,11 +279,16 @@
     "on_goal": 0,
     "off_goal": 0,
     "on_goal_pct": null,
+    "on_goal_major_pct": null,
+    "on_goal_minor_pct": null,
     "new_scope": 0,
     "creep": 0,
     "creep_pct": null,
     "goals": []
-   }
+   },
+   "rag": "parked",
+   "rag_reasons": [],
+   "prev": null
   },
   {
    "slug": "judge-tool",
@@ -290,11 +310,16 @@
     "on_goal": 0,
     "off_goal": 0,
     "on_goal_pct": null,
+    "on_goal_major_pct": null,
+    "on_goal_minor_pct": null,
     "new_scope": 0,
     "creep": 0,
     "creep_pct": null,
     "goals": []
-   }
+   },
+   "rag": "parked",
+   "rag_reasons": [],
+   "prev": null
   },
   {
    "slug": "tabledrop",
@@ -316,11 +341,16 @@
     "on_goal": 0,
     "off_goal": 4,
     "on_goal_pct": null,
+    "on_goal_major_pct": null,
+    "on_goal_minor_pct": null,
     "new_scope": 0,
     "creep": 0,
     "creep_pct": null,
     "goals": []
-   }
+   },
+   "rag": "parked",
+   "rag_reasons": [],
+   "prev": null
   },
   {
    "slug": "tastemakers",
@@ -342,11 +372,16 @@
     "on_goal": 0,
     "off_goal": 0,
     "on_goal_pct": null,
+    "on_goal_major_pct": null,
+    "on_goal_minor_pct": null,
     "new_scope": 0,
     "creep": 0,
     "creep_pct": null,
     "goals": []
-   }
+   },
+   "rag": "parked",
+   "rag_reasons": [],
+   "prev": null
   },
   {
    "slug": "thirsty-pig",
@@ -368,11 +403,16 @@
     "on_goal": 0,
     "off_goal": 0,
     "on_goal_pct": null,
+    "on_goal_major_pct": null,
+    "on_goal_minor_pct": null,
     "new_scope": 0,
     "creep": 0,
     "creep_pct": null,
     "goals": []
-   }
+   },
+   "rag": "parked",
+   "rag_reasons": [],
+   "prev": null
   },
   {
    "slug": "ktv-singer",
@@ -394,22 +434,27 @@
     "on_goal": 0,
     "off_goal": 0,
     "on_goal_pct": null,
+    "on_goal_major_pct": null,
+    "on_goal_minor_pct": null,
     "new_scope": 0,
     "creep": 0,
     "creep_pct": null,
     "goals": []
-   }
+   },
+   "rag": "parked",
+   "rag_reasons": [],
+   "prev": null
   },
   {
    "slug": "jameschang-co",
    "name": "jameschang.co",
    "status": "active",
    "target_share": 5,
-   "actual_share": 1.3,
-   "hours": 1.8,
-   "spend": 33.28,
+   "actual_share": 2.6,
+   "hours": 3.6,
+   "spend": 65.48,
    "fixed_monthly": 0,
-   "last_activity": "2026-09-30T20:36:00+00:00",
+   "last_activity": "2026-10-01T00:13:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -430,7 +475,8 @@
       "card",
       "cards"
      ],
-     "set": "2026-09-30"
+     "set": "2026-09-30",
+     "tier": "major"
     },
     {
      "id": "g2",
@@ -444,17 +490,20 @@
       "scope",
       "budget"
      ],
-     "set": "2026-09-30"
+     "set": "2026-09-30",
+     "tier": "major"
     }
    ],
    "alignment": {
-    "total": 41,
-    "on_goal": 15,
-    "off_goal": 26,
-    "on_goal_pct": 36.6,
-    "new_scope": 10,
-    "creep": 3,
-    "creep_pct": 30.0,
+    "total": 62,
+    "on_goal": 22,
+    "off_goal": 40,
+    "on_goal_pct": 35.5,
+    "on_goal_major_pct": 35.5,
+    "on_goal_minor_pct": 0.0,
+    "new_scope": 14,
+    "creep": 5,
+    "creep_pct": 35.7,
     "goals": [
      {
       "id": "g1",
@@ -462,10 +511,13 @@
      },
      {
       "id": "g2",
-      "prompts": 12
+      "prompts": 19
      }
     ]
-   }
+   },
+   "rag": "green",
+   "rag_reasons": [],
+   "prev": null
   },
   {
    "slug": "vouch",
@@ -487,11 +539,16 @@
     "on_goal": 0,
     "off_goal": 0,
     "on_goal_pct": null,
+    "on_goal_major_pct": null,
+    "on_goal_minor_pct": null,
     "new_scope": 0,
     "creep": 0,
     "creep_pct": null,
     "goals": []
-   }
+   },
+   "rag": "parked",
+   "rag_reasons": [],
+   "prev": null
   },
   {
    "slug": "tip",
@@ -513,18 +570,23 @@
     "on_goal": 0,
     "off_goal": 0,
     "on_goal_pct": null,
+    "on_goal_major_pct": null,
+    "on_goal_minor_pct": null,
     "new_scope": 0,
     "creep": 0,
     "creep_pct": null,
     "goals": []
-   }
+   },
+   "rag": "parked",
+   "rag_reasons": [],
+   "prev": null
   },
   {
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 27.8,
+   "actual_share": 27.6,
    "hours": 38.9,
    "spend": 2298.29,
    "fixed_monthly": 0,
@@ -552,7 +614,8 @@
       "clicks",
       "conversion"
      ],
-     "set": "2026-09-30"
+     "set": "2026-09-30",
+     "tier": "major"
     },
     {
      "id": "g2",
@@ -566,7 +629,8 @@
       "patient",
       "practice"
      ],
-     "set": "2026-09-30"
+     "set": "2026-09-30",
+     "tier": "major"
     }
    ],
    "alignment": {
@@ -574,6 +638,8 @@
     "on_goal": 38,
     "off_goal": 304,
     "on_goal_pct": 11.1,
+    "on_goal_major_pct": 11.1,
+    "on_goal_minor_pct": 0.0,
     "new_scope": 47,
     "creep": 31,
     "creep_pct": 66.0,
@@ -587,7 +653,12 @@
       "prompts": 32
      }
     ]
-   }
+   },
+   "rag": "amber",
+   "rag_reasons": [
+    "creep 66% ≥ 50%"
+   ],
+   "prev": null
   },
   {
    "slug": "family-sites",
@@ -618,7 +689,8 @@
       "award",
       "fix"
      ],
-     "set": "2026-09-30"
+     "set": "2026-09-30",
+     "tier": "major"
     }
    ],
    "alignment": {
@@ -626,6 +698,8 @@
     "on_goal": 7,
     "off_goal": 59,
     "on_goal_pct": 10.6,
+    "on_goal_major_pct": 10.6,
+    "on_goal_minor_pct": 0.0,
     "new_scope": 11,
     "creep": 8,
     "creep_pct": 72.7,
@@ -635,21 +709,26 @@
       "prompts": 7
      }
     ]
-   }
+   },
+   "rag": "red",
+   "rag_reasons": [
+    "creep 73% ≥ 70%"
+   ],
+   "prev": null
   }
  ],
  "candidates": [],
  "ideas": [],
  "money": {
-  "claude_total": 6936.88,
+  "claude_total": 7057.87,
   "fixed_total": 0
  },
  "health": {
-  "files": 925,
-  "lines": 253481,
+  "files": 889,
+  "lines": 245458,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 9,
+  "changed_files": 11,
   "warning": null
  }
 }

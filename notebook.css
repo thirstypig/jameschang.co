@@ -34,6 +34,7 @@
   --pos: #2f5d3a;
   --warn: #a35d2a;
   --danger: #8a2f2a;
+  --rag-amber: #b7791f;  /* RAG amber — golden so it can't be mistaken for --danger */
 
   --mono: 'Geist Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   --display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
@@ -63,6 +64,7 @@
     --pos: #7cb88a;
     --warn: #d88a54;
     --danger: #d97766;
+    --rag-amber: #d9b44a;  /* dark --warn is near --danger; RAG needs a distinct amber */
     --color-border-info: #60a5fa;
     --color-border-success: #4ade80;
     --color-border-warning: #fbbf24;
@@ -83,6 +85,7 @@
   --pos: #7cb88a;
   --warn: #d88a54;
   --danger: #d97766;
+  --rag-amber: #d9b44a;  /* dark --warn is near --danger; RAG needs a distinct amber */
   --color-border-info: #60a5fa;
   --color-border-success: #4ade80;
   --color-border-warning: #fbbf24;
@@ -102,6 +105,7 @@
   --pos: #2f5d3a;
   --warn: #a35d2a;
   --danger: #8a2f2a;
+  --rag-amber: #b7791f;  /* RAG amber — golden so it can't be mistaken for --danger */
 }
 
 * { box-sizing: border-box; }
@@ -2288,6 +2292,9 @@ a:hover { text-decoration: underline; }
 .nb-health-dot--ok { background: var(--pos); }
 .nb-health-dot--warn { background: var(--warn); }
 .nb-health-dot--danger { background: var(--danger); }
+/* known down on purpose (KNOWN_DOWN in admin/health.js) — grey, not an alarm */
+.nb-health-dot--down { background: var(--rule); }
+.nb-health-next { font-size: 0.85em; color: inherit; }
 /* fresh, but reporting something — a ring rather than a solid fill, so it
    reads as "look at this" without being mistaken for a dead feed. */
 .nb-health-dot--note {
@@ -2408,9 +2415,14 @@ a:hover { text-decoration: underline; }
   border: var(--border-w) solid var(--rule); background: var(--surface); padding: 0.7rem 0.9rem;
 }
 .nb-cockpit-kind {
-  font-family: var(--mono); font-size: 0.72rem; color: var(--accent-ink); background: var(--accent);
-  padding: 0.05rem 0.4rem; flex: 0 0 auto;
+  font-family: var(--mono); font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.06em;
+  border: 1px solid currentColor; padding: 0.05rem 0.35rem; margin-right: 0.5rem; vertical-align: 0.1em;
 }
+.nb-cockpit-decision--high { border-left: 5px solid var(--danger); }
+.nb-cockpit-decision--high .nb-cockpit-kind { color: var(--danger); }
+.nb-cockpit-decision--medium { border-left: 5px solid var(--rag-amber); }
+.nb-cockpit-decision--medium .nb-cockpit-kind { color: var(--rag-amber); }
+.nb-cockpit-decision-actions a { color: var(--accent); }
 .nb-cockpit-decision-body p { margin: 0 0 0.2rem; }
 .nb-cockpit-decision-title { font-size: 0.95rem; }
 .nb-cockpit-decision-detail, .nb-cockpit-decision-actions { font-family: var(--mono); font-size: 0.75rem; color: var(--dim); }
@@ -2424,7 +2436,7 @@ a:hover { text-decoration: underline; }
 .nb-cockpit-bars { display: flex; flex-direction: column; gap: 2px; }
 .nb-cockpit-bar { display: block; height: 5px; min-width: 2px; }
 .nb-cockpit-bar--target { background: var(--rule); }
-.nb-cockpit-bar--actual { background: var(--accent); }
+.nb-cockpit-bar--actual { background: var(--pos); }
 .nb-cockpit-alloc-num { color: var(--dim); font-size: 0.75rem; white-space: nowrap; }
 .nb-cockpit-money { display: flex; flex-direction: column; font-family: var(--mono); font-size: 0.82rem; }
 .nb-cockpit-money-row {
@@ -2462,6 +2474,69 @@ a:hover { text-decoration: underline; }
 .nb-rag-red { color: var(--danger) !important; }
 .nb-rag-amber { color: var(--warn) !important; }
 .nb-rag-green { color: var(--pos) !important; }
+/* ---- cockpit redesign (2026-09-30) ---- */
+.nb-cockpit-guide { border: 1px dashed var(--rule); background: var(--surface); padding: 0 0.9rem; margin: 0.6rem 0 1.6rem; font-family: var(--mono); font-size: 0.76rem; }
+.nb-cockpit-guide > summary { cursor: pointer; padding: 0.6rem 0; color: var(--accent); }
+.nb-cockpit-guide dl { display: grid; grid-template-columns: minmax(9rem, 13rem) 1fr; gap: 0.35rem 1rem; margin: 0 0 0.9rem; }
+.nb-cockpit-guide dt { color: var(--ink); font-weight: 600; }
+.nb-cockpit-guide dd { margin: 0; color: var(--dim); }
+@media (max-width: 640px) { .nb-cockpit-guide dl { grid-template-columns: minmax(0, 1fr); } .nb-cockpit-guide dd { margin-bottom: 0.4rem; } }
+.nb-cockpit-sec > summary { cursor: pointer; list-style: none; }
+.nb-cockpit-sec > summary::-webkit-details-marker { display: none; }
+.nb-cockpit-sec > summary h2::before { content: "▾ "; color: var(--dim); font-size: 0.75em; }
+.nb-cockpit-sec:not([open]) > summary h2::before { content: "▸ "; }
+.nb-cockpit-sec > summary h2 { display: inline; }
+.nb-cockpit-table th small { display: block; font-size: 0.62rem; opacity: 0.85; }
+.nb-cockpit-sub { display: block; color: var(--dim); font-size: 0.66rem; white-space: normal; }
+.nb-rag-dot { display: inline-block; width: 0.55rem; height: 0.55rem; border-radius: 50%; margin-right: 0.45rem; background: var(--rule); }
+.nb-rag-dot--red { background: var(--danger); }
+.nb-rag-dot--amber { background: var(--rag-amber); }
+.nb-rag-dot--green { background: var(--pos); }
+.nb-rag-dot--parked, .nb-rag-dot--none { background: transparent; box-shadow: inset 0 0 0 1.5px var(--dim); }
+.nb-trend { font-size: 0.68rem; }
+.nb-trend--good { color: var(--pos); }
+.nb-trend--bad { color: var(--danger); }
+.nb-trend--flat { color: var(--dim); }
+.nb-cockpit-grouprow td { padding: 0.7rem 0.55rem 0.3rem; border-bottom: 1px solid var(--rule); }
+.nb-cockpit-grouptoggle { font: inherit; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.66rem; color: var(--accent); background: none; border: 0; padding: 0; cursor: pointer; }
+.nb-cockpit-group.is-collapsed tr:not(.nb-cockpit-grouprow) { display: none; }
+.nb-cockpit-table tr.nb-cockpit-row td { border-bottom: 1px dashed var(--rule); padding-bottom: 0.45rem; }
+.nb-cockpit-more { font: inherit; font-size: 0.66rem; color: var(--accent); background: none; border: 0; padding: 0; cursor: pointer; display: block; margin-top: 0.2rem; }
+.nb-cockpit-detail td { white-space: normal; background: var(--surface-2); }
+.nb-cockpit-dl { display: grid; grid-template-columns: 8rem 1fr; gap: 0.25rem 0.8rem; margin: 0; font-size: 0.72rem; }
+.nb-cockpit-dl dt { color: var(--dim); }
+.nb-cockpit-dl dd { margin: 0; }
+.nb-cockpit-dl a { color: var(--accent); }
+.nb-cockpit-unset { color: var(--warn); }
+.nb-cockpit-dim { color: var(--dim); }
+.nb-cockpit-goal-toggle { font-family: var(--mono); font-size: 0.68rem; float: right; background: transparent; color: var(--accent); border: 1px solid var(--rule); padding: 0.05rem 0.45rem; cursor: pointer; }
+.nb-cockpit-goal--major .nb-cockpit-goal-text { font-weight: 600; }
+.nb-cockpit-goal-tiertag { font-family: var(--mono); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dim); }
+.nb-cockpit-goal-tier { font-family: var(--mono); font-size: 0.75rem; background: var(--bg); color: var(--ink); border: 1px solid var(--rule); }
+.nb-cockpit-goalset--parked { opacity: 0.85; }
+/* cockpit phone order */
+@media (max-width: 960px) {
+  .nb-cockpit-layout { display: flex; flex-direction: column; }
+  .nb-cockpit-main, .nb-cockpit-side { display: contents; }
+  .nb-cockpit-side .nb-admin-section:first-child { margin-top: 0; }
+  #sec-decide { order: 1 }
+  #sec-health { order: 2 }
+  #sec-portfolio { order: 3 }
+  #sec-goals { order: 4 }
+  #sec-time { order: 5 }
+  #sec-money { order: 6 }
+  #sec-ideas { order: 7 }
+  .nb-cockpit-table-wrap { overflow-x: visible; }
+  .nb-cockpit-table thead { display: none; }
+  .nb-cockpit-table, .nb-cockpit-table tbody, .nb-cockpit-table tr, .nb-cockpit-table td { display: block; width: 100%; }
+  .nb-cockpit-group.is-collapsed tr:not(.nb-cockpit-grouprow) { display: none; }
+  .nb-cockpit-table td { white-space: normal; border: 0; padding: 0.1rem 0; }
+  .nb-cockpit-table tr.nb-cockpit-row { border-bottom: 1px dashed var(--rule); padding: 0.5rem 0; }
+  .nb-cockpit-table tr.nb-cockpit-row td { border: 0; padding: 0.1rem 0; }
+  .nb-cockpit-table td[data-l]:not([data-l=""])::before { content: attr(data-l) " "; color: var(--dim); font-size: 0.66rem; }
+  .nb-cockpit-detail[hidden] { display: none !important; }
+  .nb-cockpit-dl { grid-template-columns: 6.5rem 1fr; }
+}
 .nb-cockpit-goalset { border: var(--border-w) solid var(--rule); background: var(--surface); padding: 0.75rem 0.9rem; margin-bottom: 0.7rem; }
 .nb-cockpit-goalset-head { margin: 0 0 0.4rem; font-size: 0.9rem; }
 .nb-cockpit-goallist { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.3rem; }

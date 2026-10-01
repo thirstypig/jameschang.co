@@ -10,6 +10,13 @@
   const FRESH_H = 24;   // green under this
   const STALE_H = 48;   // red over this (the monitor opens an issue here)
 
+  // Feeds known to be down on purpose. A permanent red dot teaches you to ignore
+  // red, so these render grey with the reason and sort below real problems.
+  // Remove an entry when the feed is fixed or retired.
+  const KNOWN_DOWN = {
+    spotify: "deferred — Spotify dev-mode lockdown (Feb 2026)",
+  };
+
   const el = (tag, cls, text) => {
     const n = document.createElement(tag);
     if (cls) n.className = cls;
@@ -32,7 +39,7 @@
   // Severity order for display. Age alone is not severity: a fresh feed that
   // is dropping content every run outranks a healthy one, and must not sort
   // below it.
-  const RANK = { danger: 0, warn: 1, note: 2, ok: 3 };
+  const RANK = { danger: 0, warn: 1, note: 2, ok: 3, down: 4 };
 
   // Roll last_error up from colon-suffixed sub-slugs to their parent row.
   //
@@ -72,7 +79,8 @@
       .map(([slug, info]) => {
         const h = ageHours(info && info.last_success_utc);
         const n = notes[slug] || [];
-        return { slug, h, notes: n, st: stateFor(h, n.length) };
+        const st = KNOWN_DOWN[slug] && rag(h) !== "ok" ? "down" : stateFor(h, n.length);
+        return { slug, h, notes: st === "down" ? [KNOWN_DOWN[slug]] : n, st };
       })
       .sort((a, b) => RANK[a.st] - RANK[b.st] || b.h - a.h);
 
@@ -82,7 +90,7 @@
       row.append(el("span", `nb-health-dot nb-health-dot--${st}`));
       row.append(el("span", "nb-health-slug", slug));
       if (n.length > 1) row.append(el("span", "nb-health-sub", `${n.length} sub-feeds`));
-      row.append(el("span", "nb-health-age", relAge(h)));
+      row.append(el("span", "nb-health-age", st === "down" ? "expected down" : relAge(h)));
       nodes.push(row);
       // textContent via el() — last_error is upstream-derived text and this
       // page never uses innerHTML.
@@ -106,6 +114,14 @@
     if (nod > 0) msg += ` · ${nod} need a date`;
     bell.className = `nb-health-doorbell nb-health-doorbell--${cls}`;
     bell.textContent = msg;
+    if (soon > 0 || near > 0) {
+      // Next step: check-expiry.py files one issue per credential ("Credential expiring: <id>").
+      const next = el("a", "nb-health-next", "see which ones → open expiry issues");
+      next.href = 'https://github.com/thirstypig/jameschang.co/issues?q=is%3Aopen+%22Credential+expiring%22';
+      next.target = "_blank";
+      next.rel = "noopener";
+      bell.append(document.createElement("br"), next);
+    }
   };
 
   const load = async () => {
