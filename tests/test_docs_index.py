@@ -552,6 +552,26 @@ class TestProjectSlugCoherence:
             f"(rename drift): {orphans}"
         )
 
+    def test_index_lists_a_labelled_group_for_every_docs_project(self):
+        """The sidebar groups docs per project (collapsible). Every project a
+        doc is filed under needs exactly one group entry with a human label —
+        a missing entry would orphan its docs from the nav."""
+        index = idx.build_index()
+        groups = index["projects"]
+        slugs = [g["slug"] for g in groups]
+        assert len(slugs) == len(set(slugs)), f"duplicate groups: {slugs}"
+        used = {d["project"] for d in index["docs"]}
+        assert used == set(slugs), (
+            f"groups {sorted(set(slugs))} != doc projects {sorted(used)}")
+        assert all(g["label"] for g in groups)
+        names = {p["slug"]: p["name"] for p in json.load(open(
+            os.path.join(REPO_ROOT, "bin", "projects-config.json"),
+            encoding="utf-8"))["projects"]}
+        for g in groups:
+            if g["slug"] in names:
+                assert g["label"] == names[g["slug"]], g
+        assert slugs[0] == "portfolio" and slugs[-1] == idx.SITE_ENG_PROJECT
+
     def test_project_folders_are_real_project_slugs(self):
         """`admin/docs/projects/<slug>/` folder names are the hub's on-disk
         grouping. A stale folder survives a rename silently — the frontmatter

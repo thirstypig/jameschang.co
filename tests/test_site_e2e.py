@@ -1933,6 +1933,28 @@ class TestAdminPortfolio:
         assert ".nb-portfolio-stage" in _read("notebook.css")
 
 
+class TestAdminDocsNav:
+    """/admin/docs/ sidebar: one collapsible <details> group per project,
+    driven by index.json's `projects` list; open state is a per-viewer
+    convenience in localStorage, so every access must tolerate a throw."""
+
+    def _js(self):
+        with open(os.path.join(REPO_ROOT, "admin", "docs-viewer.js"), encoding="utf-8") as f:
+            return f.read()
+
+    def test_sidebar_groups_by_project_in_details(self):
+        js = self._js()
+        assert "INDEX.projects" in js, "sidebar must group by index.json projects"
+        assert 'el("details"' in js and 'el("summary"' in js
+
+    def test_open_state_storage_is_guarded(self):
+        js = self._js()
+        assert js.count("localStorage") >= 2
+        for m in re.finditer(r"localStorage\.(getItem|setItem)", js):
+            before = js[max(0, m.start() - 120):m.start()]
+            assert "try" in before, "localStorage access must be inside try/catch"
+
+
 class TestAdminCockpit:
     """/admin/ is the cockpit: decide/time/money/ideas from admin/cockpit.json, a
     snapshot the private ~/Projects/cockpit pushes from James's Mac. Published

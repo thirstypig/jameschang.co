@@ -2331,6 +2331,23 @@ a:hover { text-decoration: underline; }
   letter-spacing: 0.06em; color: var(--ink); margin: 0;
 }
 .nb-docs-section-blurb { font-size: 0.72rem; color: var(--dim); margin: 0.1rem 0 0.4rem; }
+/* Per-project collapsible groups (admin/docs-viewer.js). */
+.nb-docs-group { border-top: 1px dashed var(--rule); }
+.nb-docs-group:last-child { border-bottom: 1px dashed var(--rule); }
+.nb-docs-group-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem;
+  cursor: pointer; list-style: none; padding: 0.45rem 0.4rem;
+  font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--ink);
+}
+.nb-docs-group-head::-webkit-details-marker { display: none; }
+.nb-docs-group-head::before { content: "▸"; color: var(--dim); margin-right: 0.4rem; }
+.nb-docs-group[open] > .nb-docs-group-head::before { content: "▾"; }
+.nb-docs-group-head:hover { background: var(--surface-2); }
+.nb-docs-group-title { flex: 1; }
+.nb-docs-group-count { color: var(--dim); font-size: 0.65rem; }
+.nb-docs-group > .nb-docs-row { padding-left: 1.3rem; }
+.nb-docs-group[open] { padding-bottom: 0.35rem; }
 .nb-docs-row {
   display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem;
   width: 100%; text-align: left; background: none; border: none; cursor: pointer;

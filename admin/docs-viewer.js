@@ -41,6 +41,24 @@
     return row;
   };
 
+  // Which project groups are open — a per-viewer convenience, so storage may be
+  // missing or throw (private window, blocked site data); the nav works without it.
+  const OPEN_KEY = "jc-docs-open";
+  const loadOpen = () => {
+    try { return new Set(JSON.parse(localStorage.getItem(OPEN_KEY) || "[]")); }
+    catch (e) { return new Set(); }
+  };
+  const saveOpen = (set) => {
+    try { localStorage.setItem(OPEN_KEY, JSON.stringify([...set])); }
+    catch (e) { /* convenience only */ }
+  };
+  const openGroups = loadOpen();
+
+  const sectionRank = (key) => {
+    const i = INDEX.sections.findIndex((s) => s.key === key);
+    return i < 0 ? INDEX.sections.length : i;
+  };
+
   const renderSidebar = (q) => {
     const sidebar = document.getElementById("docs-sidebar");
     sidebar.replaceChildren();
@@ -58,21 +76,33 @@
       shown++;
     }
 
-    for (const section of INDEX.sections) {
+    // One collapsible group per project. A group opens when the viewer left it
+    // open, when it holds the doc on screen, or when a search matches inside it.
+    for (const group of INDEX.projects) {
       const docs = INDEX.docs
-        .filter((d) => d.section === section.key && d.id !== PINNED_ID && matches(d, q))
-        .sort((a, b) => a.title.localeCompare(b.title));
+        .filter((d) => d.project === group.slug && d.id !== PINNED_ID && matches(d, q))
+        .sort((a, b) => sectionRank(a.section) - sectionRank(b.section)
+          || a.title.localeCompare(b.title));
       if (!docs.length) continue;
 
-      const head = el("div", "nb-docs-section-head");
-      head.append(el("h2", "nb-docs-section-title", section.label));
-      head.append(el("p", "nb-docs-section-blurb", section.blurb));
-      sidebar.append(head);
-
+      const box = el("details", "nb-docs-group");
+      box.open = Boolean(q) || openGroups.has(group.slug)
+        || docs.some((d) => d.id === currentId);
+      const summary = el("summary", "nb-docs-group-head");
+      summary.append(el("span", "nb-docs-group-title", group.label));
+      summary.append(el("span", "nb-docs-group-count", String(docs.length)));
+      box.append(summary);
       for (const d of docs) {
         shown++;
-        sidebar.append(makeRow(d));
+        box.append(makeRow(d));
       }
+      // Remember only deliberate toggles, not the ones search forces open.
+      box.addEventListener("toggle", () => {
+        if (q) return;
+        if (box.open) openGroups.add(group.slug); else openGroups.delete(group.slug);
+        saveOpen(openGroups);
+      });
+      sidebar.append(box);
     }
     if (!shown) {
       sidebar.append(el("p", "nb-docs-empty", "No docs match."));

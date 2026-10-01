@@ -495,8 +495,25 @@ def build_index():
     return {
         "generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "sections": sections,
+        "projects": project_groups({d["project"] for d in docs}),
         "docs": docs,
     }
+
+
+def project_groups(used):
+    """Sidebar groups, one per project that has docs: portfolio first, then
+    projects in projects-config order (labelled with their display name),
+    site engineering last. A doc project absent from the config still gets
+    a group (labelled by slug) so its docs are never orphaned from the nav."""
+    with open(os.path.join(REPO_ROOT, "bin", "projects-config.json"), encoding="utf-8") as f:
+        config = json.load(f)["projects"]
+    order = ([("portfolio", "Portfolio")]
+             + [(p["slug"], p["name"]) for p in config]
+             + [(SITE_ENG_PROJECT, "Site engineering")])
+    groups = [{"slug": s, "label": lbl} for s, lbl in order if s in used]
+    known = {g["slug"] for g in groups}
+    groups[-1:-1] = [{"slug": s, "label": s} for s in sorted(used - known)]
+    return groups
 
 
 def main():
