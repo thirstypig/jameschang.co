@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-06T16:35:29.651365+00:00",
+ "generated": "2026-10-06T19:35:34.778082+00:00",
  "window_days": 28,
- "total_hours": 115.7,
- "session_hours": 200.5,
+ "total_hours": 115.6,
+ "session_hours": 200.4,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -126,7 +126,7 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 65.0,
-   "hours": 75.2,
+   "hours": 75.1,
    "spend": 3526.08,
    "fixed_monthly": 0,
    "last_activity": "2026-10-01T06:41:00+00:00",
@@ -454,7 +454,7 @@
    "hours": 4.4,
    "spend": 95.82,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-06T06:35:25-07:00",
+   "last_activity": "2026-10-06T09:35:30-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -587,7 +587,7 @@
    "status": "active",
    "target_share": 30,
    "actual_share": 25.3,
-   "hours": 29.3,
+   "hours": 29.2,
    "spend": 1668.2,
    "fixed_monthly": 0,
    "last_activity": "2026-09-30T08:25:00+00:00",
