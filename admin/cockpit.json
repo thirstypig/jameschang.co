@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-06T19:35:34.778082+00:00",
+ "generated": "2026-10-06T22:35:39.980435+00:00",
  "window_days": 28,
- "total_hours": 115.6,
- "session_hours": 200.4,
+ "total_hours": 117.0,
+ "session_hours": 201.8,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -38,7 +38,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 65.0
+   "actual": 65.4
   },
   {
    "slug": "fantastic-leagues",
@@ -86,7 +86,7 @@
    "slug": "jameschang-co",
    "name": "jameschang.co",
    "target": 5,
-   "actual": 3.8
+   "actual": 3.7
   },
   {
    "slug": "vouch",
@@ -104,7 +104,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 25.3
+   "actual": 25.0
   },
   {
    "slug": "family-sites",
@@ -125,11 +125,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 65.0,
-   "hours": 75.1,
-   "spend": 3526.08,
+   "actual_share": 65.4,
+   "hours": 76.5,
+   "spend": 3530.47,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-01T06:41:00+00:00",
+   "last_activity": "2026-10-06T22:35:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -200,11 +200,11 @@
     }
    ],
    "alignment": {
-    "total": 270,
+    "total": 276,
     "on_goal": 49,
-    "off_goal": 221,
-    "on_goal_pct": 18.1,
-    "on_goal_major_pct": 18.1,
+    "off_goal": 227,
+    "on_goal_pct": 17.8,
+    "on_goal_major_pct": 17.8,
     "on_goal_minor_pct": 0.0,
     "new_scope": 25,
     "creep": 11,
@@ -237,7 +237,7 @@
    "hours": 0.0,
    "spend": 0.0,
    "fixed_monthly": 0,
-   "last_activity": "2026-09-01T00:46:00+00:00",
+   "last_activity": "2026-07-06T10:02:10-07:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
@@ -450,11 +450,11 @@
    "name": "jameschang.co",
    "status": "active",
    "target_share": 5,
-   "actual_share": 3.8,
+   "actual_share": 3.7,
    "hours": 4.4,
    "spend": 95.82,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-06T09:35:30-07:00",
+   "last_activity": "2026-10-06T12:35:35-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -586,7 +586,7 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 25.3,
+   "actual_share": 25.0,
    "hours": 29.2,
    "spend": 1668.2,
    "fixed_monthly": 0,
@@ -720,15 +720,15 @@
  "candidates": [],
  "ideas": [],
  "money": {
-  "claude_total": 5721.24,
+  "claude_total": 5725.64,
   "fixed_total": 0
  },
  "health": {
-  "files": 897,
-  "lines": 247390,
+  "files": 747,
+  "lines": 200008,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 0,
+  "changed_files": 21,
   "warning": null
  }
 }
