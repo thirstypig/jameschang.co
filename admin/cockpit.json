@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-06T22:35:39.980435+00:00",
+ "generated": "2026-10-07T02:12:03.362161+00:00",
  "window_days": 28,
- "total_hours": 117.0,
- "session_hours": 201.8,
+ "total_hours": 115.7,
+ "session_hours": 198.9,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -38,7 +38,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 65.4
+   "actual": 65.2
   },
   {
    "slug": "fantastic-leagues",
@@ -86,7 +86,7 @@
    "slug": "jameschang-co",
    "name": "jameschang.co",
    "target": 5,
-   "actual": 3.7
+   "actual": 3.8
   },
   {
    "slug": "vouch",
@@ -104,7 +104,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 25.0
+   "actual": 25.1
   },
   {
    "slug": "family-sites",
@@ -125,11 +125,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 65.4,
-   "hours": 76.5,
-   "spend": 3530.47,
+   "actual_share": 65.2,
+   "hours": 75.5,
+   "spend": 3530.67,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-06T22:35:00+00:00",
+   "last_activity": "2026-10-06T22:43:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -450,11 +450,11 @@
    "name": "jameschang.co",
    "status": "active",
    "target_share": 5,
-   "actual_share": 3.7,
+   "actual_share": 3.8,
    "hours": 4.4,
    "spend": 95.82,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-06T12:35:35-07:00",
+   "last_activity": "2026-10-06T15:35:41-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -586,9 +586,9 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 25.0,
-   "hours": 29.2,
-   "spend": 1668.2,
+   "actual_share": 25.1,
+   "hours": 29.0,
+   "spend": 1644.4,
    "fixed_monthly": 0,
    "last_activity": "2026-09-30T08:25:00+00:00",
    "review_by": null,
@@ -634,11 +634,11 @@
     }
    ],
    "alignment": {
-    "total": 298,
+    "total": 296,
     "on_goal": 36,
-    "off_goal": 262,
-    "on_goal_pct": 12.1,
-    "on_goal_major_pct": 12.1,
+    "off_goal": 260,
+    "on_goal_pct": 12.2,
+    "on_goal_major_pct": 12.2,
     "on_goal_minor_pct": 0.0,
     "new_scope": 43,
     "creep": 27,
@@ -720,15 +720,15 @@
  "candidates": [],
  "ideas": [],
  "money": {
-  "claude_total": 5725.64,
+  "claude_total": 5702.03,
   "fixed_total": 0
  },
  "health": {
-  "files": 747,
-  "lines": 200008,
+  "files": 748,
+  "lines": 200099,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 21,
+  "changed_files": 2,
   "warning": null
  }
 }
