@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-07T02:12:03.362161+00:00",
+ "generated": "2026-10-07T05:12:08.590336+00:00",
  "window_days": 28,
- "total_hours": 115.7,
- "session_hours": 198.9,
+ "total_hours": 114.1,
+ "session_hours": 195.0,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -38,7 +38,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 65.2
+   "actual": 65.0
   },
   {
    "slug": "fantastic-leagues",
@@ -110,7 +110,7 @@
    "slug": "family-sites",
    "name": "Family sites",
    "target": 5,
-   "actual": 5.6
+   "actual": 5.7
   },
   {
    "slug": "_other",
@@ -125,9 +125,9 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 65.2,
-   "hours": 75.5,
-   "spend": 3530.67,
+   "actual_share": 65.0,
+   "hours": 74.2,
+   "spend": 3421.92,
    "fixed_monthly": 0,
    "last_activity": "2026-10-06T22:43:00+00:00",
    "review_by": null,
@@ -200,15 +200,15 @@
     }
    ],
    "alignment": {
-    "total": 276,
-    "on_goal": 49,
-    "off_goal": 227,
-    "on_goal_pct": 17.8,
-    "on_goal_major_pct": 17.8,
+    "total": 267,
+    "on_goal": 47,
+    "off_goal": 220,
+    "on_goal_pct": 17.6,
+    "on_goal_major_pct": 17.6,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 25,
+    "new_scope": 24,
     "creep": 11,
-    "creep_pct": 44.0,
+    "creep_pct": 45.8,
     "goals": [
      {
       "id": "g1",
@@ -220,7 +220,7 @@
      },
      {
       "id": "g3",
-      "prompts": 41
+      "prompts": 39
      }
     ]
    },
@@ -454,7 +454,7 @@
    "hours": 4.4,
    "spend": 95.82,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-06T15:35:41-07:00",
+   "last_activity": "2026-10-06T19:12:04-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -587,8 +587,8 @@
    "status": "active",
    "target_share": 30,
    "actual_share": 25.1,
-   "hours": 29.0,
-   "spend": 1644.4,
+   "hours": 28.7,
+   "spend": 1621.04,
    "fixed_monthly": 0,
    "last_activity": "2026-09-30T08:25:00+00:00",
    "review_by": null,
@@ -634,9 +634,9 @@
     }
    ],
    "alignment": {
-    "total": 296,
+    "total": 294,
     "on_goal": 36,
-    "off_goal": 260,
+    "off_goal": 258,
     "on_goal_pct": 12.2,
     "on_goal_major_pct": 12.2,
     "on_goal_minor_pct": 0.0,
@@ -665,7 +665,7 @@
    "name": "Family sites",
    "status": "active",
    "target_share": 5,
-   "actual_share": 5.6,
+   "actual_share": 5.7,
    "hours": 6.5,
    "spend": 416.0,
    "fixed_monthly": 0,
@@ -720,7 +720,7 @@
  "candidates": [],
  "ideas": [],
  "money": {
-  "claude_total": 5702.03,
+  "claude_total": 5569.92,
   "fixed_total": 0
  },
  "health": {
@@ -728,7 +728,7 @@
   "lines": 200099,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 2,
+  "changed_files": 1,
   "warning": null
  }
 }
