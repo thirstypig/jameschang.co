@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-07T14:12:23.491855+00:00",
+ "generated": "2026-10-07T17:32:57.038916+00:00",
  "window_days": 28,
- "total_hours": 113.7,
- "session_hours": 194.2,
+ "total_hours": 115.5,
+ "session_hours": 196.0,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -38,7 +38,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 65.1
+   "actual": 65.6
   },
   {
    "slug": "fantastic-leagues",
@@ -104,13 +104,13 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 25.1
+   "actual": 24.7
   },
   {
    "slug": "family-sites",
    "name": "Family sites",
    "target": 5,
-   "actual": 5.7
+   "actual": 5.6
   },
   {
    "slug": "_other",
@@ -125,11 +125,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 65.1,
-   "hours": 74.0,
-   "spend": 3421.92,
+   "actual_share": 65.6,
+   "hours": 75.8,
+   "spend": 3496.01,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-06T22:43:00+00:00",
+   "last_activity": "2026-10-07T17:32:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -200,11 +200,11 @@
     }
    ],
    "alignment": {
-    "total": 267,
+    "total": 273,
     "on_goal": 47,
-    "off_goal": 220,
-    "on_goal_pct": 17.6,
-    "on_goal_major_pct": 17.6,
+    "off_goal": 226,
+    "on_goal_pct": 17.2,
+    "on_goal_major_pct": 17.2,
     "on_goal_minor_pct": 0.0,
     "new_scope": 24,
     "creep": 11,
@@ -454,7 +454,7 @@
    "hours": 4.4,
    "spend": 95.82,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-07T04:12:19-07:00",
+   "last_activity": "2026-10-07T07:12:24-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -586,7 +586,7 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 25.1,
+   "actual_share": 24.7,
    "hours": 28.5,
    "spend": 1621.04,
    "fixed_monthly": 0,
@@ -665,7 +665,7 @@
    "name": "Family sites",
    "status": "active",
    "target_share": 5,
-   "actual_share": 5.7,
+   "actual_share": 5.6,
    "hours": 6.5,
    "spend": 416.0,
    "fixed_monthly": 0,
@@ -720,15 +720,15 @@
  "candidates": [],
  "ideas": [],
  "money": {
-  "claude_total": 5569.92,
+  "claude_total": 5644.01,
   "fixed_total": 0
  },
  "health": {
-  "files": 748,
-  "lines": 200099,
+  "files": 741,
+  "lines": 195106,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 1,
+  "changed_files": 9,
   "warning": null
  }
 }
