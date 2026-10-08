@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-08T16:05:43.136567+00:00",
+ "generated": "2026-10-08T21:56:29.063110+00:00",
  "window_days": 28,
- "total_hours": 108.9,
- "session_hours": 180.5,
+ "total_hours": 107.9,
+ "session_hours": 177.8,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -45,6 +45,21 @@
     "accept"
    ],
    "severity": "medium"
+  },
+  {
+   "id": "A:pasadenaworks",
+   "kind": "A",
+   "reason": "A",
+   "target": "pasadenaworks",
+   "title": "Pasadena Works: 20% of your time vs 30% target",
+   "detail": "last 28 days · 107.9h total",
+   "magnitude": 10.207689932056837,
+   "actions": [
+    "change_target",
+    "accept"
+   ],
+   "value_hint": -1,
+   "severity": "medium"
   }
  ],
  "allocation": [
@@ -52,7 +67,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 69.3
+   "actual": 69.8
   },
   {
    "slug": "fantastic-leagues",
@@ -118,7 +133,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 20.4
+   "actual": 19.8
   },
   {
    "slug": "family-sites",
@@ -139,11 +154,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 69.3,
-   "hours": 75.4,
-   "spend": 3185.17,
+   "actual_share": 69.8,
+   "hours": 75.3,
+   "spend": 3290.92,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-08T15:54:00+00:00",
+   "last_activity": "2026-10-08T16:58:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -510,7 +525,7 @@
    "hours": 4.4,
    "spend": 95.82,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-08T06:05:39-07:00",
+   "last_activity": "2026-10-08T09:05:44-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -657,8 +672,8 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 20.4,
-   "hours": 22.2,
+   "actual_share": 19.8,
+   "hours": 21.4,
    "spend": 1424.45,
    "fixed_monthly": 0,
    "last_activity": "2026-09-30T08:25:00+00:00",
@@ -727,7 +742,8 @@
    },
    "rag": "amber",
    "rag_reasons": [
-    "creep 53% ≥ 50%"
+    "creep 53% ≥ 50%",
+    "time 20% vs 30% target"
    ],
    "prev": {
     "creep_pct": 66.0,
@@ -801,15 +817,15 @@
  "candidates": [],
  "ideas": [],
  "money": {
-  "claude_total": 5136.59,
+  "claude_total": 5242.34,
   "fixed_total": 0
  },
  "health": {
-  "files": 750,
-  "lines": 196606,
+  "files": 752,
+  "lines": 196905,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 1,
+  "changed_files": 3,
   "warning": null
  }
 }
