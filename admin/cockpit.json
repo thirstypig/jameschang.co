@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-08T13:05:38.613355+00:00",
+ "generated": "2026-10-08T16:05:43.136567+00:00",
  "window_days": 28,
- "total_hours": 108.8,
- "session_hours": 180.4,
+ "total_hours": 108.9,
+ "session_hours": 180.5,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -52,7 +52,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 69.2
+   "actual": 69.3
   },
   {
    "slug": "fantastic-leagues",
@@ -139,11 +139,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 69.2,
-   "hours": 75.3,
+   "actual_share": 69.3,
+   "hours": 75.4,
    "spend": 3185.17,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-08T06:01:00+00:00",
+   "last_activity": "2026-10-08T15:54:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -510,7 +510,7 @@
    "hours": 4.4,
    "spend": 95.82,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-08T03:05:35-07:00",
+   "last_activity": "2026-10-08T06:05:39-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -806,7 +806,7 @@
  },
  "health": {
   "files": 750,
-  "lines": 196480,
+  "lines": 196606,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 1,
