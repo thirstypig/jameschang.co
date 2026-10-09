@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-09T04:49:04.939279+00:00",
+ "generated": "2026-10-09T08:47:00.537026+00:00",
  "window_days": 28,
- "total_hours": 106.8,
- "session_hours": 173.4,
+ "total_hours": 106.3,
+ "session_hours": 172.2,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -23,23 +23,9 @@
    "kind": "G",
    "reason": "G",
    "target": "pasadenaworks",
-   "title": "Pasadena Works: 52% of new-scope asks serve no goal",
-   "detail": "17 of 33 asks for new capability in 28 days matched none of: Find out whether the site brings in real leads · Deliver client work on time",
-   "magnitude": 51.5,
-   "actions": [
-    "set_goal",
-    "accept"
-   ],
-   "severity": "medium"
-  },
-  {
-   "id": "G:aleph",
-   "kind": "G",
-   "reason": "G",
-   "target": "aleph",
-   "title": "Aleph: 50% of new-scope asks serve no goal",
-   "detail": "11 of 22 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
-   "magnitude": 50.0,
+   "title": "Pasadena Works: 53% of new-scope asks serve no goal",
+   "detail": "17 of 32 asks for new capability in 28 days matched none of: Find out whether the site brings in real leads · Deliver client work on time",
+   "magnitude": 53.1,
    "actions": [
     "set_goal",
     "accept"
@@ -52,8 +38,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 19% of your time vs 30% target",
-   "detail": "last 28 days · 106.8h total",
-   "magnitude": 10.784038291452067,
+   "detail": "last 28 days · 106.3h total",
+   "magnitude": 10.829022312797207,
    "actions": [
     "change_target",
     "accept"
@@ -67,8 +53,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 70% of your time vs 60% target",
-   "detail": "last 28 days · 106.8h total",
-   "magnitude": 10.244264086155567,
+   "detail": "last 28 days · 106.3h total",
+   "magnitude": 10.242984793854617,
    "actions": [
     "change_target",
     "accept"
@@ -170,10 +156,10 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 70.2,
-   "hours": 75.0,
-   "spend": 3310.08,
+   "hours": 74.7,
+   "spend": 3195.44,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-09T04:48:00+00:00",
+   "last_activity": "2026-10-09T06:22:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -244,15 +230,15 @@
     }
    ],
    "alignment": {
-    "total": 253,
+    "total": 229,
     "on_goal": 43,
-    "off_goal": 210,
-    "on_goal_pct": 17.0,
-    "on_goal_major_pct": 17.0,
+    "off_goal": 186,
+    "on_goal_pct": 18.8,
+    "on_goal_major_pct": 18.8,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 22,
-    "creep": 11,
-    "creep_pct": 50.0,
+    "new_scope": 21,
+    "creep": 10,
+    "creep_pct": 47.6,
     "goals": [
      {
       "id": "g1",
@@ -270,7 +256,6 @@
    },
    "rag": "amber",
    "rag_reasons": [
-    "creep 50% ≥ 50%",
     "time 70% vs 60% target"
    ],
    "prev": {
@@ -541,7 +526,7 @@
    "hours": 4.4,
    "spend": 95.82,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-08T18:32:02-07:00",
+   "last_activity": "2026-10-08T21:49:19-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -689,8 +674,8 @@
    "status": "active",
    "target_share": 30,
    "actual_share": 19.2,
-   "hours": 20.5,
-   "spend": 1250.2,
+   "hours": 20.4,
+   "spend": 1030.16,
    "fixed_monthly": 0,
    "last_activity": "2026-09-30T08:25:00+00:00",
    "review_by": null,
@@ -736,19 +721,19 @@
     }
    ],
    "alignment": {
-    "total": 227,
-    "on_goal": 35,
-    "off_goal": 192,
-    "on_goal_pct": 15.4,
-    "on_goal_major_pct": 15.4,
+    "total": 210,
+    "on_goal": 33,
+    "off_goal": 177,
+    "on_goal_pct": 15.7,
+    "on_goal_major_pct": 15.7,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 33,
+    "new_scope": 32,
     "creep": 17,
-    "creep_pct": 51.5,
+    "creep_pct": 53.1,
     "goals": [
      {
       "id": "g1",
-      "prompts": 7
+      "prompts": 5
      },
      {
       "id": "g2",
@@ -758,7 +743,7 @@
    },
    "rag": "amber",
    "rag_reasons": [
-    "creep 52% ≥ 50%",
+    "creep 53% ≥ 50%",
     "time 19% vs 30% target"
    ],
    "prev": {
@@ -833,15 +818,15 @@
  "candidates": [],
  "ideas": [],
  "money": {
-  "claude_total": 5087.86,
+  "claude_total": 4753.17,
   "fixed_total": 0
  },
  "health": {
-  "files": 731,
-  "lines": 192499,
+  "files": 739,
+  "lines": 193457,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 2,
+  "changed_files": 9,
   "warning": null
  }
 }
