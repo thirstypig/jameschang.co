@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-09T01:32:01.119086+00:00",
+ "generated": "2026-10-09T04:49:04.939279+00:00",
  "window_days": 28,
- "total_hours": 108.2,
- "session_hours": 176.9,
+ "total_hours": 106.8,
+ "session_hours": 173.4,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -52,8 +52,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 19% of your time vs 30% target",
-   "detail": "last 28 days · 108.2h total",
-   "magnitude": 10.553844574479015,
+   "detail": "last 28 days · 106.8h total",
+   "magnitude": 10.784038291452067,
    "actions": [
     "change_target",
     "accept"
@@ -67,8 +67,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 70% of your time vs 60% target",
-   "detail": "last 28 days · 108.2h total",
-   "magnitude": 10.155271532696645,
+   "detail": "last 28 days · 106.8h total",
+   "magnitude": 10.244264086155567,
    "actions": [
     "change_target",
     "accept"
@@ -130,7 +130,7 @@
    "slug": "jameschang-co",
    "name": "jameschang.co",
    "target": 5,
-   "actual": 4.0
+   "actual": 4.1
   },
   {
    "slug": "vouch",
@@ -148,13 +148,13 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 19.4
+   "actual": 19.2
   },
   {
    "slug": "family-sites",
    "name": "Family sites",
    "target": 5,
-   "actual": 6.0
+   "actual": 6.1
   },
   {
    "slug": "_other",
@@ -170,10 +170,10 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 70.2,
-   "hours": 75.9,
-   "spend": 3309.94,
+   "hours": 75.0,
+   "spend": 3310.08,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-09T01:32:00+00:00",
+   "last_activity": "2026-10-09T04:48:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -244,11 +244,11 @@
     }
    ],
    "alignment": {
-    "total": 252,
+    "total": 253,
     "on_goal": 43,
-    "off_goal": 209,
-    "on_goal_pct": 17.1,
-    "on_goal_major_pct": 17.1,
+    "off_goal": 210,
+    "on_goal_pct": 17.0,
+    "on_goal_major_pct": 17.0,
     "on_goal_minor_pct": 0.0,
     "new_scope": 22,
     "creep": 11,
@@ -537,11 +537,11 @@
    "name": "jameschang.co",
    "status": "active",
    "target_share": 5,
-   "actual_share": 4.0,
+   "actual_share": 4.1,
    "hours": 4.4,
    "spend": 95.82,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-08T14:56:30-07:00",
+   "last_activity": "2026-10-08T18:32:02-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -688,8 +688,8 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 19.4,
-   "hours": 21.0,
+   "actual_share": 19.2,
+   "hours": 20.5,
    "spend": 1250.2,
    "fixed_monthly": 0,
    "last_activity": "2026-09-30T08:25:00+00:00",
@@ -773,7 +773,7 @@
    "name": "Family sites",
    "status": "active",
    "target_share": 5,
-   "actual_share": 6.0,
+   "actual_share": 6.1,
    "hours": 6.5,
    "spend": 416.61,
    "fixed_monthly": 0,
@@ -833,15 +833,15 @@
  "candidates": [],
  "ideas": [],
  "money": {
-  "claude_total": 5087.73,
+  "claude_total": 5087.86,
   "fixed_total": 0
  },
  "health": {
-  "files": 759,
-  "lines": 197930,
+  "files": 731,
+  "lines": 192499,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 8,
+  "changed_files": 2,
   "warning": null
  }
 }
