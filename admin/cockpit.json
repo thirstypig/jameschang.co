@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-09T18:07:55.810997+00:00",
+ "generated": "2026-10-10T00:47:28.716182+00:00",
  "window_days": 28,
- "total_hours": 107.6,
- "session_hours": 173.4,
+ "total_hours": 108.0,
+ "session_hours": 172.8,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -38,8 +38,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 19% of your time vs 30% target",
-   "detail": "last 28 days · 107.6h total",
-   "magnitude": 11.051802499741772,
+   "detail": "last 28 days · 108.0h total",
+   "magnitude": 11.418762536645588,
    "actions": [
     "change_target",
     "accept"
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 71% of your time vs 60% target",
-   "detail": "last 28 days · 107.6h total",
-   "magnitude": 10.588782150604061,
+   "detail": "last 28 days · 108.0h total",
+   "magnitude": 10.999331378902212,
    "actions": [
     "change_target",
     "accept"
@@ -68,7 +68,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 70.6
+   "actual": 71.0
   },
   {
    "slug": "fantastic-leagues",
@@ -116,7 +116,7 @@
    "slug": "jameschang-co",
    "name": "jameschang.co",
    "target": 5,
-   "actual": 4.1
+   "actual": 4.0
   },
   {
    "slug": "vouch",
@@ -134,13 +134,13 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 18.9
+   "actual": 18.6
   },
   {
    "slug": "family-sites",
    "name": "Family sites",
    "target": 5,
-   "actual": 6.1
+   "actual": 6.0
   },
   {
    "slug": "_other",
@@ -155,11 +155,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 70.6,
-   "hours": 75.9,
-   "spend": 3196.29,
+   "actual_share": 71.0,
+   "hours": 76.7,
+   "spend": 3192.83,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-09T18:07:00+00:00",
+   "last_activity": "2026-10-10T00:46:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -230,11 +230,11 @@
     }
    ],
    "alignment": {
-    "total": 231,
+    "total": 230,
     "on_goal": 43,
-    "off_goal": 188,
-    "on_goal_pct": 18.6,
-    "on_goal_major_pct": 18.6,
+    "off_goal": 187,
+    "on_goal_pct": 18.7,
+    "on_goal_major_pct": 18.7,
     "on_goal_minor_pct": 0.0,
     "new_scope": 21,
     "creep": 10,
@@ -522,11 +522,11 @@
    "name": "jameschang.co",
    "status": "active",
    "target_share": 5,
-   "actual_share": 4.1,
+   "actual_share": 4.0,
    "hours": 4.4,
    "spend": 95.82,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-09T07:47:11-07:00",
+   "last_activity": "2026-10-09T11:07:57-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -673,11 +673,11 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 18.9,
-   "hours": 20.4,
+   "actual_share": 18.6,
+   "hours": 20.1,
    "spend": 1030.16,
    "fixed_monthly": 0,
-   "last_activity": "2026-09-30T08:25:00+00:00",
+   "last_activity": "2026-10-10T00:47:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -721,11 +721,11 @@
     }
    ],
    "alignment": {
-    "total": 210,
-    "on_goal": 33,
+    "total": 211,
+    "on_goal": 34,
     "off_goal": 177,
-    "on_goal_pct": 15.7,
-    "on_goal_major_pct": 15.7,
+    "on_goal_pct": 16.1,
+    "on_goal_major_pct": 16.1,
     "on_goal_minor_pct": 0.0,
     "new_scope": 32,
     "creep": 17,
@@ -737,7 +737,7 @@
      },
      {
       "id": "g2",
-      "prompts": 29
+      "prompts": 30
      }
     ]
    },
@@ -758,7 +758,7 @@
    "name": "Family sites",
    "status": "active",
    "target_share": 5,
-   "actual_share": 6.1,
+   "actual_share": 6.0,
    "hours": 6.5,
    "spend": 416.61,
    "fixed_monthly": 0,
@@ -818,15 +818,15 @@
  "candidates": [],
  "ideas": [],
  "money": {
-  "claude_total": 4754.03,
+  "claude_total": 4750.57,
   "fixed_total": 0
  },
  "health": {
-  "files": 745,
-  "lines": 194397,
+  "files": 763,
+  "lines": 196280,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 7,
+  "changed_files": 19,
   "warning": null
  }
 }
