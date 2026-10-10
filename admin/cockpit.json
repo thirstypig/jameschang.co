@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-10T19:55:40.428725+00:00",
+ "generated": "2026-10-10T23:03:17.811910+00:00",
  "window_days": 28,
- "total_hours": 110.8,
- "session_hours": 176.5,
+ "total_hours": 110.1,
+ "session_hours": 175.8,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -33,27 +33,13 @@
    "severity": "medium"
   },
   {
-   "id": "G:aleph",
-   "kind": "G",
-   "reason": "G",
-   "target": "aleph",
-   "title": "Aleph: 50% of new-scope asks serve no goal",
-   "detail": "11 of 22 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
-   "magnitude": 50.0,
-   "actions": [
-    "set_goal",
-    "accept"
-   ],
-   "severity": "medium"
-  },
-  {
    "id": "A:pasadenaworks",
    "kind": "A",
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 19% of your time vs 30% target",
-   "detail": "last 28 days · 110.8h total",
-   "magnitude": 11.311117797502643,
+   "detail": "last 28 days · 110.1h total",
+   "magnitude": 11.200817191283303,
    "actions": [
     "change_target",
     "accept"
@@ -67,8 +53,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 71% of your time vs 60% target",
-   "detail": "last 28 days · 110.8h total",
-   "magnitude": 11.15189809939298,
+   "detail": "last 28 days · 110.1h total",
+   "magnitude": 10.981638418078873,
    "actions": [
     "change_target",
     "accept"
@@ -82,7 +68,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 71.2
+   "actual": 71.0
   },
   {
    "slug": "fantastic-leagues",
@@ -130,7 +116,7 @@
    "slug": "jameschang-co",
    "name": "jameschang.co",
    "target": 5,
-   "actual": 3.9
+   "actual": 4.0
   },
   {
    "slug": "vouch",
@@ -148,7 +134,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 18.7
+   "actual": 18.8
   },
   {
    "slug": "family-sites",
@@ -169,11 +155,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 71.2,
-   "hours": 78.8,
-   "spend": 3464.25,
+   "actual_share": 71.0,
+   "hours": 78.2,
+   "spend": 3385.12,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-10T19:55:00+00:00",
+   "last_activity": "2026-10-10T22:53:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -244,15 +230,15 @@
     }
    ],
    "alignment": {
-    "total": 240,
-    "on_goal": 43,
-    "off_goal": 197,
-    "on_goal_pct": 17.9,
-    "on_goal_major_pct": 17.9,
+    "total": 230,
+    "on_goal": 39,
+    "off_goal": 191,
+    "on_goal_pct": 17.0,
+    "on_goal_major_pct": 17.0,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 22,
-    "creep": 11,
-    "creep_pct": 50.0,
+    "new_scope": 18,
+    "creep": 8,
+    "creep_pct": 44.4,
     "goals": [
      {
       "id": "g1",
@@ -260,17 +246,16 @@
      },
      {
       "id": "g2",
-      "prompts": 2
+      "prompts": 1
      },
      {
       "id": "g3",
-      "prompts": 37
+      "prompts": 33
      }
     ]
    },
    "rag": "amber",
    "rag_reasons": [
-    "creep 50% ≥ 50%",
     "time 71% vs 60% target"
    ],
    "prev": {
@@ -537,11 +522,11 @@
    "name": "jameschang.co",
    "status": "active",
    "target_share": 5,
-   "actual_share": 3.9,
+   "actual_share": 4.0,
    "hours": 4.4,
    "spend": 95.82,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-10T09:39:04-07:00",
+   "last_activity": "2026-10-10T12:55:41-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -688,7 +673,7 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 18.7,
+   "actual_share": 18.8,
    "hours": 20.7,
    "spend": 1026.97,
    "fixed_monthly": 0,
@@ -833,15 +818,15 @@
  "candidates": [],
  "ideas": [],
  "money": {
-  "claude_total": 5018.8,
+  "claude_total": 4939.67,
   "fixed_total": 0
  },
  "health": {
-  "files": 748,
-  "lines": 183933,
+  "files": 755,
+  "lines": 184560,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 3,
+  "changed_files": 8,
   "warning": null
  }
 }
