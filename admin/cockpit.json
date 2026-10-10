@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-10T16:39:03.173111+00:00",
+ "generated": "2026-10-10T19:55:40.428725+00:00",
  "window_days": 28,
- "total_hours": 109.2,
- "session_hours": 175.0,
+ "total_hours": 110.8,
+ "session_hours": 176.5,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -33,13 +33,27 @@
    "severity": "medium"
   },
   {
+   "id": "G:aleph",
+   "kind": "G",
+   "reason": "G",
+   "target": "aleph",
+   "title": "Aleph: 50% of new-scope asks serve no goal",
+   "detail": "11 of 22 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
+   "magnitude": 50.0,
+   "actions": [
+    "set_goal",
+    "accept"
+   ],
+   "severity": "medium"
+  },
+  {
    "id": "A:pasadenaworks",
    "kind": "A",
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 19% of your time vs 30% target",
-   "detail": "last 28 days · 109.2h total",
-   "magnitude": 11.048817696414961,
+   "detail": "last 28 days · 110.8h total",
+   "magnitude": 11.311117797502643,
    "actions": [
     "change_target",
     "accept"
@@ -53,8 +67,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 71% of your time vs 60% target",
-   "detail": "last 28 days · 109.2h total",
-   "magnitude": 10.747012458682718,
+   "detail": "last 28 days · 110.8h total",
+   "magnitude": 11.15189809939298,
    "actions": [
     "change_target",
     "accept"
@@ -68,7 +82,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 70.7
+   "actual": 71.2
   },
   {
    "slug": "fantastic-leagues",
@@ -116,7 +130,7 @@
    "slug": "jameschang-co",
    "name": "jameschang.co",
    "target": 5,
-   "actual": 4.0
+   "actual": 3.9
   },
   {
    "slug": "vouch",
@@ -134,13 +148,13 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 19.0
+   "actual": 18.7
   },
   {
    "slug": "family-sites",
    "name": "Family sites",
    "target": 5,
-   "actual": 6.0
+   "actual": 5.9
   },
   {
    "slug": "_other",
@@ -155,11 +169,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 70.7,
-   "hours": 77.3,
-   "spend": 3463.69,
+   "actual_share": 71.2,
+   "hours": 78.8,
+   "spend": 3464.25,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-10T14:52:00+00:00",
+   "last_activity": "2026-10-10T19:55:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -230,15 +244,15 @@
     }
    ],
    "alignment": {
-    "total": 235,
-    "on_goal": 42,
-    "off_goal": 193,
+    "total": 240,
+    "on_goal": 43,
+    "off_goal": 197,
     "on_goal_pct": 17.9,
     "on_goal_major_pct": 17.9,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 21,
-    "creep": 10,
-    "creep_pct": 47.6,
+    "new_scope": 22,
+    "creep": 11,
+    "creep_pct": 50.0,
     "goals": [
      {
       "id": "g1",
@@ -250,12 +264,13 @@
      },
      {
       "id": "g3",
-      "prompts": 36
+      "prompts": 37
      }
     ]
    },
    "rag": "amber",
    "rag_reasons": [
+    "creep 50% ≥ 50%",
     "time 71% vs 60% target"
    ],
    "prev": {
@@ -522,11 +537,11 @@
    "name": "jameschang.co",
    "status": "active",
    "target_share": 5,
-   "actual_share": 4.0,
+   "actual_share": 3.9,
    "hours": 4.4,
    "spend": 95.82,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-10T06:18:48-07:00",
+   "last_activity": "2026-10-10T09:39:04-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -673,7 +688,7 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 19.0,
+   "actual_share": 18.7,
    "hours": 20.7,
    "spend": 1026.97,
    "fixed_monthly": 0,
@@ -758,7 +773,7 @@
    "name": "Family sites",
    "status": "active",
    "target_share": 5,
-   "actual_share": 6.0,
+   "actual_share": 5.9,
    "hours": 6.5,
    "spend": 416.61,
    "fixed_monthly": 0,
@@ -818,15 +833,15 @@
  "candidates": [],
  "ideas": [],
  "money": {
-  "claude_total": 5018.24,
+  "claude_total": 5018.8,
   "fixed_total": 0
  },
  "health": {
-  "files": 746,
-  "lines": 183277,
+  "files": 748,
+  "lines": 183933,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 1,
+  "changed_files": 3,
   "warning": null
  }
 }
