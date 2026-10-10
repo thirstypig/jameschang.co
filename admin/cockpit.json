@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-10T00:47:28.716182+00:00",
+ "generated": "2026-10-10T04:03:39.078365+00:00",
  "window_days": 28,
- "total_hours": 108.0,
- "session_hours": 172.8,
+ "total_hours": 107.8,
+ "session_hours": 172.6,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -38,8 +38,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 19% of your time vs 30% target",
-   "detail": "last 28 days · 108.0h total",
-   "magnitude": 11.418762536645588,
+   "detail": "last 28 days · 107.8h total",
+   "magnitude": 11.435822126037003,
    "actions": [
     "change_target",
     "accept"
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 71% of your time vs 60% target",
-   "detail": "last 28 days · 108.0h total",
-   "magnitude": 10.999331378902212,
+   "detail": "last 28 days · 107.8h total",
+   "magnitude": 10.997062915442655,
    "actions": [
     "change_target",
     "accept"
@@ -140,7 +140,7 @@
    "slug": "family-sites",
    "name": "Family sites",
    "target": 5,
-   "actual": 6.0
+   "actual": 6.1
   },
   {
    "slug": "_other",
@@ -156,10 +156,10 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 71.0,
-   "hours": 76.7,
-   "spend": 3192.83,
+   "hours": 76.5,
+   "spend": 3194.24,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-10T00:46:00+00:00",
+   "last_activity": "2026-10-10T03:00:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -526,7 +526,7 @@
    "hours": 4.4,
    "spend": 95.82,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-09T11:07:57-07:00",
+   "last_activity": "2026-10-09T17:47:30-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -674,10 +674,10 @@
    "status": "active",
    "target_share": 30,
    "actual_share": 18.6,
-   "hours": 20.1,
+   "hours": 20.0,
    "spend": 1030.16,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-10T00:47:00+00:00",
+   "last_activity": "2026-10-10T01:10:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -721,11 +721,11 @@
     }
    ],
    "alignment": {
-    "total": 211,
+    "total": 213,
     "on_goal": 34,
-    "off_goal": 177,
-    "on_goal_pct": 16.1,
-    "on_goal_major_pct": 16.1,
+    "off_goal": 179,
+    "on_goal_pct": 16.0,
+    "on_goal_major_pct": 16.0,
     "on_goal_minor_pct": 0.0,
     "new_scope": 32,
     "creep": 17,
@@ -758,7 +758,7 @@
    "name": "Family sites",
    "status": "active",
    "target_share": 5,
-   "actual_share": 6.0,
+   "actual_share": 6.1,
    "hours": 6.5,
    "spend": 416.61,
    "fixed_monthly": 0,
@@ -818,15 +818,15 @@
  "candidates": [],
  "ideas": [],
  "money": {
-  "claude_total": 4750.57,
+  "claude_total": 4751.98,
   "fixed_total": 0
  },
  "health": {
-  "files": 763,
-  "lines": 196280,
+  "files": 734,
+  "lines": 191092,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 19,
+  "changed_files": 12,
   "warning": null
  }
 }
