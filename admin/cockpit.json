@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-10T23:03:17.811910+00:00",
+ "generated": "2026-10-11T02:30:41.243203+00:00",
  "window_days": 28,
- "total_hours": 110.1,
- "session_hours": 175.8,
+ "total_hours": 111.7,
+ "session_hours": 176.6,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -33,33 +33,33 @@
    "severity": "medium"
   },
   {
-   "id": "A:pasadenaworks",
-   "kind": "A",
-   "reason": "A",
-   "target": "pasadenaworks",
-   "title": "Pasadena Works: 19% of your time vs 30% target",
-   "detail": "last 28 days · 110.1h total",
-   "magnitude": 11.200817191283303,
-   "actions": [
-    "change_target",
-    "accept"
-   ],
-   "value_hint": -1,
-   "severity": "medium"
-  },
-  {
    "id": "A:aleph",
    "kind": "A",
    "reason": "A",
    "target": "aleph",
-   "title": "Aleph: 71% of your time vs 60% target",
-   "detail": "last 28 days · 110.1h total",
-   "magnitude": 10.981638418078873,
+   "title": "Aleph: 72% of your time vs 60% target",
+   "detail": "last 28 days · 111.7h total",
+   "magnitude": 11.691282510318558,
    "actions": [
     "change_target",
     "accept"
    ],
    "value_hint": 1,
+   "severity": "medium"
+  },
+  {
+   "id": "A:pasadenaworks",
+   "kind": "A",
+   "reason": "A",
+   "target": "pasadenaworks",
+   "title": "Pasadena Works: 19% of your time vs 30% target",
+   "detail": "last 28 days · 111.7h total",
+   "magnitude": 11.467253468596162,
+   "actions": [
+    "change_target",
+    "accept"
+   ],
+   "value_hint": -1,
    "severity": "medium"
   }
  ],
@@ -68,7 +68,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 71.0
+   "actual": 71.7
   },
   {
    "slug": "fantastic-leagues",
@@ -116,7 +116,7 @@
    "slug": "jameschang-co",
    "name": "jameschang.co",
    "target": 5,
-   "actual": 4.0
+   "actual": 3.9
   },
   {
    "slug": "vouch",
@@ -134,13 +134,13 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 18.8
+   "actual": 18.5
   },
   {
    "slug": "family-sites",
    "name": "Family sites",
    "target": 5,
-   "actual": 5.9
+   "actual": 5.5
   },
   {
    "slug": "_other",
@@ -155,11 +155,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 71.0,
-   "hours": 78.2,
-   "spend": 3385.12,
+   "actual_share": 71.7,
+   "hours": 80.1,
+   "spend": 3385.57,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-10T22:53:00+00:00",
+   "last_activity": "2026-10-11T02:30:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -230,15 +230,15 @@
     }
    ],
    "alignment": {
-    "total": 230,
+    "total": 232,
     "on_goal": 39,
-    "off_goal": 191,
-    "on_goal_pct": 17.0,
-    "on_goal_major_pct": 17.0,
+    "off_goal": 193,
+    "on_goal_pct": 16.8,
+    "on_goal_major_pct": 16.8,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 18,
-    "creep": 8,
-    "creep_pct": 44.4,
+    "new_scope": 19,
+    "creep": 9,
+    "creep_pct": 47.4,
     "goals": [
      {
       "id": "g1",
@@ -256,7 +256,7 @@
    },
    "rag": "amber",
    "rag_reasons": [
-    "time 71% vs 60% target"
+    "time 72% vs 60% target"
    ],
    "prev": {
     "creep_pct": 48.5,
@@ -522,11 +522,11 @@
    "name": "jameschang.co",
    "status": "active",
    "target_share": 5,
-   "actual_share": 4.0,
+   "actual_share": 3.9,
    "hours": 4.4,
    "spend": 95.82,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-10T12:55:41-07:00",
+   "last_activity": "2026-10-10T16:03:19-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -673,7 +673,7 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 18.8,
+   "actual_share": 18.5,
    "hours": 20.7,
    "spend": 1026.97,
    "fixed_monthly": 0,
@@ -744,7 +744,7 @@
    "rag": "amber",
    "rag_reasons": [
     "creep 53% ≥ 50%",
-    "time 19% vs 30% target"
+    "time 18% vs 30% target"
    ],
    "prev": {
     "creep_pct": 66.0,
@@ -758,8 +758,8 @@
    "name": "Family sites",
    "status": "active",
    "target_share": 5,
-   "actual_share": 5.9,
-   "hours": 6.5,
+   "actual_share": 5.5,
+   "hours": 6.2,
    "spend": 416.61,
    "fixed_monthly": 0,
    "last_activity": "2026-10-09T01:05:00+00:00",
@@ -818,15 +818,15 @@
  "candidates": [],
  "ideas": [],
  "money": {
-  "claude_total": 4939.67,
+  "claude_total": 4940.12,
   "fixed_total": 0
  },
  "health": {
-  "files": 755,
-  "lines": 184560,
+  "files": 757,
+  "lines": 185140,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 8,
+  "changed_files": 3,
   "warning": null
  }
 }
