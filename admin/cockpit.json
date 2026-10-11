@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-11T17:55:38.263252+00:00",
+ "generated": "2026-10-11T21:42:11.998092+00:00",
  "window_days": 28,
- "total_hours": 115.1,
- "session_hours": 179.5,
+ "total_hours": 115.3,
+ "session_hours": 179.6,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -52,8 +52,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 74% of your time vs 60% target",
-   "detail": "last 28 days · 115.1h total",
-   "magnitude": 13.503233902886151,
+   "detail": "last 28 days · 115.3h total",
+   "magnitude": 13.549195335838647,
    "actions": [
     "change_target",
     "accept"
@@ -67,8 +67,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 18% of your time vs 30% target",
-   "detail": "last 28 days · 115.1h total",
-   "magnitude": 11.628294236895464,
+   "detail": "last 28 days · 115.3h total",
+   "magnitude": 11.66016189650189,
    "actions": [
     "change_target",
     "accept"
@@ -148,7 +148,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 18.4
+   "actual": 18.3
   },
   {
    "slug": "family-sites",
@@ -170,10 +170,10 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 73.5,
-   "hours": 84.6,
-   "spend": 3395.67,
+   "hours": 84.8,
+   "spend": 3398.22,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-11T17:47:00+00:00",
+   "last_activity": "2026-10-11T21:25:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -244,11 +244,11 @@
     }
    ],
    "alignment": {
-    "total": 243,
+    "total": 247,
     "on_goal": 42,
-    "off_goal": 201,
-    "on_goal_pct": 17.3,
-    "on_goal_major_pct": 17.3,
+    "off_goal": 205,
+    "on_goal_pct": 17.0,
+    "on_goal_major_pct": 17.0,
     "on_goal_minor_pct": 0.0,
     "new_scope": 21,
     "creep": 11,
@@ -541,7 +541,7 @@
    "hours": 4.4,
    "spend": 95.82,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-11T07:55:32-07:00",
+   "last_activity": "2026-10-11T10:55:40-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -688,7 +688,7 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 18.4,
+   "actual_share": 18.3,
    "hours": 21.1,
    "spend": 1029.49,
    "fixed_monthly": 0,
@@ -833,15 +833,15 @@
  "candidates": [],
  "ideas": [],
  "money": {
-  "claude_total": 4890.25,
+  "claude_total": 4892.79,
   "fixed_total": 0
  },
  "health": {
-  "files": 774,
-  "lines": 174824,
+  "files": 779,
+  "lines": 175377,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 7,
+  "changed_files": 6,
   "warning": null
  }
 }
