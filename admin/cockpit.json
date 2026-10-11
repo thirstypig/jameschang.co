@@ -1,22 +1,22 @@
 {
- "generated": "2026-10-11T05:37:24.929426+00:00",
+ "generated": "2026-10-11T08:55:21.320583+00:00",
  "window_days": 28,
- "total_hours": 113.1,
- "session_hours": 178.0,
+ "total_hours": 114.0,
+ "session_hours": 178.4,
  "decisions": [
   {
    "id": "G:family-sites",
    "kind": "G",
    "reason": "G",
    "target": "family-sites",
-   "title": "Family sites: 73% of new-scope asks serve no goal",
-   "detail": "8 of 11 asks for new capability in 28 days matched none of: Keep the five family sites current — content and photo updates only",
-   "magnitude": 72.7,
+   "title": "Family sites: 67% of new-scope asks serve no goal",
+   "detail": "6 of 9 asks for new capability in 28 days matched none of: Keep the five family sites current — content and photo updates only",
+   "magnitude": 66.7,
    "actions": [
     "set_goal",
     "accept"
    ],
-   "severity": "high"
+   "severity": "medium"
   },
   {
    "id": "G:pasadenaworks",
@@ -52,8 +52,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 73% of your time vs 60% target",
-   "detail": "last 28 days · 113.1h total",
-   "magnitude": 12.778596698112992,
+   "detail": "last 28 days · 114.0h total",
+   "magnitude": 13.259291733644858,
    "actions": [
     "change_target",
     "accept"
@@ -67,8 +67,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 19% of your time vs 30% target",
-   "detail": "last 28 days · 113.1h total",
-   "magnitude": 11.297906839622652,
+   "detail": "last 28 days · 114.0h total",
+   "magnitude": 11.45915534122462,
    "actions": [
     "change_target",
     "accept"
@@ -82,7 +82,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 72.8
+   "actual": 73.3
   },
   {
    "slug": "fantastic-leagues",
@@ -106,7 +106,7 @@
    "slug": "tabledrop",
    "name": "TableDrop",
    "target": 0,
-   "actual": 0.2
+   "actual": 0.0
   },
   {
    "slug": "tastemakers",
@@ -130,7 +130,7 @@
    "slug": "jameschang-co",
    "name": "jameschang.co",
    "target": 5,
-   "actual": 3.9
+   "actual": 3.8
   },
   {
    "slug": "vouch",
@@ -148,7 +148,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 18.7
+   "actual": 18.5
   },
   {
    "slug": "family-sites",
@@ -169,11 +169,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 72.8,
-   "hours": 82.3,
-   "spend": 3388.62,
+   "actual_share": 73.3,
+   "hours": 83.6,
+   "spend": 3392.63,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-11T05:37:00+00:00",
+   "last_activity": "2026-10-11T08:43:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -244,11 +244,11 @@
     }
    ],
    "alignment": {
-    "total": 239,
+    "total": 240,
     "on_goal": 42,
-    "off_goal": 197,
-    "on_goal_pct": 17.6,
-    "on_goal_major_pct": 17.6,
+    "off_goal": 198,
+    "on_goal_pct": 17.5,
+    "on_goal_major_pct": 17.5,
     "on_goal_minor_pct": 0.0,
     "new_scope": 20,
     "creep": 10,
@@ -393,9 +393,9 @@
    "name": "TableDrop",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 0.2,
-   "hours": 0.2,
-   "spend": 5.63,
+   "actual_share": 0.0,
+   "hours": 0.0,
+   "spend": 0.0,
    "fixed_monthly": 0,
    "last_activity": "2026-09-13T06:13:00+00:00",
    "review_by": "2026-11-28",
@@ -404,9 +404,9 @@
    "stop_criteria": "",
    "goals": [],
    "alignment": {
-    "total": 4,
+    "total": 0,
     "on_goal": 0,
-    "off_goal": 4,
+    "off_goal": 0,
     "on_goal_pct": null,
     "on_goal_major_pct": null,
     "on_goal_minor_pct": null,
@@ -537,11 +537,11 @@
    "name": "jameschang.co",
    "status": "active",
    "target_share": 5,
-   "actual_share": 3.9,
+   "actual_share": 3.8,
    "hours": 4.4,
    "spend": 95.82,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-10T19:30:42-07:00",
+   "last_activity": "2026-10-10T22:37:29-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -688,7 +688,7 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 18.7,
+   "actual_share": 18.5,
    "hours": 21.1,
    "spend": 1029.49,
    "fixed_monthly": 0,
@@ -759,7 +759,7 @@
    "rag": "amber",
    "rag_reasons": [
     "creep 53% ≥ 50%",
-    "time 19% vs 30% target"
+    "time 18% vs 30% target"
    ],
    "prev": {
     "creep_pct": 66.0,
@@ -775,7 +775,7 @@
    "target_share": 5,
    "actual_share": 4.3,
    "hours": 4.9,
-   "spend": 416.61,
+   "spend": 359.74,
    "fixed_monthly": 0,
    "last_activity": "2026-10-09T01:05:00+00:00",
    "review_by": null,
@@ -802,25 +802,25 @@
     }
    ],
    "alignment": {
-    "total": 66,
-    "on_goal": 7,
-    "off_goal": 59,
-    "on_goal_pct": 10.6,
-    "on_goal_major_pct": 10.6,
+    "total": 55,
+    "on_goal": 4,
+    "off_goal": 51,
+    "on_goal_pct": 7.3,
+    "on_goal_major_pct": 7.3,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 11,
-    "creep": 8,
-    "creep_pct": 72.7,
+    "new_scope": 9,
+    "creep": 6,
+    "creep_pct": 66.7,
     "goals": [
      {
       "id": "g1",
-      "prompts": 7
+      "prompts": 4
      }
     ]
    },
-   "rag": "red",
+   "rag": "amber",
    "rag_reasons": [
-    "creep 73% ≥ 70%"
+    "creep 67% ≥ 50%"
    ],
    "prev": {
     "creep_pct": 72.7,
@@ -833,12 +833,12 @@
  "candidates": [],
  "ideas": [],
  "money": {
-  "claude_total": 4945.69,
+  "claude_total": 4887.2,
   "fixed_total": 0
  },
  "health": {
-  "files": 757,
-  "lines": 173283,
+  "files": 768,
+  "lines": 174189,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 13,
