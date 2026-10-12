@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-12T14:12:51.392375+00:00",
+ "generated": "2026-10-12T17:20:37.444276+00:00",
  "window_days": 28,
- "total_hours": 114.6,
- "session_hours": 178.7,
+ "total_hours": 113.9,
+ "session_hours": 178.0,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -52,8 +52,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 73% of your time vs 60% target",
-   "detail": "last 28 days · 114.6h total",
-   "magnitude": 13.383757575757357,
+   "detail": "last 28 days · 113.9h total",
+   "magnitude": 13.227993172396765,
    "actions": [
     "change_target",
     "accept"
@@ -66,9 +66,9 @@
    "kind": "A",
    "reason": "A",
    "target": "pasadenaworks",
-   "title": "Pasadena Works: 18% of your time vs 30% target",
-   "detail": "last 28 days · 114.6h total",
-   "magnitude": 11.545454545454554,
+   "title": "Pasadena Works: 19% of your time vs 30% target",
+   "detail": "last 28 days · 113.9h total",
+   "magnitude": 11.43745427944405,
    "actions": [
     "change_target",
     "accept"
@@ -82,7 +82,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 73.4
+   "actual": 73.2
   },
   {
    "slug": "fantastic-leagues",
@@ -148,13 +148,13 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 18.5
+   "actual": 18.6
   },
   {
    "slug": "family-sites",
    "name": "Family sites",
    "target": 5,
-   "actual": 4.2
+   "actual": 4.3
   },
   {
    "slug": "_other",
@@ -169,11 +169,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 73.4,
-   "hours": 84.1,
+   "actual_share": 73.2,
+   "hours": 83.4,
    "spend": 3399.48,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-12T07:22:00+00:00",
+   "last_activity": "2026-10-12T17:10:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -244,11 +244,11 @@
     }
    ],
    "alignment": {
-    "total": 249,
+    "total": 250,
     "on_goal": 42,
-    "off_goal": 207,
-    "on_goal_pct": 16.9,
-    "on_goal_major_pct": 16.9,
+    "off_goal": 208,
+    "on_goal_pct": 16.8,
+    "on_goal_major_pct": 16.8,
     "on_goal_minor_pct": 0.0,
     "new_scope": 21,
     "creep": 11,
@@ -541,7 +541,7 @@
    "hours": 4.4,
    "spend": 95.82,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-12T04:12:47-07:00",
+   "last_activity": "2026-10-12T07:12:52-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -688,7 +688,7 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 18.5,
+   "actual_share": 18.6,
    "hours": 21.1,
    "spend": 1029.49,
    "fixed_monthly": 0,
@@ -759,7 +759,7 @@
    "rag": "amber",
    "rag_reasons": [
     "creep 53% ≥ 50%",
-    "time 18% vs 30% target"
+    "time 19% vs 30% target"
    ],
    "prev": {
     "creep_pct": 64.4,
@@ -773,7 +773,7 @@
    "name": "Family sites",
    "status": "active",
    "target_share": 5,
-   "actual_share": 4.2,
+   "actual_share": 4.3,
    "hours": 4.9,
    "spend": 359.74,
    "fixed_monthly": 0,
@@ -838,7 +838,7 @@
  },
  "health": {
   "files": 783,
-  "lines": 175815,
+  "lines": 175886,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 1,
