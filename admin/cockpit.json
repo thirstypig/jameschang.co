@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-14T05:34:03.659813+00:00",
+ "generated": "2026-10-14T05:39:06.353716+00:00",
  "window_days": 28,
- "total_hours": 116.5,
- "session_hours": 181.9,
+ "total_hours": 116.6,
+ "session_hours": 182.1,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -52,8 +52,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 14% of your time vs 30% target",
-   "detail": "last 28 days · 116.5h total",
-   "magnitude": 15.539426010678865,
+   "detail": "last 28 days · 116.6h total",
+   "magnitude": 15.54562782940195,
    "actions": [
     "change_target",
     "accept"
@@ -67,8 +67,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 73% of your time vs 60% target",
-   "detail": "last 28 days · 116.5h total",
-   "magnitude": 12.823226544622173,
+   "detail": "last 28 days · 116.6h total",
+   "magnitude": 12.825351441505589,
    "actions": [
     "change_target",
     "accept"
@@ -187,9 +187,9 @@
    "target_share": 60,
    "actual_share": 72.8,
    "hours": 84.9,
-   "spend": 2589.58,
+   "spend": 3651.69,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-14T05:33:00+00:00",
+   "last_activity": "2026-10-14T05:36:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -557,7 +557,7 @@
    "hours": 4.7,
    "spend": 99.49,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-14T03:40:00+00:00",
+   "last_activity": "2026-10-13T22:34:08-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -855,15 +855,15 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 3940.19,
+  "claude_total": 5094.85,
   "fixed_total": 0
  },
  "health": {
   "files": 828,
-  "lines": 171279,
+  "lines": 171298,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 12,
+  "changed_files": 4,
   "warning": null
  }
 }
