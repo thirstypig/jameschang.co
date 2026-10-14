@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-14T02:33:57.573357+00:00",
+ "generated": "2026-10-14T05:34:03.659813+00:00",
  "window_days": 28,
- "total_hours": 114.4,
- "session_hours": 178.2,
+ "total_hours": 116.5,
+ "session_hours": 181.9,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -51,9 +51,9 @@
    "kind": "A",
    "reason": "A",
    "target": "pasadenaworks",
-   "title": "Pasadena Works: 15% of your time vs 30% target",
-   "detail": "last 28 days · 114.4h total",
-   "magnitude": 15.253047743940936,
+   "title": "Pasadena Works: 14% of your time vs 30% target",
+   "detail": "last 28 days · 116.5h total",
+   "magnitude": 15.539426010678865,
    "actions": [
     "change_target",
     "accept"
@@ -67,8 +67,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 73% of your time vs 60% target",
-   "detail": "last 28 days · 114.4h total",
-   "magnitude": 12.895235319830732,
+   "detail": "last 28 days · 116.5h total",
+   "magnitude": 12.823226544622173,
    "actions": [
     "change_target",
     "accept"
@@ -82,8 +82,8 @@
    "reason": "C",
    "target": "/Users/jameschang/Projects/bbq-judge",
    "title": "Unregistered work: bbq-judge",
-   "detail": "4.9h · 2 sessions",
-   "magnitude": 4.9,
+   "detail": "5.5h · 2 sessions",
+   "magnitude": 5.5,
    "actions": [
     "promote",
     "dismiss",
@@ -98,7 +98,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 72.9
+   "actual": 72.8
   },
   {
    "slug": "fantastic-leagues",
@@ -164,19 +164,19 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 14.7
+   "actual": 14.5
   },
   {
    "slug": "family-sites",
    "name": "Family sites",
    "target": 5,
-   "actual": 3.8
+   "actual": 3.7
   },
   {
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 4.4
+   "actual": 4.9
   }
  ],
  "projects": [
@@ -185,11 +185,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 72.9,
-   "hours": 83.4,
-   "spend": 2588.93,
+   "actual_share": 72.8,
+   "hours": 84.9,
+   "spend": 2589.58,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-14T02:17:00+00:00",
+   "last_activity": "2026-10-14T05:33:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -260,11 +260,11 @@
     }
    ],
    "alignment": {
-    "total": 241,
+    "total": 243,
     "on_goal": 34,
-    "off_goal": 207,
-    "on_goal_pct": 14.1,
-    "on_goal_major_pct": 14.1,
+    "off_goal": 209,
+    "on_goal_pct": 14.0,
+    "on_goal_major_pct": 14.0,
     "on_goal_minor_pct": 0.0,
     "new_scope": 18,
     "creep": 11,
@@ -375,9 +375,9 @@
    "target_share": 0,
    "actual_share": 0.1,
    "hours": 0.1,
-   "spend": 11.13,
+   "spend": 11.49,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-13T17:33:40-07:00",
+   "last_activity": "2026-10-13T22:31:16-07:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
@@ -554,10 +554,10 @@
    "status": "active",
    "target_share": 5,
    "actual_share": 4.0,
-   "hours": 4.6,
-   "spend": 96.29,
+   "hours": 4.7,
+   "spend": 99.49,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-14T00:36:00+00:00",
+   "last_activity": "2026-10-14T03:40:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -704,11 +704,11 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 14.7,
+   "actual_share": 14.5,
    "hours": 16.9,
    "spend": 878.32,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-13T05:29:00+00:00",
+   "last_activity": "2026-10-14T05:33:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -775,7 +775,7 @@
    "rag": "amber",
    "rag_reasons": [
     "creep 58% ≥ 50%",
-    "time 15% vs 30% target"
+    "time 14% vs 30% target"
    ],
    "prev": {
     "creep_pct": 62.8,
@@ -789,7 +789,7 @@
    "name": "Family sites",
    "status": "active",
    "target_share": 5,
-   "actual_share": 3.8,
+   "actual_share": 3.7,
    "hours": 4.4,
    "spend": 328.49,
    "fixed_monthly": 0,
@@ -849,21 +849,21 @@
  "candidates": [
   {
    "path": "/Users/jameschang/Projects/bbq-judge",
-   "hours": 4.9,
+   "hours": 5.5,
    "sessions": 2
   }
  ],
  "ideas": [],
  "money": {
-  "claude_total": 3935.98,
+  "claude_total": 3940.19,
   "fixed_total": 0
  },
  "health": {
-  "files": 821,
-  "lines": 169541,
+  "files": 828,
+  "lines": 171279,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 14,
+  "changed_files": 12,
   "warning": null
  }
 }
