@@ -2024,7 +2024,8 @@ a:hover { text-decoration: underline; }
 
   /* Memberships — bold organization, italic role + date+location line. */
   .nb-membership { margin-bottom: 0.15rem; page-break-inside: avoid; }
-  /* Current roles print (first 4); former memberships stay screen-only. */
+  /* The first 4 current roles print; SoCal Mini Club (5th — a 5th line spills
+     the PDF onto a 4th page) and former memberships stay screen-only. */
   .nb-membership:nth-child(n+5) { display: none; }
   .nb-membership-head { display: block; margin-bottom: 0.02rem; }
   .nb-membership-head strong { font-size: 10.5pt; font-weight: 700; color: #000; }

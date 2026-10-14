@@ -1605,7 +1605,7 @@ class TestDetailCards:
         cards = body.count('class="nb-detail-card"')
         triggers = body.count('class="nb-detail-trigger"')
         templates = body.count('<template>')
-        assert cards == 15, f"expected 15 detail cards (7 people + 8 off-the-clock), got {cards}"
+        assert cards == 16, f"expected 16 detail cards (7 people + 9 off-the-clock), got {cards}"
         assert triggers == cards, f"{triggers} triggers vs {cards} cards — each card needs exactly one"
         assert templates == cards, f"{templates} <template>s vs {cards} cards — each card needs exactly one"
 
@@ -1619,8 +1619,8 @@ class TestDetailCards:
         assert people and people.group(1).count('class="nb-detail-card"') == 7, (
             "expected 7 detail cards in /09 people i follow"
         )
-        assert clock and clock.group(1).count('class="nb-detail-card"') == 8, (
-            "expected 8 detail cards in /06 off the clock (top list)"
+        assert clock and clock.group(1).count('class="nb-detail-card"') == 9, (
+            "expected 9 detail cards in /06 off the clock (top list)"
         )
 
     def test_now_js_wires_detail_modal_via_clone(self):
@@ -1680,13 +1680,13 @@ class TestMinorMemberships:
         updating this test, it fails explicitly."""
         _, body = fetch("index.html")
         count = body.count('class="nb-membership nb-membership--minor"')
-        assert count == 7, (
-            f"expected 7 nb-membership--minor articles on homepage (incl. former memberships), got {count} — "
+        assert count == 8, (
+            f"expected 8 nb-membership--minor articles on homepage (incl. former memberships), got {count} — "
             "update this assertion if intentionally adding/removing a minor membership"
         )
 
     def test_minor_cards_are_inside_grid_wrapper(self):
-        """The seven minor cards (incl. former memberships) must stay inside a .nb-grid-3 wrapper
+        """The eight minor cards (incl. former memberships) must stay inside a .nb-grid-3 wrapper
         so they render in a grid rather than stacking like the primary memberships above."""
         _, body = fetch("index.html")
         grid_match = re.search(
@@ -1696,8 +1696,8 @@ class TestMinorMemberships:
         assert grid_match, "No .nb-grid-3 found inside #memberships section"
         grid_content = grid_match.group(1)
         minor_count = grid_content.count('class="nb-membership nb-membership--minor"')
-        assert minor_count == 7, (
-            f"expected all 7 minor cards inside .nb-grid-3, found {minor_count}"
+        assert minor_count == 8, (
+            f"expected all 8 minor cards inside .nb-grid-3, found {minor_count}"
         )
 
 
