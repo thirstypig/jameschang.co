@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-17T16:34:31.825596+00:00",
+ "generated": "2026-10-17T19:34:37.145885+00:00",
  "window_days": 28,
- "total_hours": 116.3,
- "session_hours": 188.9,
+ "total_hours": 116.7,
+ "session_hours": 189.4,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -52,8 +52,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 13% of your time vs 30% target",
-   "detail": "last 28 days · 116.3h total",
-   "magnitude": 16.69031918960244,
+   "detail": "last 28 days · 116.7h total",
+   "magnitude": 16.734057246273274,
    "actions": [
     "change_target",
     "accept"
@@ -83,8 +83,8 @@
    "reason": "C",
    "target": "/Users/jameschang/Projects/theresewhite.com",
    "title": "Unregistered work: theresewhite.com",
-   "detail": "1.6h · 12 sessions",
-   "magnitude": 1.6,
+   "detail": "1.7h · 12 sessions",
+   "magnitude": 1.7,
    "actions": [
     "promote",
     "dismiss",
@@ -187,10 +187,10 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 68.0,
-   "hours": 79.1,
-   "spend": 3174.82,
+   "hours": 79.4,
+   "spend": 3175.02,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-17T08:00:00+00:00",
+   "last_activity": "2026-10-17T19:13:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -557,7 +557,7 @@
    "hours": 4.7,
    "spend": 99.49,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-17T06:34:28-07:00",
+   "last_activity": "2026-10-17T09:34:33-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -854,21 +854,21 @@
   },
   {
    "path": "/Users/jameschang/Projects/theresewhite.com",
-   "hours": 1.6,
+   "hours": 1.7,
    "sessions": 12
   }
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4482.66,
+  "claude_total": 4482.85,
   "fixed_total": 0
  },
  "health": {
-  "files": 826,
-  "lines": 185003,
+  "files": 827,
+  "lines": 186531,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 2,
+  "changed_files": 3,
   "warning": null
  }
 }
