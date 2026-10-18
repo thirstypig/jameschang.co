@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-18T16:35:17.446302+00:00",
+ "generated": "2026-10-18T19:35:23.523591+00:00",
  "window_days": 28,
- "total_hours": 117.8,
- "session_hours": 191.5,
+ "total_hours": 118.3,
+ "session_hours": 192.2,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -52,8 +52,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 13% of your time vs 30% target",
-   "detail": "last 28 days · 117.8h total",
-   "magnitude": 16.86727958510136,
+   "detail": "last 28 days · 118.3h total",
+   "magnitude": 16.919085188315954,
    "actions": [
     "change_target",
     "accept"
@@ -83,8 +83,8 @@
    "reason": "C",
    "target": "/Users/jameschang/Projects/theresewhite.com",
    "title": "Unregistered work: theresewhite.com",
-   "detail": "2.1h · 16 sessions",
-   "magnitude": 2.1,
+   "detail": "2.5h · 30 sessions",
+   "magnitude": 2.5,
    "actions": [
     "promote",
     "dismiss",
@@ -99,7 +99,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 68.0
+   "actual": 67.8
   },
   {
    "slug": "fantastic-leagues",
@@ -171,13 +171,13 @@
    "slug": "family-sites",
    "name": "Family sites",
    "target": 5,
-   "actual": 5.1
+   "actual": 5.0
   },
   {
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 9.7
+   "actual": 10.0
   }
  ],
  "projects": [
@@ -186,11 +186,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 68.0,
-   "hours": 80.1,
+   "actual_share": 67.8,
+   "hours": 80.2,
    "spend": 3175.75,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-18T16:34:00+00:00",
+   "last_activity": "2026-10-18T16:47:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -557,7 +557,7 @@
    "hours": 4.7,
    "spend": 99.49,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-18T06:35:13-07:00",
+   "last_activity": "2026-10-18T09:35:20-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -789,7 +789,7 @@
    "name": "Family sites",
    "status": "active",
    "target_share": 5,
-   "actual_share": 5.1,
+   "actual_share": 5.0,
    "hours": 6.0,
    "spend": 354.13,
    "fixed_monthly": 0,
@@ -854,21 +854,21 @@
   },
   {
    "path": "/Users/jameschang/Projects/theresewhite.com",
-   "hours": 2.1,
-   "sessions": 16
+   "hours": 2.5,
+   "sessions": 30
   }
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4486.25,
+  "claude_total": 4487.41,
   "fixed_total": 0
  },
  "health": {
-  "files": 835,
-  "lines": 190844,
+  "files": 849,
+  "lines": 192110,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 4,
+  "changed_files": 16,
   "warning": null
  }
 }
