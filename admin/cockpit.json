@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-19T01:35:35.260562+00:00",
+ "generated": "2026-10-19T04:35:41.408411+00:00",
  "window_days": 28,
- "total_hours": 118.6,
- "session_hours": 192.5,
+ "total_hours": 118.9,
+ "session_hours": 192.8,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -52,8 +52,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 13% of your time vs 30% target",
-   "detail": "last 28 days · 118.6h total",
-   "magnitude": 16.95033965799953,
+   "detail": "last 28 days · 118.9h total",
+   "magnitude": 16.981445129930822,
    "actions": [
     "change_target",
     "accept"
@@ -83,8 +83,8 @@
    "reason": "C",
    "target": "/Users/jameschang/Projects/theresewhite.com",
    "title": "Unregistered work: theresewhite.com",
-   "detail": "2.5h · 30 sessions",
-   "magnitude": 2.5,
+   "detail": "2.8h · 30 sessions",
+   "magnitude": 2.8,
    "actions": [
     "promote",
     "dismiss",
@@ -99,7 +99,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 67.9
+   "actual": 67.7
   },
   {
    "slug": "fantastic-leagues",
@@ -177,7 +177,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 10.0
+   "actual": 10.2
   }
  ],
  "projects": [
@@ -186,11 +186,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 67.9,
+   "actual_share": 67.7,
    "hours": 80.5,
    "spend": 3176.07,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-18T23:00:00+00:00",
+   "last_activity": "2026-10-19T03:07:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -557,7 +557,7 @@
    "hours": 4.7,
    "spend": 99.49,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-18T15:35:31-07:00",
+   "last_activity": "2026-10-18T18:35:37-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -854,21 +854,21 @@
   },
   {
    "path": "/Users/jameschang/Projects/theresewhite.com",
-   "hours": 2.5,
+   "hours": 2.8,
    "sessions": 30
   }
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4487.73,
+  "claude_total": 4549.61,
   "fixed_total": 0
  },
  "health": {
   "files": 851,
-  "lines": 193201,
+  "lines": 193468,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 4,
+  "changed_files": 2,
   "warning": null
  }
 }
