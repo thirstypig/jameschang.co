@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-19T17:15:38.610363+00:00",
+ "generated": "2026-10-19T20:15:45.268131+00:00",
  "window_days": 28,
- "total_hours": 119.4,
- "session_hours": 194.1,
+ "total_hours": 121.3,
+ "session_hours": 197.2,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -23,9 +23,9 @@
    "kind": "G",
    "reason": "G",
    "target": "aleph",
-   "title": "Aleph: 65% of new-scope asks serve no goal",
-   "detail": "13 of 20 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
-   "magnitude": 65.0,
+   "title": "Aleph: 62% of new-scope asks serve no goal",
+   "detail": "13 of 21 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
+   "magnitude": 61.9,
    "actions": [
     "set_goal",
     "accept"
@@ -52,8 +52,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 13% of your time vs 30% target",
-   "detail": "last 28 days · 119.4h total",
-   "magnitude": 17.0432133221695,
+   "detail": "last 28 days · 121.3h total",
+   "magnitude": 17.242603279289177,
    "actions": [
     "change_target",
     "accept"
@@ -105,7 +105,7 @@
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 0.2
+   "actual": 0.7
   },
   {
    "slug": "bahtzang-trader",
@@ -165,19 +165,19 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 13.0
+   "actual": 12.8
   },
   {
    "slug": "family-sites",
    "name": "Family sites",
    "target": 5,
-   "actual": 5.0
+   "actual": 4.9
   },
   {
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 10.1
+   "actual": 10.0
   }
  ],
  "projects": [
@@ -187,10 +187,10 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 67.6,
-   "hours": 80.7,
-   "spend": 3176.2,
+   "hours": 82.0,
+   "spend": 3176.97,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-19T17:13:00+00:00",
+   "last_activity": "2026-10-19T20:15:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -261,19 +261,19 @@
     }
    ],
    "alignment": {
-    "total": 235,
-    "on_goal": 32,
-    "off_goal": 203,
-    "on_goal_pct": 13.6,
-    "on_goal_major_pct": 13.6,
+    "total": 238,
+    "on_goal": 33,
+    "off_goal": 205,
+    "on_goal_pct": 13.9,
+    "on_goal_major_pct": 13.9,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 20,
+    "new_scope": 21,
     "creep": 13,
-    "creep_pct": 65.0,
+    "creep_pct": 61.9,
     "goals": [
      {
       "id": "g1",
-      "prompts": 7
+      "prompts": 8
      },
      {
       "id": "g2",
@@ -281,13 +281,13 @@
      },
      {
       "id": "g3",
-      "prompts": 25
+      "prompts": 26
      }
     ]
    },
    "rag": "amber",
    "rag_reasons": [
-    "creep 65% ≥ 50%"
+    "creep 62% ≥ 50%"
    ],
    "prev": {
     "creep_pct": 52.4,
@@ -301,20 +301,20 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 0.2,
-   "hours": 0.3,
-   "spend": 0.67,
+   "actual_share": 0.7,
+   "hours": 0.9,
+   "spend": 17.72,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-19T17:13:00+00:00",
+   "last_activity": "2026-10-19T19:38:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
    "stop_criteria": "",
    "goals": [],
    "alignment": {
-    "total": 5,
+    "total": 7,
     "on_goal": 0,
-    "off_goal": 5,
+    "off_goal": 7,
     "on_goal_pct": null,
     "on_goal_major_pct": null,
     "on_goal_minor_pct": null,
@@ -555,9 +555,9 @@
    "target_share": 5,
    "actual_share": 3.9,
    "hours": 4.7,
-   "spend": 99.49,
+   "spend": 101.45,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-19T16:59:00+00:00",
+   "last_activity": "2026-10-19T17:25:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -704,7 +704,7 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 13.0,
+   "actual_share": 12.8,
    "hours": 15.5,
    "spend": 632.46,
    "fixed_monthly": 0,
@@ -789,7 +789,7 @@
    "name": "Family sites",
    "status": "active",
    "target_share": 5,
-   "actual_share": 5.0,
+   "actual_share": 4.9,
    "hours": 6.0,
    "spend": 354.13,
    "fixed_monthly": 0,
@@ -860,15 +860,15 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4550.41,
+  "claude_total": 4570.19,
   "fixed_total": 0
  },
  "health": {
-  "files": 793,
-  "lines": 174493,
+  "files": 808,
+  "lines": 179708,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 9,
+  "changed_files": 1,
   "warning": null
  }
 }
