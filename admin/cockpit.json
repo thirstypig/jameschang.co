@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-19T23:42:27.868848+00:00",
+ "generated": "2026-10-20T02:42:37.344574+00:00",
  "window_days": 28,
- "total_hours": 123.1,
- "session_hours": 200.1,
+ "total_hours": 122.7,
+ "session_hours": 199.4,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -52,8 +52,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 13% of your time vs 30% target",
-   "detail": "last 28 days · 123.1h total",
-   "magnitude": 17.33103230463815,
+   "detail": "last 28 days · 122.7h total",
+   "magnitude": 17.28801665987595,
    "actions": [
     "change_target",
     "accept"
@@ -177,7 +177,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 9.8
+   "actual": 9.9
   }
  ],
  "projects": [
@@ -187,10 +187,10 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 67.6,
-   "hours": 83.3,
-   "spend": 3530.17,
+   "hours": 83.0,
+   "spend": 3528.87,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-19T23:31:00+00:00",
+   "last_activity": "2026-10-20T02:25:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -290,10 +290,10 @@
     "creep 62% ≥ 50%"
    ],
    "prev": {
-    "creep_pct": 52.4,
-    "on_goal_pct": 16.8,
-    "share": 72.9,
-    "as_of": "2026-10-12"
+    "creep_pct": 61.1,
+    "on_goal_pct": 14.1,
+    "share": 72.3,
+    "as_of": "2026-10-13"
    }
   },
   {
@@ -329,7 +329,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-12"
+    "as_of": "2026-10-13"
    }
   },
   {
@@ -365,7 +365,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-12"
+    "as_of": "2026-10-13"
    }
   },
   {
@@ -400,8 +400,8 @@
    "prev": {
     "creep_pct": null,
     "on_goal_pct": null,
-    "share": 0.0,
-    "as_of": "2026-10-12"
+    "share": 0.1,
+    "as_of": "2026-10-13"
    }
   },
   {
@@ -437,7 +437,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-12"
+    "as_of": "2026-10-13"
    }
   },
   {
@@ -473,7 +473,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-12"
+    "as_of": "2026-10-13"
    }
   },
   {
@@ -509,7 +509,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-12"
+    "as_of": "2026-10-13"
    }
   },
   {
@@ -545,7 +545,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-12"
+    "as_of": "2026-10-13"
    }
   },
   {
@@ -557,7 +557,7 @@
    "hours": 4.7,
    "spend": 101.45,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-19T16:15:55-07:00",
+   "last_activity": "2026-10-19T16:42:32-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -623,8 +623,8 @@
    "prev": {
     "creep_pct": 43.8,
     "on_goal_pct": 33.3,
-    "share": 3.9,
-    "as_of": "2026-10-12"
+    "share": 3.8,
+    "as_of": "2026-10-13"
    }
   },
   {
@@ -660,7 +660,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-12"
+    "as_of": "2026-10-13"
    }
   },
   {
@@ -696,7 +696,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-12"
+    "as_of": "2026-10-13"
    }
   },
   {
@@ -778,10 +778,10 @@
     "time 13% vs 30% target"
    ],
    "prev": {
-    "creep_pct": 53.1,
-    "on_goal_pct": 15.8,
-    "share": 18.8,
-    "as_of": "2026-10-12"
+    "creep_pct": 57.6,
+    "on_goal_pct": 16.2,
+    "share": 15.8,
+    "as_of": "2026-10-13"
    }
   },
   {
@@ -790,7 +790,7 @@
    "status": "active",
    "target_share": 5,
    "actual_share": 4.8,
-   "hours": 6.0,
+   "hours": 5.8,
    "spend": 354.13,
    "fixed_monthly": 0,
    "last_activity": "2026-10-16T21:26:00+00:00",
@@ -839,10 +839,10 @@
     "creep 80% ≥ 70%"
    ],
    "prev": {
-    "creep_pct": 66.7,
-    "on_goal_pct": 7.3,
-    "share": 4.3,
-    "as_of": "2026-10-12"
+    "creep_pct": 75.0,
+    "on_goal_pct": 5.8,
+    "share": 3.8,
+    "as_of": "2026-10-13"
    }
   }
  ],
@@ -860,12 +860,12 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4933.96,
+  "claude_total": 4932.66,
   "fixed_total": 0
  },
  "health": {
-  "files": 823,
-  "lines": 183951,
+  "files": 825,
+  "lines": 184487,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 2,
