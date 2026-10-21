@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-21T14:43:46.427948+00:00",
+ "generated": "2026-10-21T17:43:52.139458+00:00",
  "window_days": 28,
- "total_hours": 127.2,
- "session_hours": 190.8,
+ "total_hours": 127.7,
+ "session_hours": 191.2,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -52,8 +52,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 10% of your time vs 30% target",
-   "detail": "last 28 days · 127.2h total",
-   "magnitude": 19.721093784126147,
+   "detail": "last 28 days · 127.7h total",
+   "magnitude": 19.79011701248423,
    "actions": [
     "change_target",
     "accept"
@@ -67,8 +67,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 73% of your time vs 60% target",
-   "detail": "last 28 days · 127.2h total",
-   "magnitude": 12.875551478617766,
+   "detail": "last 28 days · 127.7h total",
+   "magnitude": 13.080168776371153,
    "actions": [
     "change_target",
     "accept"
@@ -114,7 +114,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 72.9
+   "actual": 73.1
   },
   {
    "slug": "fantastic-leagues",
@@ -180,7 +180,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 10.3
+   "actual": 10.2
   },
   {
    "slug": "family-sites",
@@ -201,11 +201,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 72.9,
-   "hours": 92.7,
-   "spend": 3246.31,
+   "actual_share": 73.1,
+   "hours": 93.3,
+   "spend": 3246.15,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-21T08:42:00+00:00",
+   "last_activity": "2026-10-21T17:39:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -573,7 +573,7 @@
    "hours": 4.7,
    "spend": 101.3,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-21T04:43:42-07:00",
+   "last_activity": "2026-10-21T07:43:47-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -720,8 +720,8 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 10.3,
-   "hours": 13.1,
+   "actual_share": 10.2,
+   "hours": 13.0,
    "spend": 477.92,
    "fixed_monthly": 0,
    "last_activity": "2026-10-19T21:53:00+00:00",
@@ -806,7 +806,7 @@
    "status": "active",
    "target_share": 5,
    "actual_share": 2.4,
-   "hours": 3.1,
+   "hours": 3.0,
    "spend": 346.36,
    "fixed_monthly": 0,
    "last_activity": "2026-10-16T21:26:00+00:00",
@@ -876,15 +876,15 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4486.68,
+  "claude_total": 4486.53,
   "fixed_total": 0
  },
  "health": {
-  "files": 933,
-  "lines": 197850,
+  "files": 934,
+  "lines": 198542,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 1,
+  "changed_files": 2,
   "warning": null
  }
 }
