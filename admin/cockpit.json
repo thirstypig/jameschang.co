@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-22T02:57:02.510709+00:00",
+ "generated": "2026-10-22T06:05:45.056509+00:00",
  "window_days": 28,
- "total_hours": 127.3,
- "session_hours": 186.4,
+ "total_hours": 128.0,
+ "session_hours": 187.1,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -23,9 +23,9 @@
    "kind": "G",
    "reason": "G",
    "target": "aleph",
-   "title": "Aleph: 59% of new-scope asks serve no goal",
-   "detail": "13 of 22 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
-   "magnitude": 59.1,
+   "title": "Aleph: 56% of new-scope asks serve no goal",
+   "detail": "13 of 23 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
+   "magnitude": 56.5,
    "actions": [
     "set_goal",
     "accept"
@@ -52,8 +52,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 9% of your time vs 30% target",
-   "detail": "last 28 days · 127.3h total",
-   "magnitude": 20.799842911375833,
+   "detail": "last 28 days · 128.0h total",
+   "magnitude": 20.848958333333332,
    "actions": [
     "change_target",
     "accept"
@@ -67,8 +67,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 75% of your time vs 60% target",
-   "detail": "last 28 days · 127.3h total",
-   "magnitude": 14.597024043286495,
+   "detail": "last 28 days · 128.0h total",
+   "magnitude": 14.73263888888873,
    "actions": [
     "change_target",
     "accept"
@@ -114,7 +114,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 74.6
+   "actual": 74.7
   },
   {
    "slug": "fantastic-leagues",
@@ -201,11 +201,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 74.6,
-   "hours": 95.0,
-   "spend": 3662.88,
+   "actual_share": 74.7,
+   "hours": 95.7,
+   "spend": 3663.17,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-22T02:20:00+00:00",
+   "last_activity": "2026-10-22T05:21:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -276,33 +276,33 @@
     }
    ],
    "alignment": {
-    "total": 256,
-    "on_goal": 39,
-    "off_goal": 217,
-    "on_goal_pct": 15.2,
-    "on_goal_major_pct": 15.2,
+    "total": 267,
+    "on_goal": 41,
+    "off_goal": 226,
+    "on_goal_pct": 15.4,
+    "on_goal_major_pct": 15.4,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 22,
+    "new_scope": 23,
     "creep": 13,
-    "creep_pct": 59.1,
+    "creep_pct": 56.5,
     "goals": [
      {
       "id": "g1",
-      "prompts": 9
+      "prompts": 10
      },
      {
       "id": "g2",
-      "prompts": 2
+      "prompts": 3
      },
      {
       "id": "g3",
-      "prompts": 31
+      "prompts": 32
      }
     ]
    },
    "rag": "amber",
    "rag_reasons": [
-    "creep 59% ≥ 50%",
+    "creep 56% ≥ 50%",
     "time 75% vs 60% target"
    ],
    "prev": {
@@ -573,7 +573,7 @@
    "hours": 4.7,
    "spend": 101.3,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-21T16:56:58-07:00",
+   "last_activity": "2026-10-21T19:57:04-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -876,15 +876,15 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4382.59,
+  "claude_total": 4382.88,
   "fixed_total": 0
  },
  "health": {
-  "files": 944,
-  "lines": 200881,
+  "files": 947,
+  "lines": 201618,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 3,
+  "changed_files": 4,
   "warning": null
  }
 }
