@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-23T12:41:52.409723+00:00",
+ "generated": "2026-10-23T15:41:57.000819+00:00",
  "window_days": 28,
- "total_hours": 131.9,
- "session_hours": 187.1,
+ "total_hours": 132.2,
+ "session_hours": 187.4,
  "decisions": [
   {
    "id": "G:pasadenaworks",
@@ -52,8 +52,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 7% of your time vs 30% target",
-   "detail": "last 28 days · 131.9h total",
-   "magnitude": 22.628520904382974,
+   "detail": "last 28 days · 132.2h total",
+   "magnitude": 22.64431560373078,
    "actions": [
     "change_target",
     "accept"
@@ -67,8 +67,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 76% of your time vs 60% target",
-   "detail": "last 28 days · 131.9h total",
-   "magnitude": 16.175739968843303,
+   "detail": "last 28 days · 132.2h total",
+   "magnitude": 16.22678766490199,
    "actions": [
     "change_target",
     "accept"
@@ -186,13 +186,13 @@
    "slug": "family-sites",
    "name": "Family sites",
    "target": 5,
-   "actual": 1.8
+   "actual": 1.7
   },
   {
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 10.2
+   "actual": 10.1
   }
  ],
  "projects": [
@@ -202,10 +202,10 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 76.2,
-   "hours": 100.5,
-   "spend": 3443.15,
+   "hours": 100.8,
+   "spend": 3443.28,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-23T07:08:00+00:00",
+   "last_activity": "2026-10-23T15:33:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -573,7 +573,7 @@
    "hours": 4.5,
    "spend": 97.1,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-23T02:41:49-07:00",
+   "last_activity": "2026-10-23T05:41:53-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -805,7 +805,7 @@
    "name": "Family sites",
    "status": "active",
    "target_share": 5,
-   "actual_share": 1.8,
+   "actual_share": 1.7,
    "hours": 2.3,
    "spend": 47.61,
    "fixed_monthly": 0,
@@ -876,15 +876,15 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4120.25,
+  "claude_total": 4120.38,
   "fixed_total": 0
  },
  "health": {
-  "files": 967,
-  "lines": 205120,
+  "files": 968,
+  "lines": 205989,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 1,
+  "changed_files": 2,
   "warning": null
  }
 }
