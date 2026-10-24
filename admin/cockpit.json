@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-24T13:27:22.013235+00:00",
+ "generated": "2026-10-24T16:27:26.587407+00:00",
  "window_days": 28,
- "total_hours": 134.3,
- "session_hours": 185.4,
+ "total_hours": 134.9,
+ "session_hours": 186.0,
  "decisions": [
   {
    "id": "G:pasadenaworks",
@@ -37,9 +37,9 @@
    "kind": "G",
    "reason": "G",
    "target": "aleph",
-   "title": "Aleph: 54% of new-scope asks serve no goal",
-   "detail": "19 of 35 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
-   "magnitude": 54.3,
+   "title": "Aleph: 56% of new-scope asks serve no goal",
+   "detail": "20 of 36 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
+   "magnitude": 55.6,
    "actions": [
     "set_goal",
     "accept"
@@ -52,8 +52,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 6% of your time vs 30% target",
-   "detail": "last 28 days · 134.3h total",
-   "magnitude": 24.10421836228288,
+   "detail": "last 28 days · 134.9h total",
+   "magnitude": 24.13115968877362,
    "actions": [
     "change_target",
     "accept"
@@ -67,8 +67,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 78% of your time vs 60% target",
-   "detail": "last 28 days · 134.3h total",
-   "magnitude": 17.943341604631826,
+   "detail": "last 28 days · 134.9h total",
+   "magnitude": 18.044131571363778,
    "actions": [
     "change_target",
     "accept"
@@ -114,7 +114,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 77.9
+   "actual": 78.0
   },
   {
    "slug": "fantastic-leagues",
@@ -162,7 +162,7 @@
    "slug": "jameschang-co",
    "name": "jameschang.co",
    "target": 5,
-   "actual": 3.4
+   "actual": 3.3
   },
   {
    "slug": "vouch",
@@ -192,7 +192,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 10.0
+   "actual": 9.9
   }
  ],
  "projects": [
@@ -201,11 +201,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 77.9,
-   "hours": 104.7,
-   "spend": 3456.31,
+   "actual_share": 78.0,
+   "hours": 105.3,
+   "spend": 3456.42,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-24T03:24:00+00:00",
+   "last_activity": "2026-10-24T16:21:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -276,15 +276,15 @@
     }
    ],
    "alignment": {
-    "total": 302,
+    "total": 303,
     "on_goal": 55,
-    "off_goal": 247,
+    "off_goal": 248,
     "on_goal_pct": 18.2,
     "on_goal_major_pct": 18.2,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 35,
-    "creep": 19,
-    "creep_pct": 54.3,
+    "new_scope": 36,
+    "creep": 20,
+    "creep_pct": 55.6,
     "goals": [
      {
       "id": "g1",
@@ -302,7 +302,7 @@
    },
    "rag": "amber",
    "rag_reasons": [
-    "creep 54% ≥ 50%",
+    "creep 56% ≥ 50%",
     "time 78% vs 60% target"
    ],
    "prev": {
@@ -569,11 +569,11 @@
    "name": "jameschang.co",
    "status": "active",
    "target_share": 5,
-   "actual_share": 3.4,
+   "actual_share": 3.3,
    "hours": 4.5,
    "spend": 97.1,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-24T02:56:42-07:00",
+   "last_activity": "2026-10-24T06:27:23-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -876,15 +876,15 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4122.79,
+  "claude_total": 4122.9,
   "fixed_total": 0
  },
  "health": {
-  "files": 955,
-  "lines": 199717,
+  "files": 956,
+  "lines": 200508,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 1,
+  "changed_files": 2,
   "warning": null
  }
 }
