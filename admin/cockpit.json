@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-25T22:12:18.266146+00:00",
+ "generated": "2026-10-26T17:19:42.659630+00:00",
  "window_days": 28,
- "total_hours": 136.8,
- "session_hours": 188.1,
+ "total_hours": 133.4,
+ "session_hours": 182.8,
  "decisions": [
   {
    "id": "G:pasadenaworks",
@@ -51,9 +51,9 @@
    "kind": "A",
    "reason": "A",
    "target": "pasadenaworks",
-   "title": "Pasadena Works: 6% of your time vs 30% target",
-   "detail": "last 28 days · 136.8h total",
-   "magnitude": 24.239342265529842,
+   "title": "Pasadena Works: 5% of your time vs 30% target",
+   "detail": "last 28 days · 133.4h total",
+   "magnitude": 24.833812320379856,
    "actions": [
     "change_target",
     "accept"
@@ -67,8 +67,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 78% of your time vs 60% target",
-   "detail": "last 28 days · 136.8h total",
-   "magnitude": 18.282379212342562,
+   "detail": "last 28 days · 133.4h total",
+   "magnitude": 18.420384022658055,
    "actions": [
     "change_target",
     "accept"
@@ -98,8 +98,8 @@
    "reason": "C",
    "target": "/Users/jameschang/Projects/theresewhite.com",
    "title": "Unregistered work: theresewhite.com",
-   "detail": "4.2h · 46 sessions",
-   "magnitude": 4.2,
+   "detail": "4.3h · 47 sessions",
+   "magnitude": 4.3,
    "actions": [
     "promote",
     "dismiss",
@@ -114,7 +114,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 78.3
+   "actual": 78.4
   },
   {
    "slug": "fantastic-leagues",
@@ -132,7 +132,7 @@
    "slug": "judge-tool",
    "name": "The Judge Tool",
    "target": 0,
-   "actual": 0.1
+   "actual": 0.2
   },
   {
    "slug": "tabledrop",
@@ -162,7 +162,7 @@
    "slug": "jameschang-co",
    "name": "jameschang.co",
    "target": 5,
-   "actual": 3.3
+   "actual": 3.4
   },
   {
    "slug": "vouch",
@@ -180,7 +180,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 5.8
+   "actual": 5.2
   },
   {
    "slug": "family-sites",
@@ -192,7 +192,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 9.9
+   "actual": 10.2
   }
  ],
  "projects": [
@@ -201,11 +201,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 78.3,
-   "hours": 107.1,
-   "spend": 3401.3,
+   "actual_share": 78.4,
+   "hours": 104.6,
+   "spend": 3337.44,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-25T22:10:00+00:00",
+   "last_activity": "2026-10-26T17:18:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -276,11 +276,11 @@
     }
    ],
    "alignment": {
-    "total": 307,
+    "total": 306,
     "on_goal": 56,
-    "off_goal": 251,
-    "on_goal_pct": 18.2,
-    "on_goal_major_pct": 18.2,
+    "off_goal": 250,
+    "on_goal_pct": 18.3,
+    "on_goal_major_pct": 18.3,
     "on_goal_minor_pct": 0.0,
     "new_scope": 38,
     "creep": 22,
@@ -306,10 +306,10 @@
     "time 78% vs 60% target"
    ],
    "prev": {
-    "creep_pct": 65.0,
-    "on_goal_pct": 13.3,
-    "share": 67.8,
-    "as_of": "2026-10-18"
+    "creep_pct": 61.9,
+    "on_goal_pct": 13.6,
+    "share": 67.6,
+    "as_of": "2026-10-19"
    }
   },
   {
@@ -344,8 +344,8 @@
    "prev": {
     "creep_pct": null,
     "on_goal_pct": null,
-    "share": 0.0,
-    "as_of": "2026-10-18"
+    "share": 0.7,
+    "as_of": "2026-10-19"
    }
   },
   {
@@ -380,8 +380,8 @@
    "prev": {
     "creep_pct": null,
     "on_goal_pct": null,
-    "share": 0.0,
-    "as_of": "2026-10-18"
+    "share": 0.4,
+    "as_of": "2026-10-19"
    }
   },
   {
@@ -389,7 +389,7 @@
    "name": "The Judge Tool",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 0.1,
+   "actual_share": 0.2,
    "hours": 0.2,
    "spend": 17.26,
    "fixed_monthly": 0,
@@ -417,7 +417,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.2,
-    "as_of": "2026-10-18"
+    "as_of": "2026-10-19"
    }
   },
   {
@@ -453,7 +453,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-18"
+    "as_of": "2026-10-19"
    }
   },
   {
@@ -489,7 +489,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-18"
+    "as_of": "2026-10-19"
    }
   },
   {
@@ -525,7 +525,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-18"
+    "as_of": "2026-10-19"
    }
   },
   {
@@ -561,7 +561,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-18"
+    "as_of": "2026-10-19"
    }
   },
   {
@@ -569,11 +569,11 @@
    "name": "jameschang.co",
    "status": "active",
    "target_share": 5,
-   "actual_share": 3.3,
+   "actual_share": 3.4,
    "hours": 4.5,
    "spend": 97.1,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-24T12:56:57-07:00",
+   "last_activity": "2026-10-25T15:12:20-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -638,9 +638,9 @@
    "rag_reasons": [],
    "prev": {
     "creep_pct": 41.2,
-    "on_goal_pct": 33.8,
-    "share": 3.9,
-    "as_of": "2026-10-18"
+    "on_goal_pct": 32.9,
+    "share": 3.8,
+    "as_of": "2026-10-19"
    }
   },
   {
@@ -676,7 +676,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-18"
+    "as_of": "2026-10-19"
    }
   },
   {
@@ -712,7 +712,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-18"
+    "as_of": "2026-10-19"
    }
   },
   {
@@ -720,9 +720,9 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 5.8,
-   "hours": 7.9,
-   "spend": 135.51,
+   "actual_share": 5.2,
+   "hours": 6.9,
+   "spend": 130.5,
    "fixed_monthly": 0,
    "last_activity": "2026-10-19T21:53:00+00:00",
    "review_by": null,
@@ -791,13 +791,13 @@
    "rag": "red",
    "rag_reasons": [
     "creep 79% ≥ 70%",
-    "time 6% vs 30% target"
+    "time 5% vs 30% target"
    ],
    "prev": {
-    "creep_pct": 56.2,
-    "on_goal_pct": 17.0,
-    "share": 13.1,
-    "as_of": "2026-10-18"
+    "creep_pct": 58.8,
+    "on_goal_pct": 16.8,
+    "share": 12.7,
+    "as_of": "2026-10-19"
    }
   },
   {
@@ -857,8 +857,8 @@
    "prev": {
     "creep_pct": 80.0,
     "on_goal_pct": 4.8,
-    "share": 5.0,
-    "as_of": "2026-10-18"
+    "share": 4.8,
+    "as_of": "2026-10-19"
    }
   }
  ],
@@ -870,21 +870,21 @@
   },
   {
    "path": "/Users/jameschang/Projects/theresewhite.com",
-   "hours": 4.2,
-   "sessions": 46
+   "hours": 4.3,
+   "sessions": 47
   }
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4021.36,
+  "claude_total": 3952.54,
   "fixed_total": 0
  },
  "health": {
-  "files": 916,
-  "lines": 184314,
+  "files": 926,
+  "lines": 185255,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 11,
+  "changed_files": 6,
   "warning": null
  }
 }
