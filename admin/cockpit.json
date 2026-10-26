@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-26T17:19:42.659630+00:00",
+ "generated": "2026-10-26T20:37:37.460433+00:00",
  "window_days": 28,
- "total_hours": 133.4,
- "session_hours": 182.8,
+ "total_hours": 133.9,
+ "session_hours": 183.5,
  "decisions": [
   {
    "id": "G:pasadenaworks",
@@ -52,8 +52,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 133.4h total",
-   "magnitude": 24.833812320379856,
+   "detail": "last 28 days · 133.9h total",
+   "magnitude": 24.853105938005726,
    "actions": [
     "change_target",
     "accept"
@@ -67,8 +67,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 78% of your time vs 60% target",
-   "detail": "last 28 days · 133.4h total",
-   "magnitude": 18.420384022658055,
+   "detail": "last 28 days · 133.9h total",
+   "magnitude": 18.432507572928216,
    "actions": [
     "change_target",
     "accept"
@@ -98,7 +98,7 @@
    "reason": "C",
    "target": "/Users/jameschang/Projects/theresewhite.com",
    "title": "Unregistered work: theresewhite.com",
-   "detail": "4.3h · 47 sessions",
+   "detail": "4.3h · 48 sessions",
    "magnitude": 4.3,
    "actions": [
     "promote",
@@ -180,7 +180,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 5.2
+   "actual": 5.1
   },
   {
    "slug": "family-sites",
@@ -202,10 +202,10 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 78.4,
-   "hours": 104.6,
-   "spend": 3337.44,
+   "hours": 105.0,
+   "spend": 3337.85,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-26T17:18:00+00:00",
+   "last_activity": "2026-10-26T18:54:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -573,7 +573,7 @@
    "hours": 4.5,
    "spend": 97.1,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-25T15:12:20-07:00",
+   "last_activity": "2026-10-26T10:19:54-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -720,7 +720,7 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 5.2,
+   "actual_share": 5.1,
    "hours": 6.9,
    "spend": 130.5,
    "fixed_monthly": 0,
@@ -871,20 +871,20 @@
   {
    "path": "/Users/jameschang/Projects/theresewhite.com",
    "hours": 4.3,
-   "sessions": 47
+   "sessions": 48
   }
  ],
  "ideas": [],
  "money": {
-  "claude_total": 3952.54,
+  "claude_total": 3953.01,
   "fixed_total": 0
  },
  "health": {
-  "files": 926,
-  "lines": 185255,
+  "files": 931,
+  "lines": 186355,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 6,
+  "changed_files": 7,
   "warning": null
  }
 }
