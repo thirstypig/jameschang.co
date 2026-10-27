@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-27T07:27:26.131585+00:00",
+ "generated": "2026-10-27T10:50:54.508411+00:00",
  "window_days": 28,
- "total_hours": 134.9,
- "session_hours": 180.0,
+ "total_hours": 135.1,
+ "session_hours": 180.2,
  "decisions": [
   {
    "id": "G:pasadenaworks",
@@ -52,8 +52,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 3% of your time vs 30% target",
-   "detail": "last 28 days · 134.9h total",
-   "magnitude": 26.58884084826024,
+   "detail": "last 28 days · 135.1h total",
+   "magnitude": 26.59262915432708,
    "actions": [
     "change_target",
     "accept"
@@ -67,8 +67,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 81% of your time vs 60% target",
-   "detail": "last 28 days · 134.9h total",
-   "magnitude": 20.523368334362686,
+   "detail": "last 28 days · 135.1h total",
+   "magnitude": 20.557337940111793,
    "actions": [
     "change_target",
     "accept"
@@ -114,7 +114,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 80.5
+   "actual": 80.6
   },
   {
    "slug": "fantastic-leagues",
@@ -201,11 +201,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 80.5,
-   "hours": 108.6,
+   "actual_share": 80.6,
+   "hours": 108.8,
    "spend": 3716.34,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-27T07:22:00+00:00",
+   "last_activity": "2026-10-27T08:24:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -303,7 +303,7 @@
    "rag": "amber",
    "rag_reasons": [
     "creep 59% ≥ 50%",
-    "time 80% vs 60% target"
+    "time 81% vs 60% target"
    ],
    "prev": {
     "creep_pct": 59.1,
@@ -573,7 +573,7 @@
    "hours": 4.3,
    "spend": 94.96,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-26T21:27:16-07:00",
+   "last_activity": "2026-10-27T00:27:39-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -881,10 +881,10 @@
  },
  "health": {
   "files": 926,
-  "lines": 190648,
+  "lines": 190704,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 11,
+  "changed_files": 1,
   "warning": null
  }
 }
