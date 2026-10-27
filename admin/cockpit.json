@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-27T10:50:54.508411+00:00",
+ "generated": "2026-10-27T14:16:33.641660+00:00",
  "window_days": 28,
  "total_hours": 135.1,
  "session_hours": 180.2,
@@ -573,7 +573,7 @@
    "hours": 4.3,
    "spend": 94.96,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-27T00:27:39-07:00",
+   "last_activity": "2026-10-27T03:50:55-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
