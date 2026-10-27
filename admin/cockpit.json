@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-27T17:43:33.815032+00:00",
+ "generated": "2026-10-27T21:10:42.375842+00:00",
  "window_days": 28,
- "total_hours": 135.0,
- "session_hours": 178.4,
+ "total_hours": 134.7,
+ "session_hours": 177.9,
  "decisions": [
   {
    "id": "G:pasadenaworks",
@@ -38,8 +38,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 3% of your time vs 30% target",
-   "detail": "last 28 days · 135.0h total",
-   "magnitude": 26.7080144820209,
+   "detail": "last 28 days · 134.7h total",
+   "magnitude": 26.700684479630546,
    "actions": [
     "change_target",
     "accept"
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 81% of your time vs 60% target",
-   "detail": "last 28 days · 135.0h total",
-   "magnitude": 20.996873200032823,
+   "detail": "last 28 days · 134.7h total",
+   "magnitude": 20.997855846940368,
    "actions": [
     "change_target",
     "accept"
@@ -188,10 +188,10 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 81.0,
-   "hours": 109.4,
-   "spend": 3714.33,
+   "hours": 109.1,
+   "spend": 3713.64,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-27T17:42:00+00:00",
+   "last_activity": "2026-10-27T21:07:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -262,9 +262,9 @@
     }
    ],
    "alignment": {
-    "total": 320,
+    "total": 321,
     "on_goal": 59,
-    "off_goal": 261,
+    "off_goal": 262,
     "on_goal_pct": 18.4,
     "on_goal_major_pct": 18.4,
     "on_goal_minor_pct": 0.0,
@@ -556,10 +556,10 @@
    "status": "active",
    "target_share": 5,
    "actual_share": 3.0,
-   "hours": 4.1,
+   "hours": 4.0,
    "spend": 94.81,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-27T07:16:34-07:00",
+   "last_activity": "2026-10-27T10:43:35-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -860,15 +860,15 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4235.25,
+  "claude_total": 4234.57,
   "fixed_total": 0
  },
  "health": {
-  "files": 929,
-  "lines": 191927,
+  "files": 930,
+  "lines": 192977,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 4,
+  "changed_files": 2,
   "warning": null
  }
 }
