@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-28T00:43:20.619682+00:00",
+ "generated": "2026-10-28T03:43:33.076641+00:00",
  "window_days": 28,
- "total_hours": 134.9,
- "session_hours": 175.7,
+ "total_hours": 137.0,
+ "session_hours": 176.5,
  "decisions": [
   {
    "id": "G:pasadenaworks",
@@ -38,8 +38,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 3% of your time vs 30% target",
-   "detail": "last 28 days · 134.9h total",
-   "magnitude": 27.07159334321964,
+   "detail": "last 28 days · 137.0h total",
+   "magnitude": 27.480940794809406,
    "actions": [
     "change_target",
     "accept"
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 82% of your time vs 60% target",
-   "detail": "last 28 days · 134.9h total",
-   "magnitude": 21.71856978085343,
+   "detail": "last 28 days · 137.0h total",
+   "magnitude": 22.412408759123977,
    "actions": [
     "change_target",
     "accept"
@@ -100,7 +100,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 81.7
+   "actual": 82.4
   },
   {
    "slug": "fantastic-leagues",
@@ -148,7 +148,7 @@
    "slug": "jameschang-co",
    "name": "jameschang.co",
    "target": 5,
-   "actual": 2.7
+   "actual": 2.6
   },
   {
    "slug": "vouch",
@@ -166,7 +166,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 2.9
+   "actual": 2.5
   },
   {
    "slug": "family-sites",
@@ -178,7 +178,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 10.4
+   "actual": 10.2
   }
  ],
  "projects": [
@@ -187,11 +187,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 81.7,
-   "hours": 110.2,
-   "spend": 3300.1,
+   "actual_share": 82.4,
+   "hours": 112.9,
+   "spend": 3299.59,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-28T00:42:00+00:00",
+   "last_activity": "2026-10-28T03:43:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -262,11 +262,11 @@
     }
    ],
    "alignment": {
-    "total": 313,
-    "on_goal": 59,
-    "off_goal": 254,
-    "on_goal_pct": 18.8,
-    "on_goal_major_pct": 18.8,
+    "total": 316,
+    "on_goal": 60,
+    "off_goal": 256,
+    "on_goal_pct": 19.0,
+    "on_goal_major_pct": 19.0,
     "on_goal_minor_pct": 0.0,
     "new_scope": 38,
     "creep": 22,
@@ -274,7 +274,7 @@
     "goals": [
      {
       "id": "g1",
-      "prompts": 17
+      "prompts": 18
      },
      {
       "id": "g2",
@@ -555,11 +555,11 @@
    "name": "jameschang.co",
    "status": "active",
    "target_share": 5,
-   "actual_share": 2.7,
-   "hours": 3.6,
-   "spend": 94.81,
+   "actual_share": 2.6,
+   "hours": 3.5,
+   "spend": 70.63,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-27T14:10:43-07:00",
+   "last_activity": "2026-10-27T17:43:28-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -600,15 +600,15 @@
     }
    ],
    "alignment": {
-    "total": 69,
-    "on_goal": 21,
-    "off_goal": 48,
-    "on_goal_pct": 30.4,
-    "on_goal_major_pct": 30.4,
+    "total": 43,
+    "on_goal": 17,
+    "off_goal": 26,
+    "on_goal_pct": 39.5,
+    "on_goal_major_pct": 39.5,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 15,
-    "creep": 7,
-    "creep_pct": 46.7,
+    "new_scope": 11,
+    "creep": 5,
+    "creep_pct": 45.5,
     "goals": [
      {
       "id": "g1",
@@ -616,7 +616,7 @@
      },
      {
       "id": "g2",
-      "prompts": 19
+      "prompts": 15
      }
     ]
    },
@@ -706,9 +706,9 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 2.9,
-   "hours": 3.9,
-   "spend": 48.07,
+   "actual_share": 2.5,
+   "hours": 3.5,
+   "spend": 40.38,
    "fixed_monthly": 0,
    "last_activity": "2026-10-19T21:53:00+00:00",
    "review_by": null,
@@ -754,11 +754,11 @@
     }
    ],
    "alignment": {
-    "total": 48,
+    "total": 43,
     "on_goal": 6,
-    "off_goal": 42,
-    "on_goal_pct": 12.5,
-    "on_goal_major_pct": 12.5,
+    "off_goal": 37,
+    "on_goal_pct": 14.0,
+    "on_goal_major_pct": 14.0,
     "on_goal_minor_pct": 0.0,
     "new_scope": 7,
     "creep": 7,
@@ -777,7 +777,7 @@
    "rag": "red",
    "rag_reasons": [
     "creep 100% ≥ 70%",
-    "time 3% vs 30% target"
+    "time 2% vs 30% target"
    ],
    "prev": {
     "creep_pct": 56.2,
@@ -860,15 +860,15 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 3814.59,
+  "claude_total": 3781.65,
   "fixed_total": 0
  },
  "health": {
-  "files": 936,
-  "lines": 195298,
+  "files": 952,
+  "lines": 197618,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 7,
+  "changed_files": 17,
   "warning": null
  }
 }
