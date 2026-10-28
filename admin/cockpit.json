@@ -1,17 +1,17 @@
 {
- "generated": "2026-10-28T20:32:27.918025+00:00",
+ "generated": "2026-10-28T23:55:26.576827+00:00",
  "window_days": 28,
- "total_hours": 138.5,
- "session_hours": 175.9,
+ "total_hours": 138.7,
+ "session_hours": 179.8,
  "decisions": [
   {
    "id": "G:pasadenaworks",
    "kind": "G",
    "reason": "G",
    "target": "pasadenaworks",
-   "title": "Pasadena Works: 86% of new-scope asks serve no goal",
-   "detail": "6 of 7 asks for new capability in 28 days matched none of: Find out whether the site brings in real leads · Deliver client work on time",
-   "magnitude": 85.7,
+   "title": "Pasadena Works: 91% of new-scope asks serve no goal",
+   "detail": "10 of 11 asks for new capability in 28 days matched none of: Find out whether the site brings in real leads · Deliver client work on time",
+   "magnitude": 90.9,
    "actions": [
     "set_goal",
     "accept"
@@ -19,13 +19,27 @@
    "severity": "high"
   },
   {
+   "id": "G:jameschang-co",
+   "kind": "G",
+   "reason": "G",
+   "target": "jameschang-co",
+   "title": "jameschang.co: 67% of new-scope asks serve no goal",
+   "detail": "4 of 6 asks for new capability in 28 days matched none of: Keep /now and the résumé current · Run the portfolio from /admin",
+   "magnitude": 66.7,
+   "actions": [
+    "set_goal",
+    "accept"
+   ],
+   "severity": "medium"
+  },
+  {
    "id": "G:aleph",
    "kind": "G",
    "reason": "G",
    "target": "aleph",
-   "title": "Aleph: 55% of new-scope asks serve no goal",
-   "detail": "21 of 38 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
-   "magnitude": 55.3,
+   "title": "Aleph: 57% of new-scope asks serve no goal",
+   "detail": "21 of 37 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
+   "magnitude": 56.8,
    "actions": [
     "set_goal",
     "accept"
@@ -37,9 +51,9 @@
    "kind": "A",
    "reason": "A",
    "target": "pasadenaworks",
-   "title": "Pasadena Works: 2% of your time vs 30% target",
-   "detail": "last 28 days · 138.5h total",
-   "magnitude": 27.5880253448829,
+   "title": "Pasadena Works: 3% of your time vs 30% target",
+   "detail": "last 28 days · 138.7h total",
+   "magnitude": 26.98562389876662,
    "actions": [
     "change_target",
     "accept"
@@ -53,8 +67,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 83% of your time vs 60% target",
-   "detail": "last 28 days · 138.5h total",
-   "magnitude": 23.077277831247926,
+   "detail": "last 28 days · 138.7h total",
+   "magnitude": 23.240229056543257,
    "actions": [
     "change_target",
     "accept"
@@ -84,8 +98,8 @@
    "reason": "C",
    "target": "/Users/jameschang/Projects/theresewhite.com",
    "title": "Unregistered work: theresewhite.com",
-   "detail": "4.8h · 53 sessions",
-   "magnitude": 4.8,
+   "detail": "5.4h · 55 sessions",
+   "magnitude": 5.4,
    "actions": [
     "promote",
     "dismiss",
@@ -100,7 +114,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 83.1
+   "actual": 83.2
   },
   {
    "slug": "fantastic-leagues",
@@ -148,7 +162,7 @@
    "slug": "jameschang-co",
    "name": "jameschang.co",
    "target": 5,
-   "actual": 2.1
+   "actual": 1.0
   },
   {
    "slug": "vouch",
@@ -166,7 +180,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 2.4
+   "actual": 3.0
   },
   {
    "slug": "family-sites",
@@ -178,7 +192,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 10.1
+   "actual": 10.5
   }
  ],
  "projects": [
@@ -187,11 +201,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 83.1,
-   "hours": 115.1,
-   "spend": 3614.38,
+   "actual_share": 83.2,
+   "hours": 115.5,
+   "spend": 3527.25,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-28T20:32:00+00:00",
+   "last_activity": "2026-10-28T23:48:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -262,19 +276,19 @@
     }
    ],
    "alignment": {
-    "total": 318,
-    "on_goal": 61,
-    "off_goal": 257,
+    "total": 312,
+    "on_goal": 60,
+    "off_goal": 252,
     "on_goal_pct": 19.2,
     "on_goal_major_pct": 19.2,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 38,
+    "new_scope": 37,
     "creep": 21,
-    "creep_pct": 55.3,
+    "creep_pct": 56.8,
     "goals": [
      {
       "id": "g1",
-      "prompts": 19
+      "prompts": 18
      },
      {
       "id": "g2",
@@ -288,7 +302,7 @@
    },
    "rag": "amber",
    "rag_reasons": [
-    "creep 55% ≥ 50%",
+    "creep 57% ≥ 50%",
     "time 83% vs 60% target"
    ],
    "prev": {
@@ -555,11 +569,11 @@
    "name": "jameschang.co",
    "status": "active",
    "target_share": 5,
-   "actual_share": 2.1,
-   "hours": 2.9,
-   "spend": 68.51,
+   "actual_share": 1.0,
+   "hours": 1.4,
+   "spend": 38.86,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-28T10:14:19-07:00",
+   "last_activity": "2026-10-28T13:32:29-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -600,15 +614,15 @@
     }
    ],
    "alignment": {
-    "total": 43,
-    "on_goal": 17,
-    "off_goal": 26,
-    "on_goal_pct": 39.5,
-    "on_goal_major_pct": 39.5,
+    "total": 25,
+    "on_goal": 8,
+    "off_goal": 17,
+    "on_goal_pct": 32.0,
+    "on_goal_major_pct": 32.0,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 11,
-    "creep": 5,
-    "creep_pct": 45.5,
+    "new_scope": 6,
+    "creep": 4,
+    "creep_pct": 66.7,
     "goals": [
      {
       "id": "g1",
@@ -616,12 +630,14 @@
      },
      {
       "id": "g2",
-      "prompts": 15
+      "prompts": 6
      }
     ]
    },
-   "rag": "green",
-   "rag_reasons": [],
+   "rag": "amber",
+   "rag_reasons": [
+    "creep 67% ≥ 50%"
+   ],
    "prev": {
     "creep_pct": 41.2,
     "on_goal_pct": 32.9,
@@ -706,11 +722,11 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 2.4,
-   "hours": 3.3,
-   "spend": 37.99,
+   "actual_share": 3.0,
+   "hours": 4.2,
+   "spend": 38.33,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-28T20:31:00+00:00",
+   "last_activity": "2026-10-28T23:53:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -754,15 +770,15 @@
     }
    ],
    "alignment": {
-    "total": 31,
+    "total": 44,
     "on_goal": 4,
-    "off_goal": 27,
-    "on_goal_pct": 12.9,
-    "on_goal_major_pct": 12.9,
+    "off_goal": 40,
+    "on_goal_pct": 9.1,
+    "on_goal_major_pct": 9.1,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 7,
-    "creep": 6,
-    "creep_pct": 85.7,
+    "new_scope": 11,
+    "creep": 10,
+    "creep_pct": 90.9,
     "goals": [
      {
       "id": "g1",
@@ -776,8 +792,8 @@
    },
    "rag": "red",
    "rag_reasons": [
-    "creep 86% ≥ 70%",
-    "time 2% vs 30% target"
+    "creep 91% ≥ 70%",
+    "time 3% vs 30% target"
    ],
    "prev": {
     "creep_pct": 56.2,
@@ -854,21 +870,21 @@
   },
   {
    "path": "/Users/jameschang/Projects/theresewhite.com",
-   "hours": 4.8,
-   "sessions": 53
+   "hours": 5.4,
+   "sessions": 55
   }
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4088.83,
+  "claude_total": 3972.55,
   "fixed_total": 0
  },
  "health": {
-  "files": 948,
-  "lines": 193996,
+  "files": 966,
+  "lines": 199423,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 6,
+  "changed_files": 21,
   "warning": null
  }
 }
