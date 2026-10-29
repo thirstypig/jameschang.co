@@ -1,6 +1,6 @@
 {
   "fbst": {
-    "last_success_utc": "2026-10-29T12:59:58.635096+00:00"
+    "last_success_utc": "2026-10-29T22:44:17.930483+00:00"
   },
   "gcal": {
     "last_success_utc": "2026-10-29T21:02:23.675931+00:00"
@@ -14,7 +14,7 @@
     "last_success_utc": "2026-10-27T18:01:02.382810+00:00"
   },
   "mlb": {
-    "last_success_utc": "2026-10-29T12:59:57.833547+00:00"
+    "last_success_utc": "2026-10-29T22:44:17.402464+00:00"
   },
   "plex": {
     "last_error": "fetch failed \u2014 preserving last known content",
