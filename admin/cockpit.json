@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-29T06:18:03.477418+00:00",
+ "generated": "2026-10-29T09:18:08.323265+00:00",
  "window_days": 28,
- "total_hours": 141.4,
- "session_hours": 183.3,
+ "total_hours": 141.0,
+ "session_hours": 182.9,
  "decisions": [
   {
    "id": "G:pasadenaworks",
@@ -38,8 +38,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 3% of your time vs 30% target",
-   "detail": "last 28 days · 141.4h total",
-   "magnitude": 26.934786878805735,
+   "detail": "last 28 days · 141.0h total",
+   "magnitude": 26.926455526668242,
    "actions": [
     "change_target",
     "accept"
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 84% of your time vs 60% target",
-   "detail": "last 28 days · 141.4h total",
-   "magnitude": 24.019838931447595,
+   "detail": "last 28 days · 141.0h total",
+   "magnitude": 23.976404317340197,
    "actions": [
     "change_target",
     "accept"
@@ -188,8 +188,8 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 84.0,
-   "hours": 118.8,
-   "spend": 3527.76,
+   "hours": 118.4,
+   "spend": 3510.98,
    "fixed_monthly": 0,
    "last_activity": "2026-10-29T05:52:00+00:00",
    "review_by": null,
@@ -262,11 +262,11 @@
     }
    ],
    "alignment": {
-    "total": 328,
+    "total": 325,
     "on_goal": 64,
-    "off_goal": 264,
-    "on_goal_pct": 19.5,
-    "on_goal_major_pct": 19.5,
+    "off_goal": 261,
+    "on_goal_pct": 19.7,
+    "on_goal_major_pct": 19.7,
     "on_goal_minor_pct": 0.0,
     "new_scope": 41,
     "creep": 23,
@@ -559,7 +559,7 @@
    "hours": 0.3,
    "spend": 5.63,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-28T19:55:52-07:00",
+   "last_activity": "2026-10-28T23:18:04-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -860,7 +860,7 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 3985.69,
+  "claude_total": 3968.92,
   "fixed_total": 0
  },
  "health": {
@@ -868,7 +868,7 @@
   "lines": 202877,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 2,
+  "changed_files": 1,
   "warning": null
  }
 }
