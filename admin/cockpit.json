@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-29T02:55:50.908356+00:00",
+ "generated": "2026-10-29T06:18:03.477418+00:00",
  "window_days": 28,
- "total_hours": 140.6,
- "session_hours": 182.5,
+ "total_hours": 141.4,
+ "session_hours": 183.3,
  "decisions": [
   {
    "id": "G:pasadenaworks",
@@ -17,20 +17,6 @@
     "accept"
    ],
    "severity": "high"
-  },
-  {
-   "id": "G:jameschang-co",
-   "kind": "G",
-   "reason": "G",
-   "target": "jameschang-co",
-   "title": "jameschang.co: 67% of new-scope asks serve no goal",
-   "detail": "4 of 6 asks for new capability in 28 days matched none of: Keep /now and the résumé current · Run the portfolio from /admin",
-   "magnitude": 66.7,
-   "actions": [
-    "set_goal",
-    "accept"
-   ],
-   "severity": "medium"
   },
   {
    "id": "G:aleph",
@@ -52,8 +38,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 3% of your time vs 30% target",
-   "detail": "last 28 days · 140.6h total",
-   "magnitude": 26.91698277224593,
+   "detail": "last 28 days · 141.4h total",
+   "magnitude": 26.934786878805735,
    "actions": [
     "change_target",
     "accept"
@@ -67,8 +53,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 84% of your time vs 60% target",
-   "detail": "last 28 days · 140.6h total",
-   "magnitude": 23.885530267109147,
+   "detail": "last 28 days · 141.4h total",
+   "magnitude": 24.019838931447595,
    "actions": [
     "change_target",
     "accept"
@@ -114,7 +100,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 83.9
+   "actual": 84.0
   },
   {
    "slug": "fantastic-leagues",
@@ -162,7 +148,7 @@
    "slug": "jameschang-co",
    "name": "jameschang.co",
    "target": 5,
-   "actual": 0.3
+   "actual": 0.2
   },
   {
    "slug": "vouch",
@@ -201,11 +187,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 83.9,
-   "hours": 117.9,
-   "spend": 3527.9,
+   "actual_share": 84.0,
+   "hours": 118.8,
+   "spend": 3527.76,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-29T02:54:00+00:00",
+   "last_activity": "2026-10-29T05:52:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -276,9 +262,9 @@
     }
    ],
    "alignment": {
-    "total": 323,
-    "on_goal": 63,
-    "off_goal": 260,
+    "total": 328,
+    "on_goal": 64,
+    "off_goal": 264,
     "on_goal_pct": 19.5,
     "on_goal_major_pct": 19.5,
     "on_goal_minor_pct": 0.0,
@@ -288,7 +274,7 @@
     "goals": [
      {
       "id": "g1",
-      "prompts": 18
+      "prompts": 19
      },
      {
       "id": "g2",
@@ -569,11 +555,11 @@
    "name": "jameschang.co",
    "status": "active",
    "target_share": 5,
-   "actual_share": 0.3,
-   "hours": 0.4,
-   "spend": 36.64,
+   "actual_share": 0.2,
+   "hours": 0.3,
+   "spend": 5.63,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-28T16:55:44-07:00",
+   "last_activity": "2026-10-28T19:55:52-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -614,15 +600,15 @@
     }
    ],
    "alignment": {
-    "total": 25,
-    "on_goal": 8,
-    "off_goal": 17,
-    "on_goal_pct": 32.0,
-    "on_goal_major_pct": 32.0,
+    "total": 7,
+    "on_goal": 2,
+    "off_goal": 5,
+    "on_goal_pct": 28.6,
+    "on_goal_major_pct": 28.6,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 6,
-    "creep": 4,
-    "creep_pct": 66.7,
+    "new_scope": 1,
+    "creep": 0,
+    "creep_pct": 0.0,
     "goals": [
      {
       "id": "g1",
@@ -630,14 +616,12 @@
      },
      {
       "id": "g2",
-      "prompts": 6
+      "prompts": 0
      }
     ]
    },
-   "rag": "amber",
-   "rag_reasons": [
-    "creep 67% ≥ 50%"
-   ],
+   "rag": "green",
+   "rag_reasons": [],
    "prev": {
     "creep_pct": 41.2,
     "on_goal_pct": 32.9,
@@ -876,15 +860,15 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4016.84,
+  "claude_total": 3985.69,
   "fixed_total": 0
  },
  "health": {
-  "files": 977,
-  "lines": 202333,
+  "files": 978,
+  "lines": 202877,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 15,
+  "changed_files": 2,
   "warning": null
  }
 }
