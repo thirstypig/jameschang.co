@@ -1,17 +1,17 @@
 {
- "generated": "2026-10-30T03:13:30.596311+00:00",
+ "generated": "2026-10-30T06:13:36.977914+00:00",
  "window_days": 28,
- "total_hours": 144.8,
- "session_hours": 188.8,
+ "total_hours": 147.1,
+ "session_hours": 191.4,
  "decisions": [
   {
    "id": "G:pasadenaworks",
    "kind": "G",
    "reason": "G",
    "target": "pasadenaworks",
-   "title": "Pasadena Works: 92% of new-scope asks serve no goal",
-   "detail": "11 of 12 asks for new capability in 28 days matched none of: Find out whether the site brings in real leads · Deliver client work on time",
-   "magnitude": 91.7,
+   "title": "Pasadena Works: 85% of new-scope asks serve no goal",
+   "detail": "11 of 13 asks for new capability in 28 days matched none of: Find out whether the site brings in real leads · Deliver client work on time",
+   "magnitude": 84.6,
    "actions": [
     "set_goal",
     "accept"
@@ -23,9 +23,9 @@
    "kind": "G",
    "reason": "G",
    "target": "aleph",
-   "title": "Aleph: 59% of new-scope asks serve no goal",
-   "detail": "26 of 44 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
-   "magnitude": 59.1,
+   "title": "Aleph: 57% of new-scope asks serve no goal",
+   "detail": "28 of 49 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
+   "magnitude": 57.1,
    "actions": [
     "set_goal",
     "accept"
@@ -38,8 +38,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 4% of your time vs 30% target",
-   "detail": "last 28 days · 144.8h total",
-   "magnitude": 26.407202853526638,
+   "detail": "last 28 days · 147.1h total",
+   "magnitude": 26.228427929458856,
    "actions": [
     "change_target",
     "accept"
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 83% of your time vs 60% target",
-   "detail": "last 28 days · 144.8h total",
-   "magnitude": 23.405246807041706,
+   "detail": "last 28 days · 147.1h total",
+   "magnitude": 23.339941845096405,
    "actions": [
     "change_target",
     "accept"
@@ -84,8 +84,8 @@
    "reason": "C",
    "target": "/Users/jameschang/Projects/theresewhite.com",
    "title": "Unregistered work: theresewhite.com",
-   "detail": "6.2h · 63 sessions",
-   "magnitude": 6.2,
+   "detail": "6.3h · 65 sessions",
+   "magnitude": 6.3,
    "actions": [
     "promote",
     "dismiss",
@@ -100,7 +100,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 83.4
+   "actual": 83.3
   },
   {
    "slug": "fantastic-leagues",
@@ -166,7 +166,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 3.6
+   "actual": 3.8
   },
   {
    "slug": "family-sites",
@@ -178,7 +178,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 10.6
+   "actual": 10.5
   }
  ],
  "projects": [
@@ -187,11 +187,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 83.4,
-   "hours": 120.8,
-   "spend": 3512.22,
+   "actual_share": 83.3,
+   "hours": 122.6,
+   "spend": 3512.55,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-29T21:35:00+00:00",
+   "last_activity": "2026-10-30T06:09:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -262,19 +262,19 @@
     }
    ],
    "alignment": {
-    "total": 336,
-    "on_goal": 66,
-    "off_goal": 270,
-    "on_goal_pct": 19.6,
-    "on_goal_major_pct": 19.6,
+    "total": 346,
+    "on_goal": 70,
+    "off_goal": 276,
+    "on_goal_pct": 20.2,
+    "on_goal_major_pct": 20.2,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 44,
-    "creep": 26,
-    "creep_pct": 59.1,
+    "new_scope": 49,
+    "creep": 28,
+    "creep_pct": 57.1,
     "goals": [
      {
       "id": "g1",
-      "prompts": 19
+      "prompts": 21
      },
      {
       "id": "g2",
@@ -282,13 +282,13 @@
      },
      {
       "id": "g3",
-      "prompts": 49
+      "prompts": 51
      }
     ]
    },
    "rag": "amber",
    "rag_reasons": [
-    "creep 59% ≥ 50%",
+    "creep 57% ≥ 50%",
     "time 83% vs 60% target"
    ],
    "prev": {
@@ -559,7 +559,7 @@
    "hours": 0.3,
    "spend": 5.63,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-29T12:12:14-07:00",
+   "last_activity": "2026-10-29T20:13:32-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -706,11 +706,11 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 3.6,
-   "hours": 5.2,
-   "spend": 57.18,
+   "actual_share": 3.8,
+   "hours": 5.5,
+   "spend": 72.21,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-29T23:45:00+00:00",
+   "last_activity": "2026-10-30T03:59:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -754,15 +754,15 @@
     }
    ],
    "alignment": {
-    "total": 64,
-    "on_goal": 6,
-    "off_goal": 58,
-    "on_goal_pct": 9.4,
-    "on_goal_major_pct": 9.4,
+    "total": 67,
+    "on_goal": 7,
+    "off_goal": 60,
+    "on_goal_pct": 10.4,
+    "on_goal_major_pct": 10.4,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 12,
+    "new_scope": 13,
     "creep": 11,
-    "creep_pct": 91.7,
+    "creep_pct": 84.6,
     "goals": [
      {
       "id": "g1",
@@ -770,13 +770,13 @@
      },
      {
       "id": "g2",
-      "prompts": 6
+      "prompts": 7
      }
     ]
    },
    "rag": "red",
    "rag_reasons": [
-    "creep 92% ≥ 70%",
+    "creep 85% ≥ 70%",
     "time 4% vs 30% target"
    ],
    "prev": {
@@ -854,21 +854,21 @@
   },
   {
    "path": "/Users/jameschang/Projects/theresewhite.com",
-   "hours": 6.2,
-   "sessions": 63
+   "hours": 6.3,
+   "sessions": 65
   }
  ],
  "ideas": [],
  "money": {
-  "claude_total": 3970.72,
+  "claude_total": 3992.94,
   "fixed_total": 0
  },
  "health": {
-  "files": 927,
-  "lines": 197904,
+  "files": 933,
+  "lines": 199598,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 7,
+  "changed_files": 9,
   "warning": null
  }
 }
