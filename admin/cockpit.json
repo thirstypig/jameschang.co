@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-31T13:18:24.662181+00:00",
+ "generated": "2026-10-31T16:18:29.485231+00:00",
  "window_days": 28,
- "total_hours": 153.1,
- "session_hours": 197.4,
+ "total_hours": 153.2,
+ "session_hours": 197.6,
  "decisions": [
   {
    "id": "G:pasadenaworks",
@@ -38,8 +38,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 4% of your time vs 30% target",
-   "detail": "last 28 days · 153.1h total",
-   "magnitude": 26.37543095626928,
+   "detail": "last 28 days · 153.2h total",
+   "magnitude": 26.37937284756208,
    "actions": [
     "change_target",
     "accept"
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 84% of your time vs 60% target",
-   "detail": "last 28 days · 153.1h total",
-   "magnitude": 23.98929413899468,
+   "detail": "last 28 days · 153.2h total",
+   "magnitude": 24.006706543411212,
    "actions": [
     "change_target",
     "accept"
@@ -188,10 +188,10 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 84.0,
-   "hours": 128.6,
-   "spend": 3515.11,
+   "hours": 128.7,
+   "spend": 3515.4,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-31T07:46:00+00:00",
+   "last_activity": "2026-10-31T15:40:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -262,11 +262,11 @@
     }
    ],
    "alignment": {
-    "total": 376,
-    "on_goal": 78,
+    "total": 378,
+    "on_goal": 80,
     "off_goal": 298,
-    "on_goal_pct": 20.7,
-    "on_goal_major_pct": 20.7,
+    "on_goal_pct": 21.2,
+    "on_goal_major_pct": 21.2,
     "on_goal_minor_pct": 0.0,
     "new_scope": 56,
     "creep": 32,
@@ -282,7 +282,7 @@
      },
      {
       "id": "g3",
-      "prompts": 56
+      "prompts": 58
      }
     ]
    },
@@ -559,7 +559,7 @@
    "hours": 0.3,
    "spend": 5.63,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-31T03:18:21-07:00",
+   "last_activity": "2026-10-31T06:18:26-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -860,15 +860,15 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 3995.51,
+  "claude_total": 3995.79,
   "fixed_total": 0
  },
  "health": {
-  "files": 945,
-  "lines": 204345,
+  "files": 946,
+  "lines": 204607,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 1,
+  "changed_files": 2,
   "warning": null
  }
 }
