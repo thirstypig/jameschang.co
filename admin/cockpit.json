@@ -1,9 +1,24 @@
 {
- "generated": "2026-10-31T19:18:34.053613+00:00",
+ "generated": "2026-10-31T22:18:39.263507+00:00",
  "window_days": 28,
  "total_hours": 153.9,
  "session_hours": 198.2,
  "decisions": [
+  {
+   "id": "B1:family-sites",
+   "kind": "B",
+   "reason": "B1",
+   "target": "family-sites",
+   "title": "Family sites: untouched 15 days (cadence 14)",
+   "detail": "",
+   "magnitude": 1,
+   "actions": [
+    "keep",
+    "park",
+    "kill"
+   ],
+   "severity": "medium"
+  },
   {
    "id": "G:pasadenaworks",
    "kind": "G",
@@ -559,7 +574,7 @@
    "hours": 0.3,
    "spend": 5.63,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-31T09:18:30-07:00",
+   "last_activity": "2026-10-31T12:18:35-07:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -865,10 +880,10 @@
  },
  "health": {
   "files": 947,
-  "lines": 205155,
+  "lines": 205156,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 2,
+  "changed_files": 1,
   "warning": null
  }
 }
