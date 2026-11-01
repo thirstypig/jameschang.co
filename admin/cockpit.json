@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-01T19:19:12.352064+00:00",
+ "generated": "2026-11-01T22:19:17.145428+00:00",
  "window_days": 28,
  "total_hours": 153.9,
  "session_hours": 198.2,
@@ -9,9 +9,9 @@
    "kind": "B",
    "reason": "B1",
    "target": "family-sites",
-   "title": "Family sites: untouched 15 days (cadence 14)",
+   "title": "Family sites: untouched 16 days (cadence 14)",
    "detail": "",
-   "magnitude": 1,
+   "magnitude": 2,
    "actions": [
     "keep",
     "park",
@@ -574,7 +574,7 @@
    "hours": 0.3,
    "spend": 5.63,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-01T08:19:08-08:00",
+   "last_activity": "2026-11-01T11:19:13-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -880,7 +880,7 @@
  },
  "health": {
   "files": 947,
-  "lines": 205167,
+  "lines": 205169,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 1,
