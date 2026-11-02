@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-02T17:42:50.232275+00:00",
+ "generated": "2026-11-02T21:10:33.086053+00:00",
  "window_days": 28,
- "total_hours": 156.2,
- "session_hours": 201.5,
+ "total_hours": 158.6,
+ "session_hours": 203.8,
  "decisions": [
   {
    "id": "B1:family-sites",
@@ -39,8 +39,8 @@
    "reason": "G",
    "target": "aleph",
    "title": "Aleph: 57% of new-scope asks serve no goal",
-   "detail": "33 of 58 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
-   "magnitude": 56.9,
+   "detail": "35 of 61 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
+   "magnitude": 57.4,
    "actions": [
     "set_goal",
     "accept"
@@ -52,9 +52,9 @@
    "kind": "A",
    "reason": "A",
    "target": "pasadenaworks",
-   "title": "Pasadena Works: 4% of your time vs 30% target",
-   "detail": "last 28 days · 156.2h total",
-   "magnitude": 26.448888888888888,
+   "title": "Pasadena Works: 3% of your time vs 30% target",
+   "detail": "last 28 days · 158.6h total",
+   "magnitude": 26.501506235112792,
    "actions": [
     "change_target",
     "accept"
@@ -67,9 +67,9 @@
    "kind": "A",
    "reason": "A",
    "target": "aleph",
-   "title": "Aleph: 84% of your time vs 60% target",
-   "detail": "last 28 days · 156.2h total",
-   "magnitude": 24.313777777777716,
+   "title": "Aleph: 85% of your time vs 60% target",
+   "detail": "last 28 days · 158.6h total",
+   "magnitude": 24.546202886366757,
    "actions": [
     "change_target",
     "accept"
@@ -115,7 +115,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 84.3
+   "actual": 84.5
   },
   {
    "slug": "fantastic-leagues",
@@ -181,7 +181,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 3.6
+   "actual": 3.5
   },
   {
    "slug": "family-sites",
@@ -193,7 +193,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 9.9
+   "actual": 9.8
   }
  ],
  "projects": [
@@ -202,11 +202,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 84.3,
-   "hours": 131.7,
-   "spend": 4062.76,
+   "actual_share": 84.5,
+   "hours": 134.1,
+   "spend": 4064.03,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-02T17:24:00+00:00",
+   "last_activity": "2026-11-02T20:23:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -277,19 +277,19 @@
     }
    ],
    "alignment": {
-    "total": 407,
-    "on_goal": 83,
-    "off_goal": 324,
-    "on_goal_pct": 20.4,
-    "on_goal_major_pct": 20.4,
+    "total": 415,
+    "on_goal": 85,
+    "off_goal": 330,
+    "on_goal_pct": 20.5,
+    "on_goal_major_pct": 20.5,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 58,
-    "creep": 33,
-    "creep_pct": 56.9,
+    "new_scope": 61,
+    "creep": 35,
+    "creep_pct": 57.4,
     "goals": [
      {
       "id": "g1",
-      "prompts": 26
+      "prompts": 27
      },
      {
       "id": "g2",
@@ -297,7 +297,7 @@
      },
      {
       "id": "g3",
-      "prompts": 60
+      "prompts": 61
      }
     ]
    },
@@ -574,7 +574,7 @@
    "hours": 0.3,
    "spend": 5.63,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-02T06:32:22-08:00",
+   "last_activity": "2026-11-02T09:42:51-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -721,7 +721,7 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 3.6,
+   "actual_share": 3.5,
    "hours": 5.5,
    "spend": 72.21,
    "fixed_monthly": 0,
@@ -875,15 +875,15 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4543.15,
+  "claude_total": 4544.43,
   "fixed_total": 0
  },
  "health": {
-  "files": 869,
-  "lines": 189663,
+  "files": 878,
+  "lines": 191086,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 16,
+  "changed_files": 11,
   "warning": null
  }
 }
