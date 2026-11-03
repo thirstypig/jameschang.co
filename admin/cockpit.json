@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-03T15:00:25.714769+00:00",
+ "generated": "2026-11-03T18:11:19.201098+00:00",
  "window_days": 28,
- "total_hours": 161.2,
- "session_hours": 206.6,
+ "total_hours": 163.2,
+ "session_hours": 208.7,
  "decisions": [
   {
    "id": "B1:family-sites",
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 3% of your time vs 30% target",
-   "detail": "last 28 days · 161.2h total",
-   "magnitude": 26.558645165736337,
+   "detail": "last 28 days · 163.2h total",
+   "magnitude": 26.570179021169423,
    "actions": [
     "change_target",
     "accept"
@@ -68,8 +68,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 85% of your time vs 60% target",
-   "detail": "last 28 days · 161.2h total",
-   "magnitude": 24.798601061263867,
+   "detail": "last 28 days · 163.2h total",
+   "magnitude": 24.954223674358573,
    "actions": [
     "change_target",
     "accept"
@@ -115,7 +115,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 84.8
+   "actual": 85.0
   },
   {
    "slug": "fantastic-leagues",
@@ -193,7 +193,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 9.6
+   "actual": 9.5
   }
  ],
  "projects": [
@@ -202,11 +202,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 84.8,
-   "hours": 136.7,
-   "spend": 4067.01,
+   "actual_share": 85.0,
+   "hours": 138.7,
+   "spend": 4069.22,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-03T02:40:00+00:00",
+   "last_activity": "2026-11-03T18:08:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -277,11 +277,11 @@
     }
    ],
    "alignment": {
-    "total": 424,
-    "on_goal": 89,
-    "off_goal": 335,
-    "on_goal_pct": 21.0,
-    "on_goal_major_pct": 21.0,
+    "total": 427,
+    "on_goal": 90,
+    "off_goal": 337,
+    "on_goal_pct": 21.1,
+    "on_goal_major_pct": 21.1,
     "on_goal_minor_pct": 0.0,
     "new_scope": 61,
     "creep": 35,
@@ -297,7 +297,7 @@
      },
      {
       "id": "g3",
-      "prompts": 64
+      "prompts": 65
      }
     ]
    },
@@ -574,7 +574,7 @@
    "hours": 0.3,
    "spend": 5.63,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-03T03:10:12-08:00",
+   "last_activity": "2026-11-03T07:00:27-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -722,10 +722,10 @@
    "status": "active",
    "target_share": 30,
    "actual_share": 3.4,
-   "hours": 5.5,
-   "spend": 72.21,
+   "hours": 5.6,
+   "spend": 72.28,
    "fixed_monthly": 0,
-   "last_activity": "2026-10-30T03:59:00+00:00",
+   "last_activity": "2026-11-03T17:59:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -769,11 +769,11 @@
     }
    ],
    "alignment": {
-    "total": 67,
+    "total": 69,
     "on_goal": 7,
-    "off_goal": 60,
-    "on_goal_pct": 10.4,
-    "on_goal_major_pct": 10.4,
+    "off_goal": 62,
+    "on_goal_pct": 10.1,
+    "on_goal_major_pct": 10.1,
     "on_goal_minor_pct": 0.0,
     "new_scope": 13,
     "creep": 11,
@@ -875,15 +875,15 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4547.41,
+  "claude_total": 4549.68,
   "fixed_total": 0
  },
  "health": {
-  "files": 893,
-  "lines": 192949,
+  "files": 904,
+  "lines": 194352,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 2,
+  "changed_files": 13,
   "warning": null
  }
 }
