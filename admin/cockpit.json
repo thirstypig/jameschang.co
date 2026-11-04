@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-04T00:28:48.667400+00:00",
+ "generated": "2026-11-04T03:28:54.348024+00:00",
  "window_days": 28,
- "total_hours": 165.0,
- "session_hours": 210.8,
+ "total_hours": 167.8,
+ "session_hours": 213.8,
  "decisions": [
   {
    "id": "B1:family-sites",
@@ -38,9 +38,9 @@
    "kind": "G",
    "reason": "G",
    "target": "aleph",
-   "title": "Aleph: 56% of new-scope asks serve no goal",
-   "detail": "36 of 64 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
-   "magnitude": 56.2,
+   "title": "Aleph: 60% of new-scope asks serve no goal",
+   "detail": "43 of 72 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
+   "magnitude": 59.7,
    "actions": [
     "set_goal",
     "accept"
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 3% of your time vs 30% target",
-   "detail": "last 28 days · 165.0h total",
-   "magnitude": 26.510237758469724,
+   "detail": "last 28 days · 167.8h total",
+   "magnitude": 26.57018501969351,
    "actions": [
     "change_target",
     "accept"
@@ -68,8 +68,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 85% of your time vs 60% target",
-   "detail": "last 28 days · 165.0h total",
-   "magnitude": 25.01633326597978,
+   "detail": "last 28 days · 167.8h total",
+   "magnitude": 25.27372323172156,
    "actions": [
     "change_target",
     "accept"
@@ -115,7 +115,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 85.0
+   "actual": 85.3
   },
   {
    "slug": "fantastic-leagues",
@@ -181,7 +181,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 3.5
+   "actual": 3.4
   },
   {
    "slug": "family-sites",
@@ -193,7 +193,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 9.4
+   "actual": 9.2
   }
  ],
  "projects": [
@@ -202,11 +202,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 85.0,
-   "hours": 140.2,
-   "spend": 4926.75,
+   "actual_share": 85.3,
+   "hours": 143.1,
+   "spend": 4930.46,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-04T00:28:00+00:00",
+   "last_activity": "2026-11-04T03:21:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -277,19 +277,19 @@
     }
    ],
    "alignment": {
-    "total": 442,
-    "on_goal": 95,
-    "off_goal": 347,
-    "on_goal_pct": 21.5,
-    "on_goal_major_pct": 21.5,
+    "total": 465,
+    "on_goal": 98,
+    "off_goal": 367,
+    "on_goal_pct": 21.1,
+    "on_goal_major_pct": 21.1,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 64,
-    "creep": 36,
-    "creep_pct": 56.2,
+    "new_scope": 72,
+    "creep": 43,
+    "creep_pct": 59.7,
     "goals": [
      {
       "id": "g1",
-      "prompts": 30
+      "prompts": 31
      },
      {
       "id": "g2",
@@ -297,13 +297,13 @@
      },
      {
       "id": "g3",
-      "prompts": 68
+      "prompts": 71
      }
     ]
    },
    "rag": "amber",
    "rag_reasons": [
-    "creep 56% ≥ 50%",
+    "creep 60% ≥ 50%",
     "time 85% vs 60% target"
    ],
    "prev": {
@@ -574,7 +574,7 @@
    "hours": 0.3,
    "spend": 5.63,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-03T13:11:27-08:00",
+   "last_activity": "2026-11-03T16:28:50-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -721,7 +721,7 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 3.5,
+   "actual_share": 3.4,
    "hours": 5.8,
    "spend": 74.59,
    "fixed_monthly": 0,
@@ -792,7 +792,7 @@
    "rag": "red",
    "rag_reasons": [
     "creep 85% ≥ 70%",
-    "time 4% vs 30% target"
+    "time 3% vs 30% target"
    ],
    "prev": {
     "creep_pct": 90.9,
@@ -875,15 +875,15 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 5409.79,
+  "claude_total": 5413.49,
   "fixed_total": 0
  },
  "health": {
-  "files": 914,
-  "lines": 197801,
+  "files": 925,
+  "lines": 200152,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 4,
+  "changed_files": 13,
   "warning": null
  }
 }
