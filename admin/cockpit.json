@@ -1,17 +1,17 @@
 {
- "generated": "2026-11-03T21:11:26.280624+00:00",
+ "generated": "2026-11-04T00:28:48.667400+00:00",
  "window_days": 28,
- "total_hours": 164.6,
- "session_hours": 210.4,
+ "total_hours": 165.0,
+ "session_hours": 210.8,
  "decisions": [
   {
    "id": "B1:family-sites",
    "kind": "B",
    "reason": "B1",
    "target": "family-sites",
-   "title": "Family sites: untouched 17 days (cadence 14)",
+   "title": "Family sites: untouched 18 days (cadence 14)",
    "detail": "",
-   "magnitude": 3,
+   "magnitude": 4,
    "actions": [
     "keep",
     "park",
@@ -38,9 +38,9 @@
    "kind": "G",
    "reason": "G",
    "target": "aleph",
-   "title": "Aleph: 58% of new-scope asks serve no goal",
-   "detail": "36 of 62 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
-   "magnitude": 58.1,
+   "title": "Aleph: 56% of new-scope asks serve no goal",
+   "detail": "36 of 64 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
+   "magnitude": 56.2,
    "actions": [
     "set_goal",
     "accept"
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 3% of your time vs 30% target",
-   "detail": "last 28 days · 164.6h total",
-   "magnitude": 26.502463885513702,
+   "detail": "last 28 days · 165.0h total",
+   "magnitude": 26.510237758469724,
    "actions": [
     "change_target",
     "accept"
@@ -68,8 +68,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 85% of your time vs 60% target",
-   "detail": "last 28 days · 164.6h total",
-   "magnitude": 24.982955312542302,
+   "detail": "last 28 days · 165.0h total",
+   "magnitude": 25.01633326597978,
    "actions": [
     "change_target",
     "accept"
@@ -203,10 +203,10 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 85.0,
-   "hours": 139.9,
-   "spend": 4928.68,
+   "hours": 140.2,
+   "spend": 4926.75,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-03T20:36:00+00:00",
+   "last_activity": "2026-11-04T00:28:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -277,19 +277,19 @@
     }
    ],
    "alignment": {
-    "total": 436,
-    "on_goal": 93,
-    "off_goal": 343,
-    "on_goal_pct": 21.3,
-    "on_goal_major_pct": 21.3,
+    "total": 442,
+    "on_goal": 95,
+    "off_goal": 347,
+    "on_goal_pct": 21.5,
+    "on_goal_major_pct": 21.5,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 62,
+    "new_scope": 64,
     "creep": 36,
-    "creep_pct": 58.1,
+    "creep_pct": 56.2,
     "goals": [
      {
       "id": "g1",
-      "prompts": 28
+      "prompts": 30
      },
      {
       "id": "g2",
@@ -303,14 +303,14 @@
    },
    "rag": "amber",
    "rag_reasons": [
-    "creep 58% ≥ 50%",
+    "creep 56% ≥ 50%",
     "time 85% vs 60% target"
    ],
    "prev": {
-    "creep_pct": 59.0,
-    "on_goal_pct": 18.4,
-    "share": 81.0,
-    "as_of": "2026-10-27"
+    "creep_pct": 56.8,
+    "on_goal_pct": 19.2,
+    "share": 83.2,
+    "as_of": "2026-10-28"
    }
   },
   {
@@ -346,7 +346,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.6,
-    "as_of": "2026-10-27"
+    "as_of": "2026-10-28"
    }
   },
   {
@@ -382,7 +382,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.3,
-    "as_of": "2026-10-27"
+    "as_of": "2026-10-28"
    }
   },
   {
@@ -418,7 +418,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.1,
-    "as_of": "2026-10-27"
+    "as_of": "2026-10-28"
    }
   },
   {
@@ -454,7 +454,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-27"
+    "as_of": "2026-10-28"
    }
   },
   {
@@ -490,7 +490,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-27"
+    "as_of": "2026-10-28"
    }
   },
   {
@@ -526,7 +526,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-27"
+    "as_of": "2026-10-28"
    }
   },
   {
@@ -562,7 +562,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-27"
+    "as_of": "2026-10-28"
    }
   },
   {
@@ -574,7 +574,7 @@
    "hours": 0.3,
    "spend": 5.63,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-03T10:11:20-08:00",
+   "last_activity": "2026-11-03T13:11:27-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -638,10 +638,10 @@
    "rag": "green",
    "rag_reasons": [],
    "prev": {
-    "creep_pct": 46.7,
-    "on_goal_pct": 30.4,
-    "share": 3.0,
-    "as_of": "2026-10-27"
+    "creep_pct": 66.7,
+    "on_goal_pct": 32.0,
+    "share": 1.0,
+    "as_of": "2026-10-28"
    }
   },
   {
@@ -677,7 +677,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-27"
+    "as_of": "2026-10-28"
    }
   },
   {
@@ -713,7 +713,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-27"
+    "as_of": "2026-10-28"
    }
   },
   {
@@ -795,10 +795,10 @@
     "time 4% vs 30% target"
    ],
    "prev": {
-    "creep_pct": 100.0,
-    "on_goal_pct": 12.5,
-    "share": 3.3,
-    "as_of": "2026-10-27"
+    "creep_pct": 90.9,
+    "on_goal_pct": 9.1,
+    "share": 3.0,
+    "as_of": "2026-10-28"
    }
   },
   {
@@ -857,7 +857,7 @@
     "creep_pct": 100.0,
     "on_goal_pct": 0.0,
     "share": 1.2,
-    "as_of": "2026-10-27"
+    "as_of": "2026-10-28"
    }
   }
  ],
@@ -875,15 +875,15 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 5411.66,
+  "claude_total": 5409.79,
   "fixed_total": 0
  },
  "health": {
-  "files": 912,
-  "lines": 196747,
+  "files": 914,
+  "lines": 197801,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 11,
+  "changed_files": 4,
   "warning": null
  }
 }
