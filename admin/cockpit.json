@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-04T06:29:11.792712+00:00",
+ "generated": "2026-11-04T09:31:15.128209+00:00",
  "window_days": 28,
- "total_hours": 170.0,
- "session_hours": 216.0,
+ "total_hours": 170.8,
+ "session_hours": 216.8,
  "decisions": [
   {
    "id": "B1:family-sites",
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 3% of your time vs 30% target",
-   "detail": "last 28 days · 170.0h total",
-   "magnitude": 26.614225968764295,
+   "detail": "last 28 days · 170.8h total",
+   "magnitude": 26.630410041296784,
    "actions": [
     "change_target",
     "accept"
@@ -67,9 +67,9 @@
    "kind": "A",
    "reason": "A",
    "target": "aleph",
-   "title": "Aleph: 85% of your time vs 60% target",
-   "detail": "last 28 days · 170.0h total",
-   "magnitude": 25.46281774815408,
+   "title": "Aleph: 86% of your time vs 60% target",
+   "detail": "last 28 days · 170.8h total",
+   "magnitude": 25.532305791305035,
    "actions": [
     "change_target",
     "accept"
@@ -203,10 +203,10 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 85.5,
-   "hours": 145.3,
-   "spend": 5137.04,
+   "hours": 146.1,
+   "spend": 5137.62,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-04T06:28:00+00:00",
+   "last_activity": "2026-11-04T08:31:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -502,7 +502,7 @@
    "hours": 0.0,
    "spend": 0.0,
    "fixed_monthly": 0,
-   "last_activity": null,
+   "last_activity": "2026-07-24T01:50:37-07:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
@@ -574,7 +574,7 @@
    "hours": 0.3,
    "spend": 5.63,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-03T19:28:55-08:00",
+   "last_activity": "2026-11-03T22:31:01-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -875,15 +875,15 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 5620.39,
+  "claude_total": 5620.96,
   "fixed_total": 0
  },
  "health": {
-  "files": 949,
-  "lines": 202274,
+  "files": 954,
+  "lines": 202972,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 26,
+  "changed_files": 7,
   "warning": null
  }
 }
