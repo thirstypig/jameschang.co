@@ -2046,7 +2046,10 @@ class TestAdminCockpit:
         assert all("titles" not in c for c in d["candidates"])
         for p in d["projects"]:
             assert "paths" not in p and "copy_cmd" not in p, p.get("slug")
-        assert "/Users/" not in _read("admin/cockpit.json")
+        raw = _read("admin/cockpit.json")
+        assert "/Users/" not in raw
+        # Claude-encoded scratchpad keys carry the home dir with no slash: -Users-<name>-...
+        assert "-Users-" not in raw
 
     def test_goals_and_alignment_publish_numbers_not_prompts(self):
         """Goal text + keywords are James's own and published; the prompts they're
