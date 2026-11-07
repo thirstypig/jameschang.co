@@ -1,17 +1,17 @@
 {
- "generated": "2026-11-07T19:52:25.586065+00:00",
+ "generated": "2026-11-07T22:52:30.372968+00:00",
  "window_days": 28,
- "total_hours": 169.8,
- "session_hours": 221.9,
+ "total_hours": 169.1,
+ "session_hours": 221.2,
  "decisions": [
   {
    "id": "B1:family-sites",
    "kind": "B",
    "reason": "B1",
    "target": "family-sites",
-   "title": "Family sites: untouched 21 days (cadence 14)",
+   "title": "Family sites: untouched 22 days (cadence 14)",
    "detail": "",
-   "magnitude": 7,
+   "magnitude": 8,
    "actions": [
     "keep",
     "park",
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 169.8h total",
-   "magnitude": 24.996728819103694,
+   "detail": "last 28 days · 169.1h total",
+   "magnitude": 24.97602154775982,
    "actions": [
     "change_target",
     "accept"
@@ -68,8 +68,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 83% of your time vs 60% target",
-   "detail": "last 28 days · 169.8h total",
-   "magnitude": 23.317958783120815,
+   "detail": "last 28 days · 169.1h total",
+   "magnitude": 23.248916042570073,
    "actions": [
     "change_target",
     "accept"
@@ -115,7 +115,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 83.3
+   "actual": 83.2
   },
   {
    "slug": "fantastic-leagues",
@@ -193,7 +193,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 9.1
+   "actual": 9.2
   }
  ],
  "projects": [
@@ -202,9 +202,9 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 83.3,
-   "hours": 141.5,
-   "spend": 4911.79,
+   "actual_share": 83.2,
+   "hours": 140.8,
+   "spend": 4910.7,
    "fixed_monthly": 0,
    "last_activity": "2026-11-07T18:58:00+00:00",
    "review_by": null,
@@ -574,7 +574,7 @@
    "hours": 0.5,
    "spend": 9.76,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-07T08:18:43-08:00",
+   "last_activity": "2026-11-07T11:52:27-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -875,7 +875,7 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 5433.11,
+  "claude_total": 5432.02,
   "fixed_total": 0
  },
  "health": {
