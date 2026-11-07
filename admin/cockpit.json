@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-07T09:54:24.723745+00:00",
+ "generated": "2026-11-07T13:11:15.558357+00:00",
  "window_days": 28,
- "total_hours": 169.8,
- "session_hours": 220.8,
+ "total_hours": 170.7,
+ "session_hours": 221.8,
  "decisions": [
   {
    "id": "B1:family-sites",
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 169.8h total",
-   "magnitude": 25.36991590589313,
+   "detail": "last 28 days · 170.7h total",
+   "magnitude": 25.340169270833332,
    "actions": [
     "change_target",
     "accept"
@@ -68,8 +68,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 84% of your time vs 60% target",
-   "detail": "last 28 days · 169.8h total",
-   "magnitude": 23.687706554105006,
+   "detail": "last 28 days · 170.7h total",
+   "magnitude": 23.71842447916677,
    "actions": [
     "change_target",
     "accept"
@@ -181,7 +181,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 4.6
+   "actual": 4.7
   },
   {
    "slug": "family-sites",
@@ -203,10 +203,10 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 83.7,
-   "hours": 142.1,
+   "hours": 142.9,
    "spend": 4912.35,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-07T09:54:00+00:00",
+   "last_activity": "2026-11-07T11:57:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -574,7 +574,7 @@
    "hours": 0.5,
    "spend": 9.76,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-06T22:34:06-08:00",
+   "last_activity": "2026-11-07T01:54:26-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -721,11 +721,11 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 4.6,
-   "hours": 7.9,
+   "actual_share": 4.7,
+   "hours": 8.0,
    "spend": 98.97,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-07T09:53:00+00:00",
+   "last_activity": "2026-11-07T10:04:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -880,7 +880,7 @@
  },
  "health": {
   "files": 961,
-  "lines": 214805,
+  "lines": 215358,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 2,
