@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-07T22:52:30.372968+00:00",
+ "generated": "2026-11-08T01:52:34.903035+00:00",
  "window_days": 28,
- "total_hours": 169.1,
- "session_hours": 221.2,
+ "total_hours": 167.3,
+ "session_hours": 219.4,
  "decisions": [
   {
    "id": "B1:family-sites",
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 169.1h total",
-   "magnitude": 24.97602154775982,
+   "detail": "last 28 days · 167.3h total",
+   "magnitude": 24.920460961110557,
    "actions": [
     "change_target",
     "accept"
@@ -68,8 +68,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 83% of your time vs 60% target",
-   "detail": "last 28 days · 169.1h total",
-   "magnitude": 23.248916042570073,
+   "detail": "last 28 days · 167.3h total",
+   "magnitude": 23.063664441566317,
    "actions": [
     "change_target",
     "accept"
@@ -115,7 +115,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 83.2
+   "actual": 83.1
   },
   {
    "slug": "fantastic-leagues",
@@ -181,19 +181,19 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 5.0
+   "actual": 5.1
   },
   {
    "slug": "family-sites",
    "name": "Family sites",
    "target": 5,
-   "actual": 0.9
+   "actual": 1.0
   },
   {
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 9.2
+   "actual": 9.3
   }
  ],
  "projects": [
@@ -202,9 +202,9 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 83.2,
-   "hours": 140.8,
-   "spend": 4910.7,
+   "actual_share": 83.1,
+   "hours": 139.0,
+   "spend": 4910.24,
    "fixed_monthly": 0,
    "last_activity": "2026-11-07T18:58:00+00:00",
    "review_by": null,
@@ -310,7 +310,7 @@
     "creep_pct": 57.1,
     "on_goal_pct": 21.1,
     "share": 84.1,
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    }
   },
   {
@@ -346,7 +346,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.6,
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    }
   },
   {
@@ -382,7 +382,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.3,
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    }
   },
   {
@@ -418,7 +418,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.1,
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    }
   },
   {
@@ -454,7 +454,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    }
   },
   {
@@ -490,7 +490,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    }
   },
   {
@@ -526,7 +526,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    }
   },
   {
@@ -562,7 +562,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    }
   },
   {
@@ -574,7 +574,7 @@
    "hours": 0.5,
    "spend": 9.76,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-07T11:52:27-08:00",
+   "last_activity": "2026-11-07T14:52:31-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -641,7 +641,7 @@
     "creep_pct": 0.0,
     "on_goal_pct": 28.6,
     "share": 0.2,
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    }
   },
   {
@@ -677,7 +677,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    }
   },
   {
@@ -713,7 +713,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    }
   },
   {
@@ -721,7 +721,7 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 5.0,
+   "actual_share": 5.1,
    "hours": 8.5,
    "spend": 98.97,
    "fixed_monthly": 0,
@@ -798,7 +798,7 @@
     "creep_pct": 84.6,
     "on_goal_pct": 10.4,
     "share": 3.6,
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    }
   },
   {
@@ -806,7 +806,7 @@
    "name": "Family sites",
    "status": "active",
    "target_share": 5,
-   "actual_share": 0.9,
+   "actual_share": 1.0,
    "hours": 1.6,
    "spend": 25.64,
    "fixed_monthly": 0,
@@ -857,7 +857,7 @@
     "creep_pct": 100.0,
     "on_goal_pct": 0.0,
     "share": 1.1,
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    }
   }
  ],
@@ -875,7 +875,7 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 5432.02,
+  "claude_total": 5431.56,
   "fixed_total": 0
  },
  "health": {
