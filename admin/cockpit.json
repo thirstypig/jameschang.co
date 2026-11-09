@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-09T20:18:55.006209+00:00",
+ "generated": "2026-11-09T23:43:33.397638+00:00",
  "window_days": 28,
- "total_hours": 163.7,
- "session_hours": 223.2,
+ "total_hours": 165.2,
+ "session_hours": 225.3,
  "decisions": [
   {
    "id": "G:aleph",
@@ -38,8 +38,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 163.7h total",
-   "magnitude": 24.93329259598737,
+   "detail": "last 28 days · 165.2h total",
+   "magnitude": 24.980831315577078,
    "actions": [
     "change_target",
     "accept"
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 80% of your time vs 60% target",
-   "detail": "last 28 days · 163.7h total",
-   "magnitude": 20.070271921784254,
+   "detail": "last 28 days · 165.2h total",
+   "magnitude": 19.58299704062412,
    "actions": [
     "change_target",
     "accept"
@@ -100,19 +100,19 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 80.1
+   "actual": 79.6
   },
   {
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 1.9
+   "actual": 2.5
   },
   {
    "slug": "bahtzang-trader",
    "name": "Bahtzang Trader",
    "target": 0,
-   "actual": 0.9
+   "actual": 1.0
   },
   {
    "slug": "judge-tool",
@@ -166,7 +166,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 5.1
+   "actual": 5.0
   },
   {
    "slug": "family-sites",
@@ -178,7 +178,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 9.6
+   "actual": 9.5
   }
  ],
  "projects": [
@@ -187,11 +187,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 80.1,
-   "hours": 131.0,
+   "actual_share": 79.6,
+   "hours": 131.5,
    "spend": 4896.34,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-09T20:18:00+00:00",
+   "last_activity": "2026-11-09T23:10:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -262,11 +262,11 @@
     }
    ],
    "alignment": {
-    "total": 503,
+    "total": 504,
     "on_goal": 110,
-    "off_goal": 393,
-    "on_goal_pct": 21.9,
-    "on_goal_major_pct": 21.9,
+    "off_goal": 394,
+    "on_goal_pct": 21.8,
+    "on_goal_major_pct": 21.8,
     "on_goal_minor_pct": 0.0,
     "new_scope": 83,
     "creep": 51,
@@ -303,25 +303,25 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 1.9,
-   "hours": 3.1,
+   "actual_share": 2.5,
+   "hours": 4.1,
    "spend": 17.72,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-09T20:14:00+00:00",
+   "last_activity": "2026-11-09T23:30:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
    "stop_criteria": "",
    "goals": [],
    "alignment": {
-    "total": 30,
+    "total": 33,
     "on_goal": 0,
-    "off_goal": 30,
+    "off_goal": 33,
     "on_goal_pct": null,
     "on_goal_major_pct": null,
     "on_goal_minor_pct": null,
-    "new_scope": 3,
-    "creep": 3,
+    "new_scope": 4,
+    "creep": 4,
     "creep_pct": null,
     "goals": []
    },
@@ -339,11 +339,11 @@
    "name": "Bahtzang Trader",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 0.9,
-   "hours": 1.5,
+   "actual_share": 1.0,
+   "hours": 1.6,
    "spend": 9.61,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-09T18:36:00+00:00",
+   "last_activity": "2026-11-09T22:20:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
@@ -559,7 +559,7 @@
    "hours": 0.5,
    "spend": 9.76,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-09T09:18:45-08:00",
+   "last_activity": "2026-11-09T12:19:07-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -706,7 +706,7 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 5.1,
+   "actual_share": 5.0,
    "hours": 8.3,
    "spend": 115.54,
    "fixed_monthly": 0,
@@ -865,7 +865,7 @@
  },
  "health": {
   "files": 891,
-  "lines": 222093,
+  "lines": 223826,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 3,
