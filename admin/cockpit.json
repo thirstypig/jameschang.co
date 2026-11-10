@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-10T05:43:48.109906+00:00",
+ "generated": "2026-11-10T09:15:34.400465+00:00",
  "window_days": 28,
- "total_hours": 164.8,
- "session_hours": 223.5,
+ "total_hours": 163.2,
+ "session_hours": 219.9,
  "decisions": [
   {
    "id": "G:aleph",
@@ -37,9 +37,9 @@
    "kind": "A",
    "reason": "A",
    "target": "pasadenaworks",
-   "title": "Pasadena Works: 4% of your time vs 30% target",
-   "detail": "last 28 days · 164.8h total",
-   "magnitude": 25.54004854368932,
+   "title": "Pasadena Works: 5% of your time vs 30% target",
+   "detail": "last 28 days · 163.2h total",
+   "magnitude": 25.495403472931564,
    "actions": [
     "change_target",
     "accept"
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 80% of your time vs 60% target",
-   "detail": "last 28 days · 164.8h total",
-   "magnitude": 19.54018338727073,
+   "detail": "last 28 days · 163.2h total",
+   "magnitude": 19.8818522301668,
    "actions": [
     "change_target",
     "accept"
@@ -68,8 +68,8 @@
    "reason": "C",
    "target": "bbq-judge",
    "title": "Unregistered work: bbq-judge",
-   "detail": "8.2h · 4 sessions",
-   "magnitude": 8.2,
+   "detail": "7.3h · 3 sessions",
+   "magnitude": 7.3,
    "actions": [
     "promote",
     "dismiss",
@@ -100,7 +100,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 79.5
+   "actual": 79.9
   },
   {
    "slug": "fantastic-leagues",
@@ -178,7 +178,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 8.9
+   "actual": 8.5
   }
  ],
  "projects": [
@@ -187,11 +187,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 79.5,
-   "hours": 131.1,
-   "spend": 4892.49,
+   "actual_share": 79.9,
+   "hours": 130.3,
+   "spend": 4891.68,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-10T05:41:00+00:00",
+   "last_activity": "2026-11-10T07:02:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -307,7 +307,7 @@
    "hours": 5.9,
    "spend": 17.72,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-10T05:40:00+00:00",
+   "last_activity": "2026-11-10T06:32:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
@@ -377,7 +377,7 @@
    "target_share": 0,
    "actual_share": 0.1,
    "hours": 0.2,
-   "spend": 15.22,
+   "spend": 14.08,
    "fixed_monthly": 0,
    "last_activity": "2026-10-15T19:08:05-07:00",
    "review_by": "2026-11-28",
@@ -559,7 +559,7 @@
    "hours": 0.5,
    "spend": 9.76,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-09T18:43:40-08:00",
+   "last_activity": "2026-11-09T21:45:15-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -849,8 +849,8 @@
  "candidates": [
   {
    "path": "bbq-judge",
-   "hours": 8.2,
-   "sessions": 4
+   "hours": 7.3,
+   "sessions": 3
   },
   {
    "path": "theresewhite.com",
@@ -860,12 +860,12 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 5467.4,
+  "claude_total": 5442.16,
   "fixed_total": 0
  },
  "health": {
   "files": 891,
-  "lines": 229072,
+  "lines": 229334,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 2,
