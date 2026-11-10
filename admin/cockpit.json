@@ -1,17 +1,17 @@
 {
- "generated": "2026-11-10T15:54:16.136283+00:00",
+ "generated": "2026-11-10T19:10:25.199589+00:00",
  "window_days": 28,
- "total_hours": 161.7,
- "session_hours": 218.1,
+ "total_hours": 162.6,
+ "session_hours": 218.7,
  "decisions": [
   {
    "id": "G:aleph",
    "kind": "G",
    "reason": "G",
    "target": "aleph",
-   "title": "Aleph: 61% of new-scope asks serve no goal",
-   "detail": "52 of 85 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
-   "magnitude": 61.2,
+   "title": "Aleph: 60% of new-scope asks serve no goal",
+   "detail": "52 of 86 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
+   "magnitude": 60.5,
    "actions": [
     "set_goal",
     "accept"
@@ -38,8 +38,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 161.7h total",
-   "magnitude": 25.454076899288733,
+   "detail": "last 28 days · 162.6h total",
+   "magnitude": 25.47924141465915,
    "actions": [
     "change_target",
     "accept"
@@ -53,29 +53,13 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 80% of your time vs 60% target",
-   "detail": "last 28 days · 161.7h total",
-   "magnitude": 19.96357763804417,
+   "detail": "last 28 days · 162.6h total",
+   "magnitude": 19.980522808815977,
    "actions": [
     "change_target",
     "accept"
    ],
    "value_hint": 1,
-   "severity": "medium"
-  },
-  {
-   "id": "C:bbq-judge",
-   "kind": "C",
-   "reason": "C",
-   "target": "bbq-judge",
-   "title": "Unregistered work: bbq-judge",
-   "detail": "6.9h · 3 sessions",
-   "magnitude": 6.9,
-   "actions": [
-    "promote",
-    "dismiss",
-    "snooze"
-   ],
-   "suggested_slug": "bbq-judge",
    "severity": "medium"
   },
   {
@@ -93,6 +77,22 @@
    ],
    "suggested_slug": "theresewhite-com",
    "severity": "medium"
+  },
+  {
+   "id": "C:bbq-judge",
+   "kind": "C",
+   "reason": "C",
+   "target": "bbq-judge",
+   "title": "Unregistered work: bbq-judge",
+   "detail": "6.2h · 3 sessions",
+   "magnitude": 6.2,
+   "actions": [
+    "promote",
+    "dismiss",
+    "snooze"
+   ],
+   "suggested_slug": "bbq-judge",
+   "severity": "medium"
   }
  ],
  "allocation": [
@@ -106,7 +106,7 @@
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 3.6
+   "actual": 4.1
   },
   {
    "slug": "bahtzang-trader",
@@ -178,7 +178,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 8.3
+   "actual": 7.8
   }
  ],
  "projects": [
@@ -188,10 +188,10 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 80.0,
-   "hours": 129.3,
-   "spend": 4891.68,
+   "hours": 130.0,
+   "spend": 4889.89,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-10T07:02:00+00:00",
+   "last_activity": "2026-11-10T19:09:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -262,15 +262,15 @@
     }
    ],
    "alignment": {
-    "total": 510,
-    "on_goal": 111,
-    "off_goal": 399,
-    "on_goal_pct": 21.8,
-    "on_goal_major_pct": 21.8,
+    "total": 512,
+    "on_goal": 112,
+    "off_goal": 400,
+    "on_goal_pct": 21.9,
+    "on_goal_major_pct": 21.9,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 85,
+    "new_scope": 86,
     "creep": 52,
-    "creep_pct": 61.2,
+    "creep_pct": 60.5,
     "goals": [
      {
       "id": "g1",
@@ -282,13 +282,13 @@
      },
      {
       "id": "g3",
-      "prompts": 80
+      "prompts": 81
      }
     ]
    },
    "rag": "amber",
    "rag_reasons": [
-    "creep 61% ≥ 50%",
+    "creep 60% ≥ 50%",
     "time 80% vs 60% target"
    ],
    "prev": {
@@ -303,25 +303,25 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 3.6,
-   "hours": 5.9,
+   "actual_share": 4.1,
+   "hours": 6.7,
    "spend": 17.72,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-10T06:32:00+00:00",
+   "last_activity": "2026-11-10T18:51:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
    "stop_criteria": "",
    "goals": [],
    "alignment": {
-    "total": 53,
+    "total": 66,
     "on_goal": 0,
-    "off_goal": 53,
+    "off_goal": 66,
     "on_goal_pct": null,
     "on_goal_major_pct": null,
     "on_goal_minor_pct": null,
-    "new_scope": 7,
-    "creep": 7,
+    "new_scope": 11,
+    "creep": 11,
     "creep_pct": null,
     "goals": []
    },
@@ -377,7 +377,7 @@
    "target_share": 0,
    "actual_share": 0.1,
    "hours": 0.1,
-   "spend": 11.43,
+   "spend": 10.57,
    "fixed_monthly": 0,
    "last_activity": "2026-10-15T19:08:05-07:00",
    "review_by": "2026-11-28",
@@ -559,7 +559,7 @@
    "hours": 0.5,
    "spend": 9.76,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-10T04:27:34-08:00",
+   "last_activity": "2026-11-10T07:54:17-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -849,7 +849,7 @@
  "candidates": [
   {
    "path": "bbq-judge",
-   "hours": 6.9,
+   "hours": 6.2,
    "sessions": 3
   },
   {
@@ -860,12 +860,12 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 5439.51,
+  "claude_total": 5436.85,
   "fixed_total": 0
  },
  "health": {
   "files": 891,
-  "lines": 229338,
+  "lines": 231074,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 2,
