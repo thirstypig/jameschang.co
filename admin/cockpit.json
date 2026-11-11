@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-11T13:29:21.137017+00:00",
+ "generated": "2026-11-11T16:29:26.489735+00:00",
  "window_days": 28,
  "total_hours": 164.7,
- "session_hours": 220.5,
+ "session_hours": 220.4,
  "decisions": [
   {
    "id": "G:aleph",
@@ -39,7 +39,7 @@
    "target": "pasadenaworks",
    "title": "Pasadena Works: 4% of your time vs 30% target",
    "detail": "last 28 days · 164.7h total",
-   "magnitude": 25.538243626062325,
+   "magnitude": 25.535985423625874,
    "actions": [
     "change_target",
     "accept"
@@ -54,7 +54,7 @@
    "target": "aleph",
    "title": "Aleph: 79% of your time vs 60% target",
    "detail": "last 28 days · 164.7h total",
-   "magnitude": 18.796708485093745,
+   "magnitude": 18.785976988224178,
    "actions": [
     "change_target",
     "accept"
@@ -188,7 +188,7 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 78.8,
-   "hours": 129.8,
+   "hours": 129.7,
    "spend": 3787.34,
    "fixed_monthly": 0,
    "last_activity": "2026-11-11T09:02:00+00:00",
@@ -559,7 +559,7 @@
    "hours": 0.2,
    "spend": 6.09,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-11T02:29:17-08:00",
+   "last_activity": "2026-11-11T05:29:22-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -865,7 +865,7 @@
  },
  "health": {
   "files": 891,
-  "lines": 240367,
+  "lines": 240368,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 2,
