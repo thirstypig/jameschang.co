@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-10T22:10:31.655002+00:00",
+ "generated": "2026-11-11T01:10:37.351407+00:00",
  "window_days": 28,
- "total_hours": 162.5,
- "session_hours": 218.8,
+ "total_hours": 163.7,
+ "session_hours": 220.5,
  "decisions": [
   {
    "id": "G:aleph",
@@ -37,9 +37,9 @@
    "kind": "A",
    "reason": "A",
    "target": "pasadenaworks",
-   "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 162.5h total",
-   "magnitude": 25.47645912401272,
+   "title": "Pasadena Works: 4% of your time vs 30% target",
+   "detail": "last 28 days · 163.7h total",
+   "magnitude": 25.510079413561392,
    "actions": [
     "change_target",
     "accept"
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 80% of your time vs 60% target",
-   "detail": "last 28 days · 162.5h total",
-   "magnitude": 20.255410811365252,
+   "detail": "last 28 days · 163.7h total",
+   "magnitude": 19.53675422520871,
    "actions": [
     "change_target",
     "accept"
@@ -84,8 +84,8 @@
    "reason": "C",
    "target": "bbq-judge",
    "title": "Unregistered work: bbq-judge",
-   "detail": "4.6h · 3 sessions",
-   "magnitude": 4.6,
+   "detail": "4.3h · 3 sessions",
+   "magnitude": 4.3,
    "actions": [
     "promote",
     "dismiss",
@@ -100,13 +100,13 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 80.3
+   "actual": 79.5
   },
   {
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 4.9
+   "actual": 6.1
   },
   {
    "slug": "bahtzang-trader",
@@ -118,7 +118,7 @@
    "slug": "judge-tool",
    "name": "The Judge Tool",
    "target": 0,
-   "actual": 0.1
+   "actual": 0.0
   },
   {
    "slug": "tabledrop",
@@ -148,7 +148,7 @@
    "slug": "jameschang-co",
    "name": "jameschang.co",
    "target": 5,
-   "actual": 0.3
+   "actual": 0.2
   },
   {
    "slug": "vouch",
@@ -178,7 +178,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 6.8
+   "actual": 6.6
   }
  ],
  "projects": [
@@ -187,11 +187,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 80.3,
-   "hours": 130.4,
-   "spend": 4889.05,
+   "actual_share": 79.5,
+   "hours": 130.2,
+   "spend": 4888.37,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-10T22:05:00+00:00",
+   "last_activity": "2026-11-11T00:41:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -262,9 +262,9 @@
     }
    ],
    "alignment": {
-    "total": 523,
-    "on_goal": 117,
-    "off_goal": 406,
+    "total": 526,
+    "on_goal": 118,
+    "off_goal": 408,
     "on_goal_pct": 22.4,
     "on_goal_major_pct": 22.4,
     "on_goal_minor_pct": 0.0,
@@ -282,7 +282,7 @@
      },
      {
       "id": "g3",
-      "prompts": 85
+      "prompts": 86
      }
     ]
    },
@@ -292,10 +292,10 @@
     "time 80% vs 60% target"
    ],
    "prev": {
-    "creep_pct": 58.1,
-    "on_goal_pct": 21.3,
-    "share": 85.0,
-    "as_of": "2026-11-03"
+    "creep_pct": 60.5,
+    "on_goal_pct": 21.0,
+    "share": 85.6,
+    "as_of": "2026-11-04"
    }
   },
   {
@@ -303,20 +303,20 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 4.9,
-   "hours": 8.0,
+   "actual_share": 6.1,
+   "hours": 9.9,
    "spend": 17.72,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-10T21:45:00+00:00",
+   "last_activity": "2026-11-11T01:05:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
    "stop_criteria": "",
    "goals": [],
    "alignment": {
-    "total": 75,
+    "total": 79,
     "on_goal": 0,
-    "off_goal": 75,
+    "off_goal": 79,
     "on_goal_pct": null,
     "on_goal_major_pct": null,
     "on_goal_minor_pct": null,
@@ -331,7 +331,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.5,
-    "as_of": "2026-11-03"
+    "as_of": "2026-11-04"
    }
   },
   {
@@ -367,7 +367,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.3,
-    "as_of": "2026-11-03"
+    "as_of": "2026-11-04"
    }
   },
   {
@@ -375,9 +375,9 @@
    "name": "The Judge Tool",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 0.1,
+   "actual_share": 0.0,
    "hours": 0.1,
-   "spend": 7.73,
+   "spend": 6.13,
    "fixed_monthly": 0,
    "last_activity": "2026-10-15T19:08:05-07:00",
    "review_by": "2026-11-28",
@@ -403,7 +403,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.1,
-    "as_of": "2026-11-03"
+    "as_of": "2026-11-04"
    }
   },
   {
@@ -439,7 +439,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-03"
+    "as_of": "2026-11-04"
    }
   },
   {
@@ -475,7 +475,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-03"
+    "as_of": "2026-11-04"
    }
   },
   {
@@ -511,7 +511,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-03"
+    "as_of": "2026-11-04"
    }
   },
   {
@@ -547,7 +547,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-03"
+    "as_of": "2026-11-04"
    }
   },
   {
@@ -555,11 +555,11 @@
    "name": "jameschang.co",
    "status": "active",
    "target_share": 5,
-   "actual_share": 0.3,
-   "hours": 0.5,
-   "spend": 9.76,
+   "actual_share": 0.2,
+   "hours": 0.3,
+   "spend": 9.29,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-10T11:10:27-08:00",
+   "last_activity": "2026-11-10T14:10:33-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -626,7 +626,7 @@
     "creep_pct": 0.0,
     "on_goal_pct": 28.6,
     "share": 0.2,
-    "as_of": "2026-11-03"
+    "as_of": "2026-11-04"
    }
   },
   {
@@ -662,7 +662,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-03"
+    "as_of": "2026-11-04"
    }
   },
   {
@@ -698,7 +698,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-03"
+    "as_of": "2026-11-04"
    }
   },
   {
@@ -780,10 +780,10 @@
     "time 4% vs 30% target"
    ],
    "prev": {
-    "creep_pct": 84.6,
-    "on_goal_pct": 9.6,
+    "creep_pct": 78.6,
+    "on_goal_pct": 13.6,
     "share": 3.5,
-    "as_of": "2026-11-03"
+    "as_of": "2026-11-04"
    }
   },
   {
@@ -841,15 +841,15 @@
    "prev": {
     "creep_pct": 100.0,
     "on_goal_pct": 0.0,
-    "share": 1.0,
-    "as_of": "2026-11-03"
+    "share": 0.9,
+    "as_of": "2026-11-04"
    }
   }
  ],
  "candidates": [
   {
    "path": "bbq-judge",
-   "hours": 4.6,
+   "hours": 4.3,
    "sessions": 3
   },
   {
@@ -860,12 +860,12 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 5433.17,
+  "claude_total": 5430.43,
   "fixed_total": 0
  },
  "health": {
   "files": 891,
-  "lines": 234117,
+  "lines": 236777,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 2,
