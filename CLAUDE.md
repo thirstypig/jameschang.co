@@ -386,3 +386,7 @@ Direct push to `main` — this repo uses no PR gate (one contributor). GitHub Pa
 ### Memory loop
 
 When you notice a pattern, preference, decision, or piece of context that should persist beyond this conversation, say so explicitly and offer to draft a context-doc update. Treat yourself as a co-maintainer of this project's memory, not a passive consumer of it. Flag inconsistencies between what I'm saying now and what's in project knowledge.
+
+## Status file
+
+STATUS.md is read by Jimmy's claude.ai assistant as the source of truth. Whenever a change affects scope, stack, hosting, URLs, shipped features, open bugs, or next phases, update STATUS.md and its Last updated date in the SAME commit.
