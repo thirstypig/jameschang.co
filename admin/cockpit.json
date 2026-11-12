@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-11T22:29:38.273833+00:00",
+ "generated": "2026-11-12T01:29:49.473426+00:00",
  "window_days": 28,
- "total_hours": 163.6,
- "session_hours": 221.1,
+ "total_hours": 165.6,
+ "session_hours": 224.1,
  "decisions": [
   {
    "id": "G:aleph",
@@ -10,8 +10,8 @@
    "reason": "G",
    "target": "aleph",
    "title": "Aleph: 58% of new-scope asks serve no goal",
-   "detail": "49 of 85 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
-   "magnitude": 57.6,
+   "detail": "50 of 86 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
+   "magnitude": 58.1,
    "actions": [
     "set_goal",
     "accept"
@@ -38,8 +38,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 4% of your time vs 30% target",
-   "detail": "last 28 days · 163.6h total",
-   "magnitude": 25.508250152780608,
+   "detail": "last 28 days · 165.6h total",
+   "magnitude": 25.56159420289855,
    "actions": [
     "change_target",
     "accept"
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 77% of your time vs 60% target",
-   "detail": "last 28 days · 163.6h total",
-   "magnitude": 17.391186256535605,
+   "detail": "last 28 days · 165.6h total",
+   "magnitude": 16.688472893183018,
    "actions": [
     "change_target",
     "accept"
@@ -84,14 +84,30 @@
    "reason": "C",
    "target": "bbq-judge",
    "title": "Unregistered work: bbq-judge",
-   "detail": "3.7h · 2 sessions",
-   "magnitude": 3.7,
+   "detail": "3.1h · 2 sessions",
+   "magnitude": 3.1,
    "actions": [
     "promote",
     "dismiss",
     "snooze"
    ],
    "suggested_slug": "bbq-judge",
+   "severity": "medium"
+  },
+  {
+   "id": "C:Projects",
+   "kind": "C",
+   "reason": "C",
+   "target": "Projects",
+   "title": "Unregistered work: Projects",
+   "detail": "0.1h · 1 sessions",
+   "magnitude": 0.1,
+   "actions": [
+    "promote",
+    "dismiss",
+    "snooze"
+   ],
+   "suggested_slug": "projects",
    "severity": "medium"
   }
  ],
@@ -100,13 +116,13 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 77.4
+   "actual": 76.7
   },
   {
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 8.6
+   "actual": 9.8
   },
   {
    "slug": "bahtzang-trader",
@@ -166,7 +182,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 4.5
+   "actual": 4.4
   },
   {
    "slug": "family-sites",
@@ -178,7 +194,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 6.2
+   "actual": 5.9
   }
  ],
  "projects": [
@@ -187,11 +203,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 77.4,
-   "hours": 126.6,
-   "spend": 4114.9,
+   "actual_share": 76.7,
+   "hours": 127.0,
+   "spend": 4129.8,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-11T22:26:00+00:00",
+   "last_activity": "2026-11-12T01:29:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -262,15 +278,15 @@
     }
    ],
    "alignment": {
-    "total": 491,
+    "total": 493,
     "on_goal": 115,
-    "off_goal": 376,
-    "on_goal_pct": 23.4,
-    "on_goal_major_pct": 23.4,
+    "off_goal": 378,
+    "on_goal_pct": 23.3,
+    "on_goal_major_pct": 23.3,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 85,
-    "creep": 49,
-    "creep_pct": 57.6,
+    "new_scope": 86,
+    "creep": 50,
+    "creep_pct": 58.1,
     "goals": [
      {
       "id": "g1",
@@ -293,9 +309,9 @@
    ],
    "prev": {
     "creep_pct": 60.5,
-    "on_goal_pct": 21.0,
-    "share": 85.6,
-    "as_of": "2026-11-04"
+    "on_goal_pct": 21.4,
+    "share": 84.7,
+    "as_of": "2026-11-05"
    }
   },
   {
@@ -303,25 +319,25 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 8.6,
-   "hours": 14.1,
-   "spend": 304.3,
+   "actual_share": 9.8,
+   "hours": 16.2,
+   "spend": 355.03,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-11T22:28:00+00:00",
+   "last_activity": "2026-11-12T01:29:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
    "stop_criteria": "",
    "goals": [],
    "alignment": {
-    "total": 90,
+    "total": 96,
     "on_goal": 0,
-    "off_goal": 90,
+    "off_goal": 96,
     "on_goal_pct": null,
     "on_goal_major_pct": null,
     "on_goal_minor_pct": null,
-    "new_scope": 14,
-    "creep": 14,
+    "new_scope": 16,
+    "creep": 16,
     "creep_pct": null,
     "goals": []
    },
@@ -331,7 +347,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.5,
-    "as_of": "2026-11-04"
+    "as_of": "2026-11-05"
    }
   },
   {
@@ -343,7 +359,7 @@
    "hours": 1.8,
    "spend": 52.07,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-10T03:58:00+00:00",
+   "last_activity": "2026-11-11T15:14:15-08:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
@@ -367,7 +383,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.3,
-    "as_of": "2026-11-04"
+    "as_of": "2026-11-05"
    }
   },
   {
@@ -377,7 +393,7 @@
    "target_share": 0,
    "actual_share": 0.0,
    "hours": 0.1,
-   "spend": 5.77,
+   "spend": 4.61,
    "fixed_monthly": 0,
    "last_activity": "2026-10-15T19:08:05-07:00",
    "review_by": "2026-11-28",
@@ -403,7 +419,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.1,
-    "as_of": "2026-11-04"
+    "as_of": "2026-11-05"
    }
   },
   {
@@ -415,7 +431,7 @@
    "hours": 0.0,
    "spend": 0.0,
    "fixed_monthly": 0,
-   "last_activity": "2026-09-12T22:59:52-07:00",
+   "last_activity": "2026-11-11T15:14:46-08:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
@@ -439,7 +455,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-04"
+    "as_of": "2026-11-05"
    }
   },
   {
@@ -475,7 +491,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-04"
+    "as_of": "2026-11-05"
    }
   },
   {
@@ -487,7 +503,7 @@
    "hours": 0.8,
    "spend": 9.56,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-05T16:00:02-08:00",
+   "last_activity": "2026-11-11T15:14:50-08:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
@@ -510,8 +526,8 @@
    "prev": {
     "creep_pct": null,
     "on_goal_pct": null,
-    "share": 0.0,
-    "as_of": "2026-11-04"
+    "share": 0.2,
+    "as_of": "2026-11-05"
    }
   },
   {
@@ -547,7 +563,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-04"
+    "as_of": "2026-11-05"
    }
   },
   {
@@ -559,7 +575,7 @@
    "hours": 0.2,
    "spend": 6.09,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-11T11:29:34-08:00",
+   "last_activity": "2026-11-11T15:13:29-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -624,9 +640,9 @@
    "rag_reasons": [],
    "prev": {
     "creep_pct": 0.0,
-    "on_goal_pct": 28.6,
+    "on_goal_pct": 27.3,
     "share": 0.2,
-    "as_of": "2026-11-04"
+    "as_of": "2026-11-05"
    }
   },
   {
@@ -638,7 +654,7 @@
    "hours": 0.0,
    "spend": 0.0,
    "fixed_monthly": 0,
-   "last_activity": "2026-07-29T18:34:43-07:00",
+   "last_activity": "2026-11-11T15:12:30-08:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
@@ -662,7 +678,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-04"
+    "as_of": "2026-11-05"
    }
   },
   {
@@ -698,7 +714,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-04"
+    "as_of": "2026-11-05"
    }
   },
   {
@@ -706,11 +722,11 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 4.5,
+   "actual_share": 4.4,
    "hours": 7.3,
    "spend": 96.49,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-07T22:41:20-08:00",
+   "last_activity": "2026-11-11T15:14:58-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -781,9 +797,9 @@
    ],
    "prev": {
     "creep_pct": 78.6,
-    "on_goal_pct": 13.6,
-    "share": 3.5,
-    "as_of": "2026-11-04"
+    "on_goal_pct": 14.4,
+    "share": 4.2,
+    "as_of": "2026-11-05"
    }
   },
   {
@@ -795,7 +811,7 @@
    "hours": 2.6,
    "spend": 39.91,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-09T16:25:00+00:00",
+   "last_activity": "2026-11-11T15:14:56-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -842,14 +858,19 @@
     "creep_pct": 100.0,
     "on_goal_pct": 0.0,
     "share": 0.9,
-    "as_of": "2026-11-04"
+    "as_of": "2026-11-05"
    }
   }
  ],
  "candidates": [
   {
+   "path": "Projects",
+   "hours": 0.1,
+   "sessions": 1
+  },
+  {
    "path": "bbq-judge",
-   "hours": 3.7,
+   "hours": 3.1,
    "sessions": 2
   },
   {
@@ -860,15 +881,15 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4847.43,
+  "claude_total": 4920.47,
   "fixed_total": 0
  },
  "health": {
-  "files": 842,
-  "lines": 242899,
+  "files": 845,
+  "lines": 247456,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 2,
+  "changed_files": 5,
   "warning": null
  }
 }
