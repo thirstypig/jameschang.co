@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-12T01:29:49.473426+00:00",
+ "generated": "2026-11-12T04:30:03.010296+00:00",
  "window_days": 28,
- "total_hours": 165.6,
- "session_hours": 224.1,
+ "total_hours": 164.7,
+ "session_hours": 223.0,
  "decisions": [
   {
    "id": "G:aleph",
@@ -38,8 +38,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 4% of your time vs 30% target",
-   "detail": "last 28 days · 165.6h total",
-   "magnitude": 25.56159420289855,
+   "detail": "last 28 days · 164.7h total",
+   "magnitude": 25.535985423625874,
    "actions": [
     "change_target",
     "accept"
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 77% of your time vs 60% target",
-   "detail": "last 28 days · 165.6h total",
-   "magnitude": 16.688472893183018,
+   "detail": "last 28 days · 164.7h total",
+   "magnitude": 16.589398387151192,
    "actions": [
     "change_target",
     "accept"
@@ -84,8 +84,8 @@
    "reason": "C",
    "target": "bbq-judge",
    "title": "Unregistered work: bbq-judge",
-   "detail": "3.1h · 2 sessions",
-   "magnitude": 3.1,
+   "detail": "3.0h · 2 sessions",
+   "magnitude": 3.0,
    "actions": [
     "promote",
     "dismiss",
@@ -116,13 +116,13 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 76.7
+   "actual": 76.6
   },
   {
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 9.8
+   "actual": 9.9
   },
   {
    "slug": "bahtzang-trader",
@@ -182,7 +182,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 4.4
+   "actual": 4.5
   },
   {
    "slug": "family-sites",
@@ -194,7 +194,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 5.9
+   "actual": 5.8
   }
  ],
  "projects": [
@@ -203,11 +203,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 76.7,
-   "hours": 127.0,
+   "actual_share": 76.6,
+   "hours": 126.1,
    "spend": 4129.8,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-12T01:29:00+00:00",
+   "last_activity": "2026-11-12T01:48:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -319,11 +319,11 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 9.8,
-   "hours": 16.2,
+   "actual_share": 9.9,
+   "hours": 16.3,
    "spend": 355.03,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-12T01:29:00+00:00",
+   "last_activity": "2026-11-12T01:35:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
@@ -575,7 +575,7 @@
    "hours": 0.2,
    "spend": 6.09,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-11T15:13:29-08:00",
+   "last_activity": "2026-11-11T17:29:59-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -722,7 +722,7 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 4.4,
+   "actual_share": 4.5,
    "hours": 7.3,
    "spend": 96.49,
    "fixed_monthly": 0,
@@ -870,7 +870,7 @@
   },
   {
    "path": "bbq-judge",
-   "hours": 3.1,
+   "hours": 3.0,
    "sessions": 2
   },
   {
@@ -886,10 +886,10 @@
  },
  "health": {
   "files": 845,
-  "lines": 247456,
+  "lines": 247592,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 5,
+  "changed_files": 2,
   "warning": null
  }
 }
