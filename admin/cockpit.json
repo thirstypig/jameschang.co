@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-12T19:30:36.280554+00:00",
+ "generated": "2026-11-12T22:30:41.960488+00:00",
  "window_days": 28,
- "total_hours": 161.1,
- "session_hours": 216.2,
+ "total_hours": 161.3,
+ "session_hours": 216.4,
  "decisions": [
   {
    "id": "G:aleph",
@@ -38,8 +38,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 161.1h total",
-   "magnitude": 25.438560198593297,
+   "detail": "last 28 days · 161.3h total",
+   "magnitude": 25.444214876033058,
    "actions": [
     "change_target",
     "accept"
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 77% of your time vs 60% target",
-   "detail": "last 28 days · 161.1h total",
-   "magnitude": 16.93869811060543,
+   "detail": "last 28 days · 161.3h total",
+   "magnitude": 16.843319559228647,
    "actions": [
     "change_target",
     "accept"
@@ -68,8 +68,8 @@
    "reason": "A",
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 11% of your time vs 0% target",
-   "detail": "last 28 days · 161.1h total",
-   "magnitude": 10.531306026754931,
+   "detail": "last 28 days · 161.3h total",
+   "magnitude": 10.518250688705235,
    "actions": [
     "change_target",
     "accept"
@@ -99,14 +99,30 @@
    "reason": "C",
    "target": "bbq-judge",
    "title": "Unregistered work: bbq-judge",
-   "detail": "1.0h · 1 sessions",
-   "magnitude": 1.0,
+   "detail": "0.7h · 1 sessions",
+   "magnitude": 0.7,
    "actions": [
     "promote",
     "dismiss",
     "snooze"
    ],
    "suggested_slug": "bbq-judge",
+   "severity": "medium"
+  },
+  {
+   "id": "C:DKM",
+   "kind": "C",
+   "reason": "C",
+   "target": "DKM",
+   "title": "Unregistered work: DKM",
+   "detail": "0.4h · 1 sessions",
+   "magnitude": 0.4,
+   "actions": [
+    "promote",
+    "dismiss",
+    "snooze"
+   ],
+   "suggested_slug": "dkm",
    "severity": "medium"
   },
   {
@@ -131,7 +147,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 76.9
+   "actual": 76.8
   },
   {
    "slug": "fantastic-leagues",
@@ -209,7 +225,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 4.7
+   "actual": 4.8
   }
  ],
  "projects": [
@@ -218,7 +234,7 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 76.9,
+   "actual_share": 76.8,
    "hours": 124.0,
    "spend": 3983.87,
    "fixed_monthly": 0,
@@ -590,7 +606,7 @@
    "hours": 0.2,
    "spend": 6.09,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-12T08:30:31-08:00",
+   "last_activity": "2026-11-12T11:30:37-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -884,8 +900,13 @@
    "sessions": 1
   },
   {
+   "path": "DKM",
+   "hours": 0.4,
+   "sessions": 1
+  },
+  {
    "path": "bbq-judge",
-   "hours": 1.0,
+   "hours": 0.7,
    "sessions": 1
   },
   {
@@ -900,11 +921,11 @@
   "fixed_total": 0
  },
  "health": {
-  "files": 845,
-  "lines": 249348,
+  "files": 774,
+  "lines": 245405,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 2,
+  "changed_files": 3,
   "warning": null
  }
 }
