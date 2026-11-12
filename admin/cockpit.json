@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-12T16:30:23.976671+00:00",
+ "generated": "2026-11-12T19:30:36.280554+00:00",
  "window_days": 28,
- "total_hours": 161.3,
- "session_hours": 217.2,
+ "total_hours": 161.1,
+ "session_hours": 216.2,
  "decisions": [
   {
    "id": "G:aleph",
@@ -38,8 +38,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 161.3h total",
-   "magnitude": 25.44374418844922,
+   "detail": "last 28 days · 161.1h total",
+   "magnitude": 25.438560198593297,
    "actions": [
     "change_target",
     "accept"
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 77% of your time vs 60% target",
-   "detail": "last 28 days · 161.3h total",
-   "magnitude": 16.906360849950048,
+   "detail": "last 28 days · 161.1h total",
+   "magnitude": 16.93869811060543,
    "actions": [
     "change_target",
     "accept"
@@ -67,9 +67,9 @@
    "kind": "A",
    "reason": "A",
    "target": "fantastic-leagues",
-   "title": "The Fantastic Leagues: 10% of your time vs 0% target",
-   "detail": "last 28 days · 161.3h total",
-   "magnitude": 10.250714605503324,
+   "title": "The Fantastic Leagues: 11% of your time vs 0% target",
+   "detail": "last 28 days · 161.1h total",
+   "magnitude": 10.531306026754931,
    "actions": [
     "change_target",
     "accept"
@@ -99,8 +99,8 @@
    "reason": "C",
    "target": "bbq-judge",
    "title": "Unregistered work: bbq-judge",
-   "detail": "1.5h · 1 sessions",
-   "magnitude": 1.5,
+   "detail": "1.0h · 1 sessions",
+   "magnitude": 1.0,
    "actions": [
     "promote",
     "dismiss",
@@ -137,7 +137,7 @@
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 10.3
+   "actual": 10.5
   },
   {
    "slug": "bahtzang-trader",
@@ -209,7 +209,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 5.0
+   "actual": 4.7
   }
  ],
  "projects": [
@@ -219,10 +219,10 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 76.9,
-   "hours": 124.1,
-   "spend": 3985.1,
+   "hours": 124.0,
+   "spend": 3983.87,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-12T16:20:00+00:00",
+   "last_activity": "2026-11-12T18:38:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -293,9 +293,9 @@
     }
    ],
    "alignment": {
-    "total": 471,
+    "total": 472,
     "on_goal": 114,
-    "off_goal": 357,
+    "off_goal": 358,
     "on_goal_pct": 24.2,
     "on_goal_major_pct": 24.2,
     "on_goal_minor_pct": 0.0,
@@ -334,20 +334,20 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 10.3,
-   "hours": 16.5,
+   "actual_share": 10.5,
+   "hours": 17.0,
    "spend": 355.03,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-12T16:15:00+00:00",
+   "last_activity": "2026-11-12T18:12:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
    "stop_criteria": "",
    "goals": [],
    "alignment": {
-    "total": 96,
+    "total": 98,
     "on_goal": 0,
-    "off_goal": 96,
+    "off_goal": 98,
     "on_goal_pct": null,
     "on_goal_major_pct": null,
     "on_goal_minor_pct": null,
@@ -408,7 +408,7 @@
    "target_share": 0,
    "actual_share": 0.0,
    "hours": 0.0,
-   "spend": 0.77,
+   "spend": 0.61,
    "fixed_monthly": 0,
    "last_activity": "2026-10-15T19:08:05-07:00",
    "review_by": "2026-11-28",
@@ -590,7 +590,7 @@
    "hours": 0.2,
    "spend": 6.09,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-12T05:30:19-08:00",
+   "last_activity": "2026-11-12T08:30:31-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -885,7 +885,7 @@
   },
   {
    "path": "bbq-judge",
-   "hours": 1.5,
+   "hours": 1.0,
    "sessions": 1
   },
   {
@@ -896,12 +896,12 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4744.71,
+  "claude_total": 4743.32,
   "fixed_total": 0
  },
  "health": {
   "files": 845,
-  "lines": 248411,
+  "lines": 249348,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 2,
