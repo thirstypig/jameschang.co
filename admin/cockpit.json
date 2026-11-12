@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-12T13:30:17.900324+00:00",
+ "generated": "2026-11-12T16:30:23.976671+00:00",
  "window_days": 28,
- "total_hours": 161.4,
- "session_hours": 217.3,
+ "total_hours": 161.3,
+ "session_hours": 217.2,
  "decisions": [
   {
    "id": "G:aleph",
@@ -38,8 +38,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 161.4h total",
-   "magnitude": 25.445626355468345,
+   "detail": "last 28 days · 161.3h total",
+   "magnitude": 25.44374418844922,
    "actions": [
     "change_target",
     "accept"
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 77% of your time vs 60% target",
-   "detail": "last 28 days · 161.4h total",
-   "magnitude": 16.90385211194875,
+   "detail": "last 28 days · 161.3h total",
+   "magnitude": 16.906360849950048,
    "actions": [
     "change_target",
     "accept"
@@ -68,8 +68,8 @@
    "reason": "A",
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 10% of your time vs 0% target",
-   "detail": "last 28 days · 161.4h total",
-   "magnitude": 10.101896795070399,
+   "detail": "last 28 days · 161.3h total",
+   "magnitude": 10.250714605503324,
    "actions": [
     "change_target",
     "accept"
@@ -99,8 +99,8 @@
    "reason": "C",
    "target": "bbq-judge",
    "title": "Unregistered work: bbq-judge",
-   "detail": "1.7h · 1 sessions",
-   "magnitude": 1.7,
+   "detail": "1.5h · 1 sessions",
+   "magnitude": 1.5,
    "actions": [
     "promote",
     "dismiss",
@@ -137,7 +137,7 @@
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 10.1
+   "actual": 10.3
   },
   {
    "slug": "bahtzang-trader",
@@ -209,7 +209,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 5.2
+   "actual": 5.0
   }
  ],
  "projects": [
@@ -220,9 +220,9 @@
    "target_share": 60,
    "actual_share": 76.9,
    "hours": 124.1,
-   "spend": 3985.42,
+   "spend": 3985.1,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-12T01:48:00+00:00",
+   "last_activity": "2026-11-12T16:20:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -293,11 +293,11 @@
     }
    ],
    "alignment": {
-    "total": 468,
-    "on_goal": 113,
-    "off_goal": 355,
-    "on_goal_pct": 24.1,
-    "on_goal_major_pct": 24.1,
+    "total": 471,
+    "on_goal": 114,
+    "off_goal": 357,
+    "on_goal_pct": 24.2,
+    "on_goal_major_pct": 24.2,
     "on_goal_minor_pct": 0.0,
     "new_scope": 84,
     "creep": 49,
@@ -313,7 +313,7 @@
      },
      {
       "id": "g3",
-      "prompts": 84
+      "prompts": 85
      }
     ]
    },
@@ -334,11 +334,11 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 10.1,
-   "hours": 16.3,
+   "actual_share": 10.3,
+   "hours": 16.5,
    "spend": 355.03,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-12T06:46:00+00:00",
+   "last_activity": "2026-11-12T16:15:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
@@ -408,7 +408,7 @@
    "target_share": 0,
    "actual_share": 0.0,
    "hours": 0.0,
-   "spend": 1.13,
+   "spend": 0.77,
    "fixed_monthly": 0,
    "last_activity": "2026-10-15T19:08:05-07:00",
    "review_by": "2026-11-28",
@@ -590,7 +590,7 @@
    "hours": 0.2,
    "spend": 6.09,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-12T02:30:14-08:00",
+   "last_activity": "2026-11-12T05:30:19-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -885,7 +885,7 @@
   },
   {
    "path": "bbq-judge",
-   "hours": 1.7,
+   "hours": 1.5,
    "sessions": 1
   },
   {
@@ -896,12 +896,12 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4745.38,
+  "claude_total": 4744.71,
   "fixed_total": 0
  },
  "health": {
   "files": 845,
-  "lines": 247634,
+  "lines": 248411,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 2,
