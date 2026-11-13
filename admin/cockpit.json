@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-13T12:05:52.030720+00:00",
+ "generated": "2026-11-13T15:05:56.676995+00:00",
  "window_days": 28,
- "total_hours": 163.8,
- "session_hours": 220.7,
+ "total_hours": 163.6,
+ "session_hours": 220.3,
  "decisions": [
   {
    "id": "G:aleph",
@@ -38,8 +38,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 4% of your time vs 30% target",
-   "detail": "last 28 days · 163.8h total",
-   "magnitude": 25.635639199728722,
+   "detail": "last 28 days · 163.6h total",
+   "magnitude": 25.62852387745398,
    "actions": [
     "change_target",
     "accept"
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 76% of your time vs 60% target",
-   "detail": "last 28 days · 163.8h total",
-   "magnitude": 16.317056629365894,
+   "detail": "last 28 days · 163.6h total",
+   "magnitude": 16.395625297194485,
    "actions": [
     "change_target",
     "accept"
@@ -68,8 +68,8 @@
    "reason": "A",
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 12% of your time vs 0% target",
-   "detail": "last 28 days · 163.8h total",
-   "magnitude": 11.586978636826041,
+   "detail": "last 28 days · 163.6h total",
+   "magnitude": 11.60586916649684,
    "actions": [
     "change_target",
     "accept"
@@ -131,7 +131,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 76.3
+   "actual": 76.4
   },
   {
    "slug": "fantastic-leagues",
@@ -203,7 +203,7 @@
    "slug": "family-sites",
    "name": "Family sites",
    "target": 5,
-   "actual": 1.1
+   "actual": 1.0
   },
   {
    "slug": "_other",
@@ -218,7 +218,7 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 76.3,
+   "actual_share": 76.4,
    "hours": 125.0,
    "spend": 3982.97,
    "fixed_monthly": 0,
@@ -590,7 +590,7 @@
    "hours": 0.2,
    "spend": 6.09,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-13T01:05:48-08:00",
+   "last_activity": "2026-11-13T04:05:53-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -822,8 +822,8 @@
    "name": "Family sites",
    "status": "active",
    "target_share": 5,
-   "actual_share": 1.1,
-   "hours": 1.9,
+   "actual_share": 1.0,
+   "hours": 1.7,
    "spend": 34.65,
    "fixed_monthly": 0,
    "last_activity": "2026-11-13T08:05:00+00:00",
@@ -901,7 +901,7 @@
  },
  "health": {
   "files": 749,
-  "lines": 236768,
+  "lines": 236769,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 3,
