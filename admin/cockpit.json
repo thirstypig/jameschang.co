@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-13T06:05:41.518832+00:00",
+ "generated": "2026-11-13T09:05:46.789139+00:00",
  "window_days": 28,
- "total_hours": 163.5,
- "session_hours": 219.8,
+ "total_hours": 163.8,
+ "session_hours": 220.7,
  "decisions": [
   {
    "id": "G:aleph",
@@ -38,8 +38,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 4% of your time vs 30% target",
-   "detail": "last 28 days · 163.5h total",
-   "magnitude": 25.625849646547035,
+   "detail": "last 28 days · 163.8h total",
+   "magnitude": 25.635639199728722,
    "actions": [
     "change_target",
     "accept"
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 76% of your time vs 60% target",
-   "detail": "last 28 days · 163.5h total",
-   "magnitude": 16.2826264274062,
+   "detail": "last 28 days · 163.8h total",
+   "magnitude": 16.317056629365894,
    "actions": [
     "change_target",
     "accept"
@@ -68,8 +68,8 @@
    "reason": "A",
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 12% of your time vs 0% target",
-   "detail": "last 28 days · 163.5h total",
-   "magnitude": 11.550095160413266,
+   "detail": "last 28 days · 163.8h total",
+   "magnitude": 11.586978636826041,
    "actions": [
     "change_target",
     "accept"
@@ -203,7 +203,7 @@
    "slug": "family-sites",
    "name": "Family sites",
    "target": 5,
-   "actual": 1.2
+   "actual": 1.1
   },
   {
    "slug": "_other",
@@ -219,10 +219,10 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 76.3,
-   "hours": 124.7,
-   "spend": 3983.13,
+   "hours": 125.0,
+   "spend": 3982.97,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-13T05:54:00+00:00",
+   "last_activity": "2026-11-13T08:17:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -293,11 +293,11 @@
     }
    ],
    "alignment": {
-    "total": 480,
-    "on_goal": 116,
+    "total": 481,
+    "on_goal": 117,
     "off_goal": 364,
-    "on_goal_pct": 24.2,
-    "on_goal_major_pct": 24.2,
+    "on_goal_pct": 24.3,
+    "on_goal_major_pct": 24.3,
     "on_goal_minor_pct": 0.0,
     "new_scope": 85,
     "creep": 49,
@@ -309,7 +309,7 @@
      },
      {
       "id": "g2",
-      "prompts": 6
+      "prompts": 7
      },
      {
       "id": "g3",
@@ -335,19 +335,19 @@
    "status": "parked",
    "target_share": 0,
    "actual_share": 11.6,
-   "hours": 18.9,
+   "hours": 19.0,
    "spend": 355.03,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-13T06:05:00+00:00",
+   "last_activity": "2026-11-13T08:04:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
    "stop_criteria": "",
    "goals": [],
    "alignment": {
-    "total": 106,
+    "total": 108,
     "on_goal": 0,
-    "off_goal": 106,
+    "off_goal": 108,
     "on_goal_pct": null,
     "on_goal_major_pct": null,
     "on_goal_minor_pct": null,
@@ -590,7 +590,7 @@
    "hours": 0.2,
    "spend": 6.09,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-12T19:05:37-08:00",
+   "last_activity": "2026-11-12T22:05:43-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -822,11 +822,11 @@
    "name": "Family sites",
    "status": "active",
    "target_share": 5,
-   "actual_share": 1.2,
+   "actual_share": 1.1,
    "hours": 1.9,
-   "spend": 34.73,
+   "spend": 34.65,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-11T15:14:56-08:00",
+   "last_activity": "2026-11-13T08:05:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -851,11 +851,11 @@
     }
    ],
    "alignment": {
-    "total": 13,
-    "on_goal": 2,
+    "total": 14,
+    "on_goal": 3,
     "off_goal": 11,
-    "on_goal_pct": 15.4,
-    "on_goal_major_pct": 15.4,
+    "on_goal_pct": 21.4,
+    "on_goal_major_pct": 21.4,
     "on_goal_minor_pct": 0.0,
     "new_scope": 1,
     "creep": 1,
@@ -863,7 +863,7 @@
     "goals": [
      {
       "id": "g1",
-      "prompts": 2
+      "prompts": 3
      }
     ]
    },
@@ -896,12 +896,12 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4727.59,
+  "claude_total": 4727.36,
   "fixed_total": 0
  },
  "health": {
-  "files": 774,
-  "lines": 250320,
+  "files": 749,
+  "lines": 236737,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 3,
