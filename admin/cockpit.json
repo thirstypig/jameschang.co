@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-14T06:33:49.495462+00:00",
+ "generated": "2026-11-14T09:33:54.307079+00:00",
  "window_days": 28,
- "total_hours": 159.6,
- "session_hours": 215.5,
+ "total_hours": 159.0,
+ "session_hours": 214.7,
  "decisions": [
   {
    "id": "G:aleph",
@@ -24,8 +24,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 159.6h total",
-   "magnitude": 25.37445163985795,
+   "detail": "last 28 days · 159.0h total",
+   "magnitude": 25.35893942569692,
    "actions": [
     "change_target",
     "accept"
@@ -39,8 +39,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 76% of your time vs 60% target",
-   "detail": "last 28 days · 159.6h total",
-   "magnitude": 16.213007450734622,
+   "detail": "last 28 days · 159.0h total",
+   "magnitude": 16.327115209948985,
    "actions": [
     "change_target",
     "accept"
@@ -54,8 +54,8 @@
    "reason": "A",
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 13% of your time vs 0% target",
-   "detail": "last 28 days · 159.6h total",
-   "magnitude": 12.52698280064062,
+   "detail": "last 28 days · 159.0h total",
+   "magnitude": 12.568993222944174,
    "actions": [
     "change_target",
     "accept"
@@ -69,8 +69,8 @@
    "reason": "C",
    "target": "theresewhite.com",
    "title": "Unregistered work: theresewhite.com",
-   "detail": "5.2h · 55 sessions",
-   "magnitude": 5.2,
+   "detail": "4.9h · 55 sessions",
+   "magnitude": 4.9,
    "actions": [
     "promote",
     "dismiss",
@@ -117,13 +117,13 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 76.2
+   "actual": 76.3
   },
   {
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 12.5
+   "actual": 12.6
   },
   {
    "slug": "bahtzang-trader",
@@ -195,7 +195,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 4.3
+   "actual": 4.1
   }
  ],
  "projects": [
@@ -204,9 +204,9 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 76.2,
-   "hours": 121.6,
-   "spend": 4044.78,
+   "actual_share": 76.3,
+   "hours": 121.4,
+   "spend": 4044.48,
    "fixed_monthly": 0,
    "last_activity": "2026-11-14T02:49:00+00:00",
    "review_by": null,
@@ -320,7 +320,7 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 12.5,
+   "actual_share": 12.6,
    "hours": 20.0,
    "spend": 461.37,
    "fixed_monthly": 0,
@@ -342,8 +342,10 @@
     "creep_pct": null,
     "goals": []
    },
-   "rag": "parked",
-   "rag_reasons": [],
+   "rag": "amber",
+   "rag_reasons": [
+    "review due 2026-11-28"
+   ],
    "prev": {
     "creep_pct": null,
     "on_goal_pct": null,
@@ -378,8 +380,10 @@
     "creep_pct": null,
     "goals": []
    },
-   "rag": "parked",
-   "rag_reasons": [],
+   "rag": "amber",
+   "rag_reasons": [
+    "review due 2026-11-28"
+   ],
    "prev": {
     "creep_pct": null,
     "on_goal_pct": null,
@@ -414,8 +418,10 @@
     "creep_pct": null,
     "goals": []
    },
-   "rag": "parked",
-   "rag_reasons": [],
+   "rag": "amber",
+   "rag_reasons": [
+    "review due 2026-11-28"
+   ],
    "prev": {
     "creep_pct": null,
     "on_goal_pct": null,
@@ -450,8 +456,10 @@
     "creep_pct": null,
     "goals": []
    },
-   "rag": "parked",
-   "rag_reasons": [],
+   "rag": "amber",
+   "rag_reasons": [
+    "review due 2026-11-28"
+   ],
    "prev": {
     "creep_pct": null,
     "on_goal_pct": null,
@@ -486,8 +494,10 @@
     "creep_pct": null,
     "goals": []
    },
-   "rag": "parked",
-   "rag_reasons": [],
+   "rag": "amber",
+   "rag_reasons": [
+    "review due 2026-11-28"
+   ],
    "prev": {
     "creep_pct": null,
     "on_goal_pct": null,
@@ -522,8 +532,10 @@
     "creep_pct": null,
     "goals": []
    },
-   "rag": "parked",
-   "rag_reasons": [],
+   "rag": "amber",
+   "rag_reasons": [
+    "review due 2026-11-28"
+   ],
    "prev": {
     "creep_pct": null,
     "on_goal_pct": null,
@@ -558,8 +570,10 @@
     "creep_pct": null,
     "goals": []
    },
-   "rag": "parked",
-   "rag_reasons": [],
+   "rag": "amber",
+   "rag_reasons": [
+    "review due 2026-11-28"
+   ],
    "prev": {
     "creep_pct": null,
     "on_goal_pct": null,
@@ -576,7 +590,7 @@
    "hours": 0.2,
    "spend": 6.09,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-13T19:33:45-08:00",
+   "last_activity": "2026-11-13T22:33:50-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -673,8 +687,10 @@
     "creep_pct": null,
     "goals": []
    },
-   "rag": "parked",
-   "rag_reasons": [],
+   "rag": "amber",
+   "rag_reasons": [
+    "review due 2026-11-28"
+   ],
    "prev": {
     "creep_pct": null,
     "on_goal_pct": null,
@@ -709,8 +725,10 @@
     "creep_pct": null,
     "goals": []
    },
-   "rag": "parked",
-   "rag_reasons": [],
+   "rag": "amber",
+   "rag_reasons": [
+    "review due 2026-11-28"
+   ],
    "prev": {
     "creep_pct": null,
     "on_goal_pct": null,
@@ -875,18 +893,18 @@
   },
   {
    "path": "theresewhite.com",
-   "hours": 5.2,
+   "hours": 4.9,
    "sessions": 55
   }
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4855.43,
+  "claude_total": 4855.13,
   "fixed_total": 0
  },
  "health": {
   "files": 744,
-  "lines": 238408,
+  "lines": 238409,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 3,
