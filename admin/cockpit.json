@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-14T18:34:09.377553+00:00",
+ "generated": "2026-11-14T21:34:14.680406+00:00",
  "window_days": 28,
- "total_hours": 159.0,
- "session_hours": 214.7,
+ "total_hours": 158.7,
+ "session_hours": 214.2,
  "decisions": [
   {
    "id": "G:aleph",
@@ -24,8 +24,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 159.0h total",
-   "magnitude": 25.35893942569692,
+   "detail": "last 28 days · 158.7h total",
+   "magnitude": 25.34772560142872,
    "actions": [
     "change_target",
     "accept"
@@ -39,8 +39,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 76% of your time vs 60% target",
-   "detail": "last 28 days · 159.0h total",
-   "magnitude": 16.327115209948985,
+   "detail": "last 28 days · 158.7h total",
+   "magnitude": 16.31193752845185,
    "actions": [
     "change_target",
     "accept"
@@ -54,8 +54,8 @@
    "reason": "A",
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 13% of your time vs 0% target",
-   "detail": "last 28 days · 159.0h total",
-   "magnitude": 12.568993222944174,
+   "detail": "last 28 days · 158.7h total",
+   "magnitude": 12.599362678152465,
    "actions": [
     "change_target",
     "accept"
@@ -69,8 +69,8 @@
    "reason": "C",
    "target": "theresewhite.com",
    "title": "Unregistered work: theresewhite.com",
-   "detail": "4.9h · 55 sessions",
-   "magnitude": 4.9,
+   "detail": "4.8h · 55 sessions",
+   "magnitude": 4.8,
    "actions": [
     "promote",
     "dismiss",
@@ -183,7 +183,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 4.6
+   "actual": 4.7
   },
   {
    "slug": "family-sites",
@@ -195,7 +195,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 4.1
+   "actual": 4.0
   }
  ],
  "projects": [
@@ -205,8 +205,8 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 76.3,
-   "hours": 121.4,
-   "spend": 4044.48,
+   "hours": 121.1,
+   "spend": 4044.29,
    "fixed_monthly": 0,
    "last_activity": "2026-11-14T02:49:00+00:00",
    "review_by": null,
@@ -590,7 +590,7 @@
    "hours": 0.2,
    "spend": 6.09,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-14T07:34:05-08:00",
+   "last_activity": "2026-11-14T10:34:11-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -741,7 +741,7 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 4.6,
+   "actual_share": 4.7,
    "hours": 7.4,
    "spend": 93.41,
    "fixed_monthly": 0,
@@ -893,18 +893,18 @@
   },
   {
    "path": "theresewhite.com",
-   "hours": 4.9,
+   "hours": 4.8,
    "sessions": 55
   }
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4855.13,
+  "claude_total": 4854.93,
   "fixed_total": 0
  },
  "health": {
   "files": 744,
-  "lines": 238412,
+  "lines": 238414,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 3,
