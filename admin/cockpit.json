@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-14T12:33:59.415146+00:00",
+ "generated": "2026-11-14T15:34:03.900739+00:00",
  "window_days": 28,
  "total_hours": 159.0,
  "session_hours": 214.7,
@@ -590,7 +590,7 @@
    "hours": 0.2,
    "spend": 6.09,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-14T01:33:55-08:00",
+   "last_activity": "2026-11-14T04:34:00-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -904,7 +904,7 @@
  },
  "health": {
   "files": 744,
-  "lines": 238409,
+  "lines": 238411,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 3,
