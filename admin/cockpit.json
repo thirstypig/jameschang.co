@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-14T21:34:14.680406+00:00",
+ "generated": "2026-11-15T00:34:19.866704+00:00",
  "window_days": 28,
  "total_hours": 158.7,
  "session_hours": 214.2,
@@ -311,8 +311,8 @@
    "prev": {
     "creep_pct": 61.0,
     "on_goal_pct": 22.2,
-    "share": 83.2,
-    "as_of": "2026-11-07"
+    "share": 81.8,
+    "as_of": "2026-11-08"
    }
   },
   {
@@ -350,7 +350,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.5,
-    "as_of": "2026-11-07"
+    "as_of": "2026-11-08"
    }
   },
   {
@@ -388,7 +388,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.3,
-    "as_of": "2026-11-07"
+    "as_of": "2026-11-08"
    }
   },
   {
@@ -426,7 +426,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.1,
-    "as_of": "2026-11-07"
+    "as_of": "2026-11-08"
    }
   },
   {
@@ -464,7 +464,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-07"
+    "as_of": "2026-11-08"
    }
   },
   {
@@ -502,7 +502,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-07"
+    "as_of": "2026-11-08"
    }
   },
   {
@@ -540,7 +540,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.5,
-    "as_of": "2026-11-07"
+    "as_of": "2026-11-08"
    }
   },
   {
@@ -578,7 +578,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-07"
+    "as_of": "2026-11-08"
    }
   },
   {
@@ -590,7 +590,7 @@
    "hours": 0.2,
    "spend": 6.09,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-14T10:34:11-08:00",
+   "last_activity": "2026-11-14T13:34:16-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -657,7 +657,7 @@
     "creep_pct": 0.0,
     "on_goal_pct": 25.0,
     "share": 0.3,
-    "as_of": "2026-11-07"
+    "as_of": "2026-11-08"
    }
   },
   {
@@ -695,7 +695,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-07"
+    "as_of": "2026-11-08"
    }
   },
   {
@@ -733,7 +733,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-07"
+    "as_of": "2026-11-08"
    }
   },
   {
@@ -814,10 +814,10 @@
     "time 5% vs 30% target"
    ],
    "prev": {
-    "creep_pct": 64.7,
-    "on_goal_pct": 15.7,
-    "share": 5.0,
-    "as_of": "2026-11-07"
+    "creep_pct": 61.1,
+    "on_goal_pct": 15.9,
+    "share": 5.2,
+    "as_of": "2026-11-08"
    }
   },
   {
@@ -875,8 +875,8 @@
    "prev": {
     "creep_pct": 100.0,
     "on_goal_pct": 0.0,
-    "share": 0.9,
-    "as_of": "2026-11-07"
+    "share": 1.4,
+    "as_of": "2026-11-08"
    }
   }
  ],
@@ -904,7 +904,7 @@
  },
  "health": {
   "files": 744,
-  "lines": 238414,
+  "lines": 238415,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 3,
