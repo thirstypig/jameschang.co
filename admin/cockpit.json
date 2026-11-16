@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-15T21:34:56.659480+00:00",
+ "generated": "2026-11-16T00:35:01.515331+00:00",
  "window_days": 28,
- "total_hours": 157.7,
- "session_hours": 212.5,
+ "total_hours": 158.0,
+ "session_hours": 212.9,
  "decisions": [
   {
    "id": "G:aleph",
@@ -24,8 +24,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 157.7h total",
-   "magnitude": 25.22055455730543,
+   "detail": "last 28 days · 158.0h total",
+   "magnitude": 25.230636712020534,
    "actions": [
     "change_target",
     "accept"
@@ -39,8 +39,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 76% of your time vs 60% target",
-   "detail": "last 28 days · 157.7h total",
-   "magnitude": 16.48557234964592,
+   "detail": "last 28 days · 158.0h total",
+   "magnitude": 16.17656365362305,
    "actions": [
     "change_target",
     "accept"
@@ -54,8 +54,8 @@
    "reason": "A",
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 13% of your time vs 0% target",
-   "detail": "last 28 days · 157.7h total",
-   "magnitude": 12.791107352992986,
+   "detail": "last 28 days · 158.0h total",
+   "magnitude": 13.12273670147312,
    "actions": [
     "change_target",
     "accept"
@@ -117,13 +117,13 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 76.5
+   "actual": 76.2
   },
   {
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 12.8
+   "actual": 13.1
   },
   {
    "slug": "bahtzang-trader",
@@ -204,11 +204,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 76.5,
-   "hours": 120.6,
-   "spend": 4043.55,
+   "actual_share": 76.2,
+   "hours": 120.4,
+   "spend": 4043.23,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-15T14:23:00+00:00",
+   "last_activity": "2026-11-16T00:02:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -309,10 +309,10 @@
     "time 76% vs 60% target"
    ],
    "prev": {
-    "creep_pct": 61.0,
-    "on_goal_pct": 22.2,
-    "share": 81.8,
-    "as_of": "2026-11-08"
+    "creep_pct": 61.4,
+    "on_goal_pct": 21.8,
+    "share": 79.6,
+    "as_of": "2026-11-09"
    }
   },
   {
@@ -320,20 +320,20 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 12.8,
-   "hours": 20.2,
+   "actual_share": 13.1,
+   "hours": 20.7,
    "spend": 461.37,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-15T15:07:00+00:00",
+   "last_activity": "2026-11-16T00:33:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
    "stop_criteria": "",
    "goals": [],
    "alignment": {
-    "total": 113,
+    "total": 115,
     "on_goal": 0,
-    "off_goal": 113,
+    "off_goal": 115,
     "on_goal_pct": null,
     "on_goal_major_pct": null,
     "on_goal_minor_pct": null,
@@ -349,8 +349,8 @@
    "prev": {
     "creep_pct": null,
     "on_goal_pct": null,
-    "share": 0.5,
-    "as_of": "2026-11-08"
+    "share": 2.5,
+    "as_of": "2026-11-09"
    }
   },
   {
@@ -387,8 +387,8 @@
    "prev": {
     "creep_pct": null,
     "on_goal_pct": null,
-    "share": 0.3,
-    "as_of": "2026-11-08"
+    "share": 1.0,
+    "as_of": "2026-11-09"
    }
   },
   {
@@ -426,7 +426,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.1,
-    "as_of": "2026-11-08"
+    "as_of": "2026-11-09"
    }
   },
   {
@@ -464,7 +464,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-08"
+    "as_of": "2026-11-09"
    }
   },
   {
@@ -502,7 +502,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-08"
+    "as_of": "2026-11-09"
    }
   },
   {
@@ -540,7 +540,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.5,
-    "as_of": "2026-11-08"
+    "as_of": "2026-11-09"
    }
   },
   {
@@ -578,7 +578,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-08"
+    "as_of": "2026-11-09"
    }
   },
   {
@@ -590,7 +590,7 @@
    "hours": 0.2,
    "spend": 6.09,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-15T10:34:53-08:00",
+   "last_activity": "2026-11-15T13:34:58-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -657,7 +657,7 @@
     "creep_pct": 0.0,
     "on_goal_pct": 25.0,
     "share": 0.3,
-    "as_of": "2026-11-08"
+    "as_of": "2026-11-09"
    }
   },
   {
@@ -695,7 +695,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-08"
+    "as_of": "2026-11-09"
    }
   },
   {
@@ -733,7 +733,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-08"
+    "as_of": "2026-11-09"
    }
   },
   {
@@ -816,8 +816,8 @@
    "prev": {
     "creep_pct": 61.1,
     "on_goal_pct": 15.9,
-    "share": 5.2,
-    "as_of": "2026-11-08"
+    "share": 5.0,
+    "as_of": "2026-11-09"
    }
   },
   {
@@ -874,9 +874,9 @@
    "rag_reasons": [],
    "prev": {
     "creep_pct": 100.0,
-    "on_goal_pct": 0.0,
-    "share": 1.4,
-    "as_of": "2026-11-08"
+    "on_goal_pct": 12.5,
+    "share": 1.6,
+    "as_of": "2026-11-09"
    }
   }
  ],
@@ -899,12 +899,12 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4859.45,
+  "claude_total": 4859.13,
   "fixed_total": 0
  },
  "health": {
   "files": 744,
-  "lines": 239385,
+  "lines": 240418,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 2,
