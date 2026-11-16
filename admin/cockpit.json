@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-16T00:35:01.515331+00:00",
+ "generated": "2026-11-16T03:35:09.819786+00:00",
  "window_days": 28,
- "total_hours": 158.0,
- "session_hours": 212.9,
+ "total_hours": 159.5,
+ "session_hours": 216.0,
  "decisions": [
   {
    "id": "G:aleph",
@@ -24,8 +24,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 158.0h total",
-   "magnitude": 25.230636712020534,
+   "detail": "last 28 days · 159.5h total",
+   "magnitude": 25.25943724752751,
    "actions": [
     "change_target",
     "accept"
@@ -39,8 +39,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 76% of your time vs 60% target",
-   "detail": "last 28 days · 158.0h total",
-   "magnitude": 16.17656365362305,
+   "detail": "last 28 days · 159.5h total",
+   "magnitude": 15.7109277058086,
    "actions": [
     "change_target",
     "accept"
@@ -53,9 +53,9 @@
    "kind": "A",
    "reason": "A",
    "target": "fantastic-leagues",
-   "title": "The Fantastic Leagues: 13% of your time vs 0% target",
-   "detail": "last 28 days · 158.0h total",
-   "magnitude": 13.12273670147312,
+   "title": "The Fantastic Leagues: 14% of your time vs 0% target",
+   "detail": "last 28 days · 159.5h total",
+   "magnitude": 13.700550215907507,
    "actions": [
     "change_target",
     "accept"
@@ -69,8 +69,8 @@
    "reason": "C",
    "target": "theresewhite.com",
    "title": "Unregistered work: theresewhite.com",
-   "detail": "4.0h · 37 sessions",
-   "magnitude": 4.0,
+   "detail": "3.8h · 37 sessions",
+   "magnitude": 3.8,
    "actions": [
     "promote",
     "dismiss",
@@ -101,7 +101,7 @@
    "reason": "C",
    "target": "Projects",
    "title": "Unregistered work: Projects",
-   "detail": "0.1h · 1 sessions",
+   "detail": "0.1h · 2 sessions",
    "magnitude": 0.1,
    "actions": [
     "promote",
@@ -117,13 +117,13 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 76.2
+   "actual": 75.7
   },
   {
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 13.1
+   "actual": 13.7
   },
   {
    "slug": "bahtzang-trader",
@@ -147,7 +147,7 @@
    "slug": "tastemakers",
    "name": "Tastemakers",
    "target": 0,
-   "actual": 0.0
+   "actual": 0.1
   },
   {
    "slug": "thirsty-pig",
@@ -183,7 +183,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 4.8
+   "actual": 4.7
   },
   {
    "slug": "family-sites",
@@ -195,7 +195,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 3.5
+   "actual": 3.4
   }
  ],
  "projects": [
@@ -204,11 +204,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 76.2,
-   "hours": 120.4,
+   "actual_share": 75.7,
+   "hours": 120.8,
    "spend": 4043.23,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-16T00:02:00+00:00",
+   "last_activity": "2026-11-16T03:33:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -279,9 +279,9 @@
     }
    ],
    "alignment": {
-    "total": 484,
-    "on_goal": 117,
-    "off_goal": 367,
+    "total": 488,
+    "on_goal": 118,
+    "off_goal": 370,
     "on_goal_pct": 24.2,
     "on_goal_major_pct": 24.2,
     "on_goal_minor_pct": 0.0,
@@ -291,7 +291,7 @@
     "goals": [
      {
       "id": "g1",
-      "prompts": 34
+      "prompts": 35
      },
      {
       "id": "g2",
@@ -320,20 +320,20 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 13.1,
-   "hours": 20.7,
+   "actual_share": 13.7,
+   "hours": 21.9,
    "spend": 461.37,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-16T00:33:00+00:00",
+   "last_activity": "2026-11-16T03:35:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
    "stop_criteria": "",
    "goals": [],
    "alignment": {
-    "total": 115,
+    "total": 116,
     "on_goal": 0,
-    "off_goal": 115,
+    "off_goal": 116,
     "on_goal_pct": null,
     "on_goal_major_pct": null,
     "on_goal_minor_pct": null,
@@ -472,20 +472,20 @@
    "name": "Tastemakers",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 0.0,
-   "hours": 0.0,
+   "actual_share": 0.1,
+   "hours": 0.1,
    "spend": 0.0,
    "fixed_monthly": 0,
-   "last_activity": "2026-08-20T18:28:56-07:00",
+   "last_activity": "2026-11-16T03:32:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
    "stop_criteria": "",
    "goals": [],
    "alignment": {
-    "total": 0,
+    "total": 3,
     "on_goal": 0,
-    "off_goal": 0,
+    "off_goal": 3,
     "on_goal_pct": null,
     "on_goal_major_pct": null,
     "on_goal_minor_pct": null,
@@ -590,7 +590,7 @@
    "hours": 0.2,
    "spend": 6.09,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-15T13:34:58-08:00",
+   "last_activity": "2026-11-15T16:35:03-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -741,11 +741,11 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 4.8,
-   "hours": 7.5,
-   "spend": 102.47,
+   "actual_share": 4.7,
+   "hours": 7.6,
+   "spend": 104.0,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-15T13:37:00+00:00",
+   "last_activity": "2026-11-16T01:24:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -789,11 +789,11 @@
     }
    ],
    "alignment": {
-    "total": 103,
-    "on_goal": 20,
+    "total": 104,
+    "on_goal": 21,
     "off_goal": 83,
-    "on_goal_pct": 19.4,
-    "on_goal_major_pct": 19.4,
+    "on_goal_pct": 20.2,
+    "on_goal_major_pct": 20.2,
     "on_goal_minor_pct": 0.0,
     "new_scope": 16,
     "creep": 7,
@@ -805,7 +805,7 @@
      },
      {
       "id": "g2",
-      "prompts": 12
+      "prompts": 13
      }
     ]
    },
@@ -884,7 +884,7 @@
   {
    "path": "Projects",
    "hours": 0.1,
-   "sessions": 1
+   "sessions": 2
   },
   {
    "path": "DKM",
@@ -893,21 +893,21 @@
   },
   {
    "path": "theresewhite.com",
-   "hours": 4.0,
+   "hours": 3.8,
    "sessions": 37
   }
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4859.13,
+  "claude_total": 4862.14,
   "fixed_total": 0
  },
  "health": {
-  "files": 744,
-  "lines": 240418,
+  "files": 656,
+  "lines": 225802,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 2,
+  "changed_files": 19,
   "warning": null
  }
 }
