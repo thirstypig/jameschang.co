@@ -1,6 +1,6 @@
 # STATUS — jameschang.co
 
-**Last updated:** 2026-11-11
+**Last updated:** 2026-11-16
 
 ## One-line description
 Personal résumé site for James Chang (founder of Aleph Co., senior product manager), with a cron-fed /now page and a gated operator cockpit at /admin/.
@@ -13,7 +13,7 @@ Personal résumé site for James Chang (founder of Aleph Co., senior product man
 ## Stack & hosting
 - Plain static HTML/CSS/vanilla JS; no build step, no `package.json`.
 - Python 3 sync scripts in `bin/`, run by GitHub Actions cron workflows that commit feed updates back to `main`.
-- pytest suite (README: 609 tests) runs in CI (`ci-tests.yml`) on every push to `main`.
+- pytest suite (README: 610 tests) runs in CI (`ci-tests.yml`) on every push to `main`.
 - GitHub Pages, custom apex domain via A/AAAA records + `CNAME`.
 - Google Analytics 4 + Search Console.
 

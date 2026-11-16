@@ -14,12 +14,34 @@ _plex = importlib.import_module("update-plex")
 
 # ── mlb_block ────────────────────────────────────────────────────
 
+def _freeze_mlb_today(monkeypatch, iso):
+    """Pin mlb_block()'s clock. It short-circuits to an off-season line outside
+    Mar 1–Nov 15 BEFORE fetching, so an unpinned test silently changes meaning
+    with the calendar (went red 2026-11-16 UTC; would have stayed red to March)."""
+    frozen = datetime.fromisoformat(iso).replace(tzinfo=timezone.utc)
+
+    class _FrozenDatetime(datetime):
+        @classmethod
+        def now(cls, tz=None):
+            return frozen if tz else frozen.replace(tzinfo=None)
+
+    monkeypatch.setattr(_public, "datetime", _FrozenDatetime)
+
+
 class TestMlbBlock:
     def test_returns_none_on_fetch_error(self, monkeypatch):
         from urllib.error import URLError
+        _freeze_mlb_today(monkeypatch, "2026-06-26T12:00:00")
         monkeypatch.setattr(_public, "fetch_json",
                             lambda url, **kw: (_ for _ in ()).throw(URLError("timeout")))
         assert _public.mlb_block() is None
+
+    def test_off_season_skips_fetch(self, monkeypatch):
+        _freeze_mlb_today(monkeypatch, "2026-12-01T12:00:00")
+        def _boom(*a, **kw):
+            raise AssertionError("off-season must not hit the MLB API")
+        monkeypatch.setattr(_public, "fetch_json", _boom)
+        assert "Off-season" in _public.mlb_block()
 
 
 # ── letterboxd_block ─────────────────────────────────────────────
@@ -264,9 +286,11 @@ class TestFeedBuildersIdempotency:
                 }
             ]
         }
+        _freeze_mlb_today(monkeypatch, "2026-06-26T12:00:00")
         monkeypatch.setattr(_public, "fetch_json", lambda *a, **kw: mock_response)
         html1 = _public.mlb_block()
         html2 = _public.mlb_block()
+        assert "Off-season" not in html1  # else this compares two constants
         assert html1 == html2
 
     def test_goodreads_reading_is_deterministic(self, monkeypatch):
