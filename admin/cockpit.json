@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-16T15:36:06.430920+00:00",
+ "generated": "2026-11-16T18:36:12.268109+00:00",
  "window_days": 28,
- "total_hours": 162.1,
- "session_hours": 221.9,
+ "total_hours": 161.6,
+ "session_hours": 221.3,
  "decisions": [
   {
    "id": "G:aleph",
@@ -24,8 +24,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 162.1h total",
-   "magnitude": 25.33545778508772,
+   "detail": "last 28 days · 161.6h total",
+   "magnitude": 25.319097723677878,
    "actions": [
     "change_target",
     "accept"
@@ -39,8 +39,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 75% of your time vs 60% target",
-   "detail": "last 28 days · 162.1h total",
-   "magnitude": 15.240371436403507,
+   "detail": "last 28 days · 161.6h total",
+   "magnitude": 15.265284368337802,
    "actions": [
     "change_target",
     "accept"
@@ -54,8 +54,8 @@
    "reason": "A",
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 14% of your time vs 0% target",
-   "detail": "last 28 days · 162.1h total",
-   "magnitude": 13.987972861842103,
+   "detail": "last 28 days · 161.6h total",
+   "magnitude": 13.832439309538543,
    "actions": [
     "change_target",
     "accept"
@@ -117,13 +117,13 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 75.2
+   "actual": 75.3
   },
   {
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 14.0
+   "actual": 13.8
   },
   {
    "slug": "bahtzang-trader",
@@ -147,7 +147,7 @@
    "slug": "tastemakers",
    "name": "Tastemakers",
    "target": 0,
-   "actual": 0.5
+   "actual": 0.6
   },
   {
    "slug": "thirsty-pig",
@@ -204,11 +204,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 75.2,
-   "hours": 122.0,
-   "spend": 4043.23,
+   "actual_share": 75.3,
+   "hours": 121.6,
+   "spend": 4042.92,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-16T06:37:00+00:00",
+   "last_activity": "2026-11-16T18:25:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -279,11 +279,11 @@
     }
    ],
    "alignment": {
-    "total": 490,
+    "total": 492,
     "on_goal": 118,
-    "off_goal": 372,
-    "on_goal_pct": 24.1,
-    "on_goal_major_pct": 24.1,
+    "off_goal": 374,
+    "on_goal_pct": 24.0,
+    "on_goal_major_pct": 24.0,
     "on_goal_minor_pct": 0.0,
     "new_scope": 85,
     "creep": 49,
@@ -320,20 +320,20 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 14.0,
-   "hours": 22.7,
-   "spend": 461.37,
+   "actual_share": 13.8,
+   "hours": 22.3,
+   "spend": 459.89,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-16T06:51:00+00:00",
+   "last_activity": "2026-11-16T18:26:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
    "stop_criteria": "",
    "goals": [],
    "alignment": {
-    "total": 116,
+    "total": 115,
     "on_goal": 0,
-    "off_goal": 116,
+    "off_goal": 115,
     "on_goal_pct": null,
     "on_goal_major_pct": null,
     "on_goal_minor_pct": null,
@@ -472,11 +472,11 @@
    "name": "Tastemakers",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 0.5,
-   "hours": 0.7,
-   "spend": 0.0,
+   "actual_share": 0.6,
+   "hours": 0.9,
+   "spend": 17.37,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-15T22:43:09-08:00",
+   "last_activity": "2026-11-16T17:27:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
@@ -588,9 +588,9 @@
    "target_share": 5,
    "actual_share": 0.1,
    "hours": 0.2,
-   "spend": 6.09,
+   "spend": 4.13,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-16T04:36:03-08:00",
+   "last_activity": "2026-11-16T17:31:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -899,15 +899,15 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4800.26,
+  "claude_total": 4813.89,
   "fixed_total": 0
  },
  "health": {
-  "files": 656,
-  "lines": 231208,
+  "files": 648,
+  "lines": 229173,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 3,
+  "changed_files": 4,
   "warning": null
  }
 }
