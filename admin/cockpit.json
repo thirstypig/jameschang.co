@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-16T18:36:12.268109+00:00",
+ "generated": "2026-11-16T21:36:17.672875+00:00",
  "window_days": 28,
- "total_hours": 161.6,
- "session_hours": 221.3,
+ "total_hours": 158.5,
+ "session_hours": 217.1,
  "decisions": [
   {
    "id": "G:aleph",
@@ -24,8 +24,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 161.6h total",
-   "magnitude": 25.319097723677878,
+   "detail": "last 28 days · 158.5h total",
+   "magnitude": 25.208508550602748,
    "actions": [
     "change_target",
     "accept"
@@ -39,8 +39,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 75% of your time vs 60% target",
-   "detail": "last 28 days · 161.6h total",
-   "magnitude": 15.265284368337802,
+   "detail": "last 28 days · 158.5h total",
+   "magnitude": 15.079373423044572,
    "actions": [
     "change_target",
     "accept"
@@ -54,8 +54,8 @@
    "reason": "A",
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 14% of your time vs 0% target",
-   "detail": "last 28 days · 161.6h total",
-   "magnitude": 13.832439309538543,
+   "detail": "last 28 days · 158.5h total",
+   "magnitude": 13.899109896271375,
    "actions": [
     "change_target",
     "accept"
@@ -117,19 +117,19 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 75.3
+   "actual": 75.1
   },
   {
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 13.8
+   "actual": 13.9
   },
   {
    "slug": "bahtzang-trader",
    "name": "Bahtzang Trader",
    "target": 0,
-   "actual": 1.1
+   "actual": 1.0
   },
   {
    "slug": "judge-tool",
@@ -183,7 +183,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 4.7
+   "actual": 4.8
   },
   {
    "slug": "family-sites",
@@ -195,7 +195,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 3.3
+   "actual": 3.4
   }
  ],
  "projects": [
@@ -204,9 +204,9 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 75.3,
-   "hours": 121.6,
-   "spend": 4042.92,
+   "actual_share": 75.1,
+   "hours": 119.0,
+   "spend": 4040.36,
    "fixed_monthly": 0,
    "last_activity": "2026-11-16T18:25:00+00:00",
    "review_by": null,
@@ -320,9 +320,9 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 13.8,
-   "hours": 22.3,
-   "spend": 459.89,
+   "actual_share": 13.9,
+   "hours": 22.0,
+   "spend": 443.66,
    "fixed_monthly": 0,
    "last_activity": "2026-11-16T18:26:00+00:00",
    "review_by": "2026-11-28",
@@ -331,9 +331,9 @@
    "stop_criteria": "",
    "goals": [],
    "alignment": {
-    "total": 115,
+    "total": 109,
     "on_goal": 0,
-    "off_goal": 115,
+    "off_goal": 109,
     "on_goal_pct": null,
     "on_goal_major_pct": null,
     "on_goal_minor_pct": null,
@@ -358,8 +358,8 @@
    "name": "Bahtzang Trader",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 1.1,
-   "hours": 1.8,
+   "actual_share": 1.0,
+   "hours": 1.6,
    "spend": 52.07,
    "fixed_monthly": 0,
    "last_activity": "2026-11-11T15:14:15-08:00",
@@ -590,7 +590,7 @@
    "hours": 0.2,
    "spend": 4.13,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-16T17:31:00+00:00",
+   "last_activity": "2026-11-16T10:36:14-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -741,7 +741,7 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 4.7,
+   "actual_share": 4.8,
    "hours": 7.6,
    "spend": 104.0,
    "fixed_monthly": 0,
@@ -899,15 +899,15 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4813.89,
+  "claude_total": 4795.09,
   "fixed_total": 0
  },
  "health": {
   "files": 648,
-  "lines": 229173,
+  "lines": 229175,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 4,
+  "changed_files": 3,
   "warning": null
  }
 }
