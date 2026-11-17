@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-17T09:36:38.932525+00:00",
+ "generated": "2026-11-17T12:36:43.942776+00:00",
  "window_days": 28,
- "total_hours": 152.8,
- "session_hours": 210.6,
+ "total_hours": 152.7,
+ "session_hours": 210.5,
  "decisions": [
   {
    "id": "G:aleph",
@@ -24,8 +24,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 152.8h total",
-   "magnitude": 25.132344386271086,
+   "detail": "last 28 days · 152.7h total",
+   "magnitude": 25.128624968162136,
    "actions": [
     "change_target",
     "accept"
@@ -34,13 +34,13 @@
    "severity": "medium"
   },
   {
-   "id": "A:aleph",
+   "id": "A:fantastic-leagues",
    "kind": "A",
    "reason": "A",
-   "target": "aleph",
-   "title": "Aleph: 74% of your time vs 60% target",
-   "detail": "last 28 days · 152.8h total",
-   "magnitude": 14.422447643979055,
+   "target": "fantastic-leagues",
+   "title": "The Fantastic Leagues: 14% of your time vs 0% target",
+   "detail": "last 28 days · 152.7h total",
+   "magnitude": 14.431648655532511,
    "actions": [
     "change_target",
     "accept"
@@ -49,13 +49,13 @@
    "severity": "medium"
   },
   {
-   "id": "A:fantastic-leagues",
+   "id": "A:aleph",
    "kind": "A",
    "reason": "A",
-   "target": "fantastic-leagues",
-   "title": "The Fantastic Leagues: 14% of your time vs 0% target",
-   "detail": "last 28 days · 152.8h total",
-   "magnitude": 14.420629726585224,
+   "target": "aleph",
+   "title": "Aleph: 74% of your time vs 60% target",
+   "detail": "last 28 days · 152.7h total",
+   "magnitude": 14.402903613142655,
    "actions": [
     "change_target",
     "accept"
@@ -205,8 +205,8 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 74.4,
-   "hours": 113.7,
-   "spend": 3682.39,
+   "hours": 113.6,
+   "spend": 3682.36,
    "fixed_monthly": 0,
    "last_activity": "2026-11-16T18:25:00+00:00",
    "review_by": null,
@@ -590,7 +590,7 @@
    "hours": 0.2,
    "spend": 4.13,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-16T22:36:35-08:00",
+   "last_activity": "2026-11-17T01:36:40-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -899,12 +899,12 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4426.54,
+  "claude_total": 4426.52,
   "fixed_total": 0
  },
  "health": {
   "files": 648,
-  "lines": 229180,
+  "lines": 229182,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 3,
