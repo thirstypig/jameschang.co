@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-16T21:36:17.672875+00:00",
+ "generated": "2026-11-17T00:36:22.964493+00:00",
  "window_days": 28,
- "total_hours": 158.5,
- "session_hours": 217.1,
+ "total_hours": 157.3,
+ "session_hours": 215.2,
  "decisions": [
   {
    "id": "G:aleph",
@@ -10,8 +10,8 @@
    "reason": "G",
    "target": "aleph",
    "title": "Aleph: 58% of new-scope asks serve no goal",
-   "detail": "49 of 85 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
-   "magnitude": 57.6,
+   "detail": "45 of 78 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
+   "magnitude": 57.7,
    "actions": [
     "set_goal",
     "accept"
@@ -24,8 +24,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 158.5h total",
-   "magnitude": 25.208508550602748,
+   "detail": "last 28 days · 157.3h total",
+   "magnitude": 25.270594884838207,
    "actions": [
     "change_target",
     "accept"
@@ -39,8 +39,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 75% of your time vs 60% target",
-   "detail": "last 28 days · 158.5h total",
-   "magnitude": 15.079373423044572,
+   "detail": "last 28 days · 157.3h total",
+   "magnitude": 15.148897838066972,
    "actions": [
     "change_target",
     "accept"
@@ -54,8 +54,8 @@
    "reason": "A",
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 14% of your time vs 0% target",
-   "detail": "last 28 days · 158.5h total",
-   "magnitude": 13.899109896271375,
+   "detail": "last 28 days · 157.3h total",
+   "magnitude": 14.011056945033204,
    "actions": [
     "change_target",
     "accept"
@@ -123,13 +123,13 @@
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 13.9
+   "actual": 14.0
   },
   {
    "slug": "bahtzang-trader",
    "name": "Bahtzang Trader",
    "target": 0,
-   "actual": 1.0
+   "actual": 0.8
   },
   {
    "slug": "judge-tool",
@@ -183,7 +183,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 4.8
+   "actual": 4.7
   },
   {
    "slug": "family-sites",
@@ -205,8 +205,8 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 75.1,
-   "hours": 119.0,
-   "spend": 4040.36,
+   "hours": 118.2,
+   "spend": 3686.44,
    "fixed_monthly": 0,
    "last_activity": "2026-11-16T18:25:00+00:00",
    "review_by": null,
@@ -279,19 +279,19 @@
     }
    ],
    "alignment": {
-    "total": 492,
-    "on_goal": 118,
-    "off_goal": 374,
-    "on_goal_pct": 24.0,
-    "on_goal_major_pct": 24.0,
+    "total": 452,
+    "on_goal": 112,
+    "off_goal": 340,
+    "on_goal_pct": 24.8,
+    "on_goal_major_pct": 24.8,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 85,
-    "creep": 49,
-    "creep_pct": 57.6,
+    "new_scope": 78,
+    "creep": 45,
+    "creep_pct": 57.7,
     "goals": [
      {
       "id": "g1",
-      "prompts": 35
+      "prompts": 32
      },
      {
       "id": "g2",
@@ -299,7 +299,7 @@
      },
      {
       "id": "g3",
-      "prompts": 87
+      "prompts": 83
      }
     ]
    },
@@ -309,10 +309,10 @@
     "time 75% vs 60% target"
    ],
    "prev": {
-    "creep_pct": 61.4,
-    "on_goal_pct": 21.8,
-    "share": 79.6,
-    "as_of": "2026-11-09"
+    "creep_pct": 59.1,
+    "on_goal_pct": 22.4,
+    "share": 80.3,
+    "as_of": "2026-11-10"
    }
   },
   {
@@ -320,7 +320,7 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 13.9,
+   "actual_share": 14.0,
    "hours": 22.0,
    "spend": 443.66,
    "fixed_monthly": 0,
@@ -349,8 +349,8 @@
    "prev": {
     "creep_pct": null,
     "on_goal_pct": null,
-    "share": 2.5,
-    "as_of": "2026-11-09"
+    "share": 4.9,
+    "as_of": "2026-11-10"
    }
   },
   {
@@ -358,9 +358,9 @@
    "name": "Bahtzang Trader",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 1.0,
-   "hours": 1.6,
-   "spend": 52.07,
+   "actual_share": 0.8,
+   "hours": 1.3,
+   "spend": 42.46,
    "fixed_monthly": 0,
    "last_activity": "2026-11-11T15:14:15-08:00",
    "review_by": "2026-11-28",
@@ -369,14 +369,14 @@
    "stop_criteria": "",
    "goals": [],
    "alignment": {
-    "total": 26,
+    "total": 18,
     "on_goal": 0,
-    "off_goal": 26,
+    "off_goal": 18,
     "on_goal_pct": null,
     "on_goal_major_pct": null,
     "on_goal_minor_pct": null,
-    "new_scope": 2,
-    "creep": 2,
+    "new_scope": 1,
+    "creep": 1,
     "creep_pct": null,
     "goals": []
    },
@@ -387,8 +387,8 @@
    "prev": {
     "creep_pct": null,
     "on_goal_pct": null,
-    "share": 1.0,
-    "as_of": "2026-11-09"
+    "share": 1.1,
+    "as_of": "2026-11-10"
    }
   },
   {
@@ -426,7 +426,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.1,
-    "as_of": "2026-11-09"
+    "as_of": "2026-11-10"
    }
   },
   {
@@ -464,7 +464,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-09"
+    "as_of": "2026-11-10"
    }
   },
   {
@@ -502,7 +502,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-09"
+    "as_of": "2026-11-10"
    }
   },
   {
@@ -540,7 +540,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.5,
-    "as_of": "2026-11-09"
+    "as_of": "2026-11-10"
    }
   },
   {
@@ -578,7 +578,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-09"
+    "as_of": "2026-11-10"
    }
   },
   {
@@ -590,7 +590,7 @@
    "hours": 0.2,
    "spend": 4.13,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-16T10:36:14-08:00",
+   "last_activity": "2026-11-16T13:36:19-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -657,7 +657,7 @@
     "creep_pct": 0.0,
     "on_goal_pct": 25.0,
     "share": 0.3,
-    "as_of": "2026-11-09"
+    "as_of": "2026-11-10"
    }
   },
   {
@@ -695,7 +695,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-09"
+    "as_of": "2026-11-10"
    }
   },
   {
@@ -733,7 +733,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-09"
+    "as_of": "2026-11-10"
    }
   },
   {
@@ -741,9 +741,9 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 4.8,
-   "hours": 7.6,
-   "spend": 104.0,
+   "actual_share": 4.7,
+   "hours": 7.4,
+   "spend": 103.03,
    "fixed_monthly": 0,
    "last_activity": "2026-11-16T01:24:00+00:00",
    "review_by": null,
@@ -789,15 +789,15 @@
     }
    ],
    "alignment": {
-    "total": 104,
+    "total": 101,
     "on_goal": 21,
-    "off_goal": 83,
-    "on_goal_pct": 20.2,
-    "on_goal_major_pct": 20.2,
+    "off_goal": 80,
+    "on_goal_pct": 20.8,
+    "on_goal_major_pct": 20.8,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 16,
-    "creep": 7,
-    "creep_pct": 43.8,
+    "new_scope": 14,
+    "creep": 5,
+    "creep_pct": 35.7,
     "goals": [
      {
       "id": "g1",
@@ -814,10 +814,10 @@
     "time 5% vs 30% target"
    ],
    "prev": {
-    "creep_pct": 61.1,
-    "on_goal_pct": 15.9,
-    "share": 5.0,
-    "as_of": "2026-11-09"
+    "creep_pct": 53.3,
+    "on_goal_pct": 16.2,
+    "share": 4.5,
+    "as_of": "2026-11-10"
    }
   },
   {
@@ -876,7 +876,7 @@
     "creep_pct": 100.0,
     "on_goal_pct": 12.5,
     "share": 1.6,
-    "as_of": "2026-11-09"
+    "as_of": "2026-11-10"
    }
   }
  ],
@@ -899,12 +899,12 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4795.09,
+  "claude_total": 4430.6,
   "fixed_total": 0
  },
  "health": {
   "files": 648,
-  "lines": 229175,
+  "lines": 229177,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 3,
