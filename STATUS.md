@@ -37,6 +37,7 @@ Most commits are automated feed chores; human work:
 - None recorded. CLAUDE.md lists 0 pending todos; all 152 files in `todos/` are complete or discarded.
 
 ## Open bugs / known issues
+- **MLB/FBST blank on a failed fetch:** `update-public-feeds.py` writes its "unavailable" placeholder over the last good content when a fetch fails (the trap that blanked Goodreads). Plex preserves last content; these two should too.
 - **/now project cards frozen since 2026-10-19:** `TLDR_FETCH_TOKEN` is invalid (401 on every repo, public included); the sync safely leaves the page unchanged. Needs a regenerated PAT.
 - **Spotify feed disabled (2026-10-24):** failing under Spotify dev-mode lockdown.
 - **Feed staleness monitor paused (2026-11-05, by choice):** feed outages are now silent until it is re-enabled.

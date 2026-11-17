@@ -150,6 +150,15 @@ The scripts that got it **right** (`update-plex.py`, `update-public-feeds.py`, `
 
 `update-whoop.py` and `update-projects.py` carried the same pattern and were fixed in the same pass — see the blast-radius table above. All three vulnerable feeds now route a persistent upstream failure to the staleness monitor instead of hiding it behind a fresh heartbeat.
 
+## Sibling trap: the fallback overwrites the last good content (2026-11-17, OPEN for MLB + FBST)
+
+The heartbeat was right this time and the page still went blank. `update-public-feeds.py`'s loop does `html = result if result else fallback` and splices `html` in, so a builder returning `None` — the shape every builder uses for "fetch failed" — **replaces the last good content with the empty placeholder**. When Goodreads stopped serving public shelf RSS (~2026-10-27, 404 for every account, including user #1), the error heartbeat was recorded correctly, but the staleness monitor was paused, and /now read "Nothing on the shelf right now" for three weeks. A dead upstream turned into a confident claim that the shelf was empty.
+
+Contrast `update-plex.py`, which records `fetch failed — preserving last known content` and leaves the block alone. That is the correct behaviour for a transient-or-permanent failure: stale-but-true beats fresh-but-false, and the heartbeat (not the page) is where a failure should show up.
+
+- Goodreads itself was **retired** rather than fixed (now a hand-kept `books.json`, see CLAUDE.md "Books") — no supported data source remains.
+- **MLB and FBST still have the trap.** A single failed MLB fetch in-season writes "MLB data unavailable." over the last good line. The fix: on `None`, skip `replace_marker` and record the error (keep the fallback only for a marker that has never rendered). Not done yet.
+
 ## See also
 
 - [`relative-time-html-defeats-content-changed-cache.md`](./relative-time-html-defeats-content-changed-cache.md) — the exact no-op content-cache path (`content_changed()` + `.spotify-state.json` hash) that the heartbeat was wrongly recorded on.
