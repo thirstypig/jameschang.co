@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-17T00:36:22.964493+00:00",
+ "generated": "2026-11-17T03:36:28.482888+00:00",
  "window_days": 28,
- "total_hours": 157.3,
- "session_hours": 215.2,
+ "total_hours": 156.7,
+ "session_hours": 214.6,
  "decisions": [
   {
    "id": "G:aleph",
@@ -24,8 +24,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 157.3h total",
-   "magnitude": 25.270594884838207,
+   "detail": "last 28 days · 156.7h total",
+   "magnitude": 25.25450163051184,
    "actions": [
     "change_target",
     "accept"
@@ -39,8 +39,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 75% of your time vs 60% target",
-   "detail": "last 28 days · 157.3h total",
-   "magnitude": 15.148897838066972,
+   "detail": "last 28 days · 156.7h total",
+   "magnitude": 15.064334325818791,
    "actions": [
     "change_target",
     "accept"
@@ -54,8 +54,8 @@
    "reason": "A",
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 14% of your time vs 0% target",
-   "detail": "last 28 days · 157.3h total",
-   "magnitude": 14.011056945033204,
+   "detail": "last 28 days · 156.7h total",
+   "magnitude": 14.058733872111157,
    "actions": [
     "change_target",
     "accept"
@@ -123,13 +123,13 @@
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 14.0
+   "actual": 14.1
   },
   {
    "slug": "bahtzang-trader",
    "name": "Bahtzang Trader",
    "target": 0,
-   "actual": 0.8
+   "actual": 0.9
   },
   {
    "slug": "judge-tool",
@@ -205,8 +205,8 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 75.1,
-   "hours": 118.2,
-   "spend": 3686.44,
+   "hours": 117.7,
+   "spend": 3686.38,
    "fixed_monthly": 0,
    "last_activity": "2026-11-16T18:25:00+00:00",
    "review_by": null,
@@ -320,7 +320,7 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 14.0,
+   "actual_share": 14.1,
    "hours": 22.0,
    "spend": 443.66,
    "fixed_monthly": 0,
@@ -358,7 +358,7 @@
    "name": "Bahtzang Trader",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 0.8,
+   "actual_share": 0.9,
    "hours": 1.3,
    "spend": 42.46,
    "fixed_monthly": 0,
@@ -590,7 +590,7 @@
    "hours": 0.2,
    "spend": 4.13,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-16T13:36:19-08:00",
+   "last_activity": "2026-11-16T16:36:24-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -899,12 +899,12 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4430.6,
+  "claude_total": 4430.54,
   "fixed_total": 0
  },
  "health": {
   "files": 648,
-  "lines": 229177,
+  "lines": 229178,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 3,
