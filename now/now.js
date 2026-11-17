@@ -1,6 +1,7 @@
 // /now-specific scripts — externalized from inline so the page CSP can drop 'unsafe-inline'.
-// Two IIFEs: (1) Thirsty Pig hitlist fetch (CORS-locked to jameschang.co; silent-fail on localhost),
-// (2) live-relative-time upgrader (rewrites .data-rel <time> elements every 60s).
+// IIFEs: Thirsty Pig hitlist fetch (CORS-locked to jameschang.co; silent-fail on localhost),
+// bucket list + books + quotes (same-origin JSON),
+// plus the live-relative-time upgrader (rewrites .data-rel <time> elements every 60s).
 
 // Hit list fetch from thirstypig.com — same pattern as live /now/.
     // Silent fail removes the section if no items / fetch error.
@@ -152,6 +153,62 @@
       } catch (e) {
         console.warn('[bucketlist]', e);
         container.remove();
+      }
+    })();
+
+// Books — /07 "reading" sub-feed rendered from /books.json (hand-kept, same-origin).
+// Replaced the Goodreads RSS sync 2026-11-17 after Goodreads dropped public shelf RSS.
+// Emits the same markup the old sync did (p/ul/li/.when) so the .nb-feed cascade
+// styles it unchanged. DOM via textContent only. On error, a one-line empty state.
+    (async function () {
+      const box = document.getElementById('reading-books');
+      if (!box) return;
+      const para = (cls, text) => {
+        const p = document.createElement('p');
+        if (cls) p.className = cls;
+        p.textContent = text;
+        return p;
+      };
+      const list = (label, books) => {
+        if (!books || !books.length) return;
+        const h = document.createElement('p');
+        const strong = document.createElement('strong');
+        strong.textContent = label;
+        h.appendChild(strong);
+        const ul = document.createElement('ul');
+        books.forEach(b => {
+          const li = document.createElement('li');
+          const em = document.createElement('em');
+          em.textContent = b.title;
+          if (b.url && /^https:\/\//.test(b.url)) {
+            const a = document.createElement('a');
+            a.href = b.url;
+            a.rel = 'noopener';
+            a.target = '_blank';
+            a.appendChild(em);
+            li.appendChild(a);
+          } else {
+            li.appendChild(em);
+          }
+          const by = document.createElement('span');
+          by.className = 'when';
+          by.textContent = '— ' + b.author;
+          li.append(' ', by);
+          ul.appendChild(li);
+        });
+        box.append(h, ul);
+      };
+      try {
+        const res = await fetch('/books.json', { cache: 'reload' });
+        if (!res.ok) throw new Error(res.status);
+        const data = await res.json();
+        list('Currently reading', data.reading);
+        list('Recently read', data.read);
+        if (!box.childElementCount) { box.appendChild(para('feed-empty', 'Nothing on the shelf right now.')); return; }
+        if (data.last_updated) box.appendChild(para('feed-updated', 'Updated ' + data.last_updated + '.'));
+      } catch (e) {
+        console.warn('[books]', e);
+        box.appendChild(para('feed-empty', 'Book list unavailable right now.'));
       }
     })();
 

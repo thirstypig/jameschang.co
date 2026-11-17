@@ -18,13 +18,13 @@ Senior Product Manager and founder of Aleph Co. Currently running Aleph plus six
 
 ## /now page
 
-The site includes a Derek Sivers-style /now page at https://jameschang.co/now/ with 8 automated data feeds updated via GitHub Actions:
+The site includes a Derek Sivers-style /now page at https://jameschang.co/now/ with automated data feeds updated via GitHub Actions:
 - WHOOP health data (daily): recovery score, HRV, sleep, strain
 - Spotify (every 4 hours): recently played tracks + last podcast
 - GitHub activity (every 6 hours): recent pushes, PRs, releases
 - MLB / Dodgers standings and schedule
 - Letterboxd: recently watched films
-- Goodreads: recently read books
+- Books: currently reading + recently read (hand-kept list)
 - The Fantastic Leagues: fantasy baseball team standings
 - Trakt (every 6 hours): recently watched TV shows
 - Plex (every 6 hours): recently watched movies and TV from home server

@@ -28,7 +28,7 @@ The `/now` page syncs data from several independent sources (WHOOP, Spotify, Ple
 - **Spotify** — every 30 minutes via `.github/workflows/spotify-sync.yml`. Refresh token stored in plain text as a GitHub Secret (`SPOTIFY_REFRESH_TOKEN`); the script writes `.spotify-state.json` to remember the last-seen podcast episode. The 30-min cadence maximizes podcast capture rate. **Required Secrets:** `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, `SPOTIFY_REFRESH_TOKEN`.
 - **Plex** — every 6 hours via `.github/workflows/plex-sync.yml`. Static token (no rotation). Connects via Plex relay URL. **Required Secrets:** `PLEX_URL`, `PLEX_TOKEN`.
 - **Google Calendar** — hourly at `:00 UTC` via `.github/workflows/gcal-sync.yml`. Fetches a public iCal feed, parses with hand-rolled stdlib parser, filters to future events, sorts by PT datetime, groups consecutive same-prefix events, caps at 20. **Required Secret:** `GCAL_ICAL_URL`.
-- **Public feeds** — every 6 hours via `.github/workflows/public-feeds-sync.yml`. MLB Stats API (Dodgers), Goodreads RSS (currently-reading + read), The Fantastic Leagues / FBST standings. All unauthenticated; no secrets needed.
+- **Public feeds** — every 6 hours via `.github/workflows/public-feeds-sync.yml`. MLB Stats API (Dodgers), The Fantastic Leagues / FBST standings. All unauthenticated; no secrets needed.
 - **Trakt** — **disabled 2026-04-28**. Workflow renamed to `.github/workflows/trakt-sync.yml.disabled`. Token and Secrets preserved for re-enable.
 
 **Client-side sections** (not feeds — no heartbeat):

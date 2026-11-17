@@ -33,7 +33,7 @@ reading, projects shipping) so the portfolio feels alive.
 - (b) TODAY: [unknown] — not broken out. **← confirm.**
 
 ## 6. Technical notes
-[inferred] 8 cron-synced feeds (WHOOP, Spotify, Plex, MLB, FBST, Goodreads×2, GCal) +
+[inferred] 6 cron-synced feeds (WHOOP, Spotify, Plex, MLB, FBST, GCal; Goodreads×2 retired 2026-11-17 for a hand-kept books.json) +
 per-project activity cards; Python `bin/*.py` sync scripts commit to the repo; a
 staleness monitor opens a GitHub issue when a feed goes quiet.
 

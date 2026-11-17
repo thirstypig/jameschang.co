@@ -39,7 +39,7 @@ NAV_PAGES = [f for f in STANDARD_PAGES if not f.startswith("admin/")]
 
 # Expected feed markers in now/index.html
 EXPECTED_MARKERS = [
-    "WHOOP", "SPOTIFY", "MLB", "GOODREADS-READING", "GOODREADS", "FBST", "PLEX",
+    "WHOOP", "SPOTIFY", "MLB", "FBST", "PLEX",
     "PAGE-UPDATED",
     "ACTIVE-PROJECTS", "BACKBURNER-PROJECTS", "ACTIVE-EYEBROW", "BACKBURNER-EYEBROW",
     "GCAL", "GCAL-EYEBROW",
@@ -429,7 +429,7 @@ class TestPrivacyPolicy:
         # feeds themselves. Plex + Thirsty Pig hitlist added 2026-04-28
         # after /ce:review surfaced their absence. The list must accurately
         # reflect what /now still surfaces at runtime.
-        required = ["GitHub", "MLB", "Goodreads", "Fantastic Leagues", "Plex", "hitlist"]
+        required = ["GitHub", "MLB", "Fantastic Leagues", "Plex", "hitlist"]
         missing = [src for src in required if src not in body]
         assert not missing, f"Privacy policy missing feed sources: {missing}"
 
@@ -455,7 +455,6 @@ class TestPrivacyPolicy:
         DISCLOSURES = {
             "WHOOP": "WHOOP", "SPOTIFY": "Spotify", "PLEX": "Plex",
             "GCAL": "Google Calendar", "MLB": "MLB",
-            "GOODREADS": "Goodreads", "GOODREADS-READING": "Goodreads",
             "FBST": "Fantastic Leagues",
         }
         feeds = set(EXPECTED_MARKERS) - NON_FEED_MARKERS
@@ -1074,7 +1073,7 @@ class TestNowSectionStructure:
 
     def test_section_07_has_three_media_subfeeds(self):
         """/07 must contain watching (Plex), listening (Spotify), reading
-        (Goodreads) sub-feeds. Trakt and Letterboxd must NOT appear."""
+        (books.json, hand-kept since 2026-11-17) sub-feeds. Trakt and Letterboxd must NOT appear."""
         _, body = fetch("now/index.html")
         # Find the section-07 block
         section_match = re.search(
@@ -2299,3 +2298,69 @@ class TestHealthStrip:
         assert orphans == [], (
             f"{orphans} would have their errors dropped by rollUpErrors() — "
             f"every sub-slug needs a top-level parent row to roll up into")
+
+
+class TestBooks:
+    """Books are hand-curated in /books.json and rendered client-side into the
+    /07 "reading" sub-feed by now/now.js. Replaced the Goodreads RSS feed on
+    2026-11-17 — Goodreads stopped serving public shelf RSS (404 for every
+    account) around 2026-10-27, and the sync then blanked the section."""
+
+    LISTS = ("reading", "read")
+    REQUIRED_KEYS = {"title", "author"}
+    OPTIONAL_KEYS = {"url"}
+
+    def _load(self):
+        with open(os.path.join(REPO_ROOT, "books.json"), encoding="utf-8") as f:
+            return json.load(f)
+
+    def test_json_has_both_lists_and_a_date(self):
+        data = self._load()
+        assert re.fullmatch(r"\d{4}-\d{2}-\d{2}", data.get("last_updated", "")), (
+            "books.json needs last_updated as YYYY-MM-DD")
+        for key in self.LISTS:
+            assert isinstance(data.get(key), list), f"books.json '{key}' must be a list"
+
+    def test_every_book_matches_schema(self):
+        data = self._load()
+        failures = []
+        for key in self.LISTS:
+            for i, book in enumerate(data[key]):
+                where = f"{key}[{i}]"
+                missing = self.REQUIRED_KEYS - set(book)
+                unknown = set(book) - self.REQUIRED_KEYS - self.OPTIONAL_KEYS
+                if missing:
+                    failures.append(f"{where} missing {sorted(missing)}")
+                if unknown:
+                    failures.append(f"{where} unknown keys {sorted(unknown)}")
+                for k in self.REQUIRED_KEYS & set(book):
+                    if not isinstance(book[k], str) or not book[k].strip():
+                        failures.append(f"{where}.{k} empty")
+                if "url" in book and not str(book["url"]).startswith("https://"):
+                    failures.append(f"{where}.url must be https://")
+        assert not failures, "\n".join(failures)
+
+    def test_now_page_has_reading_container_and_no_goodreads_markers(self):
+        _, body = fetch("now/index.html")
+        assert 'id="reading-books"' in body, "/now missing #reading-books container"
+        assert "GOODREADS" not in body, "Goodreads feed markers should be gone"
+
+    def test_renderer_reads_books_json_without_innerhtml(self):
+        with open(os.path.join(REPO_ROOT, "now", "now.js"), encoding="utf-8") as f:
+            js = f.read()
+        m = re.search(r"// Books —.*?\}\)\(\);", js, re.DOTALL)
+        assert m, "books IIFE (marked '// Books —') not found in now/now.js"
+        block = m.group(0)
+        assert "'/books.json'" in block, "books IIFE must fetch /books.json"
+        assert "innerHTML" not in block, "books IIFE must build DOM via textContent"
+
+    def test_goodreads_feed_fully_retired(self):
+        with open(os.path.join(REPO_ROOT, ".feeds-heartbeat.json"), encoding="utf-8") as f:
+            beats = json.load(f)
+        assert not [k for k in beats if k.startswith("goodreads")], (
+            "goodreads heartbeats should be removed with the feed")
+        with open(os.path.join(REPO_ROOT, "bin", "update-public-feeds.py"), encoding="utf-8") as f:
+            src = f.read()
+        for needle in ("goodreads.com", "def goodreads", '("GOODREADS'):
+            assert needle not in src, (
+                f"update-public-feeds.py still has Goodreads code: {needle!r}")

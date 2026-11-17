@@ -22,7 +22,7 @@ python3 -m pytest tests/ -v
 | `tests/test_shared.py` | Unit | 48 | `_shared.py`: escape_html, relative_time, **relative_time_html** (live-relative progressive enhancement), replace_marker, content_changed, sanitize_error, record_heartbeat (incl. corrupt JSON recovery), page-updated marker refresh |
 | `tests/test_feeds.py` | Unit | 11 | `update-whoop.py`: recovery_color; `update-public-feeds.py`: ordinal |
 | `tests/test_trakt.py` | Unit | 10 | `update-trakt.py`: build_html rendering, HTML escaping, deduplication by show, 5-show limit, regression assertions that legacy `trakt-*` classes are no longer emitted |
-| `tests/test_feed_builders.py` | Unit | 20 | Feed builders for mlb, letterboxd, goodreads (reading + read), fbst, plex — mocked network, tested HTML output; plex fetch failure returns None vs []; regression assertions that legacy `plex-*` classes are no longer emitted; **idempotency tests** (plex, mlb, goodreads, fbst determinism) |
+| `tests/test_feed_builders.py` | Unit | 16 | Feed builders for mlb, letterboxd, fbst, plex — mocked network, tested HTML output; plex fetch failure returns None vs []; regression assertions that legacy `plex-*` classes are no longer emitted; **idempotency tests** (plex, mlb, goodreads, fbst determinism) |
 | `tests/test_spotify.py` | Unit | 20 | `update-spotify.py`: build_html (asserts `nb-feed-podcast` + bare `<ul>`), state load/save, fetch_recent_tracks, fetch_current_podcast; **idempotency tests** (tracks, podcast, empty data determinism); **API-error handling** (a data-endpoint 403 skips the heartbeat + leaves /now untouched so the staleness monitor fires; a quiet-but-healthy run still heartbeats) |
 | `tests/test_whoop.py` | Unit | 21 | `update-whoop.py`: fetch_latest_recovery/sleep/cycle, build_html with all recovery colors; **idempotency tests** (full data, none data, partial data determinism); **API-error handling** (a data-endpoint 403 skips the heartbeat + leaves /now untouched) |
 | `tests/test_feed_health.py` | Unit | 5 | `check-feed-health.py`: transient 5xx/timeout errors exit cleanly (code 0) while non-transient errors (auth failures) still propagate and fail the workflow |
@@ -71,14 +71,14 @@ All HTML pages: meta tags, CSP, aria-pressed, JSON-LD, images, internal links, f
 
 Tests run in CI via `.github/workflows/ci-tests.yml`. Results are visible in the GitHub Actions tab. Failures block nothing (this is a single-contributor repo with direct push), but they surface regressions early.
 
-**610 tests total:** 472 unit tests (12 files) + 138 E2E tests (1 file).
+**610 tests total:** 467 unit tests (12 files) + 143 E2E tests (1 file).
 
 **Idempotency testing** (new pattern as of 2026-06-25): All major cron scripts now have determinism tests to guard against the trap where re-rendering unexpectedly changes output, causing false diffs. Pattern: same input → identical output (verified across 2+ calls). Coverage:
 - projects (2 tests): render_card determinism, config-drives-output
 - whoop (3 tests): full/partial/no-data determinism
 - spotify (3 tests): tracks, podcast, empty determinism
 - gcal (2 tests): events, empty determinism
-- feed-builders (6 tests): plex, mlb, goodreads, fbst determinism
+- feed-builders: plex, mlb, fbst determinism
 - project-docs (4 tests): changelog/roadmap/empty determinism
 **Total: 20 idempotency tests** across all sync scripts
 

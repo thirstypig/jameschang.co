@@ -89,11 +89,10 @@ curl "$(gh secret list | grep GCAL)"  # Don't run this — it prints the secret!
 ```
 **Secret needed:** `GCAL_ICAL_URL` (secret-by-obscurity, don't share)
 
-#### MLB / Goodreads / FBST (every 6 hours)
+#### MLB / FBST (every 6 hours)
 ```bash
 # These are unauthenticated public APIs — check if they're down
 curl https://statsapi.mlb.com/api/v1/teams/119
-curl https://www.goodreads.com/review/list_rss/33966778?shelf=read
 curl https://app.thefantasticleagues.com/api/public/leagues/ogba-2026/standings
 ```
 **No secrets needed** — if these fail, the APIs are down
@@ -128,8 +127,8 @@ grep -c "SPOTIFY-START" now/index.html  # Should be 1
 #   <p class="feed-empty">Default content</p>
 # <!-- {FEED}-END -->
 
-# Markers list (all 14):
-# WHOOP, SPOTIFY, PLEX, MLB, GOODREADS-READING, GOODREADS, FBST, GCAL, GCAL-EYEBROW
+# Markers list (all 12):
+# WHOOP, SPOTIFY, PLEX, MLB, FBST, GCAL, GCAL-EYEBROW
 # ACTIVE-EYEBROW, ACTIVE-PROJECTS, BACKBURNER-EYEBROW, BACKBURNER-PROJECTS
 # PAGE-UPDATED
 ```
@@ -347,7 +346,7 @@ bin/
   update-whoop.py           ← WHOOP fitness data
   update-spotify.py         ← Spotify tracks + podcasts
   update-plex.py            ← Plex watch history
-  update-public-feeds.py    ← MLB, Goodreads, FBST
+  update-public-feeds.py    ← MLB, FBST
   update-gcal.py            ← Google Calendar events
   check-feed-health.py      ← Staleness monitor
   projects-config.json      ← Project card configuration

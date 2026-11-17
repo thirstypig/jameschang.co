@@ -63,8 +63,6 @@ GUIDANCE = {
         "past 48h, verify the `PLEX_URL` secret still points to an active relay."
     ),
     "mlb": "MLB Stats API is unauthenticated — usually self-resolves on the next cron.",
-    "goodreads": "Goodreads RSS — verify user ID 33966778 is still valid.",
-    "goodreads-reading": "See `goodreads` above — same RSS source.",
     "fbst": "The Fantastic Leagues standings endpoint. Check thefantasticleagues.com is reachable.",
     "projects": (
         "Project TLDR sync. Verify `TLDR_FETCH_TOKEN` secret is valid (fine-grained PATs "

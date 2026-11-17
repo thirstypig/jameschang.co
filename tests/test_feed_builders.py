@@ -88,59 +88,6 @@ class TestLetterboxdBlock:
         assert _public.letterboxd_block() is None
 
 
-# ── goodreads_reading_block ──────────────────────────────────────
-
-class TestGoodreadsReadingBlock:
-    SAMPLE_RSS = """<?xml version="1.0" encoding="utf-8"?>
-    <rss version="2.0">
-      <channel>
-        <item>
-          <title>The Arm</title>
-          <link>https://goodreads.com/review/show/123</link>
-          <author_name>Jeff Passan</author_name>
-        </item>
-      </channel>
-    </rss>"""
-
-    def test_renders_currently_reading(self, monkeypatch):
-        monkeypatch.setattr(_public, "fetch_text", lambda url, **kw: self.SAMPLE_RSS)
-        html = _public.goodreads_reading_block()
-        assert html is not None
-        assert "The Arm" in html
-        assert "Jeff Passan" in html
-        assert "Currently reading" in html
-
-    def test_returns_none_on_empty(self, monkeypatch):
-        empty = '<?xml version="1.0"?><rss><channel></channel></rss>'
-        monkeypatch.setattr(_public, "fetch_text", lambda url, **kw: empty)
-        assert _public.goodreads_reading_block() is None
-
-
-# ── goodreads_block ──────────────────────────────────────────────
-
-class TestGoodreadsBlock:
-    SAMPLE_RSS = """<?xml version="1.0" encoding="utf-8"?>
-    <rss version="2.0">
-      <channel>
-        <item>
-          <title>Sapiens</title>
-          <link>https://goodreads.com/review/show/456</link>
-          <author_name>Yuval Noah Harari</author_name>
-          <user_rating>5</user_rating>
-        </item>
-      </channel>
-    </rss>"""
-
-    def test_renders_recently_read(self, monkeypatch):
-        monkeypatch.setattr(_public, "fetch_text", lambda url, **kw: self.SAMPLE_RSS)
-        html = _public.goodreads_block()
-        assert html is not None
-        assert "Sapiens" in html
-        assert "Yuval Noah Harari" in html
-        assert "Recently read" in html
-        assert "★★★★★" in html  # 5 stars
-
-
 # ── fbst_block ───────────────────────────────────────────────────
 
 class TestFbstBlock:
@@ -293,36 +240,6 @@ class TestFeedBuildersIdempotency:
         assert "Off-season" not in html1  # else this compares two constants
         assert html1 == html2
 
-    def test_goodreads_reading_is_deterministic(self, monkeypatch):
-        """Goodreads reading block with same XML → identical output."""
-        sample_xml = """<?xml version="1.0"?>
-        <rss><channel>
-        <item>
-          <title>The Name of the Wind</title>
-          <link>https://goodreads.com/book/1</link>
-          <author_name>Patrick Rothfuss</author_name>
-        </item>
-        </channel></rss>"""
-        monkeypatch.setattr(_public, "fetch_text", lambda *a, **kw: sample_xml)
-        html1 = _public.goodreads_reading_block()
-        html2 = _public.goodreads_reading_block()
-        assert html1 == html2
-
-    def test_goodreads_block_is_deterministic(self, monkeypatch):
-        """Goodreads recently-read block with same data → identical output."""
-        sample_xml = """<?xml version="1.0"?>
-        <rss><channel>
-        <item>
-          <title>The Way of Kings</title>
-          <link>https://goodreads.com/book/2</link>
-          <author_name>Brandon Sanderson</author_name>
-          <user_rating>5</user_rating>
-        </item>
-        </channel></rss>"""
-        monkeypatch.setattr(_public, "fetch_text", lambda *a, **kw: sample_xml)
-        html1 = _public.goodreads_block()
-        html2 = _public.goodreads_block()
-        assert html1 == html2
 
     def test_fbst_block_is_deterministic(self, monkeypatch):
         """FBST standings block with same data → identical output."""

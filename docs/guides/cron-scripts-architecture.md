@@ -117,7 +117,7 @@ Example: A developer accidentally deletes `<!-- WHOOP-START -->` from `now/index
 ACTIVE-EYEBROW, ACTIVE-PROJECTS          ← update-projects.py
 BACKBURNER-EYEBROW, BACKBURNER-PROJECTS  ← update-projects.py
 WHOOP, SPOTIFY, PLEX                     ← individual feed scripts
-MLB, GOODREADS-READING, GOODREADS, FBST  ← update-public-feeds.py (4 builders)
+MLB, FBST                                ← update-public-feeds.py (2 builders)
 GCAL, GCAL-EYEBROW                       ← update-gcal.py
 PAGE-UPDATED                             ← updated by every script
 ```
@@ -200,7 +200,7 @@ def test_cron_sync_is_idempotent(self):
 - ✅ test_whoop.py (3 tests)
 - ✅ test_spotify.py (3 tests)
 - ✅ test_gcal.py (2 tests)
-- ✅ test_feed_builders.py (6 tests: Plex, MLB, Goodreads, FBST)
+- ✅ test_feed_builders.py (Plex, MLB, FBST)
 
 ## Adding a New Data Feed
 
@@ -289,13 +289,13 @@ def main():
 
 ### Pattern 2: Multiple Builders in One Script
 
-`update-public-feeds.py` has 4 builders (MLB, Goodreads reading, Goodreads, FBST). Each is independent:
+`update-public-feeds.py` has 2 builders (MLB, FBST; the two Goodreads builders were retired 2026-11-17). Each is independent:
 
 ```python
 def main():
     feeds = [
         ("MLB", mlb_block, '<p class="feed-empty">No data.</p>'),
-        ("GOODREADS", goodreads_block, '<p class="feed-empty">No books.</p>'),
+        ("FBST", fbst_block, '<p class="feed-empty">No standings.</p>'),
     ]
     for marker, builder, fallback in feeds:
         if f"<!-- {marker}-START -->" not in content:
