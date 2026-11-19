@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-19T00:57:44.844101+00:00",
+ "generated": "2026-11-19T03:57:50.895625+00:00",
  "window_days": 28,
- "total_hours": 151.8,
- "session_hours": 216.5,
+ "total_hours": 153.6,
+ "session_hours": 220.5,
  "decisions": [
   {
    "id": "G:aleph",
@@ -24,8 +24,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 151.8h total",
-   "magnitude": 25.10081604274161,
+   "detail": "last 28 days · 153.6h total",
+   "magnitude": 25.157171278712244,
    "actions": [
     "change_target",
     "accept"
@@ -38,9 +38,9 @@
    "kind": "A",
    "reason": "A",
    "target": "fantastic-leagues",
-   "title": "The Fantastic Leagues: 17% of your time vs 0% target",
-   "detail": "last 28 days · 151.8h total",
-   "magnitude": 17.428733487027483,
+   "title": "The Fantastic Leagues: 18% of your time vs 0% target",
+   "detail": "last 28 days · 153.6h total",
+   "magnitude": 17.66051727256285,
    "actions": [
     "change_target",
     "accept"
@@ -54,8 +54,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 71% of your time vs 60% target",
-   "detail": "last 28 days · 151.8h total",
-   "magnitude": 11.10055988582721,
+   "detail": "last 28 days · 153.6h total",
+   "magnitude": 10.638994393199496,
    "actions": [
     "change_target",
     "accept"
@@ -101,8 +101,8 @@
    "reason": "C",
    "target": "1234-orthok",
    "title": "Unregistered work: 1234-orthok",
-   "detail": "0.3h · 1 sessions",
-   "magnitude": 0.3,
+   "detail": "0.8h · 2 sessions",
+   "magnitude": 0.8,
    "actions": [
     "promote",
     "dismiss",
@@ -133,13 +133,13 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 71.1
+   "actual": 70.6
   },
   {
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 17.4
+   "actual": 17.7
   },
   {
    "slug": "bahtzang-trader",
@@ -199,7 +199,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 4.9
+   "actual": 4.8
   },
   {
    "slug": "family-sites",
@@ -211,7 +211,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 3.7
+   "actual": 4.0
   }
  ],
  "projects": [
@@ -220,11 +220,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 71.1,
-   "hours": 107.9,
-   "spend": 3415.57,
+   "actual_share": 70.6,
+   "hours": 108.5,
+   "spend": 3415.51,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-19T00:56:00+00:00",
+   "last_activity": "2026-11-19T03:17:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -295,11 +295,11 @@
     }
    ],
    "alignment": {
-    "total": 426,
+    "total": 427,
     "on_goal": 106,
-    "off_goal": 320,
-    "on_goal_pct": 24.9,
-    "on_goal_major_pct": 24.9,
+    "off_goal": 321,
+    "on_goal_pct": 24.8,
+    "on_goal_major_pct": 24.8,
     "on_goal_minor_pct": 0.0,
     "new_scope": 77,
     "creep": 44,
@@ -336,20 +336,20 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 17.4,
-   "hours": 26.5,
+   "actual_share": 17.7,
+   "hours": 27.1,
    "spend": 615.23,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-19T00:56:00+00:00",
+   "last_activity": "2026-11-19T03:54:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
    "stop_criteria": "",
    "goals": [],
    "alignment": {
-    "total": 117,
+    "total": 120,
     "on_goal": 0,
-    "off_goal": 117,
+    "off_goal": 120,
     "on_goal_pct": null,
     "on_goal_major_pct": null,
     "on_goal_minor_pct": null,
@@ -606,7 +606,7 @@
    "hours": 0.2,
    "spend": 10.4,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-18T13:37:57-08:00",
+   "last_activity": "2026-11-18T16:57:47-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -757,7 +757,7 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 4.9,
+   "actual_share": 4.8,
    "hours": 7.4,
    "spend": 103.03,
    "fixed_monthly": 0,
@@ -904,8 +904,8 @@
   },
   {
    "path": "1234-orthok",
-   "hours": 0.3,
-   "sessions": 1
+   "hours": 0.8,
+   "sessions": 2
   },
   {
    "path": "DKM",
@@ -920,15 +920,15 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4337.57,
+  "claude_total": 4344.77,
   "fixed_total": 0
  },
  "health": {
   "files": 589,
-  "lines": 209727,
+  "lines": 212176,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 7,
+  "changed_files": 4,
   "warning": null
  }
 }
