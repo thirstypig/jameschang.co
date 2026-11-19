@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-19T18:58:25.277494+00:00",
+ "generated": "2026-11-19T21:58:30.537568+00:00",
  "window_days": 28,
- "total_hours": 154.3,
- "session_hours": 223.0,
+ "total_hours": 152.9,
+ "session_hours": 220.9,
  "decisions": [
   {
    "id": "G:aleph",
@@ -24,8 +24,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 154.3h total",
-   "magnitude": 25.17862287525209,
+   "detail": "last 28 days · 152.9h total",
+   "magnitude": 25.134997637995568,
    "actions": [
     "change_target",
     "accept"
@@ -38,9 +38,9 @@
    "kind": "A",
    "reason": "A",
    "target": "fantastic-leagues",
-   "title": "The Fantastic Leagues: 18% of your time vs 0% target",
-   "detail": "last 28 days · 154.3h total",
-   "magnitude": 18.32054883318928,
+   "title": "The Fantastic Leagues: 19% of your time vs 0% target",
+   "detail": "last 28 days · 152.9h total",
+   "magnitude": 18.54627711762782,
    "actions": [
     "change_target",
     "accept"
@@ -54,8 +54,8 @@
    "reason": "C",
    "target": "theresewhite.com",
    "title": "Unregistered work: theresewhite.com",
-   "detail": "3.7h · 36 sessions",
-   "magnitude": 3.7,
+   "detail": "3.3h · 34 sessions",
+   "magnitude": 3.3,
    "actions": [
     "promote",
     "dismiss",
@@ -118,13 +118,13 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 70.0
+   "actual": 69.9
   },
   {
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 18.3
+   "actual": 18.5
   },
   {
    "slug": "bahtzang-trader",
@@ -184,7 +184,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 4.8
+   "actual": 4.9
   },
   {
    "slug": "family-sites",
@@ -196,7 +196,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 4.1
+   "actual": 3.8
   }
  ],
  "projects": [
@@ -205,11 +205,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 70.0,
-   "hours": 108.0,
-   "spend": 3414.15,
+   "actual_share": 69.9,
+   "hours": 106.9,
+   "spend": 3413.04,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-19T18:21:00+00:00",
+   "last_activity": "2026-11-19T21:56:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -306,8 +306,7 @@
    },
    "rag": "amber",
    "rag_reasons": [
-    "creep 58% ≥ 50%",
-    "time 70% vs 60% target"
+    "creep 58% ≥ 50%"
    ],
    "prev": {
     "creep_pct": 58.3,
@@ -321,20 +320,20 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 18.3,
-   "hours": 28.3,
+   "actual_share": 18.5,
+   "hours": 28.4,
    "spend": 615.23,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-19T18:20:00+00:00",
+   "last_activity": "2026-11-19T21:56:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
    "stop_criteria": "",
    "goals": [],
    "alignment": {
-    "total": 121,
+    "total": 122,
     "on_goal": 0,
-    "off_goal": 121,
+    "off_goal": 122,
     "on_goal_pct": null,
     "on_goal_major_pct": null,
     "on_goal_minor_pct": null,
@@ -591,7 +590,7 @@
    "hours": 0.2,
    "spend": 10.4,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-19T07:58:21-08:00",
+   "last_activity": "2026-11-19T10:58:26-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -742,7 +741,7 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 4.8,
+   "actual_share": 4.9,
    "hours": 7.4,
    "spend": 103.03,
    "fixed_monthly": 0,
@@ -899,21 +898,21 @@
   },
   {
    "path": "theresewhite.com",
-   "hours": 3.7,
-   "sessions": 36
+   "hours": 3.3,
+   "sessions": 34
   }
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4348.01,
+  "claude_total": 4346.6,
   "fixed_total": 0
  },
  "health": {
-  "files": 589,
-  "lines": 217502,
+  "files": 554,
+  "lines": 217471,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 2,
+  "changed_files": 3,
   "warning": null
  }
 }
