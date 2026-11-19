@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-19T09:58:04.106821+00:00",
+ "generated": "2026-11-19T12:58:15.917497+00:00",
  "window_days": 28,
- "total_hours": 154.6,
- "session_hours": 222.7,
+ "total_hours": 154.9,
+ "session_hours": 222.9,
  "decisions": [
   {
    "id": "G:aleph",
@@ -24,8 +24,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 154.6h total",
-   "magnitude": 25.18901825499497,
+   "detail": "last 28 days · 154.9h total",
+   "magnitude": 25.197302338929546,
    "actions": [
     "change_target",
     "accept"
@@ -39,8 +39,8 @@
    "reason": "A",
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 18% of your time vs 0% target",
-   "detail": "last 28 days · 154.6h total",
-   "magnitude": 17.892949547218628,
+   "detail": "last 28 days · 154.9h total",
+   "magnitude": 17.862139474817045,
    "actions": [
     "change_target",
     "accept"
@@ -54,8 +54,8 @@
    "reason": "A",
    "target": "aleph",
    "title": "Aleph: 70% of your time vs 60% target",
-   "detail": "last 28 days · 154.6h total",
-   "magnitude": 10.447570792008037,
+   "detail": "last 28 days · 154.9h total",
+   "magnitude": 10.498457454441095,
    "actions": [
     "change_target",
     "accept"
@@ -133,7 +133,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 70.4
+   "actual": 70.5
   },
   {
    "slug": "fantastic-leagues",
@@ -220,11 +220,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 70.4,
-   "hours": 108.9,
+   "actual_share": 70.5,
+   "hours": 109.2,
    "spend": 3415.22,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-19T09:56:00+00:00",
+   "last_activity": "2026-11-19T11:04:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -340,7 +340,7 @@
    "hours": 27.7,
    "spend": 615.23,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-19T09:51:00+00:00",
+   "last_activity": "2026-11-19T10:42:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
@@ -606,7 +606,7 @@
    "hours": 0.2,
    "spend": 10.4,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-18T22:57:57-08:00",
+   "last_activity": "2026-11-19T01:58:10-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -925,7 +925,7 @@
  },
  "health": {
   "files": 589,
-  "lines": 215287,
+  "lines": 215428,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 2,
