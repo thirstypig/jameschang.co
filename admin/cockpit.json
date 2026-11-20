@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-20T06:58:45.953289+00:00",
+ "generated": "2026-11-20T09:58:51.223401+00:00",
  "window_days": 28,
- "total_hours": 147.7,
- "session_hours": 216.3,
+ "total_hours": 148.2,
+ "session_hours": 217.2,
  "decisions": [
   {
    "id": "G:aleph",
@@ -24,8 +24,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 147.7h total",
-   "magnitude": 24.963130173062453,
+   "detail": "last 28 days · 148.2h total",
+   "magnitude": 24.981256560203928,
    "actions": [
     "change_target",
     "accept"
@@ -39,8 +39,8 @@
    "reason": "A",
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 20% of your time vs 0% target",
-   "detail": "last 28 days · 147.7h total",
-   "magnitude": 19.743227990970656,
+   "detail": "last 28 days · 148.2h total",
+   "magnitude": 19.76402009296746,
    "actions": [
     "change_target",
     "accept"
@@ -54,8 +54,8 @@
    "reason": "C",
    "target": "theresewhite.com",
    "title": "Unregistered work: theresewhite.com",
-   "detail": "3.0h · 25 sessions",
-   "magnitude": 3.0,
+   "detail": "3.3h · 26 sessions",
+   "magnitude": 3.3,
    "actions": [
     "promote",
     "dismiss",
@@ -118,13 +118,13 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 68.5
+   "actual": 68.4
   },
   {
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 19.7
+   "actual": 19.8
   },
   {
    "slug": "bahtzang-trader",
@@ -196,7 +196,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 3.7
+   "actual": 3.9
   }
  ],
  "projects": [
@@ -205,11 +205,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 68.5,
-   "hours": 101.2,
-   "spend": 3408.43,
+   "actual_share": 68.4,
+   "hours": 101.3,
+   "spend": 3409.48,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-20T06:56:00+00:00",
+   "last_activity": "2026-11-20T08:17:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -320,11 +320,11 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 19.7,
-   "hours": 29.2,
+   "actual_share": 19.8,
+   "hours": 29.3,
    "spend": 615.23,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-20T06:55:00+00:00",
+   "last_activity": "2026-11-20T09:19:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
@@ -590,7 +590,7 @@
    "hours": 0.2,
    "spend": 10.4,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-19T19:58:42-08:00",
+   "last_activity": "2026-11-19T22:58:47-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -898,21 +898,21 @@
   },
   {
    "path": "theresewhite.com",
-   "hours": 3.0,
-   "sessions": 25
+   "hours": 3.3,
+   "sessions": 26
   }
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4318.64,
+  "claude_total": 4331.99,
   "fixed_total": 0
  },
  "health": {
-  "files": 555,
-  "lines": 220199,
+  "files": 485,
+  "lines": 217892,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 4,
+  "changed_files": 5,
   "warning": null
  }
 }
