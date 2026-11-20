@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-20T12:58:55.868741+00:00",
+ "generated": "2026-11-20T15:59:00.740295+00:00",
  "window_days": 28,
- "total_hours": 148.2,
- "session_hours": 217.2,
+ "total_hours": 147.9,
+ "session_hours": 216.9,
  "decisions": [
   {
    "id": "G:aleph",
@@ -24,8 +24,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 148.2h total",
-   "magnitude": 24.981256560203928,
+   "detail": "last 28 days · 147.9h total",
+   "magnitude": 24.971643192488262,
    "actions": [
     "change_target",
     "accept"
@@ -39,8 +39,8 @@
    "reason": "A",
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 20% of your time vs 0% target",
-   "detail": "last 28 days · 148.2h total",
-   "magnitude": 19.76402009296746,
+   "detail": "last 28 days · 147.9h total",
+   "magnitude": 19.801877934272298,
    "actions": [
     "change_target",
     "accept"
@@ -118,7 +118,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 68.4
+   "actual": 68.3
   },
   {
    "slug": "fantastic-leagues",
@@ -205,9 +205,9 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 68.4,
-   "hours": 101.3,
-   "spend": 3409.48,
+   "actual_share": 68.3,
+   "hours": 101.0,
+   "spend": 3409.35,
    "fixed_monthly": 0,
    "last_activity": "2026-11-20T08:17:00+00:00",
    "review_by": null,
@@ -590,7 +590,7 @@
    "hours": 0.2,
    "spend": 10.4,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-20T01:58:52-08:00",
+   "last_activity": "2026-11-20T04:58:57-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -904,7 +904,7 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4331.99,
+  "claude_total": 4331.86,
   "fixed_total": 0
  },
  "health": {
