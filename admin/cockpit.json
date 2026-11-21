@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-21T03:59:30.451392+00:00",
+ "generated": "2026-11-21T06:59:39.483928+00:00",
  "window_days": 28,
- "total_hours": 147.2,
- "session_hours": 219.4,
+ "total_hours": 147.5,
+ "session_hours": 219.7,
  "decisions": [
   {
    "id": "G:aleph",
@@ -24,8 +24,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 147.2h total",
-   "magnitude": 24.947733876750064,
+   "detail": "last 28 days · 147.5h total",
+   "magnitude": 24.956868949410477,
    "actions": [
     "change_target",
     "accept"
@@ -39,8 +39,8 @@
    "reason": "A",
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 21% of your time vs 0% target",
-   "detail": "last 28 days · 147.2h total",
-   "magnitude": 21.03381259670176,
+   "detail": "last 28 days · 147.5h total",
+   "magnitude": 20.995781067540587,
    "actions": [
     "change_target",
     "accept"
@@ -184,7 +184,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 5.1
+   "actual": 5.0
   },
   {
    "slug": "family-sites",
@@ -206,10 +206,10 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 66.4,
-   "hours": 97.7,
+   "hours": 98.0,
    "spend": 3386.72,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-21T03:55:00+00:00",
+   "last_activity": "2026-11-21T04:40:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -590,7 +590,7 @@
    "hours": 0.2,
    "spend": 10.4,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-20T16:59:24-08:00",
+   "last_activity": "2026-11-20T19:59:35-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -741,7 +741,7 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 5.1,
+   "actual_share": 5.0,
    "hours": 7.4,
    "spend": 103.03,
    "fixed_monthly": 0,
@@ -909,7 +909,7 @@
  },
  "health": {
   "files": 484,
-  "lines": 214353,
+  "lines": 214491,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 3,
