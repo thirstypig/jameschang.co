@@ -1,17 +1,17 @@
 {
- "generated": "2026-11-20T21:59:17.959095+00:00",
+ "generated": "2026-11-21T00:59:23.258068+00:00",
  "window_days": 28,
- "total_hours": 149.8,
- "session_hours": 221.4,
+ "total_hours": 148.2,
+ "session_hours": 220.5,
  "decisions": [
   {
    "id": "G:aleph",
    "kind": "G",
    "reason": "G",
    "target": "aleph",
-   "title": "Aleph: 58% of new-scope asks serve no goal",
-   "detail": "45 of 78 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
-   "magnitude": 57.7,
+   "title": "Aleph: 61% of new-scope asks serve no goal",
+   "detail": "40 of 66 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
+   "magnitude": 60.6,
    "actions": [
     "set_goal",
     "accept"
@@ -24,8 +24,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 149.8h total",
-   "magnitude": 25.03486129654354,
+   "detail": "last 28 days · 148.2h total",
+   "magnitude": 24.980692085629663,
    "actions": [
     "change_target",
     "accept"
@@ -39,8 +39,8 @@
    "reason": "A",
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 21% of your time vs 0% target",
-   "detail": "last 28 days · 149.8h total",
-   "magnitude": 20.58578104138852,
+   "detail": "last 28 days · 148.2h total",
+   "magnitude": 20.896599557605068,
    "actions": [
     "change_target",
     "accept"
@@ -118,13 +118,13 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 67.1
+   "actual": 66.6
   },
   {
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 20.6
+   "actual": 20.9
   },
   {
    "slug": "bahtzang-trader",
@@ -196,7 +196,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 4.5
+   "actual": 4.6
   }
  ],
  "projects": [
@@ -205,11 +205,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 67.1,
-   "hours": 100.5,
-   "spend": 3409.08,
+   "actual_share": 66.6,
+   "hours": 98.7,
+   "spend": 3389.21,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-20T21:57:00+00:00",
+   "last_activity": "2026-11-20T23:05:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -280,39 +280,39 @@
     }
    ],
    "alignment": {
-    "total": 434,
-    "on_goal": 106,
-    "off_goal": 328,
-    "on_goal_pct": 24.4,
-    "on_goal_major_pct": 24.4,
+    "total": 367,
+    "on_goal": 80,
+    "off_goal": 287,
+    "on_goal_pct": 21.8,
+    "on_goal_major_pct": 21.8,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 78,
-    "creep": 45,
-    "creep_pct": 57.7,
+    "new_scope": 66,
+    "creep": 40,
+    "creep_pct": 60.6,
     "goals": [
      {
       "id": "g1",
-      "prompts": 32
+      "prompts": 23
      },
      {
       "id": "g2",
-      "prompts": 8
+      "prompts": 7
      },
      {
       "id": "g3",
-      "prompts": 76
+      "prompts": 57
      }
     ]
    },
    "rag": "amber",
    "rag_reasons": [
-    "creep 58% ≥ 50%"
+    "creep 61% ≥ 50%"
    ],
    "prev": {
     "creep_pct": 57.6,
     "on_goal_pct": 24.3,
-    "share": 76.4,
-    "as_of": "2026-11-13"
+    "share": 76.3,
+    "as_of": "2026-11-14"
    }
   },
   {
@@ -320,20 +320,20 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 20.6,
-   "hours": 30.8,
+   "actual_share": 20.9,
+   "hours": 31.0,
    "spend": 668.59,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-20T21:53:00+00:00",
+   "last_activity": "2026-11-20T23:08:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
    "stop_criteria": "",
    "goals": [],
    "alignment": {
-    "total": 126,
+    "total": 128,
     "on_goal": 0,
-    "off_goal": 126,
+    "off_goal": 128,
     "on_goal_pct": null,
     "on_goal_major_pct": null,
     "on_goal_minor_pct": null,
@@ -349,8 +349,8 @@
    "prev": {
     "creep_pct": null,
     "on_goal_pct": null,
-    "share": 12.0,
-    "as_of": "2026-11-13"
+    "share": 12.6,
+    "as_of": "2026-11-14"
    }
   },
   {
@@ -388,7 +388,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 1.1,
-    "as_of": "2026-11-13"
+    "as_of": "2026-11-14"
    }
   },
   {
@@ -426,7 +426,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-13"
+    "as_of": "2026-11-14"
    }
   },
   {
@@ -464,7 +464,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-13"
+    "as_of": "2026-11-14"
    }
   },
   {
@@ -502,7 +502,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-13"
+    "as_of": "2026-11-14"
    }
   },
   {
@@ -540,7 +540,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.5,
-    "as_of": "2026-11-13"
+    "as_of": "2026-11-14"
    }
   },
   {
@@ -578,7 +578,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-13"
+    "as_of": "2026-11-14"
    }
   },
   {
@@ -590,7 +590,7 @@
    "hours": 0.2,
    "spend": 10.4,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-20T10:59:12-08:00",
+   "last_activity": "2026-11-20T13:59:19-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -657,7 +657,7 @@
     "creep_pct": 0.0,
     "on_goal_pct": 20.0,
     "share": 0.1,
-    "as_of": "2026-11-13"
+    "as_of": "2026-11-14"
    }
   },
   {
@@ -695,7 +695,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-13"
+    "as_of": "2026-11-14"
    }
   },
   {
@@ -733,7 +733,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-13"
+    "as_of": "2026-11-14"
    }
   },
   {
@@ -814,10 +814,10 @@
     "time 5% vs 30% target"
    ],
    "prev": {
-    "creep_pct": 46.7,
-    "on_goal_pct": 18.0,
-    "share": 4.4,
-    "as_of": "2026-11-13"
+    "creep_pct": 43.8,
+    "on_goal_pct": 19.4,
+    "share": 4.7,
+    "as_of": "2026-11-14"
    }
   },
   {
@@ -875,8 +875,8 @@
    "prev": {
     "creep_pct": null,
     "on_goal_pct": 37.5,
-    "share": 0.6,
-    "as_of": "2026-11-13"
+    "share": 0.7,
+    "as_of": "2026-11-14"
    }
   }
  ],
@@ -904,12 +904,12 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4384.94,
+  "claude_total": 4365.08,
   "fixed_total": 0
  },
  "health": {
   "files": 484,
-  "lines": 212442,
+  "lines": 213251,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 3,
