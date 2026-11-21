@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-21T06:59:39.483928+00:00",
+ "generated": "2026-11-21T08:58:05.411949+00:00",
  "window_days": 28,
  "total_hours": 147.5,
  "session_hours": 219.7,
@@ -25,7 +25,7 @@
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
    "detail": "last 28 days · 147.5h total",
-   "magnitude": 24.956868949410477,
+   "magnitude": 24.95857809911131,
    "actions": [
     "change_target",
     "accept"
@@ -40,7 +40,7 @@
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 21% of your time vs 0% target",
    "detail": "last 28 days · 147.5h total",
-   "magnitude": 20.995781067540587,
+   "magnitude": 20.98866546166591,
    "actions": [
     "change_target",
     "accept"
@@ -207,9 +207,9 @@
    "target_share": 60,
    "actual_share": 66.4,
    "hours": 98.0,
-   "spend": 3386.72,
+   "spend": 3528.49,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-21T04:40:00+00:00",
+   "last_activity": "2026-11-21T08:58:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -280,9 +280,9 @@
     }
    ],
    "alignment": {
-    "total": 368,
+    "total": 369,
     "on_goal": 81,
-    "off_goal": 287,
+    "off_goal": 288,
     "on_goal_pct": 22.0,
     "on_goal_major_pct": 22.0,
     "on_goal_minor_pct": 0.0,
@@ -322,18 +322,18 @@
    "target_share": 0,
    "actual_share": 21.0,
    "hours": 31.0,
-   "spend": 668.59,
+   "spend": 699.36,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-20T23:08:00+00:00",
+   "last_activity": "2026-11-21T08:58:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
    "stop_criteria": "",
    "goals": [],
    "alignment": {
-    "total": 128,
+    "total": 129,
     "on_goal": 0,
-    "off_goal": 128,
+    "off_goal": 129,
     "on_goal_pct": null,
     "on_goal_major_pct": null,
     "on_goal_minor_pct": null,
@@ -590,7 +590,7 @@
    "hours": 0.2,
    "spend": 10.4,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-20T19:59:35-08:00",
+   "last_activity": "2026-11-20T22:59:40-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -904,12 +904,12 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4362.58,
+  "claude_total": 4556.06,
   "fixed_total": 0
  },
  "health": {
   "files": 484,
-  "lines": 214491,
+  "lines": 214613,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 3,
