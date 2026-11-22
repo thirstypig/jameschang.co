@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-22T15:03:28.321941+00:00",
+ "generated": "2026-11-22T18:03:33.304559+00:00",
  "window_days": 28,
- "total_hours": 149.1,
- "session_hours": 224.3,
+ "total_hours": 149.3,
+ "session_hours": 225.3,
  "decisions": [
   {
    "id": "G:aleph",
@@ -24,8 +24,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 149.1h total",
-   "magnitude": 25.010435301132976,
+   "detail": "last 28 days · 149.3h total",
+   "magnitude": 25.017120738424893,
    "actions": [
     "change_target",
     "accept"
@@ -39,8 +39,8 @@
    "reason": "A",
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 21% of your time vs 0% target",
-   "detail": "last 28 days · 149.1h total",
-   "magnitude": 21.27869707811568,
+   "detail": "last 28 days · 149.3h total",
+   "magnitude": 21.425115378889387,
    "actions": [
     "change_target",
     "accept"
@@ -54,8 +54,8 @@
    "reason": "C",
    "target": "theresewhite.com",
    "title": "Unregistered work: theresewhite.com",
-   "detail": "4.6h · 25 sessions",
-   "magnitude": 4.6,
+   "detail": "4.5h · 24 sessions",
+   "magnitude": 4.5,
    "actions": [
     "promote",
     "dismiss",
@@ -102,8 +102,8 @@
    "reason": "C",
    "target": "bbq-judge",
    "title": "Unregistered work: bbq-judge",
-   "detail": "0.4h · 1 sessions",
-   "magnitude": 0.4,
+   "detail": "0.6h · 1 sessions",
+   "magnitude": 0.6,
    "actions": [
     "promote",
     "dismiss",
@@ -134,13 +134,13 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 65.7
+   "actual": 65.6
   },
   {
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 21.3
+   "actual": 21.4
   },
   {
    "slug": "bahtzang-trader",
@@ -221,11 +221,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 65.7,
-   "hours": 98.0,
+   "actual_share": 65.6,
+   "hours": 97.9,
    "spend": 3525.69,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-22T00:01:00+00:00",
+   "last_activity": "2026-11-22T17:59:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -336,20 +336,20 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 21.3,
-   "hours": 31.7,
+   "actual_share": 21.4,
+   "hours": 32.0,
    "spend": 699.36,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-21T23:57:00+00:00",
+   "last_activity": "2026-11-22T18:02:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
    "stop_criteria": "",
    "goals": [],
    "alignment": {
-    "total": 133,
+    "total": 134,
     "on_goal": 0,
-    "off_goal": 133,
+    "off_goal": 134,
     "on_goal_pct": null,
     "on_goal_major_pct": null,
     "on_goal_minor_pct": null,
@@ -416,7 +416,7 @@
    "hours": 0.0,
    "spend": 0.0,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-21T16:04:40-08:00",
+   "last_activity": "2026-11-22T10:03:15-08:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
@@ -606,7 +606,7 @@
    "hours": 0.2,
    "spend": 10.4,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-22T04:03:24-08:00",
+   "last_activity": "2026-11-22T07:03:29-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -914,23 +914,23 @@
   },
   {
    "path": "bbq-judge",
-   "hours": 0.4,
+   "hours": 0.6,
    "sessions": 1
   },
   {
    "path": "theresewhite.com",
-   "hours": 4.6,
-   "sessions": 25
+   "hours": 4.5,
+   "sessions": 24
   }
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4579.58,
+  "claude_total": 4579.49,
   "fixed_total": 0
  },
  "health": {
   "files": 460,
-  "lines": 222201,
+  "lines": 223936,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 3,
