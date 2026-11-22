@@ -1,7 +1,7 @@
 {
- "generated": "2026-11-22T00:03:03.258232+00:00",
+ "generated": "2026-11-22T03:03:08.078317+00:00",
  "window_days": 28,
- "total_hours": 149.0,
+ "total_hours": 149.1,
  "session_hours": 224.3,
  "decisions": [
   {
@@ -24,8 +24,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 149.0h total",
-   "magnitude": 25.00820283370619,
+   "detail": "last 28 days · 149.1h total",
+   "magnitude": 25.010435301132976,
    "actions": [
     "change_target",
     "accept"
@@ -39,8 +39,8 @@
    "reason": "A",
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 21% of your time vs 0% target",
-   "detail": "last 28 days · 149.0h total",
-   "magnitude": 21.28821774794929,
+   "detail": "last 28 days · 149.1h total",
+   "magnitude": 21.27869707811568,
    "actions": [
     "change_target",
     "accept"
@@ -134,7 +134,7 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 65.8
+   "actual": 65.7
   },
   {
    "slug": "fantastic-leagues",
@@ -212,7 +212,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 5.0
+   "actual": 5.1
   }
  ],
  "projects": [
@@ -221,7 +221,7 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 65.8,
+   "actual_share": 65.7,
    "hours": 98.0,
    "spend": 3525.69,
    "fixed_monthly": 0,
@@ -416,7 +416,7 @@
    "hours": 0.0,
    "spend": 0.0,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-21T16:01:11-08:00",
+   "last_activity": "2026-11-21T16:04:40-08:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
@@ -606,7 +606,7 @@
    "hours": 0.2,
    "spend": 10.4,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-21T12:47:48-08:00",
+   "last_activity": "2026-11-21T16:03:04-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -930,7 +930,7 @@
  },
  "health": {
   "files": 460,
-  "lines": 221984,
+  "lines": 222191,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 3,
