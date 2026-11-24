@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-24T00:02:10.162798+00:00",
+ "generated": "2026-11-24T03:02:15.489583+00:00",
  "window_days": 28,
- "total_hours": 155.5,
- "session_hours": 237.1,
+ "total_hours": 154.3,
+ "session_hours": 235.8,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -24,8 +24,8 @@
    "reason": "G",
    "target": "aleph",
    "title": "Aleph: 60% of new-scope asks serve no goal",
-   "detail": "40 of 67 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
-   "magnitude": 59.7,
+   "detail": "41 of 68 asks for new capability in 28 days matched none of: Get companies beyond the two pilots actively using Aleph · Decide and ship the path from free beta to paid · Keep the four compliance modules correct (CPSIA, Prop 65, PFAS, FSVP)",
+   "magnitude": 60.3,
    "actions": [
     "set_goal",
     "accept"
@@ -38,8 +38,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 5% of your time vs 30% target",
-   "detail": "last 28 days · 155.5h total",
-   "magnitude": 25.163272597356197,
+   "detail": "last 28 days · 154.3h total",
+   "magnitude": 25.118983331533283,
    "actions": [
     "change_target",
     "accept"
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 22% of your time vs 0% target",
-   "detail": "last 28 days · 155.5h total",
-   "magnitude": 21.906931046802427,
+   "detail": "last 28 days · 154.3h total",
+   "magnitude": 22.09291860172085,
    "actions": [
     "change_target",
     "accept"
@@ -68,8 +68,8 @@
    "reason": "C",
    "target": "theresewhite.com",
    "title": "Unregistered work: theresewhite.com",
-   "detail": "4.1h · 18 sessions",
-   "magnitude": 4.1,
+   "detail": "4.0h · 17 sessions",
+   "magnitude": 4.0,
    "actions": [
     "promote",
     "dismiss",
@@ -148,13 +148,13 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 64.5
+   "actual": 64.3
   },
   {
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 21.9
+   "actual": 22.1
   },
   {
    "slug": "bahtzang-trader",
@@ -214,7 +214,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 4.8
+   "actual": 4.9
   },
   {
    "slug": "family-sites",
@@ -235,11 +235,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 64.5,
-   "hours": 100.3,
-   "spend": 3523.46,
+   "actual_share": 64.3,
+   "hours": 99.2,
+   "spend": 3905.69,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-23T20:55:00+00:00",
+   "last_activity": "2026-11-24T03:00:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -310,15 +310,15 @@
     }
    ],
    "alignment": {
-    "total": 378,
+    "total": 380,
     "on_goal": 81,
-    "off_goal": 297,
-    "on_goal_pct": 21.4,
-    "on_goal_major_pct": 21.4,
+    "off_goal": 299,
+    "on_goal_pct": 21.3,
+    "on_goal_major_pct": 21.3,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 67,
-    "creep": 40,
-    "creep_pct": 59.7,
+    "new_scope": 68,
+    "creep": 41,
+    "creep_pct": 60.3,
     "goals": [
      {
       "id": "g1",
@@ -350,11 +350,11 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 21.9,
+   "actual_share": 22.1,
    "hours": 34.1,
-   "spend": 699.36,
+   "spend": 818.64,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-23T23:38:00+00:00",
+   "last_activity": "2026-11-24T03:00:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
@@ -620,7 +620,7 @@
    "hours": 0.2,
    "spend": 10.4,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-23T13:02:06-08:00",
+   "last_activity": "2026-11-23T16:02:11-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -771,11 +771,11 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 4.8,
+   "actual_share": 4.9,
    "hours": 7.5,
-   "spend": 103.03,
+   "spend": 106.8,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-23T22:59:00+00:00",
+   "last_activity": "2026-11-24T02:59:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -819,11 +819,11 @@
     }
    ],
    "alignment": {
-    "total": 101,
+    "total": 102,
     "on_goal": 21,
-    "off_goal": 80,
-    "on_goal_pct": 20.8,
-    "on_goal_major_pct": 20.8,
+    "off_goal": 81,
+    "on_goal_pct": 20.6,
+    "on_goal_major_pct": 20.6,
     "on_goal_minor_pct": 0.0,
     "new_scope": 14,
     "creep": 5,
@@ -935,21 +935,21 @@
   },
   {
    "path": "theresewhite.com",
-   "hours": 4.1,
-   "sessions": 18
+   "hours": 4.0,
+   "sessions": 17
   }
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4688.99,
+  "claude_total": 5190.1,
   "fixed_total": 0
  },
  "health": {
   "files": 358,
-  "lines": 218429,
+  "lines": 218809,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 4,
+  "changed_files": 3,
   "warning": null
  }
 }
