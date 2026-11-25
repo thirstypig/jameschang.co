@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-25T18:03:24.382141+00:00",
+ "generated": "2026-11-25T21:03:31.314507+00:00",
  "window_days": 28,
- "total_hours": 145.9,
- "session_hours": 229.8,
+ "total_hours": 144.4,
+ "session_hours": 226.4,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -38,8 +38,8 @@
    "reason": "A",
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 27% of your time vs 0% target",
-   "detail": "last 28 days · 145.9h total",
-   "magnitude": 27.175196100830096,
+   "detail": "last 28 days · 144.4h total",
+   "magnitude": 27.460656431567198,
    "actions": [
     "change_target",
     "accept"
@@ -52,9 +52,9 @@
    "kind": "A",
    "reason": "A",
    "target": "pasadenaworks",
-   "title": "Pasadena Works: 6% of your time vs 30% target",
-   "detail": "last 28 days · 145.9h total",
-   "magnitude": 24.27385576117584,
+   "title": "Pasadena Works: 5% of your time vs 30% target",
+   "detail": "last 28 days · 144.4h total",
+   "magnitude": 24.743930124283352,
    "actions": [
     "change_target",
     "accept"
@@ -68,8 +68,8 @@
    "reason": "C",
    "target": "theresewhite.com",
    "title": "Unregistered work: theresewhite.com",
-   "detail": "4.0h · 17 sessions",
-   "magnitude": 4.0,
+   "detail": "3.8h · 16 sessions",
+   "magnitude": 3.8,
    "actions": [
     "promote",
     "dismiss",
@@ -148,13 +148,13 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 57.8
+   "actual": 58.1
   },
   {
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 27.2
+   "actual": 27.5
   },
   {
    "slug": "bahtzang-trader",
@@ -214,7 +214,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 5.7
+   "actual": 5.3
   },
   {
    "slug": "family-sites",
@@ -226,7 +226,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 5.3
+   "actual": 5.2
   }
  ],
  "projects": [
@@ -235,9 +235,9 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 57.8,
-   "hours": 84.4,
-   "spend": 3206.79,
+   "actual_share": 58.1,
+   "hours": 83.8,
+   "spend": 3206.45,
    "fixed_monthly": 0,
    "last_activity": "2026-11-25T04:49:00+00:00",
    "review_by": null,
@@ -350,11 +350,11 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 27.2,
+   "actual_share": 27.5,
    "hours": 39.6,
    "spend": 818.64,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-25T17:54:00+00:00",
+   "last_activity": "2026-11-25T18:45:00+00:00",
    "review_by": "2026-11-28",
    "cadence_days": 14,
    "next_decision": "",
@@ -620,7 +620,7 @@
    "hours": 0.2,
    "spend": 10.4,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-25T07:03:19-08:00",
+   "last_activity": "2026-11-25T10:03:26-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -771,9 +771,9 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 5.7,
-   "hours": 8.4,
-   "spend": 127.09,
+   "actual_share": 5.3,
+   "hours": 7.6,
+   "spend": 126.62,
    "fixed_monthly": 0,
    "last_activity": "2026-11-24T20:29:00+00:00",
    "review_by": null,
@@ -819,11 +819,11 @@
     }
    ],
    "alignment": {
-    "total": 117,
+    "total": 116,
     "on_goal": 21,
-    "off_goal": 96,
-    "on_goal_pct": 17.9,
-    "on_goal_major_pct": 17.9,
+    "off_goal": 95,
+    "on_goal_pct": 18.1,
+    "on_goal_major_pct": 18.1,
     "on_goal_minor_pct": 0.0,
     "new_scope": 14,
     "creep": 5,
@@ -841,7 +841,7 @@
    },
    "rag": "amber",
    "rag_reasons": [
-    "time 6% vs 30% target"
+    "time 5% vs 30% target"
    ],
    "prev": {
     "creep_pct": 35.7,
@@ -935,18 +935,18 @@
   },
   {
    "path": "theresewhite.com",
-   "hours": 4.0,
-   "sessions": 17
+   "hours": 3.8,
+   "sessions": 16
   }
  ],
  "ideas": [],
  "money": {
-  "claude_total": 4511.49,
+  "claude_total": 4510.61,
   "fixed_total": 0
  },
  "health": {
   "files": 352,
-  "lines": 228524,
+  "lines": 228561,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 3,
