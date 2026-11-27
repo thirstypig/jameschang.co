@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-27T08:18:01.649594+00:00",
+ "generated": "2026-11-27T11:22:07.041595+00:00",
  "window_days": 28,
- "total_hours": 132.6,
- "session_hours": 208.0,
+ "total_hours": 134.4,
+ "session_hours": 212.1,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -37,9 +37,9 @@
    "kind": "A",
    "reason": "A",
    "target": "fantastic-leagues",
-   "title": "The Fantastic Leagues: 31% of your time vs 0% target",
-   "detail": "last 28 days · 132.6h total",
-   "magnitude": 30.85523282618718,
+   "title": "The Fantastic Leagues: 30% of your time vs 0% target",
+   "detail": "last 28 days · 134.4h total",
+   "magnitude": 30.347842261904763,
    "actions": [
     "change_target",
     "accept"
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 4% of your time vs 30% target",
-   "detail": "last 28 days · 132.6h total",
-   "magnitude": 25.777274822917974,
+   "detail": "last 28 days · 134.4h total",
+   "magnitude": 25.698991402116402,
    "actions": [
     "change_target",
     "accept"
@@ -148,13 +148,13 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 55.9
+   "actual": 56.5
   },
   {
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 30.9
+   "actual": 30.3
   },
   {
    "slug": "bahtzang-trader",
@@ -214,7 +214,7 @@
    "slug": "pasadenaworks",
    "name": "Pasadena Works",
    "target": 30,
-   "actual": 4.2
+   "actual": 4.3
   },
   {
    "slug": "family-sites",
@@ -226,7 +226,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 4.6
+   "actual": 4.5
   }
  ],
  "projects": [
@@ -235,11 +235,11 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 55.9,
-   "hours": 74.1,
-   "spend": 3752.49,
+   "actual_share": 56.5,
+   "hours": 75.9,
+   "spend": 3773.56,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-27T06:57:00+00:00",
+   "last_activity": "2026-11-27T10:45:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -310,11 +310,11 @@
     }
    ],
    "alignment": {
-    "total": 334,
+    "total": 336,
     "on_goal": 70,
-    "off_goal": 264,
-    "on_goal_pct": 21.0,
-    "on_goal_major_pct": 21.0,
+    "off_goal": 266,
+    "on_goal_pct": 20.8,
+    "on_goal_major_pct": 20.8,
     "on_goal_minor_pct": 0.0,
     "new_scope": 61,
     "creep": 36,
@@ -350,8 +350,8 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 30.9,
-   "hours": 40.9,
+   "actual_share": 30.3,
+   "hours": 40.8,
    "spend": 890.03,
    "fixed_monthly": 0,
    "last_activity": "2026-11-27T06:15:00+00:00",
@@ -620,7 +620,7 @@
    "hours": 0.2,
    "spend": 10.4,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-26T22:04:31-08:00",
+   "last_activity": "2026-11-27T00:18:04-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -771,11 +771,11 @@
    "name": "Pasadena Works",
    "status": "active",
    "target_share": 30,
-   "actual_share": 4.2,
-   "hours": 5.6,
-   "spend": 93.79,
+   "actual_share": 4.3,
+   "hours": 5.8,
+   "spend": 104.5,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-27T06:58:00+00:00",
+   "last_activity": "2026-11-27T01:09:28-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -819,15 +819,15 @@
     }
    ],
    "alignment": {
-    "total": 77,
+    "total": 82,
     "on_goal": 18,
-    "off_goal": 59,
-    "on_goal_pct": 23.4,
-    "on_goal_major_pct": 23.4,
+    "off_goal": 64,
+    "on_goal_pct": 22.0,
+    "on_goal_major_pct": 22.0,
     "on_goal_minor_pct": 0.0,
-    "new_scope": 7,
-    "creep": 0,
-    "creep_pct": 0.0,
+    "new_scope": 8,
+    "creep": 1,
+    "creep_pct": 12.5,
     "goals": [
      {
       "id": "g1",
@@ -941,15 +941,15 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 5060.11,
+  "claude_total": 5091.89,
   "fixed_total": 0
  },
  "health": {
-  "files": 273,
-  "lines": 201901,
+  "files": 274,
+  "lines": 204863,
   "bad_lines": 0,
   "bad_files": 0,
-  "changed_files": 4,
+  "changed_files": 3,
   "warning": null
  }
 }
