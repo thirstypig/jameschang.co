@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-27T23:22:26.077440+00:00",
+ "generated": "2026-11-28T02:22:31.668165+00:00",
  "window_days": 28,
- "total_hours": 134.2,
- "session_hours": 212.1,
+ "total_hours": 134.4,
+ "session_hours": 212.2,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -38,8 +38,8 @@
    "reason": "A",
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 30% of your time vs 0% target",
-   "detail": "last 28 days · 134.2h total",
-   "magnitude": 30.389295914566,
+   "detail": "last 28 days · 134.4h total",
+   "magnitude": 30.355370875713223,
    "actions": [
     "change_target",
     "accept"
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 4% of your time vs 30% target",
-   "detail": "last 28 days · 134.2h total",
-   "magnitude": 25.63102777432841,
+   "detail": "last 28 days · 134.4h total",
+   "magnitude": 25.63590506904821,
    "actions": [
     "change_target",
     "accept"
@@ -236,10 +236,10 @@
    "status": "active",
    "target_share": 60,
    "actual_share": 56.4,
-   "hours": 75.6,
-   "spend": 3772.73,
+   "hours": 75.8,
+   "spend": 3772.5,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-27T23:13:00+00:00",
+   "last_activity": "2026-11-28T00:00:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -310,11 +310,11 @@
     }
    ],
    "alignment": {
-    "total": 340,
-    "on_goal": 71,
-    "off_goal": 269,
-    "on_goal_pct": 20.9,
-    "on_goal_major_pct": 20.9,
+    "total": 342,
+    "on_goal": 72,
+    "off_goal": 270,
+    "on_goal_pct": 21.1,
+    "on_goal_major_pct": 21.1,
     "on_goal_minor_pct": 0.0,
     "new_scope": 61,
     "creep": 36,
@@ -322,7 +322,7 @@
     "goals": [
      {
       "id": "g1",
-      "prompts": 22
+      "prompts": 23
      },
      {
       "id": "g2",
@@ -339,10 +339,10 @@
     "creep 59% ≥ 50%"
    ],
    "prev": {
-    "creep_pct": 57.7,
-    "on_goal_pct": 24.4,
-    "share": 67.1,
-    "as_of": "2026-11-20"
+    "creep_pct": 59.7,
+    "on_goal_pct": 21.8,
+    "share": 65.9,
+    "as_of": "2026-11-21"
    }
   },
   {
@@ -379,8 +379,8 @@
    "prev": {
     "creep_pct": null,
     "on_goal_pct": null,
-    "share": 20.6,
-    "as_of": "2026-11-20"
+    "share": 21.2,
+    "as_of": "2026-11-21"
    }
   },
   {
@@ -418,7 +418,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.9,
-    "as_of": "2026-11-20"
+    "as_of": "2026-11-21"
    }
   },
   {
@@ -456,7 +456,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-20"
+    "as_of": "2026-11-21"
    }
   },
   {
@@ -494,7 +494,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-20"
+    "as_of": "2026-11-21"
    }
   },
   {
@@ -532,7 +532,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.6,
-    "as_of": "2026-11-20"
+    "as_of": "2026-11-21"
    }
   },
   {
@@ -570,7 +570,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.5,
-    "as_of": "2026-11-20"
+    "as_of": "2026-11-21"
    }
   },
   {
@@ -608,7 +608,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-20"
+    "as_of": "2026-11-21"
    }
   },
   {
@@ -620,7 +620,7 @@
    "hours": 0.2,
    "spend": 10.4,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-27T12:22:22-08:00",
+   "last_activity": "2026-11-27T15:22:27-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -687,7 +687,7 @@
     "creep_pct": 0.0,
     "on_goal_pct": 20.0,
     "share": 0.2,
-    "as_of": "2026-11-20"
+    "as_of": "2026-11-21"
    }
   },
   {
@@ -725,7 +725,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-20"
+    "as_of": "2026-11-21"
    }
   },
   {
@@ -763,7 +763,7 @@
     "creep_pct": null,
     "on_goal_pct": null,
     "share": 0.0,
-    "as_of": "2026-11-20"
+    "as_of": "2026-11-21"
    }
   },
   {
@@ -847,7 +847,7 @@
     "creep_pct": 35.7,
     "on_goal_pct": 20.8,
     "share": 5.0,
-    "as_of": "2026-11-20"
+    "as_of": "2026-11-21"
    }
   },
   {
@@ -908,7 +908,7 @@
     "creep_pct": null,
     "on_goal_pct": 37.5,
     "share": 0.7,
-    "as_of": "2026-11-20"
+    "as_of": "2026-11-21"
    }
   }
  ],
@@ -941,12 +941,12 @@
  ],
  "ideas": [],
  "money": {
-  "claude_total": 5094.23,
+  "claude_total": 5094.01,
   "fixed_total": 0
  },
  "health": {
   "files": 273,
-  "lines": 206551,
+  "lines": 206818,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 2,
