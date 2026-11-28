@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-28T05:22:36.908241+00:00",
+ "generated": "2026-11-28T08:22:42.170200+00:00",
  "window_days": 28,
- "total_hours": 134.4,
- "session_hours": 212.3,
+ "total_hours": 133.9,
+ "session_hours": 211.8,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -38,8 +38,8 @@
    "reason": "A",
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 30% of your time vs 0% target",
-   "detail": "last 28 days · 134.4h total",
-   "magnitude": 30.347842261904763,
+   "detail": "last 28 days · 133.9h total",
+   "magnitude": 30.457373988799002,
    "actions": [
     "change_target",
     "accept"
@@ -53,8 +53,8 @@
    "reason": "A",
    "target": "pasadenaworks",
    "title": "Pasadena Works: 4% of your time vs 30% target",
-   "detail": "last 28 days · 134.4h total",
-   "magnitude": 25.636987433862434,
+   "detail": "last 28 days · 133.9h total",
+   "magnitude": 25.621240406554655,
    "actions": [
     "change_target",
     "accept"
@@ -148,13 +148,13 @@
    "slug": "aleph",
    "name": "Aleph",
    "target": 60,
-   "actual": 56.4
+   "actual": 56.3
   },
   {
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 30.3
+   "actual": 30.5
   },
   {
    "slug": "bahtzang-trader",
@@ -226,7 +226,7 @@
    "slug": "_other",
    "name": "other (unplanned / unregistered)",
    "target": 0,
-   "actual": 4.5
+   "actual": 4.6
   }
  ],
  "projects": [
@@ -235,8 +235,8 @@
    "name": "Aleph",
    "status": "active",
    "target_share": 60,
-   "actual_share": 56.4,
-   "hours": 75.8,
+   "actual_share": 56.3,
+   "hours": 75.3,
    "spend": 3772.5,
    "fixed_monthly": 0,
    "last_activity": "2026-11-28T02:56:00+00:00",
@@ -350,7 +350,7 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 30.3,
+   "actual_share": 30.5,
    "hours": 40.8,
    "spend": 890.03,
    "fixed_monthly": 0,
@@ -620,7 +620,7 @@
    "hours": 0.2,
    "spend": 10.4,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-27T18:22:32-08:00",
+   "last_activity": "2026-11-27T21:22:38-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
