@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-28T02:22:31.668165+00:00",
+ "generated": "2026-11-28T05:22:36.908241+00:00",
  "window_days": 28,
  "total_hours": 134.4,
- "session_hours": 212.2,
+ "session_hours": 212.3,
  "decisions": [
   {
    "id": "G:family-sites",
@@ -39,7 +39,7 @@
    "target": "fantastic-leagues",
    "title": "The Fantastic Leagues: 30% of your time vs 0% target",
    "detail": "last 28 days · 134.4h total",
-   "magnitude": 30.355370875713223,
+   "magnitude": 30.347842261904763,
    "actions": [
     "change_target",
     "accept"
@@ -54,7 +54,7 @@
    "target": "pasadenaworks",
    "title": "Pasadena Works: 4% of your time vs 30% target",
    "detail": "last 28 days · 134.4h total",
-   "magnitude": 25.63590506904821,
+   "magnitude": 25.636987433862434,
    "actions": [
     "change_target",
     "accept"
@@ -154,7 +154,7 @@
    "slug": "fantastic-leagues",
    "name": "The Fantastic Leagues",
    "target": 0,
-   "actual": 30.4
+   "actual": 30.3
   },
   {
    "slug": "bahtzang-trader",
@@ -239,7 +239,7 @@
    "hours": 75.8,
    "spend": 3772.5,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-28T00:00:00+00:00",
+   "last_activity": "2026-11-28T02:56:00+00:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -310,11 +310,11 @@
     }
    ],
    "alignment": {
-    "total": 342,
+    "total": 344,
     "on_goal": 72,
-    "off_goal": 270,
-    "on_goal_pct": 21.1,
-    "on_goal_major_pct": 21.1,
+    "off_goal": 272,
+    "on_goal_pct": 20.9,
+    "on_goal_major_pct": 20.9,
     "on_goal_minor_pct": 0.0,
     "new_scope": 61,
     "creep": 36,
@@ -350,7 +350,7 @@
    "name": "The Fantastic Leagues",
    "status": "parked",
    "target_share": 0,
-   "actual_share": 30.4,
+   "actual_share": 30.3,
    "hours": 40.8,
    "spend": 890.03,
    "fixed_monthly": 0,
@@ -620,7 +620,7 @@
    "hours": 0.2,
    "spend": 10.4,
    "fixed_monthly": 0,
-   "last_activity": "2026-11-27T15:22:27-08:00",
+   "last_activity": "2026-11-27T18:22:32-08:00",
    "review_by": null,
    "cadence_days": 14,
    "next_decision": "",
@@ -946,7 +946,7 @@
  },
  "health": {
   "files": 273,
-  "lines": 206818,
+  "lines": 206881,
   "bad_lines": 0,
   "bad_files": 0,
   "changed_files": 2,
